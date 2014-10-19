@@ -140,5 +140,21 @@ namespace ProceduralToolkit
         {
             return Random.value < percent;
         }
+
+        public static Vector2 Range(Vector2 min, Vector2 max)
+        {
+            return new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y));
+        }
+
+        public static Vector3 Range(Vector3 min, Vector3 max)
+        {
+            return new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
+        }
+
+        public static Vector4 Range(Vector4 min, Vector4 max)
+        {
+            return new Vector4(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z),
+                Random.Range(min.w, max.w));
+        }
     }
 }
