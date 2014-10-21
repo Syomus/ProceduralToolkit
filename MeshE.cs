@@ -129,8 +129,7 @@ namespace ProceduralToolkit
             vertices[0] = apex;
             for (var i = 1; i <= segments; i++)
             {
-                vertices[i] = new Vector3(radius*Mathf.Sin(currentAngle), 0, radius*Mathf.Cos(currentAngle)) +
-                              baseCenter;
+                vertices[i] = PTUtils.PointOnCircle3(radius, currentAngle) + baseCenter;
                 currentAngle += segmentAngle;
             }
 
@@ -187,18 +186,14 @@ namespace ProceduralToolkit
 
         public static MeshDraft TetrahedronDraft(float radius)
         {
-            var tetrahedralAngle = Mathf.PI*109.471220333f/180;
+            var tetrahedralAngle = Mathf.PI*-19.471220333f/180;
             var segmentAngle = Mathf.PI*2/3;
             var currentAngle = 0f;
-            var sinTetrahedralAngle = Mathf.Sin(tetrahedralAngle);
-            var cosTetrahedralAngle = Mathf.Cos(tetrahedralAngle);
 
             var vertices = new List<Vector3>(4) {new Vector3(0, radius, 0)};
             for (var i = 1; i < 4; i++)
             {
-                vertices.Add(new Vector3(radius*Mathf.Sin(currentAngle)*sinTetrahedralAngle,
-                    radius*cosTetrahedralAngle,
-                    radius*Mathf.Cos(currentAngle)*sinTetrahedralAngle));
+                vertices.Add(PTUtils.PointOnSphere(radius, currentAngle, tetrahedralAngle));
                 currentAngle += segmentAngle;
             }
             var draft = TriangleDraft(vertices[0], vertices[1], vertices[2]);
@@ -256,12 +251,8 @@ namespace ProceduralToolkit
             var lowerRing = new List<Vector3>();
             for (var i = 0; i <= 5; i++)
             {
-                lowerCap.Add(new Vector3(radius*Mathf.Sin(currentAngle)*Mathf.Cos(-magicAngle1),
-                    radius*Mathf.Sin(-magicAngle1),
-                    radius*Mathf.Cos(currentAngle)*Mathf.Cos(-magicAngle1)));
-                lowerRing.Add(new Vector3(radius*Mathf.Sin(currentAngle)*Mathf.Cos(-magicAngle2),
-                    radius*Mathf.Sin(-magicAngle2),
-                    radius*Mathf.Cos(currentAngle)*Mathf.Cos(-magicAngle2)));
+                lowerCap.Add(PTUtils.PointOnSphere(radius, currentAngle, -magicAngle1));
+                lowerRing.Add(PTUtils.PointOnSphere(radius, currentAngle, -magicAngle2));
                 currentAngle -= segmentAngle;
             }
 
@@ -270,12 +261,8 @@ namespace ProceduralToolkit
             var upperRing = new List<Vector3>();
             for (var i = 0; i <= 5; i++)
             {
-                upperCap.Add(new Vector3(radius*Mathf.Sin(currentAngle)*Mathf.Cos(magicAngle1),
-                    radius*Mathf.Sin(magicAngle1),
-                    radius*Mathf.Cos(currentAngle)*Mathf.Cos(magicAngle1)));
-                upperRing.Add(new Vector3(radius*Mathf.Sin(currentAngle)*Mathf.Cos(magicAngle2),
-                    radius*Mathf.Sin(magicAngle2),
-                    radius*Mathf.Cos(currentAngle)*Mathf.Cos(magicAngle2)));
+                upperCap.Add(PTUtils.PointOnSphere(radius, currentAngle, magicAngle1));
+                upperRing.Add(PTUtils.PointOnSphere(radius, currentAngle, magicAngle2));
                 currentAngle -= segmentAngle;
             }
 
@@ -303,9 +290,7 @@ namespace ProceduralToolkit
             var upperRing = new List<Vector3>(5);
             for (var i = 0; i < 5; i++)
             {
-                upperRing.Add(new Vector3(radius*Mathf.Sin(currentAngle)*Mathf.Cos(magicAngle),
-                    radius*Mathf.Sin(magicAngle),
-                    radius*Mathf.Cos(currentAngle)*Mathf.Cos(magicAngle)));
+                upperRing.Add(PTUtils.PointOnSphere(radius, currentAngle, magicAngle));
                 currentAngle -= segmentAngle;
             }
 
@@ -313,9 +298,7 @@ namespace ProceduralToolkit
             var lowerRing = new List<Vector3>(5);
             for (var i = 0; i < 5; i++)
             {
-                lowerRing.Add(new Vector3(radius*Mathf.Sin(currentAngle)*Mathf.Cos(-magicAngle),
-                    radius*Mathf.Sin(-magicAngle),
-                    radius*Mathf.Cos(currentAngle)*Mathf.Cos(-magicAngle)));
+                lowerRing.Add(PTUtils.PointOnSphere(radius, currentAngle, -magicAngle));
                 currentAngle -= segmentAngle;
             }
 
@@ -414,12 +397,9 @@ namespace ProceduralToolkit
             var upperRing = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
-                lowerRing.Add(new Vector3(radius*Mathf.Sin(currentAngle),
-                    -heignt/2,
-                    radius*Mathf.Cos(currentAngle)));
-                upperRing.Add(new Vector3(radius*Mathf.Sin(currentAngle),
-                    heignt/2,
-                    radius*Mathf.Cos(currentAngle)));
+                var point = PTUtils.PointOnCircle3(radius, currentAngle);
+                lowerRing.Add(point - Vector3.up*heignt/2);
+                upperRing.Add(point + Vector3.up*heignt/2);
                 currentAngle -= segmentAngle;
             }
 
