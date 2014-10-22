@@ -25,7 +25,6 @@ namespace ProceduralToolkit
         public static readonly Color32 teal32 = new Color32(0, 128, 128, 255);
         public static readonly Color32 aqua32 = new Color32(0, 255, 255, 255);
 
-        public static readonly Color aqua = aqua32;
         public static readonly Color black = black32;
         public static readonly Color silver = silver32;
         public static readonly Color gray = gray32;
@@ -41,9 +40,16 @@ namespace ProceduralToolkit
         public static readonly Color navy = navy32;
         public static readonly Color blue = blue32;
         public static readonly Color teal = teal32;
+        public static readonly Color aqua = aqua32;
 
         #endregion Colors
 
+        /// <summary>
+        /// Converts hue, saturation and value into RGB color
+        /// </summary>
+        /// <param name="h">Hue</param>
+        /// <param name="s">Saturation</param>
+        /// <param name="v">Value</param>
         public static Color HSVToRGB(float h, float s, float v)
         {
             var color = black;
@@ -104,6 +110,9 @@ namespace ProceduralToolkit
             return color;
         }
 
+        /// <summary>
+        /// Returns inverted color with the same alpha
+        /// </summary>
         public static Color Inverted(this Color color)
         {
             var result = Color.white - color;
@@ -111,6 +120,9 @@ namespace ProceduralToolkit
             return result;
         }
 
+        /// <summary>
+        /// Creates a gradient between two colors
+        /// </summary>
         public static Gradient Gradient(Color from, Color to)
         {
             var g = new Gradient();
@@ -119,16 +131,25 @@ namespace ProceduralToolkit
             return g;
         }
 
+        /// <summary>
+        /// Converts RGB color into hexadecimal representation
+        /// </summary>
         public static string ToHex(this Color color)
         {
             return ((Color32) color).ToHex();
         }
 
+        /// <summary>
+        /// Converts RGB color into hexadecimal representation
+        /// </summary>
         public static string ToHex(this Color32 color32)
         {
             return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", color32.r, color32.g, color32.b, color32.a);
         }
 
+        /// <summary>
+        /// Converts hexadecimal representation into RGB color
+        /// </summary>
         public static Color FromHex(string hex)
         {
             var bytes = hex.Replace("#", "").ToBytes();
