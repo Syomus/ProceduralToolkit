@@ -60,7 +60,7 @@ namespace ProceduralToolkit
         {
             if (items.Count == 0)
             {
-                Debug.LogError("RandomE.Choice: items.Count == 0");
+                Debug.LogError("Empty array");
                 return default(T);
             }
             return items[Random.Range(0, items.Count)];
@@ -73,7 +73,7 @@ namespace ProceduralToolkit
         {
             if (items.Length == 0)
             {
-                Debug.LogError("RandomE.Choice: items.Length == 0");
+                Debug.LogError("Empty array");
                 return default(T);
             }
             return items[Random.Range(0, items.Length)];
@@ -90,40 +90,42 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random element from list with chances for roll of each element based on <paramref name="weights"/>
         /// </summary>
+        /// <param name="weights">Positive floats representing chances</param>
         public static T Choice<T>(this List<T> list, List<float> weights)
         {
             if (list.Count == 0)
             {
-                Debug.LogError("RandomE.Choice: empty array");
+                Debug.LogError("Empty array");
                 return default(T);
             }
             if (weights.Count == 0)
             {
-                Debug.LogError("RandomE.Choice: empty weights");
+                Debug.LogError("Empty weights");
                 return default(T);
             }
             if (list.Count != weights.Count)
             {
-                Debug.LogError("RandomE.Choice: array sizes must be equal");
+                Debug.LogError("Array sizes must be equal");
                 return list.Choice();
             }
 
-            int index = 0;
-
-            if (weights.Count > 1)
+            if (list.Count == 1)
             {
-                var cumulative = new List<float>(weights);
-                for (int i = 1; i < cumulative.Count; i++)
-                {
-                    cumulative[i] += cumulative[i - 1];
-                }
+                return list[0];
+            }
 
-                float random = Random.Range(0, cumulative[cumulative.Count - 1]);
-                index = cumulative.FindIndex(a => a >= random);
-                if (index == -1)
-                {
-                    return list.Choice();
-                }
+            var cumulative = new List<float>(weights);
+            for (int i = 1; i < cumulative.Count; i++)
+            {
+                cumulative[i] += cumulative[i - 1];
+            }
+
+            float random = Random.Range(0, cumulative[cumulative.Count - 1]);
+            int index = cumulative.FindIndex(a => a >= random);
+            if (index == -1)
+            {
+                Debug.LogError("Invalid weights");
+                return list.Choice();
             }
             return list[index];
         }
