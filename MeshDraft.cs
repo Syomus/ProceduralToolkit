@@ -38,6 +38,48 @@ namespace ProceduralToolkit
             colors.AddRange(draft.colors);
         }
 
+        public void Move(Vector3 vector)
+        {
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                vertices[i] += vector;
+            }
+        }
+
+        public void Scale(float scale)
+        {
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                vertices[i] *= scale;
+            }
+        }
+
+        public void Scale(Vector3 scale)
+        {
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                var v = vertices[i];
+                vertices[i] = new Vector3(v.x*scale.x, v.y*scale.y, v.z*scale.z);
+            }
+        }
+
+        public void Rotate(Quaternion rotation)
+        {
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                vertices[i] = rotation*vertices[i];
+            }
+        }
+
+        public void Paint(Color color)
+        {
+            colors.Clear();
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                colors.Add(color);
+            }
+        }
+
         public Mesh ToMesh()
         {
             return new Mesh
