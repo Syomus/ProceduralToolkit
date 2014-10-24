@@ -49,7 +49,7 @@ namespace ProceduralToolkit.Editor
         [MenuItem(menuPath + hexahedron, false, platonicSolids + 1)]
         public static void Hexahedron()
         {
-            Template(hexahedron, () => MeshE.Hexahedron(Vector3.right, Vector3.forward, Vector3.up));
+            Template(hexahedron, () => MeshE.Hexahedron(1, 1, 1));
         }
 
         [MenuItem(menuPath + octahedron, false, platonicSolids + 2)]

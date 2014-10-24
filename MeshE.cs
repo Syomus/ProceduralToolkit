@@ -204,9 +204,19 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        public static Mesh Hexahedron(float width, float length, float height)
+        {
+            return HexahedronDraft(width, length, height).ToMesh();
+        }
+
         public static Mesh Hexahedron(Vector3 width, Vector3 length, Vector3 height)
         {
             return HexahedronDraft(width, length, height).ToMesh();
+        }
+
+        public static MeshDraft HexahedronDraft(float width, float length, float height)
+        {
+            return HexahedronDraft(Vector3.right*width, Vector3.forward*length, Vector3.up*height);
         }
 
         public static MeshDraft HexahedronDraft(Vector3 width, Vector3 length, Vector3 height)
