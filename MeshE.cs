@@ -7,6 +7,8 @@ namespace ProceduralToolkit
     {
         #region Primitives
 
+        #region Mesh parts
+
         public static Mesh Triangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
         {
             var normal = Vector3.Cross((vertex1 - vertex0), (vertex2 - vertex0)).normalized;
@@ -256,7 +258,7 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        #endregion Primitives
+        #endregion Mesh parts
 
         #region Platonic solids
 
@@ -612,6 +614,112 @@ namespace ProceduralToolkit
             }
 
             return draft;
+        }
+
+        #endregion Primitives
+
+        /// <summary>
+        /// Moves vertices by <paramref name="vector"/>
+        /// </summary>
+        public static void Move(this Mesh mesh, Vector3 vector)
+        {
+            var vertices = mesh.vertices;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] += vector;
+            }
+            mesh.vertices = vertices;
+        }
+
+        /// <summary>
+        /// Scales vertices uniformly by <paramref name="scale"/>
+        /// </summary>
+        public static void Scale(this Mesh mesh, float scale)
+        {
+            var vertices = mesh.vertices;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] *= scale;
+            }
+            mesh.vertices = vertices;
+        }
+
+        /// <summary>
+        /// Scales vertices non-uniformly by <paramref name="scale"/>
+        /// </summary>
+        public static void Scale(this Mesh mesh, Vector3 scale)
+        {
+            var vertices = mesh.vertices;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                var v = vertices[i];
+                vertices[i] = new Vector3(v.x*scale.x, v.y*scale.y, v.z*scale.z);
+            }
+            mesh.vertices = vertices;
+        }
+
+        /// <summary>
+        /// Rotates vertices by <paramref name="rotation"/>
+        /// </summary>
+        public static void Rotate(this Mesh mesh, Quaternion rotation)
+        {
+            var vertices = mesh.vertices;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] = rotation*vertices[i];
+            }
+            mesh.vertices = vertices;
+        }
+
+        /// <summary>
+        /// Paints all vertices with <paramref name="color"/>
+        /// </summary>
+        public static void Paint(this Mesh mesh, Color color)
+        {
+            var colors = new Color[mesh.vertexCount];
+            for (int i = 0; i < mesh.vertexCount; i++)
+            {
+                colors[i] = color;
+            }
+            mesh.colors = colors;
+        }
+
+        /// <summary>
+        /// Flips mesh faces
+        /// </summary>
+        public static void FlipFaces(this Mesh mesh)
+        {
+            mesh.FlipTriangles();
+            mesh.FlipNormals();
+        }
+
+        /// <summary>
+        /// Reverses winding order of mesh triangles
+        /// </summary>
+        public static void FlipTriangles(this Mesh mesh)
+        {
+            for (int i = 0; i < mesh.subMeshCount; i++)
+            {
+                var triangles = mesh.GetTriangles(i);
+                for (int j = 0; j < triangles.Length; j += 3)
+                {
+                    PTUtils.Swap(ref triangles[j], ref triangles[j + 1]);
+                }
+                mesh.SetTriangles(triangles, i);
+            }
+        }
+
+        /// <summary>
+        /// Reverses direction of mesh normals
+        /// </summary>
+        public static void FlipNormals(this Mesh mesh)
+        {
+            var normals = mesh.normals;
+            for (int i = 0; i < normals.Length; i++)
+            {
+                normals[i] = -normals[i];
+            }
+            mesh.normals = normals;
         }
     }
 }
