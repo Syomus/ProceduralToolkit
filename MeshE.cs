@@ -529,5 +529,38 @@ namespace ProceduralToolkit
             draft.name = "Cylinder";
             return draft;
         }
+
+        public static Mesh FlatSphere(float radius, int longitudeSegments, int latitudeSegments)
+        {
+            return FlatSphereDraft(radius, longitudeSegments, longitudeSegments).ToMesh();
+        }
+
+        public static MeshDraft FlatSphereDraft(float radius, int longitudeSegments, int latitudeSegments)
+        {
+            var longitudeSegmentAngle = Mathf.PI*2/longitudeSegments;
+            var latitudeSegmentAngle = Mathf.PI/latitudeSegments;
+
+            var currentLatitude = -Mathf.PI/2;
+            var rings = new List<List<Vector3>>(latitudeSegments);
+            for (var i = 0; i <= latitudeSegments; i++)
+            {
+                var currentLongitude = 0f;
+                var ring = new List<Vector3>(longitudeSegments);
+                for (int j = 0; j < longitudeSegments; j++)
+                {
+                    ring.Add(PTUtils.PointOnSphere(radius, currentLongitude, currentLatitude));
+                    currentLongitude -= longitudeSegmentAngle;
+                }
+                rings.Add(ring);
+                currentLatitude += latitudeSegmentAngle;
+            }
+
+            var draft = new MeshDraft {name = "Flat sphere"};
+            for (int i = 0; i < rings.Count - 1; i++)
+            {
+                draft.Add(FlatBandDraft(rings[i], rings[i + 1]));
+            }
+            return draft;
+        }
     }
 }
