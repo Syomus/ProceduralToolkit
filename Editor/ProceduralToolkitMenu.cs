@@ -23,6 +23,7 @@ namespace ProceduralToolkit.Editor
         private const string pyramid = "Pyramid";
         private const string prism = "Prism";
         private const string cylinder = "Cylinder";
+        private const string sphere = "Sphere";
 
         [MenuItem("Help/About Procedural Toolkit")]
         private static void About()
@@ -97,6 +98,12 @@ namespace ProceduralToolkit.Editor
         public static void Cylinder()
         {
             Template(cylinder, () => MeshE.Cylinder(1, 16, 1));
+        }
+
+        [MenuItem(menuPath + sphere, false, other + 4)]
+        public static void Sphere()
+        {
+            Template(sphere, () => MeshE.Sphere(1, 16, 16));
         }
 
         #endregion Other

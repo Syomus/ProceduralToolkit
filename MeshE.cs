@@ -562,5 +562,56 @@ namespace ProceduralToolkit
             }
             return draft;
         }
+
+        public static Mesh Sphere(float radius, int longitudeSegments, int latitudeSegments)
+        {
+            return SphereDraft(radius, longitudeSegments, longitudeSegments).ToMesh();
+        }
+
+        public static MeshDraft SphereDraft(float radius, int longitudeSegments, int latitudeSegments)
+        {
+            var draft = new MeshDraft {name = "Sphere"};
+
+            var longitudeSegmentAngle = Mathf.PI*2/longitudeSegments;
+            var latitudeSegmentAngle = Mathf.PI/latitudeSegments;
+
+            var currentLatitude = -Mathf.PI/2;
+            for (var ring = 0; ring <= latitudeSegments; ring++)
+            {
+                var currentLongitude = 0f;
+                for (int i = 0; i < longitudeSegments; i++)
+                {
+                    var point = PTUtils.PointOnSphere(radius, currentLongitude, currentLatitude);
+                    draft.vertices.Add(point);
+                    draft.normals.Add(point);
+                    draft.uv.Add(new Vector2((float) i/longitudeSegments, (float) ring/latitudeSegments));
+                    currentLongitude -= longitudeSegmentAngle;
+                }
+                currentLatitude += latitudeSegmentAngle;
+            }
+
+            int i0, i1, i2, i3;
+            for (int ring = 0; ring < latitudeSegments; ring++)
+            {
+                for (int i = 0; i < longitudeSegments - 1; i++)
+                {
+                    i0 = ring*longitudeSegments + i;
+                    i1 = (ring + 1)*longitudeSegments + i;
+                    i2 = ring*longitudeSegments + i + 1;
+                    i3 = (ring + 1)*longitudeSegments + i + 1;
+                    draft.triangles.AddRange(new[] {i0, i1, i2});
+                    draft.triangles.AddRange(new[] {i2, i1, i3});
+                }
+
+                i0 = (ring + 1)*longitudeSegments - 1;
+                i1 = (ring + 2)*longitudeSegments - 1;
+                i2 = ring*longitudeSegments;
+                i3 = (ring + 1)*longitudeSegments;
+                draft.triangles.AddRange(new[] {i0, i1, i2});
+                draft.triangles.AddRange(new[] {i2, i1, i3});
+            }
+
+            return draft;
+        }
     }
 }
