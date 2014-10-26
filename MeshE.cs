@@ -632,6 +632,19 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Rotates vertices by <paramref name="rotation"/>
+        /// </summary>
+        public static void Rotate(this Mesh mesh, Quaternion rotation)
+        {
+            var vertices = mesh.vertices;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] = rotation*vertices[i];
+            }
+            mesh.vertices = vertices;
+        }
+
+        /// <summary>
         /// Scales vertices uniformly by <paramref name="scale"/>
         /// </summary>
         public static void Scale(this Mesh mesh, float scale)
@@ -654,19 +667,6 @@ namespace ProceduralToolkit
             {
                 var v = vertices[i];
                 vertices[i] = new Vector3(v.x*scale.x, v.y*scale.y, v.z*scale.z);
-            }
-            mesh.vertices = vertices;
-        }
-
-        /// <summary>
-        /// Rotates vertices by <paramref name="rotation"/>
-        /// </summary>
-        public static void Rotate(this Mesh mesh, Quaternion rotation)
-        {
-            var vertices = mesh.vertices;
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                vertices[i] = rotation*vertices[i];
             }
             mesh.vertices = vertices;
         }

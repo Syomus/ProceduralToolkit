@@ -50,6 +50,17 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Rotates vertices by <paramref name="rotation"/>
+        /// </summary>
+        public void Rotate(Quaternion rotation)
+        {
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                vertices[i] = rotation*vertices[i];
+            }
+        }
+
+        /// <summary>
         /// Scales vertices uniformly by <paramref name="scale"/>
         /// </summary>
         public void Scale(float scale)
@@ -69,17 +80,6 @@ namespace ProceduralToolkit
             {
                 var v = vertices[i];
                 vertices[i] = new Vector3(v.x*scale.x, v.y*scale.y, v.z*scale.z);
-            }
-        }
-
-        /// <summary>
-        /// Rotates vertices by <paramref name="rotation"/>
-        /// </summary>
-        public void Rotate(Quaternion rotation)
-        {
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                vertices[i] = rotation*vertices[i];
             }
         }
 
