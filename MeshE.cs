@@ -156,22 +156,103 @@ namespace ProceduralToolkit
         public static MeshDraft BandDraft(List<Vector3> lowerRing, List<Vector3> upperRing)
         {
             var draft = new MeshDraft {name = "Band"};
+            if (lowerRing.Count < 3 || upperRing.Count < 3)
+            {
+                Debug.LogError("Array sizes must be greater than 2");
+                return draft;
+            }
+            if (lowerRing.Count != upperRing.Count)
+            {
+                Debug.LogError("Array sizes must be equal");
+                return draft;
+            }
+
+            draft.vertices.AddRange(lowerRing);
+            draft.vertices.AddRange(upperRing);
+
+            var lowerNormals = new List<Vector3>();
+            var upperNormals = new List<Vector3>();
+            var lowerUv = new List<Vector2>();
+            var upperUv = new List<Vector2>();
+            int i0, i1, i2, i3;
+            Vector3 v0, v1, v2, v3;
+            for (int i = 0; i < lowerRing.Count - 1; i++)
+            {
+                i0 = i;
+                i1 = i + lowerRing.Count;
+                i2 = i + 1;
+                i3 = i + 1 + lowerRing.Count;
+                v0 = draft.vertices[i0];
+                v1 = draft.vertices[i1];
+                v2 = draft.vertices[i2];
+                v3 = draft.vertices[i3];
+                draft.triangles.AddRange(new[] {i0, i1, i2});
+                draft.triangles.AddRange(new[] {i2, i1, i3});
+
+                lowerNormals.Add(Vector3.Cross(v1 - v0, v2 - v0).normalized);
+                upperNormals.Add(Vector3.Cross(v3 - v1, v0 - v1).normalized);
+
+                var u = (float) i/(lowerRing.Count - 1);
+                lowerUv.Add(new Vector2(u, 0));
+                upperUv.Add(new Vector2(u, 1));
+            }
+
+            i0 = lowerRing.Count - 1;
+            i1 = lowerRing.Count*2 - 1;
+            i2 = 0;
+            i3 = lowerRing.Count;
+            v0 = draft.vertices[i0];
+            v1 = draft.vertices[i1];
+            v2 = draft.vertices[i2];
+            v3 = draft.vertices[i3];
+            draft.triangles.AddRange(new[] {i0, i1, i2});
+            draft.triangles.AddRange(new[] {i2, i1, i3});
+
+            lowerNormals.Add(Vector3.Cross(v1 - v0, v2 - v0).normalized);
+            upperNormals.Add(Vector3.Cross(v3 - v1, v0 - v1).normalized);
+            draft.normals.AddRange(lowerNormals);
+            draft.normals.AddRange(upperNormals);
+
+            lowerUv.Add(new Vector2(1, 0));
+            upperUv.Add(new Vector2(1, 1));
+            draft.uv.AddRange(lowerUv);
+            draft.uv.AddRange(upperUv);
+
+            return draft;
+        }
+
+        public static MeshDraft FlatBandDraft(List<Vector3> lowerRing, List<Vector3> upperRing)
+        {
+            var draft = new MeshDraft {name = "Flat band"};
+            if (lowerRing.Count < 3 || upperRing.Count < 3)
+            {
+                Debug.LogError("Array sizes must be greater than 2");
+                return draft;
+            }
+            if (lowerRing.Count != upperRing.Count)
+            {
+                Debug.LogError("Array sizes must be equal");
+                return draft;
+            }
+
             Vector3 v0, v1, v2, v3;
             for (int i = 0; i < lowerRing.Count - 1; i++)
             {
                 v0 = lowerRing[i];
-                v1 = lowerRing[i + 1];
-                v2 = upperRing[i];
+                v1 = upperRing[i];
+                v2 = lowerRing[i + 1];
                 v3 = upperRing[i + 1];
-                draft.Add(TriangleDraft(v0, v2, v1));
-                draft.Add(TriangleDraft(v1, v2, v3));
+                draft.Add(TriangleDraft(v0, v1, v2));
+                draft.Add(TriangleDraft(v2, v1, v3));
             }
+
             v0 = lowerRing[lowerRing.Count - 1];
-            v1 = lowerRing[0];
-            v2 = upperRing[upperRing.Count - 1];
+            v1 = upperRing[upperRing.Count - 1];
+            v2 = lowerRing[0];
             v3 = upperRing[0];
-            draft.Add(TriangleDraft(v0, v2, v1));
-            draft.Add(TriangleDraft(v1, v2, v3));
+            draft.Add(TriangleDraft(v0, v1, v2));
+            draft.Add(TriangleDraft(v2, v1, v3));
+
             return draft;
         }
 
@@ -277,9 +358,9 @@ namespace ProceduralToolkit
             }
 
             var draft = TriangleFanDraft(lowerCap);
-            draft.Add(BandDraft(lowerCap, lowerRing));
-            draft.Add(BandDraft(lowerRing, upperRing));
-            draft.Add(BandDraft(upperRing, upperCap));
+            draft.Add(FlatBandDraft(lowerCap, lowerRing));
+            draft.Add(FlatBandDraft(lowerRing, upperRing));
+            draft.Add(FlatBandDraft(upperRing, upperCap));
             upperCap.Reverse();
             draft.Add(TriangleFanDraft(upperCap));
             draft.name = "Dodecahedron";
@@ -313,7 +394,7 @@ namespace ProceduralToolkit
             }
 
             var draft = BaselessPyramidDraft(new Vector3(0, -radius, 0), lowerRing);
-            draft.Add(BandDraft(lowerRing, upperRing));
+            draft.Add(FlatBandDraft(lowerRing, upperRing));
             upperRing.Reverse();
             draft.Add(BaselessPyramidDraft(new Vector3(0, radius, 0), upperRing));
             draft.name = "Icosahedron";
@@ -399,6 +480,34 @@ namespace ProceduralToolkit
         }
 
         public static MeshDraft PrismDraft(float radius, int segments, float heignt)
+        {
+            var segmentAngle = Mathf.PI*2/segments;
+
+            var currentAngle = 0f;
+            var lowerRing = new List<Vector3>(segments);
+            var upperRing = new List<Vector3>(segments);
+            for (var i = 0; i < segments; i++)
+            {
+                var point = PTUtils.PointOnCircle3(radius, currentAngle);
+                lowerRing.Add(point - Vector3.up*heignt/2);
+                upperRing.Add(point + Vector3.up*heignt/2);
+                currentAngle -= segmentAngle;
+            }
+
+            var draft = TriangleFanDraft(lowerRing);
+            draft.Add(FlatBandDraft(lowerRing, upperRing));
+            upperRing.Reverse();
+            draft.Add(TriangleFanDraft(upperRing));
+            draft.name = "Prism";
+            return draft;
+        }
+
+        public static Mesh Cylinder(float radius, int segments, float heignt)
+        {
+            return CylinderDraft(radius, segments, heignt).ToMesh();
+        }
+
+        public static MeshDraft CylinderDraft(float radius, int segments, float heignt)
         {
             var segmentAngle = Mathf.PI*2/segments;
 
