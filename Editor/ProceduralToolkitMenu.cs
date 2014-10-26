@@ -8,7 +8,7 @@ namespace ProceduralToolkit.Editor
     {
         public const string version = "v0.1";
 
-        private const string menuPath = "GameObject/Procedural Toolkit/";
+        private const string primitivesPath = "GameObject/Procedural Toolkit/";
         private const string create = "Create ";
 
         private const int platonicSolids = 0;
@@ -42,31 +42,31 @@ namespace ProceduralToolkit.Editor
 
         #region Platonic solids
 
-        [MenuItem(menuPath + tetrahedron, false, platonicSolids + 0)]
+        [MenuItem(primitivesPath + tetrahedron, false, platonicSolids + 0)]
         public static void Tetrahedron()
         {
             Template(tetrahedron, () => MeshE.Tetrahedron(1));
         }
 
-        [MenuItem(menuPath + hexahedron, false, platonicSolids + 1)]
+        [MenuItem(primitivesPath + hexahedron, false, platonicSolids + 1)]
         public static void Hexahedron()
         {
             Template(hexahedron, () => MeshE.Hexahedron(1, 1, 1));
         }
 
-        [MenuItem(menuPath + octahedron, false, platonicSolids + 2)]
+        [MenuItem(primitivesPath + octahedron, false, platonicSolids + 2)]
         public static void Octahedron()
         {
             Template(octahedron, () => MeshE.Octahedron(1));
         }
 
-        [MenuItem(menuPath + dodecahedron, false, platonicSolids + 3)]
+        [MenuItem(primitivesPath + dodecahedron, false, platonicSolids + 3)]
         public static void Dodecahedron()
         {
             Template(dodecahedron, () => MeshE.Dodecahedron(1));
         }
 
-        [MenuItem(menuPath + icosahedron, false, platonicSolids + 4)]
+        [MenuItem(primitivesPath + icosahedron, false, platonicSolids + 4)]
         public static void Icosahedron()
         {
             Template(icosahedron, () => MeshE.Icosahedron(1));
@@ -76,31 +76,31 @@ namespace ProceduralToolkit.Editor
 
         #region Other
 
-        [MenuItem(menuPath + plane, false, other + 0)]
+        [MenuItem(primitivesPath + plane, false, other + 0)]
         public static void Plane()
         {
             Template(plane, () => MeshE.Plane(10, 10, 10, 10));
         }
 
-        [MenuItem(menuPath + pyramid, false, other + 1)]
+        [MenuItem(primitivesPath + pyramid, false, other + 1)]
         public static void Pyramid()
         {
             Template(pyramid, () => MeshE.Pyramid(1, 6, 1));
         }
 
-        [MenuItem(menuPath + prism, false, other + 2)]
+        [MenuItem(primitivesPath + prism, false, other + 2)]
         public static void Prism()
         {
             Template(prism, () => MeshE.Prism(1, 16, 1));
         }
 
-        [MenuItem(menuPath + cylinder, false, other + 3)]
+        [MenuItem(primitivesPath + cylinder, false, other + 3)]
         public static void Cylinder()
         {
             Template(cylinder, () => MeshE.Cylinder(1, 16, 1));
         }
 
-        [MenuItem(menuPath + sphere, false, other + 4)]
+        [MenuItem(primitivesPath + sphere, false, other + 4)]
         public static void Sphere()
         {
             Template(sphere, () => MeshE.Sphere(1, 16, 16));
