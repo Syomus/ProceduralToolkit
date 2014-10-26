@@ -38,6 +38,9 @@ namespace ProceduralToolkit
             colors.AddRange(draft.colors);
         }
 
+        /// <summary>
+        /// Moves vertices by <paramref name="vector"/>
+        /// </summary>
         public void Move(Vector3 vector)
         {
             for (int i = 0; i < vertices.Count; i++)
@@ -46,6 +49,9 @@ namespace ProceduralToolkit
             }
         }
 
+        /// <summary>
+        /// Scales vertices uniformly by <paramref name="scale"/>
+        /// </summary>
         public void Scale(float scale)
         {
             for (int i = 0; i < vertices.Count; i++)
@@ -54,6 +60,9 @@ namespace ProceduralToolkit
             }
         }
 
+        /// <summary>
+        /// Scales vertices non-uniformly by <paramref name="scale"/>
+        /// </summary>
         public void Scale(Vector3 scale)
         {
             for (int i = 0; i < vertices.Count; i++)
@@ -63,6 +72,9 @@ namespace ProceduralToolkit
             }
         }
 
+        /// <summary>
+        /// Rotates vertices by <paramref name="rotation"/>
+        /// </summary>
         public void Rotate(Quaternion rotation)
         {
             for (int i = 0; i < vertices.Count; i++)
@@ -71,6 +83,9 @@ namespace ProceduralToolkit
             }
         }
 
+        /// <summary>
+        /// Paints all vertices with <paramref name="color"/>
+        /// </summary>
         public void Paint(Color color)
         {
             colors.Clear();
@@ -80,6 +95,42 @@ namespace ProceduralToolkit
             }
         }
 
+        /// <summary>
+        /// Flips draft faces
+        /// </summary>
+        public void FlipFaces()
+        {
+            FlipTriangles();
+            FlipNormals();
+        }
+
+        /// <summary>
+        /// Reverses winding order of draft triangles
+        /// </summary>
+        public void FlipTriangles()
+        {
+            for (int i = 0; i < triangles.Count; i += 3)
+            {
+                var temp = triangles[i];
+                triangles[i] = triangles[i + 1];
+                triangles[i + 1] = temp;
+            }
+        }
+
+        /// <summary>
+        /// Reverses direction of draft normals
+        /// </summary>
+        public void FlipNormals()
+        {
+            for (int i = 0; i < normals.Count; i++)
+            {
+                normals[i] = -normals[i];
+            }
+        }
+
+        /// <summary>
+        /// Creates new mesh from information in draft
+        /// </summary>
         public Mesh ToMesh()
         {
             return new Mesh
