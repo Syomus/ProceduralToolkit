@@ -13,6 +13,10 @@ namespace ProceduralToolkit.Examples
         public Vector3 separation;
     }
 
+    /// <summary>
+    /// A single-mesh particle system with birds-like behaviour
+    /// http://en.wikipedia.org/wiki/Boids
+    /// </summary>
     [RequireComponent(typeof (MeshRenderer), typeof (MeshFilter))]
     public class Boids : MonoBehaviour
     {

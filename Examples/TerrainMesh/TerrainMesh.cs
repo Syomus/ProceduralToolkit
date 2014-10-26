@@ -2,6 +2,9 @@
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// A simple terrain based on Perlin noise and coloured according to height
+    /// </summary>
     [RequireComponent(typeof (MeshRenderer), typeof (MeshFilter))]
     public class TerrainMesh : MonoBehaviour
     {

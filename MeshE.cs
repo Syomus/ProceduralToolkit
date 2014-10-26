@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Mesh extensions and constructors for primitives
+    /// </summary>
     public static class MeshE
     {
         #region Primitives
@@ -619,7 +622,7 @@ namespace ProceduralToolkit
         #endregion Primitives
 
         /// <summary>
-        /// Moves vertices by <paramref name="vector"/>
+        /// Moves mesh vertices by <paramref name="vector"/>
         /// </summary>
         public static void Move(this Mesh mesh, Vector3 vector)
         {
@@ -632,7 +635,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Rotates vertices by <paramref name="rotation"/>
+        /// Rotates mesh vertices by <paramref name="rotation"/>
         /// </summary>
         public static void Rotate(this Mesh mesh, Quaternion rotation)
         {
@@ -645,7 +648,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Scales vertices uniformly by <paramref name="scale"/>
+        /// Scales mesh vertices uniformly by <paramref name="scale"/>
         /// </summary>
         public static void Scale(this Mesh mesh, float scale)
         {
@@ -658,7 +661,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Scales vertices non-uniformly by <paramref name="scale"/>
+        /// Scales mesh vertices non-uniformly by <paramref name="scale"/>
         /// </summary>
         public static void Scale(this Mesh mesh, Vector3 scale)
         {
@@ -672,7 +675,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Paints all vertices with <paramref name="color"/>
+        /// Paints mesh vertices with <paramref name="color"/>
         /// </summary>
         public static void Paint(this Mesh mesh, Color color)
         {

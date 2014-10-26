@@ -1,5 +1,8 @@
 ﻿namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Various data
+    /// </summary>
     public static class Datasets
     {
         public static readonly string lowercase = "abcdefghijklmnopqrstuvwxyz";

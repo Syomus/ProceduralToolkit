@@ -2,6 +2,9 @@
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Useful utility methods
+    /// </summary>
     public class PTUtils
     {
         /// <summary>

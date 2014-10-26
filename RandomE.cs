@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Random extensions for arrays, value generators
+    /// </summary>
     public static class RandomE
     {
         /// <summary>

@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Helper class for procedural mesh generation
+    /// </summary>
     public class MeshDraft
     {
         public string name = "";
@@ -26,6 +29,9 @@ namespace ProceduralToolkit
             colors.AddRange(mesh.colors);
         }
 
+        /// <summary>
+        /// Adds mesh information from another draft
+        /// </summary>
         public void Add(MeshDraft draft)
         {
             foreach (var triangle in draft.triangles)
@@ -39,7 +45,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Moves vertices by <paramref name="vector"/>
+        /// Moves draft vertices by <paramref name="vector"/>
         /// </summary>
         public void Move(Vector3 vector)
         {
@@ -50,7 +56,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Rotates vertices by <paramref name="rotation"/>
+        /// Rotates draft vertices by <paramref name="rotation"/>
         /// </summary>
         public void Rotate(Quaternion rotation)
         {
@@ -61,7 +67,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Scales vertices uniformly by <paramref name="scale"/>
+        /// Scales draft vertices uniformly by <paramref name="scale"/>
         /// </summary>
         public void Scale(float scale)
         {
@@ -72,7 +78,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Scales vertices non-uniformly by <paramref name="scale"/>
+        /// Scales draft vertices non-uniformly by <paramref name="scale"/>
         /// </summary>
         public void Scale(Vector3 scale)
         {
@@ -84,7 +90,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Paints all vertices with <paramref name="color"/>
+        /// Paints draft vertices with <paramref name="color"/>
         /// </summary>
         public void Paint(Color color)
         {
