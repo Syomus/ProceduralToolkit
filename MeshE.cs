@@ -640,11 +640,14 @@ namespace ProceduralToolkit
         public static void Rotate(this Mesh mesh, Quaternion rotation)
         {
             var vertices = mesh.vertices;
+            var normals = mesh.normals;
             for (int i = 0; i < vertices.Length; i++)
             {
                 vertices[i] = rotation*vertices[i];
+                normals[i] = rotation*normals[i];
             }
             mesh.vertices = vertices;
+            mesh.normals = normals;
         }
 
         /// <summary>
@@ -666,12 +669,16 @@ namespace ProceduralToolkit
         public static void Scale(this Mesh mesh, Vector3 scale)
         {
             var vertices = mesh.vertices;
+            var normals = mesh.normals;
             for (int i = 0; i < vertices.Length; i++)
             {
                 var v = vertices[i];
                 vertices[i] = new Vector3(v.x*scale.x, v.y*scale.y, v.z*scale.z);
+                var n = normals[i];
+                normals[i] = new Vector3(n.x*scale.x, n.y*scale.y, n.z*scale.z).normalized;
             }
             mesh.vertices = vertices;
+            mesh.normals = normals;
         }
 
         /// <summary>

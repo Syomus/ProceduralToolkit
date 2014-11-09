@@ -63,6 +63,7 @@ namespace ProceduralToolkit
             for (int i = 0; i < vertices.Count; i++)
             {
                 vertices[i] = rotation*vertices[i];
+                normals[i] = rotation*normals[i];
             }
         }
 
@@ -86,6 +87,8 @@ namespace ProceduralToolkit
             {
                 var v = vertices[i];
                 vertices[i] = new Vector3(v.x*scale.x, v.y*scale.y, v.z*scale.z);
+                var n = normals[i];
+                normals[i] = new Vector3(n.x*scale.x, n.y*scale.y, n.z*scale.z).normalized;
             }
         }
 
