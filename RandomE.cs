@@ -207,5 +207,32 @@ namespace ProceduralToolkit
             return new Vector4(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z),
                 Random.Range(min.w, max.w));
         }
+
+        public static float Range(float min, float max, int variants)
+        {
+            if (variants < 2)
+            {
+                Debug.LogError("Variants must be greater than one");
+                variants = 2;
+            }
+            return Mathf.Lerp(min, max, Random.Range(0, variants)/(variants - 1f));
+        }
+
+        public static Vector2 Range(Vector2 min, Vector2 max, int variants)
+        {
+            return new Vector2(Range(min.x, max.x, variants), Range(min.y, max.y, variants));
+        }
+
+        public static Vector3 Range(Vector3 min, Vector3 max, int variants)
+        {
+            return new Vector3(Range(min.x, max.x, variants), Range(min.y, max.y, variants),
+                Range(min.z, max.z, variants));
+        }
+
+        public static Vector4 Range(Vector4 min, Vector4 max, int variants)
+        {
+            return new Vector4(Range(min.x, max.x, variants), Range(min.y, max.y, variants),
+                Range(min.z, max.z, variants), Range(min.w, max.w, variants));
+        }
     }
 }
