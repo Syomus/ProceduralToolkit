@@ -4,6 +4,9 @@ using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// A procedural chair generator
+    /// </summary>
     [RequireComponent(typeof (MeshRenderer), typeof (MeshFilter))]
     public class ChairGenerator : MonoBehaviour
     {
