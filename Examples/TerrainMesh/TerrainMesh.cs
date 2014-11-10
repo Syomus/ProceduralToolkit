@@ -35,13 +35,13 @@ namespace ProceduralToolkit.Examples
         {
             gradient = RandomE.gradientHSV;
 
-            var offset = new Vector2(Random.Range(0f, 100f), Random.Range(0f, 100f));
+            var noiseOffset = new Vector2(Random.Range(0f, 100f), Random.Range(0f, 100f));
             draft.colors.Clear();
             for (int i = 0; i < draft.vertices.Count; i++)
             {
                 var vertex = draft.vertices[i];
-                var x = scale*vertex.x/xSegments + offset.x;
-                var y = scale*vertex.z/zSegments + offset.y;
+                var x = scale*vertex.x/xSegments + noiseOffset.x;
+                var y = scale*vertex.z/zSegments + noiseOffset.y;
                 var noise = Mathf.PerlinNoise(x, y);
                 draft.vertices[i] = new Vector3(vertex.x, noise, vertex.z);
                 draft.colors.Add(gradient.Evaluate(noise));
