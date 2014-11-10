@@ -20,7 +20,7 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 * [Asset Store](https://www.assetstore.unity3d.com/#!/content/16508)
 
 ## Version history
-2014.10.26 - v0.1.2:
+2014.11.10 - v0.1.2:
 * Added new example: chair generator
 * Small additions and fixes
 
