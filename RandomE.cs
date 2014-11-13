@@ -90,6 +90,17 @@ namespace ProceduralToolkit
             return new List<T>(items) {item1, item2}.Choice();
         }
 
+        public static TValue Choice<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
+        {
+            var keys = dictionary.Keys;
+            if (keys.Count == 0)
+            {
+                Debug.LogError("Empty dictionary");
+                return default(TValue);
+            }
+            return dictionary[new List<TKey>(keys).Choice()];
+        }
+
         /// <summary>
         /// Returns a random element from list with chances for roll of each element based on <paramref name="weights"/>
         /// </summary>
