@@ -10,21 +10,16 @@ namespace ProceduralToolkit.Examples
     [RequireComponent(typeof (MeshRenderer), typeof (MeshFilter))]
     public class ChairGenerator : MonoBehaviour
     {
-        private int chairCount = 3;
-        private float radius = 2.1f;
-        private float segment = Mathf.PI/3.5f;
-        private float rotation = 25;
+        public float legWidthLB = 0.05f;
+        public float legWidthUB = 0.12f;
+        public float legHeightLB = 0.5f;
+        public float legHeightUB = 1.2f;
 
-        private float legWidthLB = 0.05f;
-        private float legWidthUB = 0.12f;
-        private float legHeightLB = 0.5f;
-        private float legHeightUB = 1.2f;
+        public Vector3 seatLB = new Vector3(0.7f, 0.05f, 0.7f);
+        public Vector3 seatUB = new Vector3(1, 0.2f, 0.9f);
 
-        private Vector3 seatLB = new Vector3(0.7f, 0.05f, 0.7f);
-        private Vector3 seatUB = new Vector3(1.3f, 0.2f, 1.3f);
-
-        private float backHeightLB = 0.5f;
-        private float backHeightUB = 1.3f;
+        public float backHeightLB = 0.5f;
+        public float backHeightUB = 1.3f;
 
         private void Start()
         {
@@ -41,21 +36,7 @@ namespace ProceduralToolkit.Examples
 
         private void Generate()
         {
-            var chairs = new MeshDraft();
-
-            var rotationAngle = -(chairCount - 1)*rotation/2;
-            var segmentAngle = -(chairCount - 1)*segment/2;
-            for (int i = 0; i < chairCount; i++)
-            {
-                var chair = Chair();
-                chair.Rotate(Quaternion.Euler(new Vector3(0, rotationAngle, 0)));
-                chair.Move(PTUtils.PointOnCircle3(radius, segmentAngle));
-                chairs.Add(chair);
-                rotationAngle += rotation;
-                segmentAngle += segment;
-            }
-
-            GetComponent<MeshFilter>().mesh = chairs.ToMesh();
+            GetComponent<MeshFilter>().mesh = Chair().ToMesh();
         }
 
         private MeshDraft Chair()
