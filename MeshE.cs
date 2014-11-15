@@ -111,9 +111,40 @@ namespace ProceduralToolkit
                 draft.triangles.Add(i);
                 draft.triangles.Add(i + 1);
             }
+            var normal = Vector3.Cross(vertices[1] - vertices[0], vertices[2] - vertices[0]).normalized;
             for (int i = 0; i < vertices.Count; i++)
             {
-                draft.normals.Add(Vector3.up);
+                draft.normals.Add(normal);
+                draft.uv.Add(new Vector2((float) i/vertices.Count, (float) i/vertices.Count));
+            }
+            return draft;
+        }
+
+        public static Mesh TriangleStrip(List<Vector3> vertices)
+        {
+            return TriangleStripDraft(vertices).ToMesh();
+        }
+
+        public static MeshDraft TriangleStripDraft(List<Vector3> vertices)
+        {
+            var draft = new MeshDraft
+            {
+                vertices = vertices,
+                triangles = new List<int>(vertices.Count - 2),
+                normals = new List<Vector3>(vertices.Count),
+                uv = new List<Vector2>(vertices.Count),
+                name = "TriangleStrip"
+            };
+            for (int i = 0, j = 1, k = 2; i < vertices.Count - 2; i++, j += i%2*2, k += (i + 1)%2*2)
+            {
+                draft.triangles.Add(i);
+                draft.triangles.Add(j);
+                draft.triangles.Add(k);
+            }
+            var normal = Vector3.Cross(vertices[1] - vertices[0], vertices[2] - vertices[0]).normalized;
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                draft.normals.Add(normal);
                 draft.uv.Add(new Vector2((float) i/vertices.Count, (float) i/vertices.Count));
             }
             return draft;
@@ -588,7 +619,7 @@ namespace ProceduralToolkit
                 {
                     var point = PTUtils.PointOnSphere(radius, currentLongitude, currentLatitude);
                     draft.vertices.Add(point);
-                    draft.normals.Add(point);
+                    draft.normals.Add(point.normalized);
                     draft.uv.Add(new Vector2((float) i/longitudeSegments, (float) ring/latitudeSegments));
                     currentLongitude -= longitudeSegmentAngle;
                 }
