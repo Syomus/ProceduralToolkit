@@ -351,6 +351,39 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        public static MeshDraft HexahedronDraft(Vector3 width, Vector3 length, Vector3 height, Directions parts)
+        {
+            var corner0 = -width/2 - length/2 - height/2;
+            var corner1 = width/2 + length/2 + height/2;
+
+            var draft = new MeshDraft {name = "Hexahedron"};
+            if ((parts & Directions.Left) == Directions.Left)
+            {
+                draft.Add(QuadDraft(corner0, height, length));
+            }
+            if ((parts & Directions.Right) == Directions.Right)
+            {
+                draft.Add(QuadDraft(corner1, -length, -height));
+            }
+            if ((parts & Directions.Down) == Directions.Down)
+            {
+                draft.Add(QuadDraft(corner0, length, width));
+            }
+            if ((parts & Directions.Up) == Directions.Up)
+            {
+                draft.Add(QuadDraft(corner1, -width, -length));
+            }
+            if ((parts & Directions.Back) == Directions.Back)
+            {
+                draft.Add(QuadDraft(corner0, width, height));
+            }
+            if ((parts & Directions.Forward) == Directions.Forward)
+            {
+                draft.Add(QuadDraft(corner1, -height, -width));
+            }
+            return draft;
+        }
+
         public static Mesh Octahedron(float radius)
         {
             return OctahedronDraft(radius).ToMesh();
