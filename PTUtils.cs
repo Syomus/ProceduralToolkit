@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ProceduralToolkit
 {
     /// <summary>
     /// Useful utility methods
     /// </summary>
-    public class PTUtils
+    public static class PTUtils
     {
         /// <summary>
         /// Returns point on circle in the XY plane
@@ -72,6 +73,55 @@ namespace ProceduralToolkit
             T temp = left;
             left = right;
             right = temp;
+        }
+
+        public static Dictionary<T, int> Knapsack<T>(Dictionary<T, float> set, float remainder,
+            Dictionary<T, int> knapsack = null, int startIndex = 0)
+        {
+            var keys = new List<T>(set.Keys);
+            keys.Sort((a, b) => -set[a].CompareTo(set[b]));
+            if (knapsack == null)
+            {
+                knapsack = new Dictionary<T, int>();
+                foreach (var key in keys)
+                {
+                    knapsack[key] = 0;
+                }
+            }
+
+            var smallestKey = keys[keys.Count - 1];
+            if (remainder < set[smallestKey])
+            {
+                knapsack[smallestKey] = 1;
+                return knapsack;
+            }
+            for (var i = startIndex; i < keys.Count; i++)
+            {
+                var key = keys[i];
+                var value = set[key];
+                knapsack[key] += (int) (remainder/value);
+                remainder %= value;
+            }
+            if (remainder > 0)
+            {
+                for (var i = 0; i < keys.Count; i++)
+                {
+                    var key = keys[i];
+                    if (knapsack[key] != 0)
+                    {
+                        if (key.Equals(smallestKey))
+                        {
+                            return knapsack;
+                        }
+                        knapsack[key]--;
+                        remainder += set[key];
+                        startIndex = i + 1;
+                        break;
+                    }
+                }
+                knapsack = Knapsack(set, remainder, knapsack, startIndex);
+            }
+            return knapsack;
         }
     }
 }
