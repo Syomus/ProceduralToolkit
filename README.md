@@ -1,4 +1,4 @@
-# Procedural Toolkit v0.1.2
+# Procedural Toolkit v0.1.3
 
 Procedural Toolkit is a collection of instruments for creating procedural generation systems. It is free, open source and does not require a Unity Pro license.
 
@@ -11,6 +11,7 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 * Datasets: various data.
 
 ## Examples
+* [Khrushchyovka](http://syomus.com/ProceduralToolkit/Khrushchyovka.html): a procedural building generator.
 * [ChairGenerator](http://syomus.com/ProceduralToolkit/ChairGenerator.html): a procedural chair generator.
 * [Boids](http://syomus.com/ProceduralToolkit/Boids.html): a single-mesh particle system with birds-like behaviour.
 * [TerrainMesh](http://syomus.com/ProceduralToolkit/TerrainMesh.html): a simple terrain based on Perlin noise and coloured according to height.
@@ -20,6 +21,15 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 * [Asset Store](https://www.assetstore.unity3d.com/#!/content/16508)
 
 ## Version history
+2014.11.15 - v0.1.3:
+* Added new example: Khrushchyovka
+* Added knapsack problem solver
+* Added new Color extensions
+* Added random choice for Dictionary
+* Added new mesh drafts
+* Added specular vertex color shader
+* Improved examples
+
 2014.11.10 - v0.1.2:
 * Added new example: chair generator
 * Small additions and fixes

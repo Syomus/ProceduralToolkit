@@ -55,6 +55,10 @@ namespace ProceduralToolkit.Examples
         public List<Panel> panels = new List<Panel>();
     }
 
+    /// <summary>
+    /// A procedural building generator
+    /// http://en.wikipedia.org/wiki/Khrushchyovka
+    /// </summary>
     [RequireComponent(typeof (MeshFilter), typeof (MeshRenderer))]
     public class Khrushchyovka : MonoBehaviour
     {
