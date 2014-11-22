@@ -9,7 +9,7 @@ namespace ProceduralToolkit.Examples.Primitives
         public int segments = 16;
         public float height = 2f;
 
-        public void Start()
+        private void Start()
         {
             GetComponent<MeshFilter>().mesh = MeshE.Prism(radius, segments, height);
         }

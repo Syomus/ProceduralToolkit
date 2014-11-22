@@ -10,7 +10,7 @@ namespace ProceduralToolkit.Examples.Primitives
         public int xSegments = 16;
         public int zSegments = 16;
 
-        public void Start()
+        private void Start()
         {
             GetComponent<MeshFilter>().mesh = MeshE.Plane(xSize, zSize, xSegments, zSegments);
         }

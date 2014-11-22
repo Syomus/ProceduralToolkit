@@ -9,7 +9,7 @@ namespace ProceduralToolkit.Examples.Primitives
         public int longitudeSegments = 16;
         public int latitudeSegments = 16;
 
-        public void Start()
+        private void Start()
         {
             GetComponent<MeshFilter>().mesh = MeshE.Sphere(radius, longitudeSegments, latitudeSegments);
         }

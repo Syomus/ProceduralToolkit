@@ -7,7 +7,7 @@ namespace ProceduralToolkit.Examples.Primitives
     {
         public float radius = 1f;
 
-        public void Start()
+        private void Start()
         {
             GetComponent<MeshFilter>().mesh = MeshE.Dodecahedron(radius);
         }

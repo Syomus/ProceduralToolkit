@@ -9,7 +9,7 @@ namespace ProceduralToolkit.Examples.Primitives
         public float length = 1f;
         public float height = 2f;
 
-        public void Start()
+        private void Start()
         {
             GetComponent<MeshFilter>().mesh = MeshE.Hexahedron(width, length, height);
         }

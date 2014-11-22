@@ -9,7 +9,7 @@ namespace ProceduralToolkit.Examples.Primitives
         public int segments = 16;
         public float height = 1f;
 
-        public void Start()
+        private void Start()
         {
             GetComponent<MeshFilter>().mesh = MeshE.Pyramid(radius, segments, height);
         }
