@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit
 {
@@ -45,7 +47,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static string string8
         {
-            get { return Datasets.alphanumerics.Choice(8); }
+            get { return Datasets.alphanumerics.GetRandom(8); }
         }
 
         /// <summary>
@@ -53,13 +55,31 @@ namespace ProceduralToolkit
         /// </summary>
         public static string string16
         {
-            get { return Datasets.alphanumerics.Choice(16); }
+            get { return Datasets.alphanumerics.GetRandom(16); }
+        }
+
+        public static MeshDraft meshDraft
+        {
+            get
+            {
+                var draft = new MeshDraft();
+                for (int i = 0; i < 100; i++)
+                {
+                    var v0 = Random.onUnitSphere;
+                    var v1 = Random.onUnitSphere;
+                    var v2 = Random.onUnitSphere;
+                    var v3 = Random.onUnitSphere;
+                    draft.Add(MeshE.TriangleDraft(v0, v1, v2));
+                    draft.Add(MeshE.TriangleDraft(v1, v2, v3));
+                }
+                return draft;
+            }
         }
 
         /// <summary>
         /// Returns a random element from list
         /// </summary>
-        public static T Choice<T>(this List<T> items)
+        public static T GetRandom<T>(this List<T> items)
         {
             if (items.Count == 0)
             {
@@ -72,7 +92,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random element from array
         /// </summary>
-        public static T Choice<T>(this T[] items)
+        public static T GetRandom<T>(this T[] items)
         {
             if (items.Length == 0)
             {
@@ -85,12 +105,12 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random element from list of elements
         /// </summary>
-        public static T Choice<T>(T item1, T item2, params T[] items)
+        public static T GetRandom<T>(T item1, T item2, params T[] items)
         {
-            return new List<T>(items) {item1, item2}.Choice();
+            return new List<T>(items) {item1, item2}.GetRandom();
         }
 
-        public static TValue Choice<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
+        public static TValue GetRandom<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
         {
             var keys = dictionary.Keys;
             if (keys.Count == 0)
@@ -98,14 +118,14 @@ namespace ProceduralToolkit
                 Debug.LogError("Empty dictionary");
                 return default(TValue);
             }
-            return dictionary[new List<TKey>(keys).Choice()];
+            return dictionary[new List<TKey>(keys).GetRandom()];
         }
 
         /// <summary>
         /// Returns a random element from list with chances for roll of each element based on <paramref name="weights"/>
         /// </summary>
         /// <param name="weights">Positive floats representing chances</param>
-        public static T Choice<T>(this List<T> list, List<float> weights)
+        public static T GetRandom<T>(this List<T> list, List<float> weights)
         {
             if (list.Count == 0)
             {
@@ -120,7 +140,7 @@ namespace ProceduralToolkit
             if (list.Count != weights.Count)
             {
                 Debug.LogError("Array sizes must be equal");
-                return list.Choice();
+                return list.GetRandom();
             }
 
             if (list.Count == 1)
@@ -139,7 +159,7 @@ namespace ProceduralToolkit
             if (index == -1)
             {
                 Debug.LogError("Invalid weights");
-                return list.Choice();
+                return list.GetRandom();
             }
             return list[index];
         }
@@ -147,7 +167,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random character from string
         /// </summary>
-        public static string Choice(this string chars, int length)
+        public static string GetRandom(this string chars, int length)
         {
             var randomString = new System.Text.StringBuilder();
             for (int i = 0; i < length; i++)
@@ -155,6 +175,19 @@ namespace ProceduralToolkit
                 randomString.Append(chars[Random.Range(0, chars.Length)]);
             }
             return randomString.ToString();
+        }
+
+        public static T PopRandom<T>(this List<T> items)
+        {
+            if (items.Count == 0)
+            {
+                Debug.LogError("Empty array");
+                return default(T);
+            }
+            var index = Random.Range(0, items.Count);
+            var item = items[index];
+            items.RemoveAt(index);
+            return item;
         }
 
         /// <summary>

@@ -70,7 +70,7 @@ namespace ProceduralToolkit.Examples
                     XStretchers,
                     HStretchers,
                     BoxStretchers
-                }.Choice();
+                }.GetRandom();
                 chair.Add(stretcherFunc(legCenters, legWidth, legHeight));
             }
 
@@ -81,7 +81,7 @@ namespace ProceduralToolkit.Examples
                 Back0,
                 Back1,
                 RodBack
-            }.Choice();
+            }.GetRandom();
             var backCenter = Vector3.up*(legHeight + seatDimensions.y) + Vector3.forward*(seatDimensions.z - legWidth)/2;
             chair.Add(backFunc(backCenter, seatDimensions.x, legWidth, backHeight));
 
@@ -91,7 +91,7 @@ namespace ProceduralToolkit.Examples
                 {
                     Armrests0,
                     Armrests1
-                }.Choice();
+                }.GetRandom();
                 chair.Add(armrestsFunc(seatDimensions, backCenter, backHeight, legWidth));
             }
 

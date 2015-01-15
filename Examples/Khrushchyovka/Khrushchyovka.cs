@@ -180,8 +180,8 @@ namespace ProceduralToolkit.Examples
                 Vector3.left*length/2 + Vector3.forward*width/2
             };
 
-            commonPanelConstructors[PanelType.Entrance] = panelConstructors[PanelType.Entrance].Choice();
-            commonPanelConstructors[PanelType.EntranceWall] = panelConstructors[PanelType.EntranceWall].Choice();
+            commonPanelConstructors[PanelType.Entrance] = panelConstructors[PanelType.Entrance].GetRandom();
+            commonPanelConstructors[PanelType.EntranceWall] = panelConstructors[PanelType.EntranceWall].GetRandom();
 
             wallColor = RandomE.colorHSV.WithA(0);
 
@@ -372,7 +372,7 @@ namespace ProceduralToolkit.Examples
                     }
                     else
                     {
-                        panelConstructor = panelConstructors[panel.type].Choice();
+                        panelConstructor = panelConstructors[panel.type].GetRandom();
                     }
                     draft.Add(panelConstructor(panelOrigin + offset, panelWidth, panelHeight));
 
@@ -631,7 +631,7 @@ namespace ProceduralToolkit.Examples
 
         private MeshDraft Roof(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector3 height)
         {
-            var roofConstructor = roofConstructors.Choice();
+            var roofConstructor = roofConstructors.GetRandom();
             return roofConstructor(a + height, b + height, c + height, d + height);
         }
 
