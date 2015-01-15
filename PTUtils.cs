@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -39,6 +40,108 @@ namespace ProceduralToolkit
             return new Vector3(radius*Mathf.Sin(longitude)*Mathf.Cos(latitude),
                 radius*Mathf.Sin(latitude),
                 radius*Mathf.Cos(longitude)*Mathf.Cos(latitude));
+        }
+
+        public static void BresenhamLine(int x0, int y0, int x1, int y1, Action<int, int> draw)
+        {
+            bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
+            if (steep)
+            {
+                Swap(ref x0, ref y0);
+                Swap(ref x1, ref y1);
+            }
+            if (x0 > x1)
+            {
+                Swap(ref x0, ref x1);
+                Swap(ref y0, ref y1);
+            }
+            int dx = x1 - x0;
+            int dy = Math.Abs(y1 - y0);
+            int error = dx/2;
+            int ystep = (y0 < y1) ? 1 : -1;
+            int y = y0;
+            for (int x = x0; x <= x1; x++)
+            {
+                draw(steep ? y : x, steep ? x : y);
+                error -= dy;
+                if (error < 0)
+                {
+                    y += ystep;
+                    error += dx;
+                }
+            }
+        }
+
+        public static void BresenhamCircle(int x0, int y0, int radius, Action<int, int> draw)
+        {
+            int x = radius;
+            int y = 0;
+            int radiusError = 1 - x;
+            while (x >= y)
+            {
+                draw(x + x0, y + y0);
+                draw(y + x0, x + y0);
+                draw(-x + x0, y + y0);
+                draw(-y + x0, x + y0);
+                draw(-x + x0, -y + y0);
+                draw(-y + x0, -x + y0);
+                draw(x + x0, -y + y0);
+                draw(y + x0, -x + y0);
+                y++;
+                if (radiusError < 0)
+                {
+                    radiusError += 2*y + 1;
+                }
+                else
+                {
+                    x--;
+                    radiusError += 2*(y - x + 1);
+                }
+            }
+        }
+
+        public static void WuLine(int x0, int y0, int x1, int y1, Action<int, int, float> draw)
+        {
+            bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
+            if (steep)
+            {
+                Swap(ref x0, ref y0);
+                Swap(ref x1, ref y1);
+            }
+            if (x0 > x1)
+            {
+                Swap(ref x0, ref x1);
+                Swap(ref y0, ref y1);
+            }
+
+            if (steep)
+            {
+                draw(y0, x0, 1);
+                draw(y1, x1, 1);
+            }
+            else
+            {
+                draw(x0, y0, 1);
+                draw(x1, y1, 1);
+            }
+            float dx = x1 - x0;
+            float dy = y1 - y0;
+            float gradient = dy/dx;
+            float y = y0 + gradient;
+            for (var x = x0 + 1; x <= x1 - 1; x++)
+            {
+                if (steep)
+                {
+                    draw((int) y, x, 1 - (y - (int) y));
+                    draw((int) y + 1, x, y - (int) y);
+                }
+                else
+                {
+                    draw(x, (int) y, 1 - (y - (int) y));
+                    draw(x, (int) y + 1, y - (int) y);
+                }
+                y += gradient;
+            }
         }
 
         /// <summary>
