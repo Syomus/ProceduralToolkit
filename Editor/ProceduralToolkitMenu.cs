@@ -6,7 +6,7 @@ namespace ProceduralToolkit.Editor
 {
     public class ProceduralToolkitMenu
     {
-        public const string version = "v0.1.3";
+        public const string version = "v0.1.4";
 
         private const string primitivesPath = "GameObject/Procedural Toolkit/";
         private const string create = "Create ";
@@ -121,7 +121,7 @@ namespace ProceduralToolkit.Editor
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Version: " + ProceduralToolkitMenu.version);
 
-            EditorGUILayout.SelectableLabel("Copyright © 2014 Daniil Basmanov");
+            EditorGUILayout.SelectableLabel("Copyright © 2014-2015 Daniil Basmanov");
             EditorGUILayout.SelectableLabel("Icon by Iuliana Koroviakovskaia");
 
             EditorGUILayout.Space();

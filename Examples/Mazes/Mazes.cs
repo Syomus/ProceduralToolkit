@@ -120,6 +120,9 @@ namespace ProceduralToolkit.Examples
         RandomDepthFirstTraversal
     }
 
+    /// <summary>
+    /// A maze generators
+    /// </summary>
     public class Mazes : MonoBehaviour
     {
         public int mazeWidth = 256;
