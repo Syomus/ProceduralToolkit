@@ -2,6 +2,8 @@
 
 Procedural Toolkit is a collection of instruments for creating procedural generation systems. It is free, open source and does not require a Unity Pro license.
 
+**Warning: Be aware that this is a programming toolkit, editor support is limited.**
+
 ## Classes
 * RandomE: Random extensions for arrays, value generators.
 * MeshE: Mesh extensions and constructors for primitives.
