@@ -68,12 +68,12 @@ namespace ProceduralToolkit.Examples
                 paddle.transform.position = new Vector3(-halfWall, 0);
             }
 
-            ball.rigidbody2D.velocity = ball.rigidbody2D.velocity.normalized*ballVelocityMagnitude;
+            ball.GetComponent<Rigidbody2D>().velocity = ball.GetComponent<Rigidbody2D>().velocity.normalized*ballVelocityMagnitude;
             if (ball.transform.position.y < -0.1f)
             {
                 ResetLevel();
             }
-            var angle = Vector2.Angle(ball.rigidbody2D.velocity, Vector2.right);
+            var angle = Vector2.Angle(ball.GetComponent<Rigidbody2D>().velocity, Vector2.right);
             if (angle < 30 || angle > 150)
             {
                 KickBall();
@@ -94,22 +94,22 @@ namespace ProceduralToolkit.Examples
 
             var colliderDown = borders.AddComponent<BoxCollider2D>();
             colliderDown.sharedMaterial = material;
-            colliderDown.center = new Vector2(0, -1);
+            colliderDown.offset = new Vector2(0, -1);
             colliderDown.size = new Vector2(bordersWidth, 1);
 
             var colliderLeft = borders.AddComponent<BoxCollider2D>();
             colliderLeft.sharedMaterial = material;
-            colliderLeft.center = new Vector2(-bordersWidth/2f, bordersHeight/2f - 0.5f);
+            colliderLeft.offset = new Vector2(-bordersWidth/2f, bordersHeight/2f - 0.5f);
             colliderLeft.size = new Vector2(1, bordersHeight + 1);
 
             var colliderRight = borders.AddComponent<BoxCollider2D>();
             colliderRight.sharedMaterial = material;
-            colliderRight.center = new Vector2(bordersWidth/2f, bordersHeight/2f - 0.5f);
+            colliderRight.offset = new Vector2(bordersWidth/2f, bordersHeight/2f - 0.5f);
             colliderRight.size = new Vector2(1, bordersHeight + 1);
 
             var colliderTop = borders.AddComponent<BoxCollider2D>();
             colliderTop.sharedMaterial = material;
-            colliderTop.center = new Vector2(0, bordersHeight);
+            colliderTop.offset = new Vector2(0, bordersHeight);
             colliderTop.size = new Vector2(bordersWidth, 1);
         }
 
@@ -239,14 +239,14 @@ namespace ProceduralToolkit.Examples
             }
 
             ball.transform.position = Vector3.up;
-            ball.rigidbody2D.velocity = Vector2.zero;
+            ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             KickBall();
         }
 
         private void KickBall()
         {
             var direction = Random.Range(-0.5f, 0.5f)*Vector2.right + Vector2.up;
-            ball.rigidbody2D.AddForce(direction*ballForce);
+            ball.GetComponent<Rigidbody2D>().AddForce(direction*ballForce);
         }
 
         private void OnGUI()
