@@ -75,15 +75,17 @@ namespace ProceduralToolkit.Examples
 
             Generate();
 
-            StartCoroutine(SimulateCoroutine());
+            StartCoroutine(Simulate());
         }
 
         private void Generate()
         {
             template.colors.Clear();
-            for (int i = 0; i < template.vertices.Count; i++)
+            var color = RandomE.colorHSV;
+            template.colors.Add(color.Inverted());
+            for (int i = 1; i < template.vertices.Count; i++)
             {
-                template.colors.Add(RandomE.colorHSV);
+                template.colors.Add(color);
             }
 
             draft.colors.Clear();
@@ -104,7 +106,7 @@ namespace ProceduralToolkit.Examples
             }
         }
 
-        private IEnumerator SimulateCoroutine()
+        private IEnumerator Simulate()
         {
             simulationCount = 0;
             while (true)
@@ -193,7 +195,7 @@ namespace ProceduralToolkit.Examples
             for (int i = 0; i < swarmCount; i++)
             {
                 var boid = boids[i];
-                boid.rotation = Quaternion.LookRotation(boid.velocity);
+                boid.rotation = Quaternion.FromToRotation(Vector3.up, boid.velocity);
 
                 distanceToAnchor = anchor - boid.position;
                 if (distanceToAnchor.sqrMagnitude > worldSphere*worldSphere)
