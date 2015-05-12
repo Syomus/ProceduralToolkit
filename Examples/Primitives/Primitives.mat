@@ -2,16 +2,25 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Primitives
-  m_Shader: {fileID: 4800000, guid: ed30f33ca046d494cb8f02a356e97613, type: 3}
-  m_ShaderKeywords: []
+  m_Shader: {fileID: 4800000, guid: 40dd86119e3f8e74d8f7d84425c926aa, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs: {}
-    m_Floats: {}
+    m_Floats:
+      data:
+        first:
+          name: _Smoothness
+        second: 0
+      data:
+        first:
+          name: _Metallic
+        second: 0
     m_Colors: {}

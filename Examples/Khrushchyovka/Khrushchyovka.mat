@@ -2,13 +2,14 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Khrushchyovka
-  m_Shader: {fileID: 4800000, guid: 33193f8d8bf73874eb14f10521bd852d, type: 3}
-  m_ShaderKeywords: []
+  m_Shader: {fileID: 4800000, guid: 40dd86119e3f8e74d8f7d84425c926aa, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
@@ -16,10 +17,10 @@ Material:
     m_Floats:
       data:
         first:
-          name: _Shininess
-        second: .078125
-    m_Colors:
+          name: _Smoothness
+        second: .5
       data:
         first:
-          name: _SpecColor
-        second: {r: .5, g: .5, b: .5, a: 1}
+          name: _Metallic
+        second: 0
+    m_Colors: {}
