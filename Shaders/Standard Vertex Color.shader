@@ -3,7 +3,7 @@
 	Properties
 	{
 		_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
-		[Gamma] _Metallic("Metallic", Range(0.0, 1.0)) = 0.0
+		_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
 	}
 
 	SubShader
