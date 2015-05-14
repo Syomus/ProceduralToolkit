@@ -9,6 +9,9 @@ namespace ProceduralToolkit.Examples
         Wide,
     }
 
+    /// <summary>
+    /// Breakout clone with procedurally generated levels
+    /// </summary>
     public class Breakout : MonoBehaviour
     {
         private GameObject paddle;
