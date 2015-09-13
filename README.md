@@ -18,13 +18,13 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 * MeshFilterExtension: Mesh saver.
 
 ## Examples
-* [Khrushchyovka](http://syomus.com/ProceduralToolkit/Khrushchyovka.html): a procedural building generator.
-* [ChairGenerator](http://syomus.com/ProceduralToolkit/ChairGenerator.html): a procedural chair generator.
-* [Boids](http://syomus.com/ProceduralToolkit/Boids.html): a single-mesh particle system with birds-like behaviour.
-* [Breakout](http://syomus.com/ProceduralToolkit/Breakout.html): a Breakout clone with procedurally generated levels.
-* [TerrainMesh](http://syomus.com/ProceduralToolkit/TerrainMesh.html): a simple terrain based on Perlin noise and coloured according to height.
-* [Mazes](http://syomus.com/ProceduralToolkit/Mazes.html): a maze generators.
-* [Primitives](http://syomus.com/ProceduralToolkit/Primitives.html): a demonstration of primitives.
+* [Khrushchyovka](http://syomus.com/ProceduralToolkit/Khrushchyovka): a procedural building generator.
+* [ChairGenerator](http://syomus.com/ProceduralToolkit/ChairGenerator): a procedural chair generator.
+* [Boids](http://syomus.com/ProceduralToolkit/Boids): a single-mesh particle system with birds-like behaviour.
+* [Breakout](http://syomus.com/ProceduralToolkit/Breakout): a Breakout clone with procedurally generated levels.
+* [TerrainMesh](http://syomus.com/ProceduralToolkit/TerrainMesh): a simple terrain based on Perlin noise and coloured according to height.
+* [Mazes](http://syomus.com/ProceduralToolkit/Mazes): a maze generators.
+* [Primitives](http://syomus.com/ProceduralToolkit/Primitives): a demonstration of primitives.
 
 ## Links
 * [GitHub](https://github.com/Syomus/ProceduralToolkit)
