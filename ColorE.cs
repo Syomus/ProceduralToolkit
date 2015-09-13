@@ -44,65 +44,60 @@ namespace ProceduralToolkit
 
         #endregion Colors
 
-        /// <summary>
-        /// Converts hue, saturation and value into RGB color
-        /// </summary>
-        /// <param name="h">Hue</param>
-        /// <param name="s">Saturation</param>
-        /// <param name="v">Value</param>
-        public static Color HSVToRGB(float h, float s, float v)
+        /// <summary> Converts hue, saturation and value into RGB color </summary>
+        public static Color HSVToRGB(float hue, float saturation, float value)
         {
             var color = black;
-            h = Mathf.Clamp01(h);
-            s = Mathf.Clamp01(s);
-            v = Mathf.Clamp01(v);
-            if (v == 0f)
+            hue = Mathf.Clamp01(hue);
+            saturation = Mathf.Clamp01(saturation);
+            value = Mathf.Clamp01(value);
+            if (value == 0f)
             {
                 return color;
             }
-            if (s == 0f)
+            if (saturation == 0f)
             {
-                color.r = v;
-                color.g = v;
-                color.b = v;
+                color.r = value;
+                color.g = value;
+                color.b = value;
                 return color;
             }
 
-            int i = Mathf.FloorToInt(h*6);
-            float f = h*6 - i;
-            float p = v*(1f - s);
-            float q = v*(1f - f*s);
-            float t = v*(1f - (1f - f)*s);
+            int i = Mathf.FloorToInt(hue*6);
+            float f = hue*6 - i;
+            float p = value*(1f - saturation);
+            float q = value*(1f - f*saturation);
+            float t = value*(1f - (1f - f)*saturation);
 
             switch (i%6)
             {
                 case 0:
-                    color.r = v;
+                    color.r = value;
                     color.g = t;
                     color.b = p;
                     break;
                 case 1:
                     color.r = q;
-                    color.g = v;
+                    color.g = value;
                     color.b = p;
                     break;
                 case 2:
                     color.r = p;
-                    color.g = v;
+                    color.g = value;
                     color.b = t;
                     break;
                 case 3:
                     color.r = p;
                     color.g = q;
-                    color.b = v;
+                    color.b = value;
                     break;
                 case 4:
                     color.r = t;
                     color.g = p;
-                    color.b = v;
+                    color.b = value;
                     break;
                 case 5:
-                    color.r = v;
+                    color.r = value;
                     color.g = p;
                     color.b = q;
                     break;
@@ -129,41 +124,6 @@ namespace ProceduralToolkit
             g.SetKeys(new[] {new GradientColorKey(from, 0), new GradientColorKey(to, 1)},
                 new[] {new GradientAlphaKey(from.a, 0), new GradientAlphaKey(to.a, 1)});
             return g;
-        }
-
-        /// <summary>
-        /// Converts RGB color into hexadecimal representation
-        /// </summary>
-        public static string ToHex(this Color color)
-        {
-            return ((Color32) color).ToHex();
-        }
-
-        /// <summary>
-        /// Converts RGB color into hexadecimal representation
-        /// </summary>
-        public static string ToHex(this Color32 color32)
-        {
-            return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", color32.r, color32.g, color32.b, color32.a);
-        }
-
-        /// <summary>
-        /// Converts hexadecimal representation into RGB color
-        /// </summary>
-        public static Color FromHex(string hex)
-        {
-            var bytes = hex.Replace("#", "").ToBytes();
-            return new Color32(bytes[0], bytes[1], bytes[2], bytes[3]);
-        }
-
-        private static byte[] ToBytes(this string hex)
-        {
-            var bytes = new byte[hex.Length/2];
-            for (int i = 0; i < hex.Length; i += 2)
-            {
-                bytes[i/2] = System.Convert.ToByte(hex.Substring(i, 2), 16);
-            }
-            return bytes;
         }
 
         public static Color WithR(this Color color, float r)
