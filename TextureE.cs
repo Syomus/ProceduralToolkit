@@ -5,16 +5,6 @@ namespace ProceduralToolkit
 {
     public static class TextureE
     {
-        public static Texture2D whitePixel
-        {
-            get { return Pixel(Color.white); }
-        }
-
-        public static Texture2D blackPixel
-        {
-            get { return Pixel(Color.black); }
-        }
-
         public static Texture2D checker
         {
             get { return Checker(Color.white, Color.black); }

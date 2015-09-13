@@ -39,8 +39,8 @@ namespace ProceduralToolkit.Examples
         private void Awake()
         {
             bricksContainer = new GameObject("Bricks").transform;
-            brickTexture = TextureE.whitePixel;
-            brickTexture.Resize(brickWidth, brickHeight);
+            brickTexture = new Texture2D(brickWidth, brickHeight);
+            brickTexture.Clear(Color.white);
             brickSprite = Sprite.Create(brickTexture, new Rect(0, 0, brickWidth, brickHeight), new Vector2(0.5f, 0.5f));
             material = new PhysicsMaterial2D {name = "Bouncy", bounciness = 1, friction = 0};
             GeneratePaddle();
