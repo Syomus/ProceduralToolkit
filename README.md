@@ -18,13 +18,34 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 * MeshFilterExtension: Mesh saver.
 
 ## Examples
-* [Khrushchyovka](http://syomus.com/ProceduralToolkit/Khrushchyovka): a procedural building generator.
-* [ChairGenerator](http://syomus.com/ProceduralToolkit/ChairGenerator): a procedural chair generator.
-* [Boids](http://syomus.com/ProceduralToolkit/Boids): a single-mesh particle system with birds-like behaviour.
-* [Breakout](http://syomus.com/ProceduralToolkit/Breakout): a Breakout clone with procedurally generated levels.
-* [TerrainMesh](http://syomus.com/ProceduralToolkit/TerrainMesh): a simple terrain based on Perlin noise and coloured according to height.
-* [Mazes](http://syomus.com/ProceduralToolkit/Mazes): a maze generators.
-* [Primitives](http://syomus.com/ProceduralToolkit/Primitives): a demonstration of primitives.
+
+![Khrushchyovka](http://syomus.com/ProceduralToolkit/screenshot-khrushchyovka-500.jpg)
+
+[Khrushchyovka](http://syomus.com/ProceduralToolkit/Khrushchyovka): a procedural building generator.
+
+![ChairGenerator](http://syomus.com/ProceduralToolkit/screenshot-chair-500.jpg)
+
+[ChairGenerator](http://syomus.com/ProceduralToolkit/ChairGenerator): a procedural chair generator.
+
+![Boids](http://syomus.com/ProceduralToolkit/screenshot-boids-500.jpg)
+
+[Boids](http://syomus.com/ProceduralToolkit/Boids): a single-mesh particle system with birds-like behaviour.
+
+![Breakout](http://syomus.com/ProceduralToolkit/screenshot-breakout-500.jpg)
+
+[Breakout](http://syomus.com/ProceduralToolkit/Breakout): a Breakout clone with procedurally generated levels.
+
+![TerrainMesh](http://syomus.com/ProceduralToolkit/screenshot-terrain-500.jpg)
+
+[TerrainMesh](http://syomus.com/ProceduralToolkit/TerrainMesh): a simple terrain based on Perlin noise and coloured according to height.
+
+![Mazes](http://syomus.com/ProceduralToolkit/screenshot-mazes-500.jpg)
+
+[Mazes](http://syomus.com/ProceduralToolkit/Mazes): a maze generators.
+
+![Primitives](http://syomus.com/ProceduralToolkit/screenshot-primitives-500.jpg)
+
+[Primitives](http://syomus.com/ProceduralToolkit/Primitives): a demonstration of primitives.
 
 ## Links
 * [GitHub](https://github.com/Syomus/ProceduralToolkit)
