@@ -29,6 +29,19 @@ namespace ProceduralToolkit
             return new Vector3(radius*Mathf.Sin(angle), 0, radius*Mathf.Cos(angle));
         }
 
+        public static List<Vector3> PointsOnCircle3(float radius, int segments)
+        {
+            var segmentAngle = Mathf.PI*2/segments;
+            var currentAngle = 0f;
+            var ring = new List<Vector3>(segments);
+            for (var i = 0; i < segments; i++)
+            {
+                ring.Add(PointOnCircle3(radius, currentAngle));
+                currentAngle -= segmentAngle;
+            }
+            return ring;
+        }
+
         /// <summary>
         /// Returns point on sphere in geographic coordinate system
         /// </summary>
