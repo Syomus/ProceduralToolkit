@@ -58,24 +58,6 @@ namespace ProceduralToolkit
             get { return Datasets.alphanumerics.GetRandom(16); }
         }
 
-        public static MeshDraft meshDraft
-        {
-            get
-            {
-                var draft = new MeshDraft();
-                for (int i = 0; i < 100; i++)
-                {
-                    var v0 = Random.onUnitSphere;
-                    var v1 = Random.onUnitSphere;
-                    var v2 = Random.onUnitSphere;
-                    var v3 = Random.onUnitSphere;
-                    draft.Add(MeshE.TriangleDraft(v0, v1, v2));
-                    draft.Add(MeshE.TriangleDraft(v1, v2, v3));
-                }
-                return draft;
-            }
-        }
-
         /// <summary>
         /// Returns a random element from list
         /// </summary>
