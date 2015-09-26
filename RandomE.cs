@@ -172,9 +172,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random character from string
         /// </summary>
+        public static char GetRandom(this string chars)
+        {
+            if (string.IsNullOrEmpty(chars))
+            {
+                Debug.LogError("Empty string");
+                return default(char);
+            }
+            return chars[Random.Range(0, chars.Length)];
+        }
+
+        /// <summary>
+        /// Returns a random string consisting of characters from that string
+        /// </summary>
         public static string GetRandom(this string chars, int length)
         {
-            var randomString = new StringBuilder();
+            if (string.IsNullOrEmpty(chars))
+            {
+                Debug.LogError("Empty string");
+                return default(string);
+            }
+            var randomString = new StringBuilder(length);
             for (int i = 0; i < length; i++)
             {
                 randomString.Append(chars[Random.Range(0, chars.Length)]);
