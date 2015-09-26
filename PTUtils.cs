@@ -29,10 +29,15 @@ namespace ProceduralToolkit
             return new Vector3(radius*Mathf.Sin(angle), 0, radius*Mathf.Cos(angle));
         }
 
+        /// <summary>
+        /// Returns list of points on circle in the XZ plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="segments">Number of circle segments</param>
         public static List<Vector3> PointsOnCircle3(float radius, int segments)
         {
-            var segmentAngle = Mathf.PI*2/segments;
-            var currentAngle = 0f;
+            float segmentAngle = Mathf.PI*2/segments;
+            float currentAngle = 0f;
             var ring = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
@@ -55,6 +60,12 @@ namespace ProceduralToolkit
                 radius*Mathf.Cos(longitude)*Mathf.Cos(latitude));
         }
 
+        /// <summary>
+        /// Generic Bresenham line drawer
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
+        /// </remarks>
         public static void BresenhamLine(int x0, int y0, int x1, int y1, Action<int, int> draw)
         {
             bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
@@ -85,6 +96,12 @@ namespace ProceduralToolkit
             }
         }
 
+        /// <summary>
+        /// Generic Bresenham circle drawer
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Midpoint_circle_algorithm
+        /// </remarks>
         public static void BresenhamCircle(int x0, int y0, int radius, Action<int, int> draw)
         {
             int x = radius;
@@ -113,6 +130,12 @@ namespace ProceduralToolkit
             }
         }
 
+        /// <summary>
+        /// Generic Wu line drawer
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
+        /// </remarks>
         public static void WuLine(int x0, int y0, int x1, int y1, Action<int, int, float> draw)
         {
             bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
@@ -191,11 +214,27 @@ namespace ProceduralToolkit
             right = temp;
         }
 
-        public static Dictionary<T, int> Knapsack<T>(Dictionary<T, float> set, float remainder,
-            Dictionary<T, int> knapsack = null, int startIndex = 0)
+        /// <summary>
+        /// Knapsack problem solver for items with equal value
+        /// </summary>
+        /// <typeparam name="T">Item identificator</typeparam>
+        /// <param name="set">
+        /// Set of items where key <typeparamref name="T"/> is item identificator and value is item weight</param>
+        /// <param name="capacity">Maximum weight</param>
+        /// <param name="knapsack">Pre-filled knapsack</param>
+        /// <returns>
+        /// Filled knapsack where values are number of items of type key.
+        /// Tends to overload knapsack: fills remainder with one smallest item.</returns>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Knapsack_problem
+        /// </remarks>
+        public static Dictionary<T, int> Knapsack<T>(Dictionary<T, float> set, float capacity,
+            Dictionary<T, int> knapsack = null)
         {
             var keys = new List<T>(set.Keys);
+            // Sort keys by their weights in descending order
             keys.Sort((a, b) => -set[a].CompareTo(set[b]));
+
             if (knapsack == null)
             {
                 knapsack = new Dictionary<T, int>();
@@ -204,27 +243,36 @@ namespace ProceduralToolkit
                     knapsack[key] = 0;
                 }
             }
+            return Knapsack(set, keys, capacity, knapsack, 0);
+        }
 
-            var smallestKey = keys[keys.Count - 1];
+        private static Dictionary<T, int> Knapsack<T>(Dictionary<T, float> set, List<T> keys, float remainder,
+            Dictionary<T, int> knapsack, int startIndex)
+        {
+            T smallestKey = keys[keys.Count - 1];
             if (remainder < set[smallestKey])
             {
                 knapsack[smallestKey] = 1;
                 return knapsack;
             }
+            // Cycle through items and try to put them in knapsack
             for (var i = startIndex; i < keys.Count; i++)
             {
-                var key = keys[i];
-                var value = set[key];
-                knapsack[key] += (int) (remainder/value);
-                remainder %= value;
+                T key = keys[i];
+                float weight = set[key];
+                // Larger items won't fit, smaller items will fill as much space as they can
+                knapsack[key] += (int) (remainder/weight);
+                remainder %= weight;
             }
             if (remainder > 0)
             {
+                // Throw out largest item and try again
                 for (var i = 0; i < keys.Count; i++)
                 {
-                    var key = keys[i];
+                    T key = keys[i];
                     if (knapsack[key] != 0)
                     {
+                        // Already tried every combination, return as is
                         if (key.Equals(smallestKey))
                         {
                             return knapsack;
@@ -235,7 +283,7 @@ namespace ProceduralToolkit
                         break;
                     }
                 }
-                knapsack = Knapsack(set, remainder, knapsack, startIndex);
+                knapsack = Knapsack(set, keys, remainder, knapsack, startIndex);
             }
             return knapsack;
         }
