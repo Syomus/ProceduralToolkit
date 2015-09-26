@@ -121,7 +121,7 @@ namespace ProceduralToolkit.Examples
 
             draft.Add(Roof(corners[0], corners[1], corners[2], corners[3], Vector3.up*height));
 
-            var basement = MeshE.QuadDraft(corners[0], corners[1], corners[2], corners[3]);
+            var basement = MeshDraft.Quad(corners[0], corners[1], corners[2], corners[3]);
             basement.Paint(roofColor);
             draft.Add(basement);
 

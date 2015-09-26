@@ -6,7 +6,7 @@ namespace ProceduralToolkit
     /// <summary>
     /// Helper class for procedural mesh generation
     /// </summary>
-    public class MeshDraft
+    public partial class MeshDraft
     {
         public string name = "";
         public List<Vector3> vertices = new List<Vector3>();

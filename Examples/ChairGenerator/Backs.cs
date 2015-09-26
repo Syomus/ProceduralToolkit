@@ -6,7 +6,7 @@ namespace ProceduralToolkit.Examples
     {
         public static MeshDraft Back0(Vector3 center, float width, float length, float height)
         {
-            var draft = MeshE.HexahedronDraft(width, length, height);
+            var draft = MeshDraft.Hexahedron(width, length, height);
             draft.Move(center + Vector3.up*height/2);
             return draft;
         }
@@ -27,11 +27,11 @@ namespace ProceduralToolkit.Examples
             Vector3 startPosition = Vector3.up*(-height/2 + plankStep - plankHeight/2 - offeset);
             for (int i = 0; i < plankCount; i++)
             {
-                var plank = MeshE.HexahedronDraft(plankWidth, length, plankHeight);
+                var plank = MeshDraft.Hexahedron(plankWidth, length, plankHeight);
                 plank.Move(startPosition + Vector3.up*i*plankStep);
                 draft.Add(plank);
             }
-            var rod = MeshE.HexahedronDraft(length, length, height);
+            var rod = MeshDraft.Hexahedron(length, length, height);
             rod.Move(Vector3.left*(width/2 - length/2));
             draft.Add(rod);
             rod.Move(Vector3.right*(width - length));
@@ -50,7 +50,7 @@ namespace ProceduralToolkit.Examples
             float upperRodHeight = Mathf.Min(height*3/4, length*Random.Range(1, 4));
             float rodHeight = height - upperRodHeight;
 
-            var leftRod = MeshE.HexahedronDraft(length, length, rodHeight);
+            var leftRod = MeshDraft.Hexahedron(length, length, rodHeight);
             leftRod.Move(Vector3.left*(width - length)/2 + Vector3.down*upperRodHeight/2);
             draft.Add(leftRod);
             leftRod.Move(Vector3.right*(width - length));
@@ -60,11 +60,11 @@ namespace ProceduralToolkit.Examples
                                     Vector3.down*upperRodHeight/2;
             for (int i = 0; i < rodCount; i++)
             {
-                var rod = MeshE.HexahedronDraft(rodWidth, length, rodHeight);
+                var rod = MeshDraft.Hexahedron(rodWidth, length, rodHeight);
                 rod.Move(startPosition + Vector3.right*i*(rodWidth + interval));
                 draft.Add(rod);
             }
-            var upperRod = MeshE.HexahedronDraft(width, length, upperRodHeight);
+            var upperRod = MeshDraft.Hexahedron(width, length, upperRodHeight);
             upperRod.Move(Vector3.up*rodHeight/2);
             draft.Add(upperRod);
             draft.Move(center + Vector3.up*height/2);

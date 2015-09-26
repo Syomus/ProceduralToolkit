@@ -18,7 +18,7 @@ namespace ProceduralToolkit.Examples
 
         public static MeshDraft FlatRoof(Vector3 a, Vector3 b, Vector3 c, Vector3 d)
         {
-            var draft = MeshE.QuadDraft(a, d, c, b);
+            var draft = MeshDraft.Quad(a, d, c, b);
             draft.Paint(Khrushchyovka.roofColor);
             return draft;
         }
@@ -28,7 +28,7 @@ namespace ProceduralToolkit.Examples
             Vector3 width = b - a;
             Vector3 length = c - b;
             Vector3 roofHeight = Vector3.up*FlatOverhangRoofHeight;
-            var draft = MeshE.HexahedronDraft(width + width.normalized, length + length.normalized, roofHeight);
+            var draft = MeshDraft.Hexahedron(width + width.normalized, length + length.normalized, roofHeight);
             draft.Move((a + c)/2 + roofHeight/2);
             draft.Paint(Khrushchyovka.roofColor);
             return draft;
@@ -39,10 +39,10 @@ namespace ProceduralToolkit.Examples
             Vector3 ridgeHeight = Vector3.up*GabledRoofHeight;
             Vector3 ridge0 = (a + d)/2 + ridgeHeight;
             Vector3 ridge1 = (b + c)/2 + ridgeHeight;
-            var draft = MeshE.QuadDraft(a, ridge0, ridge1, b);
-            draft.Add(MeshE.TriangleDraft(b, ridge1, c));
-            draft.Add(MeshE.QuadDraft(c, ridge1, ridge0, d));
-            draft.Add(MeshE.TriangleDraft(d, ridge0, a));
+            var draft = MeshDraft.Quad(a, ridge0, ridge1, b);
+            draft.Add(MeshDraft.Triangle(b, ridge1, c));
+            draft.Add(MeshDraft.Quad(c, ridge1, ridge0, d));
+            draft.Add(MeshDraft.Triangle(d, ridge0, a));
             draft.Paint(Khrushchyovka.roofColor);
             return draft;
         }
@@ -53,10 +53,10 @@ namespace ProceduralToolkit.Examples
             Vector3 ridgeOffset = (b - a).normalized*2;
             Vector3 ridge0 = (a + d)/2 + ridgeHeight + ridgeOffset;
             Vector3 ridge1 = (b + c)/2 + ridgeHeight - ridgeOffset;
-            var draft = MeshE.QuadDraft(a, ridge0, ridge1, b);
-            draft.Add(MeshE.TriangleDraft(b, ridge1, c));
-            draft.Add(MeshE.QuadDraft(c, ridge1, ridge0, d));
-            draft.Add(MeshE.TriangleDraft(d, ridge0, a));
+            var draft = MeshDraft.Quad(a, ridge0, ridge1, b);
+            draft.Add(MeshDraft.Triangle(b, ridge1, c));
+            draft.Add(MeshDraft.Quad(c, ridge1, ridge0, d));
+            draft.Add(MeshDraft.Triangle(d, ridge0, a));
             draft.Paint(Khrushchyovka.roofColor);
             return draft;
         }

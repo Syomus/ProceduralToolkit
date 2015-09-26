@@ -74,7 +74,7 @@ namespace ProceduralToolkit.Examples
 
         public static MeshDraft Wall(Vector3 origin, Vector3 width, Vector3 height)
         {
-            MeshDraft draft = MeshE.QuadDraft(origin, width, height);
+            MeshDraft draft = MeshDraft.Quad(origin, width, height);
             draft.Paint(Khrushchyovka.wallColor);
             return draft;
         }
@@ -95,7 +95,7 @@ namespace ProceduralToolkit.Examples
 
             var draft = PerforatedQuad(origin, width, height, frameOrigin, frameWidth, frameHeight);
 
-            var frame = MeshE.HexahedronDraft(frameWidth, -frameDepth, frameHeight, Directions.All & ~Directions.ZAxis);
+            var frame = MeshDraft.Hexahedron(frameWidth, -frameDepth, frameHeight, Directions.All & ~Directions.ZAxis);
             frame.Move(frameOrigin + frameWidth/2 + frameHeight/2 + frameDepth/2);
             draft.Add(frame);
 
@@ -115,7 +115,7 @@ namespace ProceduralToolkit.Examples
             Vector3 balconyDepth = normal*BalconyDepth;
 
             var draft = new MeshDraft();
-            var balconyOuter = MeshE.HexahedronDraft(balconyWidth, balconyDepth, balconyHeight,
+            var balconyOuter = MeshDraft.Hexahedron(balconyWidth, balconyDepth, balconyHeight,
                 Directions.All & ~Directions.Up & ~Directions.Back);
             balconyOuter.FlipFaces();
             Vector3 balconyCenter = origin + width/2 + balconyDepth/2 + balconyHeight/2;
@@ -128,7 +128,7 @@ namespace ProceduralToolkit.Examples
             Vector3 innerHeight = balconyHeight - innerHeightOffset;
             Vector3 innerDepthOffset = normal*BalconyThickness;
             Vector3 innerDepth = balconyDepth - innerDepthOffset;
-            var balconyInner = MeshE.HexahedronDraft(innerWidth, innerDepth, innerHeight,
+            var balconyInner = MeshDraft.Hexahedron(innerWidth, innerDepth, innerHeight,
                 Directions.All & ~Directions.Up & ~Directions.Back);
             balconyInner.Move(balconyCenter - innerDepthOffset/2 + innerHeightOffset/2);
 
@@ -161,7 +161,7 @@ namespace ProceduralToolkit.Examples
                 origin + windowWidthOffset + doorWidth + innerHeightOffset
             };
 
-            var panel = MeshE.TriangleStripDraft(new List<Vector3>
+            var panel = MeshDraft.TriangleStrip(new List<Vector3>
             {
                 outerFrame[0],
                 origin,
@@ -183,7 +183,7 @@ namespace ProceduralToolkit.Examples
             {
                 innerFrame.Add(vertex - windowDepth);
             }
-            var frame = MeshE.FlatBandDraft(innerFrame, outerFrame);
+            var frame = MeshDraft.FlatBand(innerFrame, outerFrame);
             draft.Add(frame);
 
             draft.Paint(Khrushchyovka.wallColor);
@@ -201,7 +201,7 @@ namespace ProceduralToolkit.Examples
             Vector3 balconyDepth = Vector3.Cross(height, width).normalized*BalconyDepth;
 
             var draft = new MeshDraft();
-            var balcony = MeshE.HexahedronDraft(balconyWidth, balconyDepth, balconyHeight,
+            var balcony = MeshDraft.Hexahedron(balconyWidth, balconyDepth, balconyHeight,
                 Directions.All & ~Directions.Up & ~Directions.Back);
             balcony.FlipFaces();
             balcony.Move(origin + width/2 + balconyDepth/2 + balconyHeight/2);
@@ -212,7 +212,7 @@ namespace ProceduralToolkit.Examples
             Vector3 roof1 = roof0 + balconyWidth;
             Vector3 roof2 = roof1 + balconyDepth;
             Vector3 roof3 = roof0 + balconyDepth;
-            var roof = MeshE.QuadDraft(roof0, roof1, roof2, roof3);
+            var roof = MeshDraft.Quad(roof0, roof1, roof2, roof3);
             roof.Paint(Khrushchyovka.roofColor);
             draft.Add(roof);
 
@@ -236,7 +236,7 @@ namespace ProceduralToolkit.Examples
             var draft = Bracket(origin, width, height, doorOrigin, doorWidth, doorHeight);
             draft.Paint(Khrushchyovka.wallColor);
 
-            var door = MeshE.QuadDraft(doorOrigin, doorWidth, doorHeight);
+            var door = MeshDraft.Quad(doorOrigin, doorWidth, doorHeight);
             door.Paint(Khrushchyovka.doorColor);
             draft.Add(door);
             return draft;
@@ -247,7 +247,7 @@ namespace ProceduralToolkit.Examples
             var draft = Entrance(origin, width, height);
             Vector3 roofLength = Vector3.Cross(width, height).normalized*EntranceRoofLength;
             Vector3 roofHeight = Vector3.up*EntranceRoofHeight;
-            var roof = MeshE.HexahedronDraft(width, roofLength, roofHeight);
+            var roof = MeshDraft.Hexahedron(width, roofLength, roofHeight);
             roof.Move(origin + width/2 - roofLength/2 + height - roofHeight/2);
             roof.Paint(Khrushchyovka.roofColor);
             draft.Add(roof);
@@ -265,7 +265,7 @@ namespace ProceduralToolkit.Examples
 
         public static MeshDraft Socle(Vector3 origin, Vector3 width, Vector3 height)
         {
-            var draft = MeshE.QuadDraft(origin, width, height);
+            var draft = MeshDraft.Quad(origin, width, height);
             draft.Paint(Khrushchyovka.socleColor);
             return draft;
         }
@@ -280,13 +280,13 @@ namespace ProceduralToolkit.Examples
 
             var draft = PerforatedQuad(origin, width, height, windowOrigin, windowWidth, windowHeigth);
 
-            var frame = MeshE.HexahedronDraft(windowWidth, -windowDepth, windowHeigth,
+            var frame = MeshDraft.Hexahedron(windowWidth, -windowDepth, windowHeigth,
                 Directions.All & ~Directions.ZAxis);
             frame.Move(windowOrigin + windowWidth/2 + windowHeigth/2 + windowDepth/2);
             draft.Add(frame);
             draft.Paint(Khrushchyovka.socleColor);
 
-            var window = MeshE.QuadDraft(windowOrigin + windowDepth/2, windowWidth, windowHeigth);
+            var window = MeshDraft.Quad(windowOrigin + windowDepth/2, windowWidth, windowHeigth);
             window.Paint(Khrushchyovka.socleWindowColor);
             draft.Add(window);
 
@@ -305,7 +305,7 @@ namespace ProceduralToolkit.Examples
             var draft = PerforatedQuad(origin, width, height, holeOrigin, holeWidth, holeHeight);
             draft.Paint(Khrushchyovka.wallColor);
 
-            var hexahedron = MeshE.HexahedronDraft(holeWidth, holeDepth, holeHeight, Directions.All & ~Directions.Back);
+            var hexahedron = MeshDraft.Hexahedron(holeWidth, holeDepth, holeHeight, Directions.All & ~Directions.Back);
             hexahedron.Move(center + holeDepth/2);
             hexahedron.FlipFaces();
             hexahedron.Paint(Khrushchyovka.roofColor);
@@ -358,7 +358,7 @@ namespace ProceduralToolkit.Examples
         private static MeshDraft Bracket(Vector3 origin, Vector3 width, Vector3 length, Vector3 innerOrigin,
             Vector3 innerWidth, Vector3 innerLength)
         {
-            return MeshE.TriangleStripDraft(new List<Vector3>
+            return MeshDraft.TriangleStrip(new List<Vector3>
             {
                 innerOrigin,
                 origin,
@@ -386,7 +386,7 @@ namespace ProceduralToolkit.Examples
             Vector3 startPosition = origin + heigth/2 + frameLength/2;
             for (int i = 0; i < rodCount; i++)
             {
-                var frame = MeshE.HexahedronDraft(frameWidth*2, frameLength, heigth - frameHeight*2,
+                var frame = MeshDraft.Hexahedron(frameWidth*2, frameLength, heigth - frameHeight*2,
                     Directions.Left | Directions.Back | Directions.Right);
                 frame.Move(startPosition + right*(i + 1)*interval);
                 draft.Add(frame);
@@ -398,14 +398,14 @@ namespace ProceduralToolkit.Examples
             var window = PerforatedQuad(origin, width, heigth, windowCorner, windowWidth, windowHeigth);
             draft.Add(window);
 
-            var hole = MeshE.HexahedronDraft(windowWidth, frameLength, windowHeigth, Directions.All & ~Directions.ZAxis);
+            var hole = MeshDraft.Hexahedron(windowWidth, frameLength, windowHeigth, Directions.All & ~Directions.ZAxis);
             hole.Move(startPosition + width/2);
             hole.FlipFaces();
             draft.Add(hole);
 
             draft.Paint(Khrushchyovka.frameColor);
 
-            var glass = MeshE.QuadDraft(windowCorner + frameLength, windowWidth, windowHeigth);
+            var glass = MeshDraft.Quad(windowCorner + frameLength, windowWidth, windowHeigth);
             glass.Paint(Khrushchyovka.glassColor);
             draft.Add(glass);
 

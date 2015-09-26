@@ -19,7 +19,7 @@ namespace ProceduralToolkit.Examples
 
         private void Start()
         {
-            draft = MeshE.PlaneDraft(xSize, zSize, xSegments, zSegments);
+            draft = MeshDraft.Plane(xSize, zSize, xSegments, zSegments);
             draft.Move(Vector3.left*xSize/2 + Vector3.back*zSize/2);
             Generate();
         }

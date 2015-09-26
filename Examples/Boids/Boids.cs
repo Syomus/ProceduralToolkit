@@ -48,7 +48,7 @@ namespace ProceduralToolkit.Examples
 
         private void Awake()
         {
-            template = MeshE.TetrahedronDraft(0.3f);
+            template = MeshDraft.Tetrahedron(0.3f);
 
             swarmCount = Mathf.Min(65000/template.vertices.Count, swarmCount);
             simulationUpdate = Mathf.RoundToInt(swarmCount*simulationPercent);
