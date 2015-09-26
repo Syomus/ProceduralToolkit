@@ -1,7 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit
 {
@@ -10,6 +8,14 @@ namespace ProceduralToolkit
     /// </summary>
     public static class RandomE
     {
+        /// <summary>
+        /// Returns a random point on a circle with radius 1
+        /// </summary>
+        public static Vector2 onUnitCircle
+        {
+            get { return PTUtils.PointOnCircle2(1, Random.Range(0, 2*Mathf.PI)); }
+        }
+
         /// <summary>
         /// Returns a random color between black [inclusive] and white [inclusive]
         /// </summary>
