@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ProceduralToolkit
 {
@@ -14,6 +15,22 @@ namespace ProceduralToolkit
         public static Vector2 onUnitCircle
         {
             get { return PTUtils.PointOnCircle2(1, Random.Range(0, 2*Mathf.PI)); }
+        }
+
+        /// <summary>
+        /// Returns a random point inside a square with side lengths 1
+        /// </summary>
+        public static Vector2 insideUnitSquare
+        {
+            get { return new Vector2(Random.value, Random.value); }
+        }
+
+        /// <summary>
+        /// Returns a random point on a perimeter of square with side lengths 1
+        /// </summary>
+        public static Vector2 onUnitSquare
+        {
+            get { return PointOnSquare(1, 1); }
         }
 
         /// <summary>
@@ -157,7 +174,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static string GetRandom(this string chars, int length)
         {
-            var randomString = new System.Text.StringBuilder();
+            var randomString = new StringBuilder();
             for (int i = 0; i < length; i++)
             {
                 randomString.Append(chars[Random.Range(0, chars.Length)]);
@@ -213,6 +230,29 @@ namespace ProceduralToolkit
         public static bool Chance(float percent)
         {
             return Random.value < percent;
+        }
+
+        /// <summary>
+        /// Returns a random point on a perimeter of square
+        /// </summary>
+        public static Vector2 PointOnSquare(float a, float b)
+        {
+            float value = Random.value*(2*a + 2*b);
+            if (value < a)
+            {
+                return new Vector2(value, 0);
+            }
+            value -= a;
+            if (value < b)
+            {
+                return new Vector2(a, value);
+            }
+            value -= b;
+            if (value < a)
+            {
+                return new Vector2(value, b);
+            }
+            return new Vector2(0, value - a);
         }
 
         /// <summary>
