@@ -3,7 +3,7 @@
     /// <summary>
     /// Various data
     /// </summary>
-    public static class Datasets
+    public static partial class Datasets
     {
         public static readonly string lowercase = "abcdefghijklmnopqrstuvwxyz";
         public static readonly string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

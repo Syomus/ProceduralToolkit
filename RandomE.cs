@@ -89,6 +89,31 @@ namespace ProceduralToolkit
             get { return Datasets.alphanumerics.GetRandom(16); }
         }
 
+        public static string name
+        {
+            get { return Chance(0.5f) ? femaleName : maleName; }
+        }
+
+        public static string femaleName
+        {
+            get { return Datasets.femaleNames.GetRandom(); }
+        }
+
+        public static string maleName
+        {
+            get { return Datasets.maleNames.GetRandom(); }
+        }
+
+        public static string lastName
+        {
+            get { return Datasets.lastNames.GetRandom(); }
+        }
+
+        public static string fullName
+        {
+            get { return string.Format("{0} {1}", name, lastName); }
+        }
+
         /// <summary>
         /// Returns a random element from list
         /// </summary>
