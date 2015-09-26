@@ -323,11 +323,5 @@ namespace ProceduralToolkit.Examples
             RoofConstructor roofConstructor = roofConstructors.GetRandom();
             return roofConstructor(a + height, b + height, c + height, d + height);
         }
-
-        private void OnGUI()
-        {
-            GUI.color = Color.black;
-            GUI.Label(new Rect(20, 20, Screen.width, Screen.height), "Click to generate new khrushchyovka");
-        }
     }
 }
