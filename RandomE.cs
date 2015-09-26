@@ -34,6 +34,14 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns a random point inside a cube with side lengths 1
+        /// </summary>
+        public static Vector3 insideUnitCube
+        {
+            get { return new Vector3(Random.value, Random.value, Random.value); }
+        }
+
+        /// <summary>
         /// Returns a random color between black [inclusive] and white [inclusive]
         /// </summary>
         public static Color color
