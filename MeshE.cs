@@ -391,7 +391,7 @@ namespace ProceduralToolkit
 
         public static MeshDraft OctahedronDraft(float radius)
         {
-            var draft = BiPyramidDraft(1, 4, 1);
+            var draft = BiPyramidDraft(radius, 4, radius);
             draft.name = "Octahedron";
             return draft;
         }
