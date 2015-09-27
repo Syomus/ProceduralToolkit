@@ -46,6 +46,9 @@ namespace ProceduralToolkit
             };
         }
 
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
         public static MeshDraft TriangleFan(List<Vector3> vertices)
         {
             var draft = new MeshDraft
@@ -71,6 +74,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
         public static MeshDraft TriangleStrip(List<Vector3> vertices)
         {
             var draft = new MeshDraft
@@ -262,11 +268,17 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs hexahedron aka cube
+        /// </summary>
         public static MeshDraft Hexahedron(float width, float length, float height)
         {
             return Hexahedron(Vector3.right*width, Vector3.forward*length, Vector3.up*height);
         }
 
+        /// <summary>
+        /// Constructs hexahedron aka cube
+        /// </summary>
         public static MeshDraft Hexahedron(Vector3 width, Vector3 length, Vector3 height)
         {
             Vector3 corner0 = -width/2 - length/2 - height/2;
@@ -282,6 +294,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs partial hexahedron aka cube with specified faces
+        /// </summary>
         public static MeshDraft Hexahedron(Vector3 width, Vector3 length, Vector3 height, Directions parts)
         {
             Vector3 corner0 = -width/2 - length/2 - height/2;

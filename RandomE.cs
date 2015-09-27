@@ -5,7 +5,7 @@ using System.Text;
 namespace ProceduralToolkit
 {
     /// <summary>
-    /// Random extensions for arrays, value generators
+    /// Class for generating random data. Contains extensions for arrays and other classes.
     /// </summary>
     public static class RandomE
     {
@@ -89,26 +89,41 @@ namespace ProceduralToolkit
             get { return Datasets.alphanumerics.GetRandom(16); }
         }
 
+        /// <summary>
+        /// Returns a random first name
+        /// </summary>
         public static string name
         {
             get { return Chance(0.5f) ? femaleName : maleName; }
         }
 
+        /// <summary>
+        /// Returns a random female name
+        /// </summary>
         public static string femaleName
         {
             get { return Datasets.femaleNames.GetRandom(); }
         }
 
+        /// <summary>
+        /// Returns a random male name
+        /// </summary>
         public static string maleName
         {
             get { return Datasets.maleNames.GetRandom(); }
         }
 
+        /// <summary>
+        /// Returns a random last name
+        /// </summary>
         public static string lastName
         {
             get { return Datasets.lastNames.GetRandom(); }
         }
 
+        /// <summary>
+        /// Returns a random full name in format "[First name] [Last name]"
+        /// </summary>
         public static string fullName
         {
             get { return string.Format("{0} {1}", name, lastName); }
@@ -148,6 +163,9 @@ namespace ProceduralToolkit
             return new List<T>(items) {item1, item2}.GetRandom();
         }
 
+        /// <summary>
+        /// Returns a random value from dictionary
+        /// </summary>
         public static TValue GetRandom<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
         {
             var keys = dictionary.Keys;
@@ -233,6 +251,9 @@ namespace ProceduralToolkit
             return randomString.ToString();
         }
 
+        /// <summary>
+        /// Returns a random element from list of elements and removes it from list
+        /// </summary>
         public static T PopRandom<T>(this List<T> items)
         {
             if (items.Count == 0)
@@ -331,6 +352,10 @@ namespace ProceduralToolkit
                 Random.Range(min.w, max.w));
         }
 
+        /// <summary>
+        /// Returns a random float number between and <paramref name="min"/> [inclusive] and <paramref name="max"/> [inclusive].
+        /// Ensures that there will be only specified amount of variants.
+        /// </summary>
         public static float Range(float min, float max, int variants)
         {
             if (variants < 2)
@@ -341,17 +366,29 @@ namespace ProceduralToolkit
             return Mathf.Lerp(min, max, Random.Range(0, variants)/(variants - 1f));
         }
 
+        /// <summary>
+        /// Returns a random vector between and <paramref name="min"/> [inclusive] and <paramref name="max"/> [inclusive].
+        /// Ensures that there will be only specified amount of variants.
+        /// </summary>
         public static Vector2 Range(Vector2 min, Vector2 max, int variants)
         {
             return new Vector2(Range(min.x, max.x, variants), Range(min.y, max.y, variants));
         }
 
+        /// <summary>
+        /// Returns a random vector between and <paramref name="min"/> [inclusive] and <paramref name="max"/> [inclusive].
+        /// Ensures that there will be only specified amount of variants.
+        /// </summary>
         public static Vector3 Range(Vector3 min, Vector3 max, int variants)
         {
             return new Vector3(Range(min.x, max.x, variants), Range(min.y, max.y, variants),
                 Range(min.z, max.z, variants));
         }
 
+        /// <summary>
+        /// Returns a random vector between and <paramref name="min"/> [inclusive] and <paramref name="max"/> [inclusive].
+        /// Ensures that there will be only specified amount of variants.
+        /// </summary>
         public static Vector4 Range(Vector4 min, Vector4 max, int variants)
         {
             return new Vector4(Range(min.x, max.x, variants), Range(min.y, max.y, variants),
