@@ -50,11 +50,5 @@ namespace ProceduralToolkit.Examples
 
             GetComponent<MeshFilter>().mesh = draft.ToMesh();
         }
-
-        private void OnGUI()
-        {
-            GUI.color = Color.black;
-            GUI.Label(new Rect(20, 20, Screen.width, Screen.height), "Click to generate new terrain");
-        }
     }
 }

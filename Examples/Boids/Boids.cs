@@ -209,11 +209,5 @@ namespace ProceduralToolkit.Examples
             mesh.vertices = draft.vertices.ToArray();
             mesh.RecalculateNormals();
         }
-
-        private void OnGUI()
-        {
-            GUI.color = Color.black;
-            GUI.Label(new Rect(20, 20, Screen.width, Screen.height), "Click to restart simulation");
-        }
     }
 }

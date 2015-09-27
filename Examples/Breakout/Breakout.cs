@@ -251,12 +251,5 @@ namespace ProceduralToolkit.Examples
             var direction = Random.Range(-0.5f, 0.5f)*Vector2.right + Vector2.up;
             ball.GetComponent<Rigidbody2D>().AddForce(direction*ballForce);
         }
-
-        private void OnGUI()
-        {
-            GUI.color = Color.black;
-            GUI.Label(new Rect(20, 20, Screen.width, Screen.height),
-                "Click to generate new level. Use A/D or Left/Right to move.");
-        }
     }
 }
