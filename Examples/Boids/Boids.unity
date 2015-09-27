@@ -381,13 +381,13 @@ MonoBehaviour:
   worldSphere: 15
   maxSpeed: 10
   cohesionRadius: 5
-  maxBoids: 5
   separationDistance: 3
   cohesionCoefficient: 1
   alignmentCoefficient: 5
   separationCoefficient: 10
-  simulationPercent: .00999999978
   swarmCount: 2000
+  maxBoids: 5
+  simulationPercent: .00999999978
 --- !u!4 &1901060442
 Transform:
   m_ObjectHideFlags: 0

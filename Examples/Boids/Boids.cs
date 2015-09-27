@@ -11,27 +11,41 @@ namespace ProceduralToolkit.Examples
         public Vector3 velocity;
         public Vector3 cohesion;
         public Vector3 separation;
+        public Vector3 alignment;
     }
 
     /// <summary>
-    /// A single-mesh particle system with birds-like behaviour
-    /// http://en.wikipedia.org/wiki/Boids
+    /// A single-mesh particle system with birds-like behaviour 
     /// </summary>
+    /// <remarks>
+    /// http://en.wikipedia.org/wiki/Boids
+    /// </remarks>
     [RequireComponent(typeof (MeshRenderer), typeof (MeshFilter))]
     public class Boids : MonoBehaviour
     {
+        [Header("Spawn area")]
         public Vector3 anchor = Vector3.zero;
-        public float spawnSphere = 20;
-        public float worldSphere = 25;
+        public float spawnSphere = 10;
+        public float worldSphere = 15;
+
+        [Header("Swarm config")]
         public int maxSpeed = 10;
         public float cohesionRadius = 5;
-        public int maxBoids = 5;
         public float separationDistance = 3;
         public float cohesionCoefficient = 1;
         public float alignmentCoefficient = 5;
         public float separationCoefficient = 10;
+        public int swarmCount = 2000;
+
+        /// <summary>
+        /// Number of neighbours participating in calculations
+        /// </summary>
+        [Header("Optimisations")]
+        public int maxBoids = 5;
+        /// <summary>
+        /// Percentage of swarm simulated in each frame
+        /// </summary>
         public float simulationPercent = 0.01f;
-        public int swarmCount = 5000;
 
         private List<Boid> boids = new List<Boid>();
         private MeshDraft template;
@@ -40,7 +54,6 @@ namespace ProceduralToolkit.Examples
         private int simulationCount;
         private List<Boid> neighbours = new List<Boid>();
         private int separationCount;
-        private Vector3 alignment;
         private Boid other;
         private Vector3 toOther;
         private Vector3 distanceToAnchor;
@@ -50,9 +63,11 @@ namespace ProceduralToolkit.Examples
         {
             template = MeshDraft.Tetrahedron(0.3f);
 
+            // Avoid vertex count overflow
             swarmCount = Mathf.Min(65000/template.vertices.Count, swarmCount);
+            // Optimization trick: in each frame we simulate only small percent of all boids
             simulationUpdate = Mathf.RoundToInt(swarmCount*simulationPercent);
-            var vertexCount = swarmCount*template.vertices.Count;
+            int vertexCount = swarmCount*template.vertices.Count;
 
             draft = new MeshDraft
             {
@@ -80,24 +95,25 @@ namespace ProceduralToolkit.Examples
 
         private void Generate()
         {
+            // Paint template in random color
             template.colors.Clear();
             var color = RandomE.colorHSV;
+            // Assuming that we are dealing with tetrahedron, first vertex should be boid's nose
             template.colors.Add(color.Inverted());
             for (int i = 1; i < template.vertices.Count; i++)
             {
                 template.colors.Add(color);
             }
 
+            // Paint draft and mesh
             draft.colors.Clear();
-            for (int i = 0; i < draft.vertices.Count; i += template.colors.Count)
+            for (int i = 0; i < swarmCount; i ++)
             {
-                for (int j = 0; j < template.colors.Count; j++)
-                {
-                    draft.colors.Add(template.colors[j]);
-                }
+                draft.colors.AddRange(template.colors);
             }
             mesh.colors = draft.colors.ToArray();
 
+            // Assign random starting values for each boid
             foreach (var boid in boids)
             {
                 boid.position = Random.insideUnitSphere*spawnSphere;
@@ -111,17 +127,20 @@ namespace ProceduralToolkit.Examples
             simulationCount = 0;
             while (true)
             {
-                for (int i = 0; i < swarmCount; i++)
+                for (int i = 0; i < boids.Count; i++)
                 {
+                    // Optimization trick: in each frame we simulate only small percent of all boids
                     simulationCount++;
                     if (simulationCount > simulationUpdate)
                     {
                         simulationCount = 0;
                         yield return null;
                     }
+
                     var boid = boids[i];
+                    // Search for nearest neighbours
                     neighbours.Clear();
-                    for (int j = 0; j < swarmCount; j++)
+                    for (int j = 0; j < boids.Count; j++)
                     {
                         var b = boids[j];
                         if ((b.position - boid.position).sqrMagnitude < cohesionRadius)
@@ -139,15 +158,15 @@ namespace ProceduralToolkit.Examples
                     boid.velocity = Vector3.zero;
                     boid.cohesion = Vector3.zero;
                     boid.separation = Vector3.zero;
+                    boid.alignment = Vector3.zero;
 
+                    // Calculate boid parameters
                     separationCount = 0;
-                    alignment = Vector3.zero;
-
                     for (var j = 0; j < neighbours.Count && j < maxBoids; j++)
                     {
                         other = neighbours[j];
                         boid.cohesion += other.position;
-                        alignment += other.velocity;
+                        boid.alignment += other.velocity;
                         toOther = other.position - boid.position;
                         if (toOther.sqrMagnitude > 0 && toOther.sqrMagnitude < separationDistance*separationDistance)
                         {
@@ -156,6 +175,7 @@ namespace ProceduralToolkit.Examples
                         }
                     }
 
+                    // Clamp all parameters to safe values
                     boid.cohesion /= Mathf.Min(neighbours.Count, maxBoids);
                     boid.cohesion = Vector3.ClampMagnitude(boid.cohesion - boid.position, maxSpeed);
                     boid.cohesion *= cohesionCoefficient;
@@ -165,13 +185,15 @@ namespace ProceduralToolkit.Examples
                         boid.separation = Vector3.ClampMagnitude(boid.separation, maxSpeed);
                         boid.separation *= separationCoefficient;
                     }
-                    alignment /= Mathf.Min(neighbours.Count, maxBoids);
-                    alignment = Vector3.ClampMagnitude(alignment, maxSpeed);
-                    alignment *= alignmentCoefficient;
+                    boid.alignment /= Mathf.Min(neighbours.Count, maxBoids);
+                    boid.alignment = Vector3.ClampMagnitude(boid.alignment, maxSpeed);
+                    boid.alignment *= alignmentCoefficient;
 
-                    boid.velocity = Vector3.ClampMagnitude(boid.cohesion + boid.separation + alignment, maxSpeed);
+                    // Calculate resulting velocity
+                    boid.velocity = Vector3.ClampMagnitude(boid.cohesion + boid.separation + boid.alignment, maxSpeed);
                     if (boid.velocity == Vector3.zero)
                     {
+                        // Prevent boids from stopping
                         boid.velocity = Random.onUnitSphere*maxSpeed;
                     }
                 }
@@ -192,17 +214,19 @@ namespace ProceduralToolkit.Examples
             {
                 Generate();
             }
-            for (int i = 0; i < swarmCount; i++)
+            for (int i = 0; i < boids.Count; i++)
             {
                 var boid = boids[i];
                 boid.rotation = Quaternion.FromToRotation(Vector3.up, boid.velocity);
 
+                // Contain boids in sphere
                 distanceToAnchor = anchor - boid.position;
                 if (distanceToAnchor.sqrMagnitude > worldSphere*worldSphere)
                 {
                     boid.velocity += distanceToAnchor/worldSphere;
                     boid.velocity = Vector3.ClampMagnitude(boid.velocity, maxSpeed);
                 }
+
                 boid.position += boid.velocity*Time.deltaTime;
                 SetBoidVertices(boid, i);
             }
