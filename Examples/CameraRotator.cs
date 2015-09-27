@@ -2,6 +2,9 @@
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// Simple camera controller
+    /// </summary>
     public class CameraRotator : MonoBehaviour
     {
         public Transform target;
