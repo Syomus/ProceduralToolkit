@@ -20,27 +20,23 @@ namespace ProceduralToolkit.Examples
     /// <remarks>
     /// http://en.wikipedia.org/wiki/Boids
     /// </remarks>
-    [RequireComponent(typeof (MeshRenderer), typeof (MeshFilter))]
-    public class Boids : MonoBehaviour
+    public class BoidController
     {
-        [Header("Spawn area")]
         public Vector3 anchor = Vector3.zero;
         public float spawnSphere = 10;
         public float worldSphere = 15;
 
-        [Header("Swarm config")]
-        public int maxSpeed = 10;
-        public float cohesionRadius = 5;
-        public float separationDistance = 3;
-        public float cohesionCoefficient = 1;
-        public float alignmentCoefficient = 5;
-        public float separationCoefficient = 10;
         public int swarmCount = 2000;
+        public int maxSpeed = 10;
+        public float interactionRadius = 5;
+        public float cohesionCoefficient = 1;
+        public float separationDistance = 3;
+        public float separationCoefficient = 10;
+        public float alignmentCoefficient = 5;
 
         /// <summary>
         /// Number of neighbours participating in calculations
         /// </summary>
-        [Header("Optimisations")]
         public int maxBoids = 5;
         /// <summary>
         /// Percentage of swarm simulated in each frame
@@ -59,7 +55,7 @@ namespace ProceduralToolkit.Examples
         private Vector3 distanceToAnchor;
         private int simulationUpdate;
 
-        private void Awake()
+        public BoidController(MeshFilter meshFilter)
         {
             template = MeshDraft.Tetrahedron(0.3f);
 
@@ -86,19 +82,18 @@ namespace ProceduralToolkit.Examples
 
             mesh = draft.ToMesh();
             mesh.MarkDynamic();
-            GetComponent<MeshFilter>().mesh = mesh;
-
-            Generate();
-
-            StartCoroutine(Simulate());
+            meshFilter.mesh = mesh;
         }
 
-        private void Generate()
+        /// <summary>
+        /// Generate new colors and positions for boids
+        /// </summary>
+        public void Generate()
         {
             // Paint template in random color
             template.colors.Clear();
             var color = RandomE.colorHSV;
-            // Assuming that we are dealing with tetrahedron, first vertex should be boid's nose
+            // Assuming that we are dealing with tetrahedron, first vertex should be boid's "nose"
             template.colors.Add(color.Inverted());
             for (int i = 1; i < template.vertices.Count; i++)
             {
@@ -122,7 +117,10 @@ namespace ProceduralToolkit.Examples
             }
         }
 
-        private IEnumerator Simulate()
+        /// <summary>
+        /// Run simulation
+        /// </summary>
+        public IEnumerator Simulate()
         {
             simulationCount = 0;
             while (true)
@@ -143,7 +141,7 @@ namespace ProceduralToolkit.Examples
                     for (int j = 0; j < boids.Count; j++)
                     {
                         var b = boids[j];
-                        if ((b.position - boid.position).sqrMagnitude < cohesionRadius)
+                        if ((b.position - boid.position).sqrMagnitude < interactionRadius)
                         {
                             neighbours.Add(b);
                             if (neighbours.Count == maxBoids)
@@ -208,12 +206,11 @@ namespace ProceduralToolkit.Examples
             }
         }
 
-        private void Update()
+        /// <summary>
+        /// Apply simulation to mesh
+        /// </summary>
+        public void Update()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Generate();
-            }
             for (int i = 0; i < boids.Count; i++)
             {
                 var boid = boids[i];
