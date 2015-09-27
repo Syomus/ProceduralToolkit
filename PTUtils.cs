@@ -20,6 +20,24 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns list of points on circle in the XY plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="segments">Number of circle segments</param>
+        public static List<Vector2> PointsOnCircle2(float radius, int segments)
+        {
+            float segmentAngle = Mathf.PI*2/segments;
+            float currentAngle = 0f;
+            var ring = new List<Vector2>(segments);
+            for (var i = 0; i < segments; i++)
+            {
+                ring.Add(PointOnCircle2(radius, currentAngle));
+                currentAngle -= segmentAngle;
+            }
+            return ring;
+        }
+
+        /// <summary>
         /// Returns point on circle in the XZ plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
@@ -79,6 +97,7 @@ namespace ProceduralToolkit
                 Swap(ref x0, ref x1);
                 Swap(ref y0, ref y1);
             }
+
             int dx = x1 - x0;
             int dy = Math.Abs(y1 - y0);
             int error = dx/2;
