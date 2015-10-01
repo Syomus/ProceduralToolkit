@@ -1,51 +1,16 @@
 ﻿using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit.Examples
 {
     /// <summary>
     /// A procedural chair generator
     /// </summary>
-    [RequireComponent(typeof (MeshRenderer), typeof (MeshFilter))]
-    public class ChairGenerator : MonoBehaviour
+    public static class ChairGenerator
     {
-        public float legWidthLB = 0.05f;
-        public float legWidthUB = 0.12f;
-        public float legHeightLB = 0.5f;
-        public float legHeightUB = 1.2f;
-
-        public Vector3 seatLB = new Vector3(0.7f, 0.05f, 0.7f);
-        public Vector3 seatUB = new Vector3(1, 0.2f, 0.9f);
-
-        public float backHeightLB = 0.5f;
-        public float backHeightUB = 1.3f;
-
-        private void Start()
+        public static MeshDraft Chair(float legWidth, float legHeight, Vector3 seatDimensions, float backHeight,
+            bool hasStretchers, bool hasArmrests)
         {
-            Generate();
-        }
-
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Generate();
-            }
-        }
-
-        private void Generate()
-        {
-            GetComponent<MeshFilter>().mesh = Chair().ToMesh();
-        }
-
-        private MeshDraft Chair()
-        {
-            float legWidth = Random.Range(legWidthLB, legWidthUB);
-            float legHeight = Random.Range(legHeightLB, legHeightUB);
-            Vector3 seatDimensions = RandomE.Range(seatLB, seatUB);
-            float backHeight = Random.Range(backHeightLB, backHeightUB);
-
             Vector3 right = Vector3.right*(seatDimensions.x - legWidth)/2;
             Vector3 forward = Vector3.forward*(seatDimensions.z - legWidth)/2;
 
@@ -65,7 +30,7 @@ namespace ProceduralToolkit.Examples
             chair.Add(Leg0(legCenters[3], legWidth, legHeight));
 
             // Generate stretchers
-            if (RandomE.Chance(0.3f))
+            if (hasStretchers)
             {
                 var stretcherFunc = new Func<Vector3[], float, float, MeshDraft>[]
                 {
@@ -90,7 +55,7 @@ namespace ProceduralToolkit.Examples
             chair.Add(backFunc(backCenter, seatDimensions.x, legWidth, backHeight));
 
             // Generate armrests
-            if (RandomE.Chance(0.3f))
+            if (hasArmrests)
             {
                 var armrestsFunc = new Func<Vector3, Vector3, float, float, MeshDraft>[]
                 {
