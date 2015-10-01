@@ -1,25 +1,11 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Examples.UI
 {
-    public class ChairGeneratorUI : MonoBehaviour
+    public class ChairGeneratorUI : UIBase
     {
         public MeshFilter meshFilter;
-
-        public Slider legWidthSlider;
-        public Text legWidthText;
-
-        public Slider legHeightSlider;
-        public Text legHeightText;
-
-        public Slider backHeightSlider;
-        public Text backHeightText;
-
-        public Toggle hasStretchersToggle;
-        public Toggle hasArmrestsToggle;
-        public Button generateButton;
+        public RectTransform leftPanel;
 
         private float legWidth = 0.07f;
         private float legHeight = 0.7f;
@@ -33,26 +19,20 @@ namespace ProceduralToolkit.Examples
         {
             Generate();
 
-            SetupSlider(legWidthSlider, legWidthText, legWidth, value => legWidth = value);
-            SetupSlider(legHeightSlider, legHeightText, legHeight, value => legHeight = value);
-            SetupSlider(backHeightSlider, backHeightText, backHeight, value => backHeight = value);
+            var legWidthSlider = InstantiateControl<SliderControl>(leftPanel);
+            legWidthSlider.Initialize("Leg width", 0.05f, 0.12f, legWidth, value => legWidth = value);
+            var legHeightSlider = InstantiateControl<SliderControl>(leftPanel);
+            legHeightSlider.Initialize("Leg height", 0.5f, 1.2f, legHeight, value => legHeight = value);
+            var backHeightSlider = InstantiateControl<SliderControl>(leftPanel);
+            backHeightSlider.Initialize("Back height", 0.5f, 1.3f, backHeight, value => backHeight = value);
 
-            hasStretchersToggle.onValueChanged.AddListener(value => hasStretchers = value);
-            hasArmrestsToggle.isOn = hasArmrests;
-            hasArmrestsToggle.onValueChanged.AddListener(value => hasArmrests = value);
+            var hasStretchersToggle = InstantiateControl<ToggleControl>(leftPanel);
+            hasStretchersToggle.Initialize("Has stretchers", hasStretchers, value => hasStretchers = value);
+            var hasArmrestsToggle = InstantiateControl<ToggleControl>(leftPanel);
+            hasArmrestsToggle.Initialize("Has armrests", hasArmrests, value => hasArmrests = value);
 
-            generateButton.onClick.AddListener(Generate);
-        }
-
-        private void SetupSlider(Slider slider, Text text, float defaultValue, Action<float> onValueChanged)
-        {
-            slider.value = defaultValue;
-            slider.onValueChanged.AddListener(value =>
-            {
-                onValueChanged(value);
-                text.text = value.ToString();
-            });
-            text.text = defaultValue.ToString();
+            var generateButton = InstantiateControl<ButtonControl>(leftPanel);
+            generateButton.Initialize("Generate", Generate);
         }
 
         private void Generate()
