@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit.Examples
@@ -8,65 +6,9 @@ namespace ProceduralToolkit.Examples
     /// <summary>
     /// A simple terrain based on Perlin noise and coloured according to height
     /// </summary>
-    public class TerrainMesh : MonoBehaviour
+    public static class TerrainMesh
     {
-        public MeshFilter meshFilter;
-
-        public Slider xSizeSlider;
-        public Text xSizeText;
-
-        public Slider zSizeSlider;
-        public Text zSizeText;
-
-        public Slider xSegmentsSlider;
-        public Text xSegmentsText;
-
-        public Slider zSegmentsSlider;
-        public Text zSegmentsText;
-
-        public Slider noiseScaleSlider;
-        public Text noiseScaleText;
-
-        public Button generateButton;
-
-        private int xSize = 10;
-        private int zSize = 10;
-        private int xSegments = 100;
-        private int zSegments = 100;
-        private int noiseScale = 10;
-
-        private void Awake()
-        {
-            SetupSlider(xSizeSlider, xSizeText, xSize, value => xSize = value);
-            SetupSlider(zSizeSlider, zSizeText, zSize, value => zSize = value);
-            SetupSlider(xSegmentsSlider, xSegmentsText, xSegments, value => xSegments = value);
-            SetupSlider(zSegmentsSlider, zSegmentsText, zSegments, value => zSegments = value);
-            SetupSlider(noiseScaleSlider, noiseScaleText, noiseScale, value => noiseScale = value);
-
-            generateButton.onClick.AddListener(Generate);
-
-            Generate();
-        }
-
-        private void SetupSlider(Slider slider, Text text, float defaultValue, Action<int> onValueChanged)
-        {
-            slider.value = defaultValue;
-            slider.onValueChanged.AddListener(value =>
-            {
-                int intValue = Mathf.FloorToInt(value);
-                onValueChanged(intValue);
-                text.text = intValue.ToString();
-            });
-            text.text = defaultValue.ToString();
-        }
-
-        private void Generate()
-        {
-            var mesh = TerrainDraft().ToMesh();
-            meshFilter.mesh = mesh;
-        }
-
-        private MeshDraft TerrainDraft()
+        public static MeshDraft TerrainDraft(int xSize, int zSize, int xSegments, int zSegments, int noiseScale)
         {
             var draft = MeshDraft.Plane(xSize, zSize, xSegments, zSegments);
             draft.Move(Vector3.left*xSize/2 + Vector3.back*zSize/2);
