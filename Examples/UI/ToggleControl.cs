@@ -9,12 +9,13 @@ namespace ProceduralToolkit.Examples.UI
         public Text headerText;
         public Toggle toggle;
 
-        public void Initialize(string header, bool value, Action<bool> onValueChanged)
+        public void Initialize(string header, bool value, Action<bool> onValueChanged, ToggleGroup toggleGroup = null)
         {
             name = header;
             headerText.text = header;
             toggle.isOn = value;
             toggle.onValueChanged.AddListener(newValue => onValueChanged(newValue));
+            toggle.group = toggleGroup;
         }
     }
 }
