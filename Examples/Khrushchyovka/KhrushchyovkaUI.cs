@@ -1,24 +1,11 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Examples.UI
 {
-    public class KhrushchyovkaUI : MonoBehaviour
+    public class KhrushchyovkaUI : UIBase
     {
         public MeshFilter meshFilter;
-
-        public Slider widthSlider;
-        public Text widthText;
-
-        public Slider lengthSlider;
-        public Text lengthText;
-
-        public Slider floorCountSlider;
-        public Text floorCountText;
-
-        public Toggle hasAtticToggle;
-        public Button generateButton;
+        public RectTransform leftPanel;
 
         private float width = 10;
         private float length = 50;
@@ -29,24 +16,20 @@ namespace ProceduralToolkit.Examples
         {
             Generate();
 
-            SetupSlider(widthSlider, widthText, width, value => width = value);
-            SetupSlider(lengthSlider, lengthText, length, value => length = value);
-            SetupSlider(floorCountSlider, floorCountText, floorCount, value => floorCount = value);
+            var widthSlider = InstantiateControl<SliderControl>(leftPanel);
+            widthSlider.Initialize("Width", 10, 30, width, value => width = value);
 
-            hasAtticToggle.onValueChanged.AddListener(value => hasAttic = value);
-            generateButton.onClick.AddListener(Generate);
-        }
+            var lengthSlider = InstantiateControl<SliderControl>(leftPanel);
+            lengthSlider.Initialize("Length", 10, 60, length, value => length = value);
 
-        private void SetupSlider(Slider slider, Text text, float defaultValue, Action<int> onValueChanged)
-        {
-            slider.value = defaultValue;
-            slider.onValueChanged.AddListener(value =>
-            {
-                int intValue = Mathf.FloorToInt(value);
-                onValueChanged(intValue);
-                text.text = intValue.ToString();
-            });
-            text.text = defaultValue.ToString();
+            var floorCountSlider = InstantiateControl<SliderControl>(leftPanel);
+            floorCountSlider.Initialize("Floor count", 1, 10, floorCount, value => floorCount = value);
+
+            var hasAtticToggle = InstantiateControl<ToggleControl>(leftPanel);
+            hasAtticToggle.Initialize("Has attic", hasAttic, value => hasAttic = value);
+
+            var generateButton = InstantiateControl<ButtonControl>(leftPanel);
+            generateButton.Initialize("Generate", Generate);
         }
 
         private void Generate()
