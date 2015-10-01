@@ -1,32 +1,11 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Examples.UI
 {
-    public class BoidsUI : MonoBehaviour
+    public class BoidsUI : UIBase
     {
         public MeshFilter meshFilter;
-
-        public Slider maxSpeedSlider;
-        public Text maxSpeedText;
-
-        public Slider interactionRadiusSlider;
-        public Text interactionRadiusText;
-
-        public Slider cohesionCoefficientSlider;
-        public Text cohesionCoefficientText;
-
-        public Slider separationDistanceSlider;
-        public Text separationDistanceText;
-        public Slider separationCoefficientSlider;
-        public Text separationCoefficientText;
-
-        public Slider alignmentCoefficientSlider;
-        public Text alignmentCoefficientText;
-
-        public Toggle simulateToggle;
-        public Button generateButton;
+        public RectTransform leftPanel;
 
         private BoidController controller;
         private bool simulate = true;
@@ -37,36 +16,41 @@ namespace ProceduralToolkit.Examples
             controller.Generate();
             StartCoroutine(controller.Simulate());
 
-            SetupSlider(maxSpeedSlider, maxSpeedText, controller.maxSpeed,
-                value => controller.maxSpeed = value);
+            var maxSpeedSlider = InstantiateControl<SliderControl>(leftPanel);
+            maxSpeedSlider.Initialize("Max speed", 0, 30,
+                value: (int) controller.maxSpeed,
+                onValueChanged: value => controller.maxSpeed = value);
 
-            SetupSlider(interactionRadiusSlider, interactionRadiusText, controller.interactionRadius,
-                value => controller.interactionRadius = value);
-            SetupSlider(cohesionCoefficientSlider, cohesionCoefficientText, controller.cohesionCoefficient,
-                value => controller.cohesionCoefficient = value);
+            var interactionRadiusSlider = InstantiateControl<SliderControl>(leftPanel);
+            interactionRadiusSlider.Initialize("Interaction radius", 0, 30,
+                value: (int) controller.interactionRadius,
+                onValueChanged: value => controller.interactionRadius = value);
 
-            SetupSlider(separationDistanceSlider, separationDistanceText, controller.separationDistance,
-                value => controller.separationDistance = value);
-            SetupSlider(separationCoefficientSlider, separationCoefficientText, controller.separationCoefficient,
-                value => controller.separationCoefficient = value);
+            var cohesionCoefficientSlider = InstantiateControl<SliderControl>(leftPanel);
+            cohesionCoefficientSlider.Initialize("Cohesion coefficient", 0, 30,
+                value: (int) controller.cohesionCoefficient,
+                onValueChanged: value => controller.cohesionCoefficient = value);
 
-            SetupSlider(alignmentCoefficientSlider, alignmentCoefficientText, controller.alignmentCoefficient,
-                value => controller.alignmentCoefficient = value);
+            var separationDistanceSlider = InstantiateControl<SliderControl>(leftPanel);
+            separationDistanceSlider.Initialize("Separation distance", 0, 30,
+                value: (int) controller.separationDistance,
+                onValueChanged: value => controller.separationDistance = value);
 
-            simulateToggle.onValueChanged.AddListener(value => simulate = value);
-            generateButton.onClick.AddListener(controller.Generate);
-        }
+            var separationCoefficientSlider = InstantiateControl<SliderControl>(leftPanel);
+            separationCoefficientSlider.Initialize("Separation coefficient", 0, 30,
+                value: (int) controller.separationCoefficient,
+                onValueChanged: value => controller.separationCoefficient = value);
 
-        private void SetupSlider(Slider slider, Text text, float defaultValue, Action<int> onValueChanged)
-        {
-            slider.value = defaultValue;
-            slider.onValueChanged.AddListener(value =>
-            {
-                int intValue = Mathf.FloorToInt(value);
-                onValueChanged(intValue);
-                text.text = intValue.ToString();
-            });
-            text.text = defaultValue.ToString();
+            var alignmentCoefficientSlider = InstantiateControl<SliderControl>(leftPanel);
+            alignmentCoefficientSlider.Initialize("Alignment coefficient", 0, 30,
+                value: (int) controller.alignmentCoefficient,
+                onValueChanged: value => controller.alignmentCoefficient = value);
+
+            var simulateToggle = InstantiateControl<ToggleControl>(leftPanel);
+            simulateToggle.Initialize("Simulate", simulate, value => simulate = value);
+
+            var generateButton = InstantiateControl<ButtonControl>(leftPanel);
+            generateButton.Initialize("Generate", controller.Generate);
         }
 
         private void Update()
