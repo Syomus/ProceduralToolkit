@@ -5,18 +5,12 @@ namespace ProceduralToolkit.Examples
 {
     /// <summary>
     /// A procedural building generator
-    /// http://en.wikipedia.org/wiki/Khrushchyovka
     /// </summary>
-    [RequireComponent(typeof (MeshFilter), typeof (MeshRenderer))]
-    public class Khrushchyovka : MonoBehaviour
+    /// <remarks>
+    /// http://en.wikipedia.org/wiki/Khrushchyovka
+    /// </remarks>
+    public static class Khrushchyovka
     {
-        public int widthLB = 10;
-        public int widthUB = 13;
-        public int lengthLB = 30;
-        public int lengthUB = 55;
-        public int floorCountLB = 1;
-        public int floorCountUB = 7;
-
         public static Color socleColor = ColorE.silver.WithA(0);
         public static Color socleWindowColor = ColorE.silver.WithA(0)/2;
         public static Color doorColor = ColorE.silver.WithA(0)/2;
@@ -31,7 +25,7 @@ namespace ProceduralToolkit.Examples
 
         private delegate MeshDraft PanelConstructor(Vector3 origin, Vector3 width, Vector3 heigth);
 
-        private Dictionary<PanelType, PanelConstructor[]> panelConstructors = new Dictionary
+        private static readonly Dictionary<PanelType, PanelConstructor[]> panelConstructors = new Dictionary
             <PanelType, PanelConstructor[]>
         {
             {PanelType.Wall, new PanelConstructor[] {Panels.Wall}},
@@ -44,12 +38,13 @@ namespace ProceduralToolkit.Examples
             {PanelType.Attic, new PanelConstructor[] {Panels.AtticVented, Panels.Wall}}
         };
 
-        private Dictionary<PanelType, PanelConstructor> commonPanelConstructors =
+        private static readonly Dictionary<PanelType, PanelConstructor> commonPanelConstructors =
             new Dictionary<PanelType, PanelConstructor>();
 
         private delegate MeshDraft RoofConstructor(Vector3 a, Vector3 b, Vector3 c, Vector3 d);
 
-        private Dictionary<RoofType, RoofConstructor> roofConstructors = new Dictionary<RoofType, RoofConstructor>
+        private static readonly Dictionary<RoofType, RoofConstructor> roofConstructors = new Dictionary
+            <RoofType, RoofConstructor>
         {
             {RoofType.Flat, Roofs.FlatRoof},
             {RoofType.FlatOverhang, Roofs.FlatOverhangRoof},
@@ -57,7 +52,7 @@ namespace ProceduralToolkit.Examples
             {RoofType.Hipped, Roofs.HippedRoof}
         };
 
-        private Dictionary<PanelSize, float> sizeValues = new Dictionary<PanelSize, float>
+        private static readonly Dictionary<PanelSize, float> sizeValues = new Dictionary<PanelSize, float>
         {
             {PanelSize.Narrow, 2.5f},
             {PanelSize.Wide, 3},
@@ -69,31 +64,8 @@ namespace ProceduralToolkit.Examples
             public List<Panel> panels = new List<Panel>();
         }
 
-        private void Start()
+        public static MeshDraft KhrushchyovkaDraft(float width, float length, int floorCount, bool hasAttic)
         {
-            Generate();
-        }
-
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Generate();
-            }
-        }
-
-        private void Generate()
-        {
-            GetComponent<MeshFilter>().mesh = KhrushchyovkaDraft().ToMesh();
-        }
-
-        private MeshDraft KhrushchyovkaDraft()
-        {
-            float width = Random.Range(widthLB, widthUB);
-            float length = Random.Range(lengthLB, lengthUB);
-            int floorCount = Random.Range(floorCountLB, floorCountUB);
-
-            bool hasAttic = RandomE.Chance(0.5f);
             float height = FloorHeight*floorCount + SocleHeight + (hasAttic ? AtticHeight : 0);
 
             var draft = new MeshDraft {name = "Khrushchyovka"};
@@ -128,7 +100,8 @@ namespace ProceduralToolkit.Examples
             return draft;
         }
 
-        private List<FloorPlan> FacadeGenerator(float width, int floorCount, bool hasAttic, bool hasEntrances = false,
+        private static List<FloorPlan> FacadeGenerator(float width, int floorCount, bool hasAttic,
+            bool hasEntrances = false,
             bool longFacade = false)
         {
             List<PanelSize> panelSizes = SplitWallIntoPanels(width);
@@ -268,7 +241,7 @@ namespace ProceduralToolkit.Examples
             return floors;
         }
 
-        private List<PanelSize> SplitWallIntoPanels(float wallLength)
+        private static List<PanelSize> SplitWallIntoPanels(float wallLength)
         {
             Dictionary<PanelSize, int> knapsack = PTUtils.Knapsack(sizeValues, wallLength);
             var panelSizes = new List<PanelSize>();
@@ -283,7 +256,7 @@ namespace ProceduralToolkit.Examples
             return panelSizes;
         }
 
-        private MeshDraft Facade(Vector3 origin, Vector3 direction, List<FloorPlan> facadePlan)
+        private static MeshDraft Facade(Vector3 origin, Vector3 direction, List<FloorPlan> facadePlan)
         {
             var draft = new MeshDraft();
 
@@ -318,7 +291,7 @@ namespace ProceduralToolkit.Examples
             return draft;
         }
 
-        private MeshDraft Roof(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector3 height)
+        private static MeshDraft Roof(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector3 height)
         {
             RoofConstructor roofConstructor = roofConstructors.GetRandom();
             return roofConstructor(a + height, b + height, c + height, d + height);
