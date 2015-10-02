@@ -1,4 +1,4 @@
-# Procedural Toolkit v0.1.5
+# Procedural Toolkit v0.1.6
 
 Procedural Toolkit is a collection of instruments for creating procedural generation systems. It is free, open source and does not require a Unity Pro license.
 
@@ -54,18 +54,34 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 * [Asset Store](https://www.assetstore.unity3d.com/#!/content/16508)
 
 ## Version history
-2015.05.14 - v0.1.5:
+##### 2015.10.02 - 0.1.6:
+* Major refactoring
+* Removed ColorE.ToHex and ColorE.FromHex
+* Moved all static MeshDraft constructors from MeshE to MeshDraft
+* Added PTUtils.PointsOnCircle3 PointsOnCircle2
+* Added RandomBreadthFirstTraversal maze algorithm
+* Added datasets for names and last names
+
+###### RandomE
+* Removed meshDraft
+* Added onUnitCircle, insideUnitSquare, onUnitSquare, insideUnitCube, name constructors, new string and char constructos
+
+###### TextureE
+* Removed Texture2D constructors
+* Added DrawCircle DrawGradient DrawGradientRect
+
+##### 2015.05.14 - 0.1.5:
 * Unity 5 support
 * Added mesh saver
 * Added new example: Breakout
 * Added Standard Vertex Color shader
 
-2015.02.08 - v0.1.4:
+##### 2015.02.08 - 0.1.4:
 * Added new examples: Primitives and Mazes
 * Added Texture extensions
 * Added Bresenham and Wu line drawing algorithms
 
-2014.11.15 - v0.1.3:
+##### 2014.11.15 - 0.1.3:
 * Added new example: Khrushchyovka
 * Added knapsack problem solver
 * Added new Color extensions
@@ -74,16 +90,16 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 * Added specular vertex color shader
 * Improved examples
 
-2014.11.10 - v0.1.2:
+##### 2014.11.10 - 0.1.2:
 * Added new example: chair generator
 * Small additions and fixes
 
-2014.10.26 - v0.1.1:
+##### 2014.10.26 - 0.1.1:
 * Added new primitives: cylinder and sphere
 * Added mesh extensions: move, rotate, scale, paint, flip faces
 * Added RandomE.Range methods
 * Added PTUtils methods for points on circle and sphere
 * Improved documentation
 
-2014.10.13 - v0.1:
+##### 2014.10.13 - 0.1:
 * First release
