@@ -90,6 +90,22 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns a random lowercase letter
+        /// </summary>
+        public static char lowercaseLetter
+        {
+            get { return Datasets.lowercase.GetRandom(); }
+        }
+
+        /// <summary>
+        /// Returns a random uppercase letter
+        /// </summary>
+        public static char uppercaseLetter
+        {
+            get { return Datasets.uppercase.GetRandom(); }
+        }
+
+        /// <summary>
         /// Returns a random first name
         /// </summary>
         public static string name
