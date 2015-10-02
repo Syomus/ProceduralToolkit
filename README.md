@@ -61,14 +61,12 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 * Added PTUtils.PointsOnCircle3 and PTUtils.PointsOnCircle2
 * Added RandomBreadthFirstTraversal maze algorithm
 * Added datasets for names and last names
-
-###### RandomE
-* Removed meshDraft
-* Added onUnitCircle, insideUnitSquare, onUnitSquare, insideUnitCube, name constructors, new string and char constructos
-
-###### TextureE
-* Removed Texture2D constructors
-* Added DrawCircle DrawGradient DrawGradientRect
+* RandomE
+  * Removed meshDraft
+  * Added onUnitCircle, insideUnitSquare, onUnitSquare, insideUnitCube, name constructors, new string and char constructos
+* TextureE
+  * Removed Texture2D constructors
+  * Added DrawCircle, DrawGradient and DrawGradientRect
 
 ##### 2015.05.14 - 0.1.5:
 * Unity 5 support
