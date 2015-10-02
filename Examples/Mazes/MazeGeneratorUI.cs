@@ -39,6 +39,9 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Awake()
         {
+            var header = InstantiateControl<TextControl>(algorithmsGroup.transform.parent);
+            header.Initialize("Generator algorithm");
+            header.transform.SetAsFirstSibling();
             foreach (MazeGenerator.Algorithm algorithm in algorithms)
             {
                 var toggle = InstantiateControl<ToggleControl>(algorithmsGroup.transform);
