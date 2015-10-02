@@ -55,7 +55,7 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 
 ## Version history
 ##### 2015.10.02 - 0.1.6:
-* Major refactoring
+* Major refactoring, new UI for all examples
 * Removed ColorE.ToHex and ColorE.FromHex
 * Moved all static MeshDraft constructors from MeshE to MeshDraft
 * Added PTUtils.PointsOnCircle3 and PTUtils.PointsOnCircle2
