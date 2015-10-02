@@ -20,31 +20,31 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 ## Examples
 <table>
   <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/Khrushchyovka">Khrushchyovka</a> a procedural building generator</td>
+    <td><a href="http://syomus.com/ProceduralToolkit/Khrushchyovka">Khrushchyovka</a>: a procedural building generator</td>
     <td><img src="http://syomus.com/ProceduralToolkit/screenshot-khrushchyovka-300.jpg"></td>
   </tr>
   <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/ChairGenerator">ChairGenerator</a> a procedural chair generator</td>
+    <td><a href="http://syomus.com/ProceduralToolkit/ChairGenerator">ChairGenerator</a>: a procedural chair generator</td>
     <td><img src="http://syomus.com/ProceduralToolkit/screenshot-chair-300.jpg"></td>
   </tr>
   <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/Boids">Boids</a> a single-mesh particle system with birds-like behaviour</td>
+    <td><a href="http://syomus.com/ProceduralToolkit/Boids">Boids</a>: a single-mesh particle system with birds-like behaviour</td>
     <td><img src="http://syomus.com/ProceduralToolkit/screenshot-boids-300.jpg"></td>
   </tr>
   <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/Breakout">Breakout</a> a Breakout clone with procedurally generated levels</td>
+    <td><a href="http://syomus.com/ProceduralToolkit/Breakout">Breakout</a>: a Breakout clone with procedurally generated levels</td>
     <td><img src="http://syomus.com/ProceduralToolkit/screenshot-breakout-300.jpg"></td>
   </tr>
   <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/TerrainMesh">TerrainMesh</a> a simple terrain based on Perlin noise and coloured according to height</td>
+    <td><a href="http://syomus.com/ProceduralToolkit/TerrainMesh">TerrainMesh</a>: a simple terrain based on Perlin noise and coloured according to height</td>
     <td><img src="http://syomus.com/ProceduralToolkit/screenshot-terrain-300.jpg"></td>
   </tr>
   <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/Mazes">Mazes</a> a maze generators</td>
+    <td><a href="http://syomus.com/ProceduralToolkit/Mazes">Mazes</a>: a maze generators</td>
     <td><img src="http://syomus.com/ProceduralToolkit/screenshot-mazes-300.jpg"></td>
   </tr>
   <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/Primitives">Primitives</a> a demonstration of primitives</td>
+    <td><a href="http://syomus.com/ProceduralToolkit/Primitives">Primitives</a>: a demonstration of primitives</td>
     <td><img src="http://syomus.com/ProceduralToolkit/screenshot-primitives-300.jpg"></td>
   </tr>
 </table>
