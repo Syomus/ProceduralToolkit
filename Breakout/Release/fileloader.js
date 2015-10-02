@@ -1,15 +1,12 @@
 
 var Module;
-
 if (typeof Module === 'undefined') Module = eval('(function() { try { return Module || {} } catch(e) { return {} } })()');
-
 if (!Module.expectedDataFileDownloads) {
   Module.expectedDataFileDownloads = 0;
   Module.finishedDataFileDownloads = 0;
 }
 Module.expectedDataFileDownloads++;
 (function() {
- var loadPackage = function(metadata) {
 
     var PACKAGE_PATH;
     if (typeof window === 'object') {
@@ -29,10 +26,9 @@ Module.expectedDataFileDownloads++;
     var REMOTE_PACKAGE_NAME = typeof Module['locateFile'] === 'function' ?
                               Module['locateFile'](REMOTE_PACKAGE_BASE) :
                               ((Module['filePackagePrefixURL'] || '') + REMOTE_PACKAGE_BASE);
+    var REMOTE_PACKAGE_SIZE = 2193713;
+    var PACKAGE_UUID = '144ce078-83d8-4e5e-bd5d-ee86118224db';
   
-      var REMOTE_PACKAGE_SIZE = 4824053;
-      var PACKAGE_UUID = 'daa6fcec-8962-4c6d-9201-f58c0dcee919';
-    
     function fetchRemotePackage(packageName, packageSize, callback, errback) {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', packageName, true);
@@ -90,11 +86,9 @@ Module.expectedDataFileDownloads++;
     
   function runWithFS() {
 
-    function assert(check, msg) {
-      if (!check) throw msg + new Error().stack;
-    }
-Module['FS_createPath']('/', 'Il2CppData', true, true);
-Module['FS_createPath']('/Il2CppData', 'Metadata', true, true);
+function assert(check, msg) {
+  if (!check) throw msg + new Error().stack;
+}
 Module['FS_createPath']('/', 'Resources', true, true);
 
     function DataRequest(start, end, crunched, audio) {
@@ -131,14 +125,12 @@ Module['FS_createPath']('/', 'Resources', true, true);
         this.requests[this.name] = null;
       },
     };
-
-      new DataRequest(0, 23992, 0, 0).open('GET', '/mainData');
-    new DataRequest(23992, 24013, 0, 0).open('GET', '/methods_pointedto_by_uievents.xml');
-    new DataRequest(24013, 31409, 0, 0).open('GET', '/resources.assets');
-    new DataRequest(31409, 48701, 0, 0).open('GET', '/sharedassets0.assets');
-    new DataRequest(48701, 2414385, 0, 0).open('GET', '/Il2CppData/Metadata/global-metadata.dat');
-    new DataRequest(2414385, 4301769, 0, 0).open('GET', '/Resources/unity_default_resources');
-    new DataRequest(4301769, 4824053, 0, 0).open('GET', '/Resources/unity_builtin_extra');
+      new DataRequest(0, 29376, 0, 0).open('GET', '/mainData');
+    new DataRequest(29376, 29397, 0, 0).open('GET', '/methods_pointedto_by_uievents.xml');
+    new DataRequest(29397, 99093, 0, 0).open('GET', '/resources.assets');
+    new DataRequest(99093, 118201, 0, 0).open('GET', '/sharedassets0.assets');
+    new DataRequest(118201, 1693237, 0, 0).open('GET', '/Resources/unity_default_resources');
+    new DataRequest(1693237, 2193713, 0, 0).open('GET', '/Resources/unity_builtin_extra');
 
     function processPackageData(arrayBuffer) {
       Module.finishedDataFileDownloads++;
@@ -152,7 +144,6 @@ Module['FS_createPath']('/', 'Resources', true, true);
           DataRequest.prototype.requests["/methods_pointedto_by_uievents.xml"].onload();
           DataRequest.prototype.requests["/resources.assets"].onload();
           DataRequest.prototype.requests["/sharedassets0.assets"].onload();
-          DataRequest.prototype.requests["/Il2CppData/Metadata/global-metadata.dat"].onload();
           DataRequest.prototype.requests["/Resources/unity_default_resources"].onload();
           DataRequest.prototype.requests["/Resources/unity_builtin_extra"].onload();
           Module['removeRunDependency']('datafile_Breakout.data');
@@ -177,8 +168,5 @@ Module['FS_createPath']('/', 'Resources', true, true);
     if (!Module['preRun']) Module['preRun'] = [];
     Module["preRun"].push(runWithFS); // FS is not initialized yet, wait for it
   }
-
- }
- loadPackage();
 
 })();
