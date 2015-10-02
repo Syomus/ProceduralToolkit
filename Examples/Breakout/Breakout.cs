@@ -12,8 +12,9 @@ namespace ProceduralToolkit.Examples
     /// <summary>
     /// Breakout clone with procedurally generated levels
     /// </summary>
-    public class Breakout : MonoBehaviour
+    public class Breakout
     {
+        private GameObject borders;
         private GameObject paddle;
         private Transform paddleTransform;
         private GameObject ball;
@@ -24,17 +25,17 @@ namespace ProceduralToolkit.Examples
         private Texture2D texture;
         private Sprite sprite;
         private PhysicsMaterial2D bouncyMaterial;
-        private int wallWidth = 9;
-        private int wallHeight = 7;
-        private int wallHeightOffset = 5;
+        private int wallWidth;
+        private int wallHeight;
+        private int wallHeightOffset;
         private float brickHeight = 0.5f;
-        private float paddleWidth = 1;
+        private float paddleWidth;
         private float paddleHeight = 0.5f;
         private float paddleSpeed = 25f;
-        private float ballSize = 0.5f;
-        private float ballRadius = 0.3f;
+        private float ballSize;
+        private float ballRadius = 0.5f;
         private float ballForce = 200;
-        private float ballVelocityMagnitude = 5;
+        private float ballVelocityMagnitude;
 
         private Dictionary<BrickSize, float> sizeValues = new Dictionary<BrickSize, float>
         {
@@ -42,7 +43,7 @@ namespace ProceduralToolkit.Examples
             {BrickSize.Wide, 1f},
         };
 
-        private void Awake()
+        public Breakout()
         {
             bricksContainer = new GameObject("Bricks").transform;
 
@@ -54,19 +55,21 @@ namespace ProceduralToolkit.Examples
 
             // Bouncy material for walls, paddle and everything else
             bouncyMaterial = new PhysicsMaterial2D {name = "Bouncy", bounciness = 1, friction = 0};
-
-            GeneratePaddle();
-            GenerateBorders();
-            ResetLevel();
         }
 
-        private void Update()
+        public void UpdateParameters(int wallWidth, int wallHeight, int wallHeightOffset, float paddleWidth,
+            float ballSize, float ballVelocityMagnitude)
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                ResetLevel();
-            }
+            this.wallWidth = wallWidth;
+            this.wallHeight = wallHeight;
+            this.wallHeightOffset = wallHeightOffset;
+            this.paddleWidth = paddleWidth;
+            this.ballSize = ballSize;
+            this.ballVelocityMagnitude = ballVelocityMagnitude;
+        }
 
+        public void Update()
+        {
             float delta = Input.GetAxis("Horizontal")*Time.deltaTime*paddleSpeed;
             paddleTransform.position += new Vector3(delta, 0);
 
@@ -97,36 +100,42 @@ namespace ProceduralToolkit.Examples
             }
         }
 
-        private void ResetLevel()
+        public void ResetLevel()
         {
+            GenerateBorders();
             GenerateLevel();
+            GeneratePaddle();
             GenerateBall();
         }
 
         private void GenerateBorders()
         {
-            var borders = new GameObject("Border");
-            int bordersHeight = wallHeightOffset + wallHeight/2 + 1;
-            int bordersWidth = wallWidth + 1;
+            if (borders != null)
+            {
+                Object.Destroy(borders);
+            }
+            borders = new GameObject("Border");
+            float bordersHeight = wallHeightOffset + wallHeight/2 + 1 + ballSize;
+            float bordersWidth = wallWidth + 1;
 
             var colliderDown = borders.AddComponent<BoxCollider2D>();
             colliderDown.sharedMaterial = bouncyMaterial;
-            colliderDown.offset = new Vector2(0, -1);
+            colliderDown.offset = new Vector2(0, -1 - ballSize/2);
             colliderDown.size = new Vector2(bordersWidth, 1);
 
             var colliderLeft = borders.AddComponent<BoxCollider2D>();
             colliderLeft.sharedMaterial = bouncyMaterial;
-            colliderLeft.offset = new Vector2(-bordersWidth/2f, bordersHeight/2f - 0.5f);
+            colliderLeft.offset = new Vector2(-bordersWidth/2f, bordersHeight/2f - 0.5f - ballSize/2);
             colliderLeft.size = new Vector2(1, bordersHeight + 1);
 
             var colliderRight = borders.AddComponent<BoxCollider2D>();
             colliderRight.sharedMaterial = bouncyMaterial;
-            colliderRight.offset = new Vector2(bordersWidth/2f, bordersHeight/2f - 0.5f);
+            colliderRight.offset = new Vector2(bordersWidth/2f, bordersHeight/2f - 0.5f - ballSize/2);
             colliderRight.size = new Vector2(1, bordersHeight + 1);
 
             var colliderTop = borders.AddComponent<BoxCollider2D>();
             colliderTop.sharedMaterial = bouncyMaterial;
-            colliderTop.offset = new Vector2(0, bordersHeight);
+            colliderTop.offset = new Vector2(0, bordersHeight - ballSize/2);
             colliderTop.size = new Vector2(bordersWidth, 1);
         }
 
@@ -135,7 +144,7 @@ namespace ProceduralToolkit.Examples
             // Destroy existing bricks
             foreach (var brick in bricks)
             {
-                Destroy(brick);
+                Object.Destroy(brick);
             }
             bricks.Clear();
 
@@ -240,17 +249,21 @@ namespace ProceduralToolkit.Examples
 
         private void GeneratePaddle()
         {
-            paddle = new GameObject("Paddle");
-            paddleTransform = paddle.transform;
+            if (paddle == null)
+            {
+                paddle = new GameObject("Paddle");
+                paddleTransform = paddle.transform;
+
+                var paddleRenderer = paddle.AddComponent<SpriteRenderer>();
+                paddleRenderer.sprite = sprite;
+                paddleRenderer.color = Color.black;
+
+                var paddleCollider = paddle.AddComponent<BoxCollider2D>();
+                paddleCollider.sharedMaterial = bouncyMaterial;
+            }
+
             paddleTransform.position = Vector3.zero;
             paddleTransform.localScale = new Vector3(paddleWidth, paddleHeight);
-
-            var paddleRenderer = paddle.AddComponent<SpriteRenderer>();
-            paddleRenderer.sprite = sprite;
-            paddleRenderer.color = Color.black;
-
-            var paddleCollider = paddle.AddComponent<BoxCollider2D>();
-            paddleCollider.sharedMaterial = bouncyMaterial;
         }
 
         private void GenerateBall()
@@ -259,7 +272,6 @@ namespace ProceduralToolkit.Examples
             {
                 ball = new GameObject("Ball");
                 ballTransform = ball.transform;
-                ballTransform.localScale = new Vector3(ballSize, ballSize);
 
                 var ballRenderer = ball.AddComponent<SpriteRenderer>();
                 ballRenderer.sprite = sprite;
@@ -276,6 +288,7 @@ namespace ProceduralToolkit.Examples
             }
 
             ballTransform.position = Vector3.up;
+            ballTransform.localScale = new Vector3(ballSize, ballSize);
             ballRigidbody.velocity = Vector2.zero;
             KickBall();
         }
