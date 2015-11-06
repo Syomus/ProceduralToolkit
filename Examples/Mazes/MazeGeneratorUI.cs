@@ -143,7 +143,7 @@ namespace ProceduralToolkit.Examples.UI
             if (useRainbowGradient)
             {
                 float hue = Mathf.Repeat(edge.origin.depth/360f, 1);
-                color = ColorE.HSVToRGB(hue, 1, 1);
+                color = new ColorHSV(hue, 1, 1).ToColor();
             }
             else
             {

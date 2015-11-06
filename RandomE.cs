@@ -54,7 +54,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Color colorHSV
         {
-            get { return ColorE.HSVToRGB(Random.value, 1, 1); }
+            get { return new ColorHSV(Random.value, 1, 1).ToColor(); }
         }
 
         /// <summary>

@@ -44,67 +44,6 @@ namespace ProceduralToolkit
 
         #endregion Colors
 
-        /// <summary> Converts hue, saturation and value into RGB color </summary>
-        public static Color HSVToRGB(float hue, float saturation, float value)
-        {
-            var color = black;
-            hue = Mathf.Clamp01(hue);
-            saturation = Mathf.Clamp01(saturation);
-            value = Mathf.Clamp01(value);
-            if (value == 0f)
-            {
-                return color;
-            }
-            if (saturation == 0f)
-            {
-                color.r = value;
-                color.g = value;
-                color.b = value;
-                return color;
-            }
-
-            int i = Mathf.FloorToInt(hue*6);
-            float f = hue*6 - i;
-            float p = value*(1f - saturation);
-            float q = value*(1f - f*saturation);
-            float t = value*(1f - (1f - f)*saturation);
-
-            switch (i%6)
-            {
-                case 0:
-                    color.r = value;
-                    color.g = t;
-                    color.b = p;
-                    break;
-                case 1:
-                    color.r = q;
-                    color.g = value;
-                    color.b = p;
-                    break;
-                case 2:
-                    color.r = p;
-                    color.g = value;
-                    color.b = t;
-                    break;
-                case 3:
-                    color.r = p;
-                    color.g = q;
-                    color.b = value;
-                    break;
-                case 4:
-                    color.r = t;
-                    color.g = p;
-                    color.b = value;
-                    break;
-                case 5:
-                    color.r = value;
-                    color.g = p;
-                    color.b = q;
-                    break;
-            }
-            return color;
-        }
-
         /// <summary>
         /// Returns inverted color with the same alpha
         /// </summary>
