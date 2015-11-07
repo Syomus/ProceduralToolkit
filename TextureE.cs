@@ -14,12 +14,12 @@ namespace ProceduralToolkit
             {
                 Action<int, int, float> draw =
                     (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t));
-                PTUtils.WuLine(x0, y0, x1, y1, draw);
+                PTUtils.DrawAALine(x0, y0, x1, y1, draw);
             }
             else
             {
                 Action<int, int> draw = (x, y) => texture.SetPixel(x, y, color);
-                PTUtils.BresenhamLine(x0, y0, x1, y1, draw);
+                PTUtils.DrawLine(x0, y0, x1, y1, draw);
             }
         }
 
@@ -29,7 +29,16 @@ namespace ProceduralToolkit
         public static void DrawCircle(this Texture2D texture, int x, int y, int radius, Color color)
         {
             Action<int, int> draw = (_x, _y) => texture.SetPixel(_x, _y, color);
-            PTUtils.BresenhamCircle(x, y, radius, draw);
+            PTUtils.DrawCircle(x, y, radius, draw);
+        }
+
+        /// <summary>
+        /// Draws filled circle on texture using Bresenham's algorithm
+        /// </summary>
+        public static void DrawFilledCircle(this Texture2D texture, int x, int y, int radius, Color color)
+        {
+            Action<int, int> draw = (_x, _y) => texture.SetPixel(_x, _y, color);
+            PTUtils.DrawFilledCircle(x, y, radius, draw);
         }
 
         /// <summary>

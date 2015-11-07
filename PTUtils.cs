@@ -79,12 +79,12 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Generic Bresenham line drawer
+        /// Draws aliased line and calls <paramref name="draw"/> on every point in line
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
         /// </remarks>
-        public static void BresenhamLine(int x0, int y0, int x1, int y1, Action<int, int> draw)
+        public static void DrawLine(int x0, int y0, int x1, int y1, Action<int, int> draw)
         {
             bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
             if (steep)
@@ -116,46 +116,94 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Generic Bresenham circle drawer
+        /// Draws aliased circle and calls <paramref name="draw"/> on every point in line
         /// </summary>
         /// <remarks>
-        /// https://en.wikipedia.org/wiki/Midpoint_circle_algorithm
+        /// A Rasterizing Algorithm for Drawing Curves
+        /// http://members.chello.at/easyfilter/bresenham.pdf
         /// </remarks>
-        public static void BresenhamCircle(int x0, int y0, int radius, Action<int, int> draw)
+        public static void DrawCircle(int x0, int y0, int radius, Action<int, int> draw)
         {
-            int x = radius;
+            int x = -radius;
             int y = 0;
-            int radiusError = 1 - x;
-            while (x >= y)
+            int error = 2 - 2*radius; // 2 Quadrant ◴
+            while (x < 0)
             {
-                draw(x + x0, y + y0);
-                draw(y + x0, x + y0);
-                draw(-x + x0, y + y0);
-                draw(-y + x0, x + y0);
-                draw(-x + x0, -y + y0);
-                draw(-y + x0, -x + y0);
-                draw(x + x0, -y + y0);
-                draw(y + x0, -x + y0);
-                y++;
-                if (radiusError < 0)
+                draw(x0 - x, y0 + y); // 1 Quadrant ◷
+                draw(x0 - y, y0 - x); // 2 Quadrant ◴
+                draw(x0 + x, y0 - y); // 3 Quadrant ◵
+                draw(x0 + y, y0 + x); // 4 Quadrant ◶
+
+                int lastError = error;
+                if (y >= error)
                 {
-                    radiusError += 2*y + 1;
+                    y++;
+                    error += 2*y + 1;
                 }
-                else
+
+                // Second condition is needed to avoid weird pixels at diagonals at some radiuses
+                // Example radiuses: 4, 11, 134, 373, 4552
+                if (x < lastError || y < error)
                 {
-                    x--;
-                    radiusError += 2*(y - x + 1);
+                    x++;
+                    error += 2*x + 1;
                 }
             }
         }
 
         /// <summary>
-        /// Generic Wu line drawer
+        /// Draws filled aliased circle and calls <paramref name="draw"/> on every point in line
+        /// </summary>
+        public static void DrawFilledCircle(int x0, int y0, int radius, Action<int, int> draw)
+        {
+            int x = -radius;
+            int y = 0;
+            int error = 2 - 2*radius; // 2 Quadrant ◴
+            int lastY = int.MaxValue;
+            while (x < 0)
+            {
+                if (lastY != y)
+                {
+                    DrawHorizontalLine(x0 + x, x0 - x, y0 + y, draw); // ◠
+                    if (x != 0 && y != 0)
+                    {
+                        DrawHorizontalLine(x0 + x, x0 - x, y0 - y, draw); // ◡
+                    }
+                }
+                lastY = y;
+
+                int lastError = error;
+                if (y >= error)
+                {
+                    y++;
+                    error += 2*y + 1;
+                }
+
+                // Second condition is needed to avoid weird pixels at diagonals at some radiuses
+                // Example radiuses: 4, 11, 134, 373, 4552
+                if (x < lastError || y < error)
+                {
+                    x++;
+                    error += 2*x + 1;
+                }
+            }
+        }
+
+        private static void DrawHorizontalLine(int x0, int x1, int y, Action<int, int> draw)
+        {
+            for (int x = x0; x <= x1; x++)
+            {
+                draw(x, y);
+            }
+        }
+
+        /// <summary>
+        /// Draws anti-aliased line and calls <paramref name="draw"/> on every point in line
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
         /// </remarks>
-        public static void WuLine(int x0, int y0, int x1, int y1, Action<int, int, float> draw)
+        public static void DrawAALine(int x0, int y0, int x1, int y1, Action<int, int, float> draw)
         {
             bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
             if (steep)
