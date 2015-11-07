@@ -7,6 +7,7 @@ namespace ProceduralToolkit.Examples
     /// </summary>
     public class CameraRotator : MonoBehaviour
     {
+        public KeyCode pauseKey = KeyCode.Escape;
         public Transform target;
         public Vector3 distance = new Vector3(0, 1, -10);
         public float turnSpeed = 10;
@@ -14,6 +15,7 @@ namespace ProceduralToolkit.Examples
         public float tiltMax = 85f;
         public float tiltMin = 45f;
 
+        private bool doRotate = true;
         private float lookAngle;
         private float tiltAngle;
         private float smoothX = 0;
@@ -21,31 +23,42 @@ namespace ProceduralToolkit.Examples
         private float smoothXvelocity = 0;
         private float smoothYvelocity = 0;
 
+        private void Update()
+        {
+            if (Input.KeyDown(pauseKey))
+            {
+                doRotate = doRotate == true ? false : true;
+            }
+        }
+
         private void LateUpdate()
         {
             if (target == null) return;
 
-            var x = Input.GetAxis("Mouse X");
-            var y = Input.GetAxis("Mouse Y");
-
-            if (turnSmoothing > 0)
+            if (doRotate == true)
             {
-                smoothX = Mathf.SmoothDamp(smoothX, x, ref smoothXvelocity, turnSmoothing);
-                smoothY = Mathf.SmoothDamp(smoothY, y, ref smoothYvelocity, turnSmoothing);
-            }
-            else
-            {
-                smoothX = x;
-                smoothY = y;
-            }
+                var x = Input.GetAxis("Mouse X");
+                var y = Input.GetAxis("Mouse Y");
 
-            lookAngle += smoothX*turnSpeed;
-            tiltAngle -= smoothY*turnSpeed;
-            tiltAngle = Mathf.Clamp(tiltAngle, -tiltMin, tiltMax);
+                if (turnSmoothing > 0)
+                {
+                    smoothX = Mathf.SmoothDamp(smoothX, x, ref smoothXvelocity, turnSmoothing);
+                    smoothY = Mathf.SmoothDamp(smoothY, y, ref smoothYvelocity, turnSmoothing);
+                }
+                else
+                {
+                    smoothX = x;
+                    smoothY = y;
+                }
 
-            var rotation = Quaternion.Euler(tiltAngle, lookAngle, 0);
-            transform.rotation = rotation;
-            transform.position = rotation*distance + target.position;
+                lookAngle += smoothX*turnSpeed;
+                tiltAngle -= smoothY*turnSpeed;
+                tiltAngle = Mathf.Clamp(tiltAngle, -tiltMin, tiltMax);
+
+                var rotation = Quaternion.Euler(tiltAngle, lookAngle, 0);
+                transform.rotation = rotation;
+                transform.position = rotation*distance + target.position;
+            }
         }
     }
 }
