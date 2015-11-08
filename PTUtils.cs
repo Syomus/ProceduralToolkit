@@ -126,13 +126,13 @@ namespace ProceduralToolkit
         {
             int x = -radius;
             int y = 0;
-            int error = 2 - 2*radius; // 2 Quadrant ◴
+            int error = 2 - 2*radius; // 2 quadrant ◴
             while (x < 0)
             {
-                draw(x0 - x, y0 + y); // 1 Quadrant ◷
-                draw(x0 - y, y0 - x); // 2 Quadrant ◴
-                draw(x0 + x, y0 - y); // 3 Quadrant ◵
-                draw(x0 + y, y0 + x); // 4 Quadrant ◶
+                draw(x0 - x, y0 + y); // 1 quadrant ◷
+                draw(x0 - y, y0 - x); // 2 quadrant ◴
+                draw(x0 + x, y0 - y); // 3 quadrant ◵
+                draw(x0 + y, y0 + x); // 4 quadrant ◶
 
                 int lastError = error;
                 if (y >= error)
@@ -158,14 +158,17 @@ namespace ProceduralToolkit
         {
             int x = -radius;
             int y = 0;
-            int error = 2 - 2*radius; // 2 Quadrant ◴
+            int error = 2 - 2*radius; // 2 quadrant ◴
+            // lastY must have a different value than y
             int lastY = int.MaxValue;
             while (x < 0)
             {
+                // This condition prevents overdraw at poles
                 if (lastY != y)
                 {
                     DrawHorizontalLine(x0 + x, x0 - x, y0 + y, draw); // ◠
-                    if (x != 0 && y != 0)
+                    // This condition prevents overdraw at central horizontal
+                    if (y != 0)
                     {
                         DrawHorizontalLine(x0 + x, x0 - x, y0 - y, draw); // ◡
                     }
@@ -189,9 +192,9 @@ namespace ProceduralToolkit
             }
         }
 
-        private static void DrawHorizontalLine(int x0, int x1, int y, Action<int, int> draw)
+        private static void DrawHorizontalLine(int fromX, int toX, int y, Action<int, int> draw)
         {
-            for (int x = x0; x <= x1; x++)
+            for (int x = fromX; x <= toX; x++)
             {
                 draw(x, y);
             }
