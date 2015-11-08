@@ -1,8 +1,25 @@
 # Procedural Toolkit v0.1.6
 
-Procedural Toolkit is a collection of instruments for creating procedural generation systems. It is free, open source and does not require a Unity Pro license.
+Procedural Toolkit is a collection of instruments for creating procedural generation systems in Unity game engine. It is free, open source and does not require a Unity Pro license.
 
 **Warning: Be aware that this is a programming toolkit, editor support is limited.**
+
+## Installation instructions
+Download toolkit from repository or Asset Store and place it somewhere in your Unity project (e.g. "Assets\ProceduralToolkit"). After that you can import ProceduralToolkit namespace in your script and start building your own PCG systems:
+```C#
+using UnityEngine;
+using ProceduralToolkit;
+
+public class Example : MonoBehaviour
+{
+    private void Awake()
+    {
+        Debug.Log(RandomE.fullName);
+    }
+}
+```
+
+Folder containing example classes and scenes (".\Examples") can be safely removed. The same is true for ".\Shaders", if you are not using examples. Removing ".\Editor" will leave you with code-only toolkit.
 
 ## Classes
 * RandomE: Random extensions for arrays, value generators.
@@ -53,6 +70,11 @@ Procedural Toolkit is a collection of instruments for creating procedural genera
 * [GitHub](https://github.com/Syomus/ProceduralToolkit)
 * [Asset Store](https://www.assetstore.unity3d.com/#!/content/16508)
  
+## Support
+Support is provided via GitHub [issues](https://github.com/Syomus/ProceduralToolkit/issues) and end [email](mailto:proceduraltoolkit@syomus.com).
+
+Keep in mind, that toolkit is developed and tested in second to last minor release of Unity. As of this writing, the latest version is 5.2, so you can expect toolkit to be working in 5.1. Actually, it should work fine even on 4.6, but you are on your own. Also, UnityScript interoperability is not tested.
+
 ## License
 The MIT License (MIT)
 
