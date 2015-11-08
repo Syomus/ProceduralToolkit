@@ -16,36 +16,31 @@ namespace ProceduralToolkit.Examples.UI
         {
             Generate();
 
-            var widthSlider = InstantiateControl<SliderControl>(leftPanel);
-            widthSlider.Initialize("Width", 10, 30, width, value =>
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Width", 10, 30, width, value =>
             {
                 width = value;
                 Generate();
             });
 
-            var lengthSlider = InstantiateControl<SliderControl>(leftPanel);
-            lengthSlider.Initialize("Length", 10, 60, length, value =>
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Length", 10, 60, length, value =>
             {
                 length = value;
                 Generate();
             });
 
-            var floorCountSlider = InstantiateControl<SliderControl>(leftPanel);
-            floorCountSlider.Initialize("Floor count", 1, 10, floorCount, value =>
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Floor count", 1, 10, floorCount, value =>
             {
                 floorCount = value;
                 Generate();
             });
 
-            var hasAtticToggle = InstantiateControl<ToggleControl>(leftPanel);
-            hasAtticToggle.Initialize("Has attic", hasAttic, value =>
+            InstantiateControl<ToggleControl>(leftPanel).Initialize("Has attic", hasAttic, value =>
             {
                 hasAttic = value;
                 Generate();
             });
 
-            var generateButton = InstantiateControl<ButtonControl>(leftPanel);
-            generateButton.Initialize("Generate", Generate);
+            InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
         }
 
         private void Generate()

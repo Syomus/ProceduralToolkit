@@ -15,23 +15,37 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Awake()
         {
-            var xSizeSlider = InstantiateControl<SliderControl>(leftPanel);
-            xSizeSlider.Initialize("X size", 1, 20, xSize, value => xSize = value);
+            InstantiateControl<SliderControl>(leftPanel).Initialize("X size", 1, 20, xSize, value =>
+            {
+                xSize = value;
+                Generate();
+            });
 
-            var zSizeSlider = InstantiateControl<SliderControl>(leftPanel);
-            zSizeSlider.Initialize("Z size", 1, 20, zSize, value => zSize = value);
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Z size", 1, 20, zSize, value =>
+            {
+                zSize = value;
+                Generate();
+            });
 
-            var xSegmentsSlider = InstantiateControl<SliderControl>(leftPanel);
-            xSegmentsSlider.Initialize("X segments", 1, 200, xSegments, value => xSegments = value);
+            InstantiateControl<SliderControl>(leftPanel).Initialize("X segments", 1, 200, xSegments, value =>
+            {
+                xSegments = value;
+                Generate();
+            });
 
-            var zSegmentsSlider = InstantiateControl<SliderControl>(leftPanel);
-            zSegmentsSlider.Initialize("Z segments", 1, 200, zSegments, value => zSegments = value);
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Z segments", 1, 200, zSegments, value =>
+            {
+                zSegments = value;
+                Generate();
+            });
 
-            var noiseScaleSlider = InstantiateControl<SliderControl>(leftPanel);
-            noiseScaleSlider.Initialize("Noise scale", 1, 200, noiseScale, value => noiseScale = value);
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Noise scale", 1, 200, noiseScale, value =>
+            {
+                noiseScale = value;
+                Generate();
+            });
 
-            var generateButton = InstantiateControl<ButtonControl>(leftPanel);
-            generateButton.Initialize("Generate", Generate);
+            InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
 
             Generate();
         }
