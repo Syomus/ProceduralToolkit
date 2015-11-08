@@ -42,8 +42,9 @@ namespace ProceduralToolkit.Examples.UI
             var header = InstantiateControl<TextControl>(algorithmsGroup.transform.parent);
             header.Initialize("Generator algorithm");
             header.transform.SetAsFirstSibling();
-            foreach (MazeGenerator.Algorithm algorithm in algorithms)
+            for (int i = 0; i < algorithms.Length; i++)
             {
+                MazeGenerator.Algorithm algorithm = algorithms[i];
                 var toggle = InstantiateControl<ToggleControl>(algorithmsGroup.transform);
                 toggle.Initialize(
                     header: algorithmToString[algorithm],
@@ -53,23 +54,31 @@ namespace ProceduralToolkit.Examples.UI
                         if (isOn)
                         {
                             generatorAlgorithm = algorithm;
+                            Generate();
                         }
                     },
                     toggleGroup: algorithmsGroup);
             }
 
-            var cellSizeSlider = InstantiateControl<SliderControl>(leftPanel);
-            cellSizeSlider.Initialize("Cell size", 1, 10, cellSize, value => cellSize = value);
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Cell size", 1, 10, cellSize, value =>
+            {
+                cellSize = value;
+                Generate();
+            });
 
-            var wallSizeSlider = InstantiateControl<SliderControl>(leftPanel);
-            wallSizeSlider.Initialize("Wall size", 1, 10, wallSize, value => wallSize = value);
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Wall size", 1, 10, wallSize, value =>
+            {
+                wallSize = value;
+                Generate();
+            });
 
-            var useRainbowGradientToggle = InstantiateControl<ToggleControl>(leftPanel);
-            useRainbowGradientToggle.Initialize("Use rainbow gradient", useRainbowGradient,
-                value => useRainbowGradient = value);
+            InstantiateControl<ToggleControl>(leftPanel).Initialize("Use rainbow gradient", useRainbowGradient, value =>
+            {
+                useRainbowGradient = value;
+                Generate();
+            });
 
-            var generateButton = InstantiateControl<ButtonControl>(leftPanel);
-            generateButton.Initialize("Generate new maze", Generate);
+            InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate new maze", Generate);
 
             Generate();
         }
