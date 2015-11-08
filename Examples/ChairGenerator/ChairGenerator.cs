@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
@@ -8,11 +7,46 @@ namespace ProceduralToolkit.Examples
     /// </summary>
     public static class ChairGenerator
     {
-        public static MeshDraft Chair(float legWidth, float legHeight, Vector3 seatDimensions, float backHeight,
-            bool hasStretchers, bool hasArmrests)
+        private delegate MeshDraft StretchersConstructor(Vector3[] legCenters, float legWidth, float legHeight);
+
+        private static readonly StretchersConstructor[] stretchersConstructors =
         {
-            Vector3 right = Vector3.right*(seatDimensions.x - legWidth)/2;
-            Vector3 forward = Vector3.forward*(seatDimensions.z - legWidth)/2;
+            Stretchers.XStretchers,
+            Stretchers.HStretchers,
+            Stretchers.BoxStretchers
+        };
+
+        private delegate MeshDraft BackConstructor(Vector3 center, float width, float length, float height);
+
+        private static readonly BackConstructor[] backConstructors =
+        {
+            Backs.Back0,
+            Backs.Back1,
+            Backs.RodBack
+        };
+
+        private delegate MeshDraft ArmrestsConstructor(float seatWidth, float seatDepth, Vector3 backCenter,
+            float backHeight, float legWidth);
+
+        private static readonly ArmrestsConstructor[] armrestsConstructors =
+        {
+            Armrests.Armrests0,
+            Armrests.Armrests1
+        };
+
+
+        public static MeshDraft Chair(
+            float legWidth,
+            float legHeight,
+            float seatWidth,
+            float seatDepth,
+            float seatHeight,
+            float backHeight,
+            bool hasStretchers,
+            bool hasArmrests)
+        {
+            Vector3 right = Vector3.right*(seatWidth - legWidth)/2;
+            Vector3 forward = Vector3.forward*(seatDepth - legWidth)/2;
 
             var chair = new MeshDraft {name = "Chair"};
 
@@ -32,37 +66,23 @@ namespace ProceduralToolkit.Examples
             // Generate stretchers
             if (hasStretchers)
             {
-                var stretcherFunc = new Func<Vector3[], float, float, MeshDraft>[]
-                {
-                    Stretchers.XStretchers,
-                    Stretchers.HStretchers,
-                    Stretchers.BoxStretchers
-                }.GetRandom();
-                chair.Add(stretcherFunc(legCenters, legWidth, legHeight));
+                var stretchersConstructor = stretchersConstructors.GetRandom();
+                chair.Add(stretchersConstructor(legCenters, legWidth, legHeight));
             }
 
-            chair.Add(Seat0(Vector3.up*legHeight, seatDimensions.x, seatDimensions.z, seatDimensions.y));
+            // Generate seat
+            chair.Add(Seat0(Vector3.up*legHeight, seatWidth, seatDepth, seatHeight));
 
             // Generate chair back
-            var backFunc = new Func<Vector3, float, float, float, MeshDraft>[]
-            {
-                Backs.Back0,
-                Backs.Back1,
-                Backs.RodBack
-            }.GetRandom();
-            Vector3 backCenter = Vector3.up*(legHeight + seatDimensions.y) +
-                                 Vector3.forward*(seatDimensions.z - legWidth)/2;
-            chair.Add(backFunc(backCenter, seatDimensions.x, legWidth, backHeight));
+            Vector3 backCenter = Vector3.up*(legHeight + seatHeight) + Vector3.forward*(seatDepth - legWidth)/2;
+            var backConstructor = backConstructors.GetRandom();
+            chair.Add(backConstructor(backCenter, seatWidth, legWidth, backHeight));
 
             // Generate armrests
             if (hasArmrests)
             {
-                var armrestsFunc = new Func<Vector3, Vector3, float, float, MeshDraft>[]
-                {
-                    Armrests.Armrests0,
-                    Armrests.Armrests1
-                }.GetRandom();
-                chair.Add(armrestsFunc(seatDimensions, backCenter, backHeight, legWidth));
+                var armrestsConstructor = armrestsConstructors.GetRandom();
+                chair.Add(armrestsConstructor(seatWidth, seatDepth, backCenter, backHeight, legWidth));
             }
 
             chair.Paint(RandomE.colorHSV);

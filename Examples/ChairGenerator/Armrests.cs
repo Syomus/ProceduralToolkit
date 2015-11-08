@@ -4,13 +4,14 @@ namespace ProceduralToolkit.Examples
 {
     public class Armrests
     {
-        public static MeshDraft Armrests0(Vector3 seatDimensions, Vector3 backCenter, float backHeight, float legWidth)
+        public static MeshDraft Armrests0(float seatWidth, float seatDepth, Vector3 backCenter, float backHeight,
+            float legWidth)
         {
             var draft = new MeshDraft();
             float armrestHeight = RandomE.Range(backHeight/4, backHeight*3/4, 3);
-            float armrestLength = seatDimensions.z - legWidth;
+            float armrestLength = seatDepth - legWidth;
 
-            Vector3 corner = backCenter + Vector3.left*(seatDimensions.x/2 - legWidth/2) + Vector3.back*legWidth/2;
+            Vector3 corner = backCenter + Vector3.left*(seatWidth/2 - legWidth/2) + Vector3.back*legWidth/2;
 
             float offset = 0;
             if (RandomE.Chance(0.5f))
@@ -25,19 +26,20 @@ namespace ProceduralToolkit.Examples
             var armrest = ChairGenerator.BeamDraft(v0, v1, legWidth);
             armrest.Add(ChairGenerator.BeamDraft(v2, v3, legWidth));
             draft.Add(armrest);
-            armrest.Move(Vector3.right*(seatDimensions.x - legWidth));
+            armrest.Move(Vector3.right*(seatWidth - legWidth));
             draft.Add(armrest);
             return draft;
         }
 
-        public static MeshDraft Armrests1(Vector3 seatDimensions, Vector3 backCenter, float backHeight, float legWidth)
+        public static MeshDraft Armrests1(float seatWidth, float seatDepth, Vector3 backCenter, float backHeight,
+            float legWidth)
         {
             var draft = new MeshDraft();
             float armrestHeight = RandomE.Range(backHeight/4, backHeight*3/4, 3);
-            float armrestLength = RandomE.Range(seatDimensions.z*3/4, seatDimensions.z, 2);
+            float armrestLength = RandomE.Range(seatDepth*3/4, seatDepth, 2);
             legWidth = RandomE.Range(legWidth*3/4, legWidth, 2);
 
-            Vector3 corner = backCenter + Vector3.left*(seatDimensions.x/2 + legWidth/2) +
+            Vector3 corner = backCenter + Vector3.left*(seatWidth/2 + legWidth/2) +
                              Vector3.forward*legWidth/2;
 
             float offset = 0;
@@ -53,7 +55,7 @@ namespace ProceduralToolkit.Examples
             var armrest = ChairGenerator.BeamDraft(v0, v1, legWidth);
             armrest.Add(ChairGenerator.BeamDraft(v2, v3, legWidth));
             draft.Add(armrest);
-            armrest.Move(Vector3.right*(seatDimensions.x + legWidth));
+            armrest.Move(Vector3.right*(seatWidth + legWidth));
             draft.Add(armrest);
             return draft;
         }
