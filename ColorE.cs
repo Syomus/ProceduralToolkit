@@ -4,43 +4,41 @@ namespace ProceduralToolkit
 {
     public static class ColorE
     {
-        #region Colors
+        #region HTML colors from http://www.w3.org/TR/REC-html40/types.html#h-6.5
 
-        // HTML colors from http://www.w3.org/TR/REC-html40/types.html#h-6.5
+        public static Color32 black32 { get { return new Color32(0, 0, 0, 255); } }
+        public static Color32 silver32 { get { return new Color32(192, 192, 192, 255); } }
+        public static Color32 gray32 { get { return new Color32(128, 128, 128, 255); } }
+        public static Color32 white32 { get { return new Color32(255, 255, 255, 255); } }
+        public static Color32 maroon32 { get { return new Color32(128, 0, 0, 255); } }
+        public static Color32 red32 { get { return new Color32(255, 0, 0, 255); } }
+        public static Color32 purple32 { get { return new Color32(128, 0, 128, 255); } }
+        public static Color32 fuchsia32 { get { return new Color32(255, 0, 255, 255); } }
+        public static Color32 green32 { get { return new Color32(0, 128, 0, 255); } }
+        public static Color32 lime32 { get { return new Color32(0, 255, 0, 255); } }
+        public static Color32 olive32 { get { return new Color32(128, 128, 0, 255); } }
+        public static Color32 yellow32 { get { return new Color32(255, 255, 0, 255); } }
+        public static Color32 navy32 { get { return new Color32(0, 0, 128, 255); } }
+        public static Color32 blue32 { get { return new Color32(0, 0, 255, 255); } }
+        public static Color32 teal32 { get { return new Color32(0, 128, 128, 255); } }
+        public static Color32 aqua32 { get { return new Color32(0, 255, 255, 255); } }
 
-        public static readonly Color32 black32 = new Color32(0, 0, 0, 255);
-        public static readonly Color32 silver32 = new Color32(192, 192, 192, 255);
-        public static readonly Color32 gray32 = new Color32(128, 128, 128, 255);
-        public static readonly Color32 white32 = new Color32(255, 255, 255, 255);
-        public static readonly Color32 maroon32 = new Color32(128, 0, 0, 255);
-        public static readonly Color32 red32 = new Color32(255, 0, 0, 255);
-        public static readonly Color32 purple32 = new Color32(128, 0, 128, 255);
-        public static readonly Color32 fuchsia32 = new Color32(255, 0, 255, 255);
-        public static readonly Color32 green32 = new Color32(0, 128, 0, 255);
-        public static readonly Color32 lime32 = new Color32(0, 255, 0, 255);
-        public static readonly Color32 olive32 = new Color32(128, 128, 0, 255);
-        public static readonly Color32 yellow32 = new Color32(255, 255, 0, 255);
-        public static readonly Color32 navy32 = new Color32(0, 0, 128, 255);
-        public static readonly Color32 blue32 = new Color32(0, 0, 255, 255);
-        public static readonly Color32 teal32 = new Color32(0, 128, 128, 255);
-        public static readonly Color32 aqua32 = new Color32(0, 255, 255, 255);
-
-        public static readonly Color black = black32;
-        public static readonly Color silver = silver32;
-        public static readonly Color gray = gray32;
-        public static readonly Color white = white32;
-        public static readonly Color maroon = maroon32;
-        public static readonly Color red = red32;
-        public static readonly Color purple = purple32;
-        public static readonly Color fuchsia = fuchsia32;
-        public static readonly Color green = green32;
-        public static readonly Color lime = lime32;
-        public static readonly Color olive = olive32;
-        public static readonly Color yellow = yellow32;
-        public static readonly Color navy = navy32;
-        public static readonly Color blue = blue32;
-        public static readonly Color teal = teal32;
-        public static readonly Color aqua = aqua32;
+        public static Color black { get { return black32; } }
+        public static Color silver { get { return silver32; } }
+        public static Color gray { get { return gray32; } }
+        public static Color white { get { return white32; } }
+        public static Color maroon { get { return maroon32; } }
+        public static Color red { get { return red32; } }
+        public static Color purple { get { return purple32; } }
+        public static Color fuchsia { get { return fuchsia32; } }
+        public static Color green { get { return green32; } }
+        public static Color lime { get { return lime32; } }
+        public static Color olive { get { return olive32; } }
+        public static Color yellow { get { return yellow32; } }
+        public static Color navy { get { return navy32; } }
+        public static Color blue { get { return blue32; } }
+        public static Color teal { get { return teal32; } }
+        public static Color aqua { get { return aqua32; } }
 
         #endregion Colors
 
