@@ -9,144 +9,105 @@ namespace ProceduralToolkit
     /// </summary>
     public static class RandomE
     {
+        #region Vectors
+
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector2 onUnitCircle
-        {
-            get { return PTUtils.PointOnCircle2(1, Random.Range(0, 2*Mathf.PI)); }
-        }
+        public static Vector2 onUnitCircle { get { return PTUtils.PointOnCircle2(1, Random.Range(0, 2*Mathf.PI)); } }
 
         /// <summary>
         /// Returns a random point inside a square with side lengths 1
         /// </summary>
-        public static Vector2 insideUnitSquare
-        {
-            get { return new Vector2(Random.value, Random.value); }
-        }
+        public static Vector2 insideUnitSquare { get { return new Vector2(Random.value, Random.value); } }
 
         /// <summary>
         /// Returns a random point on a perimeter of square with side lengths 1
         /// </summary>
-        public static Vector2 onUnitSquare
-        {
-            get { return PointOnSquare(1, 1); }
-        }
+        public static Vector2 onUnitSquare { get { return PointOnSquare(1, 1); } }
 
         /// <summary>
         /// Returns a random point inside a cube with side lengths 1
         /// </summary>
-        public static Vector3 insideUnitCube
-        {
-            get { return new Vector3(Random.value, Random.value, Random.value); }
-        }
+        public static Vector3 insideUnitCube { get { return new Vector3(Random.value, Random.value, Random.value); } }
+
+        #endregion Vectors
+
+        #region Colors
 
         /// <summary>
         /// Returns a random color between black [inclusive] and white [inclusive]
         /// </summary>
-        public static Color color
-        {
-            get { return new Color(Random.value, Random.value, Random.value); }
-        }
+        public static Color color { get { return new Color(Random.value, Random.value, Random.value); } }
 
         /// <summary>
         /// Returns a color with random hue and maximum saturation and value in HSV model
         /// </summary>
-        public static Color colorHSV
-        {
-            get { return new ColorHSV(Random.value, 1, 1).ToColor(); }
-        }
+        public static Color colorHSV { get { return new ColorHSV(Random.value, 1, 1).ToColor(); } }
 
         /// <summary>
         /// Returns a gradient between two random colors
         /// </summary>
-        public static Gradient gradient
-        {
-            get { return ColorE.Gradient(color, color); }
-        }
+        public static Gradient gradient { get { return ColorE.Gradient(color, color); } }
 
         /// <summary>
         /// Returns a gradient between two random HSV colors
         /// </summary>
-        public static Gradient gradientHSV
-        {
-            get { return ColorE.Gradient(colorHSV, colorHSV); }
-        }
+        public static Gradient gradientHSV { get { return ColorE.Gradient(colorHSV, colorHSV); } }
+
+        #endregion Colors
+
+        #region Strings
 
         /// <summary>
         /// Returns a random alphanumeric 8-character string
         /// </summary>
-        public static string string8
-        {
-            get { return Datasets.alphanumerics.GetRandom(8); }
-        }
+        public static string string8 { get { return Datasets.alphanumerics.GetRandom(8); } }
 
         /// <summary>
         /// Returns a random alphanumeric 16-character string
         /// </summary>
-        public static string string16
-        {
-            get { return Datasets.alphanumerics.GetRandom(16); }
-        }
+        public static string string16 { get { return Datasets.alphanumerics.GetRandom(16); } }
 
         /// <summary>
         /// Returns a random lowercase letter
         /// </summary>
-        public static char lowercaseLetter
-        {
-            get { return Datasets.lowercase.GetRandom(); }
-        }
+        public static char lowercaseLetter { get { return Datasets.lowercase.GetRandom(); } }
 
         /// <summary>
         /// Returns a random uppercase letter
         /// </summary>
-        public static char uppercaseLetter
-        {
-            get { return Datasets.uppercase.GetRandom(); }
-        }
+        public static char uppercaseLetter { get { return Datasets.uppercase.GetRandom(); } }
 
         /// <summary>
         /// Returns a random first name
         /// </summary>
-        public static string name
-        {
-            get { return Chance(0.5f) ? femaleName : maleName; }
-        }
+        public static string name { get { return Chance(0.5f) ? femaleName : maleName; } }
 
         /// <summary>
         /// Returns a random female name
         /// </summary>
-        public static string femaleName
-        {
-            get { return Datasets.femaleNames.GetRandom(); }
-        }
+        public static string femaleName { get { return Datasets.femaleNames.GetRandom(); } }
 
         /// <summary>
         /// Returns a random male name
         /// </summary>
-        public static string maleName
-        {
-            get { return Datasets.maleNames.GetRandom(); }
-        }
+        public static string maleName { get { return Datasets.maleNames.GetRandom(); } }
 
         /// <summary>
         /// Returns a random last name
         /// </summary>
-        public static string lastName
-        {
-            get { return Datasets.lastNames.GetRandom(); }
-        }
+        public static string lastName { get { return Datasets.lastNames.GetRandom(); } }
 
         /// <summary>
         /// Returns a random full name in format "[First name] [Last name]"
         /// </summary>
-        public static string fullName
-        {
-            get { return string.Format("{0} {1}", name, lastName); }
-        }
+        public static string fullName { get { return string.Format("{0} {1}", name, lastName); } }
+
+        #endregion Strings
 
         /// <summary>
-        /// Returns a random element from list
+        /// Returns a random element
         /// </summary>
         public static T GetRandom<T>(this List<T> items)
         {
@@ -159,7 +120,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random element from array
+        /// Returns a random element
         /// </summary>
         public static T GetRandom<T>(this T[] items)
         {
@@ -172,7 +133,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random element from list of elements
+        /// Returns a random element
         /// </summary>
         public static T GetRandom<T>(T item1, T item2, params T[] items)
         {
@@ -194,7 +155,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random element from list with chances for roll of each element based on <paramref name="weights"/>
+        /// Returns a random element with chances for roll of each element based on <paramref name="weights"/>
         /// </summary>
         /// <param name="weights">Positive floats representing chances</param>
         public static T GetRandom<T>(this List<T> list, List<float> weights)
@@ -268,7 +229,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random element from list of elements and removes it from list
+        /// Returns a random element and removes it from list
         /// </summary>
         public static T PopRandom<T>(this List<T> items)
         {
@@ -286,6 +247,9 @@ namespace ProceduralToolkit
         /// <summary>
         /// Fisher–Yates shuffle
         /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Fisher–Yates_shuffle
+        /// </remarks>
         public static void Shuffle<T>(this T[] array)
         {
             for (int i = 0; i < array.Length; i++)
@@ -300,6 +264,9 @@ namespace ProceduralToolkit
         /// <summary>
         /// Fisher–Yates shuffle
         /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Fisher–Yates_shuffle
+        /// </remarks>
         public static void Shuffle<T>(this List<T> array)
         {
             for (int i = 0; i < array.Count; i++)
