@@ -141,7 +141,7 @@ namespace ProceduralToolkit
                     error += 2*y + 1;
                 }
 
-                // Second condition is needed to avoid weird pixels at diagonals at some radiuses
+                // Second check is needed to avoid weird pixels at diagonals at some radiuses
                 // Example radiuses: 4, 11, 134, 373, 4552
                 if (x < lastError || y < error)
                 {
@@ -163,11 +163,11 @@ namespace ProceduralToolkit
             int lastY = int.MaxValue;
             while (x < 0)
             {
-                // This condition prevents overdraw at poles
+                // This check prevents overdraw at poles
                 if (lastY != y)
                 {
                     DrawHorizontalLine(x0 + x, x0 - x, y0 + y, draw); // ◠
-                    // This condition prevents overdraw at central horizontal
+                    // This check prevents overdraw at central horizontal
                     if (y != 0)
                     {
                         DrawHorizontalLine(x0 + x, x0 - x, y0 - y, draw); // ◡
@@ -182,7 +182,7 @@ namespace ProceduralToolkit
                     error += 2*y + 1;
                 }
 
-                // Second condition is needed to avoid weird pixels at diagonals at some radiuses
+                // Second check is needed to avoid weird pixels at diagonals at some radiuses
                 // Example radiuses: 4, 11, 134, 373, 4552
                 if (x < lastError || y < error)
                 {
