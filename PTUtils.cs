@@ -84,6 +84,17 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
         /// </remarks>
+        public static void DrawLine(Vector2Int v0, Vector2Int v1, Action<int, int> draw)
+        {
+            DrawLine(v0.x, v0.y, v1.x, v1.y, draw);
+        }
+
+        /// <summary>
+        /// Draws aliased line and calls <paramref name="draw"/> on every point in line
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
+        /// </remarks>
         public static void DrawLine(int x0, int y0, int x1, int y1, Action<int, int> draw)
         {
             bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
@@ -122,6 +133,18 @@ namespace ProceduralToolkit
         /// A Rasterizing Algorithm for Drawing Curves
         /// http://members.chello.at/easyfilter/bresenham.pdf
         /// </remarks>
+        public static void DrawCircle(Vector2Int v0, int radius, Action<int, int> draw)
+        {
+            DrawCircle(v0.x, v0.y, radius, draw);
+        }
+
+        /// <summary>
+        /// Draws aliased circle and calls <paramref name="draw"/> on every point in line
+        /// </summary>
+        /// <remarks>
+        /// A Rasterizing Algorithm for Drawing Curves
+        /// http://members.chello.at/easyfilter/bresenham.pdf
+        /// </remarks>
         public static void DrawCircle(int x0, int y0, int radius, Action<int, int> draw)
         {
             int x = -radius;
@@ -149,6 +172,14 @@ namespace ProceduralToolkit
                     error += 2*x + 1;
                 }
             }
+        }
+
+        /// <summary>
+        /// Draws filled aliased circle and calls <paramref name="draw"/> on every point in line
+        /// </summary>
+        public static void DrawFilledCircle(Vector2Int v0, int radius, Action<int, int> draw)
+        {
+            DrawFilledCircle(v0.x, v0.y, radius, draw);
         }
 
         /// <summary>
@@ -198,6 +229,17 @@ namespace ProceduralToolkit
             {
                 draw(x, y);
             }
+        }
+
+        /// <summary>
+        /// Draws anti-aliased line and calls <paramref name="draw"/> on every point in line
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
+        /// </remarks>
+        public static void DrawAALine(Vector2Int v0, Vector2Int v1, Action<int, int, float> draw)
+        {
+            DrawAALine(v0.x, v0.y, v1.x, v1.y, draw);
         }
 
         /// <summary>
@@ -263,6 +305,18 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns perp of vector
+        /// </summary>
+        /// <remarks>
+        /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
+        /// Ch. II.5 in Graphics Gems IV (Ed. P. S. Heckbert). San Diego: Academic Press, pp. 138-148, 1994
+        /// </remarks>
+        public static Vector2Int Perp(Vector2Int vector)
+        {
+            return new Vector2Int(-vector.y, vector.x);
+        }
+
+        /// <summary>
         /// Returns perp dot product of vectors
         /// </summary>
         /// <remarks>
@@ -270,6 +324,18 @@ namespace ProceduralToolkit
         /// Ch. II.5 in Graphics Gems IV (Ed. P. S. Heckbert). San Diego: Academic Press, pp. 138-148, 1994
         /// </remarks>
         public static float PerpDot(Vector2 a, Vector2 b)
+        {
+            return a.x*b.y - a.y*b.x;
+        }
+
+        /// <summary>
+        /// Returns perp dot product of vectors
+        /// </summary>
+        /// <remarks>
+        /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
+        /// Ch. II.5 in Graphics Gems IV (Ed. P. S. Heckbert). San Diego: Academic Press, pp. 138-148, 1994
+        /// </remarks>
+        public static int PerpDot(Vector2Int a, Vector2Int b)
         {
             return a.x*b.y - a.y*b.x;
         }

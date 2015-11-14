@@ -6,39 +6,69 @@ namespace ProceduralToolkit
     public static class TextureE
     {
         /// <summary>
-        /// Draws line on texture using Bresenham's or Wu's algorithm
+        /// Draws line on texture
         /// </summary>
-        public static void DrawLine(this Texture2D texture, int x0, int y0, int x1, int y1, Color color, bool AA = false)
+        public static void DrawLine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
-            if (AA)
-            {
-                Action<int, int, float> draw =
-                    (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t));
-                PTUtils.DrawAALine(x0, y0, x1, y1, draw);
-            }
-            else
-            {
-                Action<int, int> draw = (x, y) => texture.SetPixel(x, y, color);
-                PTUtils.DrawLine(x0, y0, x1, y1, draw);
-            }
+            PTUtils.DrawLine(v0, v1, (x, y) => texture.SetPixel(x, y, color));
         }
 
         /// <summary>
-        /// Draws circle on texture using Bresenham's algorithm
+        /// Draws line on texture
         /// </summary>
-        public static void DrawCircle(this Texture2D texture, int x, int y, int radius, Color color)
+        public static void DrawLine(this Texture2D texture, int x0, int y0, int x1, int y1, Color color)
         {
-            Action<int, int> draw = (_x, _y) => texture.SetPixel(_x, _y, color);
-            PTUtils.DrawCircle(x, y, radius, draw);
+            PTUtils.DrawLine(x0, y0, x1, y1, (x, y) => texture.SetPixel(x, y, color));
+        }
+
+        /// <summary>
+        /// Draws anti-aliased line on texture
+        /// </summary>
+        public static void DrawAALine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
+        {
+            PTUtils.DrawAALine(v0, v1,
+                (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t)));
+        }
+
+        /// <summary>
+        /// Draws anti-aliased line on texture
+        /// </summary>
+        public static void DrawAALine(this Texture2D texture, int x0, int y0, int x1, int y1, Color color)
+        {
+            PTUtils.DrawAALine(x0, y0, x1, y1,
+                (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t)));
+        }
+
+        /// <summary>
+        /// Draws circle on texture
+        /// </summary>
+        public static void DrawCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
+        {
+            PTUtils.DrawCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
+        }
+
+        /// <summary>
+        /// Draws circle on texture
+        /// </summary>
+        public static void DrawCircle(this Texture2D texture, int centerX, int centerY, int radius, Color color)
+        {
+            PTUtils.DrawCircle(centerX, centerY, radius, (x, y) => texture.SetPixel(x, y, color));
         }
 
         /// <summary>
         /// Draws filled circle on texture using Bresenham's algorithm
         /// </summary>
-        public static void DrawFilledCircle(this Texture2D texture, int x, int y, int radius, Color color)
+        public static void DrawFilledCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
-            Action<int, int> draw = (_x, _y) => texture.SetPixel(_x, _y, color);
-            PTUtils.DrawFilledCircle(x, y, radius, draw);
+            PTUtils.DrawFilledCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
+        }
+
+        /// <summary>
+        /// Draws filled circle on texture using Bresenham's algorithm
+        /// </summary>
+        public static void DrawFilledCircle(this Texture2D texture, int centerX, int centerY, int radius, Color color)
+        {
+            PTUtils.DrawFilledCircle(centerX, centerY, radius, (x, y) => texture.SetPixel(x, y, color));
         }
 
         /// <summary>
@@ -87,8 +117,8 @@ namespace ProceduralToolkit
                     getColor = (_x, _y) => gradient.Evaluate((float) _y/(float) blockHeight);
                     break;
                 default:
-                    Debug.LogError("Not supported direction: " + progressionDirection);
-                    return;
+                    throw new ArgumentException("Not supported direction: " + progressionDirection,
+                        "progressionDirection");
             }
 
             var colors = new Color[blockWidth*blockHeight];
@@ -115,7 +145,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Clear(this Texture2D texture, Color color)
         {
-            var pixels = texture.GetPixels();
+            Color[] pixels = texture.GetPixels();
             for (var i = 0; i < pixels.Length; ++i)
             {
                 pixels[i] = color;
