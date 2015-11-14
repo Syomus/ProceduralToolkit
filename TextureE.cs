@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Texture extensions
+    /// </summary>
     public static class TextureE
     {
         /// <summary>

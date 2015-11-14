@@ -2,6 +2,9 @@
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Color extensions
+    /// </summary>
     public static class ColorE
     {
         #region HTML colors from http://www.w3.org/TR/REC-html40/types.html#h-6.5
