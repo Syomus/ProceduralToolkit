@@ -1,51 +1,75 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace ProceduralToolkit.Examples
 {
     /// <summary>
     /// Simple camera controller
     /// </summary>
-    public class CameraRotator : MonoBehaviour
+    [RequireComponent(typeof (Image))]
+    public class CameraRotator : UIBehaviour, IDragHandler
     {
+        public new Transform camera;
         public Transform target;
-        public Vector3 distance = new Vector3(0, 1, -10);
-        public float turnSpeed = 10;
-        public float turnSmoothing = 0.1f;
-        public float tiltMax = 85f;
-        public float tiltMin = 45f;
+        [Header("Position")]
+        public float distanceMin = 10;
+        public float distanceMax = 30;
+        public float yOffset = 0;
+        public float scrollSensitivity = 1000;
+        public float scrollSmoothing = 10;
+        [Header("Rotation")]
+        public float tiltMin = -85;
+        public float tiltMax = 85;
+        public float rotationSensitivity = 0.5f;
+        public float rotationSpeed = 20;
 
+        private float distance;
+        private float scrollDistance;
+        private float velocity;
         private float lookAngle;
         private float tiltAngle;
-        private float smoothX = 0;
-        private float smoothY = 0;
-        private float smoothXvelocity = 0;
-        private float smoothYvelocity = 0;
+        private Quaternion rotation;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            tiltAngle = (tiltMin + tiltMax)/2;
+            rotation = Quaternion.Euler(tiltAngle, lookAngle, 0);
+            distance = scrollDistance = (distanceMax + distanceMin)/2;
+        }
 
         private void LateUpdate()
         {
-            if (target == null) return;
+            if (camera == null || target == null) return;
 
-            var x = Input.GetAxis("Mouse X");
-            var y = Input.GetAxis("Mouse Y");
-
-            if (turnSmoothing > 0)
+            if (camera.rotation != rotation)
             {
-                smoothX = Mathf.SmoothDamp(smoothX, x, ref smoothXvelocity, turnSmoothing);
-                smoothY = Mathf.SmoothDamp(smoothY, y, ref smoothYvelocity, turnSmoothing);
-            }
-            else
-            {
-                smoothX = x;
-                smoothY = y;
+                camera.rotation = Quaternion.Lerp(camera.rotation, rotation, Time.deltaTime*rotationSpeed);
             }
 
-            lookAngle += smoothX*turnSpeed;
-            tiltAngle -= smoothY*turnSpeed;
-            tiltAngle = Mathf.Clamp(tiltAngle, -tiltMin, tiltMax);
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (scroll != 0)
+            {
+                scrollDistance -= scroll*Time.deltaTime*scrollSensitivity;
+                scrollDistance = Mathf.Clamp(scrollDistance, distanceMin, distanceMax);
+            }
 
-            var rotation = Quaternion.Euler(tiltAngle, lookAngle, 0);
-            transform.rotation = rotation;
-            transform.position = rotation*distance + target.position;
+            if (distance != scrollDistance)
+            {
+                distance = Mathf.SmoothDamp(distance, scrollDistance, ref velocity, Time.deltaTime*scrollSmoothing);
+            }
+            camera.position = target.position + camera.rotation*(Vector3.back*distance) + Vector3.up*yOffset;
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (camera == null || target == null) return;
+
+            lookAngle += eventData.delta.x*rotationSensitivity;
+            tiltAngle -= eventData.delta.y*rotationSensitivity;
+            tiltAngle = Mathf.Clamp(tiltAngle, tiltMin, tiltMax);
+            rotation = Quaternion.Euler(tiltAngle, lookAngle, 0);
         }
     }
 }
