@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace ProceduralToolkit.Examples.UI
 {
@@ -12,45 +13,51 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Awake()
         {
-            controller = new BoidController(meshFilter);
-            controller.Generate();
-            StartCoroutine(controller.Simulate());
+            Generate();
+            StartCoroutine(Simulate());
 
-            var maxSpeedSlider = InstantiateControl<SliderControl>(leftPanel);
-            maxSpeedSlider.Initialize("Max speed", 0, 30,
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Max speed", 0, 30,
                 value: (int) controller.maxSpeed,
                 onValueChanged: value => controller.maxSpeed = value);
 
-            var interactionRadiusSlider = InstantiateControl<SliderControl>(leftPanel);
-            interactionRadiusSlider.Initialize("Interaction radius", 0, 30,
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Interaction radius", 0, 30,
                 value: (int) controller.interactionRadius,
                 onValueChanged: value => controller.interactionRadius = value);
 
-            var cohesionCoefficientSlider = InstantiateControl<SliderControl>(leftPanel);
-            cohesionCoefficientSlider.Initialize("Cohesion coefficient", 0, 30,
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Cohesion coefficient", 0, 30,
                 value: (int) controller.cohesionCoefficient,
                 onValueChanged: value => controller.cohesionCoefficient = value);
 
-            var separationDistanceSlider = InstantiateControl<SliderControl>(leftPanel);
-            separationDistanceSlider.Initialize("Separation distance", 0, 30,
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Separation distance", 0, 30,
                 value: (int) controller.separationDistance,
                 onValueChanged: value => controller.separationDistance = value);
 
-            var separationCoefficientSlider = InstantiateControl<SliderControl>(leftPanel);
-            separationCoefficientSlider.Initialize("Separation coefficient", 0, 30,
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Separation coefficient", 0, 30,
                 value: (int) controller.separationCoefficient,
                 onValueChanged: value => controller.separationCoefficient = value);
 
-            var alignmentCoefficientSlider = InstantiateControl<SliderControl>(leftPanel);
-            alignmentCoefficientSlider.Initialize("Alignment coefficient", 0, 30,
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Alignment coefficient", 0, 30,
                 value: (int) controller.alignmentCoefficient,
                 onValueChanged: value => controller.alignmentCoefficient = value);
 
-            var simulateToggle = InstantiateControl<ToggleControl>(leftPanel);
-            simulateToggle.Initialize("Simulate", simulate, value => simulate = value);
+            InstantiateControl<ToggleControl>(leftPanel).Initialize("Simulate", simulate, value => simulate = value);
 
-            var generateButton = InstantiateControl<ButtonControl>(leftPanel);
-            generateButton.Initialize("Generate", controller.Generate);
+            InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
+        }
+
+        private void Generate()
+        {
+            controller = new BoidController();
+            var mesh = controller.Generate();
+            meshFilter.mesh = mesh;
+        }
+
+        private IEnumerator Simulate()
+        {
+            while (true)
+            {
+                yield return StartCoroutine(controller.CalculateVelocities());
+            }
         }
 
         private void Update()
