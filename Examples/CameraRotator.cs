@@ -35,8 +35,12 @@ namespace ProceduralToolkit.Examples
         {
             base.Awake();
             tiltAngle = (tiltMin + tiltMax)/2;
-            rotation = Quaternion.Euler(tiltAngle, lookAngle, 0);
             distance = scrollDistance = (distanceMax + distanceMin)/2;
+
+            if (camera == null || target == null) return;
+
+            camera.rotation = rotation = Quaternion.Euler(tiltAngle, lookAngle, 0);
+            camera.position = CalculateCameraPosition();
         }
 
         private void LateUpdate()
@@ -59,7 +63,8 @@ namespace ProceduralToolkit.Examples
             {
                 distance = Mathf.SmoothDamp(distance, scrollDistance, ref velocity, Time.deltaTime*scrollSmoothing);
             }
-            camera.position = target.position + camera.rotation*(Vector3.back*distance) + Vector3.up*yOffset;
+
+            camera.position = CalculateCameraPosition();
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -70,6 +75,11 @@ namespace ProceduralToolkit.Examples
             tiltAngle -= eventData.delta.y*rotationSensitivity;
             tiltAngle = Mathf.Clamp(tiltAngle, tiltMin, tiltMax);
             rotation = Quaternion.Euler(tiltAngle, lookAngle, 0);
+        }
+
+        private Vector3 CalculateCameraPosition()
+        {
+            return target.position + camera.rotation*(Vector3.back*distance) + Vector3.up*yOffset;
         }
     }
 }
