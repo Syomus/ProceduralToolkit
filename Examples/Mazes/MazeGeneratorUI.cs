@@ -14,11 +14,13 @@ namespace ProceduralToolkit.Examples.UI
         private Texture2D texture;
         private int textureWidth = 256;
         private int textureHeight = 256;
-        private bool useRainbowGradient = true;
+        private bool useGradient = true;
         private MazeGenerator mazeGenerator;
         private MazeGenerator.Algorithm generatorAlgorithm = MazeGenerator.Algorithm.RandomTraversal;
         private int cellSize = 2;
         private int wallSize = 1;
+        private float hue;
+        private float gradientLength = 30;
 
         private MazeGenerator.Algorithm[] algorithms = new[]
         {
@@ -72,9 +74,9 @@ namespace ProceduralToolkit.Examples.UI
                 Generate();
             });
 
-            InstantiateControl<ToggleControl>(leftPanel).Initialize("Use rainbow gradient", useRainbowGradient, value =>
+            InstantiateControl<ToggleControl>(leftPanel).Initialize("Use gradient", useGradient, value =>
             {
-                useRainbowGradient = value;
+                useGradient = value;
                 Generate();
             });
 
@@ -105,8 +107,12 @@ namespace ProceduralToolkit.Examples.UI
             var algorithm = generatorAlgorithm;
             if (algorithm == MazeGenerator.Algorithm.None)
             {
-                algorithm = algorithms.GetRandom();
+                algorithm = RandomE.GetRandom(MazeGenerator.Algorithm.RandomTraversal,
+                    MazeGenerator.Algorithm.RandomDepthFirstTraversal,
+                    MazeGenerator.Algorithm.RandomBreadthFirstTraversal);
             }
+
+            hue = Random.value;
 
             switch (algorithm)
             {
@@ -149,10 +155,10 @@ namespace ProceduralToolkit.Examples.UI
             }
 
             Color color;
-            if (useRainbowGradient)
+            if (useGradient)
             {
-                float hue = Mathf.Repeat(edge.origin.depth/360f, 1);
-                color = new ColorHSV(hue, 1, 1).ToColor();
+                float gradient = Mathf.Abs((Mathf.Repeat(edge.origin.depth/gradientLength, 1) - 0.5f)*2);
+                color = new ColorHSV(hue, gradient, gradient).ToColor();
             }
             else
             {
