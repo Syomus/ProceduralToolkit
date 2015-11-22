@@ -148,7 +148,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Clear(this Texture2D texture, Color color)
         {
-            Color[] pixels = texture.GetPixels();
+            Color[] pixels = new Color[texture.width*texture.height];
             for (var i = 0; i < pixels.Length; ++i)
             {
                 pixels[i] = color;
