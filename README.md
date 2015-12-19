@@ -1,4 +1,4 @@
-# Procedural Toolkit v0.1.6
+# Procedural Toolkit v0.1.7
 
 Procedural Toolkit is a collection of instruments for creating procedural generation systems in Unity game engine. It is free, open source and does not require a Unity Pro license.
 
@@ -53,12 +53,16 @@ Folder containing example classes and scenes (".\Examples") can be safely remove
     <td><img src="http://syomus.com/ProceduralToolkit/screenshot-breakout-300.jpg"></td>
   </tr>
   <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/TerrainMesh">TerrainMesh</a>: a simple terrain based on Perlin noise and coloured according to height</td>
-    <td><img src="http://syomus.com/ProceduralToolkit/screenshot-terrain-300.jpg"></td>
+    <td><a href="http://syomus.com/ProceduralToolkit/CellularAutomaton">CellularAutomaton</a>: a generic cellular automaton</td>
+    <td><img src=""></td>
   </tr>
   <tr>
     <td><a href="http://syomus.com/ProceduralToolkit/Mazes">Mazes</a>: a maze generators</td>
     <td><img src="http://syomus.com/ProceduralToolkit/screenshot-mazes-300.jpg"></td>
+  </tr>
+  <tr>
+    <td><a href="http://syomus.com/ProceduralToolkit/TerrainMesh">TerrainMesh</a>: a simple terrain based on Perlin noise and coloured according to height</td>
+    <td><img src="http://syomus.com/ProceduralToolkit/screenshot-terrain-300.jpg"></td>
   </tr>
   <tr>
     <td><a href="http://syomus.com/ProceduralToolkit/Primitives">Primitives</a>: a demonstration of primitives</td>
@@ -73,7 +77,7 @@ Folder containing example classes and scenes (".\Examples") can be safely remove
 ## Support
 Support is provided via GitHub [issues](https://github.com/Syomus/ProceduralToolkit/issues) and end [email](mailto:proceduraltoolkit@syomus.com).
 
-Keep in mind, that toolkit is developed and tested in second to last minor release of Unity. As of this writing, the latest version is 5.2, so you can expect toolkit to be working in 5.1. Actually, it should work fine even on 4.6, but you are on your own. Also, UnityScript interoperability is not tested.
+Keep in mind, that toolkit is developed and tested in second to last minor release of Unity. As of this writing, the latest version is 5.3, so you can expect toolkit to be working in 5.2. Actually, it should work fine even on 4.6, but you are on your own. Also, UnityScript interoperability is not tested.
 
 ## License
 The MIT License (MIT)
@@ -99,7 +103,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ## Version history
-##### 2015.10.02 - 0.1.6:
+##### 0.1.7 (2015.12.19)
+* Features:
+  * Added ColorHSV class
+  * Added Vector2Int class
+  * Added ArrayE class
+  * Added CircularList class
+  * Added CellularAutomaton example
+* Improvements:
+  * Added PTUtils.DrawFilledCircle
+  * Refactored drawing methods, eliminated overdraw
+* Changes:
+  * Removed ColorE.HSVToRGB, use ColorHSV instead
+  * New CameraRotator behaviour, now requires Image to operate
+  * PTUtils.WuLine is now DrawAALine, BresenhamLine is DrawLine
+* Fixes:
+  * Fixed a few ui and generator bugs in examples
+
+##### 0.1.6 (2015.10.02)
 * Major refactoring, new UI for all examples
 * Removed ColorE.ToHex and ColorE.FromHex
 * Moved all static MeshDraft constructors from MeshE to MeshDraft
@@ -113,18 +134,18 @@ SOFTWARE.
   * Removed Texture2D constructors
   * Added DrawCircle, DrawGradient and DrawGradientRect
 
-##### 2015.05.14 - 0.1.5:
+##### 0.1.5 (2015.05.14)
 * Unity 5 support
 * Added mesh saver
 * Added new example: Breakout
 * Added Standard Vertex Color shader
 
-##### 2015.02.08 - 0.1.4:
+##### 0.1.4 (2015.02.08)
 * Added new examples: Primitives and Mazes
 * Added Texture extensions
 * Added Bresenham and Wu line drawing algorithms
 
-##### 2014.11.15 - 0.1.3:
+##### 0.1.3 (2014.11.15)
 * Added new example: Khrushchyovka
 * Added knapsack problem solver
 * Added new Color extensions
@@ -133,16 +154,16 @@ SOFTWARE.
 * Added specular vertex color shader
 * Improved examples
 
-##### 2014.11.10 - 0.1.2:
+##### 0.1.2 (2014.11.10)
 * Added new example: chair generator
 * Small additions and fixes
 
-##### 2014.10.26 - 0.1.1:
+##### 0.1.1 (2014.10.26)
 * Added new primitives: cylinder and sphere
 * Added mesh extensions: move, rotate, scale, paint, flip faces
 * Added RandomE.Range methods
 * Added PTUtils methods for points on circle and sphere
 * Improved documentation
 
-##### 2014.10.13 - 0.1:
+##### 0.1 (2014.10.13)
 * First release
