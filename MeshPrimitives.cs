@@ -97,29 +97,29 @@ namespace ProceduralToolkit
             return MeshDraft.Plane(xSize, zSize, xSegments, zSegments).ToMesh();
         }
 
-        public static Mesh Pyramid(float radius, int segments, float heignt, bool inverted = false)
+        public static Mesh Pyramid(float radius, int segments, float height, bool inverted = false)
         {
-            return MeshDraft.Pyramid(radius, segments, heignt, inverted).ToMesh();
+            return MeshDraft.Pyramid(radius, segments, height, inverted).ToMesh();
         }
 
-        public static Mesh Prism(float radius, int segments, float heignt)
+        public static Mesh Prism(float radius, int segments, float height)
         {
-            return MeshDraft.Prism(radius, segments, heignt).ToMesh();
+            return MeshDraft.Prism(radius, segments, height).ToMesh();
         }
 
-        public static Mesh Cylinder(float radius, int segments, float heignt)
+        public static Mesh Cylinder(float radius, int segments, float height)
         {
-            return MeshDraft.Cylinder(radius, segments, heignt).ToMesh();
+            return MeshDraft.Cylinder(radius, segments, height).ToMesh();
         }
 
         public static Mesh FlatSphere(float radius, int longitudeSegments, int latitudeSegments)
         {
-            return MeshDraft.FlatSphere(radius, longitudeSegments, longitudeSegments).ToMesh();
+            return MeshDraft.FlatSphere(radius, longitudeSegments, latitudeSegments).ToMesh();
         }
 
         public static Mesh Sphere(float radius, int longitudeSegments, int latitudeSegments)
         {
-            return MeshDraft.Sphere(radius, longitudeSegments, longitudeSegments).ToMesh();
+            return MeshDraft.Sphere(radius, longitudeSegments, latitudeSegments).ToMesh();
         }
     }
 }
