@@ -79,6 +79,20 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns point on teardrop in geographic coordinate system
+        /// </summary>
+        /// <param name="radius">Teardrop radius</param>
+        /// <param name="longitude">Longitude in radians</param>
+        /// <param name="latitude">Latitude in radians</param>
+        /// <param name="height">Teardrop height</param>
+        public static Vector3 PointOnTeardrop(float radius, float longitude, float latitude, float height)
+        {
+            return new Vector3(radius*(0.5f*(1f-Mathf.Cos(latitude))*Mathf.Sin(latitude)*Mathf.Cos(longitude)),
+                height*Mathf.Cos(latitude),
+                radius*(0.5f*(1f-Mathf.Cos(latitude))*Mathf.Sin(latitude)*Mathf.Sin(longitude)));
+        }
+
+        /// <summary>
         /// Draws aliased line and calls <paramref name="draw"/> on every point in line
         /// </summary>
         /// <remarks>
