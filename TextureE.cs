@@ -148,7 +148,15 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Clear(this Texture2D texture, Color color)
         {
-            Color[] pixels = new Color[texture.width*texture.height];
+            var pixels = new Color[texture.width*texture.height];
+            texture.Clear(color, ref pixels);
+        }
+
+        /// <summary>
+        /// Fills texture with specified color
+        /// </summary>
+        public static void Clear(this Texture2D texture, Color color, ref Color[] pixels)
+        {
             for (var i = 0; i < pixels.Length; ++i)
             {
                 pixels[i] = color;
