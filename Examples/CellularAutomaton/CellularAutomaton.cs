@@ -13,6 +13,9 @@ namespace ProceduralToolkit.Examples
         private bool aliveBorders;
 
         private CellState[,] copy;
+        private int aliveNeighbours;
+        private readonly Action<int, int> visitAliveBorders;
+        private readonly Action<int, int> visitDeadBorders;
 
         public CellularAutomaton(int width, int height, Ruleset ruleset, float startNoise, bool aliveBorders)
         {
@@ -22,6 +25,28 @@ namespace ProceduralToolkit.Examples
             this.aliveBorders = aliveBorders;
             cells = new CellState[width, height];
             copy = new CellState[width, height];
+
+            visitAliveBorders = (int neighbourX, int neighbourY) =>
+            {
+                if (copy.IsInBounds(neighbourX, neighbourY))
+                {
+                    if (copy[neighbourX, neighbourY] == CellState.Alive)
+                    {
+                        aliveNeighbours++;
+                    }
+                }
+                else
+                {
+                    aliveNeighbours++;
+                }
+            };
+            visitDeadBorders = (int neighbourX, int neighbourY) =>
+            {
+                if (copy[neighbourX, neighbourY] == CellState.Alive)
+                {
+                    aliveNeighbours++;
+                }
+            };
 
             FillWithNoise(startNoise);
         }
@@ -52,7 +77,7 @@ namespace ProceduralToolkit.Examples
             {
                 for (int y = 0; y < height; y++)
                 {
-                    int aliveCells = CountAliveNeighbourCells(copy, x, y);
+                    int aliveCells = CountAliveNeighbourCells(x, y);
 
                     if (copy[x, y] == CellState.Dead)
                     {
@@ -80,37 +105,18 @@ namespace ProceduralToolkit.Examples
             }
         }
 
-        private int CountAliveNeighbourCells(CellState[,] grid, int x, int y)
+        private int CountAliveNeighbourCells(int x, int y)
         {
-            int count = 0;
+            aliveNeighbours = 0;
             if (aliveBorders)
             {
-                grid.VisitMooreNeighbours(x, y, false, (neighbourX, neighbourY) =>
-                {
-                    if (grid.IsInBounds(neighbourX, neighbourY))
-                    {
-                        if (grid[neighbourX, neighbourY] == CellState.Alive)
-                        {
-                            count++;
-                        }
-                    }
-                    else
-                    {
-                        count++;
-                    }
-                });
+                copy.VisitMooreNeighbours(x, y, false, visitAliveBorders);
             }
             else
             {
-                grid.VisitMooreNeighbours(x, y, true, (neighbourX, neighbourY) =>
-                {
-                    if (grid[neighbourX, neighbourY] == CellState.Alive)
-                    {
-                        count++;
-                    }
-                });
+                copy.VisitMooreNeighbours(x, y, true, visitDeadBorders);
             }
-            return count;
+            return aliveNeighbours;
         }
     }
 }
