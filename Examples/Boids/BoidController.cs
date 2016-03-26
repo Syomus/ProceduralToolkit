@@ -210,7 +210,7 @@ namespace ProceduralToolkit.Examples
                 boid.position += boid.velocity*Time.deltaTime;
                 SetBoidVertices(boid, i);
             }
-            mesh.vertices = draft.vertices.ToArray();
+            mesh.SetVertices(draft.vertices);
             mesh.RecalculateNormals();
         }
 

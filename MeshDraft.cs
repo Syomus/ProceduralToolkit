@@ -142,15 +142,13 @@ namespace ProceduralToolkit
         /// </summary>
         public Mesh ToMesh()
         {
-            return new Mesh
-            {
-                name = name,
-                vertices = vertices.ToArray(),
-                triangles = triangles.ToArray(),
-                normals = normals.ToArray(),
-                uv = uv.ToArray(),
-                colors = colors.ToArray()
-            };
+            var mesh = new Mesh {name = name};
+            mesh.SetVertices(vertices);
+            mesh.SetTriangles(triangles, 0);
+            mesh.SetNormals(normals);
+            mesh.SetUVs(0, uv);
+            mesh.SetColors(colors);
+            return mesh;
         }
     }
 }
