@@ -42,7 +42,7 @@ namespace ProceduralToolkit
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="angle">Angle in radians</param>
-        public static Vector3 PointOnCircle3(float radius, float angle)
+        public static Vector3 PointOnCircle3XZ(float radius, float angle)
         {
             return new Vector3(radius*Mathf.Sin(angle), 0, radius*Mathf.Cos(angle));
         }
@@ -52,14 +52,14 @@ namespace ProceduralToolkit
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="segments">Number of circle segments</param>
-        public static List<Vector3> PointsOnCircle3(float radius, int segments)
+        public static List<Vector3> PointsOnCircle3XZ(float radius, int segments)
         {
             float segmentAngle = Mathf.PI*2/segments;
             float currentAngle = 0f;
             var ring = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
-                ring.Add(PointOnCircle3(radius, currentAngle));
+                ring.Add(PointOnCircle3XZ(radius, currentAngle));
                 currentAngle -= segmentAngle;
             }
             return ring;
@@ -79,7 +79,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws aliased line and calls <paramref name="draw"/> on every point in line
+        /// Draws aliased line and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
@@ -90,7 +90,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws aliased line and calls <paramref name="draw"/> on every point in line
+        /// Draws aliased line and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
@@ -127,7 +127,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws aliased circle and calls <paramref name="draw"/> on every point in line
+        /// Draws aliased circle and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// A Rasterizing Algorithm for Drawing Curves
@@ -139,7 +139,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws aliased circle and calls <paramref name="draw"/> on every point in line
+        /// Draws aliased circle and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// A Rasterizing Algorithm for Drawing Curves
@@ -175,7 +175,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws filled aliased circle and calls <paramref name="draw"/> on every point in line
+        /// Draws filled aliased circle and calls <paramref name="draw"/> on every pixel
         /// </summary>
         public static void DrawFilledCircle(Vector2Int v0, int radius, Action<int, int> draw)
         {
@@ -183,7 +183,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws filled aliased circle and calls <paramref name="draw"/> on every point in line
+        /// Draws filled aliased circle and calls <paramref name="draw"/> on every pixel
         /// </summary>
         public static void DrawFilledCircle(int x0, int y0, int radius, Action<int, int> draw)
         {
@@ -232,7 +232,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws anti-aliased line and calls <paramref name="draw"/> on every point in line
+        /// Draws anti-aliased line and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
@@ -243,7 +243,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws anti-aliased line and calls <paramref name="draw"/> on every point in line
+        /// Draws anti-aliased line and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm

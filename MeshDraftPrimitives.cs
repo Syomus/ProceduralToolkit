@@ -117,7 +117,7 @@ namespace ProceduralToolkit
             vertices[0] = apex;
             for (var i = 1; i <= segments; i++)
             {
-                vertices[i] = PTUtils.PointOnCircle3(radius, currentAngle) + baseCenter;
+                vertices[i] = PTUtils.PointOnCircle3XZ(radius, currentAngle) + baseCenter;
                 currentAngle += segmentAngle;
             }
 
@@ -473,7 +473,7 @@ namespace ProceduralToolkit
             var upperRing = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
-                var point = PTUtils.PointOnCircle3(radius, currentAngle);
+                var point = PTUtils.PointOnCircle3XZ(radius, currentAngle);
                 lowerRing.Add(point - Vector3.up*heignt/2);
                 upperRing.Add(point + Vector3.up*heignt/2);
                 currentAngle -= segmentAngle;
@@ -496,7 +496,7 @@ namespace ProceduralToolkit
             var upperRing = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
-                var point = PTUtils.PointOnCircle3(radius, currentAngle);
+                var point = PTUtils.PointOnCircle3XZ(radius, currentAngle);
                 lowerRing.Add(point - Vector3.up*heignt/2);
                 upperRing.Add(point + Vector3.up*heignt/2);
                 currentAngle -= segmentAngle;
