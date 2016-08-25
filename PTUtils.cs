@@ -38,6 +38,34 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns point on circle in the XY plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="angle">Angle in radians</param>
+        public static Vector3 PointOnCircle3XY(float radius, float angle)
+        {
+            return new Vector3(radius*Mathf.Sin(angle), radius*Mathf.Cos(angle), 0);
+        }
+
+        /// <summary>
+        /// Returns list of points on circle in the XY plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="segments">Number of circle segments</param>
+        public static List<Vector3> PointsOnCircle3XY(float radius, int segments)
+        {
+            float segmentAngle = Mathf.PI*2/segments;
+            float currentAngle = 0f;
+            var ring = new List<Vector3>(segments);
+            for (var i = 0; i < segments; i++)
+            {
+                ring.Add(PointOnCircle3XY(radius, currentAngle));
+                currentAngle -= segmentAngle;
+            }
+            return ring;
+        }
+
+        /// <summary>
         /// Returns point on circle in the XZ plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
