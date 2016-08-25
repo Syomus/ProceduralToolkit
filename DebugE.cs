@@ -124,6 +124,29 @@ namespace ProceduralToolkit
             }
         }
 
+        public static void DrawWireCircleXY(Vector3 position, Quaternion rotation, float radius)
+        {
+            DrawWireCircleXY(position, rotation, radius, Color.white);
+        }
+
+        public static void DrawWireCircleXY(
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            float currentAngle = 0;
+            for (var i = 0; i < circleSegments; i++)
+            {
+                Vector3 a = position + rotation*PTUtils.PointOnCircle3XY(radius, currentAngle);
+                Vector3 b = position + rotation*PTUtils.PointOnCircle3XY(radius, currentAngle - circleSegmentAngle);
+                Debug.DrawLine(a, b, color, duration, depthTest);
+                currentAngle -= circleSegmentAngle;
+            }
+        }
+
         public static void DrawWireCircleXZ(Vector3 position, float radius)
         {
             DrawWireCircleXZ(position, radius, Color.white);
@@ -144,6 +167,87 @@ namespace ProceduralToolkit
                 Debug.DrawLine(a, b, color, duration, depthTest);
                 currentAngle -= circleSegmentAngle;
             }
+        }
+
+        public static void DrawWireCircleXZ(Vector3 position, Quaternion rotation, float radius)
+        {
+            DrawWireCircleXZ(position, rotation, radius, Color.white);
+        }
+
+        public static void DrawWireCircleXZ(
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            float currentAngle = 0;
+            for (var i = 0; i < circleSegments; i++)
+            {
+                Vector3 a = position + rotation*PTUtils.PointOnCircle3XZ(radius, currentAngle);
+                Vector3 b = position + rotation*PTUtils.PointOnCircle3XZ(radius, currentAngle - circleSegmentAngle);
+                Debug.DrawLine(a, b, color, duration, depthTest);
+                currentAngle -= circleSegmentAngle;
+            }
+        }
+
+        public static void DrawWireCircleYZ(
+            Vector3 position, 
+            float radius, 
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            float currentAngle = 0;
+            for (var i = 0; i < circleSegments; i++)
+            {
+                Vector3 a = position + PTUtils.PointOnCircle3YZ(radius, currentAngle);
+                Vector3 b = position + PTUtils.PointOnCircle3YZ(radius, currentAngle - circleSegmentAngle);
+                Debug.DrawLine(a, b, color, duration, depthTest);
+                currentAngle -= circleSegmentAngle;
+            }
+        }
+
+        public static void DrawWireCircleYZ(Vector3 position, Quaternion rotation, float radius)
+        {
+            DrawWireCircleYZ(position, rotation, radius, Color.white);
+        }
+
+        public static void DrawWireCircleYZ(
+            Vector3 position, 
+            Quaternion rotation, 
+            float radius, 
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            float currentAngle = 0;
+            for (var i = 0; i < circleSegments; i++)
+            {
+                Vector3 a = position + rotation*PTUtils.PointOnCircle3YZ(radius, currentAngle);
+                Vector3 b = position + rotation*PTUtils.PointOnCircle3YZ(radius, currentAngle - circleSegmentAngle);
+                Debug.DrawLine(a, b, color, duration, depthTest);
+                currentAngle -= circleSegmentAngle;
+            }
+        }
+
+        public static void DrawWireSphere(Vector3 position, Quaternion rotation, float radius)
+        {
+            DrawWireSphere(position, rotation, radius, Color.white);
+        }
+
+        public static void DrawWireSphere(
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            DrawWireCircleXY(position, rotation, radius, color, duration, depthTest);
+            DrawWireCircleXZ(position, rotation, radius, color, duration, depthTest);
+            DrawWireCircleYZ(position, rotation, radius, color, duration, depthTest);
         }
     }
 }

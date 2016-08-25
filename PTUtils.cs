@@ -94,6 +94,34 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns point on circle in the YZ plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="angle">Angle in radians</param>
+        public static Vector3 PointOnCircle3YZ(float radius, float angle)
+        {
+            return new Vector3(0, radius*Mathf.Sin(angle), radius*Mathf.Cos(angle));
+        }
+
+        /// <summary>
+        /// Returns list of points on circle in the YZ plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="segments">Number of circle segments</param>
+        public static List<Vector3> PointsOnCircle3YZ(float radius, int segments)
+        {
+            float segmentAngle = Mathf.PI*2/segments;
+            float currentAngle = 0f;
+            var ring = new List<Vector3>(segments);
+            for (var i = 0; i < segments; i++)
+            {
+                ring.Add(PointOnCircle3YZ(radius, currentAngle));
+                currentAngle -= segmentAngle;
+            }
+            return ring;
+        }
+
+        /// <summary>
         /// Returns point on sphere in geographic coordinate system
         /// </summary>
         /// <param name="radius">Sphere radius</param>

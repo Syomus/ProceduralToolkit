@@ -81,6 +81,18 @@ namespace ProceduralToolkit
             }
         }
 
+        public static void DrawWireCircleXY(Vector3 position, Quaternion rotation, float radius)
+        {
+            float currentAngle = 0;
+            for (var i = 0; i < circleSegments; i++)
+            {
+                Vector3 a = position + rotation*PTUtils.PointOnCircle3XY(radius, currentAngle);
+                Vector3 b = position + rotation*PTUtils.PointOnCircle3XY(radius, currentAngle - circleSegmentAngle);
+                Gizmos.DrawLine(a, b);
+                currentAngle -= circleSegmentAngle;
+            }
+        }
+
         public static void DrawWireCircleXZ(Vector3 position, float radius)
         {
             float currentAngle = 0;
@@ -91,6 +103,49 @@ namespace ProceduralToolkit
                 Gizmos.DrawLine(a, b);
                 currentAngle -= circleSegmentAngle;
             }
+        }
+
+        public static void DrawWireCircleXZ(Vector3 position, Quaternion rotation, float radius)
+        {
+            float currentAngle = 0;
+            for (var i = 0; i < circleSegments; i++)
+            {
+                Vector3 a = position + rotation*PTUtils.PointOnCircle3XZ(radius, currentAngle);
+                Vector3 b = position + rotation*PTUtils.PointOnCircle3XZ(radius, currentAngle - circleSegmentAngle);
+                Gizmos.DrawLine(a, b);
+                currentAngle -= circleSegmentAngle;
+            }
+        }
+
+        public static void DrawWireCircleYZ(Vector3 position, float radius)
+        {
+            float currentAngle = 0;
+            for (var i = 0; i < circleSegments; i++)
+            {
+                Vector3 a = position + PTUtils.PointOnCircle3YZ(radius, currentAngle);
+                Vector3 b = position + PTUtils.PointOnCircle3YZ(radius, currentAngle - circleSegmentAngle);
+                Gizmos.DrawLine(a, b);
+                currentAngle -= circleSegmentAngle;
+            }
+        }
+
+        public static void DrawWireCircleYZ(Vector3 position, Quaternion rotation, float radius)
+        {
+            float currentAngle = 0;
+            for (var i = 0; i < circleSegments; i++)
+            {
+                Vector3 a = position + rotation*PTUtils.PointOnCircle3YZ(radius, currentAngle);
+                Vector3 b = position + rotation*PTUtils.PointOnCircle3YZ(radius, currentAngle - circleSegmentAngle);
+                Gizmos.DrawLine(a, b);
+                currentAngle -= circleSegmentAngle;
+            }
+        }
+
+        public static void DrawWireSphere(Vector3 position, Quaternion rotation, float radius)
+        {
+            DrawWireCircleXY(position, rotation, radius);
+            DrawWireCircleXZ(position, rotation, radius);
+            DrawWireCircleYZ(position, rotation, radius);
         }
     }
 }
