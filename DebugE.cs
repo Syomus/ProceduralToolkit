@@ -315,5 +315,28 @@ namespace ProceduralToolkit
         {
             Draw.WireHemisphere(drawLine, position, rotation, radius, color, duration, depthTest);
         }
+
+        public static void DrawWireCone(
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float angle,
+            float length)
+        {
+            DrawWireCone(position, rotation, radius, angle, length, Color.white);
+        }
+
+        public static void DrawWireCone(
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float angle,
+            float length,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            Draw.WireCone(drawLine, position, rotation, radius, angle, length, color, duration, depthTest);
+        }
     }
 }

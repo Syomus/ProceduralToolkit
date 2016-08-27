@@ -757,6 +757,89 @@ namespace ProceduralToolkit
             WireArcYZ(drawLine, position, rotation, radius, 0, 180, color, duration, depthTest);
         }
 
+        public static void WireCone(
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float angle,
+            float length)
+        {
+            Vector3 upperCenter = position + rotation*Vector3.up*length;
+            float upperRadius = Mathf.Tan(angle*Mathf.Deg2Rad)*length + radius;
+            WireCircleXZ(drawLine, upperCenter, rotation, upperRadius);
+
+            Vector3 a2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 0*Mathf.Deg2Rad);
+            Vector3 b2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 90*Mathf.Deg2Rad);
+            Vector3 c2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 180*Mathf.Deg2Rad);
+            Vector3 d2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 270*Mathf.Deg2Rad);
+
+            if (radius == 0)
+            {
+                drawLine(position, a2);
+                drawLine(position, b2);
+                drawLine(position, c2);
+                drawLine(position, d2);
+            }
+            else
+            {
+                WireCircleXZ(drawLine, position, rotation, radius);
+
+                Vector3 a1 = rotation*PTUtils.PointOnCircle3XZ(radius, 0*Mathf.Deg2Rad);
+                Vector3 b1 = rotation*PTUtils.PointOnCircle3XZ(radius, 90*Mathf.Deg2Rad);
+                Vector3 c1 = rotation*PTUtils.PointOnCircle3XZ(radius, 180*Mathf.Deg2Rad);
+                Vector3 d1 = rotation*PTUtils.PointOnCircle3XZ(radius, 270*Mathf.Deg2Rad);
+
+                drawLine(a1, a2);
+                drawLine(b1, b2);
+                drawLine(c1, c2);
+                drawLine(d1, d2);
+            }
+        }
+
+        public static void WireCone(
+            DebugDrawLine drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float angle,
+            float length,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            Vector3 upperCenter = position + rotation*Vector3.up*length;
+            float upperRadius = Mathf.Tan(angle*Mathf.Deg2Rad)*length + radius;
+            WireCircleXZ(drawLine, upperCenter, rotation, upperRadius, color, duration, depthTest);
+
+            Vector3 a2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 0*Mathf.Deg2Rad);
+            Vector3 b2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 90*Mathf.Deg2Rad);
+            Vector3 c2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 180*Mathf.Deg2Rad);
+            Vector3 d2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 270*Mathf.Deg2Rad);
+
+            if (radius == 0)
+            {
+                drawLine(position, a2, color, duration, depthTest);
+                drawLine(position, b2, color, duration, depthTest);
+                drawLine(position, c2, color, duration, depthTest);
+                drawLine(position, d2, color, duration, depthTest);
+            }
+            else
+            {
+                WireCircleXZ(drawLine, position, rotation, radius, color, duration, depthTest);
+
+                Vector3 a1 = rotation*PTUtils.PointOnCircle3XZ(radius, 0*Mathf.Deg2Rad);
+                Vector3 b1 = rotation*PTUtils.PointOnCircle3XZ(radius, 90*Mathf.Deg2Rad);
+                Vector3 c1 = rotation*PTUtils.PointOnCircle3XZ(radius, 180*Mathf.Deg2Rad);
+                Vector3 d1 = rotation*PTUtils.PointOnCircle3XZ(radius, 270*Mathf.Deg2Rad);
+
+                drawLine(a1, a2, color, duration, depthTest);
+                drawLine(b1, b2, color, duration, depthTest);
+                drawLine(c1, c2, color, duration, depthTest);
+                drawLine(d1, d2, color, duration, depthTest);
+            }
+        }
+
         private static void GetSegmentsAndSegmentAngle(
             float fromAngle,
             float toAngle,
