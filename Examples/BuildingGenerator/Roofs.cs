@@ -19,7 +19,7 @@ namespace ProceduralToolkit.Examples
         public static MeshDraft FlatRoof(Vector3 a, Vector3 b, Vector3 c, Vector3 d)
         {
             var draft = MeshDraft.Quad(a, d, c, b);
-            draft.Paint(Khrushchyovka.roofColor);
+            draft.Paint(BuildingGenerator.roofColor);
             return draft;
         }
 
@@ -30,7 +30,7 @@ namespace ProceduralToolkit.Examples
             Vector3 roofHeight = Vector3.up*FlatOverhangRoofHeight;
             var draft = MeshDraft.Hexahedron(width + width.normalized, length + length.normalized, roofHeight);
             draft.Move((a + c)/2 + roofHeight/2);
-            draft.Paint(Khrushchyovka.roofColor);
+            draft.Paint(BuildingGenerator.roofColor);
             return draft;
         }
 
@@ -43,7 +43,7 @@ namespace ProceduralToolkit.Examples
             draft.Add(MeshDraft.Triangle(b, ridge1, c));
             draft.Add(MeshDraft.Quad(c, ridge1, ridge0, d));
             draft.Add(MeshDraft.Triangle(d, ridge0, a));
-            draft.Paint(Khrushchyovka.roofColor);
+            draft.Paint(BuildingGenerator.roofColor);
             return draft;
         }
 
@@ -57,7 +57,7 @@ namespace ProceduralToolkit.Examples
             draft.Add(MeshDraft.Triangle(b, ridge1, c));
             draft.Add(MeshDraft.Quad(c, ridge1, ridge0, d));
             draft.Add(MeshDraft.Triangle(d, ridge0, a));
-            draft.Paint(Khrushchyovka.roofColor);
+            draft.Paint(BuildingGenerator.roofColor);
             return draft;
         }
     }

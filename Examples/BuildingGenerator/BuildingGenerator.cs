@@ -9,7 +9,7 @@ namespace ProceduralToolkit.Examples
     /// <remarks>
     /// http://en.wikipedia.org/wiki/Khrushchyovka
     /// </remarks>
-    public static class Khrushchyovka
+    public static class BuildingGenerator
     {
         public static Color socleColor = ColorE.silver.WithA(0);
         public static Color socleWindowColor = ColorE.silver.WithA(0)/2;
@@ -64,11 +64,11 @@ namespace ProceduralToolkit.Examples
             public List<Panel> panels = new List<Panel>();
         }
 
-        public static MeshDraft KhrushchyovkaDraft(float width, float length, int floorCount, bool hasAttic)
+        public static MeshDraft BuildingDraft(float width, float length, int floorCount, bool hasAttic)
         {
             float height = FloorHeight*floorCount + SocleHeight + (hasAttic ? AtticHeight : 0);
 
-            var draft = new MeshDraft {name = "Khrushchyovka"};
+            var draft = new MeshDraft {name = "Building"};
             var corners = new Vector3[]
             {
                 Vector3.left*length/2 + Vector3.back*width/2,

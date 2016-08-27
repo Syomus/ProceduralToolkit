@@ -2,7 +2,7 @@
 
 namespace ProceduralToolkit.Examples.UI
 {
-    public class KhrushchyovkaUI : UIBase
+    public class BuildingGeneratorUI : UIBase
     {
         public MeshFilter meshFilter;
         public RectTransform leftPanel;
@@ -45,7 +45,7 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Generate()
         {
-            var draft = Khrushchyovka.KhrushchyovkaDraft(width, length, floorCount, hasAttic);
+            var draft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic);
             meshFilter.mesh = draft.ToMesh();
         }
     }
