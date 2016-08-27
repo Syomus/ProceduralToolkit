@@ -299,5 +299,21 @@ namespace ProceduralToolkit
         {
             Draw.WireSphere(drawLine, position, rotation, radius, color, duration, depthTest);
         }
+
+        public static void DrawWireHemisphere(Vector3 position, Quaternion rotation, float radius)
+        {
+            DrawWireHemisphere(position, rotation, radius, Color.white);
+        }
+
+        public static void DrawWireHemisphere(
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            Draw.WireHemisphere(drawLine, position, rotation, radius, color, duration, depthTest);
+        }
     }
 }

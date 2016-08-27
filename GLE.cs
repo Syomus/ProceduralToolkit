@@ -123,5 +123,10 @@ namespace ProceduralToolkit
         {
             Draw.WireSphere(drawLine, position, rotation, radius);
         }
+
+        public static void DrawWireHemisphere(Vector3 position, Quaternion rotation, float radius)
+        {
+            Draw.WireHemisphere(drawLine, position, rotation, radius);
+        }
     }
 }

@@ -732,6 +732,31 @@ namespace ProceduralToolkit
             WireCircleYZ(drawLine, position, rotation, radius, color, duration, depthTest);
         }
 
+        public static void WireHemisphere(
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius)
+        {
+            WireArcXY(drawLine, position, rotation, radius, -90, 90);
+            WireCircleXZ(drawLine, position, rotation, radius);
+            WireArcYZ(drawLine, position, rotation, radius, 0, 180);
+        }
+
+        public static void WireHemisphere(
+            DebugDrawLine drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            WireArcXY(drawLine, position, rotation, radius, -90, 90, color, duration, depthTest);
+            WireCircleXZ(drawLine, position, rotation, radius, color, duration, depthTest);
+            WireArcYZ(drawLine, position, rotation, radius, 0, 180, color, duration, depthTest);
+        }
+
         private static void GetSegmentsAndSegmentAngle(
             float fromAngle,
             float toAngle,
