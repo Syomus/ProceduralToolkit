@@ -43,6 +43,8 @@ namespace ProceduralToolkit
             Draw.WireCube(drawLine, position, rotation, scale);
         }
 
+        #region DrawWireCircle
+
         public static void DrawWireCircleXY(Vector3 position, float radius)
         {
             Draw.WireCircleXY(drawLine, position, radius);
@@ -72,6 +74,45 @@ namespace ProceduralToolkit
         {
             Draw.WireCircleYZ(drawLine, position, rotation, radius);
         }
+
+        #endregion DrawWireCircle
+
+        #region DrawWireArc
+
+        public static void DrawWireArcXY(Vector3 position, float radius, float fromAngle, float toAngle)
+        {
+            Draw.WireArcXY(drawLine, position, radius, fromAngle, toAngle);
+        }
+
+        public static void DrawWireArcXY(Vector3 position, Quaternion rotation, float radius, float fromAngle,
+            float toAngle)
+        {
+            Draw.WireArcXY(drawLine, position, rotation, radius, fromAngle, toAngle);
+        }
+
+        public static void DrawWireArcXZ(Vector3 position, float radius, float fromAngle, float toAngle)
+        {
+            Draw.WireArcXZ(drawLine, position, radius, fromAngle, toAngle);
+        }
+
+        public static void DrawWireArcXZ(Vector3 position, Quaternion rotation, float radius, float fromAngle,
+            float toAngle)
+        {
+            Draw.WireArcXZ(drawLine, position, rotation, radius, fromAngle, toAngle);
+        }
+
+        public static void DrawWireArcYZ(Vector3 position, float radius, float fromAngle, float toAngle)
+        {
+            Draw.WireArcYZ(drawLine, position, radius, fromAngle, toAngle);
+        }
+
+        public static void DrawWireArcYZ(Vector3 position, Quaternion rotation, float radius, float fromAngle,
+            float toAngle)
+        {
+            Draw.WireArcYZ(drawLine, position, rotation, radius, fromAngle, toAngle);
+        }
+
+        #endregion DrawWireArc
 
         public static void DrawWireSphere(Vector3 position, Quaternion rotation, float radius)
         {

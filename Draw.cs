@@ -8,7 +8,7 @@ namespace ProceduralToolkit
         public delegate void DebugDrawLine(Vector3 start, Vector3 end, Color color, float duration, bool depthTest);
 
         private const int circleSegments = 64;
-        private const float circleSegmentAngle = Mathf.PI*2/circleSegments;
+        private const float circleSegmentAngle = 360f/circleSegments;
 
         private static readonly Func<float, float, Vector3> pointOnCircleXY;
         private static readonly Func<float, float, Vector3> pointOnCircleXZ;
@@ -16,10 +16,12 @@ namespace ProceduralToolkit
 
         static Draw()
         {
-            pointOnCircleXY = PTUtils.PointOnCircle3XY;
-            pointOnCircleXZ = PTUtils.PointOnCircle3XZ;
-            pointOnCircleYZ = PTUtils.PointOnCircle3YZ;
+            pointOnCircleXY = (radius, angle) => PTUtils.PointOnCircle3XY(radius, angle*Mathf.Deg2Rad);
+            pointOnCircleXZ = (radius, angle) => PTUtils.PointOnCircle3XZ(radius, angle*Mathf.Deg2Rad);
+            pointOnCircleYZ = (radius, angle) => PTUtils.PointOnCircle3YZ(radius, angle*Mathf.Deg2Rad);
         }
+
+        #region WireQuad
 
         public static void WireQuadXY(
             Action<Vector3, Vector3> drawLine,
@@ -102,6 +104,8 @@ namespace ProceduralToolkit
             drawLine(backLeft, forwardLeft, color, duration, depthTest);
             drawLine(forwardLeft, forwardRight, color, duration, depthTest);
         }
+
+        #endregion WireQuad
 
         public static void WireCube(
             Action<Vector3, Vector3> drawLine,
@@ -261,7 +265,7 @@ namespace ProceduralToolkit
             float duration,
             bool depthTest)
         {
-            WireCircle(pointOnCircleYZ, drawLine, position, rotation, radius, color, duration, depthTest);
+            WireCircle(pointOnCircleXZ, drawLine, position, rotation, radius, color, duration, depthTest);
         }
 
         #endregion WireCircleXZ
@@ -310,7 +314,7 @@ namespace ProceduralToolkit
 
         #endregion WireCircleYZ
 
-        #region WireCircle
+        #region WireCircle Universal
 
         public static void WireCircle(
             Func<float, float, Vector3> pointOnCircle,
@@ -318,14 +322,7 @@ namespace ProceduralToolkit
             Vector3 position,
             float radius)
         {
-            float currentAngle = 0;
-            for (var i = 0; i < circleSegments; i++)
-            {
-                Vector3 a = position + pointOnCircle(radius, currentAngle);
-                Vector3 b = position + pointOnCircle(radius, currentAngle - circleSegmentAngle);
-                drawLine(a, b);
-                currentAngle -= circleSegmentAngle;
-            }
+            WireArc(pointOnCircle, drawLine, position, radius, 0, circleSegments, circleSegmentAngle);
         }
 
         public static void WireCircle(
@@ -337,14 +334,8 @@ namespace ProceduralToolkit
             float duration,
             bool depthTest)
         {
-            float currentAngle = 0;
-            for (var i = 0; i < circleSegments; i++)
-            {
-                Vector3 a = position + pointOnCircle(radius, currentAngle);
-                Vector3 b = position + pointOnCircle(radius, currentAngle - circleSegmentAngle);
-                drawLine(a, b, color, duration, depthTest);
-                currentAngle -= circleSegmentAngle;
-            }
+            WireArc(pointOnCircle, drawLine, position, radius, 0, circleSegments, circleSegmentAngle, color, duration,
+                depthTest);
         }
 
         public static void WireCircle(
@@ -354,14 +345,7 @@ namespace ProceduralToolkit
             Quaternion rotation,
             float radius)
         {
-            float currentAngle = 0;
-            for (var i = 0; i < circleSegments; i++)
-            {
-                Vector3 a = position + rotation*pointOnCircle(radius, currentAngle);
-                Vector3 b = position + rotation*pointOnCircle(radius, currentAngle - circleSegmentAngle);
-                drawLine(a, b);
-                currentAngle -= circleSegmentAngle;
-            }
+            WireArc(pointOnCircle, drawLine, position, rotation, radius, 0, circleSegments, circleSegmentAngle);
         }
 
         public static void WireCircle(
@@ -374,17 +358,328 @@ namespace ProceduralToolkit
             float duration,
             bool depthTest)
         {
-            float currentAngle = 0;
-            for (var i = 0; i < circleSegments; i++)
+            WireArc(pointOnCircle, drawLine, position, rotation, radius, 0, circleSegments, circleSegmentAngle, color,
+                duration, depthTest);
+        }
+
+        #endregion WireCircle Universal
+
+        #region WireArcXY
+
+        public static void WireArcXY(
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle)
+        {
+            WireArc(pointOnCircleXY, drawLine, position, radius, fromAngle, toAngle);
+        }
+
+        public static void WireArcXY(
+            DebugDrawLine drawLine,
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            WireArc(pointOnCircleXY, drawLine, position, radius, fromAngle, toAngle, color, duration, depthTest);
+        }
+
+        public static void WireArcXY(
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle)
+        {
+            WireArc(pointOnCircleXY, drawLine, position, rotation, radius, fromAngle, toAngle);
+        }
+
+        public static void WireArcXY(
+            DebugDrawLine drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            WireArc(pointOnCircleXY, drawLine, position, rotation, radius, fromAngle, toAngle, color, duration,
+                depthTest);
+        }
+
+        #endregion WireCircleXY
+
+        #region WireArcXZ
+
+        public static void WireArcXZ(
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle)
+        {
+            WireArc(pointOnCircleXZ, drawLine, position, radius, fromAngle, toAngle);
+        }
+
+        public static void WireArcXZ(
+            DebugDrawLine drawLine,
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            WireArc(pointOnCircleXZ, drawLine, position, radius, fromAngle, toAngle, color, duration, depthTest);
+        }
+
+        public static void WireArcXZ(
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle)
+        {
+            WireArc(pointOnCircleXZ, drawLine, position, rotation, radius, fromAngle, toAngle);
+        }
+
+        public static void WireArcXZ(
+            DebugDrawLine drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            WireArc(pointOnCircleXZ, drawLine, position, rotation, radius, fromAngle, toAngle, color, duration,
+                depthTest);
+        }
+
+        #endregion WireCircleXZ
+
+        #region WireArcYZ
+
+        public static void WireArcYZ(
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle)
+        {
+            WireArc(pointOnCircleYZ, drawLine, position, radius, fromAngle, toAngle);
+        }
+
+        public static void WireArcYZ(
+            DebugDrawLine drawLine,
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            WireArc(pointOnCircleYZ, drawLine, position, radius, fromAngle, toAngle, color, duration, depthTest);
+        }
+
+        public static void WireArcYZ(
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle)
+        {
+            WireArc(pointOnCircleYZ, drawLine, position, rotation, radius, fromAngle, toAngle);
+        }
+
+        public static void WireArcYZ(
+            DebugDrawLine drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            WireArc(pointOnCircleYZ, drawLine, position, rotation, radius, fromAngle, toAngle, color, duration,
+                depthTest);
+        }
+
+        #endregion WireCircleYZ
+
+        #region WireArc Universal
+
+        public static void WireArc(
+            Func<float, float, Vector3> pointOnCircle,
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle)
+        {
+            int segments;
+            float segmentAngle;
+            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out segments, out segmentAngle);
+
+            WireArc(pointOnCircle, drawLine, position, radius, fromAngle, segments, segmentAngle);
+        }
+
+        public static void WireArc(
+            Func<float, float, Vector3> pointOnCircle,
+            DebugDrawLine drawLine,
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            int segments;
+            float segmentAngle;
+            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out segments, out segmentAngle);
+
+            WireArc(pointOnCircle, drawLine, position, radius, fromAngle, segments, segmentAngle, color, duration,
+                depthTest);
+        }
+
+        public static void WireArc(
+            Func<float, float, Vector3> pointOnCircle,
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle)
+        {
+            int segments;
+            float segmentAngle;
+            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out segments, out segmentAngle);
+
+            WireArc(pointOnCircle, drawLine, position, rotation, radius, fromAngle, segments, segmentAngle);
+        }
+
+        public static void WireArc(
+            Func<float, float, Vector3> pointOnCircle,
+            DebugDrawLine drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            int segments;
+            float segmentAngle;
+            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out segments, out segmentAngle);
+
+            WireArc(pointOnCircle, drawLine, position, rotation, radius, fromAngle, segments, segmentAngle, color,
+                duration, depthTest);
+        }
+
+        public static void WireArc(
+            Func<float, float, Vector3> pointOnCircle,
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            int segments,
+            float segmentAngle)
+        {
+            float currentAngle = fromAngle;
+            for (var i = 0; i < segments; i++)
             {
-                Vector3 a = position + rotation*pointOnCircle(radius, currentAngle);
-                Vector3 b = position + rotation*pointOnCircle(radius, currentAngle - circleSegmentAngle);
-                drawLine(a, b, color, duration, depthTest);
-                currentAngle -= circleSegmentAngle;
+                Vector3 a = position + pointOnCircle(radius, currentAngle);
+                currentAngle += segmentAngle;
+                Vector3 b = position + pointOnCircle(radius, currentAngle);
+                drawLine(a, b);
             }
         }
 
-        #endregion WireCircle
+        public static void WireArc(
+            Func<float, float, Vector3> pointOnCircle,
+            DebugDrawLine drawLine,
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            int segments,
+            float segmentAngle,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            float currentAngle = fromAngle;
+            for (var i = 0; i < segments; i++)
+            {
+                Vector3 a = position + pointOnCircle(radius, currentAngle);
+                currentAngle += segmentAngle;
+                Vector3 b = position + pointOnCircle(radius, currentAngle);
+                drawLine(a, b, color, duration, depthTest);
+            }
+        }
+
+        public static void WireArc(
+            Func<float, float, Vector3> pointOnCircle,
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            int segments,
+            float segmentAngle)
+        {
+            float currentAngle = fromAngle;
+            for (var i = 0; i < segments; i++)
+            {
+                Vector3 a = position + rotation*pointOnCircle(radius, currentAngle);
+                currentAngle += segmentAngle;
+                Vector3 b = position + rotation*pointOnCircle(radius, currentAngle);
+                drawLine(a, b);
+            }
+        }
+
+        public static void WireArc(
+            Func<float, float, Vector3> pointOnCircle,
+            DebugDrawLine drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            int segments,
+            float segmentAngle,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            float currentAngle = fromAngle;
+            for (var i = 0; i < segments; i++)
+            {
+                Vector3 a = position + rotation*pointOnCircle(radius, currentAngle);
+                currentAngle += segmentAngle;
+                Vector3 b = position + rotation*pointOnCircle(radius, currentAngle);
+                drawLine(a, b, color, duration, depthTest);
+            }
+        }
+
+        #endregion WireArc Universal
 
         public static void WireSphere(
             Action<Vector3, Vector3> drawLine,
@@ -409,6 +704,25 @@ namespace ProceduralToolkit
             WireCircleXY(drawLine, position, rotation, radius, color, duration, depthTest);
             WireCircleXZ(drawLine, position, rotation, radius, color, duration, depthTest);
             WireCircleYZ(drawLine, position, rotation, radius, color, duration, depthTest);
+        }
+
+        private static void GetSegmentsAndSegmentAngle(
+            float fromAngle,
+            float toAngle,
+            out int segments,
+            out float segmentAngle)
+        {
+            float range = toAngle - fromAngle;
+            if (range > circleSegmentAngle)
+            {
+                segments = Mathf.FloorToInt(range/circleSegmentAngle);
+                segmentAngle = range/segments;
+            }
+            else
+            {
+                segments = 1;
+                segmentAngle = range;
+            }
         }
     }
 }

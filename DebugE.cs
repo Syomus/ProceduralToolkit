@@ -59,6 +59,8 @@ namespace ProceduralToolkit
             Draw.WireCube(drawLine, position, rotation, scale, color, duration, depthTest);
         }
 
+        #region DrawWireCircle
+
         public static void DrawWireCircleXY(Vector3 position, float radius)
         {
             DrawWireCircleXY(position, radius, Color.white);
@@ -151,6 +153,120 @@ namespace ProceduralToolkit
         {
             Draw.WireCircleYZ(drawLine, position, rotation, radius, color, duration, depthTest);
         }
+
+        #endregion DrawWireCicle
+
+        #region DrawWireArc
+
+        public static void DrawWireArcXY(Vector3 position, float radius, float fromAngle, float toAngle)
+        {
+            DrawWireArcXY(position, radius, fromAngle, toAngle, Color.white);
+        }
+
+        public static void DrawWireArcXY(
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            Draw.WireArcXY(drawLine, position, radius, fromAngle, toAngle, color, duration, depthTest);
+        }
+
+        public static void DrawWireArcXY(Vector3 position, Quaternion rotation, float radius, float fromAngle,
+            float toAngle)
+        {
+            DrawWireArcXY(position, rotation, radius, fromAngle, toAngle, Color.white);
+        }
+
+        public static void DrawWireArcXY(
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            Draw.WireArcXY(drawLine, position, rotation, radius, fromAngle, toAngle, color, duration, depthTest);
+        }
+
+        public static void DrawWireArcXZ(Vector3 position, float radius, float fromAngle, float toAngle)
+        {
+            DrawWireArcXZ(position, radius, fromAngle, toAngle, Color.white);
+        }
+
+        public static void DrawWireArcXZ(
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            Draw.WireArcXZ(drawLine, position, radius, fromAngle, toAngle, color, duration, depthTest);
+        }
+
+        public static void DrawWireArcXZ(Vector3 position, Quaternion rotation, float radius, float fromAngle,
+            float toAngle)
+        {
+            DrawWireArcXZ(position, rotation, radius, fromAngle, toAngle, Color.white);
+        }
+
+        public static void DrawWireArcXZ(
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            Draw.WireArcXZ(drawLine, position, rotation, radius, fromAngle, toAngle, color, duration, depthTest);
+        }
+
+        public static void DrawWireArcYZ(Vector3 position, float radius, float fromAngle, float toAngle)
+        {
+            DrawWireArcYZ(position, radius, fromAngle, toAngle, Color.white);
+        }
+
+        public static void DrawWireArcYZ(
+            Vector3 position,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            Draw.WireArcYZ(drawLine, position, radius, fromAngle, toAngle, color, duration, depthTest);
+        }
+
+        public static void DrawWireArcYZ(Vector3 position, Quaternion rotation, float radius, float fromAngle,
+            float toAngle)
+        {
+            DrawWireArcYZ(position, rotation, radius, fromAngle, toAngle, Color.white);
+        }
+
+        public static void DrawWireArcYZ(
+            Vector3 position,
+            Quaternion rotation,
+            float radius,
+            float fromAngle,
+            float toAngle,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            Draw.WireArcYZ(drawLine, position, rotation, radius, fromAngle, toAngle, color, duration, depthTest);
+        }
+
+        #endregion DrawWireArc
 
         public static void DrawWireSphere(Vector3 position, Quaternion rotation, float radius)
         {
