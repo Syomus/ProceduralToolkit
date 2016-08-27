@@ -14,7 +14,22 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector2 onUnitCircle { get { return PTUtils.PointOnCircle2(1, Random.Range(0, 360f)); } }
+        public static Vector2 onUnitCircle2 { get { return PTUtils.PointOnCircle2(1, Random.Range(0, 360f)); } }
+
+        /// <summary>
+        /// Returns a random point on a circle with radius 1
+        /// </summary>
+        public static Vector2 onUnitCircle3XY { get { return PTUtils.PointOnCircle3XY(1, Random.Range(0, 360f)); } }
+
+        /// <summary>
+        /// Returns a random point on a circle with radius 1
+        /// </summary>
+        public static Vector2 onUnitCircle3XZ { get { return PTUtils.PointOnCircle3XZ(1, Random.Range(0, 360f)); } }
+
+        /// <summary>
+        /// Returns a random point on a circle with radius 1
+        /// </summary>
+        public static Vector2 onUnitCircle3YZ { get { return PTUtils.PointOnCircle3YZ(1, Random.Range(0, 360f)); } }
 
         /// <summary>
         /// Returns a random point inside a square with side lengths 1
