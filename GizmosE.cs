@@ -22,6 +22,11 @@ namespace ProceduralToolkit
             Draw.WireQuadXZ(drawLine, position, rotation, scale);
         }
 
+        public static void DrawWireQuadYZ(Vector3 position, Quaternion rotation, Vector2 scale)
+        {
+            Draw.WireQuadYZ(drawLine, position, rotation, scale);
+        }
+
         public static void DrawWireCube(Vector3 position, Quaternion rotation, Vector3 scale)
         {
             Draw.WireCube(drawLine, position, rotation, scale);

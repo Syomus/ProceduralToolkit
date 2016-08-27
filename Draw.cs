@@ -29,17 +29,7 @@ namespace ProceduralToolkit
             Quaternion rotation,
             Vector2 scale)
         {
-            Vector3 right = rotation*Vector3.right*scale.x;
-            Vector3 up = rotation*Vector3.up*scale.y;
-            Vector3 upperRight = position + right*0.5f + up*0.5f;
-            Vector3 lowerRight = upperRight - up;
-            Vector3 lowerLeft = lowerRight - right;
-            Vector3 upperLeft = upperRight - right;
-
-            drawLine(upperRight, lowerRight);
-            drawLine(lowerRight, lowerLeft);
-            drawLine(lowerLeft, upperLeft);
-            drawLine(upperLeft, upperRight);
+            WireQuad(drawLine, position, rotation, scale, Vector3.right, Vector3.up);
         }
 
         public static void WireQuadXY(
@@ -51,17 +41,7 @@ namespace ProceduralToolkit
             float duration,
             bool depthTest)
         {
-            Vector3 right = rotation*Vector3.right*scale.x;
-            Vector3 up = rotation*Vector3.up*scale.y;
-            Vector3 upperRight = position + right*0.5f + up*0.5f;
-            Vector3 lowerRight = upperRight - up;
-            Vector3 lowerLeft = lowerRight - right;
-            Vector3 upperLeft = upperRight - right;
-
-            drawLine(upperRight, lowerRight, color, duration, depthTest);
-            drawLine(lowerRight, lowerLeft, color, duration, depthTest);
-            drawLine(lowerLeft, upperLeft, color, duration, depthTest);
-            drawLine(upperLeft, upperRight, color, duration, depthTest);
+            WireQuad(drawLine, position, rotation, scale, Vector3.right, Vector3.up, color, duration, depthTest);
         }
 
         public static void WireQuadXZ(
@@ -70,17 +50,7 @@ namespace ProceduralToolkit
             Quaternion rotation,
             Vector2 scale)
         {
-            Vector3 right = rotation*Vector3.right*scale.x;
-            Vector3 forward = rotation*Vector3.forward*scale.y;
-            Vector3 forwardRight = position + right*0.5f + forward*0.5f;
-            Vector3 backRight = forwardRight - forward;
-            Vector3 backLeft = backRight - right;
-            Vector3 forwardLeft = forwardRight - right;
-
-            drawLine(forwardRight, backRight);
-            drawLine(backRight, backLeft);
-            drawLine(backLeft, forwardLeft);
-            drawLine(forwardLeft, forwardRight);
+            WireQuad(drawLine, position, rotation, scale, Vector3.right, Vector3.forward);
         }
 
         public static void WireQuadXZ(
@@ -92,8 +62,64 @@ namespace ProceduralToolkit
             float duration,
             bool depthTest)
         {
-            Vector3 right = rotation*Vector3.right*scale.x;
-            Vector3 forward = rotation*Vector3.forward*scale.y;
+            WireQuad(drawLine, position, rotation, scale, Vector3.right, Vector3.forward, color, duration, depthTest);
+        }
+
+        public static void WireQuadYZ(
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            Vector2 scale)
+        {
+            WireQuad(drawLine, position, rotation, scale, Vector3.up, Vector3.forward);
+        }
+
+        public static void WireQuadYZ(
+            DebugDrawLine drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            Vector2 scale,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            WireQuad(drawLine, position, rotation, scale, Vector3.up, Vector3.forward, color, duration, depthTest);
+        }
+
+        public static void WireQuad(
+            Action<Vector3, Vector3> drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            Vector2 scale,
+            Vector3 planeRight,
+            Vector3 planeForward)
+        {
+            Vector3 right = rotation*planeRight*scale.x;
+            Vector3 forward = rotation*planeForward*scale.y;
+            Vector3 forwardRight = position + right*0.5f + forward*0.5f;
+            Vector3 backRight = forwardRight - forward;
+            Vector3 backLeft = backRight - right;
+            Vector3 forwardLeft = forwardRight - right;
+
+            drawLine(forwardRight, backRight);
+            drawLine(backRight, backLeft);
+            drawLine(backLeft, forwardLeft);
+            drawLine(forwardLeft, forwardRight);
+        }
+
+        public static void WireQuad(
+            DebugDrawLine drawLine,
+            Vector3 position,
+            Quaternion rotation,
+            Vector2 scale,
+            Vector3 planeRight,
+            Vector3 planeForward,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            Vector3 right = rotation*planeRight*scale.x;
+            Vector3 forward = rotation*planeForward*scale.y;
             Vector3 forwardRight = position + right*0.5f + forward*0.5f;
             Vector3 backRight = forwardRight - forward;
             Vector3 backLeft = backRight - right;
