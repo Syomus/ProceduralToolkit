@@ -74,5 +74,13 @@ namespace ProceduralToolkit
             color.a = a;
             return color;
         }
+
+        /// <summary>
+        /// Returns a nicely formatted string for this color
+        /// </summary>
+        public override string ToString()
+        {
+            return string.Format("HSVA({0:F3}, {1:F3}, {2:F3}, {3:F3})", h, s, v, a);
+        }
     }
 }
