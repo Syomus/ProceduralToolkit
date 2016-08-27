@@ -13,10 +13,11 @@ namespace ProceduralToolkit
         /// Returns point on circle in the XY plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
-        /// <param name="angle">Angle in radians</param>
+        /// <param name="angle">Angle in degrees</param>
         public static Vector2 PointOnCircle2(float radius, float angle)
         {
-            return new Vector2(radius*Mathf.Sin(angle), radius*Mathf.Cos(angle));
+            float angleInRadians = angle*Mathf.Deg2Rad;
+            return new Vector2(radius*Mathf.Sin(angleInRadians), radius*Mathf.Cos(angleInRadians));
         }
 
         /// <summary>
@@ -26,13 +27,13 @@ namespace ProceduralToolkit
         /// <param name="segments">Number of circle segments</param>
         public static List<Vector2> PointsOnCircle2(float radius, int segments)
         {
-            float segmentAngle = Mathf.PI*2/segments;
-            float currentAngle = 0f;
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
             var ring = new List<Vector2>(segments);
             for (var i = 0; i < segments; i++)
             {
                 ring.Add(PointOnCircle2(radius, currentAngle));
-                currentAngle -= segmentAngle;
+                currentAngle += segmentAngle;
             }
             return ring;
         }
@@ -41,10 +42,11 @@ namespace ProceduralToolkit
         /// Returns point on circle in the XY plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
-        /// <param name="angle">Angle in radians</param>
+        /// <param name="angle">Angle in degrees</param>
         public static Vector3 PointOnCircle3XY(float radius, float angle)
         {
-            return new Vector3(radius*Mathf.Sin(angle), radius*Mathf.Cos(angle), 0);
+            float angleInRadians = angle*Mathf.Deg2Rad;
+            return new Vector3(radius*Mathf.Sin(angleInRadians), radius*Mathf.Cos(angleInRadians), 0);
         }
 
         /// <summary>
@@ -54,13 +56,13 @@ namespace ProceduralToolkit
         /// <param name="segments">Number of circle segments</param>
         public static List<Vector3> PointsOnCircle3XY(float radius, int segments)
         {
-            float segmentAngle = Mathf.PI*2/segments;
-            float currentAngle = 0f;
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
             var ring = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
                 ring.Add(PointOnCircle3XY(radius, currentAngle));
-                currentAngle -= segmentAngle;
+                currentAngle += segmentAngle;
             }
             return ring;
         }
@@ -69,10 +71,11 @@ namespace ProceduralToolkit
         /// Returns point on circle in the XZ plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
-        /// <param name="angle">Angle in radians</param>
+        /// <param name="angle">Angle in degrees</param>
         public static Vector3 PointOnCircle3XZ(float radius, float angle)
         {
-            return new Vector3(radius*Mathf.Sin(angle), 0, radius*Mathf.Cos(angle));
+            float angleInRadians = angle*Mathf.Deg2Rad;
+            return new Vector3(radius*Mathf.Sin(angleInRadians), 0, radius*Mathf.Cos(angleInRadians));
         }
 
         /// <summary>
@@ -82,13 +85,13 @@ namespace ProceduralToolkit
         /// <param name="segments">Number of circle segments</param>
         public static List<Vector3> PointsOnCircle3XZ(float radius, int segments)
         {
-            float segmentAngle = Mathf.PI*2/segments;
-            float currentAngle = 0f;
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
             var ring = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
                 ring.Add(PointOnCircle3XZ(radius, currentAngle));
-                currentAngle -= segmentAngle;
+                currentAngle += segmentAngle;
             }
             return ring;
         }
@@ -97,10 +100,11 @@ namespace ProceduralToolkit
         /// Returns point on circle in the YZ plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
-        /// <param name="angle">Angle in radians</param>
+        /// <param name="angle">Angle in degrees</param>
         public static Vector3 PointOnCircle3YZ(float radius, float angle)
         {
-            return new Vector3(0, radius*Mathf.Sin(angle), radius*Mathf.Cos(angle));
+            float angleInRadians = angle*Mathf.Deg2Rad;
+            return new Vector3(0, radius*Mathf.Sin(angleInRadians), radius*Mathf.Cos(angleInRadians));
         }
 
         /// <summary>
@@ -110,13 +114,13 @@ namespace ProceduralToolkit
         /// <param name="segments">Number of circle segments</param>
         public static List<Vector3> PointsOnCircle3YZ(float radius, int segments)
         {
-            float segmentAngle = Mathf.PI*2/segments;
-            float currentAngle = 0f;
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
             var ring = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
                 ring.Add(PointOnCircle3YZ(radius, currentAngle));
-                currentAngle -= segmentAngle;
+                currentAngle += segmentAngle;
             }
             return ring;
         }
@@ -125,13 +129,15 @@ namespace ProceduralToolkit
         /// Returns point on sphere in geographic coordinate system
         /// </summary>
         /// <param name="radius">Sphere radius</param>
-        /// <param name="longitude">Longitude in radians</param>
-        /// <param name="latitude">Latitude in radians</param>
+        /// <param name="longitude">Longitude in degrees</param>
+        /// <param name="latitude">Latitude in degrees</param>
         public static Vector3 PointOnSphere(float radius, float longitude, float latitude)
         {
-            return new Vector3(radius*Mathf.Sin(longitude)*Mathf.Cos(latitude),
-                radius*Mathf.Sin(latitude),
-                radius*Mathf.Cos(longitude)*Mathf.Cos(latitude));
+            float longitudeInRadians = longitude*Mathf.Deg2Rad;
+            float latitudeInRadians = latitude*Mathf.Deg2Rad;
+            return new Vector3(radius*Mathf.Sin(longitudeInRadians)*Mathf.Cos(latitudeInRadians),
+                radius*Mathf.Sin(latitudeInRadians),
+                radius*Mathf.Cos(longitudeInRadians)*Mathf.Cos(latitudeInRadians));
         }
 
         /// <summary>

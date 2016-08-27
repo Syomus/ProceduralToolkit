@@ -110,8 +110,8 @@ namespace ProceduralToolkit
         public static MeshDraft BaselessPyramid(Vector3 baseCenter, Vector3 apex, float radius, int segments,
             bool inverted = false)
         {
-            float segmentAngle = Mathf.PI*2/segments*(inverted ? -1 : 1);
-            float currentAngle = 0f;
+            float segmentAngle = 360f/segments*(inverted ? -1 : 1);
+            float currentAngle = 0;
 
             var vertices = new Vector3[segments + 1];
             vertices[0] = apex;
@@ -250,9 +250,9 @@ namespace ProceduralToolkit
 
         public static MeshDraft Tetrahedron(float radius)
         {
-            float tetrahedralAngle = Mathf.PI*-19.471220333f/180;
-            float segmentAngle = Mathf.PI*2/3;
-            float currentAngle = 0f;
+            const float tetrahedralAngle = -19.471220333f;
+            const float segmentAngle = 120;
+            float currentAngle = 0;
 
             var vertices = new List<Vector3>(4) {new Vector3(0, radius, 0)};
             for (var i = 1; i < 4; i++)
@@ -339,10 +339,10 @@ namespace ProceduralToolkit
 
         public static MeshDraft Dodecahedron(float radius)
         {
-            float magicAngle1 = Mathf.PI*52.62263590f/180;
-            float magicAngle2 = Mathf.PI*10.81231754f/180;
-            float segmentAngle = Mathf.PI*2/5;
-            float currentAngle = 0f;
+            const float magicAngle1 = 52.62263590f;
+            const float magicAngle2 = 10.81231754f;
+            const float segmentAngle = 72;
+            float currentAngle = 0;
             var lowerCap = new List<Vector3>();
             var lowerRing = new List<Vector3>();
             for (var i = 0; i <= 5; i++)
@@ -374,10 +374,10 @@ namespace ProceduralToolkit
 
         public static MeshDraft Icosahedron(float radius)
         {
-            float magicAngle = Mathf.PI*26.56505f/180;
-            float segmentAngle = Mathf.PI*72/180;
+            const float magicAngle = 26.56505f;
+            const float segmentAngle = 72;
+            float currentAngle = 0;
 
-            float currentAngle = 0f;
             var upperRing = new List<Vector3>(5);
             for (var i = 0; i < 5; i++)
             {
@@ -466,9 +466,9 @@ namespace ProceduralToolkit
 
         public static MeshDraft Prism(float radius, int segments, float heignt)
         {
-            float segmentAngle = Mathf.PI*2/segments;
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
 
-            float currentAngle = 0f;
             var lowerRing = new List<Vector3>(segments);
             var upperRing = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
@@ -489,9 +489,9 @@ namespace ProceduralToolkit
 
         public static MeshDraft Cylinder(float radius, int segments, float heignt)
         {
-            float segmentAngle = Mathf.PI*2/segments;
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
 
-            float currentAngle = 0f;
             var lowerRing = new List<Vector3>(segments);
             var upperRing = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
@@ -512,10 +512,10 @@ namespace ProceduralToolkit
 
         public static MeshDraft FlatSphere(float radius, int longitudeSegments, int latitudeSegments)
         {
-            float longitudeSegmentAngle = Mathf.PI*2/longitudeSegments;
-            float latitudeSegmentAngle = Mathf.PI/latitudeSegments;
+            float longitudeSegmentAngle = 360f/longitudeSegments;
+            float latitudeSegmentAngle = 180f/latitudeSegments;
+            float currentLatitude = -90;
 
-            float currentLatitude = -Mathf.PI/2;
             var rings = new List<List<Vector3>>(latitudeSegments);
             for (var i = 0; i <= latitudeSegments; i++)
             {
@@ -542,10 +542,10 @@ namespace ProceduralToolkit
         {
             var draft = new MeshDraft {name = "Sphere"};
 
-            float longitudeSegmentAngle = Mathf.PI*2/longitudeSegments;
-            float latitudeSegmentAngle = Mathf.PI/latitudeSegments;
+            float longitudeSegmentAngle = 360f/longitudeSegments;
+            float latitudeSegmentAngle = 180f/latitudeSegments;
+            float currentLatitude = -90;
 
-            float currentLatitude = -Mathf.PI/2;
             for (var ring = 0; ring <= latitudeSegments; ring++)
             {
                 var currentLongitude = 0f;
