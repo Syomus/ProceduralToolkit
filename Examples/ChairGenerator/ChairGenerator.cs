@@ -34,7 +34,6 @@ namespace ProceduralToolkit.Examples
             Armrests.Armrests1
         };
 
-
         public static MeshDraft Chair(
             float legWidth,
             float legHeight,
@@ -43,7 +42,8 @@ namespace ProceduralToolkit.Examples
             float seatHeight,
             float backHeight,
             bool hasStretchers,
-            bool hasArmrests)
+            bool hasArmrests,
+            Color color)
         {
             Vector3 right = Vector3.right*(seatWidth - legWidth)/2;
             Vector3 forward = Vector3.forward*(seatDepth - legWidth)/2;
@@ -85,7 +85,7 @@ namespace ProceduralToolkit.Examples
                 chair.Add(armrestsConstructor(seatWidth, seatDepth, backCenter, backHeight, legWidth));
             }
 
-            chair.Paint(RandomE.colorHSV);
+            chair.Paint(color);
 
             return chair;
         }
