@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ProceduralToolkit.Examples.UI
 {
@@ -30,9 +31,15 @@ namespace ProceduralToolkit.Examples.UI
         private const int minNoiseScale = 1;
         private const int maxNoiseScale = 20;
 
+        private List<ColorHSV> targetPalette = new List<ColorHSV>();
+        private List<ColorHSV> currentPalette = new List<ColorHSV>();
+
         private void Awake()
         {
             RenderSettings.skybox = new Material(RenderSettings.skybox);
+
+            Generate();
+            currentPalette.AddRange(targetPalette);
 
             InstantiateControl<SliderControl>(leftPanel)
                 .Initialize("Terrain size X", minXSize, maxXSize, terrainSizeX, value =>
@@ -70,22 +77,22 @@ namespace ProceduralToolkit.Examples.UI
                 });
 
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
+        }
 
-            Generate();
+        private void Update()
+        {
+            SkyBoxGenerator.LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 0, 1, 4, Time.deltaTime);
         }
 
         public void Generate()
         {
             Vector3 terrainSize = new Vector3(terrainSizeX, terrainSizeY, terrainSizeZ);
 
-            var palette = new ColorHSV(Random.value, 0.5f, 0.75f).GetTetradicPalette();
+            targetPalette = new ColorHSV(Random.value, 0.5f, 0.75f).GetTetradicPalette();
+            targetPalette.Add(ColorHSV.Lerp(targetPalette[0], targetPalette[1], 0.5f));
 
-            RenderSettings.skybox.SetColor("_SkyColor", palette[0].ToColor());
-            RenderSettings.skybox.SetColor("_HorizonColor", ColorHSV.Lerp(palette[0], palette[1], 0.5f).ToColor());
-            RenderSettings.skybox.SetColor("_GroundColor", palette[1].ToColor());
-
-            var gradient = ColorE.Gradient(palette[2].WithS(0.8f).WithV(0.8f).ToColor(),
-                palette[3].WithS(0.8f).WithV(0.8f).ToColor());
+            var gradient = ColorE.Gradient(targetPalette[2].WithS(0.8f).WithV(0.8f).ToColor(),
+                targetPalette[3].WithS(0.8f).WithV(0.8f).ToColor());
 
             var draft = LowPolyTerrainGenerator.TerrainDraft(terrainSize, cellSize, noiseScale, gradient);
             draft.Move(Vector3.left*terrainSizeX/2 + Vector3.back*terrainSizeZ/2);
