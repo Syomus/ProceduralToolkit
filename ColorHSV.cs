@@ -76,6 +76,38 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns new color with modified hue component
+        /// </summary>
+        public ColorHSV WithH(float h)
+        {
+            return new ColorHSV(h, s, v, a);
+        }
+
+        /// <summary>
+        /// Returns new color with modified saturation component
+        /// </summary>
+        public ColorHSV WithS(float g)
+        {
+            return new ColorHSV(h, s, v, a);
+        }
+
+        /// <summary>
+        /// Returns new color with modified value component
+        /// </summary>
+        public ColorHSV WithV(float b)
+        {
+            return new ColorHSV(h, s, v, a);
+        }
+
+        /// <summary>
+        /// Returns new color with modified alpha component
+        /// </summary>
+        public ColorHSV WithA(float a)
+        {
+            return new ColorHSV(h, s, v, a);
+        }
+
+        /// <summary>
         /// Returns a nicely formatted string for this color
         /// </summary>
         public override string ToString()
