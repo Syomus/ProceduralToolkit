@@ -198,7 +198,7 @@ namespace ProceduralToolkit
         public static ColorHSV Lerp(ColorHSV a, ColorHSV b, float t)
         {
             t = Mathf.Clamp01(t);
-            return new ColorHSV(a.h + (b.h - a.h)*t, a.s + (b.s - a.s)*t, a.v + (b.v - a.v)*t, a.a + (b.a - a.a)*t);
+            return LerpUnclamped(a, b, t);
         }
 
         /// <summary>
@@ -206,7 +206,16 @@ namespace ProceduralToolkit
         /// </summary>
         public static ColorHSV LerpUnclamped(ColorHSV a, ColorHSV b, float t)
         {
-            return new ColorHSV(a.h + (b.h - a.h)*t, a.s + (b.s - a.s)*t, a.v + (b.v - a.v)*t, a.a + (b.a - a.a)*t);
+            float deltaH = Mathf.Repeat(b.h - a.h, 1);
+            if (deltaH > 0.5f)
+            {
+                deltaH -= 1;
+            }
+            return new ColorHSV(
+                Mathf.Repeat(a.h + deltaH*t, 1),
+                a.s + (b.s - a.s)*t,
+                a.v + (b.v - a.v)*t,
+                a.a + (b.a - a.a)*t);
         }
     }
 }
