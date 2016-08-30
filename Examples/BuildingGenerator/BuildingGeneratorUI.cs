@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ProceduralToolkit.Examples.UI
 {
@@ -22,11 +23,15 @@ namespace ProceduralToolkit.Examples.UI
         private const int minFloorCount = 1;
         private const int maxFloorCount = 10;
 
+        private List<ColorHSV> targetPalette = new List<ColorHSV>();
+        private List<ColorHSV> currentPalette = new List<ColorHSV>();
+
         private void Awake()
         {
             RenderSettings.skybox = new Material(RenderSettings.skybox);
 
             Generate();
+            currentPalette.AddRange(targetPalette);
 
             InstantiateControl<SliderControl>(leftPanel).Initialize("Width", minWidth, maxWidth, width, value =>
             {
@@ -56,19 +61,21 @@ namespace ProceduralToolkit.Examples.UI
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
         }
 
+        private void Update()
+        {
+            SkyBoxGenerator.LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 1, 2, 3, Time.deltaTime);
+        }
+
         public void Generate()
         {
-            var palette = new ColorHSV(Random.value, 0.5f, 0.75f).GetTriadicPalette();
-
-            RenderSettings.skybox.SetColor("_SkyColor", palette[1].ToColor());
-            RenderSettings.skybox.SetColor("_HorizonColor", ColorHSV.Lerp(palette[1], palette[2], 0.5f).ToColor());
-            RenderSettings.skybox.SetColor("_GroundColor", palette[2].ToColor());
+            targetPalette = new ColorHSV(Random.value, 0.5f, 0.75f).GetTriadicPalette();
+            targetPalette.Add(ColorHSV.Lerp(targetPalette[1], targetPalette[2], 0.5f));
 
             var draft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic,
-                palette[0].WithS(0.8f).WithV(0.8f).ToColor());
+                targetPalette[0].WithS(0.8f).WithV(0.8f).ToColor());
 
             var circle = MeshDraft.TriangleFan(PTUtils.PointsOnCircle3XZ(50, 128));
-            circle.Paint(new Color(0.8f, 0.8f, 0.8f, 0));
+            circle.Paint(new Color(0.8f, 0.8f, 0.8f, 1));
             draft.Add(circle);
 
             var mesh = draft.ToMesh();
