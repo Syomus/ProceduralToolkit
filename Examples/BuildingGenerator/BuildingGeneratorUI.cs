@@ -66,7 +66,14 @@ namespace ProceduralToolkit.Examples.UI
 
             var draft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic,
                 palette[0].WithS(0.8f).WithV(0.8f).ToColor());
-            meshFilter.mesh = draft.ToMesh();
+
+            var circle = MeshDraft.TriangleFan(PTUtils.PointsOnCircle3XZ(50, 128));
+            circle.Paint(new Color(0.8f, 0.8f, 0.8f, 0));
+            draft.Add(circle);
+
+            var mesh = draft.ToMesh();
+            mesh.RecalculateBounds();
+            meshFilter.mesh = mesh;
         }
     }
 }

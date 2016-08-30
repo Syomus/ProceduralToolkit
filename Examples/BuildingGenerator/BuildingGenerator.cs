@@ -11,13 +11,13 @@ namespace ProceduralToolkit.Examples
     /// </remarks>
     public static class BuildingGenerator
     {
-        public static Color socleColor = ColorE.silver.WithA(0);
-        public static Color socleWindowColor = ColorE.silver.WithA(0)/2;
-        public static Color doorColor = ColorE.silver.WithA(0)/2;
-        public static Color wallColor = ColorE.white.WithA(0);
-        public static Color frameColor = ColorE.silver.WithA(0);
+        public static Color socleColor = ColorE.silver;
+        public static Color socleWindowColor = ColorE.silver/2;
+        public static Color doorColor = ColorE.silver/2;
+        public static Color wallColor = ColorE.white;
+        public static Color frameColor = ColorE.silver;
         public static Color glassColor = ColorE.white;
-        public static Color roofColor = ColorE.gray.WithA(0.5f)/4;
+        public static Color roofColor = ColorE.gray/4;
 
         private const float SocleHeight = 1;
         private const float FloorHeight = 3;
