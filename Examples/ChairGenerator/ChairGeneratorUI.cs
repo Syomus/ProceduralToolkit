@@ -105,6 +105,11 @@ namespace ProceduralToolkit.Examples.UI
 
             var draft = ChairGenerator.Chair(legWidth, legHeight, seatWidth, seatDepth, seatHeight, backHeight,
                 hasStretchers, hasArmrests, palette[0].WithS(0.8f).WithV(0.8f).ToColor());
+
+            var circle = MeshDraft.TriangleFan(PTUtils.PointsOnCircle3XZ(2, 128));
+            circle.Paint(new Color(0.8f, 0.8f, 0.8f, 0));
+            draft.Add(circle);
+
             meshFilter.mesh = draft.ToMesh();
         }
     }

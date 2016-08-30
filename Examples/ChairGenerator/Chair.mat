@@ -26,7 +26,7 @@ Material:
       data:
         first:
           name: _Smoothness
-        second: 0.2
+        second: 0
       data:
         first:
           name: _Metallic
