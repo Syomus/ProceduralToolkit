@@ -29,7 +29,7 @@ namespace ProceduralToolkit.Examples
                 GeneratePalette();
             }
 
-            LerpSkybox(skybox, currentPalette, targetPalette, 1, 2, 3);
+            LerpSkybox(skybox, currentPalette, targetPalette, 1, 2, 3, Time.deltaTime*lerpSpeed);
         }
 
         private void GeneratePalette()
@@ -45,11 +45,12 @@ namespace ProceduralToolkit.Examples
             List<ColorHSV> targetPalette,
             int skyColorIndex,
             int horizonColorIndex,
-            int groundColorIndex)
+            int groundColorIndex,
+            float t)
         {
             for (int i = 0; i < currentPalette.Count; i++)
             {
-                currentPalette[i] = ColorHSV.Lerp(currentPalette[i], targetPalette[i], Time.deltaTime*lerpSpeed);
+                currentPalette[i] = ColorHSV.Lerp(currentPalette[i], targetPalette[i], t);
             }
 
             skybox.SetColor("_SkyColor", currentPalette[skyColorIndex].ToColor());
