@@ -32,6 +32,8 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Awake()
         {
+            RenderSettings.skybox = new Material(RenderSettings.skybox);
+
             InstantiateControl<SliderControl>(leftPanel)
                 .Initialize("Terrain size X", minXSize, maxXSize, terrainSizeX, value =>
                 {
@@ -75,7 +77,16 @@ namespace ProceduralToolkit.Examples.UI
         public void Generate()
         {
             Vector3 terrainSize = new Vector3(terrainSizeX, terrainSizeY, terrainSizeZ);
-            var draft = LowPolyTerrainGenerator.TerrainDraft(terrainSize, cellSize, noiseScale);
+
+            var palette = new ColorHSV(Random.value, 0.6f, 0.75f).GetTetradicPalette();
+
+            RenderSettings.skybox.SetColor("_SkyColor", palette[0].ToColor());
+            RenderSettings.skybox.SetColor("_HorizonColor", ColorHSV.Lerp(palette[0], palette[1], 0.5f).ToColor());
+            RenderSettings.skybox.SetColor("_GroundColor", palette[1].ToColor());
+
+            var gradient = ColorE.Gradient(palette[2].ToColor(), palette[3].ToColor());
+
+            var draft = LowPolyTerrainGenerator.TerrainDraft(terrainSize, cellSize, noiseScale, gradient);
             draft.Move(Vector3.left*terrainSizeX/2 + Vector3.back*terrainSizeZ/2);
             meshFilter.mesh = draft.ToMesh();
         }

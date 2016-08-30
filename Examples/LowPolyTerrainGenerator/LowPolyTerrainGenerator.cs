@@ -9,9 +9,8 @@ namespace ProceduralToolkit.Examples
     /// </summary>
     public static class LowPolyTerrainGenerator
     {
-        public static MeshDraft TerrainDraft(Vector3 terrainSize, float cellSize, float noiseScale)
+        public static MeshDraft TerrainDraft(Vector3 terrainSize, float cellSize, float noiseScale, Gradient gradient)
         {
-            var gradient = RandomE.gradientHSV;
             var noiseOffset = new Vector2(Random.Range(0f, 100f), Random.Range(0f, 100f));
 
             int xSegments = Mathf.FloorToInt(terrainSize.x/cellSize);
