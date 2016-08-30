@@ -97,15 +97,14 @@ namespace ProceduralToolkit.Examples.UI
 
         public void Generate()
         {
-            var color = new ColorHSV(Random.value, 0.5f, 0.75f);
-            var palette = color.GetTriadicPalette();
+            var palette = new ColorHSV(Random.value, 0.5f, 0.75f).GetTriadicPalette();
 
             RenderSettings.skybox.SetColor("_SkyColor", palette[1].ToColor());
             RenderSettings.skybox.SetColor("_HorizonColor", ColorHSV.Lerp(palette[1], palette[2], 0.5f).ToColor());
             RenderSettings.skybox.SetColor("_GroundColor", palette[2].ToColor());
 
             var draft = ChairGenerator.Chair(legWidth, legHeight, seatWidth, seatDepth, seatHeight, backHeight,
-                hasStretchers, hasArmrests, color.WithS(0.8f).WithV(0.8f).ToColor());
+                hasStretchers, hasArmrests, palette[0].WithS(0.8f).WithV(0.8f).ToColor());
             meshFilter.mesh = draft.ToMesh();
         }
     }
