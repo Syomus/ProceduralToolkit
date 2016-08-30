@@ -64,9 +64,10 @@ namespace ProceduralToolkit.Examples
             public List<Panel> panels = new List<Panel>();
         }
 
-        public static MeshDraft BuildingDraft(float width, float length, int floorCount, bool hasAttic)
+        public static MeshDraft BuildingDraft(float width, float length, int floorCount, bool hasAttic, Color wallColor)
         {
             float height = FloorHeight*floorCount + SocleHeight + (hasAttic ? AtticHeight : 0);
+            BuildingGenerator.wallColor = wallColor.WithA(0);
 
             var draft = new MeshDraft {name = "Building"};
             var corners = new Vector3[]
@@ -79,8 +80,6 @@ namespace ProceduralToolkit.Examples
 
             commonPanelConstructors[PanelType.Entrance] = panelConstructors[PanelType.Entrance].GetRandom();
             commonPanelConstructors[PanelType.EntranceWall] = panelConstructors[PanelType.EntranceWall].GetRandom();
-
-            wallColor = RandomE.colorHSV.WithA(0);
 
             List<FloorPlan> facadePlan0 = FacadeGenerator(length, floorCount, hasAttic, true, true);
             draft.Add(Facade(corners[0], Vector3.right, facadePlan0));

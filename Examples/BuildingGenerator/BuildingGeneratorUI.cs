@@ -24,6 +24,8 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Awake()
         {
+            RenderSettings.skybox = new Material(RenderSettings.skybox);
+
             Generate();
 
             InstantiateControl<SliderControl>(leftPanel).Initialize("Width", minWidth, maxWidth, width, value =>
@@ -56,7 +58,14 @@ namespace ProceduralToolkit.Examples.UI
 
         public void Generate()
         {
-            var draft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic);
+            var color = new ColorHSV(Random.value, 0.6f, 0.75f);
+            var palette = color.GetTriadicPalette();
+
+            RenderSettings.skybox.SetColor("_SkyColor", palette[1].ToColor());
+            RenderSettings.skybox.SetColor("_HorizonColor", ColorHSV.Lerp(palette[1], palette[2], 0.5f).ToColor());
+            RenderSettings.skybox.SetColor("_GroundColor", palette[2].ToColor());
+
+            var draft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic, color.ToColor());
             meshFilter.mesh = draft.ToMesh();
         }
     }
