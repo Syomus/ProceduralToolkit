@@ -53,7 +53,7 @@ namespace ProceduralToolkit.Examples
         /// <summary>
         /// Generate new colors and positions for boids
         /// </summary>
-        public Mesh Generate()
+        public Mesh Generate(Color colorA, Color colorB)
         {
             template = MeshDraft.Tetrahedron(0.3f);
 
@@ -65,12 +65,11 @@ namespace ProceduralToolkit.Examples
 
             // Paint template in random color
             template.colors.Clear();
-            var color = RandomE.colorHSV;
             // Assuming that we are dealing with tetrahedron, first vertex should be boid's "nose"
-            template.colors.Add(color.Inverted());
+            template.colors.Add(colorA);
             for (int i = 1; i < template.vertices.Count; i++)
             {
-                template.colors.Add(color);
+                template.colors.Add(colorB);
             }
 
             draft = new MeshDraft

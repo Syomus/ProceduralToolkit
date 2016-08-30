@@ -13,6 +13,8 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Awake()
         {
+            RenderSettings.skybox = new Material(RenderSettings.skybox);
+
             Generate();
             StartCoroutine(Simulate());
 
@@ -47,8 +49,15 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Generate()
         {
+            var palette = new ColorHSV(Random.value, 0.5f, 0.75f).GetTetradicPalette();
+
+            RenderSettings.skybox.SetColor("_SkyColor", palette[0].ToColor());
+            RenderSettings.skybox.SetColor("_HorizonColor", ColorHSV.Lerp(palette[0], palette[1], 0.5f).ToColor());
+            RenderSettings.skybox.SetColor("_GroundColor", palette[1].ToColor());
+
             controller = new BoidController();
-            var mesh = controller.Generate();
+            var mesh = controller.Generate(palette[2].WithS(1).WithV(1).ToColor(),
+                palette[3].WithS(0.8f).WithV(0.8f).ToColor());
             meshFilter.mesh = mesh;
         }
 
