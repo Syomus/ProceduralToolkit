@@ -403,6 +403,29 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns the signed angle in degrees [-180, 180] between from and to
+        /// </summary>
+        /// <param name="from">The angle extends round from this vector</param>
+        /// <param name="to">The angle extends round to this vector</param>
+        public static float SignedAngle(Vector2 from, Vector2 to)
+        {
+            return Mathf.Atan2(PerpDot(to, from), Vector2.Dot(to, from))*Mathf.Rad2Deg;
+        }
+
+        /// <summary>
+        /// Returns the signed angle in degrees [-180, 180] between from and to
+        /// </summary>
+        /// <param name="from">The angle extends round from this vector</param>
+        /// <param name="to">The angle extends round to this vector</param>
+        /// <param name="normal">Up direction of the clockwise axis</param>
+        public static float SignedAngle(Vector3 from, Vector3 to, Vector3 normal)
+        {
+            return Mathf.Atan2(
+                Vector3.Dot(normal, Vector3.Cross(from, to)),
+                Vector3.Dot(from, to))*Mathf.Rad2Deg;
+        }
+
+        /// <summary>
         /// Swaps values of <paramref name="left"/> and <paramref name="right"/>
         /// </summary>
         public static void Swap<T>(ref T left, ref T right)
