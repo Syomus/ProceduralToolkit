@@ -114,5 +114,22 @@ namespace ProceduralToolkit
         {
             return string.Format("HSVA({0:F3}, {1:F3}, {2:F3}, {3:F3})", h, s, v, a);
         }
+
+        /// <summary>
+        /// Linearly interpolates between colors a and b by t.
+        /// </summary>
+        public static ColorHSV Lerp(ColorHSV a, ColorHSV b, float t)
+        {
+            t = Mathf.Clamp01(t);
+            return new ColorHSV(a.h + (b.h - a.h)*t, a.s + (b.s - a.s)*t, a.v + (b.v - a.v)*t, a.a + (b.a - a.a)*t);
+        }
+
+        /// <summary>
+        /// Linearly interpolates between colors a and b by t.
+        /// </summary>
+        public static ColorHSV LerpUnclamped(ColorHSV a, ColorHSV b, float t)
+        {
+            return new ColorHSV(a.h + (b.h - a.h)*t, a.s + (b.s - a.s)*t, a.v + (b.v - a.v)*t, a.a + (b.a - a.a)*t);
+        }
     }
 }
