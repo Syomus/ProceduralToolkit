@@ -58,7 +58,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a color with random hue and maximum saturation and value in HSV model
         /// </summary>
-        public static Color colorHSV { get { return new ColorHSV(Random.value, 1, 1).ToColor(); } }
+        public static ColorHSV colorHSV { get { return new ColorHSV(Random.value, 1, 1); } }
 
         /// <summary>
         /// Returns a gradient between two random colors
@@ -68,7 +68,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a gradient between two random HSV colors
         /// </summary>
-        public static Gradient gradientHSV { get { return ColorE.Gradient(colorHSV, colorHSV); } }
+        public static Gradient gradientHSV { get { return ColorE.Gradient(colorHSV.ToColor(), colorHSV.ToColor()); } }
 
         #endregion Colors
 
