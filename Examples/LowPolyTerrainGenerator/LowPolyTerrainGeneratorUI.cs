@@ -91,8 +91,8 @@ namespace ProceduralToolkit.Examples.UI
             targetPalette = RandomE.TetradicPalette(0.5f, 0.75f);
             targetPalette.Add(ColorHSV.Lerp(targetPalette[0], targetPalette[1], 0.5f));
 
-            var gradient = ColorE.Gradient(targetPalette[2].WithS(0.8f).WithV(0.8f).ToColor(),
-                targetPalette[3].WithS(0.8f).WithV(0.8f).ToColor());
+            var gradient = ColorE.Gradient(targetPalette[2].WithS(0.8f).WithV(0.8f),
+                targetPalette[3].WithS(0.8f).WithV(0.8f));
 
             var draft = LowPolyTerrainGenerator.TerrainDraft(terrainSize, cellSize, noiseScale, gradient);
             draft.Move(Vector3.left*terrainSizeX/2 + Vector3.back*terrainSizeZ/2);

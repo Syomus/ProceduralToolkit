@@ -67,6 +67,17 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Creates a gradient between two colors
+        /// </summary>
+        public static Gradient Gradient(ColorHSV from, ColorHSV to)
+        {
+            var g = new Gradient();
+            g.SetKeys(new[] {new GradientColorKey(from.ToColor(), 0), new GradientColorKey(to.ToColor(), 1)},
+                new[] {new GradientAlphaKey(from.a, 0), new GradientAlphaKey(to.a, 1)});
+            return g;
+        }
+
+        /// <summary>
         /// Returns new color with modified red component
         /// </summary>
         public static Color WithR(this Color color, float r)

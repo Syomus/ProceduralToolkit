@@ -68,7 +68,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a gradient between two random HSV colors
         /// </summary>
-        public static Gradient gradientHSV { get { return ColorE.Gradient(colorHSV.ToColor(), colorHSV.ToColor()); } }
+        public static Gradient gradientHSV { get { return ColorE.Gradient(colorHSV, colorHSV); } }
 
         /// <summary>
         /// Returns a color with random hue and given <paramref name="saturation"/> and <paramref name="value"/>
