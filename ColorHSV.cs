@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -32,6 +33,46 @@ namespace ProceduralToolkit
         /// Returns opposite color on the color wheel
         /// </summary>
         public ColorHSV complementary { get { return WithOffsetH(180); } }
+
+        public float this[int index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0:
+                        return h;
+                    case 1:
+                        return s;
+                    case 2:
+                        return v;
+                    case 3:
+                        return a;
+                    default:
+                        throw new IndexOutOfRangeException("Invalid ColorHSV index!");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0:
+                        h = value;
+                        break;
+                    case 1:
+                        s = value;
+                        break;
+                    case 2:
+                        v = value;
+                        break;
+                    case 3:
+                        a = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("Invalid ColorHSV index!");
+                }
+            }
+        }
 
         /// <summary>
         /// Constructs a new ColorHSV with given h, s, v, a components
@@ -69,6 +110,48 @@ namespace ProceduralToolkit
         {
             Color.RGBToHSV(color, out h, out s, out v);
             a = color.a;
+        }
+
+        public static explicit operator Vector4(ColorHSV c)
+        {
+            return new Vector4(c.h, c.s, c.v, c.a);
+        }
+
+        public static bool operator ==(ColorHSV lhs, ColorHSV rhs)
+        {
+            return (Vector4) lhs == (Vector4) rhs;
+        }
+
+        public static bool operator !=(ColorHSV lhs, ColorHSV rhs)
+        {
+            return !(lhs == rhs);
+        }
+
+        /// <summary>
+        /// Returns a nicely formatted string for this color
+        /// </summary>
+        public override string ToString()
+        {
+            return string.Format("HSVA({0:F3}, {1:F3}, {2:F3}, {3:F3})", h, s, v, a);
+        }
+
+        public override int GetHashCode()
+        {
+            return ((Vector4) this).GetHashCode();
+        }
+
+        public override bool Equals(object other)
+        {
+            if (!(other is ColorHSV))
+            {
+                return false;
+            }
+            ColorHSV color = (ColorHSV) other;
+            if (h.Equals(color.h) && s.Equals(color.s) && v.Equals(color.v))
+            {
+                return a.Equals(color.a);
+            }
+            return false;
         }
 
         /// <summary>
@@ -182,14 +265,6 @@ namespace ProceduralToolkit
                 complementary.WithOffsetH(tetradicAngle)
             };
             return palette;
-        }
-
-        /// <summary>
-        /// Returns a nicely formatted string for this color
-        /// </summary>
-        public override string ToString()
-        {
-            return string.Format("HSVA({0:F3}, {1:F3}, {2:F3}, {3:F3})", h, s, v, a);
         }
 
         /// <summary>
