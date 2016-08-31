@@ -94,6 +94,39 @@ namespace ProceduralToolkit
             return new ColorHSV(hue, saturation, Random.value, alpha);
         }
 
+        /// <summary>
+        /// Returns a analogous palette based on a color with random hue
+        /// </summary>
+        public static List<ColorHSV> AnalogousPalette(
+            float saturation = 1,
+            float value = 1,
+            float alpha = 1,
+            int count = 2,
+            bool withComplementary = false)
+        {
+            return ColorHue(saturation, value, alpha).GetAnalogousPalette(count, withComplementary);
+        }
+
+        /// <summary>
+        /// Returns a triadic palette based on a color with random hue
+        /// </summary>
+        public static List<ColorHSV> TriadicPalette(
+            float saturation = 1,
+            float value = 1,
+            float alpha = 1,
+            bool withComplementary = false)
+        {
+            return ColorHue(saturation, value, alpha).GetTriadicPalette(withComplementary);
+        }
+
+        /// <summary>
+        /// Returns a tetradic palette based on a color with random hue
+        /// </summary>
+        public static List<ColorHSV> TetradicPalette(float saturation = 1, float value = 1, float alpha = 1)
+        {
+            return ColorHue(saturation, value, alpha).GetTetradicPalette();
+        }
+
         #endregion Colors
 
         #region Strings

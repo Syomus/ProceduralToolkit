@@ -107,7 +107,7 @@ namespace ProceduralToolkit.Examples.UI
 
         public void Generate()
         {
-            targetPalette = RandomE.ColorHue(0.5f, 0.75f).GetTriadicPalette();
+            targetPalette = RandomE.TriadicPalette(0.5f, 0.75f);
             targetPalette.Add(ColorHSV.Lerp(targetPalette[1], targetPalette[2], 0.5f));
 
             var draft = ChairGenerator.Chair(legWidth, legHeight, seatWidth, seatDepth, seatHeight, backHeight,

@@ -124,7 +124,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns list of this color, <paramref name="count"/> of analogous colors and optionally complementary color
         /// </summary>
-        public List<ColorHSV> GetAnalogousPalette(int count, bool withComplementary = false)
+        public List<ColorHSV> GetAnalogousPalette(int count = 2, bool withComplementary = false)
         {
             const float analogousAngle = 30;
 

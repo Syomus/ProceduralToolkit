@@ -34,7 +34,7 @@ namespace ProceduralToolkit.Examples
 
         private void GeneratePalette()
         {
-            targetPalette = RandomE.ColorHue(0.5f, 0.75f).GetTriadicPalette();
+            targetPalette = RandomE.TriadicPalette(0.5f, 0.75f);
             targetPalette.Shuffle();
             targetPalette.Add(ColorHSV.Lerp(targetPalette[1], targetPalette[2], 0.5f));
         }
