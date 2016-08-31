@@ -88,7 +88,7 @@ namespace ProceduralToolkit.Examples.UI
         {
             Vector3 terrainSize = new Vector3(terrainSizeX, terrainSizeY, terrainSizeZ);
 
-            targetPalette = new ColorHSV(Random.value, 0.5f, 0.75f).GetTetradicPalette();
+            targetPalette = RandomE.ColorHue(0.5f, 0.75f).GetTetradicPalette();
             targetPalette.Add(ColorHSV.Lerp(targetPalette[0], targetPalette[1], 0.5f));
 
             var gradient = ColorE.Gradient(targetPalette[2].WithS(0.8f).WithV(0.8f).ToColor(),

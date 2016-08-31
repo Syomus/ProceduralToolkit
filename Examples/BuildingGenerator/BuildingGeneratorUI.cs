@@ -68,7 +68,7 @@ namespace ProceduralToolkit.Examples.UI
 
         public void Generate()
         {
-            targetPalette = new ColorHSV(Random.value, 0.5f, 0.75f).GetTriadicPalette();
+            targetPalette = RandomE.ColorHue(0.5f, 0.75f).GetTriadicPalette();
             targetPalette.Add(ColorHSV.Lerp(targetPalette[1], targetPalette[2], 0.5f));
 
             var draft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic,

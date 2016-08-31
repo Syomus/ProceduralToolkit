@@ -70,6 +70,30 @@ namespace ProceduralToolkit
         /// </summary>
         public static Gradient gradientHSV { get { return ColorE.Gradient(colorHSV.ToColor(), colorHSV.ToColor()); } }
 
+        /// <summary>
+        /// Returns a color with random hue and given <paramref name="saturation"/> and <paramref name="value"/>
+        /// </summary>
+        public static ColorHSV ColorHue(float saturation, float value, float alpha = 1)
+        {
+            return new ColorHSV(Random.value, saturation, value, alpha);
+        }
+
+        /// <summary>
+        /// Returns a color with random saturation and given <paramref name="hue"/> and <paramref name="value"/>
+        /// </summary>
+        public static ColorHSV ColorSaturation(float hue, float value, float alpha = 1)
+        {
+            return new ColorHSV(hue, Random.value, value, alpha);
+        }
+
+        /// <summary>
+        /// Returns a color with random value and given <paramref name="hue"/> and <paramref name="saturation"/>
+        /// </summary>
+        public static ColorHSV ColorValue(float hue, float saturation, float alpha = 1)
+        {
+            return new ColorHSV(hue, saturation, Random.value, alpha);
+        }
+
         #endregion Colors
 
         #region Strings
