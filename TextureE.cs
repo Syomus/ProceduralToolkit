@@ -13,7 +13,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawLine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
-            PTUtils.DrawLine(v0, v1, (x, y) => texture.SetPixel(x, y, color));
+            Draw.RasterLine(v0, v1, (x, y) => texture.SetPixel(x, y, color));
         }
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawLine(this Texture2D texture, int x0, int y0, int x1, int y1, Color color)
         {
-            PTUtils.DrawLine(x0, y0, x1, y1, (x, y) => texture.SetPixel(x, y, color));
+            Draw.RasterLine(x0, y0, x1, y1, (x, y) => texture.SetPixel(x, y, color));
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawAALine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
-            PTUtils.DrawAALine(v0, v1,
+            Draw.RasterAALine(v0, v1,
                 (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t)));
         }
 
@@ -38,7 +38,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawAALine(this Texture2D texture, int x0, int y0, int x1, int y1, Color color)
         {
-            PTUtils.DrawAALine(x0, y0, x1, y1,
+            Draw.RasterAALine(x0, y0, x1, y1,
                 (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t)));
         }
 
@@ -47,7 +47,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
-            PTUtils.DrawCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
+            Draw.RasterCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawCircle(this Texture2D texture, int centerX, int centerY, int radius, Color color)
         {
-            PTUtils.DrawCircle(centerX, centerY, radius, (x, y) => texture.SetPixel(x, y, color));
+            Draw.RasterCircle(centerX, centerY, radius, (x, y) => texture.SetPixel(x, y, color));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawFilledCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
-            PTUtils.DrawFilledCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
+            Draw.RasterFilledCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawFilledCircle(this Texture2D texture, int centerX, int centerY, int radius, Color color)
         {
-            PTUtils.DrawFilledCircle(centerX, centerY, radius, (x, y) => texture.SetPixel(x, y, color));
+            Draw.RasterFilledCircle(centerX, centerY, radius, (x, y) => texture.SetPixel(x, y, color));
         }
 
         /// <summary>
