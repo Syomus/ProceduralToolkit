@@ -9,9 +9,9 @@ namespace ProceduralToolkit.Examples.UI
         public RectTransform leftPanel;
         [Space]
         [Range(minWidth, maxWidth)]
-        public int width = 10;
+        public int width = 15;
         [Range(minLength, maxLength)]
-        public int length = 50;
+        public int length = 30;
         [Range(minFloorCount, maxFloorCount)]
         public int floorCount = 5;
         public bool hasAttic = true;
@@ -74,7 +74,7 @@ namespace ProceduralToolkit.Examples.UI
             var draft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic,
                 targetPalette[0].WithS(0.8f).WithV(0.8f).ToColor());
 
-            var circle = MeshDraft.TriangleFan(PTUtils.PointsOnCircle3XZ(50, 128));
+            var circle = MeshDraft.TriangleFan(PTUtils.PointsOnCircle3XZ(length/2 + 10, 128));
             circle.Paint(new Color(0.8f, 0.8f, 0.8f, 1));
             draft.Add(circle);
 

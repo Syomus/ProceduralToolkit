@@ -304,8 +304,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshFilter: {fileID: 462778071}
   leftPanel: {fileID: 90183977}
-  width: 10
-  length: 50
+  width: 15
+  length: 30
   floorCount: 5
   hasAttic: 1
 --- !u!114 &93982599
