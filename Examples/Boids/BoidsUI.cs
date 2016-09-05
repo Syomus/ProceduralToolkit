@@ -70,7 +70,7 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Generate()
         {
-            targetPalette = RandomE.TetradicPalette(0.5f, 0.75f);
+            targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
             targetPalette.Add(ColorHSV.Lerp(targetPalette[0], targetPalette[1], 0.5f));
 
             controller = new BoidController();
