@@ -10,6 +10,7 @@ namespace ProceduralToolkit.Examples
         public RectTransform leftPanel;
         public ToggleGroup toggleGroup;
         public RawImage image;
+        public Image background;
 
         private enum RulesetName
         {
@@ -126,8 +127,10 @@ namespace ProceduralToolkit.Examples
             automaton = new CellularAutomaton(width, height, ruleset, startNoise, aliveBorders);
 
             float hue = Random.value;
-            deadColor = new ColorHSV(hue, 0.3f, 0.2f).ToColor();
-            aliveColor = new ColorHSV(hue, 0.3f, 0.7f).ToColor();
+            deadColor = new ColorHSV(hue, 0.7f, 0.2f).ToColor();
+            var aliveColorHSV = new ColorHSV(hue, 0.7f, 0.7f);
+            aliveColor = aliveColorHSV.ToColor();
+            background.color = aliveColorHSV.complementary.WithS(0.25f).ToColor();
         }
 
         private void Draw()
