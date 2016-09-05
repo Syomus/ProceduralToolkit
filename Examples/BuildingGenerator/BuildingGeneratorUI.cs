@@ -5,7 +5,8 @@ namespace ProceduralToolkit.Examples.UI
 {
     public class BuildingGeneratorUI : UIBase
     {
-        public MeshFilter meshFilter;
+        public MeshFilter buildingMeshFilter;
+        public MeshFilter platformMeshFilter;
         public RectTransform leftPanel;
         [Space]
         [Range(minWidth, maxWidth)]
@@ -22,6 +23,11 @@ namespace ProceduralToolkit.Examples.UI
         private const int maxLength = 60;
         private const int minFloorCount = 1;
         private const int maxFloorCount = 10;
+
+        private const float platformBaseOffset = 0.5f;
+        private const float platformHeight = 0.5f;
+        private const float platformRadiusOffset = 2;
+        private const int platformSegments = 128;
 
         private List<ColorHSV> targetPalette = new List<ColorHSV>();
         private List<ColorHSV> currentPalette = new List<ColorHSV>();
@@ -68,19 +74,52 @@ namespace ProceduralToolkit.Examples.UI
 
         public void Generate()
         {
-            targetPalette = RandomE.TriadicPalette(0.5f, 0.75f);
-            targetPalette.Add(ColorHSV.Lerp(targetPalette[1], targetPalette[2], 0.5f));
+            targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
+            targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
 
-            var draft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic,
+            var buildingDraft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic,
                 targetPalette[0].WithS(0.8f).WithV(0.8f).ToColor());
 
-            var circle = MeshDraft.TriangleFan(PTUtils.PointsOnCircle3XZ(length/2 + 10, 128));
-            circle.Paint(new Color(0.8f, 0.8f, 0.8f, 1));
-            draft.Add(circle);
+            var buildingMesh = buildingDraft.ToMesh();
+            buildingMesh.RecalculateBounds();
+            buildingMeshFilter.mesh = buildingMesh;
 
-            var mesh = draft.ToMesh();
-            mesh.RecalculateBounds();
-            meshFilter.mesh = mesh;
+            float platformRadius = Mathf.Sqrt(length/2f*length/2f + width/2f*width/2f) + platformRadiusOffset;
+
+            var platformMesh = Platform(platformRadius, platformBaseOffset, platformSegments, platformHeight).ToMesh();
+            platformMesh.RecalculateBounds();
+            platformMeshFilter.mesh = platformMesh;
+        }
+
+        private static MeshDraft Platform(float radius, float baseOffset, int segments, float heignt)
+        {
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
+
+            var lowerRing = new List<Vector3>(segments);
+            var upperRing = new List<Vector3>(segments);
+            for (var i = 0; i < segments; i++)
+            {
+                var lowerPoint = PTUtils.PointOnCircle3XZ(radius + baseOffset, currentAngle);
+                lowerRing.Add(lowerPoint + Vector3.down*heignt);
+
+                var upperPoint = PTUtils.PointOnCircle3XZ(radius, currentAngle);
+                upperRing.Add(upperPoint);
+                currentAngle -= segmentAngle;
+            }
+
+            var platform = new MeshDraft {name = "Platform"};
+            var bottom = MeshDraft.TriangleFan(lowerRing);
+            bottom.Add(MeshDraft.Band(lowerRing, upperRing));
+            bottom.Paint(new Color(0.5f, 0.5f, 0.5f, 1));
+            platform.Add(bottom);
+
+            upperRing.Reverse();
+            var top = MeshDraft.TriangleFan(upperRing);
+            top.Paint(new Color(0.8f, 0.8f, 0.8f, 1));
+            platform.Add(top);
+
+            return platform;
         }
     }
 }
