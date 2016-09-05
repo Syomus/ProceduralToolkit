@@ -117,7 +117,7 @@ namespace ProceduralToolkit.Examples.UI
             targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
 
             var chairDraft = ChairGenerator.Chair(legWidth, legHeight, seatWidth, seatDepth, seatHeight, backHeight,
-                hasStretchers, hasArmrests, targetPalette[0].WithS(0.8f).WithV(0.8f).ToColor());
+                hasStretchers, hasArmrests, targetPalette[0].WithSV(0.8f, 0.8f).ToColor());
             var chairMesh = chairDraft.ToMesh();
             chairMesh.RecalculateBounds();
             chairMeshFilter.mesh = chairMesh;

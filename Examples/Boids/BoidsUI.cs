@@ -74,8 +74,8 @@ namespace ProceduralToolkit.Examples.UI
             targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
 
             controller = new BoidController();
-            var mesh = controller.Generate(targetPalette[0].WithS(1).WithV(1).ToColor(),
-                targetPalette[1].WithS(0.8f).WithV(0.8f).ToColor());
+            var mesh = controller.Generate(targetPalette[0].WithSV(1, 1).ToColor(),
+                targetPalette[1].WithSV(0.8f, 0.8f).ToColor());
             meshFilter.mesh = mesh;
         }
     }

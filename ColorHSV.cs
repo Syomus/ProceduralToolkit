@@ -197,6 +197,14 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns new color with modified saturation and value components
+        /// </summary>
+        public ColorHSV WithSV(float s, float v)
+        {
+            return new ColorHSV(h, s, v, a);
+        }
+
+        /// <summary>
         /// Returns new color with modified alpha component
         /// </summary>
         public ColorHSV WithA(float a)

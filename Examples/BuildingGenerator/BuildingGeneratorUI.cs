@@ -78,7 +78,7 @@ namespace ProceduralToolkit.Examples.UI
             targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
 
             var buildingDraft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic,
-                targetPalette[0].WithS(0.8f).WithV(0.8f).ToColor());
+                targetPalette[0].WithSV(0.8f, 0.8f).ToColor());
 
             var buildingMesh = buildingDraft.ToMesh();
             buildingMesh.RecalculateBounds();
