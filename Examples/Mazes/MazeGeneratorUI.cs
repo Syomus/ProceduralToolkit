@@ -10,6 +10,16 @@ namespace ProceduralToolkit.Examples.UI
         public RectTransform leftPanel;
         public ToggleGroup algorithmsGroup;
         public RawImage mazeImage;
+        public Image background;
+
+        private const float backgroundSaturation = 0.25f;
+        private const float backgroundValue = 0.7f;
+        private const float fadeDuration = 0.5f;
+
+        private const float gradientSaturation = 0.7f;
+        private const float gradientSaturationOffset = 0.1f;
+        private const float gradientValue = 0.7f;
+        private const float gradientValueOffset = 0.1f;
 
         private Texture2D texture;
         private int textureWidth = 256;
@@ -113,6 +123,8 @@ namespace ProceduralToolkit.Examples.UI
             }
 
             hue = Random.value;
+            var backgroundColor = new ColorHSV(hue, backgroundSaturation, backgroundValue).complementary.ToColor();
+            background.CrossFadeColor(backgroundColor, fadeDuration, true, false);
 
             switch (algorithm)
             {
@@ -157,8 +169,12 @@ namespace ProceduralToolkit.Examples.UI
             Color color;
             if (useGradient)
             {
-                float gradient = Mathf.Abs((Mathf.Repeat(edge.origin.depth/gradientLength, 1) - 0.5f)*2);
-                color = new ColorHSV(hue, gradient, gradient).ToColor();
+                float gradient01 = Mathf.Repeat(edge.origin.depth/gradientLength, 1);
+                float gradient010 = Mathf.Abs((gradient01 - 0.5f)*2);
+
+                float saturation = gradient010*gradientSaturation + gradientSaturationOffset;
+                float value = gradient010*gradientValue + gradientValueOffset;
+                color = new ColorHSV(hue, saturation, value).ToColor();
             }
             else
             {
