@@ -69,7 +69,7 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Update()
         {
-            SkyBoxGenerator.LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 1, 2, 3, Time.deltaTime);
+            SkyBoxGenerator.LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 2, 3, 4, Time.deltaTime);
         }
 
         public void Generate()
@@ -84,7 +84,8 @@ namespace ProceduralToolkit.Examples.UI
             buildingMesh.RecalculateBounds();
             buildingMeshFilter.mesh = buildingMesh;
 
-            float platformRadius = Mathf.Sqrt(length/2f*length/2f + width/2f*width/2f) + platformRadiusOffset;
+            float buildingRadius = Mathf.Sqrt(length/2f*length/2f + width/2f*width/2f);
+            float platformRadius = buildingRadius + platformRadiusOffset;
 
             var platformMesh = Platform(platformRadius, platformBaseOffset, platformSegments, platformHeight).ToMesh();
             platformMesh.RecalculateBounds();
