@@ -41,7 +41,7 @@ namespace ProceduralToolkit.Examples
         }
     }
 
-    public class Panels
+    public static class Panels
     {
         private const float SocleWindowWidth = 0.7f;
         private const float SocleWindowHeight = 0.4f;

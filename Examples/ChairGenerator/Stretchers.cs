@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
-    public class Stretchers
+    public static class Stretchers
     {
         public static MeshDraft XStretchers(Vector3[] legCenters, float legWidth, float legHeight)
         {

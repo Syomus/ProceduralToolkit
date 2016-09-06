@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
-    public class Backs
+    public static class Backs
     {
         public static MeshDraft Back0(Vector3 center, float width, float length, float height)
         {
