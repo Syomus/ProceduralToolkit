@@ -1,11 +1,22 @@
-# Procedural Toolkit v0.1.7
+# Procedural Toolkit v0.1.8
 
-Procedural Toolkit is a collection of instruments for creating procedural generation systems in Unity game engine. It is free, open source and does not require a Unity Pro license.
+Procedural Toolkit is a collection of instruments for development of procedural generation systems in Unity game engine. 
+It is free, open source and does not require a Unity Pro license.
 
-**Warning: Be aware that this is a programming toolkit, editor support is limited.**
+**Warning: This is a programming toolkit, editor support is limited.**
+
+[GitHub](https://github.com/Syomus/ProceduralToolkit) |
+[Asset Store](https://www.assetstore.unity3d.com/#!/content/16508) |
+[Issues](https://github.com/Syomus/ProceduralToolkit/issues) |
+[Support email](mailto:proceduraltoolkit@syomus.com)
 
 ## Installation instructions
-Download toolkit from repository or Asset Store and place it somewhere in your Unity project (e.g. "Assets\ProceduralToolkit"). After that you can import ProceduralToolkit namespace in your script and start building your own PCG systems:
+Requires Unity 5.3 or later.
+Tested on PC and WebGL.
+UnityScript interoperability is not supported.
+
+Download toolkit from repository or Asset Store and place it somewhere in your Unity project (e.g. "Assets\ProceduralToolkit"). 
+After that you can import ProceduralToolkit namespace and start building your own PCG systems:
 ```C#
 using UnityEngine;
 using ProceduralToolkit;
@@ -19,70 +30,111 @@ public class Example : MonoBehaviour
 }
 ```
 
-Folder containing example classes and scenes (".\Examples") can be safely removed. The same is true for ".\Shaders", if you are not using examples. Removing ".\Editor" will leave you with code-only toolkit.
+Folder containing example classes and scenes (".\Examples") can be safely removed. 
+The same is true for ".\Shaders", if you are not using examples. 
+Removing ".\Editor" will leave you with code-only toolkit.
 
 ## Classes
-* RandomE: Random extensions for arrays, value generators.
-* MeshE: Mesh extensions and constructors for primitives.
-* MeshDraft: helper class for procedural mesh generation.
-* TextureE: Texture extensions and constructors.
+* ArrayE: Array extensions.
+* CircularList: Generic list with looping indexer.
 * ColorE: Color extensions, HTML colors.
-* PTUtils: useful utility methods.
-* Datasets: various data.
+* Datasets: Letters, female and male names, last names.
+* DebugE: Drawing methods similar to Debug.
+* Directions: Enum with directions along three axes.
+* Draw: Generic drawing methods.
+* GizmosE: Drawing methods similar to Gizmos.
+* GLE: Drawing wrappers over GL.Vertex which follow Gizmos convention.
+* MeshDraft: Helper class for mesh generation.
+* MeshDraftPrimitives: Constructors for MeshDraft primitives.
+* MeshE: Mesh extensions.
+* MeshPrimitives: Constructors for Mesh primitives.
+* PTUtils: Various utility methods.
+* RandomE: Value generators and extensions for collections.
+* TextureE: Texture extensions and constructors.
+* Vector2Int: Vector2 analogue with integer components.
 
 ## Editor classes
-* ProceduralToolkitMenu: constructors for primitives and about window.
-* MeshFilterExtension: Mesh saver.
+* ProceduralToolkitMenu: "GameObject>Procedural Toolkit" constructors for primitives and about window.
+* MeshFilterExtension: Mesh saving utility.
 
 ## Examples
-<table>
-  <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/Khrushchyovka">Khrushchyovka</a>: a procedural building generator</td>
-    <td><img src="http://syomus.com/ProceduralToolkit/screenshot-khrushchyovka-300.jpg"></td>
-  </tr>
-  <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/ChairGenerator">ChairGenerator</a>: a procedural chair generator</td>
-    <td><img src="http://syomus.com/ProceduralToolkit/screenshot-chair-300.jpg"></td>
-  </tr>
-  <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/Boids">Boids</a>: a single-mesh particle system with birds-like behaviour</td>
-    <td><img src="http://syomus.com/ProceduralToolkit/screenshot-boids-300.jpg"></td>
-  </tr>
-  <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/Breakout">Breakout</a>: a Breakout clone with procedurally generated levels</td>
-    <td><img src="http://syomus.com/ProceduralToolkit/screenshot-breakout-300.jpg"></td>
-  </tr>
-  <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/CellularAutomaton">CellularAutomaton</a>: a generic cellular automaton</td>
-    <td><img src=""></td>
-  </tr>
-  <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/Mazes">Mazes</a>: a maze generators</td>
-    <td><img src="http://syomus.com/ProceduralToolkit/screenshot-mazes-300.jpg"></td>
-  </tr>
-  <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/TerrainMesh">TerrainMesh</a>: a simple terrain based on Perlin noise and coloured according to height</td>
-    <td><img src="http://syomus.com/ProceduralToolkit/screenshot-terrain-300.jpg"></td>
-  </tr>
-  <tr>
-    <td><a href="http://syomus.com/ProceduralToolkit/Primitives">Primitives</a>: a demonstration of primitives</td>
-    <td><img src="http://syomus.com/ProceduralToolkit/screenshot-primitives-300.jpg"></td>
-  </tr>
-</table>
+Resources folder contains prefabs used for UI. UI folder contains scripts for ui controls, including camera rotator.
 
-## Links
-* [GitHub](https://github.com/Syomus/ProceduralToolkit)
-* [Asset Store](https://www.assetstore.unity3d.com/#!/content/16508)
- 
-## Support
-Support is provided via GitHub [issues](https://github.com/Syomus/ProceduralToolkit/issues) and end [email](mailto:proceduraltoolkit@syomus.com).
+### <a href="http://syomus.com/ProceduralToolkit/BuildingGenerator">BuildingGenerator</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-building-generator.png">
 
-Keep in mind, that toolkit is developed and tested in second to last minor release of Unity. As of this writing, the latest version is 5.3, so you can expect toolkit to be working in 5.2. Actually, it should work fine even on 4.6, but you are on your own. Also, UnityScript interoperability is not tested.
+Procedural building generator.
+* BuildingGenerator: Main generator class.
+* BuildingGeneratorUI: Wrapper around BuildingGenerator which provides UI controls.
+* Panels: Panel constructors.
+* Roofs: Roof constructors.
+
+### <a href="http://syomus.com/ProceduralToolkit/ChairGenerator">ChairGenerator</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-chair-generator.png">
+
+Procedural chair generator.
+* ChairGenerator: Main generator class.
+* ChairGeneratorUI: Wrapper around ChairGenerator which provides UI controls.
+* Armrests, Backs, Stretchers: Chair parts constructors.
+
+### <a href="http://syomus.com/ProceduralToolkit/Boids">Boids</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-boids.png">
+
+Single-mesh particle system with birds-like behaviour.
+* BoidController: Main generator class.
+* BoidsUI: Wrapper around BoidController which provides UI controls.
+
+### <a href="http://syomus.com/ProceduralToolkit/LowPolyTerrainGenerator">LowPolyTerrainGenerator</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-low-poly-terrain-generator.png">
+
+Simple Perlin noise based low poly terrain generator.
+* LowPolyTerrainGenerator: Main generator class.
+* LowPolyTerrainGeneratorUI: Wrapper around LowPolyTerrainGenerator which provides UI controls.
+* LowPolyTerrainGeneratorUIEditor: "Generate" button in editor.
+
+### <a href="http://syomus.com/ProceduralToolkit/CellularAutomaton">CellularAutomaton</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-cellular-automata.png">
+
+Generic cellular automaton for two-state rulesets.
+* CellularAutomaton: Main generator class.
+* CellularAutomatonUI: Wrapper around CellularAutomaton which provides UI controls.
+* Ruleset: Cellular automaton ruleset representation and static constructors.
+* CellState: Enum for automaton cell states.
+
+### <a href="http://syomus.com/ProceduralToolkit/Mazes">Mazes</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-mazes.png">
+
+Generic maze generator.
+* MazeGenerator: Main generator class.
+* MazeGeneratorUI: Wrapper around MazeGenerator which provides UI controls.
+* Maze: Maze graph representation.
+* Cell: Maze graph cell.
+* Edge: Maze graph edge.
+
+### <a href="http://syomus.com/ProceduralToolkit/Breakout">Breakout</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-breakout.png">
+
+Breakout clone with procedurally generated levels.
+* Breakout: Game engine and level generator.
+* BreakoutUI: Wrapper around Breakout which provides UI controls.
+* Brick: Disables game object on collision.
+
+### <a href="http://syomus.com/ProceduralToolkit/Primitives">Primitives</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-primitives.png">
+
+Demonstration of primitives
+* Cylinder, Dodecahedron, FlatSphere, Hexahedron...: Mesh generators with exposed parameters in inspector.
+* SkyBoxGenerator: Skybox generator, assuming that scene uses gradient skybox shader, animates transitions to new parameters every few seconds.
+
+## Shaders
+* Unlit, Diffuse, Specular and Standard Vertex Color: Textureless shaders which use color information from vertex attributes.
+* Gradient Skybox: Simple gradient skybox.
 
 ## License
+```
 The MIT License (MIT)
 
-Copyright (c) 2015 Daniil Basmanov
+Copyright (c) Daniil Basmanov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -101,8 +153,44 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
 
 ## Version history
+##### 0.1.8 (2016.09.06)
+* Features:
+  * Added GizmosE, GLE and DebugE helper classes with extra drawing methods such as DrawWireCircle, DrawWireHemisphere, DrawWireCone, and others.
+    GizmosE and DebugE have API similar to Gizmos and Debug, GLE is just a bunch of wrappers over GL.Vertex which follow Gizmos convention.
+  * Added Draw helper class with generic drawing methods
+  * Added Gradient Skybox shader
+  * Added new random color generators: RandomE.ColorHue, ColorSaturation and ColorValue
+  * Added static palette generators: ColorHSV.GetAnalogousPalette, GetTriadicPalette and GetTetradicPalette
+  * Added random palette generators: RandomE.AnalogousPalette, TriadicPalette, TetradicPalette
+  * 3D examples now have dynamic generated skyboxes
+  * Added custom inspectors for BuildingGenerator, ChairGenerator and LowPolyTerrainGenerator.
+    Changing values does not cause regeneration, but otherwise they bahave the same way as UI controls and work in editor and play mode.
+* Improvements:
+  * Optimized examples, mesh and texture helper classes to produce less garbage
+  * Fixed shadowcasting in vertex color shaders
+  * Fixed typos and bugs in some classes
+  * Added TextureE.Clear overload with ref array
+  * Added PTUtils.SignedAngle for 2D and 3D vectors
+  * Added PTUtils.PointsOnCircle3XY and PTUtils.PointsOnCircle3YZ
+  * Added RandomE.onUnitCircle3XY, RandomE.onUnitCircle3XZ, RandomE.onUnitCircle3YZ
+  * TerrainMesh received a full rewrite and is now LowPolyTerrainGenerator
+  * Added ColorHSV.WithH, WithS, WithV, WithA, WithOffsetH, Lerp and various useful methods (ToString, GetHashCode and the like)
+* Changes:
+  * Dropped support for Unity 5.2
+  * Renamed PTUtils.PointsOnCircle3 to PTUtils.PointsOnCircle3XZ
+  * Renamed Khrushchyovka to BuildingGenerator to avoid confusion
+  * PTUtils.PointsOnCircle methods now receive angle in degrees instead of radians
+  * Renamed RandomE.onUnitCircle to RandomE.onUnitCircle2
+  * Renamed TerrainMesh to LowPolyTerrainGenerator
+  * Moved CameraRotator to Examples\UI
+  * Replaced RGB<->HSV conversion methods with Unity implementation
+  * Removed "Procedural Toolkit/Unlit Color" shader, use "Unlit/Color" instead
+  * RandomE.colorHSV now returns ColorHSV
+  * Moved drawing methods from PTUtils to Draw
+
 ##### 0.1.7 (2015.12.19)
 * Features:
   * Added ColorHSV class
