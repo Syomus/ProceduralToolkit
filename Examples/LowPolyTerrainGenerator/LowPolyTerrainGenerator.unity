@@ -195,9 +195,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshFilter: {fileID: 1534059044}
   leftPanel: {fileID: 1832017631}
-  terrainSizeX: 10
+  terrainSizeX: 20
   terrainSizeY: 1
-  terrainSizeZ: 10
+  terrainSizeZ: 20
   cellSize: 1
   noiseScale: 5
 --- !u!1 &693684432

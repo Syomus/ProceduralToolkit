@@ -10,23 +10,23 @@ namespace ProceduralToolkit.Examples.UI
 
         [Space]
         [Range(minXSize, maxXSize)]
-        public int terrainSizeX = 10;
+        public int terrainSizeX = 20;
         [Range(minYSize, maxYSize)]
         public int terrainSizeY = 1;
         [Range(minZSize, maxZSize)]
-        public int terrainSizeZ = 10;
+        public int terrainSizeZ = 20;
         [Range(minCellSize, maxCellSize)]
         public float cellSize = 1;
         [Range(minNoiseScale, maxNoiseScale)]
         public int noiseScale = 5;
 
-        private const int minXSize = 1;
-        private const int maxXSize = 20;
+        private const int minXSize = 10;
+        private const int maxXSize = 30;
         private const int minYSize = 1;
         private const int maxYSize = 5;
-        private const int minZSize = 1;
-        private const int maxZSize = 20;
-        private const float minCellSize = 0.2f;
+        private const int minZSize = 10;
+        private const int maxZSize = 30;
+        private const float minCellSize = 0.3f;
         private const float maxCellSize = 2;
         private const int minNoiseScale = 1;
         private const int maxNoiseScale = 20;
