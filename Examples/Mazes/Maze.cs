@@ -2,6 +2,9 @@
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// Maze graph representation
+    /// </summary>
     public class Maze
     {
         private int width;

@@ -3,6 +3,9 @@ using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// Generic cellular automaton for two-state rulesets
+    /// </summary>
     public class CellularAutomaton
     {
         public CellState[,] cells;

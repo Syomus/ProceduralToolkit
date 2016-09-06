@@ -1,5 +1,8 @@
 ﻿namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// Maze graph cell
+    /// </summary>
     public class Cell
     {
         public Directions direction;

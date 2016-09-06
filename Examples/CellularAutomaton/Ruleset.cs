@@ -2,6 +2,9 @@
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// Cellular automaton ruleset representation
+    /// </summary>
     public struct Ruleset
     {
         #region Common rulesets

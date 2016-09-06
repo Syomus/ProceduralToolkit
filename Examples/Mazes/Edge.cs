@@ -1,5 +1,8 @@
 ﻿namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// Maze graph edge
+    /// </summary>
     public class Edge
     {
         public Cell origin;
