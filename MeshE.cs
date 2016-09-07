@@ -58,10 +58,8 @@ namespace ProceduralToolkit
             var normals = mesh.normals;
             for (int i = 0; i < vertices.Length; i++)
             {
-                Vector3 v = vertices[i];
-                vertices[i] = new Vector3(v.x*scale.x, v.y*scale.y, v.z*scale.z);
-                Vector3 n = normals[i];
-                normals[i] = new Vector3(n.x*scale.x, n.y*scale.y, n.z*scale.z).normalized;
+                vertices[i] = Vector3.Scale(vertices[i], scale);
+                normals[i] = Vector3.Scale(normals[i], scale).normalized;
             }
             mesh.vertices = vertices;
             mesh.normals = normals;
