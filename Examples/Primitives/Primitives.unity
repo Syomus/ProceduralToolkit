@@ -450,8 +450,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 1199230973}
   target: {fileID: 644687429}
-  distanceMin: 3
-  distanceMax: 10
+  distanceMin: 5
+  distanceMax: 12
   yOffset: 0
   scrollSensitivity: 1000
   scrollSmoothing: 10
