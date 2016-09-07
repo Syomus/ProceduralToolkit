@@ -98,6 +98,7 @@ namespace ProceduralToolkit.Examples
 
             mesh = draft.ToMesh();
             mesh.MarkDynamic();
+            mesh.bounds = new Bounds(Vector3.zero, Vector3.one*worldSphere*2);
             return mesh;
         }
 
