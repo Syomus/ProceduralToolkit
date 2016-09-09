@@ -294,42 +294,6 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        /// <summary>
-        /// Constructs partial hexahedron aka cube with specified faces
-        /// </summary>
-        public static MeshDraft Hexahedron(Vector3 width, Vector3 length, Vector3 height, Directions parts)
-        {
-            Vector3 corner0 = -width/2 - length/2 - height/2;
-            Vector3 corner1 = width/2 + length/2 + height/2;
-
-            var draft = new MeshDraft {name = "Hexahedron"};
-            if ((parts & Directions.Left) == Directions.Left)
-            {
-                draft.Add(Quad(corner0, height, length));
-            }
-            if ((parts & Directions.Right) == Directions.Right)
-            {
-                draft.Add(Quad(corner1, -length, -height));
-            }
-            if ((parts & Directions.Down) == Directions.Down)
-            {
-                draft.Add(Quad(corner0, length, width));
-            }
-            if ((parts & Directions.Up) == Directions.Up)
-            {
-                draft.Add(Quad(corner1, -width, -length));
-            }
-            if ((parts & Directions.Back) == Directions.Back)
-            {
-                draft.Add(Quad(corner0, width, height));
-            }
-            if ((parts & Directions.Forward) == Directions.Forward)
-            {
-                draft.Add(Quad(corner1, -height, -width));
-            }
-            return draft;
-        }
-
         public static MeshDraft Octahedron(float radius)
         {
             var draft = BiPyramid(radius, 4, radius);
@@ -581,6 +545,42 @@ namespace ProceduralToolkit
                 draft.triangles.AddRange(new[] {i2, i1, i3});
             }
 
+            return draft;
+        }
+
+        /// <summary>
+        /// Constructs partial box with specified faces
+        /// </summary>
+        public static MeshDraft PartialBox(Vector3 width, Vector3 length, Vector3 height, Directions parts)
+        {
+            Vector3 corner0 = -width/2 - length/2 - height/2;
+            Vector3 corner1 = width/2 + length/2 + height/2;
+
+            var draft = new MeshDraft {name = "Hexahedron"};
+            if ((parts & Directions.Left) == Directions.Left)
+            {
+                draft.Add(Quad(corner0, height, length));
+            }
+            if ((parts & Directions.Right) == Directions.Right)
+            {
+                draft.Add(Quad(corner1, -length, -height));
+            }
+            if ((parts & Directions.Down) == Directions.Down)
+            {
+                draft.Add(Quad(corner0, length, width));
+            }
+            if ((parts & Directions.Up) == Directions.Up)
+            {
+                draft.Add(Quad(corner1, -width, -length));
+            }
+            if ((parts & Directions.Back) == Directions.Back)
+            {
+                draft.Add(Quad(corner0, width, height));
+            }
+            if ((parts & Directions.Forward) == Directions.Forward)
+            {
+                draft.Add(Quad(corner1, -height, -width));
+            }
             return draft;
         }
     }

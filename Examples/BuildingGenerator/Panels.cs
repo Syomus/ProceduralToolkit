@@ -95,7 +95,7 @@ namespace ProceduralToolkit.Examples
 
             var draft = PerforatedQuad(origin, width, height, frameOrigin, frameWidth, frameHeight);
 
-            var frame = MeshDraft.Hexahedron(frameWidth, -frameDepth, frameHeight, Directions.All & ~Directions.ZAxis);
+            var frame = MeshDraft.PartialBox(frameWidth, -frameDepth, frameHeight, Directions.All & ~Directions.ZAxis);
             frame.Move(frameOrigin + frameWidth/2 + frameHeight/2 + frameDepth/2);
             draft.Add(frame);
 
@@ -115,7 +115,7 @@ namespace ProceduralToolkit.Examples
             Vector3 balconyDepth = normal*BalconyDepth;
 
             var draft = new MeshDraft();
-            var balconyOuter = MeshDraft.Hexahedron(balconyWidth, balconyDepth, balconyHeight,
+            var balconyOuter = MeshDraft.PartialBox(balconyWidth, balconyDepth, balconyHeight,
                 Directions.All & ~Directions.Up & ~Directions.Back);
             balconyOuter.FlipFaces();
             Vector3 balconyCenter = origin + width/2 + balconyDepth/2 + balconyHeight/2;
@@ -128,7 +128,7 @@ namespace ProceduralToolkit.Examples
             Vector3 innerHeight = balconyHeight - innerHeightOffset;
             Vector3 innerDepthOffset = normal*BalconyThickness;
             Vector3 innerDepth = balconyDepth - innerDepthOffset;
-            var balconyInner = MeshDraft.Hexahedron(innerWidth, innerDepth, innerHeight,
+            var balconyInner = MeshDraft.PartialBox(innerWidth, innerDepth, innerHeight,
                 Directions.All & ~Directions.Up & ~Directions.Back);
             balconyInner.Move(balconyCenter - innerDepthOffset/2 + innerHeightOffset/2);
 
@@ -201,7 +201,7 @@ namespace ProceduralToolkit.Examples
             Vector3 balconyDepth = Vector3.Cross(height, width).normalized*BalconyDepth;
 
             var draft = new MeshDraft();
-            var balcony = MeshDraft.Hexahedron(balconyWidth, balconyDepth, balconyHeight,
+            var balcony = MeshDraft.PartialBox(balconyWidth, balconyDepth, balconyHeight,
                 Directions.All & ~Directions.Up & ~Directions.Back);
             balcony.FlipFaces();
             balcony.Move(origin + width/2 + balconyDepth/2 + balconyHeight/2);
@@ -280,7 +280,7 @@ namespace ProceduralToolkit.Examples
 
             var draft = PerforatedQuad(origin, width, height, windowOrigin, windowWidth, windowHeigth);
 
-            var frame = MeshDraft.Hexahedron(windowWidth, -windowDepth, windowHeigth,
+            var frame = MeshDraft.PartialBox(windowWidth, -windowDepth, windowHeigth,
                 Directions.All & ~Directions.ZAxis);
             frame.Move(windowOrigin + windowWidth/2 + windowHeigth/2 + windowDepth/2);
             draft.Add(frame);
@@ -305,7 +305,7 @@ namespace ProceduralToolkit.Examples
             var draft = PerforatedQuad(origin, width, height, holeOrigin, holeWidth, holeHeight);
             draft.Paint(BuildingGenerator.wallColor);
 
-            var hexahedron = MeshDraft.Hexahedron(holeWidth, holeDepth, holeHeight, Directions.All & ~Directions.Back);
+            var hexahedron = MeshDraft.PartialBox(holeWidth, holeDepth, holeHeight, Directions.All & ~Directions.Back);
             hexahedron.Move(center + holeDepth/2);
             hexahedron.FlipFaces();
             hexahedron.Paint(BuildingGenerator.roofColor);
@@ -386,7 +386,7 @@ namespace ProceduralToolkit.Examples
             Vector3 startPosition = origin + heigth/2 + frameLength/2;
             for (int i = 0; i < rodCount; i++)
             {
-                var frame = MeshDraft.Hexahedron(frameWidth*2, frameLength, heigth - frameHeight*2,
+                var frame = MeshDraft.PartialBox(frameWidth*2, frameLength, heigth - frameHeight*2,
                     Directions.Left | Directions.Back | Directions.Right);
                 frame.Move(startPosition + right*(i + 1)*interval);
                 draft.Add(frame);
@@ -398,7 +398,7 @@ namespace ProceduralToolkit.Examples
             var window = PerforatedQuad(origin, width, heigth, windowCorner, windowWidth, windowHeigth);
             draft.Add(window);
 
-            var hole = MeshDraft.Hexahedron(windowWidth, frameLength, windowHeigth, Directions.All & ~Directions.ZAxis);
+            var hole = MeshDraft.PartialBox(windowWidth, frameLength, windowHeigth, Directions.All & ~Directions.ZAxis);
             hole.Move(startPosition + width/2);
             hole.FlipFaces();
             draft.Add(hole);
