@@ -11,6 +11,20 @@ namespace ProceduralToolkit
             drawLine = Debug.DrawLine;
         }
 
+        public static void DrawRay(Ray ray)
+        {
+            DrawRay(ray, Color.white);
+        }
+
+        public static void DrawRay(
+            Ray ray,
+            Color color,
+            float duration = 0,
+            bool depthTest = true)
+        {
+            Draw.WireRay(drawLine, ray, color, duration, depthTest);
+        }
+
         public static void DrawWireQuadXY(Vector3 position, Quaternion rotation, Vector2 scale)
         {
             DrawWireQuadXY(position, rotation, scale, Color.white);

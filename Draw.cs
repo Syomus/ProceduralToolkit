@@ -239,6 +239,21 @@ namespace ProceduralToolkit
 
         #endregion Raster
 
+        public static void WireRay(Action<Vector3, Vector3> drawLine, Ray ray)
+        {
+            drawLine(ray.origin, ray.origin + ray.direction);
+        }
+
+        public static void WireRay(
+            DebugDrawLine drawLine,
+            Ray ray,
+            Color color,
+            float duration,
+            bool depthTest)
+        {
+            drawLine(ray.origin, ray.origin + ray.direction, color, duration, depthTest);
+        }
+
         #region WireQuad
 
         public static void WireQuadXY(

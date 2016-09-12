@@ -28,6 +28,11 @@ namespace ProceduralToolkit
             GL.Vertex(to);
         }
 
+        public static void DrawRay(Ray ray)
+        {
+            Draw.WireRay(drawLine, ray);
+        }
+
         public static void DrawWireQuadXY(Vector3 position, Quaternion rotation, Vector2 scale)
         {
             Draw.WireQuadXY(drawLine, position, rotation, scale);
