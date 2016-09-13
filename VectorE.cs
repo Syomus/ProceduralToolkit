@@ -14,6 +14,11 @@ namespace ProceduralToolkit
             return new Vector2(0, vector.y);
         }
 
+        public static Vector3 ToVector3XZ(this Vector2 vector)
+        {
+            return new Vector3(vector.x, 0, vector.y);
+        }
+
         public static Vector3 OnlyX(this Vector3 vector)
         {
             return new Vector3(vector.x, 0, 0);
