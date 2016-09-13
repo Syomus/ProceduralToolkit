@@ -186,5 +186,23 @@ namespace ProceduralToolkit
             mesh.SetColors(colors);
             return mesh;
         }
+
+        /// <summary>
+        /// Fills <paramref name="mesh"/> with information in draft
+        /// </summary>
+        public void ToMesh(ref Mesh mesh)
+        {
+            mesh.Clear(false);
+            mesh.name = name;
+            mesh.SetVertices(vertices);
+            mesh.SetTriangles(triangles, 0);
+            mesh.SetNormals(normals);
+            mesh.SetTangents(tangents);
+            mesh.SetUVs(0, uv);
+            mesh.SetUVs(1, uv2);
+            mesh.SetUVs(2, uv3);
+            mesh.SetUVs(3, uv4);
+            mesh.SetColors(colors);
+        }
     }
 }
