@@ -309,7 +309,7 @@ namespace ProceduralToolkit
             float currentAngle = 0;
             var lowerCap = new List<Vector3>();
             var lowerRing = new List<Vector3>();
-            for (var i = 0; i <= 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 lowerCap.Add(PTUtils.PointOnSphere(radius, currentAngle, -magicAngle1));
                 lowerRing.Add(PTUtils.PointOnSphere(radius, currentAngle, -magicAngle2));
@@ -319,7 +319,7 @@ namespace ProceduralToolkit
             currentAngle = -segmentAngle/2;
             var upperCap = new List<Vector3>();
             var upperRing = new List<Vector3>();
-            for (var i = 0; i <= 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 upperCap.Add(PTUtils.PointOnSphere(radius, currentAngle, magicAngle1));
                 upperRing.Add(PTUtils.PointOnSphere(radius, currentAngle, magicAngle2));
