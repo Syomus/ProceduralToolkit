@@ -41,6 +41,16 @@ namespace ProceduralToolkit
             return Mathf.Abs(PTUtils.PerpDot(vector, other)) < epsilon;
         }
 
+        public static Vector2 RotateCW(this Vector2 vector, float degrees)
+        {
+            float radians = degrees*Mathf.Deg2Rad;
+            float sin = Mathf.Sin(radians);
+            float cos = Mathf.Cos(radians);
+            return new Vector2(
+                vector.x*cos + vector.y*sin,
+                -vector.x*sin + vector.y*cos);
+        }
+
         #endregion Vector2
 
         #region Vector3
