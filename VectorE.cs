@@ -4,6 +4,10 @@ namespace ProceduralToolkit
 {
     public static class VectorE
     {
+        private const float epsilon = 0.00001f;
+
+        #region Vector2
+
         public static Vector2 OnlyX(this Vector2 vector)
         {
             return new Vector2(vector.x, 0);
@@ -28,6 +32,18 @@ namespace ProceduralToolkit
         {
             return new Vector3(0, vector.x, vector.y);
         }
+
+        /// <summary>
+        /// Returns true if vectors lie on the same line, false otherwise
+        /// </summary>
+        public static bool IsCollinear(this Vector2 vector, Vector2 other)
+        {
+            return Mathf.Abs(PTUtils.PerpDot(vector, other)) < epsilon;
+        }
+
+        #endregion Vector2
+
+        #region Vector3
 
         public static Vector3 OnlyX(this Vector3 vector)
         {
@@ -58,5 +74,7 @@ namespace ProceduralToolkit
         {
             return new Vector3(0, vector.y, vector.z);
         }
+
+        #endregion Vector3
     }
 }
