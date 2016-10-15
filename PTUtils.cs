@@ -128,15 +128,30 @@ namespace ProceduralToolkit
         /// Returns point on sphere in geographic coordinate system
         /// </summary>
         /// <param name="radius">Sphere radius</param>
-        /// <param name="longitude">Longitude in degrees</param>
-        /// <param name="latitude">Latitude in degrees</param>
-        public static Vector3 PointOnSphere(float radius, float longitude, float latitude)
+        /// <param name="longitudeDegrees">Longitude in degrees [0, 360]</param>
+        /// <param name="latitudeDegrees">Latitude in degrees [-90, 90]</param>
+        public static Vector3 PointOnSphere(float radius, float longitudeDegrees, float latitudeDegrees)
         {
-            float longitudeInRadians = longitude*Mathf.Deg2Rad;
-            float latitudeInRadians = latitude*Mathf.Deg2Rad;
-            return new Vector3(radius*Mathf.Sin(longitudeInRadians)*Mathf.Cos(latitudeInRadians),
-                radius*Mathf.Sin(latitudeInRadians),
-                radius*Mathf.Cos(longitudeInRadians)*Mathf.Cos(latitudeInRadians));
+            return PointOnSpheroid(radius, radius, longitudeDegrees, latitudeDegrees);
+        }
+
+        /// <summary>
+        /// Returns point on spheroid in geographic coordinate system
+        /// </summary>
+        /// <param name="radius">Spheroid radius</param>
+        /// <param name="height">Spheroid height</param>
+        /// <param name="longitudeDegrees">Longitude in degrees [0, 360]</param>
+        /// <param name="latitudeDegrees">Latitude in degrees [-90, 90]</param>
+        public static Vector3 PointOnSpheroid(float radius, float height, float longitudeDegrees, float latitudeDegrees)
+        {
+            float longitudeRadians = longitudeDegrees*Mathf.Deg2Rad;
+            float latitudeRadians = latitudeDegrees*Mathf.Deg2Rad;
+            float cosLatitude = Mathf.Cos(latitudeRadians);
+
+            return new Vector3(
+                x: radius*Mathf.Sin(longitudeRadians)*cosLatitude,
+                y: height*Mathf.Sin(latitudeRadians),
+                z: radius*Mathf.Cos(longitudeRadians)*cosLatitude);
         }
 
         /// <summary>

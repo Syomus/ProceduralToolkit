@@ -121,5 +121,15 @@ namespace ProceduralToolkit
         {
             return MeshDraft.Sphere(radius, longitudeSegments, latitudeSegments).ToMesh();
         }
+
+        public static Mesh FlatSpheroid(float radius, float height, int longitudeSegments, int latitudeSegments)
+        {
+            return MeshDraft.FlatSpheroid(radius, height, longitudeSegments, latitudeSegments).ToMesh();
+        }
+
+        public static Mesh Spheroid(float radius, float height, int longitudeSegments, int latitudeSegments)
+        {
+            return MeshDraft.Spheroid(radius, height, longitudeSegments, latitudeSegments).ToMesh();
+        }
     }
 }
