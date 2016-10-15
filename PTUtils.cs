@@ -155,6 +155,26 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns a point on teardrop surface in geographic coordinate system
+        /// </summary>
+        /// <param name="radius">Teardrop radius</param>
+        /// <param name="height">Teardrop height</param>
+        /// <param name="longitudeDegrees">Longitude in degrees [0, 360]</param>
+        /// <param name="latitudeDegrees">Latitude in degrees [-90, 90]</param>
+        public static Vector3 PointOnTeardrop(float radius, float height, float longitudeDegrees, float latitudeDegrees)
+        {
+            float longitudeRadians = longitudeDegrees*Mathf.Deg2Rad;
+            float latitudeRadians = latitudeDegrees*Mathf.Deg2Rad;
+            float sinLatitude = Mathf.Sin(latitudeRadians);
+            float teardrop = (1 - sinLatitude)*Mathf.Cos(latitudeRadians)/2;
+
+            return new Vector3(
+                x: radius*Mathf.Sin(longitudeRadians)*teardrop,
+                y: height*sinLatitude,
+                z: radius*Mathf.Cos(longitudeRadians)*teardrop);
+        }
+
+        /// <summary>
         /// Returns perp of vector
         /// </summary>
         /// <remarks>

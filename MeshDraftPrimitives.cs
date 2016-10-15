@@ -490,6 +490,14 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        public static MeshDraft FlatTeardrop(float radius, float height, int longitudeSegments, int latitudeSegments)
+        {
+            var draft = FlatRevolutionSurface(PTUtils.PointOnTeardrop, radius, height, longitudeSegments,
+                latitudeSegments);
+            draft.name = "Flat teardrop";
+            return draft;
+        }
+
         public static MeshDraft FlatRevolutionSurface(
             Func<float, float, float, float, Vector3> surfaceFunction,
             float radius,
@@ -534,6 +542,14 @@ namespace ProceduralToolkit
         {
             var draft = RevolutionSurface(PTUtils.PointOnSpheroid, radius, height, longitudeSegments, latitudeSegments);
             draft.name = "Spheroid";
+            return draft;
+        }
+
+        public static MeshDraft Teardrop(float radius, float height, int longitudeSegments, int latitudeSegments)
+        {
+            var draft = RevolutionSurface(PTUtils.PointOnTeardrop, radius, height, longitudeSegments,
+                latitudeSegments);
+            draft.name = "Teardrop";
             return draft;
         }
 
