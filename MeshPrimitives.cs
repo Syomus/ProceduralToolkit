@@ -121,15 +121,5 @@ namespace ProceduralToolkit
         {
             return MeshDraft.Sphere(radius, longitudeSegments, latitudeSegments).ToMesh();
         }
-
-        public static Mesh FlatTeardrop(float radius, int longitudeSegments, int latitudeSegments, float height)
-        {
-            return MeshDraft.FlatTeardrop(radius, longitudeSegments, latitudeSegments, height).ToMesh();
-        }
-
-        public static Mesh Teardrop(float radius, int longitudeSegments, int latitudeSegments, float height)
-        {
-            return MeshDraft.Teardrop(radius, longitudeSegments, latitudeSegments, height).ToMesh();
-        }
     }
 }

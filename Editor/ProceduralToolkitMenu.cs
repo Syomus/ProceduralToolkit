@@ -6,7 +6,7 @@ namespace ProceduralToolkit.Editor
 {
     public class ProceduralToolkitMenu
     {
-        public const string version = "0.1.7";
+        public const string version = "0.1.8";
 
         private const string primitivesPath = "GameObject/Procedural Toolkit/";
         private const string create = "Create ";
@@ -119,15 +119,26 @@ namespace ProceduralToolkit.Editor
         private void OnGUI()
         {
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Version: " + ProceduralToolkitMenu.version);
-
-            EditorGUILayout.SelectableLabel("Copyright © 2014-2015 Daniil Basmanov");
-            EditorGUILayout.SelectableLabel("Icon by Iuliana Koroviakovskaia");
+            EditorGUILayout.SelectableLabel("Version: " + ProceduralToolkitMenu.version + "\n" +
+                                            "Copyright © Daniil Basmanov\n" +
+                                            "Icon by Iuliana Koroviakovskaia", GUILayout.Height(50));
 
             EditorGUILayout.Space();
             if (GUILayout.Button("Repository"))
             {
                 Application.OpenURL("https://github.com/Syomus/ProceduralToolkit/");
+            }
+            if (GUILayout.Button("Asset Store"))
+            {
+                Application.OpenURL("https://www.assetstore.unity3d.com/#!/content/16508");
+            }
+            if (GUILayout.Button("Issues"))
+            {
+                Application.OpenURL("https://github.com/Syomus/ProceduralToolkit/issues");
+            }
+            if (GUILayout.Button("Support email"))
+            {
+                Application.OpenURL("mailto:proceduraltoolkit@syomus.com");
             }
         }
     }

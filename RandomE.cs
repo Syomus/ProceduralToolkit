@@ -14,7 +14,22 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector2 onUnitCircle { get { return PTUtils.PointOnCircle2(1, Random.Range(0, 2*Mathf.PI)); } }
+        public static Vector2 onUnitCircle2 { get { return PTUtils.PointOnCircle2(1, Random.Range(0, 360f)); } }
+
+        /// <summary>
+        /// Returns a random point on a circle with radius 1
+        /// </summary>
+        public static Vector2 onUnitCircle3XY { get { return PTUtils.PointOnCircle3XY(1, Random.Range(0, 360f)); } }
+
+        /// <summary>
+        /// Returns a random point on a circle with radius 1
+        /// </summary>
+        public static Vector2 onUnitCircle3XZ { get { return PTUtils.PointOnCircle3XZ(1, Random.Range(0, 360f)); } }
+
+        /// <summary>
+        /// Returns a random point on a circle with radius 1
+        /// </summary>
+        public static Vector2 onUnitCircle3YZ { get { return PTUtils.PointOnCircle3YZ(1, Random.Range(0, 360f)); } }
 
         /// <summary>
         /// Returns a random point inside a square with side lengths 1
@@ -43,7 +58,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a color with random hue and maximum saturation and value in HSV model
         /// </summary>
-        public static Color colorHSV { get { return new ColorHSV(Random.value, 1, 1).ToColor(); } }
+        public static ColorHSV colorHSV { get { return new ColorHSV(Random.value, 1, 1); } }
 
         /// <summary>
         /// Returns a gradient between two random colors
@@ -54,6 +69,63 @@ namespace ProceduralToolkit
         /// Returns a gradient between two random HSV colors
         /// </summary>
         public static Gradient gradientHSV { get { return ColorE.Gradient(colorHSV, colorHSV); } }
+
+        /// <summary>
+        /// Returns a color with random hue and given <paramref name="saturation"/> and <paramref name="value"/>
+        /// </summary>
+        public static ColorHSV ColorHue(float saturation, float value, float alpha = 1)
+        {
+            return new ColorHSV(Random.value, saturation, value, alpha);
+        }
+
+        /// <summary>
+        /// Returns a color with random saturation and given <paramref name="hue"/> and <paramref name="value"/>
+        /// </summary>
+        public static ColorHSV ColorSaturation(float hue, float value, float alpha = 1)
+        {
+            return new ColorHSV(hue, Random.value, value, alpha);
+        }
+
+        /// <summary>
+        /// Returns a color with random value and given <paramref name="hue"/> and <paramref name="saturation"/>
+        /// </summary>
+        public static ColorHSV ColorValue(float hue, float saturation, float alpha = 1)
+        {
+            return new ColorHSV(hue, saturation, Random.value, alpha);
+        }
+
+        /// <summary>
+        /// Returns a analogous palette based on a color with random hue
+        /// </summary>
+        public static List<ColorHSV> AnalogousPalette(
+            float saturation = 1,
+            float value = 1,
+            float alpha = 1,
+            int count = 2,
+            bool withComplementary = false)
+        {
+            return ColorHue(saturation, value, alpha).GetAnalogousPalette(count, withComplementary);
+        }
+
+        /// <summary>
+        /// Returns a triadic palette based on a color with random hue
+        /// </summary>
+        public static List<ColorHSV> TriadicPalette(
+            float saturation = 1,
+            float value = 1,
+            float alpha = 1,
+            bool withComplementary = false)
+        {
+            return ColorHue(saturation, value, alpha).GetTriadicPalette(withComplementary);
+        }
+
+        /// <summary>
+        /// Returns a tetradic palette based on a color with random hue
+        /// </summary>
+        public static List<ColorHSV> TetradicPalette(float saturation = 1, float value = 1, float alpha = 1)
+        {
+            return ColorHue(saturation, value, alpha).GetTetradicPalette();
+        }
 
         #endregion Colors
 

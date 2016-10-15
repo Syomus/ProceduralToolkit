@@ -12,25 +12,39 @@ namespace ProceduralToolkit
         public List<Vector3> vertices = new List<Vector3>();
         public List<int> triangles = new List<int>();
         public List<Vector3> normals = new List<Vector3>();
+        public List<Vector4> tangents = new List<Vector4>();
         public List<Vector2> uv = new List<Vector2>();
+        public List<Vector2> uv2 = new List<Vector2>();
+        public List<Vector2> uv3 = new List<Vector2>();
+        public List<Vector2> uv4 = new List<Vector2>();
         public List<Color> colors = new List<Color>();
 
+        /// <summary>
+        /// Creates an empty MeshDraft
+        /// </summary>
         public MeshDraft()
         {
         }
 
+        /// <summary>
+        /// Creates new MeshDraft with vertex data from <paramref name="mesh"/>>
+        /// </summary>
         public MeshDraft(Mesh mesh)
         {
             name = mesh.name;
             vertices.AddRange(mesh.vertices);
             triangles.AddRange(mesh.triangles);
             normals.AddRange(mesh.normals);
+            tangents.AddRange(mesh.tangents);
             uv.AddRange(mesh.uv);
+            uv2.AddRange(mesh.uv2);
+            uv3.AddRange(mesh.uv3);
+            uv4.AddRange(mesh.uv4);
             colors.AddRange(mesh.colors);
         }
 
         /// <summary>
-        /// Adds mesh information from another draft
+        /// Adds vertex data from <paramref name="draft"/>
         /// </summary>
         public void Add(MeshDraft draft)
         {
@@ -40,8 +54,28 @@ namespace ProceduralToolkit
             }
             vertices.AddRange(draft.vertices);
             normals.AddRange(draft.normals);
+            tangents.AddRange(draft.tangents);
             uv.AddRange(draft.uv);
+            uv2.AddRange(draft.uv2);
+            uv3.AddRange(draft.uv3);
+            uv4.AddRange(draft.uv4);
             colors.AddRange(draft.colors);
+        }
+
+        /// <summary>
+        /// Clears all vertex data and all triangle indices
+        /// </summary>
+        public void Clear()
+        {
+            vertices.Clear();
+            triangles.Clear();
+            normals.Clear();
+            tangents.Clear();
+            uv.Clear();
+            uv2.Clear();
+            uv3.Clear();
+            uv4.Clear();
+            colors.Clear();
         }
 
         /// <summary>
@@ -85,10 +119,8 @@ namespace ProceduralToolkit
         {
             for (int i = 0; i < vertices.Count; i++)
             {
-                var v = vertices[i];
-                vertices[i] = new Vector3(v.x*scale.x, v.y*scale.y, v.z*scale.z);
-                var n = normals[i];
-                normals[i] = new Vector3(n.x*scale.x, n.y*scale.y, n.z*scale.z).normalized;
+                vertices[i] = Vector3.Scale(vertices[i], scale);
+                normals[i] = Vector3.Scale(normals[i], scale).normalized;
             }
         }
 
@@ -142,15 +174,35 @@ namespace ProceduralToolkit
         /// </summary>
         public Mesh ToMesh()
         {
-            return new Mesh
-            {
-                name = name,
-                vertices = vertices.ToArray(),
-                triangles = triangles.ToArray(),
-                normals = normals.ToArray(),
-                uv = uv.ToArray(),
-                colors = colors.ToArray()
-            };
+            var mesh = new Mesh {name = name};
+            mesh.SetVertices(vertices);
+            mesh.SetTriangles(triangles, 0);
+            mesh.SetNormals(normals);
+            mesh.SetTangents(tangents);
+            mesh.SetUVs(0, uv);
+            mesh.SetUVs(1, uv2);
+            mesh.SetUVs(2, uv3);
+            mesh.SetUVs(3, uv4);
+            mesh.SetColors(colors);
+            return mesh;
+        }
+
+        /// <summary>
+        /// Fills <paramref name="mesh"/> with information in draft
+        /// </summary>
+        public void ToMesh(ref Mesh mesh)
+        {
+            mesh.Clear(false);
+            mesh.name = name;
+            mesh.SetVertices(vertices);
+            mesh.SetTriangles(triangles, 0);
+            mesh.SetNormals(normals);
+            mesh.SetTangents(tangents);
+            mesh.SetUVs(0, uv);
+            mesh.SetUVs(1, uv2);
+            mesh.SetUVs(2, uv3);
+            mesh.SetUVs(3, uv4);
+            mesh.SetColors(colors);
         }
     }
 }

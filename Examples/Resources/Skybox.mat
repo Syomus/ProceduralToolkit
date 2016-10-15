@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Skybox
+  m_Shader: {fileID: 4800000, guid: 0bfcf4c10b2626940ad26b7f045faf56, type: 3}
+  m_ShaderKeywords: _SUNDISK_HIGH_QUALITY
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs: {}
+    m_Floats:
+      data:
+        first:
+          name: _Intensity
+        second: 1
+      data:
+        first:
+          name: _Exponent1
+        second: 3
+      data:
+        first:
+          name: _Exponent2
+        second: 1
+    m_Colors:
+      data:
+        first:
+          name: _GroundColor
+        second: {r: 0.75, g: 0.75, b: 0.75, a: 0}
+      data:
+        first:
+          name: _SkyColor
+        second: {r: 1, g: 1, b: 1, a: 0}
+      data:
+        first:
+          name: _HorizonColor
+        second: {r: 0.25, g: 0.25, b: 0.25, a: 0}

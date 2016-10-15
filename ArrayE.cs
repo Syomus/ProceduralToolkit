@@ -8,6 +8,58 @@ namespace ProceduralToolkit
     /// </summary>
     public static class ArrayE
     {
+        public static T GetLooped<T>(this T[] array, int index)
+        {
+            if (index < 0)
+            {
+                index = index%array.Length + array.Length;
+            }
+            else if (index >= array.Length)
+            {
+                index %= array.Length;
+            }
+            return array[index];
+        }
+
+        public static void SetLooped<T>(this T[] array, int index, T value)
+        {
+            if (index < 0)
+            {
+                index = index%array.Length + array.Length;
+            }
+            else if (index >= array.Length)
+            {
+                index %= array.Length;
+            }
+            array[index] = value;
+        }
+
+        public static T GetLooped<T>(this List<T> array, int index)
+        {
+            if (index < 0)
+            {
+                index = index%array.Count + array.Count;
+            }
+            else if (index >= array.Count)
+            {
+                index %= array.Count;
+            }
+            return array[index];
+        }
+
+        public static void SetLooped<T>(this List<T> array, int index, T value)
+        {
+            if (index < 0)
+            {
+                index = index%array.Count + array.Count;
+            }
+            else if (index >= array.Count)
+            {
+                index %= array.Count;
+            }
+            array[index] = value;
+        }
+
         /// <summary>
         /// Checks if <paramref name="vector"/> is within array bounds
         /// </summary>

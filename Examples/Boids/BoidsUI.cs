@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples.UI
@@ -10,10 +11,15 @@ namespace ProceduralToolkit.Examples.UI
 
         private BoidController controller;
         private bool simulate = true;
+        private List<ColorHSV> targetPalette = new List<ColorHSV>();
+        private List<ColorHSV> currentPalette = new List<ColorHSV>();
 
         private void Awake()
         {
+            RenderSettings.skybox = new Material(RenderSettings.skybox);
+
             Generate();
+            currentPalette.AddRange(targetPalette);
             StartCoroutine(Simulate());
 
             InstantiateControl<SliderControl>(leftPanel).Initialize("Max speed", 0, 30,
@@ -45,13 +51,6 @@ namespace ProceduralToolkit.Examples.UI
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
         }
 
-        private void Generate()
-        {
-            controller = new BoidController();
-            var mesh = controller.Generate();
-            meshFilter.mesh = mesh;
-        }
-
         private IEnumerator Simulate()
         {
             while (true)
@@ -66,6 +65,18 @@ namespace ProceduralToolkit.Examples.UI
             {
                 controller.Update();
             }
+            SkyBoxGenerator.LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 2, 3, 4, Time.deltaTime);
+        }
+
+        private void Generate()
+        {
+            targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
+            targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
+
+            controller = new BoidController();
+            var mesh = controller.Generate(targetPalette[0].WithSV(1, 1).ToColor(),
+                targetPalette[1].WithSV(0.8f, 0.8f).ToColor());
+            meshFilter.mesh = mesh;
         }
     }
 }

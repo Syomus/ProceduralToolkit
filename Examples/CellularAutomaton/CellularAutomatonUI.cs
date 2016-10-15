@@ -10,6 +10,16 @@ namespace ProceduralToolkit.Examples
         public RectTransform leftPanel;
         public ToggleGroup toggleGroup;
         public RawImage image;
+        public Image background;
+
+        private const float backgroundSaturation = 0.25f;
+        private const float backgroundValue = 0.7f;
+        private const float fadeDuration = 0.5f;
+
+        private const float deadCellSaturation = 0.3f;
+        private const float deadCellValue = 0.2f;
+        private const float aliveCellSaturation = 0.7f;
+        private const float aliveCellValue = 0.7f;
 
         private enum RulesetName
         {
@@ -126,8 +136,11 @@ namespace ProceduralToolkit.Examples
             automaton = new CellularAutomaton(width, height, ruleset, startNoise, aliveBorders);
 
             float hue = Random.value;
-            deadColor = new ColorHSV(hue, 0.3f, 0.2f).ToColor();
-            aliveColor = new ColorHSV(hue, 0.3f, 0.7f).ToColor();
+            deadColor = new ColorHSV(hue, deadCellSaturation, deadCellValue).ToColor();
+            aliveColor = new ColorHSV(hue, aliveCellSaturation, aliveCellValue).ToColor();
+
+            var backgroundColor = new ColorHSV(hue, backgroundSaturation, backgroundValue).complementary.ToColor();
+            background.CrossFadeColor(backgroundColor, fadeDuration, true, false);
         }
 
         private void Draw()

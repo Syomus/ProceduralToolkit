@@ -110,14 +110,14 @@ namespace ProceduralToolkit
         public static MeshDraft BaselessPyramid(Vector3 baseCenter, Vector3 apex, float radius, int segments,
             bool inverted = false)
         {
-            float segmentAngle = Mathf.PI*2/segments*(inverted ? -1 : 1);
-            float currentAngle = 0f;
+            float segmentAngle = 360f/segments*(inverted ? -1 : 1);
+            float currentAngle = 0;
 
             var vertices = new Vector3[segments + 1];
             vertices[0] = apex;
             for (var i = 1; i <= segments; i++)
             {
-                vertices[i] = PTUtils.PointOnCircle3(radius, currentAngle) + baseCenter;
+                vertices[i] = PTUtils.PointOnCircle3XZ(radius, currentAngle) + baseCenter;
                 currentAngle += segmentAngle;
             }
 
@@ -250,9 +250,9 @@ namespace ProceduralToolkit
 
         public static MeshDraft Tetrahedron(float radius)
         {
-            float tetrahedralAngle = Mathf.PI*-19.471220333f/180;
-            float segmentAngle = Mathf.PI*2/3;
-            float currentAngle = 0f;
+            const float tetrahedralAngle = -19.471220333f;
+            const float segmentAngle = 120;
+            float currentAngle = 0;
 
             var vertices = new List<Vector3>(4) {new Vector3(0, radius, 0)};
             for (var i = 1; i < 4; i++)
@@ -294,42 +294,6 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        /// <summary>
-        /// Constructs partial hexahedron aka cube with specified faces
-        /// </summary>
-        public static MeshDraft Hexahedron(Vector3 width, Vector3 length, Vector3 height, Directions parts)
-        {
-            Vector3 corner0 = -width/2 - length/2 - height/2;
-            Vector3 corner1 = width/2 + length/2 + height/2;
-
-            var draft = new MeshDraft {name = "Hexahedron"};
-            if ((parts & Directions.Left) == Directions.Left)
-            {
-                draft.Add(Quad(corner0, height, length));
-            }
-            if ((parts & Directions.Right) == Directions.Right)
-            {
-                draft.Add(Quad(corner1, -length, -height));
-            }
-            if ((parts & Directions.Down) == Directions.Down)
-            {
-                draft.Add(Quad(corner0, length, width));
-            }
-            if ((parts & Directions.Up) == Directions.Up)
-            {
-                draft.Add(Quad(corner1, -width, -length));
-            }
-            if ((parts & Directions.Back) == Directions.Back)
-            {
-                draft.Add(Quad(corner0, width, height));
-            }
-            if ((parts & Directions.Forward) == Directions.Forward)
-            {
-                draft.Add(Quad(corner1, -height, -width));
-            }
-            return draft;
-        }
-
         public static MeshDraft Octahedron(float radius)
         {
             var draft = BiPyramid(radius, 4, radius);
@@ -339,13 +303,13 @@ namespace ProceduralToolkit
 
         public static MeshDraft Dodecahedron(float radius)
         {
-            float magicAngle1 = Mathf.PI*52.62263590f/180;
-            float magicAngle2 = Mathf.PI*10.81231754f/180;
-            float segmentAngle = Mathf.PI*2/5;
-            float currentAngle = 0f;
+            const float magicAngle1 = 52.62263590f;
+            const float magicAngle2 = 10.81231754f;
+            const float segmentAngle = 72;
+            float currentAngle = 0;
             var lowerCap = new List<Vector3>();
             var lowerRing = new List<Vector3>();
-            for (var i = 0; i <= 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 lowerCap.Add(PTUtils.PointOnSphere(radius, currentAngle, -magicAngle1));
                 lowerRing.Add(PTUtils.PointOnSphere(radius, currentAngle, -magicAngle2));
@@ -355,7 +319,7 @@ namespace ProceduralToolkit
             currentAngle = -segmentAngle/2;
             var upperCap = new List<Vector3>();
             var upperRing = new List<Vector3>();
-            for (var i = 0; i <= 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 upperCap.Add(PTUtils.PointOnSphere(radius, currentAngle, magicAngle1));
                 upperRing.Add(PTUtils.PointOnSphere(radius, currentAngle, magicAngle2));
@@ -374,10 +338,10 @@ namespace ProceduralToolkit
 
         public static MeshDraft Icosahedron(float radius)
         {
-            float magicAngle = Mathf.PI*26.56505f/180;
-            float segmentAngle = Mathf.PI*72/180;
+            const float magicAngle = 26.56505f;
+            const float segmentAngle = 72;
+            float currentAngle = 0;
 
-            float currentAngle = 0f;
             var upperRing = new List<Vector3>(5);
             for (var i = 0; i < 5; i++)
             {
@@ -466,14 +430,14 @@ namespace ProceduralToolkit
 
         public static MeshDraft Prism(float radius, int segments, float heignt)
         {
-            float segmentAngle = Mathf.PI*2/segments;
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
 
-            float currentAngle = 0f;
             var lowerRing = new List<Vector3>(segments);
             var upperRing = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
-                var point = PTUtils.PointOnCircle3(radius, currentAngle);
+                var point = PTUtils.PointOnCircle3XZ(radius, currentAngle);
                 lowerRing.Add(point - Vector3.up*heignt/2);
                 upperRing.Add(point + Vector3.up*heignt/2);
                 currentAngle -= segmentAngle;
@@ -489,14 +453,14 @@ namespace ProceduralToolkit
 
         public static MeshDraft Cylinder(float radius, int segments, float heignt)
         {
-            float segmentAngle = Mathf.PI*2/segments;
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
 
-            float currentAngle = 0f;
             var lowerRing = new List<Vector3>(segments);
             var upperRing = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
-                var point = PTUtils.PointOnCircle3(radius, currentAngle);
+                var point = PTUtils.PointOnCircle3XZ(radius, currentAngle);
                 lowerRing.Add(point - Vector3.up*heignt/2);
                 upperRing.Add(point + Vector3.up*heignt/2);
                 currentAngle -= segmentAngle;
@@ -512,10 +476,10 @@ namespace ProceduralToolkit
 
         public static MeshDraft FlatSphere(float radius, int longitudeSegments, int latitudeSegments)
         {
-            float longitudeSegmentAngle = Mathf.PI*2/longitudeSegments;
-            float latitudeSegmentAngle = Mathf.PI/latitudeSegments;
+            float longitudeSegmentAngle = 360f/longitudeSegments;
+            float latitudeSegmentAngle = 180f/latitudeSegments;
+            float currentLatitude = -90;
 
-            float currentLatitude = -Mathf.PI/2;
             var rings = new List<List<Vector3>>(latitudeSegments);
             for (var i = 0; i <= latitudeSegments; i++)
             {
@@ -542,10 +506,10 @@ namespace ProceduralToolkit
         {
             var draft = new MeshDraft {name = "Sphere"};
 
-            float longitudeSegmentAngle = Mathf.PI*2/longitudeSegments;
-            float latitudeSegmentAngle = Mathf.PI/latitudeSegments;
+            float longitudeSegmentAngle = 360f/longitudeSegments;
+            float latitudeSegmentAngle = 180f/latitudeSegments;
+            float currentLatitude = -90;
 
-            float currentLatitude = -Mathf.PI/2;
             for (var ring = 0; ring <= latitudeSegments; ring++)
             {
                 var currentLongitude = 0f;
@@ -584,6 +548,7 @@ namespace ProceduralToolkit
             return draft;
         }
 
+<<<<<<< HEAD
         public static MeshDraft FlatTeardrop(float radius, int longitudeSegments, int latitudeSegments, float height)
         {
             float longitudeSegmentAngle = Mathf.PI * 2 / longitudeSegments;
@@ -655,6 +620,41 @@ namespace ProceduralToolkit
                 draft.triangles.AddRange(new[] { i2, i1, i3 });
             }
 
+=======
+        /// <summary>
+        /// Constructs partial box with specified faces
+        /// </summary>
+        public static MeshDraft PartialBox(Vector3 width, Vector3 length, Vector3 height, Directions parts)
+        {
+            Vector3 corner0 = -width/2 - length/2 - height/2;
+            Vector3 corner1 = width/2 + length/2 + height/2;
+
+            var draft = new MeshDraft {name = "Hexahedron"};
+            if ((parts & Directions.Left) == Directions.Left)
+            {
+                draft.Add(Quad(corner0, height, length));
+            }
+            if ((parts & Directions.Right) == Directions.Right)
+            {
+                draft.Add(Quad(corner1, -length, -height));
+            }
+            if ((parts & Directions.Down) == Directions.Down)
+            {
+                draft.Add(Quad(corner0, length, width));
+            }
+            if ((parts & Directions.Up) == Directions.Up)
+            {
+                draft.Add(Quad(corner1, -width, -length));
+            }
+            if ((parts & Directions.Back) == Directions.Back)
+            {
+                draft.Add(Quad(corner0, width, height));
+            }
+            if ((parts & Directions.Forward) == Directions.Forward)
+            {
+                draft.Add(Quad(corner1, -height, -width));
+            }
+>>>>>>> 08de57f8ad4b651656a0442e6b0cd87293e1839a
             return draft;
         }
     }

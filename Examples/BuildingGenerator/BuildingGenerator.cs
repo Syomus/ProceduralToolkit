@@ -9,15 +9,15 @@ namespace ProceduralToolkit.Examples
     /// <remarks>
     /// http://en.wikipedia.org/wiki/Khrushchyovka
     /// </remarks>
-    public static class Khrushchyovka
+    public static class BuildingGenerator
     {
-        public static Color socleColor = ColorE.silver.WithA(0);
-        public static Color socleWindowColor = ColorE.silver.WithA(0)/2;
-        public static Color doorColor = ColorE.silver.WithA(0)/2;
-        public static Color wallColor = ColorE.white.WithA(0);
-        public static Color frameColor = ColorE.silver.WithA(0);
+        public static Color socleColor = ColorE.silver;
+        public static Color socleWindowColor = ColorE.silver/2;
+        public static Color doorColor = ColorE.silver/2;
+        public static Color wallColor = ColorE.white;
+        public static Color frameColor = ColorE.silver;
         public static Color glassColor = ColorE.white;
-        public static Color roofColor = ColorE.gray.WithA(0.5f)/4;
+        public static Color roofColor = ColorE.gray/4;
 
         private const float SocleHeight = 1;
         private const float FloorHeight = 3;
@@ -64,11 +64,12 @@ namespace ProceduralToolkit.Examples
             public List<Panel> panels = new List<Panel>();
         }
 
-        public static MeshDraft KhrushchyovkaDraft(float width, float length, int floorCount, bool hasAttic)
+        public static MeshDraft BuildingDraft(float width, float length, int floorCount, bool hasAttic, Color wallColor)
         {
             float height = FloorHeight*floorCount + SocleHeight + (hasAttic ? AtticHeight : 0);
+            BuildingGenerator.wallColor = wallColor.WithA(0);
 
-            var draft = new MeshDraft {name = "Khrushchyovka"};
+            var draft = new MeshDraft {name = "Building"};
             var corners = new Vector3[]
             {
                 Vector3.left*length/2 + Vector3.back*width/2,
@@ -79,8 +80,6 @@ namespace ProceduralToolkit.Examples
 
             commonPanelConstructors[PanelType.Entrance] = panelConstructors[PanelType.Entrance].GetRandom();
             commonPanelConstructors[PanelType.EntranceWall] = panelConstructors[PanelType.EntranceWall].GetRandom();
-
-            wallColor = RandomE.colorHSV.WithA(0);
 
             List<FloorPlan> facadePlan0 = FacadeGenerator(length, floorCount, hasAttic, true, true);
             draft.Add(Facade(corners[0], Vector3.right, facadePlan0));

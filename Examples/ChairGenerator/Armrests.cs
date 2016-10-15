@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
-    public class Armrests
+    public static class Armrests
     {
         public static MeshDraft Armrests0(float seatWidth, float seatDepth, Vector3 backCenter, float backHeight,
             float legWidth)
