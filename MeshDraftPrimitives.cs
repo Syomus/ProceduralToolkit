@@ -548,6 +548,79 @@ namespace ProceduralToolkit
             return draft;
         }
 
+<<<<<<< HEAD
+        public static MeshDraft FlatTeardrop(float radius, int longitudeSegments, int latitudeSegments, float height)
+        {
+            float longitudeSegmentAngle = Mathf.PI * 2 / longitudeSegments;
+            float latitudeSegmentAngle = Mathf.PI / latitudeSegments;
+
+            float currentLatitude = 0f;
+            var rings = new List<List<Vector3>>(latitudeSegments);
+            for (var i = 0; i <= latitudeSegments; i++)
+            {
+                var currentLongitude = Mathf.PI * 2;
+                var ring = new List<Vector3>(longitudeSegments);
+                for (int j = 0; j < longitudeSegments; j++)
+                {
+                    ring.Add(PTUtils.PointOnTeardrop(radius, currentLongitude, currentLatitude, height));
+                    currentLongitude -= longitudeSegmentAngle;
+                }
+                rings.Add(ring);
+                currentLatitude += latitudeSegmentAngle;
+            }
+
+            var draft = new MeshDraft {name = "Flat teardrop"};
+            for (int i = 0; i < rings.Count - 1; i++)
+            {
+                draft.Add(FlatBand(rings[i], rings[i + 1]));
+            }
+            return draft;
+        }
+
+        public static MeshDraft Teardrop(float radius, int longitudeSegments, int latitudeSegments, float height)
+        {
+            var draft = new MeshDraft { name = "Teardrop" };
+
+            float longitudeSegmentAngle = Mathf.PI * 2 / longitudeSegments;
+            float latitudeSegmentAngle = Mathf.PI / latitudeSegments;
+
+            float currentLatitude = 0f;
+            for (var ring = 0; ring <= latitudeSegments; ring++)
+            {
+                var currentLongitude = Mathf.PI * 2;
+                for (int i = 0; i < longitudeSegments; i++)
+                {
+                    var point = PTUtils.PointOnTeardrop(radius, currentLongitude, currentLatitude, height);
+                    draft.vertices.Add(point);
+                    draft.normals.Add(point.normalized);
+                    draft.uv.Add(new Vector2((float)i / longitudeSegments, (float)ring / latitudeSegments));
+                    currentLongitude -= longitudeSegmentAngle;
+                }
+                currentLatitude += latitudeSegmentAngle;
+            }
+
+            int i0, i1, i2, i3;
+            for (int ring = 0; ring < latitudeSegments; ring++)
+            {
+                for (int i = 0; i < longitudeSegments - 1; i++)
+                {
+                    i0 = ring * longitudeSegments + i;
+                    i1 = (ring + 1) * longitudeSegments + i;
+                    i2 = ring * longitudeSegments + i + 1;
+                    i3 = (ring + 1) * longitudeSegments + i + 1;
+                    draft.triangles.AddRange(new[] { i0, i1, i2 });
+                    draft.triangles.AddRange(new[] { i2, i1, i3 });
+                }
+
+                i0 = (ring + 1) * longitudeSegments - 1;
+                i1 = (ring + 2) * longitudeSegments - 1;
+                i2 = ring * longitudeSegments;
+                i3 = (ring + 1) * longitudeSegments;
+                draft.triangles.AddRange(new[] { i0, i1, i2 });
+                draft.triangles.AddRange(new[] { i2, i1, i3 });
+            }
+
+=======
         /// <summary>
         /// Constructs partial box with specified faces
         /// </summary>
@@ -581,6 +654,7 @@ namespace ProceduralToolkit
             {
                 draft.Add(Quad(corner1, -height, -width));
             }
+>>>>>>> 08de57f8ad4b651656a0442e6b0cd87293e1839a
             return draft;
         }
     }
