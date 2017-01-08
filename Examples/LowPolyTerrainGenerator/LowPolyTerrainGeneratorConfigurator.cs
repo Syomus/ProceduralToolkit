@@ -3,22 +3,12 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples.UI
 {
-    public class LowPolyTerrainGeneratorUI : UIBase
+    public class LowPolyTerrainGeneratorConfigurator : UIBase
     {
         public MeshFilter meshFilter;
         public RectTransform leftPanel;
-
         [Space]
-        [Range(minXSize, maxXSize)]
-        public int terrainSizeX = 20;
-        [Range(minYSize, maxYSize)]
-        public int terrainSizeY = 1;
-        [Range(minZSize, maxZSize)]
-        public int terrainSizeZ = 20;
-        [Range(minCellSize, maxCellSize)]
-        public float cellSize = 1;
-        [Range(minNoiseScale, maxNoiseScale)]
-        public int noiseScale = 5;
+        public LowPolyTerrainGenerator.Config config;
 
         private const int minXSize = 10;
         private const int maxXSize = 30;
@@ -42,37 +32,37 @@ namespace ProceduralToolkit.Examples.UI
             currentPalette.AddRange(targetPalette);
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Terrain size X", minXSize, maxXSize, terrainSizeX, value =>
+                .Initialize("Terrain size X", minXSize, maxXSize, (int) config.terrainSize.x, value =>
                 {
-                    terrainSizeX = value;
+                    config.terrainSize.x = value;
                     Generate();
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Terrain size Y", minYSize, maxYSize, terrainSizeY, value =>
+                .Initialize("Terrain size Y", minYSize, maxYSize, (int) config.terrainSize.y, value =>
                 {
-                    terrainSizeY = value;
+                    config.terrainSize.y = value;
                     Generate();
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Terrain size Z", minZSize, maxZSize, terrainSizeZ, value =>
+                .Initialize("Terrain size Z", minZSize, maxZSize, (int) config.terrainSize.z, value =>
                 {
-                    terrainSizeZ = value;
+                    config.terrainSize.z = value;
                     Generate();
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Cell size", minCellSize, maxCellSize, cellSize, value =>
+                .Initialize("Cell size", minCellSize, maxCellSize, config.cellSize, value =>
                 {
-                    cellSize = value;
+                    config.cellSize = value;
                     Generate();
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Noise scale", minNoiseScale, maxNoiseScale, noiseScale, value =>
+                .Initialize("Noise scale", minNoiseScale, maxNoiseScale, (int) config.noiseScale, value =>
                 {
-                    noiseScale = value;
+                    config.noiseScale = value;
                     Generate();
                 });
 
@@ -86,16 +76,14 @@ namespace ProceduralToolkit.Examples.UI
 
         public void Generate()
         {
-            Vector3 terrainSize = new Vector3(terrainSizeX, terrainSizeY, terrainSizeZ);
-
             targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
             targetPalette.Add(ColorHSV.Lerp(targetPalette[0], targetPalette[1], 0.5f));
 
-            var gradient = ColorE.Gradient(from: targetPalette[2].WithSV(0.8f, 0.8f),
+            config.gradient = ColorE.Gradient(from: targetPalette[2].WithSV(0.8f, 0.8f),
                 to: targetPalette[3].WithSV(0.8f, 0.8f));
 
-            var draft = LowPolyTerrainGenerator.TerrainDraft(terrainSize, cellSize, noiseScale, gradient);
-            draft.Move(Vector3.left*terrainSizeX/2 + Vector3.back*terrainSizeZ/2);
+            var draft = LowPolyTerrainGenerator.TerrainDraft(config);
+            draft.Move(Vector3.left*config.terrainSize.x/2 + Vector3.back*config.terrainSize.z/2);
             meshFilter.mesh = draft.ToMesh();
         }
     }
