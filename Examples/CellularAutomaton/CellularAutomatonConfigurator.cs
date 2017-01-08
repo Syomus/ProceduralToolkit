@@ -5,12 +5,14 @@ using UnityEngine.UI;
 
 namespace ProceduralToolkit.Examples
 {
-    public class CellularAutomatonUI : UIBase
+    public class CellularAutomatonConfigurator : UIBase
     {
         public RectTransform leftPanel;
         public ToggleGroup toggleGroup;
         public RawImage image;
         public Image background;
+        [Space]
+        public CellularAutomaton.Config config = new CellularAutomaton.Config();
 
         private const float backgroundSaturation = 0.25f;
         private const float backgroundValue = 0.7f;
@@ -32,29 +34,12 @@ namespace ProceduralToolkit.Examples
             Majority,
         }
 
-        private const int width = 128;
-        private const int height = 128;
-        private Color[] pixels = new Color[width*height];
+        private Color[] pixels;
         private Texture2D texture;
         private CellularAutomaton automaton;
         private Color deadColor;
         private Color aliveColor;
         private TextControl header;
-
-        private Ruleset ruleset;
-        private float startNoise = 0.25f;
-        private bool aliveBorders = false;
-
-        private RulesetName[] rulesetNames = new[]
-        {
-            RulesetName.Life,
-            RulesetName.Mazectric,
-            RulesetName.Coral,
-            RulesetName.WalledCities,
-            RulesetName.Coagulations,
-            RulesetName.Anneal,
-            RulesetName.Majority,
-        };
 
         private Dictionary<RulesetName, Ruleset> nameToRuleset = new Dictionary<RulesetName, Ruleset>
         {
@@ -69,7 +54,8 @@ namespace ProceduralToolkit.Examples
 
         private void Awake()
         {
-            texture = new Texture2D(width, height, TextureFormat.ARGB32, false, true)
+            pixels = new Color[config.width*config.height];
+            texture = new Texture2D(config.width, config.height, TextureFormat.ARGB32, false, true)
             {
                 filterMode = FilterMode.Point
             };
@@ -80,36 +66,26 @@ namespace ProceduralToolkit.Examples
             header = InstantiateControl<TextControl>(leftPanel);
             header.transform.SetAsFirstSibling();
 
-            var rulesetName = RulesetName.Life;
-            SelectRuleset(rulesetName);
+            var currentRulesetName = RulesetName.Life;
+            SelectRuleset(currentRulesetName);
 
-            for (int i = 0; i < rulesetNames.Length; i++)
-            {
-                RulesetName currentName = rulesetNames[i];
-                var toggle = InstantiateControl<ToggleControl>(toggleGroup.transform);
-                toggle.Initialize(
-                    header: currentName.ToString(),
-                    value: currentName == rulesetName,
-                    onValueChanged: isOn =>
-                    {
-                        if (isOn)
-                        {
-                            SelectRuleset(currentName);
-                            Generate();
-                        }
-                    },
-                    toggleGroup: toggleGroup);
-            }
+            InstantiateToggle(RulesetName.Life, currentRulesetName);
+            InstantiateToggle(RulesetName.Mazectric, currentRulesetName);
+            InstantiateToggle(RulesetName.Coral, currentRulesetName);
+            InstantiateToggle(RulesetName.WalledCities, currentRulesetName);
+            InstantiateToggle(RulesetName.Coagulations, currentRulesetName);
+            InstantiateToggle(RulesetName.Anneal, currentRulesetName);
+            InstantiateToggle(RulesetName.Majority, currentRulesetName);
 
-            InstantiateControl<SliderControl>(leftPanel).Initialize("Start noise", 0, 1, startNoise, value =>
+            InstantiateControl<SliderControl>(leftPanel).Initialize("Start noise", 0, 1, config.startNoise, value =>
             {
-                startNoise = value;
+                config.startNoise = value;
                 Generate();
             });
 
-            InstantiateControl<ToggleControl>(leftPanel).Initialize("Alive borders", aliveBorders, value =>
+            InstantiateControl<ToggleControl>(leftPanel).Initialize("Alive borders", config.aliveBorders, value =>
             {
-                aliveBorders = value;
+                config.aliveBorders = value;
                 Generate();
             });
 
@@ -121,19 +97,19 @@ namespace ProceduralToolkit.Examples
         private void Update()
         {
             automaton.Simulate();
-            Draw();
+            DrawCells();
         }
 
         private void SelectRuleset(RulesetName rulesetName)
         {
-            ruleset = nameToRuleset[rulesetName];
+            config.ruleset = nameToRuleset[rulesetName];
 
-            header.Initialize("Rulestring: " + ruleset);
+            header.Initialize("Rulestring: " + config.ruleset);
         }
 
         private void Generate()
         {
-            automaton = new CellularAutomaton(width, height, ruleset, startNoise, aliveBorders);
+            automaton = new CellularAutomaton(config);
 
             float hue = Random.value;
             deadColor = new ColorHSV(hue, deadCellSaturation, deadCellValue).ToColor();
@@ -143,25 +119,42 @@ namespace ProceduralToolkit.Examples
             background.CrossFadeColor(backgroundColor, fadeDuration, true, false);
         }
 
-        private void Draw()
+        private void DrawCells()
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < config.width; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < config.height; y++)
                 {
                     if (automaton.cells[x, y] == CellState.Alive)
                     {
-                        pixels[y*width + x] = aliveColor;
+                        pixels[y*config.width + x] = aliveColor;
                     }
                     else
                     {
-                        pixels[y*width + x] = deadColor;
+                        pixels[y*config.width + x] = deadColor;
                     }
                 }
             }
 
             texture.SetPixels(pixels);
             texture.Apply();
+        }
+
+        private void InstantiateToggle(RulesetName rulesetName, RulesetName selectedRulesetName)
+        {
+            var toggle = InstantiateControl<ToggleControl>(toggleGroup.transform);
+            toggle.Initialize(
+                header: rulesetName.ToString(),
+                value: rulesetName == selectedRulesetName,
+                onValueChanged: isOn =>
+                {
+                    if (isOn)
+                    {
+                        SelectRuleset(rulesetName);
+                        Generate();
+                    }
+                },
+                toggleGroup: toggleGroup);
         }
     }
 }

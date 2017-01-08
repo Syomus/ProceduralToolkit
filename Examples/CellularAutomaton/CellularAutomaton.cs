@@ -8,26 +8,29 @@ namespace ProceduralToolkit.Examples
     /// </summary>
     public class CellularAutomaton
     {
+        [Serializable]
+        public class Config
+        {
+            public int width = 128;
+            public int height = 128;
+            public Ruleset ruleset = Ruleset.life;
+            public float startNoise = 0.25f;
+            public bool aliveBorders = false;
+        }
+
         public CellState[,] cells;
 
-        private int width;
-        private int height;
-        private Ruleset ruleset;
-        private bool aliveBorders;
-
-        private CellState[,] copy;
-        private int aliveNeighbours;
+        private readonly Config config;
         private readonly Action<int, int> visitAliveBorders;
         private readonly Action<int, int> visitDeadBorders;
+        private CellState[,] copy;
+        private int aliveNeighbours;
 
-        public CellularAutomaton(int width, int height, Ruleset ruleset, float startNoise, bool aliveBorders)
+        public CellularAutomaton(Config config)
         {
-            this.width = width;
-            this.height = height;
-            this.ruleset = ruleset;
-            this.aliveBorders = aliveBorders;
-            cells = new CellState[width, height];
-            copy = new CellState[width, height];
+            this.config = config;
+            cells = new CellState[config.width, config.height];
+            copy = new CellState[config.width, config.height];
 
             visitAliveBorders = (int neighbourX, int neighbourY) =>
             {
@@ -51,18 +54,7 @@ namespace ProceduralToolkit.Examples
                 }
             };
 
-            FillWithNoise(startNoise);
-        }
-
-        public void FillWithNoise(float noise)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    cells[x, y] = Random.value < noise ? CellState.Alive : CellState.Dead;
-                }
-            }
+            FillWithNoise(config.startNoise);
         }
 
         public void Simulate(int generations)
@@ -76,15 +68,15 @@ namespace ProceduralToolkit.Examples
         public void Simulate()
         {
             PTUtils.Swap(ref cells, ref copy);
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < config.width; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < config.height; y++)
                 {
                     int aliveCells = CountAliveNeighbourCells(x, y);
 
                     if (copy[x, y] == CellState.Dead)
                     {
-                        if (ruleset.CanSpawn(aliveCells))
+                        if (config.ruleset.CanSpawn(aliveCells))
                         {
                             cells[x, y] = CellState.Alive;
                         }
@@ -95,7 +87,7 @@ namespace ProceduralToolkit.Examples
                     }
                     else
                     {
-                        if (!ruleset.CanSurvive(aliveCells))
+                        if (!config.ruleset.CanSurvive(aliveCells))
                         {
                             cells[x, y] = CellState.Dead;
                         }
@@ -108,10 +100,21 @@ namespace ProceduralToolkit.Examples
             }
         }
 
+        private void FillWithNoise(float noise)
+        {
+            for (int x = 0; x < config.width; x++)
+            {
+                for (int y = 0; y < config.height; y++)
+                {
+                    cells[x, y] = Random.value < noise ? CellState.Alive : CellState.Dead;
+                }
+            }
+        }
+
         private int CountAliveNeighbourCells(int x, int y)
         {
             aliveNeighbours = 0;
-            if (aliveBorders)
+            if (config.aliveBorders)
             {
                 copy.VisitMooreNeighbours(x, y, false, visitAliveBorders);
             }
