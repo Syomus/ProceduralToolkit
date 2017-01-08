@@ -2,17 +2,12 @@
 
 namespace ProceduralToolkit.Examples.UI
 {
-    public class BreakoutUI : UIBase
+    public class BreakoutConfigurator : UIBase
     {
         public Camera mainCamera;
         public RectTransform leftPanel;
-
-        private int wallWidth = 9;
-        private int wallHeight = 7;
-        private int wallHeightOffset = 5;
-        private float paddleWidth = 1;
-        private float ballSize = 0.5f;
-        private float ballVelocityMagnitude = 5;
+        [Space]
+        public Breakout.Config config = new Breakout.Config();
 
         private Breakout breakout;
 
@@ -24,44 +19,44 @@ namespace ProceduralToolkit.Examples.UI
             InstantiateControl<TextControl>(leftPanel).Initialize("Use A/D or Left/Right to move");
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Wall width", 1, 20, wallWidth, value =>
+                .Initialize("Wall width", 1, 20, config.wallWidth, value =>
                 {
-                    wallWidth = value;
+                    config.wallWidth = value;
                     Generate();
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Wall height", 1, 20, wallHeight, value =>
+                .Initialize("Wall height", 1, 20, config.wallHeight, value =>
                 {
-                    wallHeight = value;
+                    config.wallHeight = value;
                     Generate();
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Wall height offset", 1, 10, wallHeightOffset, value =>
+                .Initialize("Wall height offset", 1, 10, config.wallHeightOffset, value =>
                 {
-                    wallHeightOffset = value;
+                    config.wallHeightOffset = value;
                     Generate();
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Paddle width", 1, 10, paddleWidth, value =>
+                .Initialize("Paddle width", 1, 10, config.paddleWidth, value =>
                 {
-                    paddleWidth = value;
+                    config.paddleWidth = value;
                     Generate();
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Ball size", 0.5f, 3f, ballSize, value =>
+                .Initialize("Ball size", 0.5f, 3f, config.ballSize, value =>
                 {
-                    ballSize = value;
+                    config.ballSize = value;
                     Generate();
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Ball velocity", 1, 20, ballVelocityMagnitude, value =>
+                .Initialize("Ball velocity", 1, 20, config.ballVelocityMagnitude, value =>
                 {
-                    ballVelocityMagnitude = value;
+                    config.ballVelocityMagnitude = value;
                     Generate();
                 });
 
@@ -70,9 +65,7 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Generate()
         {
-            breakout.UpdateParameters(wallWidth, wallHeight, wallHeightOffset, paddleWidth, ballSize,
-                ballVelocityMagnitude);
-            breakout.ResetLevel();
+            breakout.Generate(config);
         }
 
         private void Update()

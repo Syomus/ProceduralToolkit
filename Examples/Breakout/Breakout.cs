@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit.Examples
 {
@@ -14,6 +17,17 @@ namespace ProceduralToolkit.Examples
     /// </summary>
     public class Breakout
     {
+        [Serializable]
+        public class Config
+        {
+            public int wallWidth = 9;
+            public int wallHeight = 7;
+            public int wallHeightOffset = 5;
+            public float paddleWidth = 1;
+            public float ballSize = 0.5f;
+            public float ballVelocityMagnitude = 5;
+        }
+
         private const float backgroundColorSaturation = 0.25f;
         private const float backgroundColorValue = 0.7f;
         private const float brickColorSaturation = 0.7f;
@@ -27,6 +41,8 @@ namespace ProceduralToolkit.Examples
         private const float ballForce = 200;
 
         private Camera mainCamera;
+        private Config config;
+
         private Transform bricksContainer;
         private Sprite whiteSprite;
         private PhysicsMaterial2D bouncyMaterial;
@@ -37,13 +53,6 @@ namespace ProceduralToolkit.Examples
         private Transform ballTransform;
         private Rigidbody2D ballRigidbody;
         private List<GameObject> bricks = new List<GameObject>();
-
-        private int wallWidth;
-        private int wallHeight;
-        private int wallHeightOffset;
-        private float paddleWidth;
-        private float ballSize;
-        private float ballVelocityMagnitude;
 
         private Dictionary<BrickSize, float> sizeValues = new Dictionary<BrickSize, float>
         {
@@ -67,20 +76,10 @@ namespace ProceduralToolkit.Examples
             bouncyMaterial = new PhysicsMaterial2D {name = "Bouncy", bounciness = 1, friction = 0};
         }
 
-        public void UpdateParameters(
-            int wallWidth,
-            int wallHeight,
-            int wallHeightOffset,
-            float paddleWidth,
-            float ballSize,
-            float ballVelocityMagnitude)
+        public void Generate(Config config)
         {
-            this.wallWidth = wallWidth;
-            this.wallHeight = wallHeight;
-            this.wallHeightOffset = wallHeightOffset;
-            this.paddleWidth = paddleWidth;
-            this.ballSize = ballSize;
-            this.ballVelocityMagnitude = ballVelocityMagnitude;
+            this.config = config;
+            ResetLevel();
         }
 
         public void Update()
@@ -89,7 +88,7 @@ namespace ProceduralToolkit.Examples
             paddleTransform.position += new Vector3(delta, 0);
 
             // Prevent paddle from penetrating walls
-            float halfWall = (wallWidth - 1)/2f;
+            float halfWall = (config.wallWidth - 1)/2f;
             if (paddleTransform.position.x > halfWall)
             {
                 paddleTransform.position = new Vector3(halfWall, 0);
@@ -100,7 +99,7 @@ namespace ProceduralToolkit.Examples
             }
 
             // Ball should move with constant velocity
-            ballRigidbody.velocity = ballRigidbody.velocity.normalized*ballVelocityMagnitude;
+            ballRigidbody.velocity = ballRigidbody.velocity.normalized*config.ballVelocityMagnitude;
 
             if (ballTransform.position.y < -0.1f)
             {
@@ -115,7 +114,7 @@ namespace ProceduralToolkit.Examples
             }
         }
 
-        public void ResetLevel()
+        private void ResetLevel()
         {
             GenerateBorders();
             GenerateLevel();
@@ -130,20 +129,20 @@ namespace ProceduralToolkit.Examples
                 Object.Destroy(borders);
             }
             borders = new GameObject("Border");
-            float bordersHeight = wallHeightOffset + wallHeight/2 + 1 + ballSize;
-            float bordersWidth = wallWidth + 1;
+            float bordersHeight = config.wallHeightOffset + config.wallHeight/2 + 1 + config.ballSize;
+            float bordersWidth = config.wallWidth + 1;
 
             // Bottom
-            CreateBoxCollider(offset: new Vector2(0, -1 - ballSize/2),
+            CreateBoxCollider(offset: new Vector2(0, -1 - config.ballSize/2),
                 size: new Vector2(bordersWidth, 1));
             // Left
-            CreateBoxCollider(offset: new Vector2(-bordersWidth/2f, bordersHeight/2f - 0.5f - ballSize/2),
+            CreateBoxCollider(offset: new Vector2(-bordersWidth/2f, bordersHeight/2f - 0.5f - config.ballSize/2),
                 size: new Vector2(1, bordersHeight + 1));
             // Right
-            CreateBoxCollider(offset: new Vector2(bordersWidth/2f, bordersHeight/2f - 0.5f - ballSize/2),
+            CreateBoxCollider(offset: new Vector2(bordersWidth/2f, bordersHeight/2f - 0.5f - config.ballSize/2),
                 size: new Vector2(1, bordersHeight + 1));
             // Top
-            CreateBoxCollider(offset: new Vector2(0, bordersHeight - ballSize/2),
+            CreateBoxCollider(offset: new Vector2(0, bordersHeight - config.ballSize/2),
                 size: new Vector2(bordersWidth, 1));
         }
 
@@ -170,15 +169,16 @@ namespace ProceduralToolkit.Examples
             var backgroundColor = new ColorHSV(fromHue, backgroundColorSaturation, backgroundColorValue).complementary;
             mainCamera.backgroundColor = backgroundColor.ToColor();
 
-            for (int y = 0; y < wallHeight; y++)
+            for (int y = 0; y < config.wallHeight; y++)
             {
                 // Select color for current line
-                float hue = Mathf.Lerp(fromHue, toHue, y/(wallHeight - 1f));
+                float hue = Mathf.Lerp(fromHue, toHue, y/(config.wallHeight - 1f));
 
                 // Generate brick sizes for current line
-                List<BrickSize> brickSizes = FillWallWithBricks(wallWidth);
+                List<BrickSize> brickSizes = FillWallWithBricks(config.wallWidth);
 
-                Vector3 leftEdge = Vector3.left*wallWidth/2 + Vector3.up*(wallHeightOffset + y*brickHeight);
+                Vector3 leftEdge = Vector3.left*config.wallWidth/2 +
+                                   Vector3.up*(config.wallHeightOffset + y*brickHeight);
                 for (int i = 0; i < brickSizes.Count; i++)
                 {
                     var brickSize = brickSizes[i];
@@ -275,7 +275,7 @@ namespace ProceduralToolkit.Examples
             }
 
             paddleTransform.position = Vector3.zero;
-            paddleTransform.localScale = new Vector3(paddleWidth, paddleHeight);
+            paddleTransform.localScale = new Vector3(config.paddleWidth, paddleHeight);
         }
 
         private void GenerateBall()
@@ -300,7 +300,7 @@ namespace ProceduralToolkit.Examples
             }
 
             ballTransform.position = Vector3.up;
-            ballTransform.localScale = new Vector3(ballSize, ballSize);
+            ballTransform.localScale = new Vector3(config.ballSize, config.ballSize);
             ballRigidbody.velocity = Vector2.zero;
             KickBallInRandomDirection();
         }
