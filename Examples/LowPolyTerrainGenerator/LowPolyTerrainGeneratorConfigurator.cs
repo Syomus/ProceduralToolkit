@@ -8,7 +8,7 @@ namespace ProceduralToolkit.Examples.UI
         public MeshFilter meshFilter;
         public RectTransform leftPanel;
         [Space]
-        public LowPolyTerrainGenerator.Config config;
+        public LowPolyTerrainGenerator.Config config = new LowPolyTerrainGenerator.Config();
 
         private const int minXSize = 10;
         private const int maxXSize = 30;
