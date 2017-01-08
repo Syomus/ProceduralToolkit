@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,114 +12,109 @@ namespace ProceduralToolkit.Examples
     {
         public enum Algorithm
         {
-            None,
             RandomTraversal,
             RandomDepthFirstTraversal,
             RandomBreadthFirstTraversal,
         }
 
-        private Maze maze;
-        private List<Edge> edges;
-        private int pauseStep;
-
-        public MazeGenerator(int mazeWidth, int mazeHeight, int cellSize, int wallSize, int pauseStep = 200)
+        [Serializable]
+        public class Config
         {
-            int cellWidth = (mazeWidth - wallSize)/(cellSize + wallSize);
-            int cellHeight = (mazeHeight - wallSize)/(cellSize + wallSize);
-            maze = new Maze(cellWidth, cellHeight);
+            public int mazeWidth = 256;
+            public int mazeHeight = 256;
+            public int cellSize = 2;
+            public int wallSize = 1;
+            public Algorithm algorithm = Algorithm.RandomTraversal;
+            public Action<Edge> drawEdge = edge => { };
+        }
+
+        private readonly Maze maze;
+        private readonly List<Edge> edges;
+        private readonly Config config;
+
+        public MazeGenerator(Config config)
+        {
+            this.config = config;
+            int widthInCells = (config.mazeWidth - config.wallSize)/(config.cellSize + config.wallSize);
+            int heightInCells = (config.mazeHeight - config.wallSize)/(config.cellSize + config.wallSize);
+            maze = new Maze(widthInCells, heightInCells);
 
             var origin = new Cell
             {
-                x = Random.Range(0, cellWidth),
-                y = Random.Range(0, cellHeight)
+                x = Random.Range(0, widthInCells),
+                y = Random.Range(0, heightInCells)
             };
             maze[origin] = Directions.None;
             edges = new List<Edge>(maze.GetEdges(origin));
-
-            this.pauseStep = pauseStep;
         }
 
-        public IEnumerator RandomTraversal(Action<Edge> onDrawEdge, Action onPause)
+        public bool Generate(int steps = 0)
         {
-            int count = 0;
-            while (edges.Count > 0)
+            bool changed = false;
+            for (int i = 0; edges.Count > 0 && (steps == 0 || i < steps); i++)
             {
-                Edge passage = edges.PopRandom();
-
-                if (maze[passage.exit] == Directions.None)
+                switch (config.algorithm)
                 {
-                    maze.AddEdge(passage);
-                    edges.AddRange(maze.GetEdges(passage.exit));
-
-                    onDrawEdge(passage);
-
-                    // Pause generation to show current results
-                    count++;
-                    if (count > pauseStep)
-                    {
-                        count = 0;
-                        onPause();
-                        yield return null;
-                    }
+                    case Algorithm.RandomTraversal:
+                        RandomTraversal();
+                        break;
+                    case Algorithm.RandomDepthFirstTraversal:
+                        RandomDepthFirstTraversal();
+                        break;
+                    case Algorithm.RandomBreadthFirstTraversal:
+                        RandomBreadthFirstTraversal();
+                        break;
+                    default:
+                        RandomTraversal();
+                        break;
                 }
+                changed = true;
+            }
+            return changed;
+        }
+
+        private void RandomTraversal()
+        {
+            Edge passage = edges.PopRandom();
+
+            if (maze[passage.exit] == Directions.None)
+            {
+                maze.AddEdge(passage);
+                edges.AddRange(maze.GetEdges(passage.exit));
+
+                config.drawEdge(passage);
             }
         }
 
-        public IEnumerator RandomDepthFirstTraversal(Action<Edge> onDrawEdge, Action onPause)
+        private void RandomDepthFirstTraversal()
         {
-            int count = 0;
-            while (edges.Count > 0)
+            Edge edge = edges[edges.Count - 1];
+            edges.RemoveAt(edges.Count - 1);
+
+            if (maze[edge.exit] == Directions.None)
             {
-                Edge edge = edges[edges.Count - 1];
-                edges.RemoveAt(edges.Count - 1);
+                maze.AddEdge(edge);
+                List<Edge> newEdges = maze.GetEdges(edge.exit);
+                newEdges.Shuffle();
+                edges.AddRange(newEdges);
 
-                if (maze[edge.exit] == Directions.None)
-                {
-                    maze.AddEdge(edge);
-                    List<Edge> newEdges = maze.GetEdges(edge.exit);
-                    newEdges.Shuffle();
-                    edges.AddRange(newEdges);
-
-                    onDrawEdge(edge);
-
-                    // Pause generation to show current results
-                    count++;
-                    if (count > pauseStep)
-                    {
-                        count = 0;
-                        onPause();
-                        yield return null;
-                    }
-                }
+                config.drawEdge(edge);
             }
         }
 
-        public IEnumerator RandomBreadthFirstTraversal(Action<Edge> onDrawEdge, Action onPause)
+        private void RandomBreadthFirstTraversal()
         {
-            int count = 0;
-            while (edges.Count > 0)
+            Edge edge = edges[0];
+            edges.RemoveAt(0);
+
+            if (maze[edge.exit] == Directions.None)
             {
-                Edge edge = edges[0];
-                edges.RemoveAt(0);
+                maze.AddEdge(edge);
+                List<Edge> newEdges = maze.GetEdges(edge.exit);
+                newEdges.Shuffle();
+                edges.AddRange(newEdges);
 
-                if (maze[edge.exit] == Directions.None)
-                {
-                    maze.AddEdge(edge);
-                    List<Edge> newEdges = maze.GetEdges(edge.exit);
-                    newEdges.Shuffle();
-                    edges.AddRange(newEdges);
-
-                    onDrawEdge(edge);
-
-                    // Pause generation to show current results
-                    count++;
-                    if (count > pauseStep)
-                    {
-                        count = 0;
-                        onPause();
-                        yield return null;
-                    }
-                }
+                config.drawEdge(edge);
             }
         }
     }
