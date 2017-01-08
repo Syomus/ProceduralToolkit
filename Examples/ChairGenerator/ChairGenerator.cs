@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
@@ -7,6 +8,20 @@ namespace ProceduralToolkit.Examples
     /// </summary>
     public static class ChairGenerator
     {
+        [Serializable]
+        public class Config
+        {
+            public float legWidth = 0.07f;
+            public float legHeight = 0.7f;
+            public float seatWidth = 0.7f;
+            public float seatDepth = 0.7f;
+            public float seatHeight = 0.05f;
+            public float backHeight = 0.8f;
+            public bool hasStretchers = true;
+            public bool hasArmrests = false;
+            public Color color = Color.white;
+        }
+
         private delegate MeshDraft StretchersConstructor(Vector3[] legCenters, float legWidth, float legHeight);
 
         private static readonly StretchersConstructor[] stretchersConstructors =
@@ -34,19 +49,10 @@ namespace ProceduralToolkit.Examples
             Armrests.Armrests1
         };
 
-        public static MeshDraft Chair(
-            float legWidth,
-            float legHeight,
-            float seatWidth,
-            float seatDepth,
-            float seatHeight,
-            float backHeight,
-            bool hasStretchers,
-            bool hasArmrests,
-            Color color)
+        public static MeshDraft Chair(Config config)
         {
-            Vector3 right = Vector3.right*(seatWidth - legWidth)/2;
-            Vector3 forward = Vector3.forward*(seatDepth - legWidth)/2;
+            Vector3 right = Vector3.right*(config.seatWidth - config.legWidth)/2;
+            Vector3 forward = Vector3.forward*(config.seatDepth - config.legWidth)/2;
 
             var chair = new MeshDraft {name = "Chair"};
 
@@ -58,34 +64,36 @@ namespace ProceduralToolkit.Examples
                 right + forward,
                 -right + forward
             };
-            chair.Add(Leg0(legCenters[0], legWidth, legHeight));
-            chair.Add(Leg0(legCenters[1], legWidth, legHeight));
-            chair.Add(Leg0(legCenters[2], legWidth, legHeight));
-            chair.Add(Leg0(legCenters[3], legWidth, legHeight));
+            chair.Add(Leg0(legCenters[0], config.legWidth, config.legHeight));
+            chair.Add(Leg0(legCenters[1], config.legWidth, config.legHeight));
+            chair.Add(Leg0(legCenters[2], config.legWidth, config.legHeight));
+            chair.Add(Leg0(legCenters[3], config.legWidth, config.legHeight));
 
             // Generate stretchers
-            if (hasStretchers)
+            if (config.hasStretchers)
             {
                 var stretchersConstructor = stretchersConstructors.GetRandom();
-                chair.Add(stretchersConstructor(legCenters, legWidth, legHeight));
+                chair.Add(stretchersConstructor(legCenters, config.legWidth, config.legHeight));
             }
 
             // Generate seat
-            chair.Add(Seat0(Vector3.up*legHeight, seatWidth, seatDepth, seatHeight));
+            chair.Add(Seat0(Vector3.up*config.legHeight, config.seatWidth, config.seatDepth, config.seatHeight));
 
             // Generate chair back
-            Vector3 backCenter = Vector3.up*(legHeight + seatHeight) + Vector3.forward*(seatDepth - legWidth)/2;
+            Vector3 backCenter = Vector3.up*(config.legHeight + config.seatHeight) +
+                                 Vector3.forward*(config.seatDepth - config.legWidth)/2;
             var backConstructor = backConstructors.GetRandom();
-            chair.Add(backConstructor(backCenter, seatWidth, legWidth, backHeight));
+            chair.Add(backConstructor(backCenter, config.seatWidth, config.legWidth, config.backHeight));
 
             // Generate armrests
-            if (hasArmrests)
+            if (config.hasArmrests)
             {
                 var armrestsConstructor = armrestsConstructors.GetRandom();
-                chair.Add(armrestsConstructor(seatWidth, seatDepth, backCenter, backHeight, legWidth));
+                chair.Add(armrestsConstructor(config.seatWidth, config.seatDepth, backCenter, config.backHeight,
+                    config.legWidth));
             }
 
-            chair.Paint(color);
+            chair.Paint(config.color);
 
             return chair;
         }
