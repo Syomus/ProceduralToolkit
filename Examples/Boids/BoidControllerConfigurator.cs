@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples.UI
 {
-    public class BoidsUI : UIBase
+    public class BoidControllerConfigurator : UIBase
     {
         public MeshFilter meshFilter;
         public RectTransform leftPanel;
+        public BoidController.Config config = new BoidController.Config();
 
         private BoidController controller;
         private bool simulate = true;
@@ -23,28 +24,28 @@ namespace ProceduralToolkit.Examples.UI
             StartCoroutine(Simulate());
 
             InstantiateControl<SliderControl>(leftPanel).Initialize("Max speed", 0, 30,
-                value: (int) controller.maxSpeed,
-                onValueChanged: value => controller.maxSpeed = value);
+                value: (int) config.maxSpeed,
+                onValueChanged: value => config.maxSpeed = value);
 
             InstantiateControl<SliderControl>(leftPanel).Initialize("Interaction radius", 0, 30,
-                value: (int) controller.interactionRadius,
-                onValueChanged: value => controller.interactionRadius = value);
+                value: (int) config.interactionRadius,
+                onValueChanged: value => config.interactionRadius = value);
 
             InstantiateControl<SliderControl>(leftPanel).Initialize("Cohesion coefficient", 0, 30,
-                value: (int) controller.cohesionCoefficient,
-                onValueChanged: value => controller.cohesionCoefficient = value);
+                value: (int) config.cohesionCoefficient,
+                onValueChanged: value => config.cohesionCoefficient = value);
 
             InstantiateControl<SliderControl>(leftPanel).Initialize("Separation distance", 0, 30,
-                value: (int) controller.separationDistance,
-                onValueChanged: value => controller.separationDistance = value);
+                value: (int) config.separationDistance,
+                onValueChanged: value => config.separationDistance = value);
 
             InstantiateControl<SliderControl>(leftPanel).Initialize("Separation coefficient", 0, 30,
-                value: (int) controller.separationCoefficient,
-                onValueChanged: value => controller.separationCoefficient = value);
+                value: (int) config.separationCoefficient,
+                onValueChanged: value => config.separationCoefficient = value);
 
             InstantiateControl<SliderControl>(leftPanel).Initialize("Alignment coefficient", 0, 30,
-                value: (int) controller.alignmentCoefficient,
-                onValueChanged: value => controller.alignmentCoefficient = value);
+                value: (int) config.alignmentCoefficient,
+                onValueChanged: value => config.alignmentCoefficient = value);
 
             InstantiateControl<ToggleControl>(leftPanel).Initialize("Simulate", simulate, value => simulate = value);
 
@@ -70,12 +71,22 @@ namespace ProceduralToolkit.Examples.UI
 
         private void Generate()
         {
+            controller = new BoidController();
+
             targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
             targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
+            Color colorA = targetPalette[0].WithSV(1, 1).ToColor();
+            Color colorB = targetPalette[1].WithSV(0.8f, 0.8f).ToColor();
 
-            controller = new BoidController();
-            var mesh = controller.Generate(targetPalette[0].WithSV(1, 1).ToColor(),
-                targetPalette[1].WithSV(0.8f, 0.8f).ToColor());
+            config.template = MeshDraft.Tetrahedron(0.3f);
+            // Assuming that we are dealing with tetrahedron, first vertex should be boid's "nose"
+            config.template.colors.Add(colorA);
+            for (int i = 1; i < config.template.vertices.Count; i++)
+            {
+                config.template.colors.Add(colorB);
+            }
+
+            var mesh = controller.Generate(config);
             meshFilter.mesh = mesh;
         }
     }

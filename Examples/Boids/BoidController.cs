@@ -1,19 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit.Examples
 {
-    public class Boid
-    {
-        public Vector3 position;
-        public Quaternion rotation;
-        public Vector3 velocity;
-        public Vector3 cohesion;
-        public Vector3 separation;
-        public Vector3 alignment;
-    }
-
     /// <summary>
     /// A single-mesh particle system with birds-like behaviour 
     /// </summary>
@@ -22,29 +14,35 @@ namespace ProceduralToolkit.Examples
     /// </remarks>
     public class BoidController
     {
-        public Vector3 anchor = Vector3.zero;
-        public float spawnSphere = 10;
-        public float worldSphere = 15;
+        [Serializable]
+        public class Config
+        {
+            public Vector3 anchor = Vector3.zero;
+            public float spawnSphere = 10;
+            public float worldSphere = 15;
 
-        public int swarmCount = 2000;
-        public int maxSpeed = 10;
-        public float interactionRadius = 5;
-        public float cohesionCoefficient = 1;
-        public float separationDistance = 3;
-        public float separationCoefficient = 10;
-        public float alignmentCoefficient = 5;
+            public int swarmCount = 2000;
+            public int maxSpeed = 10;
+            public float interactionRadius = 5;
+            public float cohesionCoefficient = 1;
+            public float separationDistance = 3;
+            public float separationCoefficient = 10;
+            public float alignmentCoefficient = 5;
 
-        /// <summary>
-        /// Number of neighbours participating in calculations
-        /// </summary>
-        public int maxBoids = 5;
-        /// <summary>
-        /// Percentage of swarm simulated in each frame
-        /// </summary>
-        public float simulationPercent = 0.01f;
+            /// <summary>
+            /// Number of neighbours participating in calculations
+            /// </summary>
+            public int maxBoids = 5;
+            /// <summary>
+            /// Percentage of swarm simulated in each frame
+            /// </summary>
+            public float simulationPercent = 0.01f;
 
+            public MeshDraft template;
+        }
+
+        private Config config;
         private List<Boid> boids = new List<Boid>();
-        private MeshDraft template;
         private MeshDraft draft;
         private Mesh mesh;
         private List<Boid> neighbours = new List<Boid>();
@@ -53,24 +51,15 @@ namespace ProceduralToolkit.Examples
         /// <summary>
         /// Generate new colors and positions for boids
         /// </summary>
-        public Mesh Generate(Color colorA, Color colorB)
+        public Mesh Generate(Config config)
         {
-            template = MeshDraft.Tetrahedron(0.3f);
+            this.config = config;
 
             // Avoid vertex count overflow
-            swarmCount = Mathf.Min(65000/template.vertices.Count, swarmCount);
+            config.swarmCount = Mathf.Min(65000/config.template.vertices.Count, config.swarmCount);
             // Optimization trick: in each frame we simulate only small percent of all boids
-            maxSimulationSteps = Mathf.RoundToInt(swarmCount*simulationPercent);
-            int vertexCount = swarmCount*template.vertices.Count;
-
-            // Paint template in random color
-            template.colors.Clear();
-            // Assuming that we are dealing with tetrahedron, first vertex should be boid's "nose"
-            template.colors.Add(colorA);
-            for (int i = 1; i < template.vertices.Count; i++)
-            {
-                template.colors.Add(colorB);
-            }
+            maxSimulationSteps = Mathf.RoundToInt(config.swarmCount*config.simulationPercent);
+            int vertexCount = config.swarmCount*config.template.vertices.Count;
 
             draft = new MeshDraft
             {
@@ -82,23 +71,24 @@ namespace ProceduralToolkit.Examples
                 colors = new List<Color>(vertexCount)
             };
 
-            for (var i = 0; i < swarmCount; i++)
+            for (var i = 0; i < config.swarmCount; i++)
             {
                 // Assign random starting values for each boid
                 var boid = new Boid
                 {
-                    position = Random.insideUnitSphere*spawnSphere,
+                    position = Random.insideUnitSphere*config.spawnSphere,
                     rotation = Random.rotation,
-                    velocity = Random.onUnitSphere*maxSpeed
+                    velocity = Random.onUnitSphere*config.maxSpeed
                 };
                 boids.Add(boid);
 
-                draft.Add(template);
+                draft.Add(config.template);
             }
 
             mesh = draft.ToMesh();
             mesh.MarkDynamic();
-            mesh.bounds = new Bounds(Vector3.zero, Vector3.one*worldSphere*2);
+            // Set bounds manually for correct culling
+            mesh.bounds = new Bounds(Vector3.zero, Vector3.one*config.worldSphere*2);
             return mesh;
         }
 
@@ -127,10 +117,10 @@ namespace ProceduralToolkit.Examples
                     Boid neighbour = boids[i];
 
                     Vector3 toNeighbour = neighbour.position - boid.position;
-                    if (toNeighbour.sqrMagnitude < interactionRadius)
+                    if (toNeighbour.sqrMagnitude < config.interactionRadius)
                     {
                         neighbours.Add(neighbour);
-                        if (neighbours.Count == maxBoids)
+                        if (neighbours.Count == config.maxBoids)
                         {
                             break;
                         }
@@ -146,7 +136,7 @@ namespace ProceduralToolkit.Examples
 
                 // Calculate boid parameters
                 int separationCount = 0;
-                for (int i = 0; i < neighbours.Count && i < maxBoids; i++)
+                for (int i = 0; i < neighbours.Count && i < config.maxBoids; i++)
                 {
                     Boid neighbour = neighbours[i];
 
@@ -155,7 +145,7 @@ namespace ProceduralToolkit.Examples
 
                     Vector3 toNeighbour = neighbour.position - boid.position;
                     if (toNeighbour.sqrMagnitude > 0 &&
-                        toNeighbour.sqrMagnitude < separationDistance*separationDistance)
+                        toNeighbour.sqrMagnitude < config.separationDistance*config.separationDistance)
                     {
                         boid.separation += toNeighbour/toNeighbour.sqrMagnitude;
                         separationCount++;
@@ -163,28 +153,28 @@ namespace ProceduralToolkit.Examples
                 }
 
                 // Clamp all parameters to safe values
-                boid.cohesion /= Mathf.Min(neighbours.Count, maxBoids);
-                boid.cohesion = Vector3.ClampMagnitude(boid.cohesion - boid.position, maxSpeed);
-                boid.cohesion *= cohesionCoefficient;
+                boid.cohesion /= Mathf.Min(neighbours.Count, config.maxBoids);
+                boid.cohesion = Vector3.ClampMagnitude(boid.cohesion - boid.position, config.maxSpeed);
+                boid.cohesion *= config.cohesionCoefficient;
 
                 if (separationCount > 0)
                 {
                     boid.separation /= separationCount;
-                    boid.separation = Vector3.ClampMagnitude(boid.separation, maxSpeed);
-                    boid.separation *= separationCoefficient;
+                    boid.separation = Vector3.ClampMagnitude(boid.separation, config.maxSpeed);
+                    boid.separation *= config.separationCoefficient;
                 }
 
-                boid.alignment /= Mathf.Min(neighbours.Count, maxBoids);
-                boid.alignment = Vector3.ClampMagnitude(boid.alignment, maxSpeed);
-                boid.alignment *= alignmentCoefficient;
+                boid.alignment /= Mathf.Min(neighbours.Count, config.maxBoids);
+                boid.alignment = Vector3.ClampMagnitude(boid.alignment, config.maxSpeed);
+                boid.alignment *= config.alignmentCoefficient;
 
                 // Calculate resulting velocity
                 Vector3 velocity = boid.cohesion + boid.separation + boid.alignment;
-                boid.velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
+                boid.velocity = Vector3.ClampMagnitude(velocity, config.maxSpeed);
                 if (boid.velocity == Vector3.zero)
                 {
                     // Prevent boids from stopping
-                    boid.velocity = Random.onUnitSphere*maxSpeed;
+                    boid.velocity = Random.onUnitSphere*config.maxSpeed;
                 }
             }
         }
@@ -200,11 +190,11 @@ namespace ProceduralToolkit.Examples
                 boid.rotation = Quaternion.FromToRotation(Vector3.up, boid.velocity);
 
                 // Contain boids in sphere
-                Vector3 distanceToAnchor = anchor - boid.position;
-                if (distanceToAnchor.sqrMagnitude > worldSphere*worldSphere)
+                Vector3 distanceToAnchor = config.anchor - boid.position;
+                if (distanceToAnchor.sqrMagnitude > config.worldSphere*config.worldSphere)
                 {
-                    boid.velocity += distanceToAnchor/worldSphere;
-                    boid.velocity = Vector3.ClampMagnitude(boid.velocity, maxSpeed);
+                    boid.velocity += distanceToAnchor/config.worldSphere;
+                    boid.velocity = Vector3.ClampMagnitude(boid.velocity, config.maxSpeed);
                 }
 
                 boid.position += boid.velocity*Time.deltaTime;
@@ -214,12 +204,23 @@ namespace ProceduralToolkit.Examples
             mesh.RecalculateNormals();
         }
 
-        private void SetBoidVertices(Boid boid, int index)
+        private void SetBoidVertices(Boid boid, int boidIndex)
         {
-            for (int i = 0; i < template.vertices.Count; i++)
+            for (int i = 0; i < config.template.vertices.Count; i++)
             {
-                draft.vertices[index*template.vertices.Count + i] = boid.rotation*template.vertices[i] + boid.position;
+                int vertexIndex = boidIndex*config.template.vertices.Count + i;
+                draft.vertices[vertexIndex] = boid.rotation*config.template.vertices[i] + boid.position;
             }
+        }
+
+        private class Boid
+        {
+            public Vector3 position;
+            public Quaternion rotation;
+            public Vector3 velocity;
+            public Vector3 cohesion;
+            public Vector3 separation;
+            public Vector3 alignment;
         }
     }
 }
