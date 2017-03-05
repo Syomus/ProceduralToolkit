@@ -56,10 +56,10 @@ namespace ProceduralToolkit.Examples
             this.config = config;
 
             // Avoid vertex count overflow
-            config.swarmCount = Mathf.Min(65000/config.template.vertices.Count, config.swarmCount);
+            config.swarmCount = Mathf.Min(65000/config.template.vertexCount, config.swarmCount);
             // Optimization trick: in each frame we simulate only small percent of all boids
             maxSimulationSteps = Mathf.RoundToInt(config.swarmCount*config.simulationPercent);
-            int vertexCount = config.swarmCount*config.template.vertices.Count;
+            int vertexCount = config.swarmCount*config.template.vertexCount;
 
             draft = new MeshDraft
             {
@@ -206,9 +206,9 @@ namespace ProceduralToolkit.Examples
 
         private void SetBoidVertices(Boid boid, int boidIndex)
         {
-            for (int i = 0; i < config.template.vertices.Count; i++)
+            for (int i = 0; i < config.template.vertexCount; i++)
             {
-                int vertexIndex = boidIndex*config.template.vertices.Count + i;
+                int vertexIndex = boidIndex*config.template.vertexCount + i;
                 draft.vertices[vertexIndex] = boid.rotation*config.template.vertices[i] + boid.position;
             }
         }

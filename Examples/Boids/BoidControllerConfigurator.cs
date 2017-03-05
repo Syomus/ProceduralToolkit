@@ -81,7 +81,7 @@ namespace ProceduralToolkit.Examples.UI
             config.template = MeshDraft.Tetrahedron(0.3f);
             // Assuming that we are dealing with tetrahedron, first vertex should be boid's "nose"
             config.template.colors.Add(colorA);
-            for (int i = 1; i < config.template.vertices.Count; i++)
+            for (int i = 1; i < config.template.vertexCount; i++)
             {
                 config.template.colors.Add(colorB);
             }

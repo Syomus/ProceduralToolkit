@@ -22,6 +22,11 @@ namespace ProceduralToolkit
         public List<Color> colors = new List<Color>();
 
         /// <summary>
+        /// Shortcut for vertices.Count
+        /// </summary>
+        public int vertexCount { get { return vertices.Count; } }
+
+        /// <summary>
         /// Creates an empty MeshDraft
         /// </summary>
         public MeshDraft()
