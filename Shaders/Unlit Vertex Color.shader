@@ -11,6 +11,7 @@
 
             #pragma vertex vert
             #pragma fragment frag
+            #include "UnityCG.cginc"
 
             struct appdata
             {
@@ -27,7 +28,7 @@
             v2f vert (appdata v)
             {
                 v2f o;
-                o.position = mul(UNITY_MATRIX_MVP, v.position);
+                o.position = UnityObjectToClipPos(v.position);
                 o.color = v.color;
                 return o;
             }
