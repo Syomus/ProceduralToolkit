@@ -11,12 +11,17 @@ It is free, open source and does not require a Unity Pro license.
 [Support email](mailto:proceduraltoolkit@syomus.com)
 
 ## Installation instructions
-Requires Unity 5.3 or later.
-Tested on PC and WebGL.
-UnityScript interoperability is not supported.
+Requires **Unity 5.3** or later. Tested on PC and WebGL. UnityScript interoperability is not supported.
 
-Download toolkit from repository or Asset Store and place it somewhere in your Unity project (e.g. "Assets\ProceduralToolkit"). 
-After that you can import ProceduralToolkit namespace and start building your own PCG systems:
+You can install Procedural Toolkit from any of the following sources:
+
+1. Import from the [Asset Store](https://www.assetstore.unity3d.com/#!/content/16508)
+2. Download from [Releases page](https://github.com/Syomus/ProceduralToolkit/releases). Same packages as in the Asset Store.
+3. Clone/download repository from [GitHub](https://github.com/Syomus/ProceduralToolkit). In this case you will have to create a subfolder for toolkit (e.g. `\Assets\ProceduralToolkit`).
+
+Folder containing example classes and scenes (`ProceduralToolkit\Examples`) can be safely removed. The same is true for `ProceduralToolkit\Shaders`, if you are not using examples. Removing `ProceduralToolkit\Editor` will leave you with code-only toolkit.
+
+After installation you can import ProceduralToolkit namespace and start building your own PCG systems:
 ```C#
 using UnityEngine;
 using ProceduralToolkit;
@@ -29,10 +34,6 @@ public class Example : MonoBehaviour
     }
 }
 ```
-
-Folder containing example classes and scenes (".\Examples") can be safely removed. 
-The same is true for ".\Shaders", if you are not using examples. 
-Removing ".\Editor" will leave you with code-only toolkit.
 
 ## Classes
 * ArrayE: Array extensions.
