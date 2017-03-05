@@ -34,6 +34,17 @@ namespace ProceduralToolkit
         public MeshDraft(Mesh mesh)
         {
             name = mesh.name;
+#if UNITY_5_6_OR_NEWER
+            mesh.GetVertices(vertices);
+            mesh.GetTriangles(triangles, 0);
+            mesh.GetNormals(normals);
+            mesh.GetTangents(tangents);
+            mesh.GetUVs(0, uv);
+            mesh.GetUVs(1, uv2);
+            mesh.GetUVs(2, uv3);
+            mesh.GetUVs(3, uv4);
+            mesh.GetColors(colors);
+#else
             vertices.AddRange(mesh.vertices);
             triangles.AddRange(mesh.triangles);
             normals.AddRange(mesh.normals);
@@ -43,6 +54,7 @@ namespace ProceduralToolkit
             uv3.AddRange(mesh.uv3);
             uv4.AddRange(mesh.uv4);
             colors.AddRange(mesh.colors);
+#endif
         }
 
         /// <summary>
