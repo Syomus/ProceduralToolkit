@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -6,6 +7,7 @@ namespace ProceduralToolkit
     /// <summary>
     /// Helper class for procedural mesh generation
     /// </summary>
+    [Serializable]
     public partial class MeshDraft
     {
         public string name = "";
