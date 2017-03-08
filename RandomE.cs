@@ -151,31 +151,6 @@ namespace ProceduralToolkit
         /// </summary>
         public static char uppercaseLetter { get { return Datasets.uppercase.GetRandom(); } }
 
-        /// <summary>
-        /// Returns a random first name
-        /// </summary>
-        public static string name { get { return Chance(0.5f) ? femaleName : maleName; } }
-
-        /// <summary>
-        /// Returns a random female name
-        /// </summary>
-        public static string femaleName { get { return Datasets.femaleNames.GetRandom(); } }
-
-        /// <summary>
-        /// Returns a random male name
-        /// </summary>
-        public static string maleName { get { return Datasets.maleNames.GetRandom(); } }
-
-        /// <summary>
-        /// Returns a random last name
-        /// </summary>
-        public static string lastName { get { return Datasets.lastNames.GetRandom(); } }
-
-        /// <summary>
-        /// Returns a random full name in format "[First name] [Last name]"
-        /// </summary>
-        public static string fullName { get { return string.Format("{0} {1}", name, lastName); } }
-
         #endregion Strings
 
         /// <summary>
