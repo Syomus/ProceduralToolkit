@@ -32,17 +32,17 @@ namespace ProceduralToolkit
         public static Vector2 onUnitCircle3YZ { get { return PTUtils.PointOnCircle3YZ(1, Random.Range(0, 360f)); } }
 
         /// <summary>
-        /// Returns a random point inside a square with side lengths 1
+        /// Returns a random point inside a unit square
         /// </summary>
         public static Vector2 insideUnitSquare { get { return new Vector2(Random.value, Random.value); } }
 
         /// <summary>
-        /// Returns a random point on a perimeter of square with side lengths 1
+        /// Returns a random point on the perimeter of a unit square
         /// </summary>
         public static Vector2 onUnitSquare { get { return PointOnSquare(1, 1); } }
 
         /// <summary>
-        /// Returns a random point inside a cube with side lengths 1
+        /// Returns a random point inside a unit cube
         /// </summary>
         public static Vector3 insideUnitCube { get { return new Vector3(Random.value, Random.value, Random.value); } }
 
