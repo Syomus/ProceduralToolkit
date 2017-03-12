@@ -2,7 +2,7 @@
 
 namespace ProceduralToolkit.Examples.UI
 {
-    public class BreakoutConfigurator : UIBase
+    public class BreakoutConfigurator : ConfiguratorBase
     {
         public Camera mainCamera;
         public RectTransform leftPanel;

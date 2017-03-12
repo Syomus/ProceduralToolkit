@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples.UI
 {
-    public class BoidControllerConfigurator : UIBase
+    public class BoidControllerConfigurator : ConfiguratorBase
     {
         public MeshFilter meshFilter;
         public RectTransform leftPanel;

@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples.UI
 {
-    [CustomEditor(typeof (BuildingGeneratorUI))]
-    public class BuildingGeneratorUIEditor : UnityEditor.Editor
+    [CustomEditor(typeof (BuildingGeneratorConfigurator))]
+    public class BuildingGeneratorConfiguratorEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
@@ -13,7 +13,7 @@ namespace ProceduralToolkit.Examples.UI
             EditorGUILayout.Space();
             if (GUILayout.Button("Generate"))
             {
-                ((BuildingGeneratorUI) target).Generate();
+                ((BuildingGeneratorConfigurator) target).Generate();
             }
         }
     }

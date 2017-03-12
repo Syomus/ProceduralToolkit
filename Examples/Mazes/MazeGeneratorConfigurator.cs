@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace ProceduralToolkit.Examples.UI
 {
-    public class MazeGeneratorConfigurator : UIBase
+    public class MazeGeneratorConfigurator : ConfiguratorBase
     {
         public RectTransform leftPanel;
         public ToggleGroup algorithmsGroup;

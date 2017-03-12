@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples.UI
 {
-    public class LowPolyTerrainGeneratorConfigurator : UIBase
+    public class LowPolyTerrainGeneratorConfigurator : ConfiguratorBase
     {
         public MeshFilter meshFilter;
         public RectTransform leftPanel;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples.UI
 {
-    public class BuildingGeneratorUI : UIBase
+    public class BuildingGeneratorConfigurator : ConfiguratorBase
     {
         public MeshFilter buildingMeshFilter;
         public MeshFilter platformMeshFilter;
@@ -24,10 +24,8 @@ namespace ProceduralToolkit.Examples.UI
         private const int minFloorCount = 1;
         private const int maxFloorCount = 10;
 
-        private const float platformBaseOffset = 0.5f;
         private const float platformHeight = 0.5f;
         private const float platformRadiusOffset = 2;
-        private const int platformSegments = 128;
 
         private List<ColorHSV> targetPalette = new List<ColorHSV>();
         private List<ColorHSV> currentPalette = new List<ColorHSV>();
@@ -87,40 +85,9 @@ namespace ProceduralToolkit.Examples.UI
             float buildingRadius = Mathf.Sqrt(length/2f*length/2f + width/2f*width/2f);
             float platformRadius = buildingRadius + platformRadiusOffset;
 
-            var platformMesh = Platform(platformRadius, platformBaseOffset, platformSegments, platformHeight).ToMesh();
+            var platformMesh = Platform(platformRadius, platformHeight).ToMesh();
             platformMesh.RecalculateBounds();
             platformMeshFilter.mesh = platformMesh;
-        }
-
-        private static MeshDraft Platform(float radius, float baseOffset, int segments, float heignt)
-        {
-            float segmentAngle = 360f/segments;
-            float currentAngle = 0;
-
-            var lowerRing = new List<Vector3>(segments);
-            var upperRing = new List<Vector3>(segments);
-            for (var i = 0; i < segments; i++)
-            {
-                var lowerPoint = PTUtils.PointOnCircle3XZ(radius + baseOffset, currentAngle);
-                lowerRing.Add(lowerPoint + Vector3.down*heignt);
-
-                var upperPoint = PTUtils.PointOnCircle3XZ(radius, currentAngle);
-                upperRing.Add(upperPoint);
-                currentAngle -= segmentAngle;
-            }
-
-            var platform = new MeshDraft {name = "Platform"};
-            var bottom = MeshDraft.TriangleFan(lowerRing);
-            bottom.Add(MeshDraft.Band(lowerRing, upperRing));
-            bottom.Paint(new Color(0.5f, 0.5f, 0.5f, 1));
-            platform.Add(bottom);
-
-            upperRing.Reverse();
-            var top = MeshDraft.TriangleFan(upperRing);
-            top.Paint(new Color(0.8f, 0.8f, 0.8f, 1));
-            platform.Add(top);
-
-            return platform;
         }
     }
 }

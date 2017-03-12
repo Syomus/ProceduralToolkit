@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ProceduralToolkit.Examples
 {
-    public class CellularAutomatonConfigurator : UIBase
+    public class CellularAutomatonConfigurator : ConfiguratorBase
     {
         public RectTransform leftPanel;
         public ToggleGroup toggleGroup;
