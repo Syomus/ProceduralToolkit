@@ -331,11 +331,13 @@ namespace ProceduralToolkit
         /// <param name="percent">between 0.0 [inclusive] and 1.0 [inclusive]</param>
         public static bool Chance(float percent)
         {
+            if (percent == 0) return false;
+            if (percent == 1) return true;
             return Random.value < percent;
         }
 
         /// <summary>
-        /// Returns a random point on a perimeter of square
+        /// Returns a random point on the perimeter of a square with sides <paramref name="a"/> and <paramref name="b"/>
         /// </summary>
         public static Vector2 PointOnSquare(float a, float b)
         {
@@ -355,6 +357,14 @@ namespace ProceduralToolkit
                 return new Vector2(value, b);
             }
             return new Vector2(0, value - a);
+        }
+
+        /// <summary>
+        /// Returns a random point inside <paramref name="bounds"/>
+        /// </summary>
+        public static Vector3 PointInBounds(Bounds bounds)
+        {
+            return Range(bounds.min, bounds.max);
         }
 
         /// <summary>
