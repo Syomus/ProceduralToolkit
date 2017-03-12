@@ -9,14 +9,8 @@ namespace ProceduralToolkit.Examples
         public MeshFilter buildingMeshFilter;
         public MeshFilter platformMeshFilter;
         public RectTransform leftPanel;
-        [Space]
-        [Range(minWidth, maxWidth)]
-        public int width = 15;
-        [Range(minLength, maxLength)]
-        public int length = 30;
-        [Range(minFloorCount, maxFloorCount)]
-        public int floorCount = 5;
-        public bool hasAttic = true;
+        public bool constantSeed = false;
+        public BuildingGenerator.Config config;
 
         private const int minWidth = 10;
         private const int maxWidth = 30;
@@ -28,6 +22,9 @@ namespace ProceduralToolkit.Examples
         private const float platformHeight = 0.5f;
         private const float platformRadiusOffset = 2;
 
+        private BuildingGenerator generator;
+        private Mesh buildingMesh;
+        private Mesh platformMesh;
         private List<ColorHSV> targetPalette = new List<ColorHSV>();
         private List<ColorHSV> currentPalette = new List<ColorHSV>();
 
@@ -38,28 +35,30 @@ namespace ProceduralToolkit.Examples
             Generate();
             currentPalette.AddRange(targetPalette);
 
-            InstantiateControl<SliderControl>(leftPanel).Initialize("Width", minWidth, maxWidth, width, value =>
-            {
-                width = value;
-                Generate();
-            });
-
-            InstantiateControl<SliderControl>(leftPanel).Initialize("Length", minLength, maxLength, length, value =>
-            {
-                length = value;
-                Generate();
-            });
-
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Floor count", minFloorCount, maxFloorCount, floorCount, value =>
+                .Initialize("Width", minWidth, maxWidth, (int) config.width, value =>
                 {
-                    floorCount = value;
+                    config.width = value;
                     Generate();
                 });
 
-            InstantiateControl<ToggleControl>(leftPanel).Initialize("Has attic", hasAttic, value =>
+            InstantiateControl<SliderControl>(leftPanel)
+                .Initialize("Length", minLength, maxLength, (int) config.length, value =>
+                {
+                    config.length = value;
+                    Generate();
+                });
+
+            InstantiateControl<SliderControl>(leftPanel)
+                .Initialize("Floors", minFloorCount, maxFloorCount, config.floors, value =>
+                {
+                    config.floors = value;
+                    Generate();
+                });
+
+            InstantiateControl<ToggleControl>(leftPanel).Initialize("Has attic", config.hasAttic, value =>
             {
-                hasAttic = value;
+                config.hasAttic = value;
                 Generate();
             });
 
@@ -73,22 +72,50 @@ namespace ProceduralToolkit.Examples
 
         public void Generate()
         {
+            if (generator == null)
+            {
+                generator = new BuildingGenerator();
+            }
+
+            if (constantSeed)
+            {
+                Random.InitState(0);
+            }
+
             targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
             targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
 
-            var buildingDraft = BuildingGenerator.BuildingDraft(width, length, floorCount, hasAttic,
-                targetPalette[0].WithSV(0.8f, 0.8f).ToColor());
+            config.palette.wallColor = targetPalette[0].WithSV(0.8f, 0.8f).ToColor();
 
-            var buildingMesh = buildingDraft.ToMesh();
+            config.roofConfig.type = RandomE.GetRandom(RoofType.Flat, RoofType.Hipped, RoofType.Gabled);
+            var buildingDraft = generator.Generate(config);
+
+            if (buildingMesh == null)
+            {
+                buildingMesh = buildingDraft.ToMesh();
+            }
+            else
+            {
+                buildingDraft.ToMesh(ref buildingMesh);
+            }
             buildingMesh.RecalculateBounds();
-            buildingMeshFilter.mesh = buildingMesh;
+            buildingMeshFilter.sharedMesh = buildingMesh;
 
-            float buildingRadius = Mathf.Sqrt(length/2f*length/2f + width/2f*width/2f);
+            float buildingRadius = Mathf.Sqrt(config.length/2f*config.length/2f +
+                                              config.width/2f*config.width/2f);
             float platformRadius = buildingRadius + platformRadiusOffset;
 
-            var platformMesh = Platform(platformRadius, platformHeight).ToMesh();
+            var platformDraft = Platform(platformRadius, platformHeight);
+            if (platformMesh == null)
+            {
+                platformMesh = platformDraft.ToMesh();
+            }
+            else
+            {
+                platformDraft.ToMesh(ref platformMesh);
+            }
             platformMesh.RecalculateBounds();
-            platformMeshFilter.mesh = platformMesh;
+            platformMeshFilter.sharedMesh = platformMesh;
         }
     }
 }

@@ -1,299 +1,307 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
     /// <summary>
-    /// A procedural building generator
+    /// Fully procedural building generator
     /// </summary>
-    /// <remarks>
-    /// http://en.wikipedia.org/wiki/Khrushchyovka
-    /// </remarks>
-    public static class BuildingGenerator
+    public class BuildingGenerator
     {
-        public static Color socleColor = ColorE.silver;
-        public static Color socleWindowColor = ColorE.silver/2;
-        public static Color doorColor = ColorE.silver/2;
-        public static Color wallColor = ColorE.white;
-        public static Color frameColor = ColorE.silver;
-        public static Color glassColor = ColorE.white;
-        public static Color roofColor = ColorE.gray/4;
+        private const float socleHeight = 1;
+        private const float floorHeight = 2.5f;
+        private const float atticHeight = 1;
 
-        private const float SocleHeight = 1;
-        private const float FloorHeight = 3;
-        private const float AtticHeight = 1;
+        private Dictionary<PanelType, List<Func<IFacadePanel>>> constructors =
+            new Dictionary<PanelType, List<Func<IFacadePanel>>>();
+        private Dictionary<PanelType, Func<IFacadePanel>> commonConstructors =
+            new Dictionary<PanelType, Func<IFacadePanel>>();
 
-        private delegate MeshDraft PanelConstructor(Vector3 origin, Vector3 width, Vector3 heigth);
-
-        private static readonly Dictionary<PanelType, PanelConstructor[]> panelConstructors = new Dictionary
-            <PanelType, PanelConstructor[]>
-        {
-            {PanelType.Wall, new PanelConstructor[] {Panels.Wall}},
-            {PanelType.Window, new PanelConstructor[] {Panels.Window}},
-            {PanelType.Balcony, new PanelConstructor[] {Panels.Balcony, Panels.BalconyGlazed}},
-            {PanelType.Entrance, new PanelConstructor[] {Panels.Entrance, Panels.EntranceRoofed}},
-            {PanelType.EntranceWall, new PanelConstructor[] {Panels.EntranceWall, Panels.Window}},
-            {PanelType.EntranceWallLast, new PanelConstructor[] {Panels.Wall}},
-            {PanelType.Socle, new PanelConstructor[] {Panels.Socle, Panels.SocleWindowed}},
-            {PanelType.Attic, new PanelConstructor[] {Panels.AtticVented, Panels.Wall}}
-        };
-
-        private static readonly Dictionary<PanelType, PanelConstructor> commonPanelConstructors =
-            new Dictionary<PanelType, PanelConstructor>();
-
-        private delegate MeshDraft RoofConstructor(Vector3 a, Vector3 b, Vector3 c, Vector3 d);
-
-        private static readonly Dictionary<RoofType, RoofConstructor> roofConstructors = new Dictionary
-            <RoofType, RoofConstructor>
-        {
-            {RoofType.Flat, Roofs.FlatRoof},
-            {RoofType.FlatOverhang, Roofs.FlatOverhangRoof},
-            {RoofType.Gabled, Roofs.GabledRoof},
-            {RoofType.Hipped, Roofs.HippedRoof}
-        };
-
-        private static readonly Dictionary<PanelSize, float> sizeValues = new Dictionary<PanelSize, float>
+        private Dictionary<PanelSize, float> sizeValues = new Dictionary<PanelSize, float>
         {
             {PanelSize.Narrow, 2.5f},
             {PanelSize.Wide, 3},
         };
 
-        private class FloorPlan
+        public MeshDraft Generate(Config config)
         {
-            public float height;
-            public List<Panel> panels = new List<Panel>();
-        }
+            InitializeConstructors(config.palette);
 
-        public static MeshDraft BuildingDraft(float width, float length, int floorCount, bool hasAttic, Color wallColor)
-        {
-            float height = FloorHeight*floorCount + SocleHeight + (hasAttic ? AtticHeight : 0);
-            BuildingGenerator.wallColor = wallColor.WithA(0);
-
-            var draft = new MeshDraft {name = "Building"};
-            var corners = new Vector3[]
+            var foundationPolygon = new List<Vector2>
             {
-                Vector3.left*length/2 + Vector3.back*width/2,
-                Vector3.right*length/2 + Vector3.back*width/2,
-                Vector3.right*length/2 + Vector3.forward*width/2,
-                Vector3.left*length/2 + Vector3.forward*width/2
+                Vector2.left*config.length/2 + Vector2.down*config.width/2,
+                Vector2.right*config.length/2 + Vector2.down*config.width/2,
+                Vector2.right*config.length/2 + Vector2.up*config.width/2,
+                Vector2.left*config.length/2 + Vector2.up*config.width/2
             };
 
-            commonPanelConstructors[PanelType.Entrance] = panelConstructors[PanelType.Entrance].GetRandom();
-            commonPanelConstructors[PanelType.EntranceWall] = panelConstructors[PanelType.EntranceWall].GetRandom();
+            commonConstructors[PanelType.Entrance] = constructors[PanelType.Entrance].GetRandom();
+            commonConstructors[PanelType.EntranceWindow] = constructors[PanelType.EntranceWindow].GetRandom();
 
-            List<FloorPlan> facadePlan0 = FacadeGenerator(length, floorCount, hasAttic, true, true);
-            draft.Add(Facade(corners[0], Vector3.right, facadePlan0));
-            List<FloorPlan> facadePlan1 = FacadeGenerator(width, floorCount, hasAttic);
-            draft.Add(Facade(corners[1], Vector3.forward, facadePlan1));
-            List<FloorPlan> facadePlan2 = FacadeGenerator(length, floorCount, hasAttic, false, true);
-            draft.Add(Facade(corners[2], Vector3.left, facadePlan2));
-            List<FloorPlan> facadePlan3 = FacadeGenerator(width, floorCount, hasAttic);
-            draft.Add(Facade(corners[3], Vector3.back, facadePlan3));
+            var facadeLayouts = new List<FacadeLayout>();
+            for (int i = 0; i < foundationPolygon.Count; i++)
+            {
+                Vector2 a = foundationPolygon[i];
+                Vector2 b = foundationPolygon.GetLooped(i + 1);
+                float? entranceInterval = i == 0 ? config.entranceInterval : (float?) null;
+                bool hasBalconies = RandomE.Chance(0.5f);
+                facadeLayouts.Add(GenerateFacade(a, b, config.floors, hasBalconies, config.hasAttic, entranceInterval));
+            }
 
-            draft.Add(Roof(corners[0], corners[1], corners[2], corners[3], Vector3.up*height));
+            float facadeHeight = floorHeight*config.floors + socleHeight + (config.hasAttic ? atticHeight : 0);
 
-            var basement = MeshDraft.Quad(corners[0], corners[1], corners[2], corners[3]);
-            basement.Paint(roofColor);
-            draft.Add(basement);
+            var buildingDraft = BuildingGeneratorUtils.GenerateFacades(foundationPolygon, facadeLayouts);
+            buildingDraft.uv.Clear();
 
-            return draft;
+            var roof = RoofGenerator.Generate(foundationPolygon, facadeHeight, config.roofConfig);
+            roof.Paint(config.palette.roofColor);
+            buildingDraft.Add(roof);
+
+            return buildingDraft;
         }
 
-        private static List<FloorPlan> FacadeGenerator(float width, int floorCount, bool hasAttic,
-            bool hasEntrances = false,
-            bool longFacade = false)
+        private void InitializeConstructors(Palette palette)
         {
-            List<PanelSize> panelSizes = SplitWallIntoPanels(width);
-            int panelCount = panelSizes.Count;
-
-            var floors = new List<FloorPlan>(floorCount + 1);
-            int entrances = (int) (width/10 - 1);
-            int entranceCount = 1;
-            int entranceIndex = panelCount*entranceCount/(entrances + 1);
-
-            for (var i = 0; i < floorCount + 1; i++)
+            constructors[PanelType.Wall] = new List<Func<IFacadePanel>>
             {
-                var floorPlan = new FloorPlan {height = i == 0 ? SocleHeight : FloorHeight};
-                floors.Add(floorPlan);
+                () => new ProceduralWall(palette.wallColor)
+            };
+            constructors[PanelType.Window] = new List<Func<IFacadePanel>>
+            {
+                () => new ProceduralWindow(palette.wallColor, palette.frameColor, palette.glassColor)
+            };
+            constructors[PanelType.Balcony] = new List<Func<IFacadePanel>>
+            {
+                () => new ProceduralBalcony(palette.wallColor, palette.frameColor, palette.glassColor),
+                () => new ProceduralBalconyGlazed(palette.wallColor, palette.frameColor, palette.glassColor,
+                    palette.roofColor)
+            };
+            constructors[PanelType.Entrance] = new List<Func<IFacadePanel>>
+            {
+                () => new ProceduralEntrance(palette.wallColor, palette.doorColor),
+                () => new ProceduralEntranceRoofed(palette.wallColor, palette.doorColor, palette.roofColor)
+            };
+            constructors[PanelType.EntranceWindow] = new List<Func<IFacadePanel>>
+            {
+                () => new ProceduralEntranceWindow(palette.wallColor, palette.frameColor, palette.glassColor),
+                () => new ProceduralWindow(palette.wallColor, palette.frameColor, palette.glassColor)
+            };
+            constructors[PanelType.EntranceWallLast] = new List<Func<IFacadePanel>>
+            {
+                () => new ProceduralWall(palette.wallColor)
+            };
+            constructors[PanelType.Socle] = new List<Func<IFacadePanel>>
+            {
+                () => new ProceduralSocle(palette.socleColor),
+                () => new ProceduralSocleWindowed(palette.socleColor, palette.socleWindowColor)
+            };
+            constructors[PanelType.Attic] = new List<Func<IFacadePanel>>
+            {
+                () => new ProceduralAtticVented(palette.wallColor, palette.roofColor),
+                () => new ProceduralWall(palette.wallColor)
+            };
+        }
 
-                for (var j = 0; j < panelCount; j++)
+        private FacadeLayout GenerateFacade(
+            Vector2 a,
+            Vector2 b,
+            int floors,
+            bool hasBalconies,
+            bool hasAttic,
+            float? entranceInterval)
+        {
+            float facadeWidth = (b - a).magnitude;
+            List<PanelSize> panelSizes = DivideFacade(sizeValues, facadeWidth);
+
+            var facadeLayout = GenerateFacadeChunk(facadeWidth, panelSizes, floors, hasBalconies, hasAttic,
+                entranceInterval);
+            facadeLayout.origin = Vector2.zero;
+            return facadeLayout;
+        }
+
+        private FacadeLayout GenerateFacadeChunk(
+            float facadeWidth,
+            List<PanelSize> panelSizes,
+            int floors,
+            bool hasBalconies,
+            bool hasAttic,
+            float? entranceInterval)
+        {
+            var facadeLayout = new VerticalLayout();
+            float facadeHeight = 0;
+
+            if (entranceInterval.HasValue)
+            {
+                int entranceCount = Mathf.Max(Mathf.FloorToInt(facadeWidth/entranceInterval.Value) - 1, 1);
+                int entranceIndexInterval = (panelSizes.Count - entranceCount)/(entranceCount + 1);
+
+                var horizontal = new HorizontalLayout();
+                int lastEntranceIndex = -1;
+                for (int i = 0; i < entranceCount; i++)
                 {
-                    // On socle floor we have entrances and socle panels
-                    if (i == 0)
+                    int entranceIndex = (i + 1)*entranceIndexInterval + i;
+
+                    horizontal.Add(ConstructFacadeChunk(panelSizes, lastEntranceIndex + 1, entranceIndex, floors,
+                        hasBalconies));
+
+                    horizontal.Add(ConstructEntranceVertical(sizeValues[panelSizes[entranceIndex]], floors));
+
+                    if (i == entranceCount - 1)
                     {
-                        if (hasEntrances && j == entranceIndex && entranceCount <= entrances)
-                        {
-                            floorPlan.panels.Add(new Panel
-                            {
-                                type = PanelType.Entrance,
-                                size = panelSizes[j],
-                                height = FloorHeight
-                            });
-                            entranceCount++;
-                            entranceIndex = panelCount*entranceCount/(entrances + 1);
-                        }
-                        else
-                        {
-                            floorPlan.panels.Add(new Panel
-                            {
-                                type = PanelType.Socle,
-                                size = panelSizes[j],
-                                height = SocleHeight
-                            });
-                        }
+                        horizontal.Add(ConstructFacadeChunk(panelSizes, entranceIndex + 1, panelSizes.Count, floors,
+                            hasBalconies));
                     }
-                    // On first floor we decorate entrances with entrance walls,
-                    // place windows on long facades and regular walls on short facades
-                    else if (i == 1)
+
+                    lastEntranceIndex = entranceIndex;
+                }
+
+                facadeLayout.Add(horizontal);
+                facadeHeight += socleHeight + floors*floorHeight;
+            }
+            else
+            {
+                var socle = BuildingGeneratorUtils.ConstructHorizontal(
+                    constructors: constructors[PanelType.Socle],
+                    height: socleHeight,
+                    getPanelWidth: index => sizeValues[panelSizes[index]],
+                    count: panelSizes.Count);
+
+                facadeLayout.Add(socle);
+                facadeHeight += socleHeight;
+
+                for (int floorIndex = 0; floorIndex < floors; floorIndex++)
+                {
+                    HorizontalLayout floor;
+                    if (floorIndex == 0)
                     {
-                        if (floors[0].panels[j].type == PanelType.Entrance)
-                        {
-                            floorPlan.panels.Add(new Panel
-                            {
-                                type = PanelType.EntranceWall,
-                                size = panelSizes[j],
-                                height = FloorHeight,
-                                heightOffset = FloorHeight - SocleHeight
-                            });
-                        }
-                        else if (longFacade)
-                        {
-                            floorPlan.panels.Add(new Panel
-                            {
-                                type = PanelType.Window,
-                                size = panelSizes[j],
-                                height = FloorHeight
-                            });
-                        }
-                        else
-                        {
-                            floorPlan.panels.Add(new Panel
-                            {
-                                type = PanelType.Wall,
-                                size = panelSizes[j],
-                                height = FloorHeight
-                            });
-                        }
+                        floor = BuildingGeneratorUtils.ConstructHorizontal(
+                            constructors: constructors[PanelType.Window],
+                            height: floorHeight,
+                            getPanelWidth: index => sizeValues[panelSizes[index]],
+                            count: panelSizes.Count);
                     }
-                    // On second floor and upper we repeat layout of the first floor
                     else
                     {
-                        floorPlan.panels.Add(new Panel(floors[i - 1].panels[j]));
+                        floor = BuildingGeneratorUtils.ConstructHorizontal(
+                            constructors: hasBalconies
+                                ? constructors[PanelType.Balcony]
+                                : constructors[PanelType.Window],
+                            height: floorHeight,
+                            getPanelWidth: index => sizeValues[panelSizes[index]],
+                            count: panelSizes.Count);
                     }
 
-                    // Entrance-type panel on the last floor should have special model
-                    if (i == floorCount && (floors[i - 1].panels[j].type == PanelType.Entrance ||
-                                            floors[i - 1].panels[j].type == PanelType.EntranceWall))
-                    {
-                        floorPlan.panels[j].type = PanelType.EntranceWallLast;
-                        floorPlan.panels[j].height = SocleHeight;
-                        floorPlan.panels[j].heightOffset = FloorHeight - SocleHeight;
-                    }
-                }
-
-                // Short facade can have windows, but their positions should have horizontal symmetry
-                if (i == 1 && !longFacade)
-                {
-                    // Iterate from corner to center of facade and replace walls with windows
-                    for (int j = 0; j <= panelCount/2; j++)
-                    {
-                        if (j != 0 && j != panelCount - 1 && RandomE.Chance(0.5f))
-                        {
-                            floorPlan.panels[j].type = PanelType.Window;
-                            floorPlan.panels[panelCount - 1 - j].type = PanelType.Window;
-                        }
-                    }
-                }
-
-                // Symmetrically replace windows with balconies
-                if (i == 2)
-                {
-                    for (int j = 0; j <= panelCount/2; j++)
-                    {
-                        if (floorPlan.panels[j].type == PanelType.Window &&
-                            floorPlan.panels[panelCount - 1 - j].type == PanelType.Window && RandomE.Chance(0.5f))
-                        {
-                            floorPlan.panels[j].type = PanelType.Balcony;
-                            floorPlan.panels[panelCount - 1 - j].type = PanelType.Balcony;
-                        }
-                    }
+                    facadeLayout.Add(floor);
+                    facadeHeight += floorHeight;
                 }
             }
 
-            // Attach attic on top
             if (hasAttic)
             {
-                var floorPlan = new FloorPlan {height = AtticHeight};
-                floors.Add(floorPlan);
+                var attic = BuildingGeneratorUtils.ConstructHorizontal(
+                    constructors: constructors[PanelType.Attic],
+                    height: atticHeight,
+                    getPanelWidth: index => sizeValues[panelSizes[index]],
+                    count: panelSizes.Count);
 
-                for (var i = 0; i < panelCount; i++)
-                {
-                    floorPlan.panels.Add(new Panel
-                    {
-                        type = PanelType.Attic,
-                        size = panelSizes[i],
-                        height = AtticHeight
-                    });
-                }
+                facadeLayout.Add(attic);
+                facadeHeight += atticHeight;
             }
 
-            return floors;
+            facadeLayout.width = facadeWidth;
+            facadeLayout.height = facadeHeight;
+            return facadeLayout;
         }
 
-        private static List<PanelSize> SplitWallIntoPanels(float wallLength)
+        private VerticalLayout ConstructEntranceVertical(float width, int floors)
         {
-            Dictionary<PanelSize, int> knapsack = PTUtils.Knapsack(sizeValues, wallLength);
-            var panelSizes = new List<PanelSize>();
+            var vertical = BuildingGeneratorUtils.ConstructVertical(
+                constructor: commonConstructors[PanelType.EntranceWindow],
+                width: width,
+                panelHeight: floorHeight,
+                count: floors - 1);
+
+            var entrance = commonConstructors[PanelType.Entrance]();
+            entrance.height = floorHeight;
+            vertical.Insert(0, entrance);
+
+            vertical.Add(constructors[PanelType.EntranceWallLast].GetRandom()());
+            return vertical;
+        }
+
+        private FacadeLayout ConstructFacadeChunk(List<PanelSize> panelSizes, int from, int to, int floors,
+            bool hasBalconies)
+        {
+            var sizes = panelSizes.GetRange(from, to - from);
+            float chunkWidth = 0;
+            foreach (var size in sizes)
+            {
+                chunkWidth += sizeValues[size];
+            }
+            return GenerateFacadeChunk(chunkWidth, sizes, floors, hasBalconies, false, null);
+        }
+
+        private static List<PanelSize> DivideFacade(Dictionary<PanelSize, float> sizeValues, float facadeWidth)
+        {
+            Dictionary<PanelSize, int> knapsack = PTUtils.Knapsack(sizeValues, facadeWidth);
+            var sizes = new List<PanelSize>();
             foreach (var pair in knapsack)
             {
                 for (var i = 0; i < pair.Value; i++)
                 {
-                    panelSizes.Add(pair.Key);
+                    sizes.Add(pair.Key);
                 }
             }
-            panelSizes.Shuffle();
-            return panelSizes;
+            sizes.Shuffle();
+            return sizes;
         }
 
-        private static MeshDraft Facade(Vector3 origin, Vector3 direction, List<FloorPlan> facadePlan)
+        [Serializable]
+        public class Config
         {
-            var draft = new MeshDraft();
-
-            Vector3 height = Vector3.zero;
-            foreach (FloorPlan floor in facadePlan)
+            public float width = 12;
+            public float length = 36;
+            public int floors = 5;
+            public float entranceInterval = 12;
+            public bool hasAttic = true;
+            public RoofConfig roofConfig = new RoofConfig
             {
-                List<Panel> panels = floor.panels;
-
-                Vector3 panelOrigin = origin + height;
-                foreach (var panel in panels)
-                {
-                    Vector3 offset = Vector3.up*panel.heightOffset;
-                    Vector3 panelWidth = direction.normalized*sizeValues[panel.size];
-                    Vector3 panelHeight = Vector3.up*panel.height;
-
-                    PanelConstructor panelConstructor;
-                    if (commonPanelConstructors.ContainsKey(panel.type))
-                    {
-                        panelConstructor = commonPanelConstructors[panel.type];
-                    }
-                    else
-                    {
-                        panelConstructor = panelConstructors[panel.type].GetRandom();
-                    }
-                    draft.Add(panelConstructor(panelOrigin + offset, panelWidth, panelHeight));
-
-                    panelOrigin += panelWidth;
-                }
-                height += Vector3.up*floor.height;
-            }
-
-            return draft;
+                type = RoofType.Flat,
+                thickness = 0.2f,
+                overhang = 0.2f,
+            };
+            public Palette palette = new Palette();
         }
 
-        private static MeshDraft Roof(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector3 height)
+        [Serializable]
+        public class Palette
         {
-            RoofConstructor roofConstructor = roofConstructors.GetRandom();
-            return roofConstructor(a + height, b + height, c + height, d + height);
+            public Color socleColor = ColorE.silver;
+            public Color socleWindowColor = ColorE.silver/2;
+            public Color doorColor = ColorE.silver/2;
+            public Color wallColor = ColorE.white;
+            public Color frameColor = ColorE.silver;
+            public Color glassColor = ColorE.white;
+            public Color roofColor = ColorE.gray/4;
         }
+
+        private enum PanelSize
+        {
+            Narrow,
+            Wide
+        }
+
+        private enum PanelType
+        {
+            Wall,
+            Window,
+            Balcony,
+            Entrance,
+            EntranceWindow,
+            EntranceWallLast,
+            Socle,
+            Attic,
+        };
     }
 }
