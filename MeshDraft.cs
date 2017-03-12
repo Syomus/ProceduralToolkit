@@ -189,6 +189,76 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Flips UV map horizontally in selected <paramref name="channel"/>
+        /// </summary>
+        public void FlipUVHorizontally(int channel = 0)
+        {
+            List<Vector2> list;
+            switch (channel)
+            {
+                case 0:
+                    list = uv;
+                    break;
+                case 1:
+                    list = uv2;
+                    break;
+                case 2:
+                    list = uv3;
+                    break;
+                case 3:
+                    list = uv4;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("channel");
+            }
+            for (var i = 0; i < list.Count; i++)
+            {
+                list[i] = new Vector2(1 - list[i].x, list[i].y);
+            }
+        }
+
+        /// <summary>
+        /// Flips UV map vertically in selected <paramref name="channel"/>
+        /// </summary>
+        public void FlipUVVertically(int channel = 0)
+        {
+            List<Vector2> list;
+            switch (channel)
+            {
+                case 0:
+                    list = uv;
+                    break;
+                case 1:
+                    list = uv2;
+                    break;
+                case 2:
+                    list = uv3;
+                    break;
+                case 3:
+                    list = uv4;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("channel");
+            }
+            for (var i = 0; i < list.Count; i++)
+            {
+                list[i] = new Vector2(list[i].x, 1 - list[i].y);
+            }
+        }
+
+        /// <summary>
+        /// Projects vertices on a sphere with given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
+        /// </summary>
+        public void Spherify(float radius, Vector3 center = default(Vector3))
+        {
+            for (var i = 0; i < vertices.Count; i++)
+            {
+                normals[i] = (vertices[i] - center).normalized;
+                vertices[i] = normals[i]*radius;
+            }
+        }
+
+        /// <summary>
         /// Creates new mesh from information in draft
         /// </summary>
         public Mesh ToMesh()

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ProceduralToolkit
 {
@@ -113,6 +114,50 @@ namespace ProceduralToolkit
             {
                 normals[i] = -normals[i];
             }
+            mesh.normals = normals;
+        }
+
+        /// <summary>
+        /// Flips UV map horizontally in selected <paramref name="channel"/>
+        /// </summary>
+        public static void FlipUVHorizontally(this Mesh mesh, int channel = 0)
+        {
+            var list = new List<Vector2>();
+            mesh.GetUVs(channel, list);
+            for (var i = 0; i < list.Count; i++)
+            {
+                list[i] = new Vector2(1 - list[i].x, list[i].y);
+            }
+            mesh.SetUVs(channel, list);
+        }
+
+        /// <summary>
+        /// Flips UV map vertically in selected <paramref name="channel"/>
+        /// </summary>
+        public static void FlipUVVertically(this Mesh mesh, int channel = 0)
+        {
+            var list = new List<Vector2>();
+            mesh.GetUVs(channel, list);
+            for (var i = 0; i < list.Count; i++)
+            {
+                list[i] = new Vector2(list[i].x, 1 - list[i].y);
+            }
+            mesh.SetUVs(channel, list);
+        }
+
+        /// <summary>
+        /// Projects vertices on a sphere with given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
+        /// </summary>
+        public static void Spherify(this Mesh mesh, float radius, Vector3 center = default(Vector3))
+        {
+            var vertices = mesh.vertices;
+            var normals = mesh.normals;
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                normals[i] = (vertices[i] - center).normalized;
+                vertices[i] = normals[i]*radius;
+            }
+            mesh.vertices = vertices;
             mesh.normals = normals;
         }
     }
