@@ -6,12 +6,12 @@ namespace ProceduralToolkit.Examples.Primitives
     public class Sphere : MonoBehaviour
     {
         public float radius = 1f;
-        public int longitudeSegments = 16;
-        public int latitudeSegments = 16;
+        public int horizontalSegments = 16;
+        public int verticalSegments = 16;
 
         private void Start()
         {
-            GetComponent<MeshFilter>().mesh = MeshE.Sphere(radius, longitudeSegments, latitudeSegments);
+            GetComponent<MeshFilter>().mesh = MeshE.Sphere(radius, horizontalSegments, verticalSegments);
         }
     }
 }

@@ -475,25 +475,25 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        public static MeshDraft FlatSphere(float radius, int longitudeSegments, int latitudeSegments)
+        public static MeshDraft FlatSphere(float radius, int horizontalSegments, int verticalSegments)
         {
-            var draft = FlatSpheroid(radius, radius, longitudeSegments, latitudeSegments);
+            var draft = FlatSpheroid(radius, radius, horizontalSegments, verticalSegments);
             draft.name = "Flat sphere";
             return draft;
         }
 
-        public static MeshDraft FlatSpheroid(float radius, float height, int longitudeSegments, int latitudeSegments)
+        public static MeshDraft FlatSpheroid(float radius, float height, int horizontalSegments, int verticalSegments)
         {
-            var draft = FlatRevolutionSurface(PTUtils.PointOnSpheroid, radius, height, longitudeSegments,
-                latitudeSegments);
+            var draft = FlatRevolutionSurface(PTUtils.PointOnSpheroid, radius, height, horizontalSegments,
+                verticalSegments);
             draft.name = "Flat spheroid";
             return draft;
         }
 
-        public static MeshDraft FlatTeardrop(float radius, float height, int longitudeSegments, int latitudeSegments)
+        public static MeshDraft FlatTeardrop(float radius, float height, int horizontalSegments, int verticalSegments)
         {
-            var draft = FlatRevolutionSurface(PTUtils.PointOnTeardrop, radius, height, longitudeSegments,
-                latitudeSegments);
+            var draft = FlatRevolutionSurface(PTUtils.PointOnTeardrop, radius, height, horizontalSegments,
+                verticalSegments);
             draft.name = "Flat teardrop";
             return draft;
         }
@@ -502,25 +502,25 @@ namespace ProceduralToolkit
             Func<float, float, float, float, Vector3> surfaceFunction,
             float radius,
             float height,
-            int longitudeSegments,
-            int latitudeSegments)
+            int horizontalSegments,
+            int verticalSegments)
         {
-            float longitudeSegmentAngle = 360f/longitudeSegments;
-            float latitudeSegmentAngle = 180f/latitudeSegments;
-            float currentLatitude = -90;
+            float horizontalSegmentAngle = 360f/horizontalSegments;
+            float verticalSegmentAngle = 180f/verticalSegments;
+            float currentVerticalAngle = -90;
 
-            var rings = new List<List<Vector3>>(latitudeSegments);
-            for (int i = 0; i <= latitudeSegments; i++)
+            var rings = new List<List<Vector3>>(verticalSegments);
+            for (int i = 0; i <= verticalSegments; i++)
             {
-                var currentLongitude = 0f;
-                var ring = new List<Vector3>(longitudeSegments);
-                for (int j = 0; j < longitudeSegments; j++)
+                float currentHorizontalAngle = 0f;
+                var ring = new List<Vector3>(horizontalSegments);
+                for (int j = 0; j < horizontalSegments; j++)
                 {
-                    ring.Add(surfaceFunction(radius, height, currentLongitude, currentLatitude));
-                    currentLongitude -= longitudeSegmentAngle;
+                    ring.Add(surfaceFunction(radius, height, currentHorizontalAngle, currentVerticalAngle));
+                    currentHorizontalAngle -= horizontalSegmentAngle;
                 }
                 rings.Add(ring);
-                currentLatitude += latitudeSegmentAngle;
+                currentVerticalAngle += verticalSegmentAngle;
             }
 
             var draft = new MeshDraft {name = "Flat revolution surface"};
@@ -531,24 +531,24 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        public static MeshDraft Sphere(float radius, int longitudeSegments, int latitudeSegments)
+        public static MeshDraft Sphere(float radius, int horizontalSegments, int verticalSegments)
         {
-            var draft = Spheroid(radius, radius, longitudeSegments, latitudeSegments);
+            var draft = Spheroid(radius, radius, horizontalSegments, verticalSegments);
             draft.name = "Sphere";
             return draft;
         }
 
-        public static MeshDraft Spheroid(float radius, float height, int longitudeSegments, int latitudeSegments)
+        public static MeshDraft Spheroid(float radius, float height, int horizontalSegments, int verticalSegments)
         {
-            var draft = RevolutionSurface(PTUtils.PointOnSpheroid, radius, height, longitudeSegments, latitudeSegments);
+            var draft = RevolutionSurface(PTUtils.PointOnSpheroid, radius, height, horizontalSegments, verticalSegments);
             draft.name = "Spheroid";
             return draft;
         }
 
-        public static MeshDraft Teardrop(float radius, float height, int longitudeSegments, int latitudeSegments)
+        public static MeshDraft Teardrop(float radius, float height, int horizontalSegments, int verticalSegments)
         {
-            var draft = RevolutionSurface(PTUtils.PointOnTeardrop, radius, height, longitudeSegments,
-                latitudeSegments);
+            var draft = RevolutionSurface(PTUtils.PointOnTeardrop, radius, height, horizontalSegments,
+                verticalSegments);
             draft.name = "Teardrop";
             return draft;
         }
@@ -557,38 +557,38 @@ namespace ProceduralToolkit
             Func<float, float, float, float, Vector3> surfaceFunction,
             float radius,
             float height,
-            int longitudeSegments,
-            int latitudeSegments)
+            int horizontalSegments,
+            int verticalSegments)
         {
             var draft = new MeshDraft {name = "Revolution surface"};
 
-            float longitudeSegmentAngle = 360f/longitudeSegments;
-            float latitudeSegmentAngle = 180f/latitudeSegments;
-            float currentLatitude = -90;
+            float horizontalSegmentAngle = 360f/horizontalSegments;
+            float verticalSegmentAngle = 180f/verticalSegments;
+            float currentVerticalAngle = -90;
 
-            for (int ring = 0; ring <= latitudeSegments; ring++)
+            for (int ring = 0; ring <= verticalSegments; ring++)
             {
-                var currentLongitude = 0f;
-                for (int i = 0; i < longitudeSegments; i++)
+                float currentHorizontalAngle = 0f;
+                for (int i = 0; i < horizontalSegments; i++)
                 {
-                    var point = surfaceFunction(radius, height, currentLongitude, currentLatitude);
+                    Vector3 point = surfaceFunction(radius, height, currentHorizontalAngle, currentVerticalAngle);
                     draft.vertices.Add(point);
                     draft.normals.Add(point.normalized);
-                    draft.uv.Add(new Vector2((float) i/longitudeSegments, (float) ring/latitudeSegments));
-                    currentLongitude -= longitudeSegmentAngle;
+                    draft.uv.Add(new Vector2((float) i/horizontalSegments, (float) ring/verticalSegments));
+                    currentHorizontalAngle -= horizontalSegmentAngle;
                 }
-                currentLatitude += latitudeSegmentAngle;
+                currentVerticalAngle += verticalSegmentAngle;
             }
 
-            for (int ring = 0; ring < latitudeSegments; ring++)
+            for (int ring = 0; ring < verticalSegments; ring++)
             {
                 int i0, i1, i2, i3;
-                for (int i = 0; i < longitudeSegments - 1; i++)
+                for (int i = 0; i < horizontalSegments - 1; i++)
                 {
-                    i0 = ring*longitudeSegments + i;
-                    i1 = (ring + 1)*longitudeSegments + i;
-                    i2 = ring*longitudeSegments + i + 1;
-                    i3 = (ring + 1)*longitudeSegments + i + 1;
+                    i0 = ring*horizontalSegments + i;
+                    i1 = (ring + 1)*horizontalSegments + i;
+                    i2 = ring*horizontalSegments + i + 1;
+                    i3 = (ring + 1)*horizontalSegments + i + 1;
 
                     draft.triangles.Add(i0);
                     draft.triangles.Add(i1);
@@ -599,10 +599,10 @@ namespace ProceduralToolkit
                     draft.triangles.Add(i3);
                 }
 
-                i0 = (ring + 1)*longitudeSegments - 1;
-                i1 = (ring + 2)*longitudeSegments - 1;
-                i2 = ring*longitudeSegments;
-                i3 = (ring + 1)*longitudeSegments;
+                i0 = (ring + 1)*horizontalSegments - 1;
+                i1 = (ring + 2)*horizontalSegments - 1;
+                i2 = ring*horizontalSegments;
+                i3 = (ring + 1)*horizontalSegments;
 
                 draft.triangles.Add(i0);
                 draft.triangles.Add(i1);

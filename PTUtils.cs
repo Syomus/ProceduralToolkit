@@ -128,11 +128,11 @@ namespace ProceduralToolkit
         /// Returns point on sphere in geographic coordinate system
         /// </summary>
         /// <param name="radius">Sphere radius</param>
-        /// <param name="longitudeDegrees">Longitude in degrees [0, 360]</param>
-        /// <param name="latitudeDegrees">Latitude in degrees [-90, 90]</param>
-        public static Vector3 PointOnSphere(float radius, float longitudeDegrees, float latitudeDegrees)
+        /// <param name="horizontalAngle">Horizontal angle in degrees [0, 360]</param>
+        /// <param name="verticalAngle">Vertical angle in degrees [-90, 90]</param>
+        public static Vector3 PointOnSphere(float radius, float horizontalAngle, float verticalAngle)
         {
-            return PointOnSpheroid(radius, radius, longitudeDegrees, latitudeDegrees);
+            return PointOnSpheroid(radius, radius, horizontalAngle, verticalAngle);
         }
 
         /// <summary>
@@ -140,18 +140,18 @@ namespace ProceduralToolkit
         /// </summary>
         /// <param name="radius">Spheroid radius</param>
         /// <param name="height">Spheroid height</param>
-        /// <param name="longitudeDegrees">Longitude in degrees [0, 360]</param>
-        /// <param name="latitudeDegrees">Latitude in degrees [-90, 90]</param>
-        public static Vector3 PointOnSpheroid(float radius, float height, float longitudeDegrees, float latitudeDegrees)
+        /// <param name="horizontalAngle">Horizontal angle in degrees [0, 360]</param>
+        /// <param name="verticalAngle">Vertical angle in degrees [-90, 90]</param>
+        public static Vector3 PointOnSpheroid(float radius, float height, float horizontalAngle, float verticalAngle)
         {
-            float longitudeRadians = longitudeDegrees*Mathf.Deg2Rad;
-            float latitudeRadians = latitudeDegrees*Mathf.Deg2Rad;
-            float cosLatitude = Mathf.Cos(latitudeRadians);
+            float horizontalRadians = horizontalAngle*Mathf.Deg2Rad;
+            float verticalRadians = verticalAngle*Mathf.Deg2Rad;
+            float cosVertical = Mathf.Cos(verticalRadians);
 
             return new Vector3(
-                x: radius*Mathf.Sin(longitudeRadians)*cosLatitude,
-                y: height*Mathf.Sin(latitudeRadians),
-                z: radius*Mathf.Cos(longitudeRadians)*cosLatitude);
+                x: radius*Mathf.Sin(horizontalRadians)*cosVertical,
+                y: height*Mathf.Sin(verticalRadians),
+                z: radius*Mathf.Cos(horizontalRadians)*cosVertical);
         }
 
         /// <summary>
@@ -159,19 +159,19 @@ namespace ProceduralToolkit
         /// </summary>
         /// <param name="radius">Teardrop radius</param>
         /// <param name="height">Teardrop height</param>
-        /// <param name="longitudeDegrees">Longitude in degrees [0, 360]</param>
-        /// <param name="latitudeDegrees">Latitude in degrees [-90, 90]</param>
-        public static Vector3 PointOnTeardrop(float radius, float height, float longitudeDegrees, float latitudeDegrees)
+        /// <param name="horizontalAngle">Horizontal angle in degrees [0, 360]</param>
+        /// <param name="verticalAngle">Vertical angle in degrees [-90, 90]</param>
+        public static Vector3 PointOnTeardrop(float radius, float height, float horizontalAngle, float verticalAngle)
         {
-            float longitudeRadians = longitudeDegrees*Mathf.Deg2Rad;
-            float latitudeRadians = latitudeDegrees*Mathf.Deg2Rad;
-            float sinLatitude = Mathf.Sin(latitudeRadians);
-            float teardrop = (1 - sinLatitude)*Mathf.Cos(latitudeRadians)/2;
+            float horizontalRadians = horizontalAngle*Mathf.Deg2Rad;
+            float verticalRadians = verticalAngle*Mathf.Deg2Rad;
+            float sinVertical = Mathf.Sin(verticalRadians);
+            float teardrop = (1 - sinVertical)*Mathf.Cos(verticalRadians)/2;
 
             return new Vector3(
-                x: radius*Mathf.Sin(longitudeRadians)*teardrop,
-                y: height*sinLatitude,
-                z: radius*Mathf.Cos(longitudeRadians)*teardrop);
+                x: radius*Mathf.Sin(horizontalRadians)*teardrop,
+                y: height*sinVertical,
+                z: radius*Mathf.Cos(horizontalRadians)*teardrop);
         }
 
         /// <summary>

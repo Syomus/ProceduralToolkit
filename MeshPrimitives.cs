@@ -112,34 +112,34 @@ namespace ProceduralToolkit
             return MeshDraft.Cylinder(radius, segments, height).ToMesh();
         }
 
-        public static Mesh FlatSphere(float radius, int longitudeSegments, int latitudeSegments)
+        public static Mesh FlatSphere(float radius, int horizontalSegments, int verticalSegments)
         {
-            return MeshDraft.FlatSphere(radius, longitudeSegments, latitudeSegments).ToMesh();
+            return MeshDraft.FlatSphere(radius, horizontalSegments, verticalSegments).ToMesh();
         }
 
-        public static Mesh Sphere(float radius, int longitudeSegments, int latitudeSegments)
+        public static Mesh Sphere(float radius, int horizontalSegments, int verticalSegments)
         {
-            return MeshDraft.Sphere(radius, longitudeSegments, latitudeSegments).ToMesh();
+            return MeshDraft.Sphere(radius, horizontalSegments, verticalSegments).ToMesh();
         }
 
-        public static Mesh FlatSpheroid(float radius, float height, int longitudeSegments, int latitudeSegments)
+        public static Mesh FlatSpheroid(float radius, float height, int horizontalSegments, int verticalSegments)
         {
-            return MeshDraft.FlatSpheroid(radius, height, longitudeSegments, latitudeSegments).ToMesh();
+            return MeshDraft.FlatSpheroid(radius, height, horizontalSegments, verticalSegments).ToMesh();
         }
 
-        public static Mesh Spheroid(float radius, float height, int longitudeSegments, int latitudeSegments)
+        public static Mesh Spheroid(float radius, float height, int horizontalSegments, int verticalSegments)
         {
-            return MeshDraft.Spheroid(radius, height, longitudeSegments, latitudeSegments).ToMesh();
+            return MeshDraft.Spheroid(radius, height, horizontalSegments, verticalSegments).ToMesh();
         }
 
-        public static Mesh FlatTeardrop(float radius, float height, int longitudeSegments, int latitudeSegments)
+        public static Mesh FlatTeardrop(float radius, float height, int horizontalSegments, int verticalSegments)
         {
-            return MeshDraft.FlatTeardrop(radius, height, longitudeSegments, latitudeSegments).ToMesh();
+            return MeshDraft.FlatTeardrop(radius, height, horizontalSegments, verticalSegments).ToMesh();
         }
 
-        public static Mesh Teardrop(float radius, float height, int longitudeSegments, int latitudeSegments)
+        public static Mesh Teardrop(float radius, float height, int horizontalSegments, int verticalSegments)
         {
-            return MeshDraft.Teardrop(radius, height, longitudeSegments, latitudeSegments).ToMesh();
+            return MeshDraft.Teardrop(radius, height, horizontalSegments, verticalSegments).ToMesh();
         }
     }
 }

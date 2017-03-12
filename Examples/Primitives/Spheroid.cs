@@ -7,12 +7,12 @@ namespace ProceduralToolkit.Examples.Primitives
     {
         public float radius = 0.75f;
         public float height = 1f;
-        public int longitudeSegments = 16;
-        public int latitudeSegments = 16;
+        public int horizontalSegments = 16;
+        public int verticalSegments = 16;
 
         private void Start()
         {
-            GetComponent<MeshFilter>().mesh = MeshE.Spheroid(radius, height, longitudeSegments, latitudeSegments);
+            GetComponent<MeshFilter>().mesh = MeshE.Spheroid(radius, height, horizontalSegments, verticalSegments);
         }
     }
 }
