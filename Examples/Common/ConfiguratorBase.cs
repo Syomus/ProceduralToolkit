@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples.UI
+namespace ProceduralToolkit.Examples
 {
     public class ConfiguratorBase : MonoBehaviour
     {

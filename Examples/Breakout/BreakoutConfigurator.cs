@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using ProceduralToolkit.Examples.UI;
+using UnityEngine;
 
-namespace ProceduralToolkit.Examples.UI
+namespace ProceduralToolkit.Examples
 {
     public class BreakoutConfigurator : ConfiguratorBase
     {

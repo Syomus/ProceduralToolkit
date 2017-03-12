@@ -1,8 +1,9 @@
 ﻿using System.Collections;
+using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProceduralToolkit.Examples.UI
+namespace ProceduralToolkit.Examples
 {
     public class MazeGeneratorConfigurator : ConfiguratorBase
     {

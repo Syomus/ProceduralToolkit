@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples.UI
+namespace ProceduralToolkit.Examples
 {
     public class BoidControllerConfigurator : ConfiguratorBase
     {
