@@ -994,12 +994,12 @@ namespace ProceduralToolkit
             Action<Vector3, Vector3> drawLine,
             Vector3 position,
             Quaternion rotation,
-            float radius,
+            float apexRadius,
             float angle,
             float length)
         {
             Vector3 upperCenter = position + rotation*Vector3.up*length;
-            float upperRadius = Mathf.Tan(angle*Mathf.Deg2Rad)*length + radius;
+            float upperRadius = Mathf.Tan(angle*Mathf.Deg2Rad)*length + apexRadius;
             WireCircleXZ(drawLine, upperCenter, rotation, upperRadius);
 
             Vector3 a2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 0);
@@ -1007,7 +1007,7 @@ namespace ProceduralToolkit
             Vector3 c2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 180);
             Vector3 d2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 270);
 
-            if (radius == 0)
+            if (apexRadius == 0)
             {
                 drawLine(position, a2);
                 drawLine(position, b2);
@@ -1016,12 +1016,12 @@ namespace ProceduralToolkit
             }
             else
             {
-                WireCircleXZ(drawLine, position, rotation, radius);
+                WireCircleXZ(drawLine, position, rotation, apexRadius);
 
-                Vector3 a1 = rotation*PTUtils.PointOnCircle3XZ(radius, 0);
-                Vector3 b1 = rotation*PTUtils.PointOnCircle3XZ(radius, 90);
-                Vector3 c1 = rotation*PTUtils.PointOnCircle3XZ(radius, 180);
-                Vector3 d1 = rotation*PTUtils.PointOnCircle3XZ(radius, 270);
+                Vector3 a1 = rotation*PTUtils.PointOnCircle3XZ(apexRadius, 0);
+                Vector3 b1 = rotation*PTUtils.PointOnCircle3XZ(apexRadius, 90);
+                Vector3 c1 = rotation*PTUtils.PointOnCircle3XZ(apexRadius, 180);
+                Vector3 d1 = rotation*PTUtils.PointOnCircle3XZ(apexRadius, 270);
 
                 drawLine(a1, a2);
                 drawLine(b1, b2);
@@ -1034,7 +1034,7 @@ namespace ProceduralToolkit
             DebugDrawLine drawLine,
             Vector3 position,
             Quaternion rotation,
-            float radius,
+            float apexRadius,
             float angle,
             float length,
             Color color,
@@ -1042,7 +1042,7 @@ namespace ProceduralToolkit
             bool depthTest)
         {
             Vector3 upperCenter = position + rotation*Vector3.up*length;
-            float upperRadius = Mathf.Tan(angle*Mathf.Deg2Rad)*length + radius;
+            float upperRadius = Mathf.Tan(angle*Mathf.Deg2Rad)*length + apexRadius;
             WireCircleXZ(drawLine, upperCenter, rotation, upperRadius, color, duration, depthTest);
 
             Vector3 a2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 0);
@@ -1050,7 +1050,7 @@ namespace ProceduralToolkit
             Vector3 c2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 180);
             Vector3 d2 = upperCenter + rotation*PTUtils.PointOnCircle3XZ(upperRadius, 270);
 
-            if (radius == 0)
+            if (apexRadius == 0)
             {
                 drawLine(position, a2, color, duration, depthTest);
                 drawLine(position, b2, color, duration, depthTest);
@@ -1059,12 +1059,12 @@ namespace ProceduralToolkit
             }
             else
             {
-                WireCircleXZ(drawLine, position, rotation, radius, color, duration, depthTest);
+                WireCircleXZ(drawLine, position, rotation, apexRadius, color, duration, depthTest);
 
-                Vector3 a1 = rotation*PTUtils.PointOnCircle3XZ(radius, 0);
-                Vector3 b1 = rotation*PTUtils.PointOnCircle3XZ(radius, 90);
-                Vector3 c1 = rotation*PTUtils.PointOnCircle3XZ(radius, 180);
-                Vector3 d1 = rotation*PTUtils.PointOnCircle3XZ(radius, 270);
+                Vector3 a1 = rotation*PTUtils.PointOnCircle3XZ(apexRadius, 0);
+                Vector3 b1 = rotation*PTUtils.PointOnCircle3XZ(apexRadius, 90);
+                Vector3 c1 = rotation*PTUtils.PointOnCircle3XZ(apexRadius, 180);
+                Vector3 d1 = rotation*PTUtils.PointOnCircle3XZ(apexRadius, 270);
 
                 drawLine(a1, a2, color, duration, depthTest);
                 drawLine(b1, b2, color, duration, depthTest);

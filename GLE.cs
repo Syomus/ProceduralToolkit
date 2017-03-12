@@ -134,9 +134,10 @@ namespace ProceduralToolkit
             Draw.WireHemisphere(drawLine, position, rotation, radius);
         }
 
-        public static void DrawWireCone(Vector3 position, Quaternion rotation, float radius, float angle, float length)
+        public static void DrawWireCone(Vector3 position, Quaternion rotation, float apexRadius, float angle,
+            float length)
         {
-            Draw.WireCone(drawLine, position, rotation, radius, angle, length);
+            Draw.WireCone(drawLine, position, rotation, apexRadius, angle, length);
         }
     }
 }
