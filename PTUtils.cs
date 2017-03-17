@@ -261,6 +261,39 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Calculates the linear parameter t that produces the interpolant value within the range [a, b].
+        /// </summary>
+        public static Vector2 InverseLerp(Vector2 a, Vector2 b, Vector2 value)
+        {
+            return new Vector2(
+                Mathf.InverseLerp(a.x, b.x, value.x),
+                Mathf.InverseLerp(a.y, b.y, value.y));
+        }
+
+        /// <summary>
+        /// Calculates the linear parameter t that produces the interpolant value within the range [a, b].
+        /// </summary>
+        public static Vector3 InverseLerp(Vector3 a, Vector3 b, Vector3 value)
+        {
+            return new Vector3(
+                Mathf.InverseLerp(a.x, b.x, value.x),
+                Mathf.InverseLerp(a.y, b.y, value.y),
+                Mathf.InverseLerp(a.z, b.z, value.z));
+        }
+
+        /// <summary>
+        /// Calculates the linear parameter t that produces the interpolant value within the range [a, b].
+        /// </summary>
+        public static Vector4 InverseLerp(Vector4 a, Vector4 b, Vector4 value)
+        {
+            return new Vector4(
+                Mathf.InverseLerp(a.x, b.x, value.x),
+                Mathf.InverseLerp(a.y, b.y, value.y),
+                Mathf.InverseLerp(a.z, b.z, value.z),
+                Mathf.InverseLerp(a.w, b.w, value.w));
+        }
+
+        /// <summary>
         /// Swaps values of <paramref name="left"/> and <paramref name="right"/>
         /// </summary>
         public static void Swap<T>(ref T left, ref T right)
