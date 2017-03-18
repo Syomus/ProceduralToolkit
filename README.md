@@ -28,9 +28,9 @@ using ProceduralToolkit;
 
 public class Example : MonoBehaviour
 {
-    private void Awake()
+    private void Update()
     {
-        Debug.Log(RandomE.fullName);
+        Debug.Log(string.Format("<color=#{0}>{0}</color>", RandomE.colorHSV.ToHtmlStringRGB()));
     }
 }
 ```
