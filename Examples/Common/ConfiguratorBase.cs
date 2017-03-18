@@ -46,5 +46,19 @@ namespace ProceduralToolkit.Examples
 
             return platform;
         }
+
+        protected void AssignDraftToMeshFilter(MeshDraft draft, MeshFilter meshFilter, ref Mesh mesh)
+        {
+            if (mesh == null)
+            {
+                mesh = draft.ToMesh();
+            }
+            else
+            {
+                draft.ToMesh(ref mesh);
+            }
+            mesh.RecalculateBounds();
+            meshFilter.sharedMesh = mesh;
+        }
     }
 }

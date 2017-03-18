@@ -62,7 +62,7 @@ namespace ProceduralToolkit.Examples
                 Generate();
             });
 
-            InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
+            InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", () => Generate());
         }
 
         private void Update()
@@ -70,52 +70,37 @@ namespace ProceduralToolkit.Examples
             SkyBoxGenerator.LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 2, 3, 4, Time.deltaTime);
         }
 
-        public void Generate()
+        public void Generate(bool randomizeConfig = true)
         {
-            if (generator == null)
-            {
-                generator = new BuildingGenerator();
-            }
-
             if (constantSeed)
             {
                 Random.InitState(0);
             }
 
-            targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
-            targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
+            if (randomizeConfig)
+            {
+                targetPalette = RandomE.TetradicPalette(0.25f, 0.7f);
+                targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
 
-            config.palette.wallColor = targetPalette[0].WithSV(0.8f, 0.8f).ToColor();
+                config.palette.wallColor = targetPalette[0].WithSV(0.8f, 0.6f).ToColor();
 
-            config.roofConfig.type = RandomE.GetRandom(RoofType.Flat, RoofType.Hipped, RoofType.Gabled);
+                config.roofConfig.type = RandomE.GetRandom(RoofType.Flat, RoofType.Hipped, RoofType.Gabled);
+            }
+
+            if (generator == null)
+            {
+                generator = new BuildingGenerator();
+            }
+
             var buildingDraft = generator.Generate(config);
+            AssignDraftToMeshFilter(buildingDraft, buildingMeshFilter, ref buildingMesh);
 
-            if (buildingMesh == null)
-            {
-                buildingMesh = buildingDraft.ToMesh();
-            }
-            else
-            {
-                buildingDraft.ToMesh(ref buildingMesh);
-            }
-            buildingMesh.RecalculateBounds();
-            buildingMeshFilter.sharedMesh = buildingMesh;
-
-            float buildingRadius = Mathf.Sqrt(config.length/2f*config.length/2f +
-                                              config.width/2f*config.width/2f);
+            float buildingRadius = Mathf.Sqrt(config.length/2*config.length/2 +
+                                              config.width/2*config.width/2);
             float platformRadius = buildingRadius + platformRadiusOffset;
 
             var platformDraft = Platform(platformRadius, platformHeight);
-            if (platformMesh == null)
-            {
-                platformMesh = platformDraft.ToMesh();
-            }
-            else
-            {
-                platformDraft.ToMesh(ref platformMesh);
-            }
-            platformMesh.RecalculateBounds();
-            platformMeshFilter.sharedMesh = platformMesh;
+            AssignDraftToMeshFilter(platformDraft, platformMeshFilter, ref platformMesh);
         }
     }
 }
