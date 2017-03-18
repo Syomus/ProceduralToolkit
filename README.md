@@ -124,6 +124,13 @@ Breakout clone with procedurally generated levels.
 * BreakoutConfigurator: Configurator for generator with UI controls.
 * Brick: Disables game object on collision.
 
+### <a href="http://syomus.com/ProceduralToolkit/CharacterGenerator">CharacterGenerator</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-character-generator.gif">
+
+Simple 2D character generator
+* CharacterGenerator: Generates a sprite set and a name for character.
+* NameGenerator: Generates a random name from a large array of names.
+
 ### <a href="http://syomus.com/ProceduralToolkit/Primitives">Primitives</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-primitives.png">
 
