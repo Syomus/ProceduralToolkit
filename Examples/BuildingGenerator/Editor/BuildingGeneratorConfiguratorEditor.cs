@@ -19,6 +19,12 @@ namespace ProceduralToolkit.Examples
 
             if (GUILayout.Button("Generate", EditorStyles.miniButton))
             {
+                Undo.RecordObjects(new Object[]
+                {
+                    generator,
+                    generator.buildingMeshFilter,
+                    generator.platformMeshFilter,
+                }, "Generate building");
                 generator.Generate();
             }
         }

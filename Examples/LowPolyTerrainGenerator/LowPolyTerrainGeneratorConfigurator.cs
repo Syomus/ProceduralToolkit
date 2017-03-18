@@ -6,9 +6,9 @@ namespace ProceduralToolkit.Examples
 {
     public class LowPolyTerrainGeneratorConfigurator : ConfiguratorBase
     {
-        public MeshFilter meshFilter;
+        public MeshFilter terrainMeshFilter;
         public RectTransform leftPanel;
-        [Space]
+        public bool constantSeed = false;
         public LowPolyTerrainGenerator.Config config = new LowPolyTerrainGenerator.Config();
 
         private const int minXSize = 10;
@@ -77,6 +77,11 @@ namespace ProceduralToolkit.Examples
 
         public void Generate()
         {
+            if (constantSeed)
+            {
+                Random.InitState(0);
+            }
+
             targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
             targetPalette.Add(ColorHSV.Lerp(targetPalette[0], targetPalette[1], 0.5f));
 
@@ -85,7 +90,7 @@ namespace ProceduralToolkit.Examples
 
             var draft = LowPolyTerrainGenerator.TerrainDraft(config);
             draft.Move(Vector3.left*config.terrainSize.x/2 + Vector3.back*config.terrainSize.z/2);
-            meshFilter.mesh = draft.ToMesh();
+            terrainMeshFilter.mesh = draft.ToMesh();
         }
     }
 }

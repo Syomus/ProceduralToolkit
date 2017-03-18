@@ -6,6 +6,13 @@ namespace ProceduralToolkit.Examples
     [CustomEditor(typeof (ChairGeneratorConfigurator))]
     public class ChairGeneratorConfiguratorEditor : UnityEditor.Editor
     {
+        private ChairGeneratorConfigurator generator;
+
+        private void OnEnable()
+        {
+            generator = (ChairGeneratorConfigurator) target;
+        }
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -13,7 +20,13 @@ namespace ProceduralToolkit.Examples
             EditorGUILayout.Space();
             if (GUILayout.Button("Generate"))
             {
-                ((ChairGeneratorConfigurator) target).Generate();
+                Undo.RecordObjects(new Object[]
+                {
+                    generator,
+                    generator.chairMeshFilter,
+                    generator.platformMeshFilter,
+                }, "Generate chair");
+                generator.Generate();
             }
         }
     }

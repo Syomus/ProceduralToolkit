@@ -9,7 +9,7 @@ namespace ProceduralToolkit.Examples
         public MeshFilter chairMeshFilter;
         public MeshFilter platformMeshFilter;
         public RectTransform leftPanel;
-        [Space]
+        public bool constantSeed = false;
         public ChairGenerator.Config config = new ChairGenerator.Config();
 
         private const float minLegWidth = 0.05f;
@@ -100,6 +100,11 @@ namespace ProceduralToolkit.Examples
 
         public void Generate()
         {
+            if (constantSeed)
+            {
+                Random.InitState(0);
+            }
+
             targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
             targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
 
