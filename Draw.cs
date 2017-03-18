@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Collection of drawing method-independent generic drawing algorithms
+    /// </summary>
     public static class Draw
     {
         public delegate void DebugDrawLine(Vector3 start, Vector3 end, Color color, float duration, bool depthTest);

@@ -8,6 +8,9 @@ namespace ProceduralToolkit
     /// </summary>
     public static class ArrayE
     {
+        /// <summary>
+        /// Looped indexer getter, allows out of bounds indices
+        /// </summary>
         public static T GetLooped<T>(this T[] array, int index)
         {
             if (index < 0)
@@ -21,6 +24,9 @@ namespace ProceduralToolkit
             return array[index];
         }
 
+        /// <summary>
+        /// Looped indexer setter, allows out of bounds indices
+        /// </summary>
         public static void SetLooped<T>(this T[] array, int index, T value)
         {
             if (index < 0)
@@ -34,6 +40,9 @@ namespace ProceduralToolkit
             array[index] = value;
         }
 
+        /// <summary>
+        /// Looped indexer getter, allows out of bounds indices
+        /// </summary>
         public static T GetLooped<T>(this List<T> array, int index)
         {
             if (index < 0)
@@ -47,6 +56,9 @@ namespace ProceduralToolkit
             return array[index];
         }
 
+        /// <summary>
+        /// Looped indexer setter, allows out of bounds indices
+        /// </summary>
         public static void SetLooped<T>(this List<T> array, int index, T value)
         {
             if (index < 0)
