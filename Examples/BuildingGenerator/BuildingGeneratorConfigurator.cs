@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ProceduralToolkit.Examples.UI;
+﻿using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
@@ -10,7 +9,7 @@ namespace ProceduralToolkit.Examples
         public MeshFilter platformMeshFilter;
         public RectTransform leftPanel;
         public bool constantSeed = false;
-        public BuildingGenerator.Config config;
+        public BuildingGenerator.Config config = new BuildingGenerator.Config();
 
         private const int minWidth = 10;
         private const int maxWidth = 30;
@@ -25,15 +24,11 @@ namespace ProceduralToolkit.Examples
         private BuildingGenerator generator;
         private Mesh buildingMesh;
         private Mesh platformMesh;
-        private List<ColorHSV> targetPalette = new List<ColorHSV>();
-        private List<ColorHSV> currentPalette = new List<ColorHSV>();
 
         private void Awake()
         {
-            RenderSettings.skybox = new Material(RenderSettings.skybox);
-
             Generate();
-            currentPalette.AddRange(targetPalette);
+            SetupSkyboxAndPalette();
 
             InstantiateControl<SliderControl>(leftPanel)
                 .Initialize("Width", minWidth, maxWidth, (int) config.width, value =>
@@ -67,7 +62,7 @@ namespace ProceduralToolkit.Examples
 
         private void Update()
         {
-            SkyBoxGenerator.LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 2, 3, 4, Time.deltaTime);
+            UpdateSkybox();
         }
 
         public void Generate(bool randomizeConfig = true)
@@ -79,10 +74,9 @@ namespace ProceduralToolkit.Examples
 
             if (randomizeConfig)
             {
-                targetPalette = RandomE.TetradicPalette(0.25f, 0.7f);
-                targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
+                GeneratePalette();
 
-                config.palette.wallColor = targetPalette[0].WithSV(0.8f, 0.6f).ToColor();
+                config.palette.wallColor = GetMainColorHSV().ToColor();
 
                 config.roofConfig.type = RandomE.GetRandom(RoofType.Flat, RoofType.Hipped, RoofType.Gabled);
             }
@@ -95,8 +89,7 @@ namespace ProceduralToolkit.Examples
             var buildingDraft = generator.Generate(config);
             AssignDraftToMeshFilter(buildingDraft, buildingMeshFilter, ref buildingMesh);
 
-            float buildingRadius = Mathf.Sqrt(config.length/2*config.length/2 +
-                                              config.width/2*config.width/2);
+            float buildingRadius = Mathf.Sqrt(config.length/2*config.length/2 + config.width/2*config.width/2);
             float platformRadius = buildingRadius + platformRadiusOffset;
 
             var platformDraft = Platform(platformRadius, platformHeight);

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ProceduralToolkit.Examples.UI;
+﻿using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
@@ -22,15 +21,12 @@ namespace ProceduralToolkit.Examples
         private const int minNoiseScale = 1;
         private const int maxNoiseScale = 20;
 
-        private List<ColorHSV> targetPalette = new List<ColorHSV>();
-        private List<ColorHSV> currentPalette = new List<ColorHSV>();
+        private Mesh terrainMesh;
 
         private void Awake()
         {
-            RenderSettings.skybox = new Material(RenderSettings.skybox);
-
             Generate();
-            currentPalette.AddRange(targetPalette);
+            SetupSkyboxAndPalette();
 
             InstantiateControl<SliderControl>(leftPanel)
                 .Initialize("Terrain size X", minXSize, maxXSize, (int) config.terrainSize.x, value =>
@@ -67,30 +63,31 @@ namespace ProceduralToolkit.Examples
                     Generate();
                 });
 
-            InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
+            InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", () => Generate());
         }
 
         private void Update()
         {
-            SkyBoxGenerator.LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 0, 1, 4, Time.deltaTime);
+            UpdateSkybox();
         }
 
-        public void Generate()
+        public void Generate(bool randomizeConfig = true)
         {
             if (constantSeed)
             {
                 Random.InitState(0);
             }
 
-            targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
-            targetPalette.Add(ColorHSV.Lerp(targetPalette[0], targetPalette[1], 0.5f));
+            if (randomizeConfig)
+            {
+                GeneratePalette();
 
-            config.gradient = ColorE.Gradient(from: targetPalette[2].WithSV(0.8f, 0.8f),
-                to: targetPalette[3].WithSV(0.8f, 0.8f));
+                config.gradient = ColorE.Gradient(from: GetMainColorHSV(), to: GetSecondaryColorHSV());
+            }
 
             var draft = LowPolyTerrainGenerator.TerrainDraft(config);
             draft.Move(Vector3.left*config.terrainSize.x/2 + Vector3.back*config.terrainSize.z/2);
-            terrainMeshFilter.mesh = draft.ToMesh();
+            AssignDraftToMeshFilter(draft, terrainMeshFilter, ref terrainMesh);
         }
     }
 }

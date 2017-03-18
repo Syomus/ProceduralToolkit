@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ProceduralToolkit.Examples.UI;
+﻿using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
@@ -30,15 +29,13 @@ namespace ProceduralToolkit.Examples
         private const float platformHeight = 0.05f;
         private const float platformRadiusOffset = 0.5f;
 
-        private List<ColorHSV> targetPalette = new List<ColorHSV>();
-        private List<ColorHSV> currentPalette = new List<ColorHSV>();
+        private Mesh chairMesh;
+        private Mesh platformMesh;
 
         private void Awake()
         {
-            RenderSettings.skybox = new Material(RenderSettings.skybox);
-
             Generate();
-            currentPalette.AddRange(targetPalette);
+            SetupSkyboxAndPalette();
 
             InstantiateControl<SliderControl>(leftPanel)
                 .Initialize("Leg width", minLegWidth, maxLegWidth, config.legWidth, value =>
@@ -90,36 +87,36 @@ namespace ProceduralToolkit.Examples
                 Generate();
             });
 
-            InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
+            InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", () => Generate());
         }
 
         private void Update()
         {
-            SkyBoxGenerator.LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 2, 3, 4, Time.deltaTime);
+            UpdateSkybox();
         }
 
-        public void Generate()
+        public void Generate(bool randomizeConfig = true)
         {
             if (constantSeed)
             {
                 Random.InitState(0);
             }
 
-            targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
-            targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
+            if (randomizeConfig)
+            {
+                GeneratePalette();
 
-            config.color = targetPalette[0].WithSV(0.8f, 0.8f).ToColor();
+                config.color = GetMainColorHSV().ToColor();
+            }
+
             var chairDraft = ChairGenerator.Chair(config);
-            var chairMesh = chairDraft.ToMesh();
-            chairMesh.RecalculateBounds();
-            chairMeshFilter.mesh = chairMesh;
+            AssignDraftToMeshFilter(chairDraft, chairMeshFilter, ref chairMesh);
 
             float chairRadius = Mathf.Sqrt(config.seatWidth*config.seatWidth/4 + config.seatDepth*config.seatDepth/4);
             float platformRadius = chairRadius + platformRadiusOffset;
 
-            var platformMesh = Platform(platformRadius, platformHeight).ToMesh();
-            platformMesh.RecalculateBounds();
-            platformMeshFilter.mesh = platformMesh;
+            var platformDraft = Platform(platformRadius, platformHeight);
+            AssignDraftToMeshFilter(platformDraft, platformMeshFilter, ref platformMesh);
         }
     }
 }

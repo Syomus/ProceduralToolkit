@@ -18,14 +18,23 @@ namespace ProceduralToolkit.Examples
             base.OnInspectorGUI();
 
             EditorGUILayout.Space();
-            if (GUILayout.Button("Generate"))
+            if (GUILayout.Button("Generate mesh"))
             {
                 Undo.RecordObjects(new Object[]
                 {
                     generator,
                     generator.terrainMeshFilter,
                 }, "Generate terrain");
-                generator.Generate();
+                generator.Generate(randomizeConfig: false);
+            }
+            if (GUILayout.Button("Randomize config and generate mesh"))
+            {
+                Undo.RecordObjects(new Object[]
+                {
+                    generator,
+                    generator.terrainMeshFilter,
+                }, "Generate terrain");
+                generator.Generate(randomizeConfig: true);
             }
         }
     }

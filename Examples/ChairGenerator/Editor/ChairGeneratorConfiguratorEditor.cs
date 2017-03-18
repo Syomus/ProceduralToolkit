@@ -18,7 +18,7 @@ namespace ProceduralToolkit.Examples
             base.OnInspectorGUI();
 
             EditorGUILayout.Space();
-            if (GUILayout.Button("Generate"))
+            if (GUILayout.Button("Generate mesh"))
             {
                 Undo.RecordObjects(new Object[]
                 {
@@ -26,7 +26,17 @@ namespace ProceduralToolkit.Examples
                     generator.chairMeshFilter,
                     generator.platformMeshFilter,
                 }, "Generate chair");
-                generator.Generate();
+                generator.Generate(randomizeConfig: false);
+            }
+            if (GUILayout.Button("Randomize config and generate mesh"))
+            {
+                Undo.RecordObjects(new Object[]
+                {
+                    generator,
+                    generator.chairMeshFilter,
+                    generator.platformMeshFilter,
+                }, "Generate chair");
+                generator.Generate(randomizeConfig: true);
             }
         }
     }

@@ -5,6 +5,9 @@ namespace ProceduralToolkit.Examples
 {
     public class ConfiguratorBase : MonoBehaviour
     {
+        protected List<ColorHSV> targetPalette = new List<ColorHSV>();
+        protected List<ColorHSV> currentPalette = new List<ColorHSV>();
+
         protected T InstantiateControl<T>(Transform parent) where T : Component
         {
             T prefab = Resources.Load<T>(typeof (T).Name);
@@ -59,6 +62,52 @@ namespace ProceduralToolkit.Examples
             }
             mesh.RecalculateBounds();
             meshFilter.sharedMesh = mesh;
+        }
+
+        protected void GeneratePalette()
+        {
+            targetPalette = RandomE.TetradicPalette(0.25f, 0.7f);
+            targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
+        }
+
+        protected ColorHSV GetMainColorHSV()
+        {
+            return targetPalette[0].WithSV(0.8f, 0.6f);
+        }
+
+        protected ColorHSV GetSecondaryColorHSV()
+        {
+            return targetPalette[1].WithSV(0.8f, 0.6f);
+        }
+
+        protected void SetupSkyboxAndPalette()
+        {
+            RenderSettings.skybox = new Material(RenderSettings.skybox);
+            currentPalette.AddRange(targetPalette);
+        }
+
+        protected void UpdateSkybox()
+        {
+            LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 2, 3, 4, Time.deltaTime);
+        }
+
+        private static void LerpSkybox(
+            Material skybox,
+            List<ColorHSV> currentPalette,
+            List<ColorHSV> targetPalette,
+            int skyColorIndex,
+            int horizonColorIndex,
+            int groundColorIndex,
+            float t)
+        {
+            for (int i = 0; i < currentPalette.Count; i++)
+            {
+                currentPalette[i] = ColorHSV.Lerp(currentPalette[i], targetPalette[i], t);
+            }
+
+            skybox.SetColor("_SkyColor", currentPalette[skyColorIndex].ToColor());
+            skybox.SetColor("_HorizonColor", currentPalette[horizonColorIndex].ToColor());
+            skybox.SetColor("_GroundColor", currentPalette[groundColorIndex].ToColor());
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 
@@ -13,15 +12,11 @@ namespace ProceduralToolkit.Examples
 
         private BoidController controller;
         private bool simulate = true;
-        private List<ColorHSV> targetPalette = new List<ColorHSV>();
-        private List<ColorHSV> currentPalette = new List<ColorHSV>();
 
         private void Awake()
         {
-            RenderSettings.skybox = new Material(RenderSettings.skybox);
-
             Generate();
-            currentPalette.AddRange(targetPalette);
+            SetupSkyboxAndPalette();
             StartCoroutine(Simulate());
 
             InstantiateControl<SliderControl>(leftPanel).Initialize("Max speed", 0, 30,
@@ -67,17 +62,16 @@ namespace ProceduralToolkit.Examples
             {
                 controller.Update();
             }
-            SkyBoxGenerator.LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 2, 3, 4, Time.deltaTime);
+            UpdateSkybox();
         }
 
         private void Generate()
         {
             controller = new BoidController();
 
-            targetPalette = RandomE.TetradicPalette(0.25f, 0.75f);
-            targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
-            Color colorA = targetPalette[0].WithSV(1, 1).ToColor();
-            Color colorB = targetPalette[1].WithSV(0.8f, 0.8f).ToColor();
+            GeneratePalette();
+            Color colorA = GetMainColorHSV().ToColor();
+            Color colorB = GetSecondaryColorHSV().ToColor();
 
             config.template = MeshDraft.Tetrahedron(0.3f);
             // Assuming that we are dealing with tetrahedron, first vertex should be boid's "nose"
@@ -87,8 +81,7 @@ namespace ProceduralToolkit.Examples
                 config.template.colors.Add(colorB);
             }
 
-            var mesh = controller.Generate(config);
-            meshFilter.mesh = mesh;
+            meshFilter.mesh = controller.Generate(config);
         }
     }
 }
