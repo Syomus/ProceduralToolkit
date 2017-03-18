@@ -135,6 +135,22 @@ namespace ProceduralToolkit
             return string.Format("HSVA({0:F3}, {1:F3}, {2:F3}, {3:F3})", h, s, v, a);
         }
 
+        /// <summary>
+        /// Returns the color as a hexadecimal string in the format "RRGGBB"
+        /// </summary>
+        public string ToHtmlStringRGB()
+        {
+            return ColorUtility.ToHtmlStringRGB(ToColor());
+        }
+
+        /// <summary>
+        /// Returns the color as a hexadecimal string in the format "RRGGBBAA"
+        /// </summary>
+        public string ToHtmlStringRGBA()
+        {
+            return ColorUtility.ToHtmlStringRGBA(ToColor());
+        }
+
         public override int GetHashCode()
         {
             return ((Vector4) this).GetHashCode();

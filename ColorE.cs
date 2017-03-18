@@ -108,5 +108,21 @@ namespace ProceduralToolkit
         {
             return new Color(color.r, color.g, color.b, a);
         }
+
+        /// <summary>
+        /// Returns the color as a hexadecimal string in the format "RRGGBB"
+        /// </summary>
+        public static string ToHtmlStringRGB(this Color color)
+        {
+            return ColorUtility.ToHtmlStringRGB(color);
+        }
+
+        /// <summary>
+        /// Returns the color as a hexadecimal string in the format "RRGGBBAA"
+        /// </summary>
+        public static string ToHtmlStringRGBA(this Color color)
+        {
+            return ColorUtility.ToHtmlStringRGBA(color);
+        }
     }
 }
