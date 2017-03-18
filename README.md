@@ -56,8 +56,8 @@ public class Example : MonoBehaviour
 * VectorE: Vector extensions.
 
 ## Editor classes
-* ProceduralToolkitMenu: `GameObject>Procedural Toolkit` constructors for primitives and about window.
-* MeshFilterExtension: Mesh saving utility.
+* ProceduralToolkitMenu: Submenu with constructors for primitives at `GameObject > Procedural Toolkit` and about window at `Help > About Procedural Toolkit`.
+* MeshFilterExtension: Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
 
 ## Examples
 Resources folder contains prefabs used for UI. UI folder contains scripts for ui controls, including camera rotator.
@@ -127,7 +127,7 @@ Breakout clone with procedurally generated levels.
 ### <a href="http://syomus.com/ProceduralToolkit/CharacterGenerator">CharacterGenerator</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-character-generator.gif">
 
-Simple 2D character generator
+Simple 2D character generator. Sprites made by <a href="https://www.patreon.com/chicmonster">Tess Young</a>.
 * CharacterGenerator: Generates a sprite set and a name for character.
 * NameGenerator: Generates a random name from a large array of names.
 
