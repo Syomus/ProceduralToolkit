@@ -37,12 +37,12 @@ public class Example : MonoBehaviour
 
 ## Classes
 * ArrayE: Array extensions.
-* CircularList: Generic list with looping indexer.
 * ColorE: Color extensions, HTML colors.
-* Datasets: Letters, female and male names, last names.
+* ColorHSV: Representation of color in HSV model.
+* Datasets: Constants with uppercase and lowercase letters, digits.
 * DebugE: Drawing methods similar to Debug.
 * Directions: Enum with directions along three axes.
-* Draw: Generic drawing methods.
+* Draw: Collection of drawing method-independent generic drawing algorithms.
 * GizmosE: Drawing methods similar to Gizmos.
 * GLE: Drawing wrappers over GL.Vertex which follow Gizmos convention.
 * MeshDraft: Helper class for mesh generation.
@@ -53,9 +53,10 @@ public class Example : MonoBehaviour
 * RandomE: Value generators and extensions for collections.
 * TextureE: Texture extensions and constructors.
 * Vector2Int: Vector2 analogue with integer components.
+* VectorE: Vector extensions.
 
 ## Editor classes
-* ProceduralToolkitMenu: "GameObject>Procedural Toolkit" constructors for primitives and about window.
+* ProceduralToolkitMenu: `GameObject>Procedural Toolkit` constructors for primitives and about window.
 * MeshFilterExtension: Mesh saving utility.
 
 ## Examples
@@ -65,40 +66,43 @@ Resources folder contains prefabs used for UI. UI folder contains scripts for ui
 <img src="http://syomus.com/ProceduralToolkit/screenshot-building-generator.png">
 
 Procedural building generator.
-* BuildingGenerator: Main generator class.
-* BuildingGeneratorUI: Wrapper around BuildingGenerator which provides UI controls.
-* Panels: Panel constructors.
-* Roofs: Roof constructors.
+* BuildingGenerator: Main generator class. Generates buildings based on input configuration.
+* BuildingGeneratorConfigurator: Configurator for generator with UI and editor controls.
+* BuildingGeneratorUtils: Helper class for generator.
+* IFacadeLayout, IFacadePanel, FacadeLayout, HorizontalLayout, VerticalLayout: Interfaces and classes used in facade layout generation.
+* ProceduralFacadePanel: Fully procedural facade panels for building generator.
+* BuildingGeneratorConfiguratorEditor: Custom inspector for BuildingGeneratorConfigurator.
 
 ### <a href="http://syomus.com/ProceduralToolkit/ChairGenerator">ChairGenerator</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-chair-generator.png">
 
 Procedural chair generator.
-* ChairGenerator: Main generator class.
-* ChairGeneratorUI: Wrapper around ChairGenerator which provides UI controls.
+* ChairGenerator: Main generator class. Generates chairs based on input configuration.
+* ChairGeneratorConfigurator: Configurator for generator with UI and editor controls.
 * Armrests, Backs, Stretchers: Chair parts constructors.
+* ChairGeneratorConfiguratorEditor: Custom inspector for ChairGeneratorConfigurator.
 
 ### <a href="http://syomus.com/ProceduralToolkit/Boids">Boids</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-boids.png">
 
 Single-mesh particle system with birds-like behaviour.
-* BoidController: Main generator class.
-* BoidsUI: Wrapper around BoidController which provides UI controls.
+* BoidController: Generates animated mesh based on input configuration.
+* BoidControllerConfigurator: Configurator for BoidController with UI controls.
 
 ### <a href="http://syomus.com/ProceduralToolkit/LowPolyTerrainGenerator">LowPolyTerrainGenerator</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-low-poly-terrain-generator.png">
 
 Simple Perlin noise based low poly terrain generator.
-* LowPolyTerrainGenerator: Main generator class.
-* LowPolyTerrainGeneratorUI: Wrapper around LowPolyTerrainGenerator which provides UI controls.
-* LowPolyTerrainGeneratorUIEditor: "Generate" button in editor.
+* LowPolyTerrainGenerator: Main generator class. Generates terrain based on input configuration.
+* LowPolyTerrainGeneratorConfigurator: Configurator for generator with UI and editor controls.
+* LowPolyTerrainGeneratorConfiguratorEditor: Custom inspector for LowPolyTerrainGeneratorConfigurator.
 
 ### <a href="http://syomus.com/ProceduralToolkit/CellularAutomaton">CellularAutomaton</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-cellular-automata.png">
 
 Generic cellular automaton for two-state rulesets.
-* CellularAutomaton: Main generator class.
-* CellularAutomatonUI: Wrapper around CellularAutomaton which provides UI controls.
+* CellularAutomaton: Main generator class. Generates cellular automata based on input configuration.
+* CellularAutomatonConfigurator: Configurator for generator with UI controls.
 * Ruleset: Cellular automaton ruleset representation and static constructors.
 * CellState: Enum for automaton cell states.
 
@@ -106,8 +110,8 @@ Generic cellular automaton for two-state rulesets.
 <img src="http://syomus.com/ProceduralToolkit/screenshot-mazes.png">
 
 Generic maze generator.
-* MazeGenerator: Main generator class.
-* MazeGeneratorUI: Wrapper around MazeGenerator which provides UI controls.
+* MazeGenerator: Main generator class. Generates mazes on input configuration.
+* MazeGeneratorConfigurator: Configurator for generator with UI controls.
 * Maze: Maze graph representation.
 * Cell: Maze graph cell.
 * Edge: Maze graph edge.
@@ -117,7 +121,7 @@ Generic maze generator.
 
 Breakout clone with procedurally generated levels.
 * Breakout: Game engine and level generator.
-* BreakoutUI: Wrapper around Breakout which provides UI controls.
+* BreakoutConfigurator: Configurator for generator with UI controls.
 * Brick: Disables game object on collision.
 
 ### <a href="http://syomus.com/ProceduralToolkit/Primitives">Primitives</a>
@@ -125,7 +129,12 @@ Breakout clone with procedurally generated levels.
 
 Demonstration of primitives
 * Cylinder, Dodecahedron, FlatSphere, Hexahedron...: Mesh generators with exposed parameters in inspector.
+
+### Common classes
 * SkyBoxGenerator: Skybox generator, assuming that scene uses gradient skybox shader, animates transitions to new parameters every few seconds.
+* ButtonControl, SliderControl, TextControl, ToggleControl: UI controls for generators.
+* CameraRotator: Orbiting camera controller.
+* ConfiguratorBase: Base class for configurators.
 
 ## Shaders
 * Unlit, Diffuse, Specular and Standard Vertex Color: Textureless shaders which use color information from vertex attributes.
