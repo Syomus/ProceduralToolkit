@@ -5,10 +5,10 @@ namespace ProceduralToolkit.Examples
 {
     public class ConfiguratorBase : MonoBehaviour
     {
-        protected List<ColorHSV> targetPalette = new List<ColorHSV>();
-        protected List<ColorHSV> currentPalette = new List<ColorHSV>();
+        private List<ColorHSV> targetPalette = new List<ColorHSV>();
+        private List<ColorHSV> currentPalette = new List<ColorHSV>();
 
-        protected T InstantiateControl<T>(Transform parent) where T : Component
+        protected static T InstantiateControl<T>(Transform parent) where T : Component
         {
             T prefab = Resources.Load<T>(typeof (T).Name);
             T control = Instantiate(prefab);
@@ -50,7 +50,7 @@ namespace ProceduralToolkit.Examples
             return platform;
         }
 
-        protected void AssignDraftToMeshFilter(MeshDraft draft, MeshFilter meshFilter, ref Mesh mesh)
+        protected static void AssignDraftToMeshFilter(MeshDraft draft, MeshFilter meshFilter, ref Mesh mesh)
         {
             if (mesh == null)
             {
@@ -67,17 +67,19 @@ namespace ProceduralToolkit.Examples
         protected void GeneratePalette()
         {
             targetPalette = RandomE.TetradicPalette(0.25f, 0.7f);
+            targetPalette[0] = targetPalette[0].WithSV(0.8f, 0.6f);
+            targetPalette[1] = targetPalette[1].WithSV(0.8f, 0.6f);
             targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
         }
 
         protected ColorHSV GetMainColorHSV()
         {
-            return targetPalette[0].WithSV(0.8f, 0.6f);
+            return targetPalette[0];
         }
 
         protected ColorHSV GetSecondaryColorHSV()
         {
-            return targetPalette[1].WithSV(0.8f, 0.6f);
+            return targetPalette[1];
         }
 
         protected void SetupSkyboxAndPalette()

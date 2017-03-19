@@ -10,18 +10,8 @@ namespace ProceduralToolkit.Examples
         public RectTransform leftPanel;
         public ToggleGroup toggleGroup;
         public RawImage image;
-        public Image background;
         [Space]
         public CellularAutomaton.Config config = new CellularAutomaton.Config();
-
-        private const float backgroundSaturation = 0.25f;
-        private const float backgroundValue = 0.7f;
-        private const float fadeDuration = 0.5f;
-
-        private const float deadCellSaturation = 0.3f;
-        private const float deadCellValue = 0.2f;
-        private const float aliveCellSaturation = 0.7f;
-        private const float aliveCellValue = 0.7f;
 
         private enum RulesetName
         {
@@ -92,12 +82,14 @@ namespace ProceduralToolkit.Examples
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
 
             Generate();
+            SetupSkyboxAndPalette();
         }
 
         private void Update()
         {
             automaton.Simulate();
             DrawCells();
+            UpdateSkybox();
         }
 
         private void SelectRuleset(RulesetName rulesetName)
@@ -111,12 +103,10 @@ namespace ProceduralToolkit.Examples
         {
             automaton = new CellularAutomaton(config);
 
-            float hue = Random.value;
-            deadColor = new ColorHSV(hue, deadCellSaturation, deadCellValue).ToColor();
-            aliveColor = new ColorHSV(hue, aliveCellSaturation, aliveCellValue).ToColor();
+            GeneratePalette();
 
-            var backgroundColor = new ColorHSV(hue, backgroundSaturation, backgroundValue).complementary.ToColor();
-            background.CrossFadeColor(backgroundColor, fadeDuration, true, false);
+            deadColor = GetMainColorHSV().WithSV(0.3f, 0.2f).ToColor();
+            aliveColor = GetMainColorHSV().ToColor();
         }
 
         private void DrawCells()
