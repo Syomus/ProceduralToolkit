@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -13,6 +14,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Move(this Mesh mesh, Vector3 vector)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             var vertices = mesh.vertices;
             for (int i = 0; i < vertices.Length; i++)
             {
@@ -26,6 +31,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Rotate(this Mesh mesh, Quaternion rotation)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             var vertices = mesh.vertices;
             var normals = mesh.normals;
             for (int i = 0; i < vertices.Length; i++)
@@ -42,6 +51,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Scale(this Mesh mesh, float scale)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             var vertices = mesh.vertices;
             for (int i = 0; i < vertices.Length; i++)
             {
@@ -55,6 +68,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Scale(this Mesh mesh, Vector3 scale)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             var vertices = mesh.vertices;
             var normals = mesh.normals;
             for (int i = 0; i < vertices.Length; i++)
@@ -71,6 +88,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Paint(this Mesh mesh, Color color)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             var colors = new Color[mesh.vertexCount];
             for (int i = 0; i < mesh.vertexCount; i++)
             {
@@ -84,6 +105,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void FlipFaces(this Mesh mesh)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             mesh.FlipTriangles();
             mesh.FlipNormals();
         }
@@ -93,6 +118,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void FlipTriangles(this Mesh mesh)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             for (int i = 0; i < mesh.subMeshCount; i++)
             {
                 var triangles = mesh.GetTriangles(i);
@@ -109,6 +138,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void FlipNormals(this Mesh mesh)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             var normals = mesh.normals;
             for (int i = 0; i < normals.Length; i++)
             {
@@ -122,6 +155,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void FlipUVHorizontally(this Mesh mesh, int channel = 0)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             var list = new List<Vector2>();
             mesh.GetUVs(channel, list);
             for (var i = 0; i < list.Count; i++)
@@ -136,6 +173,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void FlipUVVertically(this Mesh mesh, int channel = 0)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             var list = new List<Vector2>();
             mesh.GetUVs(channel, list);
             for (var i = 0; i < list.Count; i++)
@@ -150,6 +191,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Spherify(this Mesh mesh, float radius, Vector3 center = default(Vector3))
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             var vertices = mesh.vertices;
             var normals = mesh.normals;
             for (var i = 0; i < vertices.Length; i++)

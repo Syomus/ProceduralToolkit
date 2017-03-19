@@ -13,6 +13,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawLine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             Draw.RasterLine(v0, v1, (x, y) => texture.SetPixel(x, y, color));
         }
 
@@ -21,6 +25,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawLine(this Texture2D texture, int x0, int y0, int x1, int y1, Color color)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             Draw.RasterLine(x0, y0, x1, y1, (x, y) => texture.SetPixel(x, y, color));
         }
 
@@ -29,6 +37,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawAALine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             Draw.RasterAALine(v0, v1,
                 (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t)));
         }
@@ -38,6 +50,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawAALine(this Texture2D texture, int x0, int y0, int x1, int y1, Color color)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             Draw.RasterAALine(x0, y0, x1, y1,
                 (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t)));
         }
@@ -47,6 +63,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             Draw.RasterCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
         }
 
@@ -55,6 +75,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawCircle(this Texture2D texture, int centerX, int centerY, int radius, Color color)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             Draw.RasterCircle(centerX, centerY, radius, (x, y) => texture.SetPixel(x, y, color));
         }
 
@@ -63,6 +87,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawFilledCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             Draw.RasterFilledCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
         }
 
@@ -71,6 +99,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawFilledCircle(this Texture2D texture, int centerX, int centerY, int radius, Color color)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             Draw.RasterFilledCircle(centerX, centerY, radius, (x, y) => texture.SetPixel(x, y, color));
         }
 
@@ -79,6 +111,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawRect(this Texture2D texture, int x, int y, int blockWidth, int blockHeight, Color color)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             var colors = new Color[blockWidth*blockHeight];
             for (int _y = 0; _y < blockHeight; _y++)
             {
@@ -95,6 +131,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawGradient(this Texture2D texture, Gradient gradient, Directions progressionDirection)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             texture.DrawGradientRect(0, 0, texture.width, texture.height, gradient, progressionDirection);
         }
 
@@ -104,6 +144,10 @@ namespace ProceduralToolkit
         public static void DrawGradientRect(this Texture2D texture, int x, int y, int blockWidth, int blockHeight,
             Gradient gradient, Directions progressionDirection)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             Func<int, int, Color> getColor;
             switch (progressionDirection)
             {
@@ -140,7 +184,16 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Clear(this Texture2D texture)
         {
-            Clear(texture, Color.white);
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
+            var pixels = new Color[texture.width*texture.height];
+            for (var i = 0; i < pixels.Length; i++)
+            {
+                pixels[i] = Color.white;
+            }
+            texture.SetPixels(pixels);
         }
 
         /// <summary>
@@ -148,8 +201,16 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Clear(this Texture2D texture, Color color)
         {
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
             var pixels = new Color[texture.width*texture.height];
-            texture.Clear(color, ref pixels);
+            for (var i = 0; i < pixels.Length; i++)
+            {
+                pixels[i] = color;
+            }
+            texture.SetPixels(pixels);
         }
 
         /// <summary>
@@ -157,7 +218,15 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Clear(this Texture2D texture, Color color, ref Color[] pixels)
         {
-            for (var i = 0; i < pixels.Length; ++i)
+            if (texture == null)
+            {
+                throw new ArgumentNullException("texture");
+            }
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            for (var i = 0; i < pixels.Length; i++)
             {
                 pixels[i] = color;
             }

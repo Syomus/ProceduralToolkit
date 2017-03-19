@@ -38,6 +38,10 @@ namespace ProceduralToolkit
         /// </summary>
         public MeshDraft(Mesh mesh)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             name = mesh.name;
 #if UNITY_5_6_OR_NEWER
             mesh.GetVertices(vertices);
@@ -67,6 +71,10 @@ namespace ProceduralToolkit
         /// </summary>
         public void Add(MeshDraft draft)
         {
+            if (draft == null)
+            {
+                throw new ArgumentNullException("draft");
+            }
             foreach (var triangle in draft.triangles)
             {
                 triangles.Add(triangle + vertices.Count);
@@ -281,6 +289,10 @@ namespace ProceduralToolkit
         /// </summary>
         public void ToMesh(ref Mesh mesh)
         {
+            if (mesh == null)
+            {
+                throw new ArgumentNullException("mesh");
+            }
             mesh.Clear(false);
             mesh.name = name;
             mesh.SetVertices(vertices);

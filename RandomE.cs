@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
+using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit
 {
@@ -158,6 +160,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static T GetRandom<T>(this List<T> items)
         {
+            if (items == null)
+            {
+                throw new ArgumentNullException("items");
+            }
             if (items.Count == 0)
             {
                 Debug.LogError("Empty array");
@@ -171,6 +177,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static T GetRandom<T>(this T[] items)
         {
+            if (items == null)
+            {
+                throw new ArgumentNullException("items");
+            }
             if (items.Length == 0)
             {
                 Debug.LogError("Empty array");
@@ -184,7 +194,16 @@ namespace ProceduralToolkit
         /// </summary>
         public static T GetRandom<T>(T item1, T item2, params T[] items)
         {
-            return new List<T>(items) {item1, item2}.GetRandom();
+            int index = Random.Range(0, items.Length + 2);
+            if (index == 0)
+            {
+                return item1;
+            }
+            if (index == 1)
+            {
+                return item2;
+            }
+            return items[index - 2];
         }
 
         /// <summary>
@@ -192,6 +211,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static TValue GetRandom<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
         {
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException("dictionary");
+            }
             var keys = dictionary.Keys;
             if (keys.Count == 0)
             {
@@ -207,10 +230,18 @@ namespace ProceduralToolkit
         /// <param name="weights">Positive floats representing chances</param>
         public static T GetRandom<T>(this List<T> list, List<float> weights)
         {
+            if (list == null)
+            {
+                throw new ArgumentNullException("list");
+            }
             if (list.Count == 0)
             {
                 Debug.LogError("Empty array");
                 return default(T);
+            }
+            if (weights == null)
+            {
+                throw new ArgumentNullException("weights");
             }
             if (weights.Count == 0)
             {
@@ -280,6 +311,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static T PopRandom<T>(this List<T> items)
         {
+            if (items == null)
+            {
+                throw new ArgumentNullException("items");
+            }
             if (items.Count == 0)
             {
                 Debug.LogError("Empty array");
@@ -299,6 +334,10 @@ namespace ProceduralToolkit
         /// </remarks>
         public static void Shuffle<T>(this T[] array)
         {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
             for (int i = 0; i < array.Length; i++)
             {
                 int j = Random.Range(i, array.Length);
@@ -316,6 +355,10 @@ namespace ProceduralToolkit
         /// </remarks>
         public static void Shuffle<T>(this List<T> array)
         {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
             for (int i = 0; i < array.Count; i++)
             {
                 int j = Random.Range(i, array.Count);
