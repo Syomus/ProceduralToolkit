@@ -8,7 +8,7 @@ namespace ProceduralToolkit.Examples
     /// <summary>
     /// Fully procedural building generator
     /// </summary>
-    public class BuildingGenerator
+    public class BuildingGenerator : BuildingGeneratorBase
     {
         private const float socleHeight = 1;
         private const float floorHeight = 2.5f;
@@ -57,7 +57,7 @@ namespace ProceduralToolkit.Examples
 
             float facadeHeight = floorHeight*config.floors + socleHeight + (config.hasAttic ? atticHeight : 0);
 
-            var buildingDraft = BuildingGeneratorUtils.GenerateFacades(foundationPolygon, facadeLayouts);
+            var buildingDraft = GenerateFacades(foundationPolygon, facadeLayouts);
             buildingDraft.uv.Clear();
 
             var roof = RoofGenerator.Generate(foundationPolygon, facadeHeight, config.roofConfig);
@@ -167,7 +167,7 @@ namespace ProceduralToolkit.Examples
             }
             else
             {
-                var socle = BuildingGeneratorUtils.ConstructHorizontal(
+                var socle = ConstructHorizontal(
                     constructors: constructors[PanelType.Socle],
                     height: socleHeight,
                     getPanelWidth: index => sizeValues[panelSizes[index]],
@@ -181,7 +181,7 @@ namespace ProceduralToolkit.Examples
                     HorizontalLayout floor;
                     if (floorIndex == 0)
                     {
-                        floor = BuildingGeneratorUtils.ConstructHorizontal(
+                        floor = ConstructHorizontal(
                             constructors: constructors[PanelType.Window],
                             height: floorHeight,
                             getPanelWidth: index => sizeValues[panelSizes[index]],
@@ -189,7 +189,7 @@ namespace ProceduralToolkit.Examples
                     }
                     else
                     {
-                        floor = BuildingGeneratorUtils.ConstructHorizontal(
+                        floor = ConstructHorizontal(
                             constructors: hasBalconies
                                 ? constructors[PanelType.Balcony]
                                 : constructors[PanelType.Window],
@@ -205,7 +205,7 @@ namespace ProceduralToolkit.Examples
 
             if (hasAttic)
             {
-                var attic = BuildingGeneratorUtils.ConstructHorizontal(
+                var attic = ConstructHorizontal(
                     constructors: constructors[PanelType.Attic],
                     height: atticHeight,
                     getPanelWidth: index => sizeValues[panelSizes[index]],
@@ -222,7 +222,7 @@ namespace ProceduralToolkit.Examples
 
         private VerticalLayout ConstructEntranceVertical(float width, int floors)
         {
-            var vertical = BuildingGeneratorUtils.ConstructVertical(
+            var vertical = ConstructVertical(
                 constructor: commonConstructors[PanelType.EntranceWindow],
                 width: width,
                 panelHeight: floorHeight,
@@ -284,12 +284,12 @@ namespace ProceduralToolkit.Examples
         public class Palette
         {
             public Color socleColor = ColorE.silver;
-            public Color socleWindowColor = ColorE.silver/2;
-            public Color doorColor = ColorE.silver/2;
+            public Color socleWindowColor = (ColorE.silver/2).WithA(1);
+            public Color doorColor = (ColorE.silver/2).WithA(1);
             public Color wallColor = ColorE.white;
             public Color frameColor = ColorE.silver;
             public Color glassColor = ColorE.white;
-            public Color roofColor = ColorE.gray/4;
+            public Color roofColor = (ColorE.gray/4).WithA(1);
         }
 
         private enum PanelSize

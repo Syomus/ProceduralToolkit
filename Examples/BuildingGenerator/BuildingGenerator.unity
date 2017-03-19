@@ -931,12 +931,12 @@ MonoBehaviour:
       overhang: 0.2
     palette:
       socleColor: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 1}
-      socleWindowColor: {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 0.5}
-      doorColor: {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 0.5}
+      socleWindowColor: {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
+      doorColor: {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
       wallColor: {r: 0.6, g: 0.18431373, b: 0.12156863, a: 1}
       frameColor: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 1}
       glassColor: {r: 1, g: 1, b: 1, a: 1}
-      roofColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 0.25}
+      roofColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
 --- !u!4 &1452797201
 Transform:
   m_ObjectHideFlags: 0

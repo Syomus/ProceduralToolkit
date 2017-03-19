@@ -4,11 +4,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
-    public static class BuildingGeneratorUtils
+    public class BuildingGeneratorBase
     {
-        public static MeshDraft GenerateFacades(
-            List<Vector2> foundationPolygon,
-            List<FacadeLayout> facadeLayouts)
+        public static MeshDraft GenerateFacades(List<Vector2> foundationPolygon, List<FacadeLayout> facadeLayouts)
         {
             var buildingDraft = new MeshDraft {name = "Building"};
             for (int i = 0; i < foundationPolygon.Count; i++)
