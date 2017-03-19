@@ -10,14 +10,9 @@ namespace ProceduralToolkit.Examples
         public RectTransform leftPanel;
         public ToggleGroup algorithmsGroup;
         public RawImage mazeImage;
-        public Image background;
         [Space]
         public MazeGenerator.Config config = new MazeGenerator.Config();
         public bool useGradient = true;
-
-        private const float backgroundSaturation = 0.25f;
-        private const float backgroundValue = 0.7f;
-        private const float fadeDuration = 0.5f;
 
         private const float gradientSaturation = 0.7f;
         private const float gradientSaturationOffset = 0.1f;
@@ -27,7 +22,7 @@ namespace ProceduralToolkit.Examples
 
         private Texture2D texture;
         private MazeGenerator mazeGenerator;
-        private float hue;
+        private ColorHSV mainColor;
 
         private void Awake()
         {
@@ -68,6 +63,12 @@ namespace ProceduralToolkit.Examples
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate new maze", Generate);
 
             Generate();
+            SetupSkyboxAndPalette();
+        }
+
+        private void Update()
+        {
+            UpdateSkybox();
         }
 
         private void Generate()
@@ -79,9 +80,8 @@ namespace ProceduralToolkit.Examples
 
             mazeGenerator = new MazeGenerator(config);
 
-            hue = Random.value;
-            var backgroundColor = new ColorHSV(hue, backgroundSaturation, backgroundValue).complementary.ToColor();
-            background.CrossFadeColor(backgroundColor, fadeDuration, true, false);
+            GeneratePalette();
+            mainColor = GetMainColorHSV();
 
             StartCoroutine(GenerateCoroutine());
         }
@@ -144,7 +144,7 @@ namespace ProceduralToolkit.Examples
         {
             float saturation = gradientPosition*gradientSaturation + gradientSaturationOffset;
             float value = gradientPosition*gradientValue + gradientValueOffset;
-            return new ColorHSV(hue, saturation, value).ToColor();
+            return mainColor.WithSV(saturation, value).ToColor();
         }
 
         private void InstantiateToggle(MazeGenerator.Algorithm algorithm, string header)
