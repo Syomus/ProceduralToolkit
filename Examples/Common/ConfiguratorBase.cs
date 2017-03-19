@@ -5,8 +5,8 @@ namespace ProceduralToolkit.Examples
 {
     public class ConfiguratorBase : MonoBehaviour
     {
-        private List<ColorHSV> targetPalette = new List<ColorHSV>();
-        private List<ColorHSV> currentPalette = new List<ColorHSV>();
+        private Palette currentPalette = new Palette();
+        private Palette targetPalette = new Palette();
 
         protected static T InstantiateControl<T>(Transform parent) where T : Component
         {
@@ -66,50 +66,57 @@ namespace ProceduralToolkit.Examples
 
         protected void GeneratePalette()
         {
-            targetPalette = RandomE.TetradicPalette(0.25f, 0.7f);
-            targetPalette[0] = targetPalette[0].WithSV(0.8f, 0.6f);
-            targetPalette[1] = targetPalette[1].WithSV(0.8f, 0.6f);
-            targetPalette.Add(ColorHSV.Lerp(targetPalette[2], targetPalette[3], 0.5f));
+            List<ColorHSV> palette = RandomE.TetradicPalette(0.25f, 0.7f);
+            targetPalette.mainColor = palette[0].WithSV(0.8f, 0.6f);
+            targetPalette.secondaryColor = palette[1].WithSV(0.8f, 0.6f);
+            targetPalette.skyColor = palette[2];
+            targetPalette.horizonColor = palette[3];
+            targetPalette.groundColor = ColorHSV.Lerp(targetPalette.skyColor, targetPalette.horizonColor, 0.5f);
         }
 
         protected ColorHSV GetMainColorHSV()
         {
-            return targetPalette[0];
+            return targetPalette.mainColor;
         }
 
         protected ColorHSV GetSecondaryColorHSV()
         {
-            return targetPalette[1];
+            return targetPalette.secondaryColor;
         }
 
         protected void SetupSkyboxAndPalette()
         {
             RenderSettings.skybox = new Material(RenderSettings.skybox);
-            currentPalette.AddRange(targetPalette);
+            currentPalette.mainColor = targetPalette.mainColor;
+            currentPalette.secondaryColor = targetPalette.secondaryColor;
+            currentPalette.skyColor = targetPalette.skyColor;
+            currentPalette.horizonColor = targetPalette.horizonColor;
+            currentPalette.groundColor = targetPalette.groundColor;
         }
 
         protected void UpdateSkybox()
         {
-            LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, 2, 3, 4, Time.deltaTime);
+            LerpSkybox(RenderSettings.skybox, currentPalette, targetPalette, Time.deltaTime);
         }
 
-        private static void LerpSkybox(
-            Material skybox,
-            List<ColorHSV> currentPalette,
-            List<ColorHSV> targetPalette,
-            int skyColorIndex,
-            int horizonColorIndex,
-            int groundColorIndex,
-            float t)
+        private static void LerpSkybox(Material skybox, Palette currentPalette, Palette targetPalette, float t)
         {
-            for (int i = 0; i < currentPalette.Count; i++)
-            {
-                currentPalette[i] = ColorHSV.Lerp(currentPalette[i], targetPalette[i], t);
-            }
+            currentPalette.skyColor = ColorHSV.Lerp(currentPalette.skyColor, targetPalette.skyColor, t);
+            currentPalette.horizonColor = ColorHSV.Lerp(currentPalette.horizonColor, targetPalette.horizonColor, t);
+            currentPalette.groundColor = ColorHSV.Lerp(currentPalette.groundColor, targetPalette.groundColor, t);
 
-            skybox.SetColor("_SkyColor", currentPalette[skyColorIndex].ToColor());
-            skybox.SetColor("_HorizonColor", currentPalette[horizonColorIndex].ToColor());
-            skybox.SetColor("_GroundColor", currentPalette[groundColorIndex].ToColor());
+            skybox.SetColor("_SkyColor", currentPalette.skyColor.ToColor());
+            skybox.SetColor("_HorizonColor", currentPalette.horizonColor.ToColor());
+            skybox.SetColor("_GroundColor", currentPalette.groundColor.ToColor());
+        }
+
+        private class Palette
+        {
+            public ColorHSV mainColor;
+            public ColorHSV secondaryColor;
+            public ColorHSV skyColor;
+            public ColorHSV horizonColor;
+            public ColorHSV groundColor;
         }
     }
 }
