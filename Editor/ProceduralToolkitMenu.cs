@@ -13,7 +13,7 @@ namespace ProceduralToolkit.Editor
 
         private const int platonicSolids = 0;
         private const string tetrahedron = "Tetrahedron";
-        private const string hexahedron = "Hexahedron";
+        private const string cube = "Cube";
         private const string octahedron = "Octahedron";
         private const string dodecahedron = "Dodecahedron";
         private const string icosahedron = "Icosahedron";
@@ -48,10 +48,10 @@ namespace ProceduralToolkit.Editor
             PrimitiveTemplate(tetrahedron, () => MeshE.Tetrahedron(1));
         }
 
-        [MenuItem(primitivesPath + hexahedron, false, platonicSolids + 1)]
-        public static void Hexahedron()
+        [MenuItem(primitivesPath + cube, false, platonicSolids + 1)]
+        public static void Cube()
         {
-            PrimitiveTemplate(hexahedron, () => MeshE.Hexahedron(1, 1, 1));
+            PrimitiveTemplate(cube, () => MeshE.Cube(1));
         }
 
         [MenuItem(primitivesPath + octahedron, false, platonicSolids + 2)]

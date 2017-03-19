@@ -269,17 +269,18 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        /// <summary>
-        /// Constructs hexahedron aka cube
-        /// </summary>
+        public static MeshDraft Cube(float side)
+        {
+            var draft = Hexahedron(side, side, side);
+            draft.name = "Cube";
+            return draft;
+        }
+
         public static MeshDraft Hexahedron(float width, float length, float height)
         {
             return Hexahedron(Vector3.right*width, Vector3.forward*length, Vector3.up*height);
         }
 
-        /// <summary>
-        /// Constructs hexahedron aka cube
-        /// </summary>
         public static MeshDraft Hexahedron(Vector3 width, Vector3 length, Vector3 height)
         {
             Vector3 corner0 = -width/2 - length/2 - height/2;

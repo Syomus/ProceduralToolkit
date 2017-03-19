@@ -65,6 +65,11 @@ namespace ProceduralToolkit
             return MeshDraft.Tetrahedron(radius).ToMesh();
         }
 
+        public static Mesh Cube(float side)
+        {
+            return MeshDraft.Cube(side).ToMesh();
+        }
+
         public static Mesh Hexahedron(float width, float length, float height)
         {
             return MeshDraft.Hexahedron(width, length, height).ToMesh();
