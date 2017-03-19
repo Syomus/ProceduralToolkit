@@ -39,7 +39,6 @@ public class Example : MonoBehaviour
 * ArrayE: Array extensions.
 * ColorE: Color extensions, HTML colors.
 * ColorHSV: Representation of color in HSV model.
-* Datasets: Constants with uppercase and lowercase letters, digits.
 * DebugE: Drawing methods similar to Debug.
 * Directions: Enum with directions along three axes.
 * Draw: Collection of drawing method-independent generic drawing algorithms.
