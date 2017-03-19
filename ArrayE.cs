@@ -9,6 +9,22 @@ namespace ProceduralToolkit
     public static class ArrayE
     {
         /// <summary>
+        /// Gets the next or the first node in the <see cref="LinkedList{T}"/>
+        /// </summary>
+        public static LinkedListNode<T> NextOrFirst<T>(this LinkedListNode<T> current)
+        {
+            return current.Next ?? current.List.First;
+        }
+
+        /// <summary>
+        /// Gets the previous or the last node in the <see cref="LinkedList{T}"/>
+        /// </summary>
+        public static LinkedListNode<T> PreviousOrLast<T>(this LinkedListNode<T> current)
+        {
+            return current.Previous ?? current.List.Last;
+        }
+
+        /// <summary>
         /// Looped indexer getter, allows out of bounds indices
         /// </summary>
         public static T GetLooped<T>(this T[] array, int index)
