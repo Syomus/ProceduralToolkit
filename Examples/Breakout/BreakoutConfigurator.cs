@@ -5,7 +5,6 @@ namespace ProceduralToolkit.Examples
 {
     public class BreakoutConfigurator : ConfiguratorBase
     {
-        public Camera mainCamera;
         public RectTransform leftPanel;
         [Space]
         public Breakout.Config config = new Breakout.Config();
@@ -14,8 +13,9 @@ namespace ProceduralToolkit.Examples
 
         private void Awake()
         {
-            breakout = new Breakout(mainCamera);
+            breakout = new Breakout();
             Generate();
+            SetupSkyboxAndPalette();
 
             InstantiateControl<TextControl>(leftPanel).Initialize("Use A/D or Left/Right to move");
 
@@ -64,14 +64,20 @@ namespace ProceduralToolkit.Examples
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
         }
 
-        private void Generate()
-        {
-            breakout.Generate(config);
-        }
-
         private void Update()
         {
             breakout.Update();
+
+            UpdateSkybox();
+        }
+
+        private void Generate()
+        {
+            GeneratePalette();
+
+            config.gradient = ColorE.Gradient(GetMainColorHSV(), GetSecondaryColorHSV());
+
+            breakout.Generate(config);
         }
     }
 }

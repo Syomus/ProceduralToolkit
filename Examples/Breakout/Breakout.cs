@@ -26,11 +26,9 @@ namespace ProceduralToolkit.Examples
             public float paddleWidth = 1;
             public float ballSize = 0.5f;
             public float ballVelocityMagnitude = 5;
+            public Gradient gradient;
         }
 
-        private const float backgroundColorSaturation = 0.25f;
-        private const float backgroundColorValue = 0.7f;
-        private const float brickColorSaturation = 0.7f;
         private const float brickColorMinValue = 0.6f;
         private const float brickColorMaxValue = 0.8f;
 
@@ -40,7 +38,6 @@ namespace ProceduralToolkit.Examples
         private const float ballRadius = 0.5f;
         private const float ballForce = 200;
 
-        private Camera mainCamera;
         private Config config;
 
         private Transform bricksContainer;
@@ -60,9 +57,8 @@ namespace ProceduralToolkit.Examples
             {BrickSize.Wide, 1f},
         };
 
-        public Breakout(Camera mainCamera)
+        public Breakout()
         {
-            this.mainCamera = mainCamera;
             bricksContainer = new GameObject("Bricks").transform;
 
             // Generate texture and sprite for bricks, paddle and ball
@@ -163,16 +159,10 @@ namespace ProceduralToolkit.Examples
             }
             bricks.Clear();
 
-            float fromHue = Random.value;
-            float toHue = fromHue + 30/360f;
-
-            var backgroundColor = new ColorHSV(fromHue, backgroundColorSaturation, backgroundColorValue).complementary;
-            mainCamera.backgroundColor = backgroundColor.ToColor();
-
             for (int y = 0; y < config.wallHeight; y++)
             {
                 // Select color for current line
-                float hue = Mathf.Lerp(fromHue, toHue, y/(config.wallHeight - 1f));
+                var currentColor = new ColorHSV(config.gradient.Evaluate(y/(config.wallHeight - 1f)));
 
                 // Generate brick sizes for current line
                 List<BrickSize> brickSizes = FillWallWithBricks(config.wallWidth);
@@ -186,7 +176,7 @@ namespace ProceduralToolkit.Examples
 
                     // Randomize tint of current brick
                     float colorValue = Random.Range(brickColorMinValue, brickColorMaxValue);
-                    Color color = new ColorHSV(hue, brickColorSaturation, colorValue).ToColor();
+                    Color color = currentColor.WithV(colorValue).ToColor();
 
                     bricks.Add(GenerateBrick(position, color, brickSize));
                     leftEdge.x += sizeValues[brickSize];
