@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace ProceduralToolkit.Examples
 {
@@ -26,6 +27,11 @@ namespace ProceduralToolkit.Examples
 
         public MeshDraft Generate(Config config)
         {
+            Assert.IsTrue(config.width > 0);
+            Assert.IsTrue(config.length > 0);
+            Assert.IsTrue(config.floors > 0);
+            Assert.IsTrue(config.entranceInterval > 0);
+
             InitializeConstructors(config.palette);
 
             var foundationPolygon = new List<Vector2>

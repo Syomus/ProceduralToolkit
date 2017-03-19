@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit.Examples
@@ -28,6 +29,9 @@ namespace ProceduralToolkit.Examples
 
         public CellularAutomaton(Config config)
         {
+            Assert.IsTrue(config.width > 0);
+            Assert.IsTrue(config.height > 0);
+
             this.config = config;
             cells = new CellState[config.width, config.height];
             copy = new CellState[config.width, config.height];

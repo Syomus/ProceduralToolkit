@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit.Examples
@@ -21,6 +22,10 @@ namespace ProceduralToolkit.Examples
 
         public static MeshDraft TerrainDraft(Config config)
         {
+            Assert.IsTrue(config.terrainSize.x > 0);
+            Assert.IsTrue(config.terrainSize.z > 0);
+            Assert.IsTrue(config.cellSize > 0);
+
             var noiseOffset = new Vector2(Random.Range(0f, 100f), Random.Range(0f, 100f));
 
             int xSegments = Mathf.FloorToInt(config.terrainSize.x/config.cellSize);

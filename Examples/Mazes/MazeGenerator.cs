@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit.Examples
@@ -34,6 +35,12 @@ namespace ProceduralToolkit.Examples
 
         public MazeGenerator(Config config)
         {
+            Assert.IsTrue(config.mazeWidth > 0);
+            Assert.IsTrue(config.mazeHeight > 0);
+            Assert.IsTrue(config.cellSize > 0);
+            Assert.IsTrue(config.wallSize >= 0);
+            Assert.IsNotNull(config.drawEdge);
+
             this.config = config;
             int widthInCells = (config.mazeWidth - config.wallSize)/(config.cellSize + config.wallSize);
             int heightInCells = (config.mazeHeight - config.wallSize)/(config.cellSize + config.wallSize);

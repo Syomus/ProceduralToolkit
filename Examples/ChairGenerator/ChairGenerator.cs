@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace ProceduralToolkit.Examples
 {
@@ -51,6 +52,13 @@ namespace ProceduralToolkit.Examples
 
         public static MeshDraft Chair(Config config)
         {
+            Assert.IsTrue(config.legWidth > 0);
+            Assert.IsTrue(config.legHeight > 0);
+            Assert.IsTrue(config.seatWidth > 0);
+            Assert.IsTrue(config.seatDepth > 0);
+            Assert.IsTrue(config.seatHeight > 0);
+            Assert.IsTrue(config.backHeight > 0);
+
             Vector3 right = Vector3.right*(config.seatWidth - config.legWidth)/2;
             Vector3 forward = Vector3.forward*(config.seatDepth - config.legWidth)/2;
 

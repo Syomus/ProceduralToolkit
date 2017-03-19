@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -74,6 +75,11 @@ namespace ProceduralToolkit.Examples
 
         public void Generate(Config config)
         {
+            Assert.IsTrue(config.wallWidth > 0);
+            Assert.IsTrue(config.wallHeight > 0);
+            Assert.IsTrue(config.paddleWidth > 0);
+            Assert.IsTrue(config.ballSize > 0);
+
             this.config = config;
             ResetLevel();
         }
