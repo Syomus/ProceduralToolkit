@@ -1,4 +1,4 @@
-# Procedural Toolkit v0.1.8
+﻿# Procedural Toolkit v0.1.9
 
 Procedural Toolkit is a collection of instruments for development of procedural generation systems in Unity game engine. 
 It is free, open source and does not require a Unity Pro license.
@@ -11,7 +11,7 @@ It is free, open source and does not require a Unity Pro license.
 [Support email](mailto:proceduraltoolkit@syomus.com)
 
 ## Installation instructions
-Requires **Unity 5.3** or later. Tested on PC and WebGL. UnityScript interoperability is not supported.
+Requires **Unity 5.4** or later. Tested on Windows, WebGL, Android and iOS. UnityScript interoperability is not supported.
 
 You can install Procedural Toolkit from any of the following sources:
 
@@ -170,105 +170,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
-
-## Version history
-### 0.1.8 (2016.09.06)
-#### Features:
-* Added GizmosE, GLE and DebugE helper classes with extra drawing methods such as DrawWireCircle, DrawWireHemisphere, DrawWireCone, and others. GizmosE and DebugE have API similar to Gizmos and Debug, GLE is just a bunch of wrappers over GL.Vertex which follow Gizmos convention.
-* Added Draw helper class with generic drawing methods
-* Added Gradient Skybox shader
-* Added new random color generators: RandomE.ColorHue, ColorSaturation and ColorValue
-* Added static palette generators: ColorHSV.GetAnalogousPalette, GetTriadicPalette and GetTetradicPalette
-* Added random palette generators: RandomE.AnalogousPalette, TriadicPalette, TetradicPalette
-* 3D examples now have dynamic generated skyboxes
-* Added custom inspectors for BuildingGenerator, ChairGenerator and LowPolyTerrainGenerator. Changing values does not cause regeneration, but otherwise they bahave the same way as UI controls and work in editor and play mode.
-
-#### Improvements:
-* Optimized examples, mesh and texture helper classes to produce less garbage
-* Fixed shadowcasting in vertex color shaders
-* Fixed typos and bugs in some classes
-* Added TextureE.Clear overload with ref array
-* Added PTUtils.SignedAngle for 2D and 3D vectors
-* Added PTUtils.PointsOnCircle3XY and PTUtils.PointsOnCircle3YZ
-* Added RandomE.onUnitCircle3XY, RandomE.onUnitCircle3XZ, RandomE.onUnitCircle3YZ
-* TerrainMesh received a full rewrite and is now LowPolyTerrainGenerator
-* Added ColorHSV.WithH, WithS, WithV, WithA, WithOffsetH, Lerp and various useful methods (ToString, GetHashCode and the like)
-
-#### Changes:
-* Dropped support for Unity 5.2
-* Renamed PTUtils.PointsOnCircle3 to PTUtils.PointsOnCircle3XZ
-* Renamed Khrushchyovka to BuildingGenerator to avoid confusion
-* PTUtils.PointsOnCircle methods now receive angle in degrees instead of radians
-* Renamed RandomE.onUnitCircle to RandomE.onUnitCircle2
-* Renamed TerrainMesh to LowPolyTerrainGenerator
-* Moved CameraRotator to Examples\UI
-* Replaced RGB<->HSV conversion methods with Unity implementation
-* Removed "Procedural Toolkit/Unlit Color" shader, use "Unlit/Color" instead
-* RandomE.colorHSV now returns ColorHSV
-* Moved drawing methods from PTUtils to Draw
-
-### 0.1.7 (2015.12.19)
-#### Features:
-* Added ColorHSV class
-* Added Vector2Int class
-* Added ArrayE class
-* Added CircularList class
-* Added CellularAutomaton example
-
-#### Improvements:
-* Added PTUtils.DrawFilledCircle
-* Refactored drawing methods, eliminated overdraw
-* Fixed a few ui and generator bugs in examples
-
-#### Changes:
-* Removed ColorE.HSVToRGB, use ColorHSV instead
-* New CameraRotator behaviour, now requires Image to operate
-* PTUtils.WuLine is now DrawAALine, BresenhamLine is DrawLine
-
-### 0.1.6 (2015.10.02)
-* Major refactoring, new UI for all examples
-* Removed ColorE.ToHex and ColorE.FromHex
-* Moved all static MeshDraft constructors from MeshE to MeshDraft
-* Added PTUtils.PointsOnCircle3 and PTUtils.PointsOnCircle2
-* Added RandomBreadthFirstTraversal maze algorithm
-* Added datasets for names and last names
-* RandomE
-  * Removed meshDraft
-  * Added onUnitCircle, insideUnitSquare, onUnitSquare, insideUnitCube, name constructors, new string and char constructos
-* TextureE
-  * Removed Texture2D constructors
-  * Added DrawCircle, DrawGradient and DrawGradientRect
-
-### 0.1.5 (2015.05.14)
-* Unity 5 support
-* Added mesh saver
-* Added new example: Breakout
-* Added Standard Vertex Color shader
-
-### 0.1.4 (2015.02.08)
-* Added new examples: Primitives and Mazes
-* Added Texture extensions
-* Added Bresenham and Wu line drawing algorithms
-
-### 0.1.3 (2014.11.15)
-* Added new example: Khrushchyovka
-* Added knapsack problem solver
-* Added new Color extensions
-* Added random choice for Dictionary
-* Added new mesh drafts
-* Added specular vertex color shader
-* Improved examples
-
-### 0.1.2 (2014.11.10)
-* Added new example: chair generator
-* Small additions and fixes
-
-### 0.1.1 (2014.10.26)
-* Added new primitives: cylinder and sphere
-* Added mesh extensions: move, rotate, scale, paint, flip faces
-* Added RandomE.Range methods
-* Added PTUtils methods for points on circle and sphere
-* Improved documentation
-
-### 0.1 (2014.10.13)
-* First release
