@@ -1,7 +1,7 @@
 ﻿# Procedural Toolkit v0.1.9
 
 Procedural Toolkit is a collection of instruments for development of procedural generation systems in Unity game engine. 
-It is free, open source and does not require a Unity Pro license.
+It is free, open source and works with Unity Personal license.
 
 **Warning: This is a programming toolkit, editor support is limited.**
 
