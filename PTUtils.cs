@@ -273,6 +273,22 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns the angle in degrees [0, 360] between from and to
+        /// </summary>
+        /// <param name="from">The angle extends round from this vector</param>
+        /// <param name="to">The angle extends round to this vector</param>
+        /// <param name="normal">Up direction of the clockwise axis</param>
+        public static float Angle360(Vector3 from, Vector3 to, Vector3 normal)
+        {
+            float angle = SignedAngle(from, to, normal);
+            if (angle < 0)
+            {
+                angle += 360;
+            }
+            return angle;
+        }
+
+        /// <summary>
         /// Returns the signed angle in degrees [-180, 180] between from and to
         /// </summary>
         /// <param name="from">The angle extends round from this vector</param>
