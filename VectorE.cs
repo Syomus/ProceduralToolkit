@@ -73,11 +73,28 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the distance between <paramref name="point"/> and a line defined by <paramref name="lineA"/> and <paramref name="lineB"/>
+        /// Returns the distance to the closest point on a line defined by <paramref name="ray"/>
+        /// </summary>
+        public static float DistanceToLine(this Vector2 point, Ray ray)
+        {
+            return Vector2.Distance(point, ProjectOnLine(point, ray));
+        }
+
+        /// <summary>
+        /// Returns the distance to the closest point on a line defined by <paramref name="lineA"/> and <paramref name="lineB"/>
         /// </summary>
         public static float DistanceToLine(this Vector2 point, Vector2 lineA, Vector2 lineB)
         {
             return Vector2.Distance(point, ProjectOnLine(point, lineA, lineB));
+        }
+
+        /// <summary>
+        /// Projects a <paramref name="point"/> onto a line defined by <paramref name="ray"/>
+        /// </summary>
+        public static Vector2 ProjectOnLine(this Vector2 point, Ray2D ray)
+        {
+            float projectedX;
+            return ProjectOnLine(point, ray.origin, ray.origin + ray.direction, out projectedX);
         }
 
         /// <summary>
@@ -93,23 +110,77 @@ namespace ProceduralToolkit
         /// Projects a <paramref name="point"/> onto a line defined by <paramref name="lineA"/> and <paramref name="lineB"/>
         /// </summary>
         /// <param name="projectedX">Normalized position of projected point on a line segment. 
-        /// Value of zero means that point coincides with <paramref name="lineA"/>. 
-        /// Value of one means that point coincides with <paramref name="lineB"/>.</param>
+        /// Value of zero means that projected point coincides with <paramref name="lineA"/>. 
+        /// Value of one means that projected point coincides with <paramref name="lineB"/>.</param>
         public static Vector2 ProjectOnLine(this Vector2 point, Vector2 lineA, Vector2 lineB, out float projectedX)
         {
             Vector2 direction = lineB - lineA;
             Vector2 toPoint = point - lineA;
 
-            float dot = Vector2.Dot(direction, direction);
-            if ((double) dot < (double) Mathf.Epsilon)
+            float dotDirection = Vector2.Dot(direction, direction);
+            if ((double) dotDirection < (double) Mathf.Epsilon)
             {
                 Debug.LogError("Invalid line definition. lineA: " + lineA + " lineB: " + lineB);
                 projectedX = 0;
                 return lineA;
             }
 
-            projectedX = Vector2.Dot(toPoint, direction)/dot;
+            projectedX = Vector2.Dot(toPoint, direction)/dotDirection;
             return lineA + direction*projectedX;
+        }
+
+        /// <summary>
+        /// Returns the distance to the closest point on a line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
+        /// </summary>
+        public static float DistanceToSegment(this Vector2 point, Vector2 segmentA, Vector2 segmentB)
+        {
+            return Vector2.Distance(point, ProjectOnSegment(point, segmentA, segmentB));
+        }
+
+        /// <summary>
+        /// Projects a <paramref name="point"/> onto a line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
+        /// </summary>
+        public static Vector2 ProjectOnSegment(this Vector2 point, Vector2 segmentA, Vector2 segmentB)
+        {
+            float projectedX;
+            return ProjectOnSegment(point, segmentA, segmentB, out projectedX);
+        }
+
+        /// <summary>
+        /// Projects a <paramref name="point"/> onto a line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
+        /// </summary>
+        /// <param name="projectedX">Normalized position of projected point on a line segment. 
+        /// Value of zero means that projected point coincides with <paramref name="segmentA"/>. 
+        /// Value of one means that projected point coincides with <paramref name="segmentB"/>.</param>
+        public static Vector2 ProjectOnSegment(this Vector2 point, Vector2 segmentA, Vector2 segmentB,
+            out float projectedX)
+        {
+            Vector2 direction = segmentB - segmentA;
+            Vector2 toPoint = point - segmentA;
+
+            float dotDirection = Vector2.Dot(direction, direction);
+            if ((double) dotDirection < (double) Mathf.Epsilon)
+            {
+                Debug.LogError("Invalid segment definition. segmentA: " + segmentA + " segmentB: " + segmentB);
+                projectedX = 0;
+                return segmentA;
+            }
+
+            float dotToPoint = Vector2.Dot(toPoint, direction);
+            if (dotToPoint <= 0)
+            {
+                projectedX = 0;
+                return segmentA;
+            }
+
+            if (dotDirection <= dotToPoint)
+            {
+                projectedX = 1;
+                return segmentB;
+            }
+
+            projectedX = dotToPoint/dotDirection;
+            return segmentA + direction*projectedX;
         }
 
         #endregion Vector2
@@ -165,11 +236,28 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the distance between <paramref name="point"/> and a line defined by <paramref name="lineA"/> and <paramref name="lineB"/>
+        /// Returns the distance to the closest point on a line defined by <paramref name="ray"/>
+        /// </summary>
+        public static float DistanceToLine(this Vector3 point, Ray ray)
+        {
+            return Vector3.Distance(point, ProjectOnLine(point, ray));
+        }
+
+        /// <summary>
+        /// Returns the distance to the closest point on a line defined by <paramref name="lineA"/> and <paramref name="lineB"/>
         /// </summary>
         public static float DistanceToLine(this Vector3 point, Vector3 lineA, Vector3 lineB)
         {
             return Vector3.Distance(point, ProjectOnLine(point, lineA, lineB));
+        }
+
+        /// <summary>
+        /// Projects a <paramref name="point"/> onto a line defined by <paramref name="ray"/>
+        /// </summary>
+        public static Vector3 ProjectOnLine(this Vector3 point, Ray ray)
+        {
+            float projectedX;
+            return ProjectOnLine(point, ray.origin, ray.origin + ray.direction, out projectedX);
         }
 
         /// <summary>
@@ -185,23 +273,77 @@ namespace ProceduralToolkit
         /// Projects a <paramref name="point"/> onto a line defined by <paramref name="lineA"/> and <paramref name="lineB"/>
         /// </summary>
         /// <param name="projectedX">Normalized position of projected point on a line segment. 
-        /// Value of zero means that point coincides with <paramref name="lineA"/>. 
-        /// Value of one means that point coincides with <paramref name="lineB"/>.</param>
+        /// Value of zero means that projected point coincides with <paramref name="lineA"/>. 
+        /// Value of one means that projected point coincides with <paramref name="lineB"/>.</param>
         public static Vector3 ProjectOnLine(this Vector3 point, Vector3 lineA, Vector3 lineB, out float projectedX)
         {
             Vector3 direction = lineB - lineA;
             Vector3 toPoint = point - lineA;
 
-            float dot = Vector3.Dot(direction, direction);
-            if ((double) dot < (double) Mathf.Epsilon)
+            float dotDirection = Vector3.Dot(direction, direction);
+            if ((double) dotDirection < (double) Mathf.Epsilon)
             {
                 Debug.LogError("Invalid line definition. lineA: " + lineA + " lineB: " + lineB);
                 projectedX = 0;
                 return lineA;
             }
 
-            projectedX = Vector3.Dot(toPoint, direction)/dot;
+            projectedX = Vector3.Dot(toPoint, direction)/dotDirection;
             return lineA + direction*projectedX;
+        }
+
+        /// <summary>
+        /// Returns the distance to the closest point on a line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
+        /// </summary>
+        public static float DistanceToSegment(this Vector3 point, Vector3 segmentA, Vector3 segmentB)
+        {
+            return Vector3.Distance(point, ProjectOnSegment(point, segmentA, segmentB));
+        }
+
+        /// <summary>
+        /// Projects a <paramref name="point"/> onto a line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
+        /// </summary>
+        public static Vector3 ProjectOnSegment(this Vector3 point, Vector3 segmentA, Vector3 segmentB)
+        {
+            float projectedX;
+            return ProjectOnSegment(point, segmentA, segmentB, out projectedX);
+        }
+
+        /// <summary>
+        /// Projects a <paramref name="point"/> onto a line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
+        /// </summary>
+        /// <param name="projectedX">Normalized position of projected point on a line segment. 
+        /// Value of zero means that projected point coincides with <paramref name="segmentA"/>. 
+        /// Value of one means that projected point coincides with <paramref name="segmentB"/>.</param>
+        public static Vector3 ProjectOnSegment(this Vector3 point, Vector3 segmentA, Vector3 segmentB,
+            out float projectedX)
+        {
+            Vector3 direction = segmentB - segmentA;
+            Vector3 toPoint = point - segmentA;
+
+            float dotDirection = Vector3.Dot(direction, direction);
+            if ((double) dotDirection < (double) Mathf.Epsilon)
+            {
+                Debug.LogError("Invalid segment definition. segmentA: " + segmentA + " segmentB: " + segmentB);
+                projectedX = 0;
+                return segmentA;
+            }
+
+            float dotToPoint = Vector3.Dot(toPoint, direction);
+            if (dotToPoint <= 0)
+            {
+                projectedX = 0;
+                return segmentA;
+            }
+
+            if (dotDirection <= dotToPoint)
+            {
+                projectedX = 1;
+                return segmentB;
+            }
+
+            projectedX = dotToPoint/dotDirection;
+            return segmentA + direction*projectedX;
         }
 
         #endregion Vector3
