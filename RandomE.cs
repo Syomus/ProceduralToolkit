@@ -36,17 +36,79 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random point inside a unit square
         /// </summary>
-        public static Vector2 insideUnitSquare { get { return new Vector2(Random.value, Random.value); } }
+        public static Vector2 insideUnitSquare
+        {
+            get { return Range(new Vector2(-0.5f, -0.5f), new Vector2(0.5f, 0.5f)); }
+        }
 
         /// <summary>
         /// Returns a random point on the perimeter of a unit square
         /// </summary>
-        public static Vector2 onUnitSquare { get { return PointOnSquare(1, 1); } }
+        public static Vector2 onUnitSquare { get { return PointOnRect(new Rect(-0.5f, -0.5f, 1, 1)); } }
 
         /// <summary>
         /// Returns a random point inside a unit cube
         /// </summary>
-        public static Vector3 insideUnitCube { get { return new Vector3(Random.value, Random.value, Random.value); } }
+        public static Vector3 insideUnitCube
+        {
+            get { return Range(new Vector3(-0.5f, -0.5f, -0.5f), new Vector3(0.5f, 0.5f, 0.5f)); }
+        }
+
+        /// <summary>
+        /// Returns a random point on a line segment defined by <paramref name="a"/> and <paramref name="b"/>
+        /// </summary>
+        public static Vector2 PointOnSegment(Vector2 a, Vector2 b)
+        {
+            return a + (b - a)*Random.value;
+        }
+
+        /// <summary>
+        /// Returns a random point on a line segment defined by <paramref name="a"/> and <paramref name="b"/>
+        /// </summary>
+        public static Vector3 PointOnSegment(Vector3 a, Vector3 b)
+        {
+            return a + (b - a)*Random.value;
+        }
+
+        /// <summary>
+        /// Returns a random point inside <paramref name="rect"/>
+        /// </summary>
+        public static Vector2 PointInRect(Rect rect)
+        {
+            return Range(rect.min, rect.max);
+        }
+
+        /// <summary>
+        /// Returns a random point on the perimeter of <paramref name="rect"/>
+        /// </summary>
+        public static Vector2 PointOnRect(Rect rect)
+        {
+            float perimeter = 2*rect.width + 2*rect.height;
+            float value = Random.value*perimeter;
+            if (value < rect.width)
+            {
+                return rect.min + new Vector2(value, 0);
+            }
+            value -= rect.width;
+            if (value < rect.height)
+            {
+                return rect.min + new Vector2(rect.width, value);
+            }
+            value -= rect.height;
+            if (value < rect.width)
+            {
+                return rect.min + new Vector2(value, rect.height);
+            }
+            return rect.min + new Vector2(0, value - rect.width);
+        }
+
+        /// <summary>
+        /// Returns a random point inside <paramref name="bounds"/>
+        /// </summary>
+        public static Vector3 PointInBounds(Bounds bounds)
+        {
+            return Range(bounds.min, bounds.max);
+        }
 
         #endregion Vectors
 
@@ -377,37 +439,6 @@ namespace ProceduralToolkit
             if (percent == 0) return false;
             if (percent == 1) return true;
             return Random.value < percent;
-        }
-
-        /// <summary>
-        /// Returns a random point on the perimeter of a square with sides <paramref name="a"/> and <paramref name="b"/>
-        /// </summary>
-        public static Vector2 PointOnSquare(float a, float b)
-        {
-            float value = Random.value*(2*a + 2*b);
-            if (value < a)
-            {
-                return new Vector2(value, 0);
-            }
-            value -= a;
-            if (value < b)
-            {
-                return new Vector2(a, value);
-            }
-            value -= b;
-            if (value < a)
-            {
-                return new Vector2(value, b);
-            }
-            return new Vector2(0, value - a);
-        }
-
-        /// <summary>
-        /// Returns a random point inside <paramref name="bounds"/>
-        /// </summary>
-        public static Vector3 PointInBounds(Bounds bounds)
-        {
-            return Range(bounds.min, bounds.max);
         }
 
         /// <summary>
