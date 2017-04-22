@@ -14,14 +14,12 @@ Material:
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
-    m_TexEnvs: {}
+    m_TexEnvs: []
     m_Floats:
-      data:
-        first:
-          name: _Smoothness
-        second: 0
-      data:
-        first:
-          name: _Metallic
-        second: 0
-    m_Colors: {}
+    - first:
+        name: _Metallic
+      second: 0
+    - first:
+        name: _Smoothness
+      second: 0
+    m_Colors: []

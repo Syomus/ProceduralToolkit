@@ -14,30 +14,24 @@ Material:
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
-    m_TexEnvs: {}
+    m_TexEnvs: []
     m_Floats:
-      data:
-        first:
-          name: _Intensity
-        second: 1
-      data:
-        first:
-          name: _Exponent1
-        second: 3
-      data:
-        first:
-          name: _Exponent2
-        second: 1
+    - first:
+        name: _Exponent1
+      second: 3
+    - first:
+        name: _Exponent2
+      second: 1
+    - first:
+        name: _Intensity
+      second: 1
     m_Colors:
-      data:
-        first:
-          name: _GroundColor
-        second: {r: 0.75, g: 0.75, b: 0.75, a: 0}
-      data:
-        first:
-          name: _SkyColor
-        second: {r: 1, g: 1, b: 1, a: 0}
-      data:
-        first:
-          name: _HorizonColor
-        second: {r: 0.25, g: 0.25, b: 0.25, a: 0}
+    - first:
+        name: _GroundColor
+      second: {r: 0.75, g: 0.75, b: 0.75, a: 0}
+    - first:
+        name: _HorizonColor
+      second: {r: 0.25, g: 0.25, b: 0.25, a: 0}
+    - first:
+        name: _SkyColor
+      second: {r: 1, g: 1, b: 1, a: 0}
