@@ -147,13 +147,11 @@ namespace ProceduralToolkit
             var draft = new MeshDraft {name = "Band"};
             if (lowerRing.Count < 3 || upperRing.Count < 3)
             {
-                Debug.LogError("Array sizes must be greater than 2");
-                return draft;
+                throw new ArgumentException("Array sizes must be greater than 2");
             }
             if (lowerRing.Count != upperRing.Count)
             {
-                Debug.LogError("Array sizes must be equal");
-                return draft;
+                throw new ArgumentException("Array sizes must be equal");
             }
 
             draft.vertices.AddRange(lowerRing);
@@ -215,13 +213,11 @@ namespace ProceduralToolkit
             var draft = new MeshDraft {name = "Flat band"};
             if (lowerRing.Count < 3 || upperRing.Count < 3)
             {
-                Debug.LogError("Array sizes must be greater than 2");
-                return draft;
+                throw new ArgumentException("Array sizes must be greater than 2");
             }
             if (lowerRing.Count != upperRing.Count)
             {
-                Debug.LogError("Array sizes must be equal");
-                return draft;
+                throw new ArgumentException("Array sizes must be equal");
             }
 
             Vector3 v0, v1, v2, v3;

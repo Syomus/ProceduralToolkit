@@ -228,8 +228,7 @@ namespace ProceduralToolkit
             }
             if (items.Count == 0)
             {
-                Debug.LogError("Empty array");
-                return default(T);
+                throw new ArgumentException("Empty array");
             }
             return items[Random.Range(0, items.Count)];
         }
@@ -245,8 +244,7 @@ namespace ProceduralToolkit
             }
             if (items.Length == 0)
             {
-                Debug.LogError("Empty array");
-                return default(T);
+                throw new ArgumentException("Empty array");
             }
             return items[Random.Range(0, items.Length)];
         }
@@ -280,8 +278,7 @@ namespace ProceduralToolkit
             var keys = dictionary.Keys;
             if (keys.Count == 0)
             {
-                Debug.LogError("Empty dictionary");
-                return default(TValue);
+                throw new ArgumentException("Empty dictionary");
             }
             return dictionary[new List<TKey>(keys).GetRandom()];
         }
@@ -298,8 +295,7 @@ namespace ProceduralToolkit
             }
             if (list.Count == 0)
             {
-                Debug.LogError("Empty array");
-                return default(T);
+                throw new ArgumentException("Empty array");
             }
             if (weights == null)
             {
@@ -307,13 +303,11 @@ namespace ProceduralToolkit
             }
             if (weights.Count == 0)
             {
-                Debug.LogError("Empty weights");
-                return default(T);
+                throw new ArgumentException("Empty weights");
             }
             if (list.Count != weights.Count)
             {
-                Debug.LogError("Array sizes must be equal");
-                return list.GetRandom();
+                throw new ArgumentException("Array sizes must be equal");
             }
 
             if (list.Count == 1)
@@ -331,8 +325,7 @@ namespace ProceduralToolkit
             int index = cumulative.FindIndex(a => a >= random);
             if (index == -1)
             {
-                Debug.LogError("Invalid weights");
-                return list.GetRandom();
+                throw new ArgumentException("Weights must be positive");
             }
             return list[index];
         }
@@ -344,8 +337,7 @@ namespace ProceduralToolkit
         {
             if (string.IsNullOrEmpty(chars))
             {
-                Debug.LogError("Empty string");
-                return default(char);
+                throw new ArgumentException("Empty string");
             }
             return chars[Random.Range(0, chars.Length)];
         }
@@ -357,8 +349,7 @@ namespace ProceduralToolkit
         {
             if (string.IsNullOrEmpty(chars))
             {
-                Debug.LogError("Empty string");
-                return default(string);
+                throw new ArgumentException("Empty string");
             }
             var randomString = new StringBuilder(length);
             for (int i = 0; i < length; i++)
@@ -379,8 +370,7 @@ namespace ProceduralToolkit
             }
             if (items.Count == 0)
             {
-                Debug.LogError("Empty array");
-                return default(T);
+                throw new ArgumentException("Empty array");
             }
             var index = Random.Range(0, items.Count);
             var item = items[index];
@@ -474,8 +464,7 @@ namespace ProceduralToolkit
         {
             if (variants < 2)
             {
-                Debug.LogError("Variants must be greater than one");
-                variants = 2;
+                throw new ArgumentException("Variants must be greater than one");
             }
             return Mathf.Lerp(min, max, Random.Range(0, variants)/(variants - 1f));
         }
