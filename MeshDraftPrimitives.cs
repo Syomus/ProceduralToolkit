@@ -10,15 +10,13 @@ namespace ProceduralToolkit
 
         public static MeshDraft Triangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
         {
-            var normal = Vector3.Cross((vertex1 - vertex0), (vertex2 - vertex0)).normalized;
-            return new MeshDraft
+            var draft = new MeshDraft
             {
-                vertices = new List<Vector3>(3) {vertex0, vertex1, vertex2},
-                normals = new List<Vector3>(3) {normal, normal, normal},
+                name = "Triangle",
                 uv = new List<Vector2>(3) {new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1)},
-                triangles = new List<int>(3) {0, 1, 2},
-                name = "Triangle"
             };
+            draft.AddTriangle(vertex0, vertex1, vertex2);
+            return draft;
         }
 
         public static MeshDraft Quad(Vector3 origin, Vector3 width, Vector3 length)
@@ -36,15 +34,13 @@ namespace ProceduralToolkit
 
         public static MeshDraft Quad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
         {
-            var normal = Vector3.Cross((vertex1 - vertex0), (vertex2 - vertex0)).normalized;
-            return new MeshDraft
+            var draft = new MeshDraft
             {
-                vertices = new List<Vector3>(4) {vertex0, vertex1, vertex2, vertex3},
-                normals = new List<Vector3>(4) {normal, normal, normal, normal},
+                name = "Quad",
                 uv = new List<Vector2>(4) {new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0)},
-                triangles = new List<int>(6) {0, 1, 2, 0, 2, 3},
-                name = "Quad"
             };
+            draft.AddQuad(vertex0, vertex1, vertex2, vertex3);
+            return draft;
         }
 
         /// <remarks>

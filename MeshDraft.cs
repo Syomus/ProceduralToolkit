@@ -89,6 +89,45 @@ namespace ProceduralToolkit
             colors.AddRange(draft.colors);
         }
 
+        public void AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
+        {
+            var normal = Vector3.Cross(vertex1 - vertex0, vertex2 - vertex0).normalized;
+
+            triangles.Add(0 + vertices.Count);
+            triangles.Add(1 + vertices.Count);
+            triangles.Add(2 + vertices.Count);
+
+            vertices.Add(vertex0);
+            vertices.Add(vertex1);
+            vertices.Add(vertex2);
+
+            normals.Add(normal);
+            normals.Add(normal);
+            normals.Add(normal);
+        }
+
+        public void AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
+        {
+            var normal = Vector3.Cross(vertex1 - vertex0, vertex2 - vertex0).normalized;
+
+            triangles.Add(0 + vertices.Count);
+            triangles.Add(1 + vertices.Count);
+            triangles.Add(2 + vertices.Count);
+            triangles.Add(0 + vertices.Count);
+            triangles.Add(2 + vertices.Count);
+            triangles.Add(3 + vertices.Count);
+
+            vertices.Add(vertex0);
+            vertices.Add(vertex1);
+            vertices.Add(vertex2);
+            vertices.Add(vertex3);
+
+            normals.Add(normal);
+            normals.Add(normal);
+            normals.Add(normal);
+            normals.Add(normal);
+        }
+
         /// <summary>
         /// Clears all vertex data and all triangle indices
         /// </summary>
