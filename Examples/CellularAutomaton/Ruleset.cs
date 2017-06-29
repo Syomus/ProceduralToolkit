@@ -49,14 +49,28 @@ namespace ProceduralToolkit.Examples
             this.survivalRule = ConvertRuleStringToList(survivalRule);
         }
 
+        public Ruleset(List<int> birthRule, List<int> survivalRule)
+        {
+            this.birthRule = new List<int>(birthRule);
+            this.survivalRule = new List<int>(survivalRule);
+        }
+
         public bool CanSpawn(int aliveCells)
         {
-            return birthRule.Contains(aliveCells);
+            for (int i = 0; i < birthRule.Count; i++)
+            {
+                if (birthRule[i] == aliveCells) return true;
+            }
+            return false;
         }
 
         public bool CanSurvive(int aliveCells)
         {
-            return survivalRule.Contains(aliveCells);
+            for (int i = 0; i < survivalRule.Count; i++)
+            {
+                if (survivalRule[i] == aliveCells) return true;
+            }
+            return false;
         }
 
         private static List<int> ConvertRuleStringToList(string rule)
