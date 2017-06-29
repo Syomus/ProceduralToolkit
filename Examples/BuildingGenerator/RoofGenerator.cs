@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -71,9 +71,9 @@ namespace ProceduralToolkit.Examples
             Vector3 ridge1 = (b + c)/2 + ridgeHeight;
 
             var roofDraft = MeshDraft.Quad(a, ridge0, ridge1, b);
-            roofDraft.Add(MeshDraft.Triangle(b, ridge1, c));
-            roofDraft.Add(MeshDraft.Quad(c, ridge1, ridge0, d));
-            roofDraft.Add(MeshDraft.Triangle(d, ridge0, a));
+            roofDraft.AddTriangle(b, ridge1, c);
+            roofDraft.AddQuad(c, ridge1, ridge0, d);
+            roofDraft.AddTriangle(d, ridge0, a);
             return roofDraft;
         }
 
@@ -89,9 +89,9 @@ namespace ProceduralToolkit.Examples
             Vector3 ridge0 = (a + d)/2 + ridgeHeight + ridgeOffset;
             Vector3 ridge1 = (b + c)/2 + ridgeHeight - ridgeOffset;
             var roofDraft = MeshDraft.Quad(a, ridge0, ridge1, b);
-            roofDraft.Add(MeshDraft.Triangle(b, ridge1, c));
-            roofDraft.Add(MeshDraft.Quad(c, ridge1, ridge0, d));
-            roofDraft.Add(MeshDraft.Triangle(d, ridge0, a));
+            roofDraft.AddTriangle(b, ridge1, c);
+            roofDraft.AddQuad(c, ridge1, ridge0, d);
+            roofDraft.AddTriangle(d, ridge0, a);
             return roofDraft;
         }
 
