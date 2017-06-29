@@ -19,17 +19,15 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        public static MeshDraft Quad(Vector3 origin, Vector3 width, Vector3 length)
+        public static MeshDraft Quad(Vector3 origin, Vector3 width, Vector3 height)
         {
-            var normal = Vector3.Cross(length, width).normalized;
-            return new MeshDraft
+            var draft = new MeshDraft
             {
-                vertices = new List<Vector3>(4) {origin, origin + length, origin + length + width, origin + width},
-                normals = new List<Vector3>(4) {normal, normal, normal, normal},
+                name = "Quad",
                 uv = new List<Vector2>(4) {new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0)},
-                triangles = new List<int>(6) {0, 1, 2, 0, 2, 3},
-                name = "Quad"
             };
+            draft.AddQuad(origin, width, height);
+            return draft;
         }
 
         public static MeshDraft Quad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
@@ -50,22 +48,12 @@ namespace ProceduralToolkit
         {
             var draft = new MeshDraft
             {
-                vertices = vertices,
-                triangles = new List<int>(vertices.Count - 2),
-                normals = new List<Vector3>(vertices.Count),
+                name = "TriangleFan",
                 uv = new List<Vector2>(vertices.Count),
-                name = "TriangleFan"
             };
-            for (int i = 1; i < vertices.Count - 1; i++)
-            {
-                draft.triangles.Add(0);
-                draft.triangles.Add(i);
-                draft.triangles.Add(i + 1);
-            }
-            var normal = Vector3.Cross(vertices[1] - vertices[0], vertices[2] - vertices[0]).normalized;
+            draft.AddTriangleFan(vertices);
             for (int i = 0; i < vertices.Count; i++)
             {
-                draft.normals.Add(normal);
                 draft.uv.Add(new Vector2((float) i/vertices.Count, (float) i/vertices.Count));
             }
             return draft;
@@ -78,22 +66,12 @@ namespace ProceduralToolkit
         {
             var draft = new MeshDraft
             {
-                vertices = vertices,
-                triangles = new List<int>(vertices.Count - 2),
-                normals = new List<Vector3>(vertices.Count),
+                name = "TriangleStrip",
                 uv = new List<Vector2>(vertices.Count),
-                name = "TriangleStrip"
             };
-            for (int i = 0, j = 1, k = 2; i < vertices.Count - 2; i++, j += i%2*2, k += (i + 1)%2*2)
-            {
-                draft.triangles.Add(i);
-                draft.triangles.Add(j);
-                draft.triangles.Add(k);
-            }
-            var normal = Vector3.Cross(vertices[1] - vertices[0], vertices[2] - vertices[0]).normalized;
+            draft.AddTriangleStrip(vertices);
             for (int i = 0; i < vertices.Count; i++)
             {
-                draft.normals.Add(normal);
                 draft.uv.Add(new Vector2((float) i/vertices.Count, (float) i/vertices.Count));
             }
             return draft;

@@ -89,6 +89,8 @@ namespace ProceduralToolkit
             colors.AddRange(draft.colors);
         }
 
+        #region Mesh parts
+
         public void AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
         {
             var normal = Vector3.Cross(vertex1 - vertex0, vertex2 - vertex0).normalized;
@@ -101,6 +103,28 @@ namespace ProceduralToolkit
             vertices.Add(vertex1);
             vertices.Add(vertex2);
 
+            normals.Add(normal);
+            normals.Add(normal);
+            normals.Add(normal);
+        }
+
+        public void AddQuad(Vector3 origin, Vector3 width, Vector3 height)
+        {
+            var normal = Vector3.Cross(height, width).normalized;
+
+            triangles.Add(0 + vertices.Count);
+            triangles.Add(1 + vertices.Count);
+            triangles.Add(2 + vertices.Count);
+            triangles.Add(0 + vertices.Count);
+            triangles.Add(2 + vertices.Count);
+            triangles.Add(3 + vertices.Count);
+
+            vertices.Add(origin);
+            vertices.Add(origin + height);
+            vertices.Add(origin + height + width);
+            vertices.Add(origin + width);
+
+            normals.Add(normal);
             normals.Add(normal);
             normals.Add(normal);
             normals.Add(normal);
@@ -127,6 +151,50 @@ namespace ProceduralToolkit
             normals.Add(normal);
             normals.Add(normal);
         }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(List<Vector3> vertices)
+        {
+            for (int i = 1; i < vertices.Count - 1; i++)
+            {
+                triangles.Add(0 + this.vertices.Count);
+                triangles.Add(i + this.vertices.Count);
+                triangles.Add(i + 1 + this.vertices.Count);
+            }
+
+            this.vertices.AddRange(vertices);
+
+            var normal = Vector3.Cross(vertices[1] - vertices[0], vertices[2] - vertices[0]).normalized;
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                normals.Add(normal);
+            }
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(List<Vector3> vertices)
+        {
+            for (int i = 0, j = 1, k = 2; i < vertices.Count - 2; i++, j += i%2*2, k += (i + 1)%2*2)
+            {
+                triangles.Add(i + this.vertices.Count);
+                triangles.Add(j + this.vertices.Count);
+                triangles.Add(k + this.vertices.Count);
+            }
+
+            this.vertices.AddRange(vertices);
+
+            var normal = Vector3.Cross(vertices[1] - vertices[0], vertices[2] - vertices[0]).normalized;
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                normals.Add(normal);
+            }
+        }
+
+        #endregion Mesh parts
 
         /// <summary>
         /// Clears all vertex data and all triangle indices
