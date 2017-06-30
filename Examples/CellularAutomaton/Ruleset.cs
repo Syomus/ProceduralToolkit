@@ -40,24 +40,38 @@ namespace ProceduralToolkit.Examples
 
         #endregion Common rulesets
 
-        private readonly List<int> birthRule;
-        private readonly List<int> survivalRule;
+        private readonly int[] birthRule;
+        private readonly int[] survivalRule;
 
-        public Ruleset(string birthRule = null, string survivalRule = null)
+        public Ruleset(int[] birthRule, int[] survivalRule)
         {
-            this.birthRule = ConvertRuleStringToList(birthRule);
-            this.survivalRule = ConvertRuleStringToList(survivalRule);
+            this.birthRule = new int[birthRule.Length];
+            for (int i = 0; i < birthRule.Length; i++)
+            {
+                this.birthRule[i] = birthRule[i];
+            }
+            this.survivalRule = new int[survivalRule.Length];
+            for (int i = 0; i < survivalRule.Length; i++)
+            {
+                this.survivalRule[i] = survivalRule[i];
+            }
         }
 
         public Ruleset(List<int> birthRule, List<int> survivalRule)
         {
-            this.birthRule = new List<int>(birthRule);
-            this.survivalRule = new List<int>(survivalRule);
+            this.birthRule = birthRule.ToArray();
+            this.survivalRule = survivalRule.ToArray();
+        }
+
+        public Ruleset(string birthRule = null, string survivalRule = null)
+        {
+            this.birthRule = ConvertRuleStringToList(birthRule).ToArray();
+            this.survivalRule = ConvertRuleStringToList(survivalRule).ToArray();
         }
 
         public bool CanSpawn(int aliveCells)
         {
-            for (int i = 0; i < birthRule.Count; i++)
+            for (int i = 0; i < birthRule.Length; i++)
             {
                 if (birthRule[i] == aliveCells) return true;
             }
@@ -66,7 +80,7 @@ namespace ProceduralToolkit.Examples
 
         public bool CanSurvive(int aliveCells)
         {
-            for (int i = 0; i < survivalRule.Count; i++)
+            for (int i = 0; i < survivalRule.Length; i++)
             {
                 if (survivalRule[i] == aliveCells) return true;
             }
