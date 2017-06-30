@@ -38,7 +38,8 @@ namespace ProceduralToolkit.Examples
 
             visitAliveBorders = (int neighbourX, int neighbourY) =>
             {
-                if (copy.IsInBounds(neighbourX, neighbourY))
+                if (neighbourX >= 0 && neighbourX < config.width &&
+                    neighbourY >= 0 && neighbourY < config.height)
                 {
                     if (copy[neighbourX, neighbourY] == CellState.Alive)
                     {
@@ -120,11 +121,11 @@ namespace ProceduralToolkit.Examples
             aliveNeighbours = 0;
             if (config.aliveBorders)
             {
-                copy.VisitMooreNeighbours(x, y, false, visitAliveBorders);
+                copy.MooreVisit(x, y, false, visitAliveBorders);
             }
             else
             {
-                copy.VisitMooreNeighbours(x, y, true, visitDeadBorders);
+                copy.MooreVisit(x, y, true, visitDeadBorders);
             }
             return aliveNeighbours;
         }

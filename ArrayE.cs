@@ -135,16 +135,18 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentNullException("visit");
             }
-            if (startX < 0 || startX >= array.GetLength(0))
+            int lengthX = array.GetLength(0);
+            if (startX < 0 || startX >= lengthX)
             {
                 throw new ArgumentOutOfRangeException("startX");
             }
-            if (startY < 0 || startY >= array.GetLength(1))
+            int lengthY = array.GetLength(1);
+            if (startY < 0 || startY >= lengthY)
             {
                 throw new ArgumentOutOfRangeException("startY");
             }
 
-            bool[,] processed = new bool[array.GetLength(0), array.GetLength(1)];
+            bool[,] processed = new bool[lengthX, lengthY];
             T value = array[startX, startY];
 
             var queue = new Queue<Vector2Int>();
@@ -155,7 +157,7 @@ namespace ProceduralToolkit
             {
                 Vector2Int cell = queue.Dequeue();
 
-                array.VisitVonNeumannNeighbours(cell.x, cell.y, true, (x, y) =>
+                array.VonNeumannVisit(cell.x, cell.y, true, (x, y) =>
                 {
                     if (array[x, y].Equals(value) && !processed[x, y])
                     {
@@ -195,16 +197,18 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentNullException("visit");
             }
-            if (startX < 0 || startX >= array.GetLength(0))
+            int lengthX = array.GetLength(0);
+            if (startX < 0 || startX >= lengthX)
             {
                 throw new ArgumentOutOfRangeException("startX");
             }
-            if (startY < 0 || startY >= array.GetLength(1))
+            int lengthY = array.GetLength(1);
+            if (startY < 0 || startY >= lengthY)
             {
                 throw new ArgumentOutOfRangeException("startY");
             }
 
-            bool[,] processed = new bool[array.GetLength(0), array.GetLength(1)];
+            bool[,] processed = new bool[lengthX, lengthY];
             T value = array[startX, startY];
 
             var queue = new Queue<Vector2Int>();
@@ -216,9 +220,10 @@ namespace ProceduralToolkit
                 Vector2Int cell = queue.Dequeue();
 
                 bool isBorderCell = false;
-                array.VisitMooreNeighbours(cell.x, cell.y, false, (x, y) =>
+                array.MooreVisit(cell.x, cell.y, false, (x, y) =>
                 {
-                    if (array.IsInBounds(x, y))
+                    if (x >= 0 && x < lengthX &&
+                        y >= 0 && y < lengthY)
                     {
                         if (array[x, y].Equals(value))
                         {
@@ -250,10 +255,10 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
         /// </remarks>
-        public static void VisitVonNeumannNeighbours<T>(this T[,] array, Vector2Int center, bool checkArrayBounds,
+        public static void VonNeumannVisit<T>(this T[,] array, Vector2Int center, bool checkArrayBounds,
             Action<int, int> visit)
         {
-            VisitVonNeumannNeighbours(array, center.x, center.y, checkArrayBounds, visit);
+            VonNeumannVisit(array, center.x, center.y, checkArrayBounds, visit);
         }
 
         /// <summary>
@@ -262,7 +267,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
         /// </remarks>
-        public static void VisitVonNeumannNeighbours<T>(this T[,] array, int x, int y, bool checkArrayBounds,
+        public static void VonNeumannVisit<T>(this T[,] array, int x, int y, bool checkArrayBounds,
             Action<int, int> visit)
         {
             if (array == null)
@@ -308,10 +313,10 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood
         /// </remarks>
-        public static void VisitMooreNeighbours<T>(this T[,] array, Vector2Int center, bool checkArrayBounds,
+        public static void MooreVisit<T>(this T[,] array, Vector2Int center, bool checkArrayBounds,
             Action<int, int> visit)
         {
-            VisitMooreNeighbours(array, center.x, center.y, checkArrayBounds, visit);
+            MooreVisit(array, center.x, center.y, checkArrayBounds, visit);
         }
 
         /// <summary>
@@ -320,8 +325,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood
         /// </remarks>
-        public static void VisitMooreNeighbours<T>(this T[,] array, int x, int y, bool checkArrayBounds,
-            Action<int, int> visit)
+        public static void MooreVisit<T>(this T[,] array, int x, int y, bool checkArrayBounds, Action<int, int> visit)
         {
             if (array == null)
             {
