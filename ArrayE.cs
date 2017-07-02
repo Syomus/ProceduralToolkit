@@ -160,19 +160,22 @@ namespace ProceduralToolkit
             queue.Enqueue(new Vector2Int(startX, startY));
             processed[startX, startY] = true;
 
+            Action<int, int> processNeighbours = (x, y) =>
+            {
+                if (!processed[x, y])
+                {
+                    if (comparer.Equals(array[x, y], value))
+                    {
+                        queue.Enqueue(new Vector2Int(x, y));
+                    }
+                    processed[x, y] = true;
+                }
+            };
+
             while (queue.Count > 0)
             {
                 Vector2Int cell = queue.Dequeue();
-
-                array.VonNeumannVisit(cell.x, cell.y, true, (x, y) =>
-                {
-                    if (comparer.Equals(array[x, y], value) && !processed[x, y])
-                    {
-                        queue.Enqueue(new Vector2Int(x, y));
-                        processed[x, y] = true;
-                    }
-                });
-
+                array.VonNeumannVisit(cell.x, cell.y, true, processNeighbours);
                 visit(cell.x, cell.y);
             }
         }
