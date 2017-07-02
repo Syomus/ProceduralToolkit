@@ -114,9 +114,10 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
         /// </remarks>
-        public static void FloodVisit<T>(this T[,] array, Vector2Int start, Action<int, int> visit)
+        public static void FloodVisit<T>(this T[,] array, Vector2Int start, Action<int, int> visit,
+            IEqualityComparer<T> comparer = null)
         {
-            FloodVisit(array, start.x, start.y, visit);
+            FloodVisit(array, start.x, start.y, visit, comparer);
         }
 
         /// <summary>
@@ -125,7 +126,8 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
         /// </remarks>
-        public static void FloodVisit<T>(this T[,] array, int startX, int startY, Action<int, int> visit)
+        public static void FloodVisit<T>(this T[,] array, int startX, int startY, Action<int, int> visit,
+            IEqualityComparer<T> comparer = null)
         {
             if (array == null)
             {
@@ -146,6 +148,11 @@ namespace ProceduralToolkit
                 throw new ArgumentOutOfRangeException("startY");
             }
 
+            if (comparer == null)
+            {
+                comparer = EqualityComparer<T>.Default;
+            }
+
             bool[,] processed = new bool[lengthX, lengthY];
             T value = array[startX, startY];
 
@@ -159,7 +166,7 @@ namespace ProceduralToolkit
 
                 array.VonNeumannVisit(cell.x, cell.y, true, (x, y) =>
                 {
-                    if (array[x, y].Equals(value) && !processed[x, y])
+                    if (comparer.Equals(array[x, y], value) && !processed[x, y])
                     {
                         queue.Enqueue(new Vector2Int(x, y));
                         processed[x, y] = true;
@@ -176,9 +183,10 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
         /// </remarks>
-        public static void FloodVisit<T>(this T[,] array, Vector2Int start, Action<int, int, bool> visit)
+        public static void FloodVisit<T>(this T[,] array, Vector2Int start, Action<int, int, bool> visit,
+            IEqualityComparer<T> comparer = null)
         {
-            FloodVisit(array, start.x, start.y, visit);
+            FloodVisit(array, start.x, start.y, visit, comparer);
         }
 
         /// <summary>
@@ -187,7 +195,8 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
         /// </remarks>
-        public static void FloodVisit<T>(this T[,] array, int startX, int startY, Action<int, int, bool> visit)
+        public static void FloodVisit<T>(this T[,] array, int startX, int startY, Action<int, int, bool> visit,
+            IEqualityComparer<T> comparer = null)
         {
             if (array == null)
             {
@@ -206,6 +215,11 @@ namespace ProceduralToolkit
             if (startY < 0 || startY >= lengthY)
             {
                 throw new ArgumentOutOfRangeException("startY");
+            }
+
+            if (comparer == null)
+            {
+                comparer = EqualityComparer<T>.Default;
             }
 
             bool[,] processed = new bool[lengthX, lengthY];
@@ -225,7 +239,7 @@ namespace ProceduralToolkit
                     if (x >= 0 && x < lengthX &&
                         y >= 0 && y < lengthY)
                     {
-                        if (array[x, y].Equals(value))
+                        if (comparer.Equals(array[x, y], value))
                         {
                             bool vonNeumannNeighbour = (x == cell.x || y == cell.y);
                             if (vonNeumannNeighbour && !processed[x, y])
