@@ -19,9 +19,10 @@ namespace ProceduralToolkit.Examples
             public bool aliveBorders = false;
         }
 
-        public CellState[,] cells;
+        private CellState[,] _cells;
+        public CellState[,] cells { get { return _cells; } private set { _cells = value; } }
 
-        private readonly Config config;
+        private Config config;
         private readonly Action<int, int> visitAliveBorders;
         private readonly Action<int, int> visitDeadBorders;
         private CellState[,] copy;
@@ -29,12 +30,7 @@ namespace ProceduralToolkit.Examples
 
         public CellularAutomaton(Config config)
         {
-            Assert.IsTrue(config.width > 0);
-            Assert.IsTrue(config.height > 0);
-
-            this.config = config;
-            cells = new CellState[config.width, config.height];
-            copy = new CellState[config.width, config.height];
+            SetConfig(config);
 
             visitAliveBorders = (int neighbourX, int neighbourY) =>
             {
@@ -59,7 +55,22 @@ namespace ProceduralToolkit.Examples
                 }
             };
 
-            FillWithNoise(config.startNoise);
+            FillWithNoise();
+        }
+
+        public void SetConfig(Config config)
+        {
+            Assert.IsTrue(config.width > 0);
+            Assert.IsTrue(config.height > 0);
+
+            this.config = config;
+            if (cells == null ||
+                config.width != cells.GetLength(0) ||
+                config.height != cells.GetLength(1))
+            {
+                cells = new CellState[config.width, config.height];
+                copy = new CellState[config.width, config.height];
+            }
         }
 
         public void Simulate(int generations)
@@ -72,7 +83,7 @@ namespace ProceduralToolkit.Examples
 
         public void Simulate()
         {
-            PTUtils.Swap(ref cells, ref copy);
+            PTUtils.Swap(ref _cells, ref copy);
             for (int x = 0; x < config.width; x++)
             {
                 for (int y = 0; y < config.height; y++)
@@ -105,7 +116,12 @@ namespace ProceduralToolkit.Examples
             }
         }
 
-        private void FillWithNoise(float noise)
+        public void FillWithNoise()
+        {
+            FillWithNoise(config.startNoise);
+        }
+
+        public void FillWithNoise(float noise)
         {
             for (int x = 0; x < config.width; x++)
             {
