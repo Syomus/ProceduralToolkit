@@ -236,6 +236,30 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns new Vector2 made from X and Y components of this vector
+        /// </summary>
+        public static Vector2 ToVector2XY(this Vector3 vector)
+        {
+            return new Vector2(vector.x, vector.y);
+        }
+
+        /// <summary>
+        /// Returns new Vector2 made from X and Z components of this vector
+        /// </summary>
+        public static Vector2 ToVector2XZ(this Vector3 vector)
+        {
+            return new Vector2(vector.x, vector.z);
+        }
+
+        /// <summary>
+        /// Returns new Vector2 made from Y and Z components of this vector
+        /// </summary>
+        public static Vector2 ToVector2YZ(this Vector3 vector)
+        {
+            return new Vector2(vector.y, vector.z);
+        }
+
+        /// <summary>
         /// Returns the distance to the closest point on a line defined by <paramref name="ray"/>
         /// </summary>
         public static float DistanceToLine(this Vector3 point, Ray ray)
