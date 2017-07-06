@@ -19,19 +19,43 @@ namespace ProceduralToolkit
         public static Vector2 onUnitCircle2 { get { return PTUtils.PointOnCircle2(1, Random.Range(0, 360f)); } }
 
         /// <summary>
-        /// Returns a random point on a circle with radius 1
+        /// Returns a random point inside a circle with radius 1
         /// </summary>
-        public static Vector2 onUnitCircle3XY { get { return PTUtils.PointOnCircle3XY(1, Random.Range(0, 360f)); } }
+        public static Vector3 insideUnitCircle3XY
+        {
+            get { return PTUtils.PointOnCircle3XY(Random.value, Random.Range(0, 360f)); }
+        }
+
+        /// <summary>
+        /// Returns a random point inside a circle with radius 1
+        /// </summary>
+        public static Vector3 insideUnitCircle3XZ
+        {
+            get { return PTUtils.PointOnCircle3XZ(Random.value, Random.Range(0, 360f)); }
+        }
+
+        /// <summary>
+        /// Returns a random point inside a circle with radius 1
+        /// </summary>
+        public static Vector3 insideUnitCircle3YZ
+        {
+            get { return PTUtils.PointOnCircle3YZ(Random.value, Random.Range(0, 360f)); }
+        }
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector2 onUnitCircle3XZ { get { return PTUtils.PointOnCircle3XZ(1, Random.Range(0, 360f)); } }
+        public static Vector3 onUnitCircle3XY { get { return PTUtils.PointOnCircle3XY(1, Random.Range(0, 360f)); } }
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector2 onUnitCircle3YZ { get { return PTUtils.PointOnCircle3YZ(1, Random.Range(0, 360f)); } }
+        public static Vector3 onUnitCircle3XZ { get { return PTUtils.PointOnCircle3XZ(1, Random.Range(0, 360f)); } }
+
+        /// <summary>
+        /// Returns a random point on a circle with radius 1
+        /// </summary>
+        public static Vector3 onUnitCircle3YZ { get { return PTUtils.PointOnCircle3YZ(1, Random.Range(0, 360f)); } }
 
         /// <summary>
         /// Returns a random point inside a unit square
