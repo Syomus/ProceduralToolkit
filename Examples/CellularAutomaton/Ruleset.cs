@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
     /// <summary>
     /// Cellular automaton ruleset representation
     /// </summary>
+    [Serializable]
     public struct Ruleset
     {
         #region Common rulesets
@@ -40,24 +43,26 @@ namespace ProceduralToolkit.Examples
 
         #endregion Common rulesets
 
-        private readonly int[] birthRule;
-        private readonly int[] survivalRule;
+        [SerializeField]
+        private byte[] birthRule;
+        [SerializeField]
+        private byte[] survivalRule;
 
-        public Ruleset(int[] birthRule, int[] survivalRule)
+        public Ruleset(byte[] birthRule, byte[] survivalRule)
         {
-            this.birthRule = new int[birthRule.Length];
+            this.birthRule = new byte[birthRule.Length];
             for (int i = 0; i < birthRule.Length; i++)
             {
                 this.birthRule[i] = birthRule[i];
             }
-            this.survivalRule = new int[survivalRule.Length];
+            this.survivalRule = new byte[survivalRule.Length];
             for (int i = 0; i < survivalRule.Length; i++)
             {
                 this.survivalRule[i] = survivalRule[i];
             }
         }
 
-        public Ruleset(List<int> birthRule, List<int> survivalRule)
+        public Ruleset(List<byte> birthRule, List<byte> survivalRule)
         {
             this.birthRule = birthRule.ToArray();
             this.survivalRule = survivalRule.ToArray();
@@ -87,16 +92,20 @@ namespace ProceduralToolkit.Examples
             return false;
         }
 
-        private static List<int> ConvertRuleStringToList(string rule)
+        public static List<byte> ConvertRuleStringToList(string rule)
         {
-            var list = new List<int>();
+            var list = new List<byte>();
             if (!string.IsNullOrEmpty(rule))
             {
                 foreach (char c in rule)
                 {
                     if (char.IsDigit(c))
                     {
-                        list.Add((int) char.GetNumericValue(c));
+                        byte digit = (byte) char.GetNumericValue(c);
+                        if (!list.Contains(digit))
+                        {
+                            list.Add(digit);
+                        }
                     }
                 }
                 list.Sort();
