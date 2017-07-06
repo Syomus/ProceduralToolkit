@@ -7,6 +7,7 @@ namespace ProceduralToolkit
     /// <summary>
     /// Representation of color in HSV model
     /// </summary>
+    [Serializable]
     public struct ColorHSV
     {
         /// <summary>
