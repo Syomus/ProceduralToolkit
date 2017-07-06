@@ -3,12 +3,13 @@ using ProceduralToolkit.Examples;
 using UnityEditor;
 using UnityEngine;
 
-namespace ProceduralToolkit
+namespace ProceduralToolkit.Editor
 {
     [CustomPropertyDrawer(typeof(Ruleset))]
     public class RulesetDrawer : PropertyDrawer
     {
-        private const float spacing = 5;
+        private const float labelWidth = 13;
+        private const float spacing = 1;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -16,12 +17,11 @@ namespace ProceduralToolkit
 
             position = EditorGUI.PrefixLabel(position, label);
 
-            Rect bRect = new Rect(position.x, position.y, position.width/2, position.height);
-            DrawRule(property, "birthRule", bRect, "B");
+            Rect bRect = new Rect(position.x - spacing, position.y, position.width/2, position.height);
+            DrawRule(property, "birthRule", bRect, "X");
 
             Rect sRect = bRect;
-            sRect.x += position.width/2 + spacing;
-            sRect.width -= spacing;
+            sRect.x += bRect.width + spacing;
             DrawRule(property, "survivalRule", sRect, "S");
 
             EditorGUI.EndProperty();
@@ -36,13 +36,13 @@ namespace ProceduralToolkit
                 stringBuilder.Append(rule.GetArrayElementAtIndex(i).intValue);
             }
 
-            float labelWidth = EditorGUIUtility.labelWidth;
-            int indentLevel = EditorGUI.indentLevel;
-            EditorGUIUtility.labelWidth = 15;
+            float oldLabelWidth = EditorGUIUtility.labelWidth;
+            int oldIndentLevel = EditorGUI.indentLevel;
+            EditorGUIUtility.labelWidth = labelWidth;
             EditorGUI.indentLevel = 0;
             string ruleString = EditorGUI.TextField(position, label, stringBuilder.ToString());
-            EditorGUIUtility.labelWidth = labelWidth;
-            EditorGUI.indentLevel = indentLevel;
+            EditorGUIUtility.labelWidth = oldLabelWidth;
+            EditorGUI.indentLevel = oldIndentLevel;
 
             var ruleList = Ruleset.ConvertRuleStringToList(ruleString);
             rule.ClearArray();
