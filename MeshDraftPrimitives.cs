@@ -44,17 +44,53 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public static MeshDraft TriangleFan(List<Vector3> vertices)
+        public static MeshDraft TriangleFan(Vector3[] fan)
+        {
+            Vector3 normal = Vector3.Cross(fan[1] - fan[0], fan[2] - fan[0]).normalized;
+            return TriangleFan(fan, normal);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public static MeshDraft TriangleFan(Vector3[] fan, Vector3 normal)
         {
             var draft = new MeshDraft
             {
                 name = "TriangleFan",
-                uv = new List<Vector2>(vertices.Count),
+                uv = new List<Vector2>(fan.Length),
             };
-            draft.AddTriangleFan(vertices);
-            for (int i = 0; i < vertices.Count; i++)
+            draft.AddTriangleFan(fan, normal);
+            for (int i = 0; i < fan.Length; i++)
             {
-                draft.uv.Add(new Vector2((float) i/vertices.Count, (float) i/vertices.Count));
+                draft.uv.Add(new Vector2((float) i/fan.Length, (float) i/fan.Length));
+            }
+            return draft;
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public static MeshDraft TriangleFan(List<Vector3> fan)
+        {
+            Vector3 normal = Vector3.Cross(fan[1] - fan[0], fan[2] - fan[0]).normalized;
+            return TriangleFan(fan, normal);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public static MeshDraft TriangleFan(List<Vector3> fan, Vector3 normal)
+        {
+            var draft = new MeshDraft
+            {
+                name = "TriangleFan",
+                uv = new List<Vector2>(fan.Count),
+            };
+            draft.AddTriangleFan(fan, normal);
+            for (int i = 0; i < fan.Count; i++)
+            {
+                draft.uv.Add(new Vector2((float) i/fan.Count, (float) i/fan.Count));
             }
             return draft;
         }
@@ -62,17 +98,53 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public static MeshDraft TriangleStrip(List<Vector3> vertices)
+        public static MeshDraft TriangleStrip(Vector3[] strip)
+        {
+            Vector3 normal = Vector3.Cross(strip[1] - strip[0], strip[2] - strip[0]).normalized;
+            return TriangleStrip(strip, normal);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public static MeshDraft TriangleStrip(Vector3[] strip, Vector3 normal)
         {
             var draft = new MeshDraft
             {
                 name = "TriangleStrip",
-                uv = new List<Vector2>(vertices.Count),
+                uv = new List<Vector2>(strip.Length),
             };
-            draft.AddTriangleStrip(vertices);
-            for (int i = 0; i < vertices.Count; i++)
+            draft.AddTriangleStrip(strip, normal);
+            for (int i = 0; i < strip.Length; i++)
             {
-                draft.uv.Add(new Vector2((float) i/vertices.Count, (float) i/vertices.Count));
+                draft.uv.Add(new Vector2((float) i/strip.Length, (float) i/strip.Length));
+            }
+            return draft;
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public static MeshDraft TriangleStrip(List<Vector3> strip)
+        {
+            Vector3 normal = Vector3.Cross(strip[1] - strip[0], strip[2] - strip[0]).normalized;
+            return TriangleStrip(strip, normal);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public static MeshDraft TriangleStrip(List<Vector3> strip, Vector3 normal)
+        {
+            var draft = new MeshDraft
+            {
+                name = "TriangleStrip",
+                uv = new List<Vector2>(strip.Count),
+            };
+            draft.AddTriangleStrip(strip, normal);
+            for (int i = 0; i < strip.Count; i++)
+            {
+                draft.uv.Add(new Vector2((float) i/strip.Count, (float) i/strip.Count));
             }
             return draft;
         }

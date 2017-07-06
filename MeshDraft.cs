@@ -163,27 +163,56 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(List<Vector3> vertices)
+        public void AddTriangleFan(Vector3[] fan)
         {
-            Vector3 normal = Vector3.Cross(vertices[1] - vertices[0], vertices[2] - vertices[0]).normalized;
-            AddTriangleFan(vertices, normal);
+            Vector3 normal = Vector3.Cross(fan[1] - fan[0], fan[2] - fan[0]).normalized;
+            AddTriangleFan(fan, normal);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(List<Vector3> vertices, Vector3 normal)
+        public void AddTriangleFan(Vector3[] fan, Vector3 normal)
         {
-            for (int i = 1; i < vertices.Count - 1; i++)
+            for (int i = 1; i < fan.Length - 1; i++)
             {
-                triangles.Add(0 + this.vertices.Count);
-                triangles.Add(i + this.vertices.Count);
-                triangles.Add(i + 1 + this.vertices.Count);
+                triangles.Add(0 + vertices.Count);
+                triangles.Add(i + vertices.Count);
+                triangles.Add(i + 1 + vertices.Count);
             }
 
-            this.vertices.AddRange(vertices);
+            vertices.AddRange(fan);
 
-            for (int i = 0; i < vertices.Count; i++)
+            for (int i = 0; i < fan.Length; i++)
+            {
+                normals.Add(normal);
+            }
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(List<Vector3> fan)
+        {
+            Vector3 normal = Vector3.Cross(fan[1] - fan[0], fan[2] - fan[0]).normalized;
+            AddTriangleFan(fan, normal);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(List<Vector3> fan, Vector3 normal)
+        {
+            for (int i = 1; i < fan.Count - 1; i++)
+            {
+                triangles.Add(0 + vertices.Count);
+                triangles.Add(i + vertices.Count);
+                triangles.Add(i + 1 + vertices.Count);
+            }
+
+            vertices.AddRange(fan);
+
+            for (int i = 0; i < fan.Count; i++)
             {
                 normals.Add(normal);
             }
@@ -192,27 +221,60 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(List<Vector3> vertices)
+        public void AddTriangleStrip(Vector3[] strip)
         {
-            Vector3 normal = Vector3.Cross(vertices[1] - vertices[0], vertices[2] - vertices[0]).normalized;
-            AddTriangleStrip(vertices, normal);
+            Vector3 normal = Vector3.Cross(strip[1] - strip[0], strip[2] - strip[0]).normalized;
+            AddTriangleStrip(strip, normal);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(List<Vector3> vertices, Vector3 normal)
+        public void AddTriangleStrip(Vector3[] strip, Vector3 normal)
         {
-            for (int i = 0, j = 1, k = 2; i < vertices.Count - 2; i++, j += i%2*2, k += (i + 1)%2*2)
+            for (int i = 0, j = 1, k = 2;
+                i < strip.Length - 2;
+                i++, j += i%2*2, k += (i + 1)%2*2)
             {
-                triangles.Add(i + this.vertices.Count);
-                triangles.Add(j + this.vertices.Count);
-                triangles.Add(k + this.vertices.Count);
+                triangles.Add(i + vertices.Count);
+                triangles.Add(j + vertices.Count);
+                triangles.Add(k + vertices.Count);
             }
 
-            this.vertices.AddRange(vertices);
+            vertices.AddRange(strip);
 
-            for (int i = 0; i < vertices.Count; i++)
+            for (int i = 0; i < strip.Length; i++)
+            {
+                normals.Add(normal);
+            }
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(List<Vector3> strip)
+        {
+            Vector3 normal = Vector3.Cross(strip[1] - strip[0], strip[2] - strip[0]).normalized;
+            AddTriangleStrip(strip, normal);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(List<Vector3> strip, Vector3 normal)
+        {
+            for (int i = 0, j = 1, k = 2;
+                i < strip.Count - 2;
+                i++, j += i%2*2, k += (i + 1)%2*2)
+            {
+                triangles.Add(i + vertices.Count);
+                triangles.Add(j + vertices.Count);
+                triangles.Add(k + vertices.Count);
+            }
+
+            vertices.AddRange(strip);
+
+            for (int i = 0; i < strip.Count; i++)
             {
                 normals.Add(normal);
             }
