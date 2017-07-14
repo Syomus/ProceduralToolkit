@@ -8,8 +8,10 @@ namespace ProceduralToolkit
     /// </summary>
     public static class TextureE
     {
+        #region DrawLine
+
         /// <summary>
-        /// Draws line on texture
+        /// Draws a line on texture
         /// </summary>
         public static void DrawLine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
@@ -21,7 +23,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws line on texture
+        /// Draws a line on texture
         /// </summary>
         public static void DrawLine(this Texture2D texture, int x0, int y0, int x1, int y1, Color color)
         {
@@ -33,7 +35,35 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws anti-aliased line on texture
+        /// Draws a line on pixels
+        /// </summary>
+        public static void DrawLine(this Color[] pixels, int textureWidth, Vector2Int v0, Vector2Int v1, Color color)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            Draw.RasterLine(v0, v1, (x, y) => pixels[x + y*textureWidth] = color);
+        }
+
+        /// <summary>
+        /// Draws a line on pixels
+        /// </summary>
+        public static void DrawLine(this Color[] pixels, int textureWidth, int x0, int y0, int x1, int y1, Color color)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            Draw.RasterLine(x0, y0, x1, y1, (x, y) => pixels[x + y*textureWidth] = color);
+        }
+
+        #endregion DrawLine
+
+        #region DrawAALine
+
+        /// <summary>
+        /// Draws an anti-aliased line on texture
         /// </summary>
         public static void DrawAALine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
@@ -46,7 +76,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws anti-aliased line on texture
+        /// Draws an anti-aliased line on texture
         /// </summary>
         public static void DrawAALine(this Texture2D texture, int x0, int y0, int x1, int y1, Color color)
         {
@@ -59,7 +89,37 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws circle on texture
+        /// Draws an anti-aliased line on pixels
+        /// </summary>
+        public static void DrawAALine(this Color[] pixels, int textureWidth, Vector2Int v0, Vector2Int v1, Color color)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            Draw.RasterAALine(v0, v1,
+                (x, y, t) => pixels[x + y*textureWidth] = Color.Lerp(pixels[x + y*textureWidth], color, t));
+        }
+
+        /// <summary>
+        /// Draws an anti-aliased line on pixels
+        /// </summary>
+        public static void DrawAALine(this Color[] pixels, int textureWidth, int x0, int y0, int x1, int y1, Color color)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            Draw.RasterAALine(x0, y0, x1, y1,
+                (x, y, t) => pixels[x + y*textureWidth] = Color.Lerp(pixels[x + y*textureWidth], color, t));
+        }
+
+        #endregion DrawAALine
+
+        #region DrawCircle
+
+        /// <summary>
+        /// Draws a circle on texture
         /// </summary>
         public static void DrawCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
@@ -71,7 +131,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws circle on texture
+        /// Draws a circle on texture
         /// </summary>
         public static void DrawCircle(this Texture2D texture, int centerX, int centerY, int radius, Color color)
         {
@@ -83,7 +143,36 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws filled circle on texture using Bresenham's algorithm
+        /// Draws a circle on pixels
+        /// </summary>
+        public static void DrawCircle(this Color[] pixels, int textureWidth, Vector2Int center, int radius, Color color)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            Draw.RasterCircle(center, radius, (x, y) => pixels[x + y*textureWidth] = color);
+        }
+
+        /// <summary>
+        /// Draws a circle on pixels
+        /// </summary>
+        public static void DrawCircle(this Color[] pixels, int textureWidth, int centerX, int centerY, int radius,
+            Color color)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            Draw.RasterCircle(centerX, centerY, radius, (x, y) => pixels[x + y*textureWidth] = color);
+        }
+
+        #endregion DrawCircle
+
+        #region DrawFilledCircle
+
+        /// <summary>
+        /// Draws a filled circle on texture using Bresenham's algorithm
         /// </summary>
         public static void DrawFilledCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
@@ -95,7 +184,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws filled circle on texture using Bresenham's algorithm
+        /// Draws a filled circle on texture using Bresenham's algorithm
         /// </summary>
         public static void DrawFilledCircle(this Texture2D texture, int centerX, int centerY, int radius, Color color)
         {
@@ -107,7 +196,37 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws filled rectangle on texture
+        /// Draws a filled circle on pixels using Bresenham's algorithm
+        /// </summary>
+        public static void DrawFilledCircle(this Color[] pixels, int textureWidth, Vector2Int center, int radius,
+            Color color)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            Draw.RasterFilledCircle(center, radius, (x, y) => pixels[x + y*textureWidth] = color);
+        }
+
+        /// <summary>
+        /// Draws a filled circle on pixels using Bresenham's algorithm
+        /// </summary>
+        public static void DrawFilledCircle(this Color[] pixels, int textureWidth, int centerX, int centerY, int radius,
+            Color color)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            Draw.RasterFilledCircle(centerX, centerY, radius, (x, y) => pixels[x + y*textureWidth] = color);
+        }
+
+        #endregion DrawFilledCircle
+
+        #region DrawRect
+
+        /// <summary>
+        /// Draws a filled rectangle on texture
         /// </summary>
         public static void DrawRect(this Texture2D texture, int x, int y, int blockWidth, int blockHeight, Color color)
         {
@@ -127,6 +246,29 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Draws a filled rectangle on pixels
+        /// </summary>
+        public static void DrawRect(this Color[] pixels, int textureWidth, int x, int y, int blockWidth, int blockHeight,
+            Color color)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            for (int _y = y; _y < y + blockHeight; _y++)
+            {
+                for (int _x = x; _x < x + blockWidth; _x++)
+                {
+                    pixels[_x + _y*textureWidth] = color;
+                }
+            }
+        }
+
+        #endregion DrawRect
+
+        #region DrawGradient
+
+        /// <summary>
         /// Fills texture with gradient
         /// </summary>
         public static void DrawGradient(this Texture2D texture, Gradient gradient, Directions progressionDirection)
@@ -135,13 +277,13 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentNullException("texture");
             }
-            texture.DrawGradientRect(0, 0, texture.width, texture.height, gradient, progressionDirection);
+            DrawGradient(texture, 0, 0, texture.width, texture.height, gradient, progressionDirection);
         }
 
         /// <summary>
-        /// Draws gradient rectangle on texture
+        /// Draws a gradient rectangle on texture
         /// </summary>t
-        public static void DrawGradientRect(this Texture2D texture, int x, int y, int blockWidth, int blockHeight,
+        public static void DrawGradient(this Texture2D texture, int x, int y, int blockWidth, int blockHeight,
             Gradient gradient, Directions progressionDirection)
         {
             if (texture == null)
@@ -180,20 +322,67 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Fills pixels with gradient
+        /// </summary>
+        public static void DrawGradient(this Color[] pixels, int textureWidth, int textureHeight, Gradient gradient,
+            Directions progressionDirection)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            DrawGradient(pixels, textureWidth, 0, 0, textureWidth, textureHeight, gradient, progressionDirection);
+        }
+
+        /// <summary>
+        /// Draws a gradient rectangle on pixels
+        /// </summary>
+        public static void DrawGradient(this Color[] pixels, int textureWidth, int x, int y, int blockWidth,
+            int blockHeight, Gradient gradient, Directions progressionDirection)
+        {
+            if (pixels == null)
+            {
+                throw new ArgumentNullException("pixels");
+            }
+            Func<int, int, Color> getColor;
+            switch (progressionDirection)
+            {
+                case Directions.Left:
+                    getColor = (_x, _y) => gradient.Evaluate(1 - (float) _x/(float) blockWidth);
+                    break;
+                case Directions.Right:
+                    getColor = (_x, _y) => gradient.Evaluate((float) _x/(float) blockWidth);
+                    break;
+                case Directions.Down:
+                    getColor = (_x, _y) => gradient.Evaluate(1 - (float) _y/(float) blockHeight);
+                    break;
+                case Directions.Up:
+                    getColor = (_x, _y) => gradient.Evaluate((float) _y/(float) blockHeight);
+                    break;
+                default:
+                    throw new ArgumentException("Not supported direction: " + progressionDirection,
+                        "progressionDirection");
+            }
+
+            for (int _y = y; _y < y + blockHeight; _y++)
+            {
+                for (int _x = x; _x < x + blockWidth; _x++)
+                {
+                    pixels[_x + _y*textureWidth] = getColor(_x, _y);
+                }
+            }
+        }
+
+        #endregion DrawGradient
+
+        #region Clear
+
+        /// <summary>
         /// Fills texture with white color
         /// </summary>
         public static void Clear(this Texture2D texture)
         {
-            if (texture == null)
-            {
-                throw new ArgumentNullException("texture");
-            }
-            var pixels = new Color[texture.width*texture.height];
-            for (var i = 0; i < pixels.Length; i++)
-            {
-                pixels[i] = Color.white;
-            }
-            texture.SetPixels(pixels);
+            Clear(texture, Color.white);
         }
 
         /// <summary>
@@ -214,14 +403,18 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Fills texture with specified color
+        /// Fills pixels with white color
         /// </summary>
-        public static void Clear(this Texture2D texture, Color color, ref Color[] pixels)
+        public static void Clear(this Color[] pixels)
         {
-            if (texture == null)
-            {
-                throw new ArgumentNullException("texture");
-            }
+            Clear(pixels, Color.white);
+        }
+
+        /// <summary>
+        /// Fills pixels with specified color
+        /// </summary>
+        public static void Clear(this Color[] pixels, Color color)
+        {
             if (pixels == null)
             {
                 throw new ArgumentNullException("pixels");
@@ -230,7 +423,8 @@ namespace ProceduralToolkit
             {
                 pixels[i] = color;
             }
-            texture.SetPixels(pixels);
         }
+
+        #endregion Clear
     }
 }
