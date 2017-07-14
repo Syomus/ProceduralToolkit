@@ -112,26 +112,29 @@ namespace ProceduralToolkit
             normals.Add(normal);
         }
 
+        public void AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector2 uv0, Vector2 uv1, Vector2 uv2)
+        {
+            AddTriangle(vertex0, vertex1, vertex2);
+
+            uv.Add(uv0);
+            uv.Add(uv1);
+            uv.Add(uv2);
+        }
+
+        public void AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal, Vector2 uv0,
+            Vector2 uv1, Vector2 uv2)
+        {
+            AddTriangle(vertex0, vertex1, vertex2, normal);
+
+            uv.Add(uv0);
+            uv.Add(uv1);
+            uv.Add(uv2);
+        }
+
         public void AddQuad(Vector3 origin, Vector3 width, Vector3 height)
         {
-            var normal = Vector3.Cross(height, width).normalized;
-
-            triangles.Add(0 + vertices.Count);
-            triangles.Add(1 + vertices.Count);
-            triangles.Add(2 + vertices.Count);
-            triangles.Add(0 + vertices.Count);
-            triangles.Add(2 + vertices.Count);
-            triangles.Add(3 + vertices.Count);
-
-            vertices.Add(origin);
-            vertices.Add(origin + height);
-            vertices.Add(origin + height + width);
-            vertices.Add(origin + width);
-
-            normals.Add(normal);
-            normals.Add(normal);
-            normals.Add(normal);
-            normals.Add(normal);
+            Vector3 normal = Vector3.Cross(height, width).normalized;
+            AddQuad(origin, origin + height, origin + height + width, origin + width, normal);
         }
 
         public void AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
@@ -158,6 +161,28 @@ namespace ProceduralToolkit
             normals.Add(normal);
             normals.Add(normal);
             normals.Add(normal);
+        }
+
+        public void AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector2 uv0, Vector2 uv1,
+            Vector2 uv2, Vector2 uv3)
+        {
+            AddQuad(vertex0, vertex1, vertex2, vertex3);
+
+            uv.Add(uv0);
+            uv.Add(uv1);
+            uv.Add(uv2);
+            uv.Add(uv3);
+        }
+
+        public void AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector3 normal,
+            Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3)
+        {
+            AddQuad(vertex0, vertex1, vertex2, vertex3, normal);
+
+            uv.Add(uv0);
+            uv.Add(uv1);
+            uv.Add(uv2);
+            uv.Add(uv3);
         }
 
         /// <remarks>
