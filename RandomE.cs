@@ -81,17 +81,17 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random rotation around X axis
         /// </summary>
-        public static Quaternion xRotation { get { return Quaternion.Euler(Random.value*360, 0, 0); } }
+        public static Quaternion xRotation { get { return Quaternion.Euler(Random.Range(0, 360f), 0, 0); } }
 
         /// <summary>
         /// Returns a random rotation around Y axis
         /// </summary>
-        public static Quaternion yRotation { get { return Quaternion.Euler(0, Random.value*360, 0); } }
+        public static Quaternion yRotation { get { return Quaternion.Euler(0, Random.Range(0, 360f), 0); } }
 
         /// <summary>
         /// Returns a random rotation around Z axis
         /// </summary>
-        public static Quaternion zRotation { get { return Quaternion.Euler(0, 0, Random.value*360); } }
+        public static Quaternion zRotation { get { return Quaternion.Euler(0, 0, Random.Range(0, 360f)); } }
 
         /// <summary>
         /// Returns a random point on a line segment defined by <paramref name="a"/> and <paramref name="b"/>
