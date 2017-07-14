@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace ProceduralToolkit
 {
@@ -104,6 +105,26 @@ namespace ProceduralToolkit
         }
 
         #region Operators
+
+        public static explicit operator Vector2Int(Vector2 v)
+        {
+            return new Vector2Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y));
+        }
+
+        public static explicit operator Vector2Int(Vector3 v)
+        {
+            return new Vector2Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y));
+        }
+
+        public static implicit operator Vector2(Vector2Int v)
+        {
+            return new Vector2(v.x, v.y);
+        }
+
+        public static implicit operator Vector3(Vector2Int v)
+        {
+            return new Vector3(v.x, v.y, 0);
+        }
 
         public static Vector2Int operator +(Vector2Int a, Vector2Int b)
         {
