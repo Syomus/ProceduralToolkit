@@ -10,34 +10,23 @@ namespace ProceduralToolkit
 
         public static MeshDraft Triangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
         {
-            var draft = new MeshDraft
-            {
-                name = "Triangle",
-                uv = new List<Vector2>(3) {new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1)},
-            };
-            draft.AddTriangle(vertex0, vertex1, vertex2);
+            var draft = new MeshDraft {name = "Triangle"};
+            draft.AddTriangle(vertex0, vertex1, vertex2, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1));
             return draft;
         }
 
         public static MeshDraft Quad(Vector3 origin, Vector3 width, Vector3 height)
         {
-            var draft = new MeshDraft
-            {
-                name = "Quad",
-                uv = new List<Vector2>(4) {new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0)},
-            };
+            var draft = new MeshDraft {name = "Quad"};
             draft.AddQuad(origin, width, height);
             return draft;
         }
 
         public static MeshDraft Quad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
         {
-            var draft = new MeshDraft
-            {
-                name = "Quad",
-                uv = new List<Vector2>(4) {new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0)},
-            };
-            draft.AddQuad(vertex0, vertex1, vertex2, vertex3);
+            var draft = new MeshDraft {name = "Quad"};
+            draft.AddQuad(vertex0, vertex1, vertex2, vertex3, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(1, 0));
             return draft;
         }
 

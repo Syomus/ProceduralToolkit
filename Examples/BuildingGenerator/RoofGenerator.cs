@@ -55,7 +55,8 @@ namespace ProceduralToolkit.Examples
             Vector3 c = roofPolygon[2].ToVector3XZ() + Vector3.up*roofConfig.thickness;
             Vector3 d = roofPolygon[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
 
-            var roofDraft = MeshDraft.Quad(a, d, c, b);
+            var roofDraft = new MeshDraft();
+            roofDraft.AddQuad(a, d, c, b, Vector3.up);
             return roofDraft;
         }
 
@@ -70,7 +71,8 @@ namespace ProceduralToolkit.Examples
             Vector3 ridge0 = (a + d)/2 + ridgeHeight;
             Vector3 ridge1 = (b + c)/2 + ridgeHeight;
 
-            var roofDraft = MeshDraft.Quad(a, ridge0, ridge1, b);
+            var roofDraft = new MeshDraft();
+            roofDraft.AddQuad(a, ridge0, ridge1, b);
             roofDraft.AddTriangle(b, ridge1, c);
             roofDraft.AddQuad(c, ridge1, ridge0, d);
             roofDraft.AddTriangle(d, ridge0, a);
@@ -88,7 +90,8 @@ namespace ProceduralToolkit.Examples
             Vector3 ridgeOffset = (b - a).normalized*2;
             Vector3 ridge0 = (a + d)/2 + ridgeHeight + ridgeOffset;
             Vector3 ridge1 = (b + c)/2 + ridgeHeight - ridgeOffset;
-            var roofDraft = MeshDraft.Quad(a, ridge0, ridge1, b);
+            var roofDraft = new MeshDraft();
+            roofDraft.AddQuad(a, ridge0, ridge1, b);
             roofDraft.AddTriangle(b, ridge1, c);
             roofDraft.AddQuad(c, ridge1, ridge0, d);
             roofDraft.AddTriangle(d, ridge0, a);
