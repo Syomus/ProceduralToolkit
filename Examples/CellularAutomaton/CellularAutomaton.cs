@@ -137,11 +137,11 @@ namespace ProceduralToolkit.Examples
             aliveNeighbours = 0;
             if (config.aliveBorders)
             {
-                copy.MooreVisit(x, y, false, visitAliveBorders);
+                copy.Visit8Unbounded(x, y, visitAliveBorders);
             }
             else
             {
-                copy.MooreVisit(x, y, true, visitDeadBorders);
+                copy.Visit8(x, y, visitDeadBorders);
             }
             return aliveNeighbours;
         }

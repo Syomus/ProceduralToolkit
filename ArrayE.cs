@@ -101,23 +101,22 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool IsInBounds<T>(this T[,] array, int x, int y)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
+            if (array == null) throw new ArgumentNullException("array");
             return x >= 0 && x < array.GetLength(0) && y >= 0 && y < array.GetLength(1);
         }
 
+        #region FloodVisit4
+
         /// <summary>
         /// Visits all connected elements with the same value as start element
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
         /// </remarks>
-        public static void FloodVisit<T>(this T[,] array, Vector2Int start, Action<int, int> visit,
+        public static void FloodVisit4<T>(this T[,] array, Vector2Int start, Action<int, int> visit,
             IEqualityComparer<T> comparer = null)
         {
-            FloodVisit(array, start.x, start.y, visit, comparer);
+            FloodVisit4(array, start.x, start.y, visit, comparer);
         }
 
         /// <summary>
@@ -126,27 +125,17 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
         /// </remarks>
-        public static void FloodVisit<T>(this T[,] array, int startX, int startY, Action<int, int> visit,
+        public static void FloodVisit4<T>(this T[,] array, int startX, int startY, Action<int, int> visit,
             IEqualityComparer<T> comparer = null)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
-            if (visit == null)
-            {
-                throw new ArgumentNullException("visit");
-            }
+            if (array == null) throw new ArgumentNullException("array");
+            if (visit == null) throw new ArgumentNullException("visit");
+
             int lengthX = array.GetLength(0);
-            if (startX < 0 || startX >= lengthX)
-            {
-                throw new ArgumentOutOfRangeException("startX");
-            }
             int lengthY = array.GetLength(1);
-            if (startY < 0 || startY >= lengthY)
-            {
-                throw new ArgumentOutOfRangeException("startY");
-            }
+
+            if (startX < 0 || startX >= lengthX) throw new ArgumentOutOfRangeException("startX");
+            if (startY < 0 || startY >= lengthY) throw new ArgumentOutOfRangeException("startY");
 
             if (comparer == null)
             {
@@ -162,7 +151,9 @@ namespace ProceduralToolkit
 
             Action<int, int> processNeighbours = (x, y) =>
             {
-                if (!processed[x, y])
+                if (x >= 0 && x < lengthX &&
+                    y >= 0 && y < lengthY &&
+                    !processed[x, y])
                 {
                     if (comparer.Equals(array[x, y], value))
                     {
@@ -175,7 +166,7 @@ namespace ProceduralToolkit
             while (queue.Count > 0)
             {
                 Vector2Int cell = queue.Dequeue();
-                array.VonNeumannVisit(cell.x, cell.y, true, processNeighbours);
+                array.Visit4Unbounded(cell.x, cell.y, processNeighbours);
                 visit(cell.x, cell.y);
             }
         }
@@ -186,10 +177,10 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
         /// </remarks>
-        public static void FloodVisit<T>(this T[,] array, Vector2Int start, Action<int, int, bool> visit,
+        public static void FloodVisit4<T>(this T[,] array, Vector2Int start, Action<int, int, bool> visit,
             IEqualityComparer<T> comparer = null)
         {
-            FloodVisit(array, start.x, start.y, visit, comparer);
+            FloodVisit4(array, start.x, start.y, visit, comparer);
         }
 
         /// <summary>
@@ -198,27 +189,17 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
         /// </remarks>
-        public static void FloodVisit<T>(this T[,] array, int startX, int startY, Action<int, int, bool> visit,
+        public static void FloodVisit4<T>(this T[,] array, int startX, int startY, Action<int, int, bool> visit,
             IEqualityComparer<T> comparer = null)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
-            if (visit == null)
-            {
-                throw new ArgumentNullException("visit");
-            }
+            if (array == null) throw new ArgumentNullException("array");
+            if (visit == null) throw new ArgumentNullException("visit");
+
             int lengthX = array.GetLength(0);
-            if (startX < 0 || startX >= lengthX)
-            {
-                throw new ArgumentOutOfRangeException("startX");
-            }
             int lengthY = array.GetLength(1);
-            if (startY < 0 || startY >= lengthY)
-            {
-                throw new ArgumentOutOfRangeException("startY");
-            }
+
+            if (startX < 0 || startX >= lengthX) throw new ArgumentOutOfRangeException("startX");
+            if (startY < 0 || startY >= lengthY) throw new ArgumentOutOfRangeException("startY");
 
             if (comparer == null)
             {
@@ -232,50 +213,53 @@ namespace ProceduralToolkit
             queue.Enqueue(new Vector2Int(startX, startY));
             processed[startX, startY] = true;
 
+            Vector2Int cell = new Vector2Int();
+            bool isBorderCell = false;
+
+            Action<int, int> processNeighbours = (x, y) =>
+            {
+                if (x >= 0 && x < lengthX &&
+                    y >= 0 && y < lengthY &&
+                    comparer.Equals(array[x, y], value))
+                {
+                    if (!processed[x, y])
+                    {
+                        bool vonNeumannNeighbour = x == cell.x || y == cell.y;
+                        if (vonNeumannNeighbour)
+                        {
+                            queue.Enqueue(new Vector2Int(x, y));
+                        }
+                        processed[x, y] = true;
+                    }
+                }
+                else
+                {
+                    isBorderCell = true;
+                }
+            };
+
             while (queue.Count > 0)
             {
-                Vector2Int cell = queue.Dequeue();
-
-                bool isBorderCell = false;
-                array.MooreVisit(cell.x, cell.y, false, (x, y) =>
-                {
-                    if (x >= 0 && x < lengthX &&
-                        y >= 0 && y < lengthY)
-                    {
-                        if (comparer.Equals(array[x, y], value))
-                        {
-                            bool vonNeumannNeighbour = (x == cell.x || y == cell.y);
-                            if (vonNeumannNeighbour && !processed[x, y])
-                            {
-                                queue.Enqueue(new Vector2Int(x, y));
-                                processed[x, y] = true;
-                            }
-                        }
-                        else
-                        {
-                            isBorderCell = true;
-                        }
-                    }
-                    else
-                    {
-                        isBorderCell = true;
-                    }
-                });
-
+                cell = queue.Dequeue();
+                isBorderCell = false;
+                array.Visit8Unbounded(cell.x, cell.y, processNeighbours);
                 visit(cell.x, cell.y, isBorderCell);
             }
         }
 
+        #endregion FloodVisit4
+
+        #region Visit4
+
         /// <summary>
         /// Visits four cells orthogonally surrounding a central cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
         /// </remarks>
-        public static void VonNeumannVisit<T>(this T[,] array, Vector2Int center, bool checkArrayBounds,
-            Action<int, int> visit)
+        public static void Visit4<T>(this T[,] array, Vector2Int center, Action<int, int> visit)
         {
-            VonNeumannVisit(array, center.x, center.y, checkArrayBounds, visit);
+            Visit4(array, center.x, center.y, visit);
         }
 
         /// <summary>
@@ -284,43 +268,108 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
         /// </remarks>
-        public static void VonNeumannVisit<T>(this T[,] array, int x, int y, bool checkArrayBounds,
-            Action<int, int> visit)
+        public static void Visit4<T>(this T[,] array, int x, int y, Action<int, int> visit)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
-            if (visit == null)
-            {
-                throw new ArgumentNullException("visit");
-            }
+            if (array == null) throw new ArgumentNullException("array");
+            if (visit == null) throw new ArgumentNullException("visit");
 
-            if (checkArrayBounds)
-            {
-                if (x > 0)
-                {
-                    visit(x - 1, y);
-                }
-                if (x + 1 < array.GetLength(0))
-                {
-                    visit(x + 1, y);
-                }
-                if (y > 0)
-                {
-                    visit(x, y - 1);
-                }
-                if (y + 1 < array.GetLength(1))
-                {
-                    visit(x, y + 1);
-                }
-            }
-            else
+            if (x > 0)
             {
                 visit(x - 1, y);
+            }
+            if (x + 1 < array.GetLength(0))
+            {
                 visit(x + 1, y);
+            }
+            if (y > 0)
+            {
                 visit(x, y - 1);
+            }
+            if (y + 1 < array.GetLength(1))
+            {
                 visit(x, y + 1);
+            }
+        }
+
+        /// <summary>
+        /// Visits four cells orthogonally surrounding a central cell
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
+        /// </remarks>
+        public static void Visit4Unbounded<T>(this T[,] array, Vector2Int center, Action<int, int> visit)
+        {
+            Visit4Unbounded(array, center.x, center.y, visit);
+        }
+
+        /// <summary>
+        /// Visits four cells orthogonally surrounding a central cell
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
+        /// </remarks>
+        public static void Visit4Unbounded<T>(this T[,] array, int x, int y, Action<int, int> visit)
+        {
+            if (array == null) throw new ArgumentNullException("array");
+            if (visit == null) throw new ArgumentNullException("visit");
+
+            visit(x - 1, y);
+            visit(x + 1, y);
+            visit(x, y - 1);
+            visit(x, y + 1);
+        }
+
+        #endregion Visit4
+
+        #region Visit8
+
+        /// <summary>
+        /// Visits eight cells surrounding a central cell
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Moore_neighborhood
+        /// </remarks>
+        public static void Visit8<T>(this T[,] array, Vector2Int center, Action<int, int> visit)
+        {
+            Visit8(array, center.x, center.y, visit);
+        }
+
+        /// <summary>
+        /// Visits eight cells surrounding a central cell
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Moore_neighborhood
+        /// </remarks>
+        public static void Visit8<T>(this T[,] array, int x, int y, Action<int, int> visit)
+        {
+            if (array == null) throw new ArgumentNullException("array");
+            if (visit == null) throw new ArgumentNullException("visit");
+
+            bool xGreaterThanZero = x > 0;
+            bool xLessThanWidth = x + 1 < array.GetLength(0);
+
+            bool yGreaterThanZero = y > 0;
+            bool yLessThanHeight = y + 1 < array.GetLength(1);
+
+            if (yGreaterThanZero)
+            {
+                if (xGreaterThanZero) visit(x - 1, y - 1);
+
+                visit(x, y - 1);
+
+                if (xLessThanWidth) visit(x + 1, y - 1);
+            }
+
+            if (xGreaterThanZero) visit(x - 1, y);
+            if (xLessThanWidth) visit(x + 1, y);
+
+            if (yLessThanHeight)
+            {
+                if (xGreaterThanZero) visit(x - 1, y + 1);
+
+                visit(x, y + 1);
+
+                if (xLessThanWidth) visit(x + 1, y + 1);
             }
         }
 
@@ -330,10 +379,9 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood
         /// </remarks>
-        public static void MooreVisit<T>(this T[,] array, Vector2Int center, bool checkArrayBounds,
-            Action<int, int> visit)
+        public static void Visit8Unbounded<T>(this T[,] array, Vector2Int center, Action<int, int> visit)
         {
-            MooreVisit(array, center.x, center.y, checkArrayBounds, visit);
+            Visit8Unbounded(array, center.x, center.y, visit);
         }
 
         /// <summary>
@@ -342,59 +390,23 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood
         /// </remarks>
-        public static void MooreVisit<T>(this T[,] array, int x, int y, bool checkArrayBounds, Action<int, int> visit)
+        public static void Visit8Unbounded<T>(this T[,] array, int x, int y, Action<int, int> visit)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
-            if (visit == null)
-            {
-                throw new ArgumentNullException("visit");
-            }
+            if (array == null) throw new ArgumentNullException("array");
+            if (visit == null) throw new ArgumentNullException("visit");
 
-            if (checkArrayBounds)
-            {
-                bool xGreaterThanZero = x > 0;
-                bool xLessThanWidth = x + 1 < array.GetLength(0);
+            visit(x - 1, y - 1);
+            visit(x, y - 1);
+            visit(x + 1, y - 1);
 
-                bool yGreaterThanZero = y > 0;
-                bool yLessThanHeight = y + 1 < array.GetLength(1);
+            visit(x - 1, y);
+            visit(x + 1, y);
 
-                if (yGreaterThanZero)
-                {
-                    if (xGreaterThanZero) visit(x - 1, y - 1);
-
-                    visit(x, y - 1);
-
-                    if (xLessThanWidth) visit(x + 1, y - 1);
-                }
-
-                if (xGreaterThanZero) visit(x - 1, y);
-                if (xLessThanWidth) visit(x + 1, y);
-
-                if (yLessThanHeight)
-                {
-                    if (xGreaterThanZero) visit(x - 1, y + 1);
-
-                    visit(x, y + 1);
-
-                    if (xLessThanWidth) visit(x + 1, y + 1);
-                }
-            }
-            else
-            {
-                visit(x - 1, y - 1);
-                visit(x, y - 1);
-                visit(x + 1, y - 1);
-
-                visit(x - 1, y);
-                visit(x + 1, y);
-
-                visit(x - 1, y + 1);
-                visit(x, y + 1);
-                visit(x + 1, y + 1);
-            }
+            visit(x - 1, y + 1);
+            visit(x, y + 1);
+            visit(x + 1, y + 1);
         }
+
+        #endregion Visit8
     }
 }
