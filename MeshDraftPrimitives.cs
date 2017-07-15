@@ -20,206 +20,6 @@ namespace ProceduralToolkit
                 new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
         }
 
-        #region TriangleFan
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(Vector3[] fan)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(Vector3[] fan, Vector3 normal)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normal);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(Vector3[] fan, Vector3[] normals)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normals);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(Vector3[] fan, Vector2[] uv)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, uv);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(Vector3[] fan, Vector3 normal, Vector2[] uv)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normal, uv);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(Vector3[] fan, Vector3[] normals, Vector2[] uv)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normals, uv);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(List<Vector3> fan)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(List<Vector3> fan, Vector3 normal)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normal);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(List<Vector3> fan, List<Vector3> normals)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normals);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(List<Vector3> fan, List<Vector2> uv)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, uv);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(List<Vector3> fan, Vector3 normal, List<Vector2> uv)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normal, uv);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_fan
-        /// </remarks>
-        public static MeshDraft TriangleFan(List<Vector3> fan, List<Vector3> normals, List<Vector2> uv)
-        {
-            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normals, uv);
-        }
-
-        #endregion TriangleFan
-
-        #region TriangleStrip
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(Vector3[] strip)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(Vector3[] strip, Vector3 normal)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normal);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(Vector3[] strip, Vector3[] normals)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normals);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(Vector3[] strip, Vector2[] uv)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, uv);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(Vector3[] strip, Vector3 normal, Vector2[] uv)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normal, uv);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(Vector3[] strip, Vector3[] normals, Vector2[] uv)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normals, uv);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(List<Vector3> strip)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(List<Vector3> strip, Vector3 normal)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normal);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(List<Vector3> strip, List<Vector3> normals)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normals);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(List<Vector3> strip, List<Vector2> uv)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, uv);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(List<Vector3> strip, Vector3 normal, List<Vector2> uv)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normal, uv);
-        }
-
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Triangle_strip
-        /// </remarks>
-        public static MeshDraft TriangleStrip(List<Vector3> strip, List<Vector3> normals, List<Vector2> uv)
-        {
-            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normals, uv);
-        }
-
-        #endregion TriangleStrip
-
         public static MeshDraft BaselessPyramid(float radius, int segments, float heignt, bool inverted = false)
         {
             return BaselessPyramid(Vector3.zero, Vector3.up*heignt*(inverted ? -1 : 1), radius, segments, inverted);
@@ -428,13 +228,13 @@ namespace ProceduralToolkit
                 currentAngle -= segmentAngle;
             }
 
-            var draft = TriangleFan(lowerCap);
-            draft.Add(FlatBand(lowerCap, lowerRing));
-            draft.Add(FlatBand(lowerRing, upperRing));
-            draft.Add(FlatBand(upperRing, upperCap));
+            var draft = new MeshDraft {name = "Dodecahedron"}
+                .AddTriangleFan(lowerCap)
+                .Add(FlatBand(lowerCap, lowerRing))
+                .Add(FlatBand(lowerRing, upperRing))
+                .Add(FlatBand(upperRing, upperCap));
             upperCap.Reverse();
-            draft.Add(TriangleFan(upperCap));
-            draft.name = "Dodecahedron";
+            draft.AddTriangleFan(upperCap);
             return draft;
         }
 
@@ -518,7 +318,7 @@ namespace ProceduralToolkit
             {
                 vertices.Add(draft.vertices[i]);
             }
-            draft.Add(TriangleFan(vertices));
+            draft.AddTriangleFan(vertices);
             draft.name = "Pyramid";
             return draft;
         }
@@ -545,11 +345,11 @@ namespace ProceduralToolkit
                 currentAngle -= segmentAngle;
             }
 
-            var draft = TriangleFan(lowerRing);
-            draft.Add(FlatBand(lowerRing, upperRing));
+            var draft = new MeshDraft {name = "Prism"}
+                .AddTriangleFan(lowerRing)
+                .Add(FlatBand(lowerRing, upperRing));
             upperRing.Reverse();
-            draft.Add(TriangleFan(upperRing));
-            draft.name = "Prism";
+            draft.AddTriangleFan(upperRing);
             return draft;
         }
 
@@ -568,11 +368,11 @@ namespace ProceduralToolkit
                 currentAngle -= segmentAngle;
             }
 
-            var draft = TriangleFan(lowerRing);
-            draft.Add(Band(lowerRing, upperRing));
+            var draft = new MeshDraft {name = "Cylinder"}
+                .AddTriangleFan(lowerRing)
+                .Add(Band(lowerRing, upperRing));
             upperRing.Reverse();
-            draft.Add(TriangleFan(upperRing));
-            draft.name = "Cylinder";
+            draft.AddTriangleFan(upperRing);
             return draft;
         }
 

@@ -208,7 +208,7 @@ namespace ProceduralToolkit.Examples
                 outerFrameOrigin + doorWidth + innerHeightOffset
             };
 
-            var panel = MeshDraft.TriangleStrip(new List<Vector3>
+            var panel = new MeshDraft().AddTriangleStrip(new List<Vector3>
             {
                 outerFrame[0],
                 origin,
@@ -221,8 +221,7 @@ namespace ProceduralToolkit.Examples
                 outerFrame[4],
                 origin + widthVector,
                 outerFrame[5]
-            });
-            panel.Paint(wallColor);
+            }).Paint(wallColor);
 
             draft.Add(panel);
 
@@ -283,7 +282,7 @@ namespace ProceduralToolkit.Examples
         private static MeshDraft Bracket(Vector3 origin, Vector3 width, Vector3 length,
             Vector3 innerOrigin, Vector3 innerWidth, Vector3 innerLength)
         {
-            return MeshDraft.TriangleStrip(new List<Vector3>
+            return new MeshDraft().AddTriangleStrip(new List<Vector3>
             {
                 innerOrigin,
                 origin,

@@ -10,7 +10,7 @@ namespace ProceduralToolkit.Examples
 
         protected static T InstantiateControl<T>(Transform parent) where T : Component
         {
-            T prefab = Resources.Load<T>(typeof (T).Name);
+            T prefab = Resources.Load<T>(typeof(T).Name);
             T control = Instantiate(prefab);
             control.transform.SetParent(parent, false);
             control.transform.localPosition = Vector3.zero;
@@ -37,15 +37,15 @@ namespace ProceduralToolkit.Examples
             }
 
             var platform = new MeshDraft {name = "Platform"};
-            var bottom = MeshDraft.TriangleFan(lowerRing);
-            bottom.Add(MeshDraft.Band(lowerRing, upperRing));
-            bottom.Paint(new Color(0.5f, 0.5f, 0.5f, 1));
-            platform.Add(bottom);
+            platform.Add(new MeshDraft()
+                .AddTriangleFan(lowerRing)
+                .Add(MeshDraft.Band(lowerRing, upperRing))
+                .Paint(new Color(0.5f, 0.5f, 0.5f, 1)));
 
             upperRing.Reverse();
-            var top = MeshDraft.TriangleFan(upperRing);
-            top.Paint(new Color(0.8f, 0.8f, 0.8f, 1));
-            platform.Add(top);
+            platform.Add(new MeshDraft()
+                .AddTriangleFan(upperRing)
+                .Paint(new Color(0.8f, 0.8f, 0.8f, 1)));
 
             return platform;
         }
