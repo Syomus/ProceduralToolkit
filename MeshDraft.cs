@@ -38,10 +38,8 @@ namespace ProceduralToolkit
         /// </summary>
         public MeshDraft(Mesh mesh)
         {
-            if (mesh == null)
-            {
-                throw new ArgumentNullException("mesh");
-            }
+            if (mesh == null) throw new ArgumentNullException("mesh");
+
             name = mesh.name;
 #if UNITY_5_6_OR_NEWER
             mesh.GetVertices(vertices);
@@ -69,15 +67,13 @@ namespace ProceduralToolkit
         /// <summary>
         /// Adds vertex data from <paramref name="draft"/>
         /// </summary>
-        public void Add(MeshDraft draft)
+        public MeshDraft Add(MeshDraft draft)
         {
-            if (draft == null)
+            if (draft == null) throw new ArgumentNullException("draft");
+
+            for (var i = 0; i < draft.triangles.Count; i++)
             {
-                throw new ArgumentNullException("draft");
-            }
-            foreach (var triangle in draft.triangles)
-            {
-                triangles.Add(triangle + vertices.Count);
+                triangles.Add(draft.triangles[i] + vertices.Count);
             }
             vertices.AddRange(draft.vertices);
             normals.AddRange(draft.normals);
@@ -87,67 +83,88 @@ namespace ProceduralToolkit
             uv3.AddRange(draft.uv3);
             uv4.AddRange(draft.uv4);
             colors.AddRange(draft.colors);
+            return this;
         }
 
         #region AddTriangle
 
-        public void AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
         {
             Vector3 normal = Vector3.Cross(vertex1 - vertex0, vertex2 - vertex0).normalized;
-            AddTriangle(vertex0, vertex1, vertex2, normal);
+            return AddTriangle(vertex0, vertex1, vertex2, normal, normal, normal);
         }
 
-        public void AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal)
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal)
+        {
+            return AddTriangle(vertex0, vertex1, vertex2, normal, normal, normal);
+        }
+
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal0, Vector3 normal1,
+            Vector3 normal2)
         {
             triangles.Add(0 + vertices.Count);
             triangles.Add(1 + vertices.Count);
             triangles.Add(2 + vertices.Count);
-
             vertices.Add(vertex0);
             vertices.Add(vertex1);
             vertices.Add(vertex2);
-
-            normals.Add(normal);
-            normals.Add(normal);
-            normals.Add(normal);
+            normals.Add(normal0);
+            normals.Add(normal1);
+            normals.Add(normal2);
+            return this;
         }
 
-        public void AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector2 uv0, Vector2 uv1, Vector2 uv2)
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector2 uv0, Vector2 uv1,
+            Vector2 uv2)
         {
-            AddTriangle(vertex0, vertex1, vertex2);
-
             uv.Add(uv0);
             uv.Add(uv1);
             uv.Add(uv2);
+            return AddTriangle(vertex0, vertex1, vertex2);
         }
 
-        public void AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal, Vector2 uv0,
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal, Vector2 uv0,
             Vector2 uv1, Vector2 uv2)
         {
-            AddTriangle(vertex0, vertex1, vertex2, normal);
-
             uv.Add(uv0);
             uv.Add(uv1);
             uv.Add(uv2);
+            return AddTriangle(vertex0, vertex1, vertex2, normal, normal, normal);
+        }
+
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal0, Vector3 normal1,
+            Vector3 normal2, Vector2 uv0, Vector2 uv1, Vector2 uv2)
+        {
+            uv.Add(uv0);
+            uv.Add(uv1);
+            uv.Add(uv2);
+            return AddTriangle(vertex0, vertex1, vertex2, normal0, normal1, normal2);
         }
 
         #endregion AddTriangle
 
         #region AddQuad
 
-        public void AddQuad(Vector3 origin, Vector3 width, Vector3 height)
+        public MeshDraft AddQuad(Vector3 origin, Vector3 width, Vector3 height)
         {
             Vector3 normal = Vector3.Cross(height, width).normalized;
-            AddQuad(origin, origin + height, origin + height + width, origin + width, normal);
+            return AddQuad(origin, origin + height, origin + height + width, origin + width,
+                normal, normal, normal, normal);
         }
 
-        public void AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
+        public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
         {
             Vector3 normal = Vector3.Cross(vertex1 - vertex0, vertex2 - vertex0).normalized;
-            AddQuad(vertex0, vertex1, vertex2, vertex3, normal);
+            return AddQuad(vertex0, vertex1, vertex2, vertex3, normal, normal, normal, normal);
         }
 
-        public void AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector3 normal)
+        public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector3 normal)
+        {
+            return AddQuad(vertex0, vertex1, vertex2, vertex3, normal, normal, normal, normal);
+        }
+
+        public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3,
+            Vector3 normal0, Vector3 normal1, Vector3 normal2, Vector3 normal3)
         {
             triangles.Add(0 + vertices.Count);
             triangles.Add(1 + vertices.Count);
@@ -155,49 +172,56 @@ namespace ProceduralToolkit
             triangles.Add(0 + vertices.Count);
             triangles.Add(2 + vertices.Count);
             triangles.Add(3 + vertices.Count);
-
             vertices.Add(vertex0);
             vertices.Add(vertex1);
             vertices.Add(vertex2);
             vertices.Add(vertex3);
-
-            normals.Add(normal);
-            normals.Add(normal);
-            normals.Add(normal);
-            normals.Add(normal);
+            normals.Add(normal0);
+            normals.Add(normal1);
+            normals.Add(normal2);
+            normals.Add(normal3);
+            return this;
         }
 
-        public void AddQuad(Vector3 origin, Vector3 width, Vector3 height, Vector2 uv0, Vector2 uv1, Vector2 uv2,
-            Vector2 uv3)
-        {
-            AddQuad(origin, width, height);
-
-            uv.Add(uv0);
-            uv.Add(uv1);
-            uv.Add(uv2);
-            uv.Add(uv3);
-        }
-
-        public void AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector2 uv0, Vector2 uv1,
-            Vector2 uv2, Vector2 uv3)
-        {
-            AddQuad(vertex0, vertex1, vertex2, vertex3);
-
-            uv.Add(uv0);
-            uv.Add(uv1);
-            uv.Add(uv2);
-            uv.Add(uv3);
-        }
-
-        public void AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector3 normal,
+        public MeshDraft AddQuad(Vector3 origin, Vector3 width, Vector3 height,
             Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3)
         {
-            AddQuad(vertex0, vertex1, vertex2, vertex3, normal);
-
             uv.Add(uv0);
             uv.Add(uv1);
             uv.Add(uv2);
             uv.Add(uv3);
+            return AddQuad(origin, width, height);
+        }
+
+        public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3,
+            Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3)
+        {
+            uv.Add(uv0);
+            uv.Add(uv1);
+            uv.Add(uv2);
+            uv.Add(uv3);
+            return AddQuad(vertex0, vertex1, vertex2, vertex3);
+        }
+
+        public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector3 normal,
+            Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3)
+        {
+            uv.Add(uv0);
+            uv.Add(uv1);
+            uv.Add(uv2);
+            uv.Add(uv3);
+            return AddQuad(vertex0, vertex1, vertex2, vertex3, normal, normal, normal, normal);
+        }
+
+        public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3,
+            Vector3 normal0, Vector3 normal1, Vector3 normal2, Vector3 normal3,
+            Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3)
+        {
+            uv.Add(uv0);
+            uv.Add(uv1);
+            uv.Add(uv2);
+            uv.Add(uv3);
+            return AddQuad(vertex0, vertex1, vertex2, vertex3, normal0, normal1, normal2, normal3);
         }
 
         #endregion AddQuad
@@ -207,16 +231,16 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(Vector3[] fan)
+        public MeshDraft AddTriangleFan(Vector3[] fan)
         {
             Vector3 normal = Vector3.Cross(fan[1] - fan[0], fan[2] - fan[0]).normalized;
-            AddTriangleFan(fan, normal);
+            return AddTriangleFan(fan, normal);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(Vector3[] fan, Vector3 normal)
+        public MeshDraft AddTriangleFan(Vector3[] fan, Vector3 normal)
         {
             for (int i = 1; i < fan.Length - 1; i++)
             {
@@ -229,12 +253,13 @@ namespace ProceduralToolkit
             {
                 normals.Add(normal);
             }
+            return this;
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(Vector3[] fan, Vector3[] normals)
+        public MeshDraft AddTriangleFan(Vector3[] fan, Vector3[] normals)
         {
             for (int i = 1; i < fan.Length - 1; i++)
             {
@@ -244,48 +269,49 @@ namespace ProceduralToolkit
             }
             vertices.AddRange(fan);
             this.normals.AddRange(normals);
+            return this;
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(Vector3[] fan, Vector2[] uv)
+        public MeshDraft AddTriangleFan(Vector3[] fan, Vector2[] uv)
         {
-            AddTriangleFan(fan);
             this.uv.AddRange(uv);
+            return AddTriangleFan(fan);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(Vector3[] fan, Vector3 normal, Vector2[] uv)
+        public MeshDraft AddTriangleFan(Vector3[] fan, Vector3 normal, Vector2[] uv)
         {
-            AddTriangleFan(fan, normal);
             this.uv.AddRange(uv);
+            return AddTriangleFan(fan, normal);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(Vector3[] fan, Vector3[] normals, Vector2[] uv)
+        public MeshDraft AddTriangleFan(Vector3[] fan, Vector3[] normals, Vector2[] uv)
         {
-            AddTriangleFan(fan, normals);
             this.uv.AddRange(uv);
+            return AddTriangleFan(fan, normals);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(List<Vector3> fan)
+        public MeshDraft AddTriangleFan(List<Vector3> fan)
         {
             Vector3 normal = Vector3.Cross(fan[1] - fan[0], fan[2] - fan[0]).normalized;
-            AddTriangleFan(fan, normal);
+            return AddTriangleFan(fan, normal);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(List<Vector3> fan, Vector3 normal)
+        public MeshDraft AddTriangleFan(List<Vector3> fan, Vector3 normal)
         {
             for (int i = 1; i < fan.Count - 1; i++)
             {
@@ -298,12 +324,13 @@ namespace ProceduralToolkit
             {
                 normals.Add(normal);
             }
+            return this;
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(List<Vector3> fan, List<Vector3> normals)
+        public MeshDraft AddTriangleFan(List<Vector3> fan, List<Vector3> normals)
         {
             for (int i = 1; i < fan.Count - 1; i++)
             {
@@ -313,33 +340,34 @@ namespace ProceduralToolkit
             }
             vertices.AddRange(fan);
             this.normals.AddRange(normals);
+            return this;
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(List<Vector3> fan, List<Vector2> uv)
+        public MeshDraft AddTriangleFan(List<Vector3> fan, List<Vector2> uv)
         {
-            AddTriangleFan(fan);
             this.uv.AddRange(uv);
+            return AddTriangleFan(fan);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(List<Vector3> fan, Vector3 normal, List<Vector2> uv)
+        public MeshDraft AddTriangleFan(List<Vector3> fan, Vector3 normal, List<Vector2> uv)
         {
-            AddTriangleFan(fan, normal);
             this.uv.AddRange(uv);
+            return AddTriangleFan(fan, normal);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public void AddTriangleFan(List<Vector3> fan, List<Vector3> normals, List<Vector2> uv)
+        public MeshDraft AddTriangleFan(List<Vector3> fan, List<Vector3> normals, List<Vector2> uv)
         {
-            AddTriangleFan(fan, normals);
             this.uv.AddRange(uv);
+            return AddTriangleFan(fan, normals);
         }
 
         #endregion AddTriangleFan
@@ -349,16 +377,16 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(Vector3[] strip)
+        public MeshDraft AddTriangleStrip(Vector3[] strip)
         {
             Vector3 normal = Vector3.Cross(strip[1] - strip[0], strip[2] - strip[0]).normalized;
-            AddTriangleStrip(strip, normal);
+            return AddTriangleStrip(strip, normal);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(Vector3[] strip, Vector3 normal)
+        public MeshDraft AddTriangleStrip(Vector3[] strip, Vector3 normal)
         {
             for (int i = 0, j = 1, k = 2;
                 i < strip.Length - 2;
@@ -373,12 +401,13 @@ namespace ProceduralToolkit
             {
                 normals.Add(normal);
             }
+            return this;
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(Vector3[] strip, Vector3[] normals)
+        public MeshDraft AddTriangleStrip(Vector3[] strip, Vector3[] normals)
         {
             for (int i = 0, j = 1, k = 2;
                 i < strip.Length - 2;
@@ -390,48 +419,49 @@ namespace ProceduralToolkit
             }
             vertices.AddRange(strip);
             this.normals.AddRange(normals);
+            return this;
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(Vector3[] strip, Vector2[] uv)
+        public MeshDraft AddTriangleStrip(Vector3[] strip, Vector2[] uv)
         {
-            AddTriangleStrip(strip);
             this.uv.AddRange(uv);
+            return AddTriangleStrip(strip);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(Vector3[] strip, Vector3 normal, Vector2[] uv)
+        public MeshDraft AddTriangleStrip(Vector3[] strip, Vector3 normal, Vector2[] uv)
         {
-            AddTriangleStrip(strip, normal);
             this.uv.AddRange(uv);
+            return AddTriangleStrip(strip, normal);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(Vector3[] strip, Vector3[] normals, Vector2[] uv)
+        public MeshDraft AddTriangleStrip(Vector3[] strip, Vector3[] normals, Vector2[] uv)
         {
-            AddTriangleStrip(strip, normals);
             this.uv.AddRange(uv);
+            return AddTriangleStrip(strip, normals);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(List<Vector3> strip)
+        public MeshDraft AddTriangleStrip(List<Vector3> strip)
         {
             Vector3 normal = Vector3.Cross(strip[1] - strip[0], strip[2] - strip[0]).normalized;
-            AddTriangleStrip(strip, normal);
+            return AddTriangleStrip(strip, normal);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(List<Vector3> strip, Vector3 normal)
+        public MeshDraft AddTriangleStrip(List<Vector3> strip, Vector3 normal)
         {
             for (int i = 0, j = 1, k = 2;
                 i < strip.Count - 2;
@@ -446,12 +476,13 @@ namespace ProceduralToolkit
             {
                 normals.Add(normal);
             }
+            return this;
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(List<Vector3> strip, List<Vector3> normals)
+        public MeshDraft AddTriangleStrip(List<Vector3> strip, List<Vector3> normals)
         {
             for (int i = 0, j = 1, k = 2;
                 i < strip.Count - 2;
@@ -463,33 +494,34 @@ namespace ProceduralToolkit
             }
             vertices.AddRange(strip);
             this.normals.AddRange(normals);
+            return this;
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(List<Vector3> strip, List<Vector2> uv)
+        public MeshDraft AddTriangleStrip(List<Vector3> strip, List<Vector2> uv)
         {
-            AddTriangleStrip(strip);
             this.uv.AddRange(uv);
+            return AddTriangleStrip(strip);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(List<Vector3> strip, Vector3 normal, List<Vector2> uv)
+        public MeshDraft AddTriangleStrip(List<Vector3> strip, Vector3 normal, List<Vector2> uv)
         {
-            AddTriangleStrip(strip, normal);
             this.uv.AddRange(uv);
+            return AddTriangleStrip(strip, normal);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public void AddTriangleStrip(List<Vector3> strip, List<Vector3> normals, List<Vector2> uv)
+        public MeshDraft AddTriangleStrip(List<Vector3> strip, List<Vector3> normals, List<Vector2> uv)
         {
-            AddTriangleStrip(strip, normals);
             this.uv.AddRange(uv);
+            return AddTriangleStrip(strip, normals);
         }
 
         #endregion AddTriangleStrip

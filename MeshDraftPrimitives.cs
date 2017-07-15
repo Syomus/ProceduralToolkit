@@ -8,27 +8,26 @@ namespace ProceduralToolkit
     {
         #region Mesh parts
 
+        #region Triangle
+
         public static MeshDraft Triangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
         {
-            var draft = new MeshDraft {name = "Triangle"};
-            draft.AddTriangle(vertex0, vertex1, vertex2, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1));
-            return draft;
+            return new MeshDraft {name = "Triangle"}.AddTriangle(vertex0, vertex1, vertex2,
+                new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1));
         }
+
+        #endregion Triangle
 
         public static MeshDraft Quad(Vector3 origin, Vector3 width, Vector3 height)
         {
-            var draft = new MeshDraft {name = "Quad"};
-            draft.AddQuad(origin, width, height, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(1, 0));
-            return draft;
+            return new MeshDraft {name = "Quad"}.AddQuad(origin, width, height,
+                new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
         }
 
         public static MeshDraft Quad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
         {
-            var draft = new MeshDraft {name = "Quad"};
-            draft.AddQuad(vertex0, vertex1, vertex2, vertex3, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(1, 0));
-            return draft;
+            return new MeshDraft {name = "Quad"}.AddQuad(vertex0, vertex1, vertex2, vertex3,
+                new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
         }
 
         #region TriangleFan
@@ -38,9 +37,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(Vector3[] fan)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan);
         }
 
         /// <remarks>
@@ -48,9 +45,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(Vector3[] fan, Vector3 normal)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan, normal);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normal);
         }
 
         /// <remarks>
@@ -58,9 +53,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(Vector3[] fan, Vector3[] normals)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan, normals);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normals);
         }
 
         /// <remarks>
@@ -68,9 +61,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(Vector3[] fan, Vector2[] uv)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, uv);
         }
 
         /// <remarks>
@@ -78,9 +69,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(Vector3[] fan, Vector3 normal, Vector2[] uv)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan, normal, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normal, uv);
         }
 
         /// <remarks>
@@ -88,9 +77,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(Vector3[] fan, Vector3[] normals, Vector2[] uv)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan, normals, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normals, uv);
         }
 
         /// <remarks>
@@ -98,9 +85,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(List<Vector3> fan)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan);
         }
 
         /// <remarks>
@@ -108,9 +93,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(List<Vector3> fan, Vector3 normal)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan, normal);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normal);
         }
 
         /// <remarks>
@@ -118,9 +101,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(List<Vector3> fan, List<Vector3> normals)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan, normals);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normals);
         }
 
         /// <remarks>
@@ -128,9 +109,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(List<Vector3> fan, List<Vector2> uv)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, uv);
         }
 
         /// <remarks>
@@ -138,9 +117,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(List<Vector3> fan, Vector3 normal, List<Vector2> uv)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan, normal, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normal, uv);
         }
 
         /// <remarks>
@@ -148,9 +125,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleFan(List<Vector3> fan, List<Vector3> normals, List<Vector2> uv)
         {
-            var draft = new MeshDraft {name = "TriangleFan"};
-            draft.AddTriangleFan(fan, normals, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleFan"}.AddTriangleFan(fan, normals, uv);
         }
 
         #endregion TriangleFan
@@ -162,9 +137,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(Vector3[] strip)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip);
         }
 
         /// <remarks>
@@ -172,9 +145,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(Vector3[] strip, Vector3 normal)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip, normal);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normal);
         }
 
         /// <remarks>
@@ -182,9 +153,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(Vector3[] strip, Vector3[] normals)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip, normals);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normals);
         }
 
         /// <remarks>
@@ -192,9 +161,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(Vector3[] strip, Vector2[] uv)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, uv);
         }
 
         /// <remarks>
@@ -202,9 +169,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(Vector3[] strip, Vector3 normal, Vector2[] uv)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip, normal, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normal, uv);
         }
 
         /// <remarks>
@@ -212,9 +177,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(Vector3[] strip, Vector3[] normals, Vector2[] uv)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip, normals, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normals, uv);
         }
 
         /// <remarks>
@@ -222,9 +185,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(List<Vector3> strip)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip);
         }
 
         /// <remarks>
@@ -232,9 +193,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(List<Vector3> strip, Vector3 normal)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip, normal);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normal);
         }
 
         /// <remarks>
@@ -242,9 +201,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(List<Vector3> strip, List<Vector3> normals)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip, normals);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normals);
         }
 
         /// <remarks>
@@ -252,9 +209,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(List<Vector3> strip, List<Vector2> uv)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, uv);
         }
 
         /// <remarks>
@@ -262,9 +217,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(List<Vector3> strip, Vector3 normal, List<Vector2> uv)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip, normal, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normal, uv);
         }
 
         /// <remarks>
@@ -272,9 +225,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public static MeshDraft TriangleStrip(List<Vector3> strip, List<Vector3> normals, List<Vector2> uv)
         {
-            var draft = new MeshDraft {name = "TriangleStrip"};
-            draft.AddTriangleStrip(strip, normals, uv);
-            return draft;
+            return new MeshDraft {name = "TriangleStrip"}.AddTriangleStrip(strip, normals, uv);
         }
 
         #endregion TriangleStrip
