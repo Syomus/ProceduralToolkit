@@ -45,31 +45,31 @@ namespace ProceduralToolkit.Editor
         [MenuItem(primitivesPath + tetrahedron, false, platonicSolids + 0)]
         public static void Tetrahedron()
         {
-            PrimitiveTemplate(tetrahedron, () => MeshE.Tetrahedron(1));
+            PrimitiveTemplate(tetrahedron, () => MeshDraft.Tetrahedron(1).ToMesh());
         }
 
         [MenuItem(primitivesPath + cube, false, platonicSolids + 1)]
         public static void Cube()
         {
-            PrimitiveTemplate(cube, () => MeshE.Cube(1));
+            PrimitiveTemplate(cube, () => MeshDraft.Cube(1).ToMesh());
         }
 
         [MenuItem(primitivesPath + octahedron, false, platonicSolids + 2)]
         public static void Octahedron()
         {
-            PrimitiveTemplate(octahedron, () => MeshE.Octahedron(1));
+            PrimitiveTemplate(octahedron, () => MeshDraft.Octahedron(1).ToMesh());
         }
 
         [MenuItem(primitivesPath + dodecahedron, false, platonicSolids + 3)]
         public static void Dodecahedron()
         {
-            PrimitiveTemplate(dodecahedron, () => MeshE.Dodecahedron(1));
+            PrimitiveTemplate(dodecahedron, () => MeshDraft.Dodecahedron(1).ToMesh());
         }
 
         [MenuItem(primitivesPath + icosahedron, false, platonicSolids + 4)]
         public static void Icosahedron()
         {
-            PrimitiveTemplate(icosahedron, () => MeshE.Icosahedron(1));
+            PrimitiveTemplate(icosahedron, () => MeshDraft.Icosahedron(1).ToMesh());
         }
 
         #endregion Platonic solids
@@ -79,31 +79,31 @@ namespace ProceduralToolkit.Editor
         [MenuItem(primitivesPath + plane, false, other + 0)]
         public static void Plane()
         {
-            PrimitiveTemplate(plane, () => MeshE.Plane(10, 10, 10, 10));
+            PrimitiveTemplate(plane, () => MeshDraft.Plane(10, 10, 10, 10).ToMesh());
         }
 
         [MenuItem(primitivesPath + pyramid, false, other + 1)]
         public static void Pyramid()
         {
-            PrimitiveTemplate(pyramid, () => MeshE.Pyramid(1, 6, 1));
+            PrimitiveTemplate(pyramid, () => MeshDraft.Pyramid(1, 6, 1).ToMesh());
         }
 
         [MenuItem(primitivesPath + prism, false, other + 2)]
         public static void Prism()
         {
-            PrimitiveTemplate(prism, () => MeshE.Prism(1, 16, 1));
+            PrimitiveTemplate(prism, () => MeshDraft.Prism(1, 16, 1).ToMesh());
         }
 
         [MenuItem(primitivesPath + cylinder, false, other + 3)]
         public static void Cylinder()
         {
-            PrimitiveTemplate(cylinder, () => MeshE.Cylinder(1, 16, 1));
+            PrimitiveTemplate(cylinder, () => MeshDraft.Cylinder(1, 16, 1).ToMesh());
         }
 
         [MenuItem(primitivesPath + sphere, false, other + 4)]
         public static void Sphere()
         {
-            PrimitiveTemplate(sphere, () => MeshE.Sphere(1, 16, 16));
+            PrimitiveTemplate(sphere, () => MeshDraft.Sphere(1, 16, 16).ToMesh());
         }
 
         #endregion Other

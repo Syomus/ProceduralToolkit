@@ -11,7 +11,8 @@ namespace ProceduralToolkit.Examples.Primitives
 
         private void Start()
         {
-            GetComponent<MeshFilter>().mesh = MeshE.FlatSphere(radius, horizontalSegments, verticalSegments);
+            GetComponent<MeshFilter>().mesh =
+                MeshDraft.FlatSphere(radius, horizontalSegments, verticalSegments).ToMesh();
         }
     }
 }

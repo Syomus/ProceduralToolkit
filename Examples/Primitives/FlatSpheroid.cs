@@ -2,7 +2,7 @@
 
 namespace ProceduralToolkit.Examples.Primitives
 {
-    [RequireComponent(typeof (MeshRenderer), typeof (MeshFilter))]
+    [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
     public class FlatSpheroid : MonoBehaviour
     {
         public float radius = 0.75f;
@@ -12,7 +12,8 @@ namespace ProceduralToolkit.Examples.Primitives
 
         private void Start()
         {
-            GetComponent<MeshFilter>().mesh = MeshE.FlatSpheroid(radius, height, horizontalSegments, verticalSegments);
+            GetComponent<MeshFilter>().mesh =
+                MeshDraft.FlatSpheroid(radius, height, horizontalSegments, verticalSegments).ToMesh();
         }
     }
 }

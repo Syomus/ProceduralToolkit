@@ -12,7 +12,7 @@ namespace ProceduralToolkit.Examples.Primitives
 
         private void Start()
         {
-            GetComponent<MeshFilter>().mesh = MeshE.Plane(xSize, zSize, xSegments, zSegments);
+            GetComponent<MeshFilter>().mesh = MeshDraft.Plane(xSize, zSize, xSegments, zSegments).ToMesh();
         }
     }
 }

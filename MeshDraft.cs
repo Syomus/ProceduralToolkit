@@ -89,7 +89,7 @@ namespace ProceduralToolkit
             colors.AddRange(draft.colors);
         }
 
-        #region Mesh parts
+        #region AddTriangle
 
         public void AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
         {
@@ -131,6 +131,10 @@ namespace ProceduralToolkit
             uv.Add(uv2);
         }
 
+        #endregion AddTriangle
+
+        #region AddQuad
+
         public void AddQuad(Vector3 origin, Vector3 width, Vector3 height)
         {
             Vector3 normal = Vector3.Cross(height, width).normalized;
@@ -163,6 +167,17 @@ namespace ProceduralToolkit
             normals.Add(normal);
         }
 
+        public void AddQuad(Vector3 origin, Vector3 width, Vector3 height, Vector2 uv0, Vector2 uv1, Vector2 uv2,
+            Vector2 uv3)
+        {
+            AddQuad(origin, width, height);
+
+            uv.Add(uv0);
+            uv.Add(uv1);
+            uv.Add(uv2);
+            uv.Add(uv3);
+        }
+
         public void AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector2 uv0, Vector2 uv1,
             Vector2 uv2, Vector2 uv3)
         {
@@ -185,6 +200,10 @@ namespace ProceduralToolkit
             uv.Add(uv3);
         }
 
+        #endregion AddQuad
+
+        #region AddTriangleFan
+
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
@@ -205,13 +224,53 @@ namespace ProceduralToolkit
                 triangles.Add(i + vertices.Count);
                 triangles.Add(i + 1 + vertices.Count);
             }
-
             vertices.AddRange(fan);
-
             for (int i = 0; i < fan.Length; i++)
             {
                 normals.Add(normal);
             }
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(Vector3[] fan, Vector3[] normals)
+        {
+            for (int i = 1; i < fan.Length - 1; i++)
+            {
+                triangles.Add(0 + vertices.Count);
+                triangles.Add(i + vertices.Count);
+                triangles.Add(i + 1 + vertices.Count);
+            }
+            vertices.AddRange(fan);
+            this.normals.AddRange(normals);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(Vector3[] fan, Vector2[] uv)
+        {
+            AddTriangleFan(fan);
+            this.uv.AddRange(uv);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(Vector3[] fan, Vector3 normal, Vector2[] uv)
+        {
+            AddTriangleFan(fan, normal);
+            this.uv.AddRange(uv);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(Vector3[] fan, Vector3[] normals, Vector2[] uv)
+        {
+            AddTriangleFan(fan, normals);
+            this.uv.AddRange(uv);
         }
 
         /// <remarks>
@@ -234,14 +293,58 @@ namespace ProceduralToolkit
                 triangles.Add(i + vertices.Count);
                 triangles.Add(i + 1 + vertices.Count);
             }
-
             vertices.AddRange(fan);
-
             for (int i = 0; i < fan.Count; i++)
             {
                 normals.Add(normal);
             }
         }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(List<Vector3> fan, List<Vector3> normals)
+        {
+            for (int i = 1; i < fan.Count - 1; i++)
+            {
+                triangles.Add(0 + vertices.Count);
+                triangles.Add(i + vertices.Count);
+                triangles.Add(i + 1 + vertices.Count);
+            }
+            vertices.AddRange(fan);
+            this.normals.AddRange(normals);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(List<Vector3> fan, List<Vector2> uv)
+        {
+            AddTriangleFan(fan);
+            this.uv.AddRange(uv);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(List<Vector3> fan, Vector3 normal, List<Vector2> uv)
+        {
+            AddTriangleFan(fan, normal);
+            this.uv.AddRange(uv);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_fan
+        /// </remarks>
+        public void AddTriangleFan(List<Vector3> fan, List<Vector3> normals, List<Vector2> uv)
+        {
+            AddTriangleFan(fan, normals);
+            this.uv.AddRange(uv);
+        }
+
+        #endregion AddTriangleFan
+
+        #region AddTriangleStrip
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
@@ -265,13 +368,55 @@ namespace ProceduralToolkit
                 triangles.Add(j + vertices.Count);
                 triangles.Add(k + vertices.Count);
             }
-
             vertices.AddRange(strip);
-
             for (int i = 0; i < strip.Length; i++)
             {
                 normals.Add(normal);
             }
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(Vector3[] strip, Vector3[] normals)
+        {
+            for (int i = 0, j = 1, k = 2;
+                i < strip.Length - 2;
+                i++, j += i%2*2, k += (i + 1)%2*2)
+            {
+                triangles.Add(i + vertices.Count);
+                triangles.Add(j + vertices.Count);
+                triangles.Add(k + vertices.Count);
+            }
+            vertices.AddRange(strip);
+            this.normals.AddRange(normals);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(Vector3[] strip, Vector2[] uv)
+        {
+            AddTriangleStrip(strip);
+            this.uv.AddRange(uv);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(Vector3[] strip, Vector3 normal, Vector2[] uv)
+        {
+            AddTriangleStrip(strip, normal);
+            this.uv.AddRange(uv);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(Vector3[] strip, Vector3[] normals, Vector2[] uv)
+        {
+            AddTriangleStrip(strip, normals);
+            this.uv.AddRange(uv);
         }
 
         /// <remarks>
@@ -296,16 +441,58 @@ namespace ProceduralToolkit
                 triangles.Add(j + vertices.Count);
                 triangles.Add(k + vertices.Count);
             }
-
             vertices.AddRange(strip);
-
             for (int i = 0; i < strip.Count; i++)
             {
                 normals.Add(normal);
             }
         }
 
-        #endregion Mesh parts
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(List<Vector3> strip, List<Vector3> normals)
+        {
+            for (int i = 0, j = 1, k = 2;
+                i < strip.Count - 2;
+                i++, j += i%2*2, k += (i + 1)%2*2)
+            {
+                triangles.Add(i + vertices.Count);
+                triangles.Add(j + vertices.Count);
+                triangles.Add(k + vertices.Count);
+            }
+            vertices.AddRange(strip);
+            this.normals.AddRange(normals);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(List<Vector3> strip, List<Vector2> uv)
+        {
+            AddTriangleStrip(strip);
+            this.uv.AddRange(uv);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(List<Vector3> strip, Vector3 normal, List<Vector2> uv)
+        {
+            AddTriangleStrip(strip, normal);
+            this.uv.AddRange(uv);
+        }
+
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Triangle_strip
+        /// </remarks>
+        public void AddTriangleStrip(List<Vector3> strip, List<Vector3> normals, List<Vector2> uv)
+        {
+            AddTriangleStrip(strip, normals);
+            this.uv.AddRange(uv);
+        }
+
+        #endregion AddTriangleStrip
 
         /// <summary>
         /// Clears all vertex data and all triangle indices

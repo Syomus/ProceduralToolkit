@@ -7,7 +7,7 @@ namespace ProceduralToolkit
     /// <summary>
     /// Mesh extensions and constructors for primitives
     /// </summary>
-    public static partial class MeshE
+    public static class MeshE
     {
         /// <summary>
         /// Moves mesh vertices by <paramref name="vector"/>

@@ -11,7 +11,7 @@ namespace ProceduralToolkit.Examples.Primitives
 
         private void Start()
         {
-            GetComponent<MeshFilter>().mesh = MeshE.Hexahedron(width, length, height);
+            GetComponent<MeshFilter>().mesh = MeshDraft.Hexahedron(width, length, height).ToMesh();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ProceduralToolkit.Examples.Primitives
 
         private void Start()
         {
-            GetComponent<MeshFilter>().mesh = MeshE.Cylinder(radius, segments, height);
+            GetComponent<MeshFilter>().mesh = MeshDraft.Cylinder(radius, segments, height).ToMesh();
         }
     }
 }

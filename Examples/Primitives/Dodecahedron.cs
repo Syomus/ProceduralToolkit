@@ -9,7 +9,7 @@ namespace ProceduralToolkit.Examples.Primitives
 
         private void Start()
         {
-            GetComponent<MeshFilter>().mesh = MeshE.Dodecahedron(radius);
+            GetComponent<MeshFilter>().mesh = MeshDraft.Dodecahedron(radius).ToMesh();
         }
     }
 }

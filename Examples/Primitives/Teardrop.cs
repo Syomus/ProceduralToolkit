@@ -2,7 +2,7 @@
 
 namespace ProceduralToolkit.Examples.Primitives
 {
-    [RequireComponent(typeof (MeshRenderer), typeof (MeshFilter))]
+    [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
     public class Teardrop : MonoBehaviour
     {
         public float radius = 1f;
@@ -12,7 +12,8 @@ namespace ProceduralToolkit.Examples.Primitives
 
         private void Start()
         {
-            GetComponent<MeshFilter>().mesh = MeshE.Teardrop(radius, height, horizontalSegments, verticalSegments);
+            GetComponent<MeshFilter>().mesh =
+                MeshDraft.Teardrop(radius, height, horizontalSegments, verticalSegments).ToMesh();
         }
     }
 }
