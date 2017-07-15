@@ -591,13 +591,14 @@ namespace ProceduralToolkit
         /// <summary>
         /// Paints draft vertices with <paramref name="color"/>
         /// </summary>
-        public void Paint(Color color)
+        public MeshDraft Paint(Color color)
         {
             colors.Clear();
             for (int i = 0; i < vertices.Count; i++)
             {
                 colors.Add(color);
             }
+            return this;
         }
 
         /// <summary>
