@@ -44,7 +44,6 @@ namespace ProceduralToolkit.Examples
             }
 
             roofDraft.Move(Vector3.up*roofHeight);
-            roofDraft.uv.Clear();
             return roofDraft;
         }
 

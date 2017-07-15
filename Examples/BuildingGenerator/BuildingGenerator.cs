@@ -58,7 +58,6 @@ namespace ProceduralToolkit.Examples
             float facadeHeight = floorHeight*config.floors + socleHeight + (config.hasAttic ? atticHeight : 0);
 
             var buildingDraft = GenerateFacades(foundationPolygon, facadeLayouts);
-            buildingDraft.uv.Clear();
 
             var roof = RoofGenerator.Generate(foundationPolygon, facadeHeight, config.roofConfig);
             roof.Paint(config.palette.roofColor);

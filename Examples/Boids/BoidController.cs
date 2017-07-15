@@ -67,7 +67,6 @@ namespace ProceduralToolkit.Examples
                 vertices = new List<Vector3>(vertexCount),
                 triangles = new List<int>(vertexCount),
                 normals = new List<Vector3>(vertexCount),
-                uv = new List<Vector2>(vertexCount),
                 colors = new List<Color>(vertexCount)
             };
 

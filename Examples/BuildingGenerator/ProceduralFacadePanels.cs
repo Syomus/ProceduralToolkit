@@ -166,7 +166,7 @@ namespace ProceduralToolkit.Examples
             draft.Add(hole);
             draft.Paint(frameColor);
 
-            var glass = MeshDraft.Quad(windowMin + frameLength, windowWidth, windowHeight);
+            var glass = new MeshDraft().AddQuad(windowMin + frameLength, windowWidth, windowHeight);
             glass.Paint(glassColor);
             draft.Add(glass);
 
@@ -317,7 +317,7 @@ namespace ProceduralToolkit.Examples
             Vector3 roof1 = roof0 + widthVector;
             Vector3 roof2 = roof1 + balconyDepth;
             Vector3 roof3 = roof0 + balconyDepth;
-            var roof = MeshDraft.Quad(roof0, roof1, roof2, roof3);
+            var roof = new MeshDraft().AddQuad(roof0, roof1, roof2, roof3);
             roof.Paint(roofColor);
             draft.Add(roof);
 
@@ -352,7 +352,7 @@ namespace ProceduralToolkit.Examples
             doorFrame.Paint(doorColor);
             draft.Add(doorFrame);
 
-            var door = MeshDraft.Quad(doorOrigin + doorThickness, doorWidth, doorHeight);
+            var door = new MeshDraft().AddQuad(doorOrigin + doorThickness, doorWidth, doorHeight);
             door.Paint(doorColor);
             draft.Add(door);
             return draft;
@@ -403,7 +403,7 @@ namespace ProceduralToolkit.Examples
             wall.Add(frame);
             wall.Paint(wallColor);
 
-            var window = MeshDraft.Quad(windowOrigin + windowDepth/2, windowWidth, windowHeigth);
+            var window = new MeshDraft().AddQuad(windowOrigin + windowDepth/2, windowWidth, windowHeigth);
             window.Paint(glassColor);
             wall.Add(window);
 
@@ -446,7 +446,7 @@ namespace ProceduralToolkit.Examples
 
         public override MeshDraft GetMeshDraft()
         {
-            var draft = MeshDraft.Quad(origin.Value, Vector3.right*width.Value, Vector3.up*height.Value);
+            var draft = new MeshDraft().AddQuad(origin.Value, Vector3.right*width.Value, Vector3.up*height.Value);
             draft.Paint(wallColor);
             return draft;
         }

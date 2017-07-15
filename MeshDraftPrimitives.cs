@@ -8,16 +8,6 @@ namespace ProceduralToolkit
     {
         #region Mesh parts
 
-        #region Triangle
-
-        public static MeshDraft Triangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
-        {
-            return new MeshDraft {name = "Triangle"}.AddTriangle(vertex0, vertex1, vertex2,
-                new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1));
-        }
-
-        #endregion Triangle
-
         public static MeshDraft Quad(Vector3 origin, Vector3 width, Vector3 height)
         {
             return new MeshDraft {name = "Quad"}.AddQuad(origin, width, height,
@@ -252,9 +242,9 @@ namespace ProceduralToolkit
             var draft = new MeshDraft {name = "BaselessPyramid"};
             for (var i = 1; i < segments; i++)
             {
-                draft.Add(Triangle(vertices[0], vertices[i], vertices[i + 1]));
+                draft.AddTriangle(vertices[0], vertices[i], vertices[i + 1]);
             }
-            draft.Add(Triangle(vertices[0], vertices[vertices.Length - 1], vertices[1]));
+            draft.AddTriangle(vertices[0], vertices[vertices.Length - 1], vertices[1]);
             return draft;
         }
 
@@ -263,9 +253,9 @@ namespace ProceduralToolkit
             var draft = new MeshDraft {name = "BaselessPyramid"};
             for (var i = 0; i < ring.Count - 1; i++)
             {
-                draft.Add(Triangle(apex, ring[i], ring[i + 1]));
+                draft.AddTriangle(apex, ring[i], ring[i + 1]);
             }
-            draft.Add(Triangle(apex, ring[ring.Count - 1], ring[0]));
+            draft.AddTriangle(apex, ring[ring.Count - 1], ring[0]);
             return draft;
         }
 
@@ -286,8 +276,6 @@ namespace ProceduralToolkit
 
             var lowerNormals = new List<Vector3>();
             var upperNormals = new List<Vector3>();
-            var lowerUv = new List<Vector2>();
-            var upperUv = new List<Vector2>();
             int i0, i1, i2, i3;
             Vector3 v0, v1, v2, v3;
             for (int i = 0; i < lowerRing.Count - 1; i++)
@@ -305,10 +293,6 @@ namespace ProceduralToolkit
 
                 lowerNormals.Add(Vector3.Cross(v1 - v0, v2 - v0).normalized);
                 upperNormals.Add(Vector3.Cross(v3 - v1, v0 - v1).normalized);
-
-                var u = (float) i/(lowerRing.Count - 1);
-                lowerUv.Add(new Vector2(u, 0));
-                upperUv.Add(new Vector2(u, 1));
             }
 
             i0 = lowerRing.Count - 1;
@@ -326,11 +310,6 @@ namespace ProceduralToolkit
             upperNormals.Add(Vector3.Cross(v3 - v1, v0 - v1).normalized);
             draft.normals.AddRange(lowerNormals);
             draft.normals.AddRange(upperNormals);
-
-            lowerUv.Add(new Vector2(1, 0));
-            upperUv.Add(new Vector2(1, 1));
-            draft.uv.AddRange(lowerUv);
-            draft.uv.AddRange(upperUv);
 
             return draft;
         }
@@ -354,16 +333,16 @@ namespace ProceduralToolkit
                 v1 = upperRing[i];
                 v2 = lowerRing[i + 1];
                 v3 = upperRing[i + 1];
-                draft.Add(Triangle(v0, v1, v2));
-                draft.Add(Triangle(v2, v1, v3));
+                draft.AddTriangle(v0, v1, v2)
+                    .AddTriangle(v2, v1, v3);
             }
 
             v0 = lowerRing[lowerRing.Count - 1];
             v1 = upperRing[upperRing.Count - 1];
             v2 = lowerRing[0];
             v3 = upperRing[0];
-            draft.Add(Triangle(v0, v1, v2));
-            draft.Add(Triangle(v2, v1, v3));
+            draft.AddTriangle(v0, v1, v2)
+                .AddTriangle(v2, v1, v3);
 
             return draft;
         }
@@ -384,12 +363,11 @@ namespace ProceduralToolkit
                 vertices.Add(PTUtils.PointOnSphere(radius, currentAngle, tetrahedralAngle));
                 currentAngle += segmentAngle;
             }
-            var draft = Triangle(vertices[0], vertices[1], vertices[2]);
-            draft.Add(Triangle(vertices[1], vertices[3], vertices[2]));
-            draft.Add(Triangle(vertices[0], vertices[2], vertices[3]));
-            draft.Add(Triangle(vertices[0], vertices[3], vertices[1]));
-            draft.name = "Tetrahedron";
-            return draft;
+            return new MeshDraft {name = "Tetrahedron"}
+                .AddTriangle(vertices[0], vertices[1], vertices[2])
+                .AddTriangle(vertices[1], vertices[3], vertices[2])
+                .AddTriangle(vertices[0], vertices[2], vertices[3])
+                .AddTriangle(vertices[0], vertices[3], vertices[1]);
         }
 
         public static MeshDraft Cube(float side)
@@ -409,14 +387,13 @@ namespace ProceduralToolkit
             Vector3 corner0 = -width/2 - length/2 - height/2;
             Vector3 corner1 = width/2 + length/2 + height/2;
 
-            var draft = Quad(corner0, length, width);
-            draft.Add(Quad(corner0, width, height));
-            draft.Add(Quad(corner0, height, length));
-            draft.Add(Quad(corner1, -width, -length));
-            draft.Add(Quad(corner1, -height, -width));
-            draft.Add(Quad(corner1, -length, -height));
-            draft.name = "Hexahedron";
-            return draft;
+            return new MeshDraft {name = "Hexahedron"}
+                .AddQuad(corner0, length, width)
+                .AddQuad(corner0, width, height)
+                .AddQuad(corner0, height, length)
+                .AddQuad(corner1, -width, -length)
+                .AddQuad(corner1, -height, -width)
+                .AddQuad(corner1, -length, -height);
         }
 
         public static MeshDraft Octahedron(float radius)
@@ -750,27 +727,27 @@ namespace ProceduralToolkit
             var draft = new MeshDraft {name = "Hexahedron"};
             if ((parts & Directions.Left) == Directions.Left)
             {
-                draft.Add(Quad(corner0, height, length));
+                draft.AddQuad(corner0, height, length);
             }
             if ((parts & Directions.Right) == Directions.Right)
             {
-                draft.Add(Quad(corner1, -length, -height));
+                draft.AddQuad(corner1, -length, -height);
             }
             if ((parts & Directions.Down) == Directions.Down)
             {
-                draft.Add(Quad(corner0, length, width));
+                draft.AddQuad(corner0, length, width);
             }
             if ((parts & Directions.Up) == Directions.Up)
             {
-                draft.Add(Quad(corner1, -width, -length));
+                draft.AddQuad(corner1, -width, -length);
             }
             if ((parts & Directions.Back) == Directions.Back)
             {
-                draft.Add(Quad(corner0, width, height));
+                draft.AddQuad(corner0, width, height);
             }
             if ((parts & Directions.Forward) == Directions.Forward)
             {
-                draft.Add(Quad(corner1, -height, -width));
+                draft.AddQuad(corner1, -height, -width);
             }
             return draft;
         }
