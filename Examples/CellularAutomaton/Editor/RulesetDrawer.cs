@@ -18,7 +18,7 @@ namespace ProceduralToolkit.Editor
             position = EditorGUI.PrefixLabel(position, label);
 
             Rect bRect = new Rect(position.x - spacing, position.y, position.width/2, position.height);
-            DrawRule(property, "birthRule", bRect, "X");
+            DrawRule(property, "birthRule", bRect, "B");
 
             Rect sRect = bRect;
             sRect.x += bRect.width + spacing;
