@@ -31,15 +31,15 @@ namespace ProceduralToolkit.Examples
         private Color aliveColor;
         private TextControl header;
 
-        private Dictionary<RulesetName, Ruleset> nameToRuleset = new Dictionary<RulesetName, Ruleset>
+        private Dictionary<RulesetName, CellularAutomaton.Ruleset> nameToRuleset = new Dictionary<RulesetName, CellularAutomaton.Ruleset>
         {
-            {RulesetName.Life, Ruleset.life},
-            {RulesetName.Mazectric, Ruleset.mazectric},
-            {RulesetName.Coral, Ruleset.coral},
-            {RulesetName.WalledCities, Ruleset.walledCities},
-            {RulesetName.Coagulations, Ruleset.coagulations},
-            {RulesetName.Anneal, Ruleset.anneal},
-            {RulesetName.Majority, Ruleset.majority},
+            {RulesetName.Life, CellularAutomaton.Ruleset.life},
+            {RulesetName.Mazectric, CellularAutomaton.Ruleset.mazectric},
+            {RulesetName.Coral, CellularAutomaton.Ruleset.coral},
+            {RulesetName.WalledCities, CellularAutomaton.Ruleset.walledCities},
+            {RulesetName.Coagulations, CellularAutomaton.Ruleset.coagulations},
+            {RulesetName.Anneal, CellularAutomaton.Ruleset.anneal},
+            {RulesetName.Majority, CellularAutomaton.Ruleset.majority},
         };
 
         private void Awake()
@@ -115,7 +115,7 @@ namespace ProceduralToolkit.Examples
             {
                 for (int y = 0; y < config.height; y++)
                 {
-                    if (automaton.cells[x, y] == CellState.Alive)
+                    if (automaton.cells[x, y])
                     {
                         pixels[y*config.width + x] = aliveColor;
                     }

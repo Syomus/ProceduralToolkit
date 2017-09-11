@@ -1,11 +1,10 @@
 ﻿using System.Text;
-using ProceduralToolkit.Examples;
 using UnityEditor;
 using UnityEngine;
 
 namespace ProceduralToolkit.Editor
 {
-    [CustomPropertyDrawer(typeof(Ruleset))]
+    [CustomPropertyDrawer(typeof(CellularAutomaton.Ruleset))]
     public class RulesetDrawer : PropertyDrawer
     {
         private const float labelWidth = 13;
@@ -44,7 +43,7 @@ namespace ProceduralToolkit.Editor
             EditorGUIUtility.labelWidth = oldLabelWidth;
             EditorGUI.indentLevel = oldIndentLevel;
 
-            var ruleList = Ruleset.ConvertRuleStringToList(ruleString);
+            var ruleList = CellularAutomaton.Ruleset.ConvertRuleStringToList(ruleString);
             rule.ClearArray();
             for (int i = 0; i < ruleList.Count; i++)
             {
