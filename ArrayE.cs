@@ -29,11 +29,11 @@ namespace ProceduralToolkit
         /// </summary>
         public static T GetLooped<T>(this T[] array, int index)
         {
-            if (index < 0)
+            while (index < 0)
             {
-                index = index%array.Length + array.Length;
+                index += array.Length;
             }
-            else if (index >= array.Length)
+            if (index >= array.Length)
             {
                 index %= array.Length;
             }
@@ -45,11 +45,11 @@ namespace ProceduralToolkit
         /// </summary>
         public static void SetLooped<T>(this T[] array, int index, T value)
         {
-            if (index < 0)
+            while (index < 0)
             {
-                index = index%array.Length + array.Length;
+                index += array.Length;
             }
-            else if (index >= array.Length)
+            if (index >= array.Length)
             {
                 index %= array.Length;
             }
@@ -61,11 +61,11 @@ namespace ProceduralToolkit
         /// </summary>
         public static T GetLooped<T>(this List<T> array, int index)
         {
-            if (index < 0)
+            while (index < 0)
             {
-                index = index%array.Count + array.Count;
+                index += array.Count;
             }
-            else if (index >= array.Count)
+            if (index >= array.Count)
             {
                 index %= array.Count;
             }
@@ -77,11 +77,11 @@ namespace ProceduralToolkit
         /// </summary>
         public static void SetLooped<T>(this List<T> array, int index, T value)
         {
-            if (index < 0)
+            while (index < 0)
             {
-                index = index%array.Count + array.Count;
+                index += array.Count;
             }
-            else if (index >= array.Count)
+            if (index >= array.Count)
             {
                 index %= array.Count;
             }
