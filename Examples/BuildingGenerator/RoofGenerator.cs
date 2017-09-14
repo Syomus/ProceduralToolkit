@@ -135,7 +135,7 @@ namespace ProceduralToolkit.Examples
             Vector2 toPrevious = (previous - current).normalized;
             Vector2 toNext = (next - current).normalized;
 
-            angle = PTUtils.Angle360(toPrevious, toNext);
+            angle = VectorE.Angle360(toPrevious, toNext);
             Assert.IsFalse(float.IsNaN(angle));
             return toPrevious.RotateCW(angle/2);
         }

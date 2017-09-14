@@ -56,7 +56,66 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool IsCollinear(this Vector2 vector, Vector2 other)
         {
-            return Mathf.Abs(PTUtils.PerpDot(vector, other)) < epsilon;
+            return Mathf.Abs(PerpDot(vector, other)) < epsilon;
+        }
+
+        /// <summary>
+        /// Returns perp of vector
+        /// </summary>
+        /// <remarks>
+        /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
+        /// Ch. II.5 in Graphics Gems IV (Ed. P. S. Heckbert). San Diego: Academic Press, pp. 138-148, 1994
+        /// </remarks>
+        public static Vector2 Perp(this Vector2 vector)
+        {
+            return new Vector2(-vector.y, vector.x);
+        }
+
+        /// <summary>
+        /// Returns perp dot product of vectors
+        /// </summary>
+        /// <remarks>
+        /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
+        /// Ch. II.5 in Graphics Gems IV (Ed. P. S. Heckbert). San Diego: Academic Press, pp. 138-148, 1994
+        /// </remarks>
+        public static float PerpDot(Vector2 a, Vector2 b)
+        {
+            return a.x*b.y - a.y*b.x;
+        }
+
+        /// <summary>
+        /// Returns the signed angle in degrees [-180, 180] between from and to
+        /// </summary>
+        /// <param name="from">The angle extends round from this vector</param>
+        /// <param name="to">The angle extends round to this vector</param>
+        public static float SignedAngle(Vector2 from, Vector2 to)
+        {
+            return Mathf.Atan2(PerpDot(to, from), Vector2.Dot(to, from))*Mathf.Rad2Deg;
+        }
+
+        /// <summary>
+        /// Returns the angle in degrees [0, 360] between from and to
+        /// </summary>
+        /// <param name="from">The angle extends round from this vector</param>
+        /// <param name="to">The angle extends round to this vector</param>
+        public static float Angle360(Vector2 from, Vector2 to)
+        {
+            float angle = SignedAngle(from, to);
+            if (angle < 0)
+            {
+                angle += 360;
+            }
+            return angle;
+        }
+
+        /// <summary>
+        /// Calculates the linear parameter t that produces the interpolant value within the range [a, b].
+        /// </summary>
+        public static Vector2 InverseLerp(Vector2 a, Vector2 b, Vector2 value)
+        {
+            return new Vector2(
+                Mathf.InverseLerp(a.x, b.x, value.x),
+                Mathf.InverseLerp(a.y, b.y, value.y));
         }
 
         /// <summary>
@@ -185,6 +244,34 @@ namespace ProceduralToolkit
 
         #endregion Vector2
 
+        #region Vector2Int
+
+        /// <summary>
+        /// Returns perp of vector
+        /// </summary>
+        /// <remarks>
+        /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
+        /// Ch. II.5 in Graphics Gems IV (Ed. P. S. Heckbert). San Diego: Academic Press, pp. 138-148, 1994
+        /// </remarks>
+        public static Vector2Int Perp(this Vector2Int vector)
+        {
+            return new Vector2Int(-vector.y, vector.x);
+        }
+
+        /// <summary>
+        /// Returns perp dot product of vectors
+        /// </summary>
+        /// <remarks>
+        /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
+        /// Ch. II.5 in Graphics Gems IV (Ed. P. S. Heckbert). San Diego: Academic Press, pp. 138-148, 1994
+        /// </remarks>
+        public static int PerpDot(Vector2Int a, Vector2Int b)
+        {
+            return a.x*b.y - a.y*b.x;
+        }
+
+        #endregion Vector2Int
+
         #region Vector3
 
         /// <summary>
@@ -257,6 +344,46 @@ namespace ProceduralToolkit
         public static Vector2 ToVector2YZ(this Vector3 vector)
         {
             return new Vector2(vector.y, vector.z);
+        }
+
+        /// <summary>
+        /// Returns the signed angle in degrees [-180, 180] between from and to
+        /// </summary>
+        /// <param name="from">The angle extends round from this vector</param>
+        /// <param name="to">The angle extends round to this vector</param>
+        /// <param name="normal">Up direction of the clockwise axis</param>
+        public static float SignedAngle(Vector3 from, Vector3 to, Vector3 normal)
+        {
+            return Mathf.Atan2(
+                       Vector3.Dot(normal, Vector3.Cross(from, to)),
+                       Vector3.Dot(from, to))*Mathf.Rad2Deg;
+        }
+
+        /// <summary>
+        /// Returns the angle in degrees [0, 360] between from and to
+        /// </summary>
+        /// <param name="from">The angle extends round from this vector</param>
+        /// <param name="to">The angle extends round to this vector</param>
+        /// <param name="normal">Up direction of the clockwise axis</param>
+        public static float Angle360(Vector3 from, Vector3 to, Vector3 normal)
+        {
+            float angle = SignedAngle(from, to, normal);
+            if (angle < 0)
+            {
+                angle += 360;
+            }
+            return angle;
+        }
+
+        /// <summary>
+        /// Calculates the linear parameter t that produces the interpolant value within the range [a, b].
+        /// </summary>
+        public static Vector3 InverseLerp(Vector3 a, Vector3 b, Vector3 value)
+        {
+            return new Vector3(
+                Mathf.InverseLerp(a.x, b.x, value.x),
+                Mathf.InverseLerp(a.y, b.y, value.y),
+                Mathf.InverseLerp(a.z, b.z, value.z));
         }
 
         /// <summary>
@@ -371,5 +498,21 @@ namespace ProceduralToolkit
         }
 
         #endregion Vector3
+
+        #region Vector4
+
+        /// <summary>
+        /// Calculates the linear parameter t that produces the interpolant value within the range [a, b].
+        /// </summary>
+        public static Vector4 InverseLerp(Vector4 a, Vector4 b, Vector4 value)
+        {
+            return new Vector4(
+                Mathf.InverseLerp(a.x, b.x, value.x),
+                Mathf.InverseLerp(a.y, b.y, value.y),
+                Mathf.InverseLerp(a.z, b.z, value.z),
+                Mathf.InverseLerp(a.w, b.w, value.w));
+        }
+
+        #endregion Vector4
     }
 }
