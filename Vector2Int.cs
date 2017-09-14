@@ -51,25 +51,12 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the length of this vector (RO)
         /// </summary>
-        public int magnitude { get { return (int) Math.Sqrt(sqrMagnitude); } }
+        public float magnitude { get { return Mathf.Sqrt(x*x + y*y); } }
 
         /// <summary>
         /// Returns the squared length of this vector (RO)
         /// </summary>
         public int sqrMagnitude { get { return x*x + y*y; } }
-
-        /// <summary>
-        /// Returns this vector with a magnitude of 1 (RO)
-        /// </summary>
-        public Vector2Int normalized
-        {
-            get
-            {
-                var vector = new Vector2Int(x, y);
-                vector.Normalize();
-                return vector;
-            }
-        }
 
         /// <summary>
         /// Constructs a new vector with given x, y components
@@ -78,30 +65,6 @@ namespace ProceduralToolkit
         {
             this.x = x;
             this.y = y;
-        }
-
-        /// <summary>
-        /// Makes this vector have a magnitude of 1
-        /// </summary>
-        public void Normalize()
-        {
-            int magnitude = this.magnitude;
-            if (magnitude > 0)
-            {
-                this /= magnitude;
-            }
-            else
-            {
-                this = zero;
-            }
-        }
-
-        /// <summary>
-        /// Dot Product of two vectors
-        /// </summary>
-        public static int Dot(Vector2Int lhs, Vector2Int rhs)
-        {
-            return lhs.x*rhs.x + lhs.y*rhs.y;
         }
 
         #region Operators
@@ -170,7 +133,7 @@ namespace ProceduralToolkit
 
         public override int GetHashCode()
         {
-            return x.GetHashCode() ^ y.GetHashCode() << 2;
+            return x.GetHashCode() ^ (y.GetHashCode() << 2);
         }
 
         public override bool Equals(object other)
@@ -180,11 +143,7 @@ namespace ProceduralToolkit
                 return false;
             }
             Vector2Int vector2Int = (Vector2Int) other;
-            if (x.Equals(vector2Int.x))
-            {
-                return y.Equals(vector2Int.y);
-            }
-            return false;
+            return x.Equals(vector2Int.x) && y.Equals(vector2Int.y);
         }
 
         /// <summary>
