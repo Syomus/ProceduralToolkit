@@ -149,11 +149,9 @@ namespace ProceduralToolkit
             queue.Enqueue(new Vector2Int(startX, startY));
             processed[startX, startY] = true;
 
-            Action<int, int> processNeighbours = (x, y) =>
+            Action<int, int> process = (x, y) =>
             {
-                if (x >= 0 && x < lengthX &&
-                    y >= 0 && y < lengthY &&
-                    !processed[x, y])
+                if (!processed[x, y])
                 {
                     if (comparer.Equals(array[x, y], value))
                     {
@@ -166,10 +164,31 @@ namespace ProceduralToolkit
             while (queue.Count > 0)
             {
                 Vector2Int cell = queue.Dequeue();
-                array.Visit4Unbounded(cell.x, cell.y, processNeighbours);
+
+                if (cell.x > 0)
+                {
+                    process(cell.x - 1, cell.y);
+                }
+                if (cell.x + 1 < lengthX)
+                {
+                    process(cell.x + 1, cell.y);
+                }
+                if (cell.y > 0)
+                {
+                    process(cell.x, cell.y - 1);
+                }
+                if (cell.y + 1 < lengthY)
+                {
+                    process(cell.x, cell.y + 1);
+                }
+
                 visit(cell.x, cell.y);
             }
         }
+
+        #endregion FloodVisit4
+
+        #region FloodVisit8
 
         /// <summary>
         /// Visits all connected elements with the same value as start element
@@ -177,7 +196,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
         /// </remarks>
-        public static void FloodVisit4<T>(this T[,] array, Vector2Int start, Action<int, int, bool> visit,
+        public static void FloodVisit8<T>(this T[,] array, Vector2Int start, Action<int, int> visit,
             IEqualityComparer<T> comparer = null)
         {
             FloodVisit4(array, start.x, start.y, visit, comparer);
@@ -189,7 +208,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
         /// </remarks>
-        public static void FloodVisit4<T>(this T[,] array, int startX, int startY, Action<int, int, bool> visit,
+        public static void FloodVisit8<T>(this T[,] array, int startX, int startY, Action<int, int> visit,
             IEqualityComparer<T> comparer = null)
         {
             if (array == null) throw new ArgumentNullException("array");
@@ -213,41 +232,54 @@ namespace ProceduralToolkit
             queue.Enqueue(new Vector2Int(startX, startY));
             processed[startX, startY] = true;
 
-            Vector2Int cell = new Vector2Int();
-            bool isBorderCell = false;
-
-            Action<int, int> processNeighbours = (x, y) =>
+            Action<int, int> process = (x, y) =>
             {
-                if (x >= 0 && x < lengthX &&
-                    y >= 0 && y < lengthY &&
-                    comparer.Equals(array[x, y], value))
+                if (!processed[x, y])
                 {
-                    if (!processed[x, y])
+                    if (comparer.Equals(array[x, y], value))
                     {
-                        bool vonNeumannNeighbour = x == cell.x || y == cell.y;
-                        if (vonNeumannNeighbour)
-                        {
-                            queue.Enqueue(new Vector2Int(x, y));
-                        }
-                        processed[x, y] = true;
+                        queue.Enqueue(new Vector2Int(x, y));
                     }
-                }
-                else
-                {
-                    isBorderCell = true;
+                    processed[x, y] = true;
                 }
             };
 
             while (queue.Count > 0)
             {
-                cell = queue.Dequeue();
-                isBorderCell = false;
-                array.Visit8Unbounded(cell.x, cell.y, processNeighbours);
-                visit(cell.x, cell.y, isBorderCell);
+                Vector2Int cell = queue.Dequeue();
+
+                bool xGreaterThanZero = cell.x > 0;
+                bool xLessThanWidth = cell.x + 1 < lengthX;
+
+                bool yGreaterThanZero = cell.y > 0;
+                bool yLessThanHeight = cell.y + 1 < lengthY;
+
+                if (yGreaterThanZero)
+                {
+                    if (xGreaterThanZero) process(cell.x - 1, cell.y - 1);
+
+                    process(cell.x, cell.y - 1);
+
+                    if (xLessThanWidth) process(cell.x + 1, cell.y - 1);
+                }
+
+                if (xGreaterThanZero) process(cell.x - 1, cell.y);
+                if (xLessThanWidth) process(cell.x + 1, cell.y);
+
+                if (yLessThanHeight)
+                {
+                    if (xGreaterThanZero) process(cell.x - 1, cell.y + 1);
+
+                    process(cell.x, cell.y + 1);
+
+                    if (xLessThanWidth) process(cell.x + 1, cell.y + 1);
+                }
+
+                visit(cell.x, cell.y);
             }
         }
 
-        #endregion FloodVisit4
+        #endregion FloodVisit8
 
         #region Visit4
 
