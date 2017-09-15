@@ -13,22 +13,24 @@ namespace ProceduralToolkit.Examples
     public class CharacterGenerator : MonoBehaviour
     {
         public Text characterName;
-        public SpriteRenderer headRenderer;
         public SpriteRenderer hairRenderer;
-        public SpriteRenderer eyesRenderer;
         public SpriteRenderer bodyRenderer;
-        public SpriteRenderer leftArmRenderer;
-        public SpriteRenderer rightArmRenderer;
-        public SpriteRenderer leftLegRenderer;
-        public SpriteRenderer rightLegRenderer;
+        public SpriteRenderer headRenderer;
+        public SpriteRenderer chestRenderer;
+        public SpriteRenderer legsRenderer;
+        public SpriteRenderer feetRenderer;
+        public SpriteRenderer weaponRenderer;
+        public SpriteRenderer shieldRenderer;
         [Space]
         public TextAsset namesJson;
-        public List<Sprite> heads = new List<Sprite>();
-        public List<Sprite> hairs = new List<Sprite>();
-        public List<Sprite> eyes = new List<Sprite>();
-        public List<Sprite> bodies = new List<Sprite>();
-        public List<Sprite> arms = new List<Sprite>();
-        public List<Sprite> legs = new List<Sprite>();
+        public List<Sprite> hairSprites = new List<Sprite>();
+        public List<Sprite> bodySprites = new List<Sprite>();
+        public List<Sprite> headSprites = new List<Sprite>();
+        public List<Sprite> chestSprites = new List<Sprite>();
+        public List<Sprite> legsSprites = new List<Sprite>();
+        public List<Sprite> feetSprites = new List<Sprite>();
+        public List<Sprite> weaponSprites = new List<Sprite>();
+        public List<Sprite> shieldSprites = new List<Sprite>();
 
         private NameGenerator nameGenerator;
 
@@ -50,16 +52,32 @@ namespace ProceduralToolkit.Examples
         private void Generate()
         {
             characterName.text = nameGenerator.fullName;
-            headRenderer.sprite = heads.GetRandom();
-            hairRenderer.sprite = hairs.GetRandom();
-            eyesRenderer.sprite = eyes.GetRandom();
-            bodyRenderer.sprite = bodies.GetRandom();
-            Sprite arm = arms.GetRandom();
-            leftArmRenderer.sprite = arm;
-            rightArmRenderer.sprite = arm;
-            Sprite leg = legs.GetRandom();
-            leftLegRenderer.sprite = leg;
-            rightLegRenderer.sprite = leg;
+            hairRenderer.sprite = hairSprites.GetRandom();
+            bodyRenderer.sprite = bodySprites.GetRandom();
+            headRenderer.sprite = headSprites.GetRandom();
+            chestRenderer.sprite = chestSprites.GetRandom();
+            legsRenderer.sprite = legsSprites.GetRandom();
+            feetRenderer.sprite = feetSprites.GetRandom();
+            if (RandomE.Chance(0.3f))
+            {
+                weaponRenderer.enabled = true;
+                weaponRenderer.sprite = weaponSprites.GetRandom();
+
+                if (RandomE.Chance(0.3f))
+                {
+                    shieldRenderer.enabled = true;
+                    shieldRenderer.sprite = shieldSprites.GetRandom();
+                }
+                else
+                {
+                    shieldRenderer.enabled = false;
+                }
+            }
+            else
+            {
+                weaponRenderer.enabled = false;
+                shieldRenderer.enabled = false;
+            }
         }
     }
 }
