@@ -194,6 +194,48 @@ namespace ProceduralToolkit
 
         #endregion Point-Segement
 
+        #region Line-Line
+
+        /// <summary>
+        /// Compute the intersection of the lines
+        /// </summary>
+        public static bool IntersectLineLine(Ray2D lineA, Ray2D lineB, out Vector2 intersection)
+        {
+            return IntersectLineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out intersection);
+        }
+
+        /// <summary>
+        /// Compute the intersection of the lines
+        /// </summary>
+        public static bool IntersectLineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
+            out Vector2 intersection)
+        {
+            float denominator = VectorE.PerpDot(directionA, directionB);
+            Vector2 originBToA = originA - originB;
+            float a = VectorE.PerpDot(directionA, originBToA);
+            float b = VectorE.PerpDot(directionB, originBToA);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                if (Mathf.Abs(a) > Epsilon || Mathf.Abs(b) > Epsilon)
+                {
+                    // Not collinear
+                    intersection = Vector2.zero;
+                    return false;
+                }
+                // Collinear
+                intersection = originA;
+                return true;
+            }
+
+            float distanceA = b/denominator;
+            intersection = originA + distanceA*directionA;
+            return true;
+        }
+
+        #endregion Line-Line
+
         #region Line-Circle
 
         /// <summary>
@@ -482,6 +524,62 @@ namespace ProceduralToolkit
         }
 
         #endregion Point-Segement
+
+        #region Line-Line
+
+        /// <summary>
+        /// Compute the intersection of the lines
+        /// </summary>
+        public static bool IntersectLineLine(Ray lineA, Ray lineB, out Vector3 intersection)
+        {
+            return IntersectLineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out intersection);
+        }
+
+        /// <summary>
+        /// Compute the intersection of the lines
+        /// </summary>
+        public static bool IntersectLineLine(Vector3 originA, Vector3 directionA, Vector3 originB, Vector3 directionB,
+            out Vector3 intersection)
+        {
+            float dotAA = Vector3.Dot(directionA, directionA);
+            float dotBB = Vector3.Dot(directionB, directionB);
+            float dotAB = Vector3.Dot(directionA, directionB);
+
+            float denominator = dotAA*dotBB - dotAB*dotAB;
+            Vector3 originBToA = originA - originB;
+            float a = Vector3.Dot(directionA, originBToA);
+            float b = Vector3.Dot(directionB, originBToA);
+
+            Vector3 closestPointA;
+            Vector3 closestPointB;
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                float distanceB = dotAB > dotBB ? a/dotAB : b/dotBB;
+
+                closestPointA = originA;
+                closestPointB = originB + distanceB*directionB;
+            }
+            else
+            {
+                // Not parallel
+                float distanceA = (dotAA*b - dotAB*a)/denominator;
+                float distanceB = (dotAB*b - dotBB*a)/denominator;
+
+                closestPointA = originA + distanceA*directionA;
+                closestPointB = originB + distanceB*directionB;
+            }
+
+            if ((closestPointB - closestPointA).sqrMagnitude < Epsilon)
+            {
+                intersection = closestPointA;
+                return true;
+            }
+            intersection = Vector3.zero;
+            return false;
+        }
+
+        #endregion Line-Line
 
         #region Line-Sphere
 
