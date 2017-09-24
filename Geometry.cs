@@ -21,6 +21,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the distance to the closest point on the line defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the line</param>
         public static float DistanceToLine(Vector2 point, Vector2 origin, Vector2 direction)
         {
             return Vector2.Distance(point, ClosestPointOnLine(point, origin, direction));
@@ -38,6 +39,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the line defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the line</param>
         public static Vector2 ClosestPointOnLine(Vector2 point, Vector2 origin, Vector2 direction)
         {
             float projectedX;
@@ -47,6 +49,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the line defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the line</param>
         /// <param name="projectedX">Position of the projected point on the line relative to the origin</param>
         public static Vector2 ClosestPointOnLine(Vector2 point, Vector2 origin, Vector2 direction, out float projectedX)
         {
@@ -79,6 +82,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the distance to the closest point on the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the ray</param>
         public static float DistanceToRay(Vector2 point, Vector2 origin, Vector2 direction)
         {
             return Vector2.Distance(point, ClosestPointOnRay(point, origin, direction));
@@ -96,6 +100,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the ray</param>
         public static Vector2 ClosestPointOnRay(Vector2 point, Vector2 origin, Vector2 direction)
         {
             float projectedX;
@@ -105,6 +110,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the ray</param>
         /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
         public static Vector2 ClosestPointOnRay(Vector2 point, Vector2 origin, Vector2 direction, out float projectedX)
         {
@@ -205,6 +211,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the distance to the closest point on the line defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the line</param>
         public static float DistanceToLine(Vector3 point, Vector3 origin, Vector3 direction)
         {
             return Vector3.Distance(point, ClosestPointOnLine(point, origin, direction));
@@ -222,6 +229,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the line defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the line</param>
         public static Vector3 ClosestPointOnLine(Vector3 point, Vector3 origin, Vector3 direction)
         {
             float projectedX;
@@ -231,6 +239,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the line defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the line</param>
         /// <param name="projectedX">Position of the projected point on the line relative to the origin</param>
         public static Vector3 ClosestPointOnLine(Vector3 point, Vector3 origin, Vector3 direction, out float projectedX)
         {
@@ -263,6 +272,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the distance to the closest point on the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the ray</param>
         public static float DistanceToRay(Vector3 point, Vector3 origin, Vector3 direction)
         {
             return Vector3.Distance(point, ClosestPointOnRay(point, origin, direction));
@@ -280,6 +290,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the ray</param>
         public static Vector3 ClosestPointOnRay(Vector3 point, Vector3 origin, Vector3 direction)
         {
             float projectedX;
@@ -289,6 +300,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
+        /// <param name="direction">Normalized direction of the ray</param>
         /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
         public static Vector3 ClosestPointOnRay(Vector3 point, Vector3 origin, Vector3 direction, out float projectedX)
         {
