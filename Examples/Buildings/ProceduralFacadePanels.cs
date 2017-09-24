@@ -48,13 +48,13 @@ namespace ProceduralToolkit.Examples
             Vector3 innerMax)
         {
             Vector3 size = max - min;
-            Vector3 widthVector = size.OnlyXZ();
-            Vector3 heightVector = size.OnlyY();
+            Vector3 widthVector = size.ToVector3XZ();
+            Vector3 heightVector = size.ToVector3Y();
             Vector3 normal = Vector3.Cross(heightVector, widthVector).normalized;
 
             Vector3 innerSize = innerMax - innerMin;
-            Vector3 innerHeight = innerSize.OnlyY();
-            Vector3 innerWidth = innerSize.OnlyXZ();
+            Vector3 innerHeight = innerSize.ToVector3Y();
+            Vector3 innerWidth = innerSize.ToVector3XZ();
 
             Vector3 vertex0 = min;
             Vector3 vertex1 = min + heightVector;
@@ -132,8 +132,8 @@ namespace ProceduralToolkit.Examples
         private static MeshDraft Windowpane(Vector3 min, Vector3 max, Color frameColor, Color glassColor)
         {
             Vector3 size = max - min;
-            Vector3 widthVector = size.OnlyXZ();
-            Vector3 heightVector = size.OnlyY();
+            Vector3 widthVector = size.ToVector3XZ();
+            Vector3 heightVector = size.ToVector3Y();
             Vector3 right = widthVector.normalized;
             Vector3 normal = Vector3.Cross(widthVector, heightVector).normalized;
             var draft = new MeshDraft();
