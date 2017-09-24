@@ -194,7 +194,7 @@ namespace ProceduralToolkit
 
         #endregion Point-Segement
 
-        #region Line-Sphere
+        #region Line-Circle
 
         /// <summary>
         /// Compute the intersection of the line and the circle
@@ -236,9 +236,9 @@ namespace ProceduralToolkit
             return true;
         }
 
-        #endregion Line-Sphere
+        #endregion Line-Circle
 
-        #region Ray-Sphere
+        #region Ray-Circle
 
         /// <summary>
         /// Compute the intersection of the ray and the circle
@@ -291,7 +291,7 @@ namespace ProceduralToolkit
             return true;
         }
 
-        #endregion Ray-Sphere
+        #endregion Ray-Circle
 
         #endregion 2D
 
