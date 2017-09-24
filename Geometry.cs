@@ -6,7 +6,7 @@ namespace ProceduralToolkit
     {
         public const float Epsilon = 0.00001f;
 
-        #region Vector2
+        #region 2D
 
         #region Point-Line
 
@@ -194,9 +194,108 @@ namespace ProceduralToolkit
 
         #endregion Point-Segement
 
-        #endregion Vector2
+        #region Line-Sphere
 
-        #region Vector3
+        /// <summary>
+        /// Compute the intersection of the line and the circle
+        /// </summary>
+        public static bool IntersectLineCircle(Ray2D line, Vector2 center, float radius,
+            out Vector2 pointA, out Vector2 pointB)
+        {
+            return IntersectLineCircle(line.origin, line.direction, center, radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Compute the intersection of the line and the circle
+        /// </summary>
+        public static bool IntersectLineCircle(Vector2 origin, Vector2 direction, Vector2 center, float radius,
+            out Vector2 pointA, out Vector2 pointB)
+        {
+            Vector2 toCenter = center - origin;
+            float toCenterOnLine = Vector2.Dot(toCenter, direction);
+            float sqrDistanceToLine = toCenter.sqrMagnitude - toCenterOnLine*toCenterOnLine;
+
+            float sqrRadius = radius*radius;
+            if (sqrDistanceToLine > sqrRadius)
+            {
+                pointA = Vector2.zero;
+                pointB = Vector2.zero;
+                return false;
+            }
+            float fromClosestPointToIntersection = Mathf.Sqrt(sqrRadius - sqrDistanceToLine);
+            float intersectionA = toCenterOnLine - fromClosestPointToIntersection;
+            float intersectionB = toCenterOnLine + fromClosestPointToIntersection;
+
+            if (intersectionA > intersectionB)
+            {
+                PTUtils.Swap(ref intersectionA, ref intersectionB);
+            }
+
+            pointA = origin + intersectionA*direction;
+            pointB = origin + intersectionB*direction;
+            return true;
+        }
+
+        #endregion Line-Sphere
+
+        #region Ray-Sphere
+
+        /// <summary>
+        /// Compute the intersection of the ray and the circle
+        /// </summary>
+        public static bool IntersectRayCircle(Ray2D ray, Vector2 center, float radius,
+            out Vector2 pointA, out Vector2 pointB)
+        {
+            return IntersectRayCircle(ray.origin, ray.direction, center, radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Compute the intersection of the ray and the circle
+        /// </summary>
+        public static bool IntersectRayCircle(Vector2 origin, Vector2 direction, Vector2 center, float radius,
+            out Vector2 pointA, out Vector2 pointB)
+        {
+            Vector2 toCenter = center - origin;
+            float toCenterOnLine = Vector2.Dot(toCenter, direction);
+            float sqrDistanceToLine = toCenter.sqrMagnitude - toCenterOnLine*toCenterOnLine;
+
+            float sqrRadius = radius*radius;
+            if (sqrDistanceToLine > sqrRadius)
+            {
+                pointA = Vector2.zero;
+                pointB = Vector2.zero;
+                return false;
+            }
+            float fromClosestPointToIntersection = Mathf.Sqrt(sqrRadius - sqrDistanceToLine);
+            float intersectionA = toCenterOnLine - fromClosestPointToIntersection;
+            float intersectionB = toCenterOnLine + fromClosestPointToIntersection;
+
+            if (intersectionA > intersectionB)
+            {
+                PTUtils.Swap(ref intersectionA, ref intersectionB);
+            }
+
+            if (intersectionA < 0)
+            {
+                intersectionA = intersectionB;
+                if (intersectionA < 0)
+                {
+                    pointA = Vector2.zero;
+                    pointB = Vector2.zero;
+                    return false;
+                }
+            }
+
+            pointA = origin + intersectionA*direction;
+            pointB = origin + intersectionB*direction;
+            return true;
+        }
+
+        #endregion Ray-Sphere
+
+        #endregion 2D
+
+        #region 3D
 
         #region Point-Line
 
@@ -384,6 +483,105 @@ namespace ProceduralToolkit
 
         #endregion Point-Segement
 
-        #endregion Vector3
+        #region Line-Sphere
+
+        /// <summary>
+        /// Compute the intersection of the line and the sphere
+        /// </summary>
+        public static bool IntersectLineSphere(Ray line, Vector3 center, float radius,
+            out Vector3 pointA, out Vector3 pointB)
+        {
+            return IntersectLineSphere(line.origin, line.direction, center, radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Compute the intersection of the line and the sphere
+        /// </summary>
+        public static bool IntersectLineSphere(Vector3 origin, Vector3 direction, Vector3 center, float radius,
+            out Vector3 pointA, out Vector3 pointB)
+        {
+            Vector3 toCenter = center - origin;
+            float toCenterOnLine = Vector3.Dot(toCenter, direction);
+            float sqrDistanceToLine = toCenter.sqrMagnitude - toCenterOnLine*toCenterOnLine;
+
+            float sqrRadius = radius*radius;
+            if (sqrDistanceToLine > sqrRadius)
+            {
+                pointA = Vector3.zero;
+                pointB = Vector3.zero;
+                return false;
+            }
+            float fromClosestPointToIntersection = Mathf.Sqrt(sqrRadius - sqrDistanceToLine);
+            float intersectionA = toCenterOnLine - fromClosestPointToIntersection;
+            float intersectionB = toCenterOnLine + fromClosestPointToIntersection;
+
+            if (intersectionA > intersectionB)
+            {
+                PTUtils.Swap(ref intersectionA, ref intersectionB);
+            }
+
+            pointA = origin + intersectionA*direction;
+            pointB = origin + intersectionB*direction;
+            return true;
+        }
+
+        #endregion Line-Sphere
+
+        #region Ray-Sphere
+
+        /// <summary>
+        /// Compute the intersection of the ray and the sphere
+        /// </summary>
+        public static bool IntersectRaySphere(Ray ray, Vector3 center, float radius,
+            out Vector3 pointA, out Vector3 pointB)
+        {
+            return IntersectRaySphere(ray.origin, ray.direction, center, radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Compute the intersection of the ray and the sphere
+        /// </summary>
+        public static bool IntersectRaySphere(Vector3 origin, Vector3 direction, Vector3 center, float radius,
+            out Vector3 pointA, out Vector3 pointB)
+        {
+            Vector3 toCenter = center - origin;
+            float toCenterOnLine = Vector3.Dot(toCenter, direction);
+            float sqrDistanceToLine = toCenter.sqrMagnitude - toCenterOnLine*toCenterOnLine;
+
+            float sqrRadius = radius*radius;
+            if (sqrDistanceToLine > sqrRadius)
+            {
+                pointA = Vector3.zero;
+                pointB = Vector3.zero;
+                return false;
+            }
+            float fromClosestPointToIntersection = Mathf.Sqrt(sqrRadius - sqrDistanceToLine);
+            float intersectionA = toCenterOnLine - fromClosestPointToIntersection;
+            float intersectionB = toCenterOnLine + fromClosestPointToIntersection;
+
+            if (intersectionA > intersectionB)
+            {
+                PTUtils.Swap(ref intersectionA, ref intersectionB);
+            }
+
+            if (intersectionA < 0)
+            {
+                intersectionA = intersectionB;
+                if (intersectionA < 0)
+                {
+                    pointA = Vector3.zero;
+                    pointB = Vector3.zero;
+                    return false;
+                }
+            }
+
+            pointA = origin + intersectionA*direction;
+            pointB = origin + intersectionB*direction;
+            return true;
+        }
+
+        #endregion Ray-Sphere
+
+        #endregion 3D
     }
 }
