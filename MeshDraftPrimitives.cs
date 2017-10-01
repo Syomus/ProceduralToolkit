@@ -525,27 +525,27 @@ namespace ProceduralToolkit
             Vector3 corner1 = width/2 + length/2 + height/2;
 
             var draft = new MeshDraft {name = "Hexahedron"};
-            if ((parts & Directions.Left) == Directions.Left)
+            if (parts.HasFlag(Directions.Left))
             {
                 draft.AddQuad(corner0, height, length);
             }
-            if ((parts & Directions.Right) == Directions.Right)
+            if (parts.HasFlag(Directions.Right))
             {
                 draft.AddQuad(corner1, -length, -height);
             }
-            if ((parts & Directions.Down) == Directions.Down)
+            if (parts.HasFlag(Directions.Down))
             {
                 draft.AddQuad(corner0, length, width);
             }
-            if ((parts & Directions.Up) == Directions.Up)
+            if (parts.HasFlag(Directions.Up))
             {
                 draft.AddQuad(corner1, -width, -length);
             }
-            if ((parts & Directions.Back) == Directions.Back)
+            if (parts.HasFlag(Directions.Back))
             {
                 draft.AddQuad(corner0, width, height);
             }
-            if ((parts & Directions.Forward) == Directions.Forward)
+            if (parts.HasFlag(Directions.Forward))
             {
                 draft.AddQuad(corner1, -height, -width);
             }
