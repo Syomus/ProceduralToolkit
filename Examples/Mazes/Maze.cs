@@ -7,70 +7,114 @@ namespace ProceduralToolkit.Examples
     /// </summary>
     public class Maze
     {
-        private int width;
-        private int height;
-        private Directions[,] cells;
+        public readonly int width;
+        public readonly int height;
+        private readonly Directions[,] vertices;
+
+        public Directions this[Vector2Int position]
+        {
+            get { return vertices[position.x, position.y]; }
+            set { vertices[position.x, position.y] = value; }
+        }
+
+        public Directions this[int x, int y]
+        {
+            get { return vertices[x, y]; }
+            set { vertices[x, y] = value; }
+        }
 
         public Maze(int width, int height)
         {
             this.width = width;
             this.height = height;
-            cells = new Directions[width, height];
+            vertices = new Directions[width, height];
         }
 
-        public Directions this[Cell cell]
+        public List<Edge> GetPossibleConnections(Vertex origin)
         {
-            get { return cells[cell.x, cell.y]; }
-            set { cells[cell.x, cell.y] = value; }
-        }
-
-        public bool Contains(Cell cell)
-        {
-            return cell.x >= 0 && cell.x < width && cell.y >= 0 && cell.y < height;
+            var edges = new List<Edge>();
+            if (!origin.connections.HasFlag(Directions.Left))
+            {
+                var position = origin.position + Vector2Int.left;
+                if (IsInBounds(position) && IsUnconnected(position))
+                {
+                    edges.Add(new Edge(origin, new Vertex(position, Directions.Right, origin.depth + 1)));
+                }
+            }
+            if (!origin.connections.HasFlag(Directions.Right))
+            {
+                var position = origin.position + Vector2Int.right;
+                if (IsInBounds(position) && IsUnconnected(position))
+                {
+                    edges.Add(new Edge(origin, new Vertex(position, Directions.Left, origin.depth + 1)));
+                }
+            }
+            if (!origin.connections.HasFlag(Directions.Down))
+            {
+                var position = origin.position + Vector2Int.down;
+                if (IsInBounds(position) && IsUnconnected(position))
+                {
+                    edges.Add(new Edge(origin, new Vertex(position, Directions.Up, origin.depth + 1)));
+                }
+            }
+            if (!origin.connections.HasFlag(Directions.Up))
+            {
+                var position = origin.position + Vector2Int.up;
+                if (IsInBounds(position) && IsUnconnected(position))
+                {
+                    edges.Add(new Edge(origin, new Vertex(position, Directions.Down, origin.depth + 1)));
+                }
+            }
+            return edges;
         }
 
         public void AddEdge(Edge edge)
         {
-            this[edge.origin] |= edge.origin.direction;
-            this[edge.exit] = edge.exit.direction;
+            this[edge.origin.position] |= edge.origin.connections;
+            this[edge.exit.position] = edge.exit.connections;
         }
 
-        public List<Edge> GetEdges(Cell origin)
+        public bool IsUnconnected(Vector2Int position)
         {
-            var edges = new List<Edge>();
-            if (origin.direction != Directions.Left)
+            return this[position] == Directions.None;
+        }
+
+        public bool IsInBounds(Vector2Int position)
+        {
+            return position.x >= 0 && position.x < width &&
+                   position.y >= 0 && position.y < height;
+        }
+
+        /// <summary>
+        /// Maze graph vertex
+        /// </summary>
+        public struct Vertex
+        {
+            public readonly Vector2Int position;
+            public readonly Directions connections;
+            public readonly int depth;
+
+            public Vertex(Vector2Int position, Directions connections, int depth)
             {
-                var edge = new Edge(origin.x, origin.y, Directions.Right, origin.depth);
-                if (Contains(edge.exit) && this[edge.exit] == Directions.None)
-                {
-                    edges.Add(edge);
-                }
+                this.position = position;
+                this.connections = connections;
+                this.depth = depth;
             }
-            if (origin.direction != Directions.Right)
+        }
+
+        /// <summary>
+        /// Maze graph edge
+        /// </summary>
+        public struct Edge
+        {
+            public readonly Vertex origin;
+            public readonly Vertex exit;
+
+            public Edge(Vertex origin, Vertex exit)
             {
-                var edge = new Edge(origin.x, origin.y, Directions.Left, origin.depth);
-                if (Contains(edge.exit) && this[edge.exit] == Directions.None)
-                {
-                    edges.Add(edge);
-                }
+                this.origin = origin;
+                this.exit = exit;
             }
-            if (origin.direction != Directions.Down)
-            {
-                var edge = new Edge(origin.x, origin.y, Directions.Up, origin.depth);
-                if (Contains(edge.exit) && this[edge.exit] == Directions.None)
-                {
-                    edges.Add(edge);
-                }
-            }
-            if (origin.direction != Directions.Up)
-            {
-                var edge = new Edge(origin.x, origin.y, Directions.Down, origin.depth);
-                if (Contains(edge.exit) && this[edge.exit] == Directions.None)
-                {
-                    edges.Add(edge);
-                }
-            }
-            return edges;
         }
     }
 }

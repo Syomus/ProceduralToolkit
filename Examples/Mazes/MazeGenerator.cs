@@ -21,38 +21,27 @@ namespace ProceduralToolkit.Examples
         [Serializable]
         public class Config
         {
-            public int mazeWidth = 256;
-            public int mazeHeight = 256;
-            public int cellSize = 2;
-            public int wallSize = 1;
+            public int width = 100;
+            public int height = 100;
             public Algorithm algorithm = Algorithm.RandomTraversal;
-            public Action<Edge> drawEdge = edge => { };
+            public Action<Maze.Edge> drawEdge = edge => { };
         }
 
         private readonly Maze maze;
-        private readonly List<Edge> edges;
+        private readonly List<Maze.Edge> edges;
         private readonly Config config;
 
         public MazeGenerator(Config config)
         {
-            Assert.IsTrue(config.mazeWidth > 0);
-            Assert.IsTrue(config.mazeHeight > 0);
-            Assert.IsTrue(config.cellSize > 0);
-            Assert.IsTrue(config.wallSize >= 0);
+            Assert.IsTrue(config.width > 0);
+            Assert.IsTrue(config.height > 0);
             Assert.IsNotNull(config.drawEdge);
 
             this.config = config;
-            int widthInCells = (config.mazeWidth - config.wallSize)/(config.cellSize + config.wallSize);
-            int heightInCells = (config.mazeHeight - config.wallSize)/(config.cellSize + config.wallSize);
-            maze = new Maze(widthInCells, heightInCells);
+            maze = new Maze(config.width, config.height);
 
-            var origin = new Cell
-            {
-                x = Random.Range(0, widthInCells),
-                y = Random.Range(0, heightInCells)
-            };
-            maze[origin] = Directions.None;
-            edges = new List<Edge>(maze.GetEdges(origin));
+            var originPosition = new Vector2Int(Random.Range(0, config.width), Random.Range(0, config.height));
+            edges = maze.GetPossibleConnections(new Maze.Vertex(originPosition, Directions.None, 0));
         }
 
         public bool Generate(int steps = 0)
@@ -82,26 +71,26 @@ namespace ProceduralToolkit.Examples
 
         private void RandomTraversal()
         {
-            Edge passage = edges.PopRandom();
+            Maze.Edge edge = edges.PopRandom();
 
-            if (maze[passage.exit] == Directions.None)
+            if (maze.IsUnconnected(edge.exit.position))
             {
-                maze.AddEdge(passage);
-                edges.AddRange(maze.GetEdges(passage.exit));
+                maze.AddEdge(edge);
+                edges.AddRange(maze.GetPossibleConnections(edge.exit));
 
-                config.drawEdge(passage);
+                config.drawEdge(edge);
             }
         }
 
         private void RandomDepthFirstTraversal()
         {
-            Edge edge = edges[edges.Count - 1];
+            Maze.Edge edge = edges[edges.Count - 1];
             edges.RemoveAt(edges.Count - 1);
 
-            if (maze[edge.exit] == Directions.None)
+            if (maze.IsUnconnected(edge.exit.position))
             {
                 maze.AddEdge(edge);
-                List<Edge> newEdges = maze.GetEdges(edge.exit);
+                List<Maze.Edge> newEdges = maze.GetPossibleConnections(edge.exit);
                 newEdges.Shuffle();
                 edges.AddRange(newEdges);
 
@@ -111,13 +100,13 @@ namespace ProceduralToolkit.Examples
 
         private void RandomBreadthFirstTraversal()
         {
-            Edge edge = edges[0];
+            Maze.Edge edge = edges[0];
             edges.RemoveAt(0);
 
-            if (maze[edge.exit] == Directions.None)
+            if (maze.IsUnconnected(edge.exit.position))
             {
                 maze.AddEdge(edge);
-                List<Edge> newEdges = maze.GetEdges(edge.exit);
+                List<Maze.Edge> newEdges = maze.GetPossibleConnections(edge.exit);
                 newEdges.Shuffle();
                 edges.AddRange(newEdges);
 

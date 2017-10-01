@@ -14,6 +14,8 @@ namespace ProceduralToolkit.Examples
         public MazeGenerator.Config config = new MazeGenerator.Config();
         public bool useGradient = true;
 
+        private const int cellSize = 2;
+        private const int wallSize = 1;
         private const float gradientSaturation = 0.7f;
         private const float gradientSaturationOffset = 0.1f;
         private const float gradientValue = 0.7f;
@@ -28,7 +30,9 @@ namespace ProceduralToolkit.Examples
         {
             config.drawEdge = DrawEdge;
 
-            texture = new Texture2D(config.mazeWidth, config.mazeHeight, TextureFormat.ARGB32, false, true)
+            int textureWidth = wallSize + config.width*(cellSize + wallSize);
+            int textureHeight = wallSize + config.height*(cellSize + wallSize);
+            texture = new Texture2D(textureWidth, textureHeight, TextureFormat.ARGB32, false, true)
             {
                 filterMode = FilterMode.Point
             };
@@ -41,18 +45,6 @@ namespace ProceduralToolkit.Examples
             InstantiateToggle(MazeGenerator.Algorithm.RandomTraversal, "Random traversal");
             InstantiateToggle(MazeGenerator.Algorithm.RandomDepthFirstTraversal, "Random depth-first traversal");
             InstantiateToggle(MazeGenerator.Algorithm.RandomBreadthFirstTraversal, "Random breadth-first traversal");
-
-            InstantiateControl<SliderControl>(leftPanel).Initialize("Cell size", 1, 10, config.cellSize, value =>
-            {
-                config.cellSize = value;
-                Generate();
-            });
-
-            InstantiateControl<SliderControl>(leftPanel).Initialize("Wall size", 1, 10, config.wallSize, value =>
-            {
-                config.wallSize = value;
-                Generate();
-            });
 
             InstantiateControl<ToggleControl>(leftPanel).Initialize("Use gradient", useGradient, value =>
             {
@@ -95,29 +87,23 @@ namespace ProceduralToolkit.Examples
             }
         }
 
-        private void DrawEdge(Edge edge)
+        private void DrawEdge(Maze.Edge edge)
         {
-            int x, y, width, height;
-            if (edge.origin.direction == Directions.Left || edge.origin.direction == Directions.Down)
-            {
-                x = Translate(edge.exit.x);
-                y = Translate(edge.exit.y);
-            }
-            else
-            {
-                x = Translate(edge.origin.x);
-                y = Translate(edge.origin.y);
-            }
+            Vector2Int position = ToTexturePosition(new Vector2Int(
+                x: Mathf.Min(edge.origin.position.x, edge.exit.position.x),
+                y: Mathf.Min(edge.origin.position.y, edge.exit.position.y)));
 
-            if (edge.origin.direction == Directions.Left || edge.origin.direction == Directions.Right)
+            int width;
+            int height;
+            if ((edge.exit.position - edge.origin.position).y == 0)
             {
-                width = config.cellSize*2 + config.wallSize;
-                height = config.cellSize;
+                width = cellSize*2 + wallSize;
+                height = cellSize;
             }
             else
             {
-                width = config.cellSize;
-                height = config.cellSize*2 + config.wallSize;
+                width = cellSize;
+                height = cellSize*2 + wallSize;
             }
 
             Color color;
@@ -132,12 +118,14 @@ namespace ProceduralToolkit.Examples
             {
                 color = GetColor(0.75f);
             }
-            texture.DrawRect(x, y, width, height, color);
+            texture.DrawRect(position.x, position.y, width, height, color);
         }
 
-        private int Translate(int x)
+        private Vector2Int ToTexturePosition(Vector2Int position)
         {
-            return config.wallSize + x*(config.cellSize + config.wallSize);
+            return new Vector2Int(
+                x: wallSize + position.x*(cellSize + wallSize),
+                y: wallSize + position.y*(cellSize + wallSize));
         }
 
         private Color GetColor(float gradientPosition)
