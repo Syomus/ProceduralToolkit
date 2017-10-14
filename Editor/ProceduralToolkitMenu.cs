@@ -25,12 +25,6 @@ namespace ProceduralToolkit.Editor
         private const string cylinder = "Cylinder";
         private const string sphere = "Sphere";
 
-        [MenuItem("Help/About Procedural Toolkit")]
-        private static void About()
-        {
-            AboutWindow.Open();
-        }
-
         private static void PrimitiveTemplate(string name, Func<Mesh> mesh)
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -107,39 +101,5 @@ namespace ProceduralToolkit.Editor
         }
 
         #endregion Other
-    }
-
-    public class AboutWindow : EditorWindow
-    {
-        public static void Open()
-        {
-            GetWindow<AboutWindow>(true, "About Procedural Toolkit");
-        }
-
-        private void OnGUI()
-        {
-            EditorGUILayout.Space();
-            EditorGUILayout.SelectableLabel("Version: " + ProceduralToolkitMenu.version + "\n" +
-                                            "Copyright © Daniil Basmanov\n" +
-                                            "Icon by Iuliana Koroviakovskaia", GUILayout.Height(50));
-
-            EditorGUILayout.Space();
-            if (GUILayout.Button("Repository"))
-            {
-                Application.OpenURL("https://github.com/Syomus/ProceduralToolkit/");
-            }
-            if (GUILayout.Button("Asset Store"))
-            {
-                Application.OpenURL("https://www.assetstore.unity3d.com/#!/content/16508");
-            }
-            if (GUILayout.Button("Issues"))
-            {
-                Application.OpenURL("https://github.com/Syomus/ProceduralToolkit/issues");
-            }
-            if (GUILayout.Button("Support email"))
-            {
-                Application.OpenURL("mailto:proceduraltoolkit@syomus.com");
-            }
-        }
     }
 }
