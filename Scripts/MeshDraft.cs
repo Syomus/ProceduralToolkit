@@ -41,7 +41,6 @@ namespace ProceduralToolkit
             if (mesh == null) throw new ArgumentNullException("mesh");
 
             name = mesh.name;
-#if UNITY_5_6_OR_NEWER
             mesh.GetVertices(vertices);
             mesh.GetTriangles(triangles, 0);
             mesh.GetNormals(normals);
@@ -51,17 +50,6 @@ namespace ProceduralToolkit
             mesh.GetUVs(2, uv3);
             mesh.GetUVs(3, uv4);
             mesh.GetColors(colors);
-#else
-            vertices.AddRange(mesh.vertices);
-            triangles.AddRange(mesh.triangles);
-            normals.AddRange(mesh.normals);
-            tangents.AddRange(mesh.tangents);
-            uv.AddRange(mesh.uv);
-            uv2.AddRange(mesh.uv2);
-            uv3.AddRange(mesh.uv3);
-            uv4.AddRange(mesh.uv4);
-            colors.AddRange(mesh.colors);
-#endif
         }
 
         /// <summary>
