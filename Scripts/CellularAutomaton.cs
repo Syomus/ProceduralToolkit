@@ -187,10 +187,8 @@ namespace ProceduralToolkit
 
             #endregion Common rulesets
 
-            [SerializeField]
-            private byte[] birthRule;
-            [SerializeField]
-            private byte[] survivalRule;
+            public byte[] birthRule;
+            public byte[] survivalRule;
 
             public Ruleset(byte[] birthRule, byte[] survivalRule)
             {
