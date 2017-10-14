@@ -10,28 +10,18 @@ Material:
   m_Shader: {fileID: 4800000, guid: 0bfcf4c10b2626940ad26b7f045faf56, type: 3}
   m_ShaderKeywords: _SUNDISK_HIGH_QUALITY
   m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
+  disabledShaderPasses: []
   m_SavedProperties:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - first:
-        name: _Exponent1
-      second: 3
-    - first:
-        name: _Exponent2
-      second: 1
-    - first:
-        name: _Intensity
-      second: 1
+    - _Exponent1: 3
+    - _Exponent2: 1
+    - _Intensity: 1
     m_Colors:
-    - first:
-        name: _GroundColor
-      second: {r: 0.75, g: 0.75, b: 0.75, a: 0}
-    - first:
-        name: _HorizonColor
-      second: {r: 0.25, g: 0.25, b: 0.25, a: 0}
-    - first:
-        name: _SkyColor
-      second: {r: 1, g: 1, b: 1, a: 0}
+    - _GroundColor: {r: 0.75, g: 0.75, b: 0.75, a: 0}
+    - _HorizonColor: {r: 0.25, g: 0.25, b: 0.25, a: 0}
+    - _SkyColor: {r: 1, g: 1, b: 1, a: 0}

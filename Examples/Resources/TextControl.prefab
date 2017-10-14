@@ -5,13 +5,13 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22480444}
-  - 222: {fileID: 22217200}
-  - 114: {fileID: 11404654}
-  - 114: {fileID: 11437886}
-  - 114: {fileID: 11485924}
+  - component: {fileID: 22480444}
+  - component: {fileID: 22217200}
+  - component: {fileID: 11404654}
+  - component: {fileID: 11437886}
+  - component: {fileID: 11485924}
   m_Layer: 5
   m_Name: TextControl
   m_TagString: Untagged
@@ -97,10 +97,10 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
