@@ -99,22 +99,32 @@ namespace ProceduralToolkit.Examples
             }
         }
 
-        public static void EdgeToRect(Maze.Edge edge, int wallSize, int cellSize,
+        public static int GetMapWidth(int mazeWidth, int wallSize, int roomSize)
+        {
+            return wallSize + mazeWidth*(roomSize + wallSize);
+        }
+
+        public static int GetMapHeight(int mazeHeight, int wallSize, int roomSize)
+        {
+            return wallSize + mazeHeight*(roomSize + wallSize);
+        }
+
+        public static void EdgeToRect(Maze.Edge edge, int wallSize, int roomSize,
             out Vector2Int position, out int width, out int height)
         {
             position = new Vector2Int(
-                x: wallSize + Mathf.Min(edge.origin.position.x, edge.exit.position.x)*(cellSize + wallSize),
-                y: wallSize + Mathf.Min(edge.origin.position.y, edge.exit.position.y)*(cellSize + wallSize));
+                x: wallSize + Mathf.Min(edge.origin.position.x, edge.exit.position.x)*(roomSize + wallSize),
+                y: wallSize + Mathf.Min(edge.origin.position.y, edge.exit.position.y)*(roomSize + wallSize));
 
             if ((edge.exit.position - edge.origin.position).y == 0)
             {
-                width = cellSize*2 + wallSize;
-                height = cellSize;
+                width = roomSize*2 + wallSize;
+                height = roomSize;
             }
             else
             {
-                width = cellSize;
-                height = cellSize*2 + wallSize;
+                width = roomSize;
+                height = roomSize*2 + wallSize;
             }
         }
     }

@@ -14,7 +14,7 @@ namespace ProceduralToolkit.Examples
         public MazeGenerator.Config config = new MazeGenerator.Config();
         public bool useGradient = true;
 
-        private const int cellSize = 2;
+        private const int roomSize = 2;
         private const int wallSize = 1;
         private const float gradientSaturation = 0.7f;
         private const float gradientSaturationOffset = 0.1f;
@@ -30,8 +30,8 @@ namespace ProceduralToolkit.Examples
         {
             config.drawEdge = DrawEdge;
 
-            int textureWidth = wallSize + config.width*(cellSize + wallSize);
-            int textureHeight = wallSize + config.height*(cellSize + wallSize);
+            int textureWidth = MazeGenerator.GetMapWidth(config.width, wallSize, roomSize);
+            int textureHeight = MazeGenerator.GetMapHeight(config.height, wallSize, roomSize);
             texture = new Texture2D(textureWidth, textureHeight, TextureFormat.ARGB32, false, true)
             {
                 filterMode = FilterMode.Point
@@ -91,7 +91,7 @@ namespace ProceduralToolkit.Examples
             Vector2Int position;
             int width;
             int height;
-            MazeGenerator.EdgeToRect(edge, wallSize, cellSize, out position, out width, out height);
+            MazeGenerator.EdgeToRect(edge, wallSize, roomSize, out position, out width, out height);
 
             Color color;
             if (useGradient)
