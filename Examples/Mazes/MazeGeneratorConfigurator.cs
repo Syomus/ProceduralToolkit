@@ -44,7 +44,6 @@ namespace ProceduralToolkit.Examples
 
             InstantiateToggle(MazeGenerator.Algorithm.RandomTraversal, "Random traversal");
             InstantiateToggle(MazeGenerator.Algorithm.RandomDepthFirstTraversal, "Random depth-first traversal");
-            InstantiateToggle(MazeGenerator.Algorithm.RandomBreadthFirstTraversal, "Random breadth-first traversal");
 
             InstantiateControl<ToggleControl>(leftPanel).Initialize("Use gradient", useGradient, value =>
             {
@@ -89,22 +88,10 @@ namespace ProceduralToolkit.Examples
 
         private void DrawEdge(Maze.Edge edge)
         {
-            Vector2Int position = ToTexturePosition(new Vector2Int(
-                x: Mathf.Min(edge.origin.position.x, edge.exit.position.x),
-                y: Mathf.Min(edge.origin.position.y, edge.exit.position.y)));
-
+            Vector2Int position;
             int width;
             int height;
-            if ((edge.exit.position - edge.origin.position).y == 0)
-            {
-                width = cellSize*2 + wallSize;
-                height = cellSize;
-            }
-            else
-            {
-                width = cellSize;
-                height = cellSize*2 + wallSize;
-            }
+            MazeGenerator.EdgeToRect(edge, wallSize, cellSize, out position, out width, out height);
 
             Color color;
             if (useGradient)
@@ -119,13 +106,6 @@ namespace ProceduralToolkit.Examples
                 color = GetColor(0.75f);
             }
             texture.DrawRect(position.x, position.y, width, height, color);
-        }
-
-        private Vector2Int ToTexturePosition(Vector2Int position)
-        {
-            return new Vector2Int(
-                x: wallSize + position.x*(cellSize + wallSize),
-                y: wallSize + position.y*(cellSize + wallSize));
         }
 
         private Color GetColor(float gradientPosition)

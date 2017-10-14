@@ -15,7 +15,6 @@ namespace ProceduralToolkit.Examples
         {
             RandomTraversal,
             RandomDepthFirstTraversal,
-            RandomBreadthFirstTraversal,
         }
 
         [Serializable]
@@ -24,7 +23,7 @@ namespace ProceduralToolkit.Examples
             public int width = 100;
             public int height = 100;
             public Algorithm algorithm = Algorithm.RandomTraversal;
-            public Action<Maze.Edge> drawEdge = edge => { };
+            public Action<Maze.Edge> drawEdge;
         }
 
         private readonly Maze maze;
@@ -35,7 +34,6 @@ namespace ProceduralToolkit.Examples
         {
             Assert.IsTrue(config.width > 0);
             Assert.IsTrue(config.height > 0);
-            Assert.IsNotNull(config.drawEdge);
 
             this.config = config;
             maze = new Maze(config.width, config.height);
@@ -57,9 +55,6 @@ namespace ProceduralToolkit.Examples
                     case Algorithm.RandomDepthFirstTraversal:
                         RandomDepthFirstTraversal();
                         break;
-                    case Algorithm.RandomBreadthFirstTraversal:
-                        RandomBreadthFirstTraversal();
-                        break;
                     default:
                         RandomTraversal();
                         break;
@@ -78,7 +73,10 @@ namespace ProceduralToolkit.Examples
                 maze.AddEdge(edge);
                 edges.AddRange(maze.GetPossibleConnections(edge.exit));
 
-                config.drawEdge(edge);
+                if (config.drawEdge != null)
+                {
+                    config.drawEdge(edge);
+                }
             }
         }
 
@@ -94,23 +92,29 @@ namespace ProceduralToolkit.Examples
                 newEdges.Shuffle();
                 edges.AddRange(newEdges);
 
-                config.drawEdge(edge);
+                if (config.drawEdge != null)
+                {
+                    config.drawEdge(edge);
+                }
             }
         }
 
-        private void RandomBreadthFirstTraversal()
+        public static void EdgeToRect(Maze.Edge edge, int wallSize, int cellSize,
+            out Vector2Int position, out int width, out int height)
         {
-            Maze.Edge edge = edges[0];
-            edges.RemoveAt(0);
+            position = new Vector2Int(
+                x: wallSize + Mathf.Min(edge.origin.position.x, edge.exit.position.x)*(cellSize + wallSize),
+                y: wallSize + Mathf.Min(edge.origin.position.y, edge.exit.position.y)*(cellSize + wallSize));
 
-            if (maze.IsUnconnected(edge.exit.position))
+            if ((edge.exit.position - edge.origin.position).y == 0)
             {
-                maze.AddEdge(edge);
-                List<Maze.Edge> newEdges = maze.GetPossibleConnections(edge.exit);
-                newEdges.Shuffle();
-                edges.AddRange(newEdges);
-
-                config.drawEdge(edge);
+                width = cellSize*2 + wallSize;
+                height = cellSize;
+            }
+            else
+            {
+                width = cellSize;
+                height = cellSize*2 + wallSize;
             }
         }
     }
