@@ -1,4 +1,4 @@
-﻿Shader "Procedural Toolkit/Specular Vertex Color"
+Shader "Procedural Toolkit/Vertex Color/Specular"
 {
     Properties
     {

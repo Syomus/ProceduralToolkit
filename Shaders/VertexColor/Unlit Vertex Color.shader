@@ -1,4 +1,4 @@
-﻿Shader "Procedural Toolkit/Unlit Vertex Color"
+Shader "Procedural Toolkit/Vertex Color/Unlit"
 {
     SubShader
     {

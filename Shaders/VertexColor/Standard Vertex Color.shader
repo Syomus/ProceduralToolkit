@@ -1,4 +1,4 @@
-﻿Shader "Procedural Toolkit/Standard Vertex Color"
+Shader "Procedural Toolkit/Vertex Color/Standard"
 {
     Properties
     {

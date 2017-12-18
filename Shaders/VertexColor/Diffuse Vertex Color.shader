@@ -1,4 +1,4 @@
-﻿Shader "Procedural Toolkit/Diffuse Vertex Color"
+Shader "Procedural Toolkit/Vertex Color/Diffuse"
 {
     SubShader
     {
