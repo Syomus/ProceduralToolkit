@@ -10,15 +10,13 @@ namespace ProceduralToolkit.Examples.Axe
         public RectTransform leftPanel;
         public bool constantSeed = false;
         public AxeGenerator.Config config = new AxeGenerator.Config();
-
-        private const float minHandleWidth = 0.05f;
-        private const float maxHandleWidth = 0.12f;
-        private const float minHandleHeight = 0.5f;
-        private const float maxHandleHeight = 1.2f;
+        
+        private readonly Range<float> handleWidthRange = new Range<float>(0.05f, 0.12f);
+        private readonly Range<float> handleHeightRange = new Range<float>(0.5f, 1.2f);
 
         private readonly Range<float> headHeightPercentRange = new Range<float>(0.1f, 0.3f);
-        private readonly Range<float> headWidthTopRange = new Range<float>(0.2f, 0.6f);
-        private readonly Range<float> headWidthBottomPercentRange = new Range<float>(0.6f, 1f);
+        private readonly Range<float> headTopWidthRange = new Range<float>(0.2f, 0.6f);
+        private readonly Range<float> headBottomWidthPercentRange = new Range<float>(0.6f, 1f);
 
         /// angle in degrees
         private readonly Range<float> headTopAngleRange = new Range<float>(5f, 60f);
@@ -30,55 +28,47 @@ namespace ProceduralToolkit.Examples.Axe
         private Mesh mesh;
         private Mesh platformMesh;
 
-        private void Awake()
-        {
+        SliderControl handleWidtSlider;
+        SliderControl handleHeightSlider;
+
+        SliderControl headHeightPercentSlider;
+        SliderControl headTopWidthSlider;
+        SliderControl headBottomWidthPercentSlider;
+        SliderControl headTopAngleSlider;
+        SliderControl headBottomAngleSlider;
+
+        ToggleControl twoSidedToggle;
+
+        private void Awake() {
             Generate();
             SetupSkyboxAndPalette();
+            handleWidtSlider = CreateSlider("Handle width", handleWidthRange, config.handleWidth, (x) => config.handleWidth = x);
+            handleHeightSlider = CreateSlider("Handle height", handleHeightRange, config.handleHeight, (x) => config.handleHeight = x);
 
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Handle width", minHandleWidth, maxHandleWidth, config.handleWidth, value =>
-                {
-                    config.handleWidth = value;
-                    Generate();
-                });
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Handle height", minHandleHeight, maxHandleHeight, config.handleHeight, value =>
-                {
-                    config.handleHeight = value;
-                    Generate();
-                });
+            headHeightPercentSlider = CreateSlider("Head height %", headHeightPercentRange, config.headHeightPercent, (x) => config.headHeightPercent = x);
 
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Head height %", headHeightPercentRange.Minimum, headHeightPercentRange.Maximum, config.headHeightPercent, value => {
-                    config.headHeightPercent = value;
-                    Generate();
-                });
+            headTopWidthSlider = CreateSlider("Head top width", headTopWidthRange, config.headTopWidth, (x) => config.headTopWidth = x);
+            headBottomWidthPercentSlider = CreateSlider("Head bottom width %", headBottomWidthPercentRange, config.headBottomWidthPercent, (x) => config.headBottomWidthPercent = x);
 
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Head width", headWidthTopRange.Minimum, headWidthTopRange.Maximum, config.headWidthTop, value => {
-                    config.headWidthTop = value;
-                    Generate();
-                });
+            headTopAngleSlider = CreateSlider("Head top angle º", headTopAngleRange, config.headTopAngle, (x) => config.headTopAngle = x);
+            headBottomAngleSlider = CreateSlider("Head bottom angle º", headBottomAngleRange, config.headBottomAngle, (x) => config.headBottomAngle = x);
 
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Head width", headWidthBottomPercentRange.Minimum, headWidthBottomPercentRange.Maximum, config.headWidthBottomPercent, value => {
-                    config.headWidthBottomPercent = value;
-                    Generate();
-                });
-
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Head width", headTopAngleRange.Minimum, headTopAngleRange.Maximum, config.headTopAngle, value => {
-                    config.headTopAngle = value;
-                    Generate();
-                });
-
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Head width", headBottomAngleRange.Minimum, headBottomAngleRange.Maximum, config.headBottomAngle, value => {
-                    config.headBottomAngle = value;
-                    Generate();
-                });
+            twoSidedToggle = InstantiateControl<ToggleControl>(leftPanel);
+            twoSidedToggle.Initialize("Is two sided", config.isTwoSided, value => {
+                config.isTwoSided = value;
+                Generate();
+            });
 
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Randomize", () => Generate(true));
+        }
+
+        private SliderControl CreateSlider(string text, Range<float> range, float curentValue, System.Action<float> setValue) {
+            var slider = InstantiateControl<SliderControl>(leftPanel);
+            slider.Initialize(text, range.Minimum, range.Maximum, curentValue, value => {
+                setValue(value);
+                Generate();
+            });
+            return slider;
         }
 
         public void Generate(bool randomizeConfig = false)
@@ -88,16 +78,18 @@ namespace ProceduralToolkit.Examples.Axe
                 Random.InitState(0);
             }
 
-            if (randomizeConfig)
-            {
-                config.handleWidth = Random.Range(minHandleWidth, maxHandleWidth);
-                config.handleHeight = Random.Range(minHandleHeight, maxHandleHeight);
+            if (randomizeConfig) {
+                RandomizeValueAndUpdateSlider(ref config.handleWidth, handleWidthRange, handleWidtSlider);
+                RandomizeValueAndUpdateSlider(ref config.handleHeight, handleHeightRange, handleHeightSlider);
+                RandomizeValueAndUpdateSlider(ref config.headHeightPercent, headHeightPercentRange, headHeightPercentSlider);
 
-                config.headWidthTop = GetRandomRangeFloat(headWidthTopRange);
-                config.headWidthBottomPercent = GetRandomRangeFloat(headWidthBottomPercentRange);
-                config.headHeightPercent = GetRandomRangeFloat(headHeightPercentRange);
-
-                config.headTopAngle = GetRandomRangeFloat(headTopAngleRange);
+                RandomizeValueAndUpdateSlider(ref config.headTopWidth, headTopWidthRange, headTopWidthSlider);
+                RandomizeValueAndUpdateSlider(ref config.headBottomWidthPercent, headBottomWidthPercentRange, headBottomWidthPercentSlider);
+                RandomizeValueAndUpdateSlider(ref config.headTopAngle, headTopAngleRange, headTopAngleSlider);
+                RandomizeValueAndUpdateSlider(ref config.headBottomAngle, headBottomAngleRange, headBottomAngleSlider);
+                
+                config.isTwoSided = Random.value > 0.7;
+                twoSidedToggle.toggle.isOn = config.isTwoSided;
             }
 
             var axeDraft = AxeGenerator.Axe(config);
@@ -107,6 +99,11 @@ namespace ProceduralToolkit.Examples.Axe
 
             var platformDraft = Platform(platformRadius, platformHeight);
             AssignDraftToMeshFilter(platformDraft, platformMeshFilter, ref platformMesh);
+        }
+
+        private void RandomizeValueAndUpdateSlider(ref float value, Range<float> range, SliderControl slider) {
+            value = GetRandomRangeFloat(range);
+            slider.slider.value = value;
         }
 
         float GetRandomRangeFloat(Range<float> range) {

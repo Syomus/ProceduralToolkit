@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 namespace ProceduralToolkit.Examples.Axe
 {
     /// <summary>
-    /// A procedural chair generator
+    /// A procedural axe generator
     /// </summary>
     public static class AxeGenerator
     {
@@ -16,23 +16,24 @@ namespace ProceduralToolkit.Examples.Axe
             public float handleHeight = 0.7f;
             
             public float headHeightPercent = 0.2f;
-            public float headWidthBottomPercent = 0.8f;
-            public float headWidthTop = 0.6f;
+            public float headBottomWidthPercent = 0.8f;
+            public float headTopWidth = 0.6f;
 
             public float headTopAngle = 10f;
             public float headBottomAngle = 10f;
+            internal bool isTwoSided;
 
             public float GetHeadHeight() {
                 return handleHeight * headHeightPercent;
             }
 
             public float GetHeadBottomWidth() {
-                return headWidthTop * headWidthBottomPercent;
+                return headTopWidth * headBottomWidthPercent;
             }
 
             public float GetHeadTopShift() {
                 var angleRad = headTopAngle * Mathf.Deg2Rad;
-                return Mathf.Tan(angleRad) * headWidthTop;
+                return Mathf.Tan(angleRad) * headTopWidth;
             }
 
             public float GetHeadBottomShift() {
@@ -40,7 +41,6 @@ namespace ProceduralToolkit.Examples.Axe
                 return Mathf.Tan(angleRad) * GetHeadBottomWidth();
             }
         }
-        
 
         public static MeshDraft Axe(Config config)
         {
@@ -54,13 +54,15 @@ namespace ProceduralToolkit.Examples.Axe
             draft.Add(Handle(config.handleWidth, config.handleHeight));
 
             // Generate head
-            draft.Add(Head(config));
+            draft.Add(Head(config), 1);
             
             return draft;
         }
 
+        static readonly int cylinderSegments = 8;
+
         private static MeshDraft Handle(float width, float height) {
-            var draft = MeshDraft.Cylinder(width / 2, 8, height);
+            var draft = MeshDraft.Cylinder(width / 2, cylinderSegments, height);
             draft.Move(Vector3.up * height / 2);
             return draft;
         }
@@ -68,16 +70,20 @@ namespace ProceduralToolkit.Examples.Axe
         private static MeshDraft Head(Config config) {
             var headHeight = config.GetHeadHeight();
             var headRadius = config.handleWidth * 1.1f / 2;
-            var draft = MeshDraft.Cylinder(headRadius, 8, headHeight);
-
-            //var hexadron = MeshDraft.Hexahedron(config.headWidth, config.handleWidth, headHeight);
-            //hexadron.Move(new Vector3(config.headWidth / 2, 0, 0));
-            //draft.Add(hexadron);
+            var draft = MeshDraft.Cylinder(headRadius, cylinderSegments, headHeight);
 
             MeshDraft blade = Blade(config);
             draft.Add(blade);
 
-            draft.Move(Vector3.up * (config.handleHeight - headHeight / 2));
+            if (config.isTwoSided) {
+                MeshDraft blade2 = Blade(config);
+                blade2.Rotate(Quaternion.Euler(0, 180, 0));
+                draft.Add(blade2);
+            }
+
+            /// add little shift so top plane not overlap
+            var shift = 0.001f;
+            draft.Move(Vector3.up * (config.handleHeight - headHeight / 2 - shift));
             return draft;
         }
 
@@ -87,7 +93,7 @@ namespace ProceduralToolkit.Examples.Axe
             var headRadius = config.handleWidth / 2;
 
             Vector3 a = new Vector3(0, headHeight/2, -headRadius);
-            Vector3 b = new Vector3(config.headWidthTop, headHeight / 2 + config.GetHeadTopShift());
+            Vector3 b = new Vector3(config.headTopWidth, headHeight / 2 + config.GetHeadTopShift());
             Vector3 c = new Vector3(config.GetHeadBottomWidth(), -headHeight / 2 - config.GetHeadBottomShift());
             Vector3 d = new Vector3(0,-headHeight/2, -headRadius);
 
