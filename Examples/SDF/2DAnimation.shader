@@ -2,6 +2,7 @@ Shader "Procedural Toolkit/Examples/2D Animation"
 {
     Properties
     {
+        _MainTex("Sprite Texture", 2D) = "white" {} // Needed for UI
         _BackgroundColor("Background Color", Color) = (0.0, 0.0, 0.0, 1.0)
         _Color1("Color 1", Color) = (1.0, 1.0, 1.0, 1.0)
         _Color2("Color 2", Color) = (1.0, 1.0, 1.0, 1.0)
