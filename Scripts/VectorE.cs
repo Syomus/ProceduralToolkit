@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace ProceduralToolkit
 {
@@ -82,24 +82,14 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the signed angle in degrees [-180, 180] between from and to
-        /// </summary>
-        /// <param name="from">The angle extends round from this vector</param>
-        /// <param name="to">The angle extends round to this vector</param>
-        public static float SignedAngle(Vector2 from, Vector2 to)
-        {
-            return Mathf.Atan2(PerpDot(to, from), Vector2.Dot(to, from))*Mathf.Rad2Deg;
-        }
-
-        /// <summary>
         /// Returns the angle in degrees [0, 360] between from and to
         /// </summary>
         /// <param name="from">The angle extends round from this vector</param>
         /// <param name="to">The angle extends round to this vector</param>
         public static float Angle360(Vector2 from, Vector2 to)
         {
-            float angle = SignedAngle(from, to);
-            if (angle < 0)
+            float angle = Vector2.SignedAngle(from, to);
+            while (angle < 0)
             {
                 angle += 360;
             }
@@ -234,19 +224,6 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the signed angle in degrees [-180, 180] between from and to
-        /// </summary>
-        /// <param name="from">The angle extends round from this vector</param>
-        /// <param name="to">The angle extends round to this vector</param>
-        /// <param name="normal">Up direction of the clockwise axis</param>
-        public static float SignedAngle(Vector3 from, Vector3 to, Vector3 normal)
-        {
-            return Mathf.Atan2(
-                       Vector3.Dot(normal, Vector3.Cross(from, to)),
-                       Vector3.Dot(from, to))*Mathf.Rad2Deg;
-        }
-
-        /// <summary>
         /// Returns the angle in degrees [0, 360] between from and to
         /// </summary>
         /// <param name="from">The angle extends round from this vector</param>
@@ -254,8 +231,8 @@ namespace ProceduralToolkit
         /// <param name="normal">Up direction of the clockwise axis</param>
         public static float Angle360(Vector3 from, Vector3 to, Vector3 normal)
         {
-            float angle = SignedAngle(from, to, normal);
-            if (angle < 0)
+            float angle = Vector3.SignedAngle(from, to, normal);
+            while (angle < 0)
             {
                 angle += 360;
             }
