@@ -12,7 +12,7 @@ namespace ProceduralToolkit
     {
         public string name = "";
         public List<Vector3> vertices = new List<Vector3>();
-        public List<int> triangles = new List<int>();
+        public List<List<int>> subMeshes = new List<List<int>> { new List<int>() };
         public List<Vector3> normals = new List<Vector3>();
         public List<Vector4> tangents = new List<Vector4>();
         public List<Vector2> uv = new List<Vector2>();
@@ -20,6 +20,11 @@ namespace ProceduralToolkit
         public List<Vector2> uv3 = new List<Vector2>();
         public List<Vector2> uv4 = new List<Vector2>();
         public List<Color> colors = new List<Color>();
+
+        public List<int> triangles {
+            get { return subMeshes[0]; }
+            set { subMeshes[0] = value; }
+        }
 
         /// <summary>
         /// Shortcut for vertices.Count
@@ -55,14 +60,31 @@ namespace ProceduralToolkit
         /// <summary>
         /// Adds vertex data from <paramref name="draft"/>
         /// </summary>
-        public MeshDraft Add(MeshDraft draft)
+        public MeshDraft Add(MeshDraft draft) 
         {
             if (draft == null) throw new ArgumentNullException("draft");
 
-            for (var i = 0; i < draft.triangles.Count; i++)
-            {
-                triangles.Add(draft.triangles[i] + vertices.Count);
+            if (draft.subMeshes.Count >= subMeshes.Count) {
+                for (int i = subMeshes.Count; i <= draft.subMeshes.Count; i++) {
+                    subMeshes.Add(new List<int>());
+                }
             }
+            
+            for (int submeshIndex = 0; submeshIndex < draft.subMeshes.Count; submeshIndex++) {
+                var thisSubMesh = subMeshes[submeshIndex];
+                var newSubMesh = draft.subMeshes[submeshIndex];
+
+                if (newSubMesh == null || newSubMesh.Count == 0)
+                    continue;
+
+                if (thisSubMesh == null)
+                    subMeshes[submeshIndex] = new List<int>();
+                
+                for (int i = 0; i < newSubMesh.Count; i++) {
+                    thisSubMesh.Add(newSubMesh[i] + vertices.Count);
+                }
+            }
+
             vertices.AddRange(draft.vertices);
             normals.AddRange(draft.normals);
             tangents.AddRange(draft.tangents);
@@ -72,6 +94,46 @@ namespace ProceduralToolkit
             uv4.AddRange(draft.uv4);
             colors.AddRange(draft.colors);
             return this;
+        }
+
+        /// <summary>
+        /// Adds vertex data from <paramref name="draft"/>
+        /// Add all triangles from <paramref name="draft"/> to submesh with index <paramref name="targetSubMeshIndex"/>
+        /// </summary>
+        public MeshDraft Add(MeshDraft draft, int targetSubMeshIndex = 0) 
+        {
+            if (draft == null) throw new ArgumentNullException("draft");
+
+            if (targetSubMeshIndex >= subMeshes.Count) {
+                for (int i = subMeshes.Count; i <= targetSubMeshIndex; i++) {
+                    subMeshes.Add(new List<int>());
+                }
+            }
+            List<int> allTriangles = draft.GetAllTriangles();
+            for (var i = 0; i < allTriangles.Count; i++) {
+                subMeshes[targetSubMeshIndex].Add(allTriangles[i] + vertices.Count);
+            }
+
+            vertices.AddRange(draft.vertices);
+            normals.AddRange(draft.normals);
+            tangents.AddRange(draft.tangents);
+            uv.AddRange(draft.uv);
+            uv2.AddRange(draft.uv2);
+            uv3.AddRange(draft.uv3);
+            uv4.AddRange(draft.uv4);
+            colors.AddRange(draft.colors);
+            return this;
+        }
+
+        private List<int> GetAllTriangles() {
+            var allTriangles = new List<int>();
+            
+            foreach (var triangles in subMeshes) {
+                if (triangles != null)
+                    allTriangles.AddRange(triangles);
+            }
+
+            return allTriangles;
         }
 
         #region AddTriangle
@@ -697,16 +759,8 @@ namespace ProceduralToolkit
         /// </summary>
         public Mesh ToMesh()
         {
-            var mesh = new Mesh {name = name};
-            mesh.SetVertices(vertices);
-            mesh.SetTriangles(triangles, 0);
-            mesh.SetNormals(normals);
-            mesh.SetTangents(tangents);
-            mesh.SetUVs(0, uv);
-            mesh.SetUVs(1, uv2);
-            mesh.SetUVs(2, uv3);
-            mesh.SetUVs(3, uv4);
-            mesh.SetColors(colors);
+            var mesh = new Mesh();
+            ToMesh(ref mesh);
             return mesh;
         }
 
@@ -722,7 +776,13 @@ namespace ProceduralToolkit
             mesh.Clear(false);
             mesh.name = name;
             mesh.SetVertices(vertices);
-            mesh.SetTriangles(triangles, 0);
+            
+            mesh.subMeshCount = subMeshes.Count;
+            for (int i = 0; i < subMeshes.Count; i++) {
+                if (subMeshes[i] != null)
+                    mesh.SetTriangles(subMeshes[i], i);
+            }
+
             mesh.SetNormals(normals);
             mesh.SetTangents(tangents);
             mesh.SetUVs(0, uv);
