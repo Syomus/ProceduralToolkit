@@ -8,24 +8,19 @@ namespace ProceduralToolkit.Examples
     public class ImageSelector : ConfiguratorBase
     {
         public ToggleGroup toggleGroup;
-        public Image starPolygonImage;
-        public Image animationImage;
-
-        private List<Image> images = new List<Image>();
+        public List<Image> images = new List<Image>();
 
         private void Awake()
         {
-            images.Add(starPolygonImage);
-            images.Add(animationImage);
-
             var header = InstantiateControl<TextControl>(toggleGroup.transform.parent);
             header.Initialize("Shader:");
             header.transform.SetAsFirstSibling();
 
-            InstantiateToggle(starPolygonImage, "Star Polygon");
-            InstantiateToggle(animationImage, "2D Animation");
-
-            SelectImage(starPolygonImage);
+            foreach (var image in images)
+            {
+                InstantiateToggle(image);
+            }
+            SelectImage(images[0]);
         }
 
         private void SelectImage(Image image)
@@ -36,12 +31,12 @@ namespace ProceduralToolkit.Examples
             }
         }
 
-        private void InstantiateToggle(Image image, string header)
+        private void InstantiateToggle(Image image)
         {
             var toggle = InstantiateControl<ToggleControl>(toggleGroup.transform);
             toggle.Initialize(
-                header: header,
-                value: image == starPolygonImage,
+                header: image.name,
+                value: image == images[0],
                 onValueChanged: isOn =>
                 {
                     if (isOn)
