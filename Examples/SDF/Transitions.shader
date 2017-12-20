@@ -8,7 +8,6 @@ Shader "Procedural Toolkit/Examples/Transitions"
         _Color2("Color 2", Color) = (1.0, 1.0, 1.0, 1.0)
         _Color3("Color 3", Color) = (1.0, 1.0, 1.0, 1.0)
         _Color4("Color 4", Color) = (1.0, 1.0, 1.0, 1.0)
-        [Toggle] _Debug("Debug", Float) = 0.0
     }
     SubShader
     {
@@ -19,7 +18,6 @@ Shader "Procedural Toolkit/Examples/Transitions"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile __ _DEBUG_ON
 
             #include "Assets/ProceduralToolkit/Shaders/Common.cginc"
             #include "Assets/ProceduralToolkit/Shaders/Easing.cginc"
@@ -68,11 +66,7 @@ Shader "Procedural Toolkit/Examples/Transitions"
                 d = CircleTransition010(i.uv - float2(0.5, 0.5), EaseInOutQuad(LineStep(0.75, 1.0, time01)));
                 color = lerp(color, _Color4, d);
 
-#if _DEBUG_ON
-                return DebugValue(d);
-#else
                 return color;
-#endif
             }
             ENDCG
         }

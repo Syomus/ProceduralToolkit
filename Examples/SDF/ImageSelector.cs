@@ -7,6 +7,7 @@ namespace ProceduralToolkit.Examples
 {
     public class ImageSelector : ConfiguratorBase
     {
+        public Transform leftPanel;
         public ToggleGroup toggleGroup;
         public List<Image> images = new List<Image>();
 
@@ -20,7 +21,19 @@ namespace ProceduralToolkit.Examples
             {
                 InstantiateToggle(image);
             }
+
+            var toggle = InstantiateControl<ToggleControl>(leftPanel);
+            toggle.Initialize(
+                header: "Debug",
+                value: true,
+                onValueChanged: SetDebug);
+
             SelectImage(images[0]);
+            foreach (var image in images)
+            {
+                image.material = new Material(image.material);
+            }
+            SetDebug(true);
         }
 
         private void SelectImage(Image image)
@@ -45,6 +58,26 @@ namespace ProceduralToolkit.Examples
                     }
                 },
                 toggleGroup: toggleGroup);
+        }
+
+        private void SetDebug(bool value)
+        {
+            if (value)
+            {
+                foreach (var image in images)
+                {
+                    image.material.EnableKeyword("_DEBUG_ON");
+                    image.material.SetFloat("_DEBUG", 1);
+                }
+            }
+            else
+            {
+                foreach (var image in images)
+                {
+                    image.material.DisableKeyword("_DEBUG_ON");
+                    image.material.SetFloat("_DEBUG", 0);
+                }
+            }
         }
     }
 }
