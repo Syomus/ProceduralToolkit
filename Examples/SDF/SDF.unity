@@ -866,7 +866,7 @@ GameObject:
   - component: {fileID: 1270542520}
   - component: {fileID: 1270542519}
   m_Layer: 5
-  m_Name: 2D Animation
+  m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

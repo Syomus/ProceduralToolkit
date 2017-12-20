@@ -1,4 +1,4 @@
-Shader "Procedural Toolkit/Examples/SDF/Star Polygon"
+Shader "Procedural Toolkit/Examples/Star Polygon"
 {
     Properties
     {

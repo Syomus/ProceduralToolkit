@@ -1,4 +1,4 @@
-Shader "Procedural Toolkit/Examples/2D Animation"
+Shader "Procedural Toolkit/Examples/Animation"
 {
     Properties
     {
