@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
@@ -59,6 +59,20 @@ namespace ProceduralToolkit.Examples
             else
             {
                 draft.ToMesh(ref mesh);
+            }
+            mesh.RecalculateBounds();
+            meshFilter.sharedMesh = mesh;
+        }
+
+        protected static void AssignDraftToMeshFilter(CompoundMeshDraft compoundDraft, MeshFilter meshFilter, ref Mesh mesh)
+        {
+            if (mesh == null)
+            {
+                mesh = compoundDraft.ToMeshWithSubMeshes();
+            }
+            else
+            {
+                compoundDraft.ToMeshWithSubMeshes(ref mesh);
             }
             mesh.RecalculateBounds();
             meshFilter.sharedMesh = mesh;

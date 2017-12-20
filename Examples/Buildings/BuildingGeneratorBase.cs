@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,20 +6,19 @@ namespace ProceduralToolkit.Examples
 {
     public class BuildingGeneratorBase
     {
-        public static MeshDraft GenerateFacades(List<Vector2> foundationPolygon, List<FacadeLayout> facadeLayouts)
+        public static MeshDraft GenerateFacadesMeshDraft(List<Vector2> foundationPolygon, List<FacadeLayout> facadeLayouts)
         {
-            var buildingDraft = new MeshDraft {name = "Building"};
+            var facadesDraft = new MeshDraft {name = "Facades"};
             for (int i = 0; i < foundationPolygon.Count; i++)
             {
                 Vector3 a = foundationPolygon[i].ToVector3XZ();
                 Vector3 b = foundationPolygon.GetLooped(i + 1).ToVector3XZ();
-                var facadeLayout = facadeLayouts[i];
-                buildingDraft.Add(GenerateFacade(a, b, facadeLayout));
+                facadesDraft.Add(GenerateFacadeMeshDraft(a, b, facadeLayouts[i]));
             }
-            return buildingDraft;
+            return facadesDraft;
         }
 
-        private static MeshDraft GenerateFacade(Vector3 a, Vector3 b, FacadeLayout facadeLayout)
+        private static MeshDraft GenerateFacadeMeshDraft(Vector3 a, Vector3 b, FacadeLayout facadeLayout)
         {
             var facadeDraft = facadeLayout.GetMeshDraft();
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
@@ -8,5 +8,6 @@ namespace ProceduralToolkit.Examples
         float? width { get; set; }
         float? height { get; set; }
         MeshDraft GetMeshDraft();
+        CompoundMeshDraft GetCompoundMeshDraft();
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
@@ -10,6 +10,7 @@ namespace ProceduralToolkit.Examples
         public float? height { get; set; }
 
         public abstract MeshDraft GetMeshDraft();
+        public abstract CompoundMeshDraft GetCompoundMeshDraft();
 
         public List<IFacadePanel> facadePanels { get; protected set; }
 

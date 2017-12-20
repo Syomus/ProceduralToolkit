@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace ProceduralToolkit.Examples
@@ -7,10 +7,33 @@ namespace ProceduralToolkit.Examples
     {
         public override MeshDraft GetMeshDraft()
         {
+            UpdateLayout();
+
+            var meshDraft = new MeshDraft();
+            for (int i = 0; i < facadePanels.Count; i++)
+            {
+                meshDraft.Add(facadePanels[i].GetMeshDraft());
+            }
+            return meshDraft;
+        }
+
+        public override CompoundMeshDraft GetCompoundMeshDraft()
+        {
+            UpdateLayout();
+
+            var compoundMeshDraft = new CompoundMeshDraft();
+            for (int i = 0; i < facadePanels.Count; i++)
+            {
+                compoundMeshDraft.Add(facadePanels[i].GetCompoundMeshDraft());
+            }
+            return compoundMeshDraft;
+        }
+
+        private void UpdateLayout()
+        {
             Assert.IsTrue(origin.HasValue);
             Assert.IsTrue(width.HasValue);
 
-            var draft = new MeshDraft();
             float occupiedWidth = 0;
             int count = 0;
             for (int i = 0; i < facadePanels.Count; i++)
@@ -41,9 +64,7 @@ namespace ProceduralToolkit.Examples
                     facadePanel.height = height;
                 }
                 currentPosition += Vector2.right*facadePanel.width.Value;
-                draft.Add(facadePanel.GetMeshDraft());
             }
-            return draft;
         }
     }
 }

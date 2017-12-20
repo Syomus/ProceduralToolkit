@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
@@ -40,6 +40,11 @@ namespace ProceduralToolkit.Examples
         private const float AtticHoleDepth = 0.5f;
 
         public abstract MeshDraft GetMeshDraft();
+
+        public virtual CompoundMeshDraft GetCompoundMeshDraft()
+        {
+            return new CompoundMeshDraft().Add(GetMeshDraft());
+        }
 
         protected static MeshDraft PerforatedQuad(
             Vector3 min,

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -25,7 +25,7 @@ namespace ProceduralToolkit.Examples
             {PanelSize.Wide, 3},
         };
 
-        public MeshDraft Generate(Config config)
+        public CompoundMeshDraft Generate(Config config)
         {
             Assert.IsTrue(config.width > 0);
             Assert.IsTrue(config.length > 0);
@@ -57,13 +57,15 @@ namespace ProceduralToolkit.Examples
 
             float facadeHeight = floorHeight*config.floors + socleHeight + (config.hasAttic ? atticHeight : 0);
 
-            var buildingDraft = GenerateFacades(foundationPolygon, facadeLayouts);
+            var facadesDraft = GenerateFacadesMeshDraft(foundationPolygon, facadeLayouts);
 
-            var roof = RoofGenerator.Generate(foundationPolygon, facadeHeight, config.roofConfig);
-            roof.Paint(config.palette.roofColor);
-            buildingDraft.Add(roof);
+            var roofDraft = RoofGenerator.Generate(foundationPolygon, facadeHeight, config.roofConfig);
+            roofDraft.Paint(config.palette.roofColor);
 
-            return buildingDraft;
+            var compoundDraft = new CompoundMeshDraft();
+            compoundDraft.Add(facadesDraft);
+            compoundDraft.Add(roofDraft);
+            return compoundDraft;
         }
 
         private void InitializeConstructors(Palette palette)
