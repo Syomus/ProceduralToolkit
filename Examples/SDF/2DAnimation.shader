@@ -12,7 +12,6 @@ Shader "Procedural Toolkit/Examples/2D Animation"
     SubShader
     {
         Tags { "RenderType" = "Opaque" "PreviewType" = "Plane" }
-        LOD 100
 
         Pass
         {

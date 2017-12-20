@@ -11,7 +11,6 @@ Shader "Procedural Toolkit/Examples/SDF/Star Polygon"
     SubShader
     {
         Tags { "RenderType" = "Opaque" "PreviewType" = "Plane" }
-        LOD 100
 
         Pass
         {

@@ -1,4 +1,4 @@
-Shader "SDF/Easing"
+Shader "Procedural Toolkit/Examples/Easing"
 {
     Properties
     {
@@ -10,7 +10,6 @@ Shader "SDF/Easing"
     SubShader
     {
         Tags { "RenderType" = "Opaque" "PreviewType" = "Plane" }
-        LOD 100
 
         Pass
         {
@@ -224,8 +223,7 @@ Shader "SDF/Easing"
                 }
 
                 float4 color = _BackgroundColor;
-                float stepF = step(uv.x, f);
-                color = lerp(color, _EasingColor, stepF);
+                color = lerp(color, _EasingColor, step(uv.x, f));
                 color = lerp(color, _PlotColor, Plot(p, uv.y));
                 return color;
             }
