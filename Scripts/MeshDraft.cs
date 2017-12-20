@@ -748,7 +748,7 @@ namespace ProceduralToolkit
 
         public override string ToString()
         {
-            return "MeshDraft(\"" + name + "\")";
+            return name + " (ProceduralToolkit.MeshDraft)";
         }
     }
 }

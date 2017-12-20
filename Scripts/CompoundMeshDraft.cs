@@ -148,7 +148,7 @@ namespace ProceduralToolkit
 
         public override string ToString()
         {
-            return "CompoundMeshDraft(\"" + name + "\")";
+            return name + " (ProceduralToolkit.CompoundMeshDraft)";
         }
     }
 }
