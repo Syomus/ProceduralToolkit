@@ -536,47 +536,51 @@ namespace ProceduralToolkit
         /// <summary>
         /// Moves draft vertices by <paramref name="vector"/>
         /// </summary>
-        public void Move(Vector3 vector)
+        public MeshDraft Move(Vector3 vector)
         {
             for (int i = 0; i < vertices.Count; i++)
             {
                 vertices[i] += vector;
             }
+            return this;
         }
 
         /// <summary>
         /// Rotates draft vertices by <paramref name="rotation"/>
         /// </summary>
-        public void Rotate(Quaternion rotation)
+        public MeshDraft Rotate(Quaternion rotation)
         {
             for (int i = 0; i < vertices.Count; i++)
             {
                 vertices[i] = rotation*vertices[i];
                 normals[i] = rotation*normals[i];
             }
+            return this;
         }
 
         /// <summary>
         /// Scales draft vertices uniformly by <paramref name="scale"/>
         /// </summary>
-        public void Scale(float scale)
+        public MeshDraft Scale(float scale)
         {
             for (int i = 0; i < vertices.Count; i++)
             {
                 vertices[i] *= scale;
             }
+            return this;
         }
 
         /// <summary>
         /// Scales draft vertices non-uniformly by <paramref name="scale"/>
         /// </summary>
-        public void Scale(Vector3 scale)
+        public MeshDraft Scale(Vector3 scale)
         {
             for (int i = 0; i < vertices.Count; i++)
             {
                 vertices[i] = Vector3.Scale(vertices[i], scale);
                 normals[i] = Vector3.Scale(normals[i], scale).normalized;
             }
+            return this;
         }
 
         /// <summary>
@@ -595,16 +599,17 @@ namespace ProceduralToolkit
         /// <summary>
         /// Flips draft faces
         /// </summary>
-        public void FlipFaces()
+        public MeshDraft FlipFaces()
         {
             FlipTriangles();
             FlipNormals();
+            return this;
         }
 
         /// <summary>
         /// Reverses winding order of draft triangles
         /// </summary>
-        public void FlipTriangles()
+        public MeshDraft FlipTriangles()
         {
             for (int i = 0; i < triangles.Count; i += 3)
             {
@@ -612,23 +617,25 @@ namespace ProceduralToolkit
                 triangles[i] = triangles[i + 1];
                 triangles[i + 1] = temp;
             }
+            return this;
         }
 
         /// <summary>
         /// Reverses direction of draft normals
         /// </summary>
-        public void FlipNormals()
+        public MeshDraft FlipNormals()
         {
             for (int i = 0; i < normals.Count; i++)
             {
                 normals[i] = -normals[i];
             }
+            return this;
         }
 
         /// <summary>
         /// Flips UV map horizontally in selected <paramref name="channel"/>
         /// </summary>
-        public void FlipUVHorizontally(int channel = 0)
+        public MeshDraft FlipUVHorizontally(int channel = 0)
         {
             List<Vector2> list;
             switch (channel)
@@ -652,12 +659,13 @@ namespace ProceduralToolkit
             {
                 list[i] = new Vector2(1 - list[i].x, list[i].y);
             }
+            return this;
         }
 
         /// <summary>
         /// Flips UV map vertically in selected <paramref name="channel"/>
         /// </summary>
-        public void FlipUVVertically(int channel = 0)
+        public MeshDraft FlipUVVertically(int channel = 0)
         {
             List<Vector2> list;
             switch (channel)
@@ -681,18 +689,20 @@ namespace ProceduralToolkit
             {
                 list[i] = new Vector2(list[i].x, 1 - list[i].y);
             }
+            return this;
         }
 
         /// <summary>
         /// Projects vertices on a sphere with given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
         /// </summary>
-        public void Spherify(float radius, Vector3 center = default(Vector3))
+        public MeshDraft Spherify(float radius, Vector3 center = default(Vector3))
         {
             for (var i = 0; i < vertices.Count; i++)
             {
                 normals[i] = (vertices[i] - center).normalized;
                 vertices[i] = normals[i]*radius;
             }
+            return this;
         }
 
         /// <summary>
@@ -734,6 +744,11 @@ namespace ProceduralToolkit
             mesh.SetUVs(2, uv3);
             mesh.SetUVs(3, uv4);
             mesh.SetColors(colors);
+        }
+
+        public override string ToString()
+        {
+            return "MeshDraft(\"" + name + "\")";
         }
     }
 }
