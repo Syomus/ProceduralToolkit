@@ -40,10 +40,10 @@ Shader "Procedural Toolkit/Examples/DistanceOperations"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                float2 uv = Tile(i.uv, 2, 2) - float2(0.5, 0.5);
+                float2 uv = (Tile(i.uv, 2.0, 2.0) - float2(0.5, 0.5))*0.5;
 
-                float circle = Circle(uv, 0.3);
-                float rectangle = Rectangle(RotateCW(uv, _Time.y), float2(0.25, 0.25));
+                float circle = Circle(uv, 0.12);
+                float rectangle = Rectangle(RotateCW(uv, _Time.y), float2(0.1, 0.1));
 
                 float distance;
                 if (i.uv.x < 0.5)
