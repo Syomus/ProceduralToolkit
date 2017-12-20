@@ -106,7 +106,11 @@ float4 DebugValueColor(float value)
     float offset = sign(value)*0.3;
     float4 nearColor = float4(0.4 + offset, 0.35, 0.4 - offset, 1.0);
     float4 farColor = float4(0.55 + offset, 0.65, 0.55 - offset, 1.0);
-    return lerp(nearColor, farColor, saturate(abs(value*10.0)));
+    float4 color = lerp(nearColor, farColor, saturate(abs(value*10.0)));
+#ifndef UNITY_COLORSPACE_GAMMA
+    color.rgb = GammaToLinearSpace(color.rgb);
+#endif
+    return color;
 }
 
 float4 DebugValueColor(float2 value)
@@ -116,7 +120,11 @@ float4 DebugValueColor(float2 value)
     float4 nearColor = float4(0.4 + offsetX, 0.35 - offsetY, 0.4 - offsetX, 1.0);
     float4 farColor = float4(0.55 + offsetX, 0.65 - offsetY, 0.55 - offsetX, 1.0);
     float t = 1.0 - length(min((abs(value) - float2(0.1, 0.1))*10.0, float2(0.0, 0.0)));
-    return lerp(nearColor, farColor, t);
+    float4 color = lerp(nearColor, farColor, t);
+#ifndef UNITY_COLORSPACE_GAMMA
+    color.rgb = GammaToLinearSpace(color.rgb);
+#endif
+    return color;
 }
 
 float4 DebugValueSimple(float value)
