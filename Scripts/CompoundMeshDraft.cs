@@ -9,6 +9,19 @@ namespace ProceduralToolkit
     {
         public string name = "";
 
+        public int vertexCount
+        {
+            get
+            {
+                int count = 0;
+                for (int i = 0; i < meshDrafts.Count; i++)
+                {
+                    count += meshDrafts[i].vertexCount;
+                }
+                return count;
+            }
+        }
+
         private readonly List<MeshDraft> meshDrafts = new List<MeshDraft>();
 
         public IEnumerator<MeshDraft> GetEnumerator()
@@ -101,6 +114,11 @@ namespace ProceduralToolkit
 
         private void FillMesh(ref Mesh mesh)
         {
+            int vCount = vertexCount;
+            if (vCount > 65000)
+            {
+                Debug.LogError("A mesh may not have more than 65000 vertices. Vertex count: " + vCount);
+            }
             var finalDraft = new MeshDraft();
 #if !UNITY_2017_3_OR_NEWER
             var trianglesCounts = new List<int>();
