@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +24,10 @@ namespace ProceduralToolkit
         /// <summary>
         /// Shortcut for vertices.Count
         /// </summary>
-        public int vertexCount { get { return vertices.Count; } }
+        public int vertexCount
+        {
+            get { return vertices.Count; }
+        }
 
         /// <summary>
         /// Creates an empty MeshDraft
@@ -697,16 +700,8 @@ namespace ProceduralToolkit
         /// </summary>
         public Mesh ToMesh()
         {
-            var mesh = new Mesh {name = name};
-            mesh.SetVertices(vertices);
-            mesh.SetTriangles(triangles, 0);
-            mesh.SetNormals(normals);
-            mesh.SetTangents(tangents);
-            mesh.SetUVs(0, uv);
-            mesh.SetUVs(1, uv2);
-            mesh.SetUVs(2, uv3);
-            mesh.SetUVs(3, uv4);
-            mesh.SetColors(colors);
+            var mesh = new Mesh();
+            FillMesh(ref mesh);
             return mesh;
         }
 
@@ -720,6 +715,15 @@ namespace ProceduralToolkit
                 throw new ArgumentNullException("mesh");
             }
             mesh.Clear(false);
+            FillMesh(ref mesh);
+        }
+
+        private void FillMesh(ref Mesh mesh)
+        {
+            if (vertexCount > 65000)
+            {
+                Debug.LogError("A mesh may not have more than 65000 vertices. Vertex count: " + vertexCount);
+            }
             mesh.name = name;
             mesh.SetVertices(vertices);
             mesh.SetTriangles(triangles, 0);
