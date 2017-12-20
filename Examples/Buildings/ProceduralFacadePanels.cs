@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,7 +43,12 @@ namespace ProceduralToolkit.Examples
         private const float AtticHoleHeight = 0.3f;
         private const float AtticHoleDepth = 0.5f;
 
-        public abstract MeshDraft GetMeshDraft();
+
+        public MeshDraft GetMeshDraft()
+        {
+            throw new NotImplementedException();
+        }
+
         public abstract CompoundMeshDraft GetCompoundMeshDraft();
 
         protected static MeshDraft PerforatedQuad(
@@ -432,16 +438,11 @@ namespace ProceduralToolkit.Examples
             this.wallColor = wallColor;
         }
 
-        public override MeshDraft GetMeshDraft()
-        {
-            return new MeshDraft()
-                .AddQuad(origin.Value, Vector3.right*width.Value, Vector3.up*height.Value)
-                .Paint(wallColor);
-        }
-
         public override CompoundMeshDraft GetCompoundMeshDraft()
         {
-            var wallDraft = GetMeshDraft();
+            var wallDraft = new MeshDraft()
+                .AddQuad(origin.Value, Vector3.right*width.Value, Vector3.up*height.Value)
+                .Paint(wallColor);
             wallDraft.name = WallDraftName;
             return new CompoundMeshDraft().Add(wallDraft);
         }
@@ -460,15 +461,9 @@ namespace ProceduralToolkit.Examples
             this.glassColor = glassColor;
         }
 
-        public override MeshDraft GetMeshDraft()
-        {
-            return GetCompoundMeshDraft().ToMeshDraft();
-        }
-
         public override CompoundMeshDraft GetCompoundMeshDraft()
         {
-            return Window(origin.Value, width.Value, height.Value,
-                WindowWidthOffset, WindowBottomOffset, WindowTopOffset,
+            return Window(origin.Value, width.Value, height.Value, WindowWidthOffset, WindowBottomOffset, WindowTopOffset,
                 wallColor, frameColor, glassColor);
         }
     }
@@ -484,11 +479,6 @@ namespace ProceduralToolkit.Examples
             this.wallColor = wallColor;
             this.frameColor = frameColor;
             this.glassColor = glassColor;
-        }
-
-        public override MeshDraft GetMeshDraft()
-        {
-            return GetCompoundMeshDraft().ToMeshDraft();
         }
 
         public override CompoundMeshDraft GetCompoundMeshDraft()
@@ -512,11 +502,6 @@ namespace ProceduralToolkit.Examples
             this.roofColor = roofColor;
         }
 
-        public override MeshDraft GetMeshDraft()
-        {
-            return GetCompoundMeshDraft().ToMeshDraft();
-        }
-
         public override CompoundMeshDraft GetCompoundMeshDraft()
         {
             return BalconyGlazed(origin.Value, width.Value, height.Value, wallColor, frameColor, glassColor, roofColor);
@@ -534,14 +519,9 @@ namespace ProceduralToolkit.Examples
             this.doorColor = doorColor;
         }
 
-        public override MeshDraft GetMeshDraft()
-        {
-            return Entrance(origin.Value, width.Value, height.Value, wallColor, doorColor);
-        }
-
         public override CompoundMeshDraft GetCompoundMeshDraft()
         {
-            var entranceDraft = GetMeshDraft();
+            var entranceDraft = Entrance(origin.Value, width.Value, height.Value, wallColor, doorColor);
             entranceDraft.name = WallDraftName;
             return new CompoundMeshDraft().Add(entranceDraft);
         }
@@ -560,14 +540,9 @@ namespace ProceduralToolkit.Examples
             this.roofColor = roofColor;
         }
 
-        public override MeshDraft GetMeshDraft()
-        {
-            return EntranceRoofed(origin.Value, width.Value, height.Value, wallColor, doorColor, roofColor);
-        }
-
         public override CompoundMeshDraft GetCompoundMeshDraft()
         {
-            var entranceDraft = GetMeshDraft();
+            var entranceDraft = EntranceRoofed(origin.Value, width.Value, height.Value, wallColor, doorColor, roofColor);
             entranceDraft.name = WallDraftName;
             return new CompoundMeshDraft().Add(entranceDraft);
         }
@@ -584,11 +559,6 @@ namespace ProceduralToolkit.Examples
             this.wallColor = wallColor;
             this.frameColor = frameColor;
             this.glassColor = glassColor;
-        }
-
-        public override MeshDraft GetMeshDraft()
-        {
-            return GetCompoundMeshDraft().ToMeshDraft();
         }
 
         public override CompoundMeshDraft GetCompoundMeshDraft()
@@ -615,11 +585,6 @@ namespace ProceduralToolkit.Examples
             this.glassColor = glassColor;
         }
 
-        public override MeshDraft GetMeshDraft()
-        {
-            return GetCompoundMeshDraft().ToMeshDraft();
-        }
-
         public override CompoundMeshDraft GetCompoundMeshDraft()
         {
             return SocleWindowed(origin.Value, width.Value, height.Value, wallColor, glassColor);
@@ -637,14 +602,10 @@ namespace ProceduralToolkit.Examples
             this.holeColor = holeColor;
         }
 
-        public override MeshDraft GetMeshDraft()
-        {
-            return AtticVented(origin.Value, width.Value, height.Value, wallColor, holeColor);
-        }
-
         public override CompoundMeshDraft GetCompoundMeshDraft()
         {
-            return new CompoundMeshDraft().Add(GetMeshDraft());
+            var atticVentedDraft = AtticVented(origin.Value, width.Value, height.Value, wallColor, holeColor);
+            return new CompoundMeshDraft().Add(atticVentedDraft);
         }
     }
 }
