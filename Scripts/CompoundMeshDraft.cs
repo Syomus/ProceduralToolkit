@@ -1,14 +1,25 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit
 {
-    public class CompoundMeshDraft
+    public class CompoundMeshDraft : IEnumerable<MeshDraft>
     {
         public string name = "";
 
         private readonly List<MeshDraft> meshDrafts = new List<MeshDraft>();
+
+        public IEnumerator<MeshDraft> GetEnumerator()
+        {
+            return meshDrafts.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
         public CompoundMeshDraft Add(MeshDraft draft)
         {
@@ -29,6 +40,46 @@ namespace ProceduralToolkit
         public void Clear()
         {
             meshDrafts.Clear();
+        }
+
+        public void MergeDraftsWithTheSameName()
+        {
+            for (int i = 0; i < meshDrafts.Count; i++)
+            {
+                var merged = MergeDraftsWithName(meshDrafts[i].name);
+                meshDrafts.Insert(i, merged);
+            }
+        }
+
+        private MeshDraft MergeDraftsWithName(string draftName)
+        {
+            var merged = new MeshDraft {name = draftName};
+            for (int i = 0; i < meshDrafts.Count; i++)
+            {
+                var meshDraft = meshDrafts[i];
+                if (meshDraft.name == draftName)
+                {
+                    merged.Add(meshDraft);
+                    meshDrafts.RemoveAt(i);
+                    i--;
+                }
+            }
+            return merged;
+        }
+
+        public void SortDraftsByName()
+        {
+            meshDrafts.Sort((a, b) => a.name.CompareTo(b.name));
+        }
+
+        public MeshDraft ToMeshDraft()
+        {
+            var finalDraft = new MeshDraft();
+            for (int i = 0; i < meshDrafts.Count; i++)
+            {
+                finalDraft.Add(meshDrafts[i]);
+            }
+            return finalDraft;
         }
 
         public Mesh ToMeshWithSubMeshes()
@@ -93,6 +144,11 @@ namespace ProceduralToolkit
             mesh.SetUVs(2, finalDraft.uv3);
             mesh.SetUVs(3, finalDraft.uv4);
             mesh.SetColors(finalDraft.colors);
+        }
+
+        public override string ToString()
+        {
+            return "CompoundMeshDraft(\"" + name + "\")";
         }
     }
 }

@@ -57,14 +57,16 @@ namespace ProceduralToolkit.Examples
 
             float facadeHeight = floorHeight*config.floors + socleHeight + (config.hasAttic ? atticHeight : 0);
 
-            var facadesDraft = GenerateFacadesMeshDraft(foundationPolygon, facadeLayouts);
+            var compoundDraft = GenerateFacadesCompoundMeshDraft(foundationPolygon, facadeLayouts);
 
-            var roofDraft = RoofGenerator.Generate(foundationPolygon, facadeHeight, config.roofConfig);
-            roofDraft.Paint(config.palette.roofColor);
+            var roofDraft = RoofGenerator.Generate(foundationPolygon, facadeHeight, config.roofConfig)
+                .Paint(config.palette.roofColor);
 
-            var compoundDraft = new CompoundMeshDraft();
-            compoundDraft.Add(facadesDraft);
             compoundDraft.Add(roofDraft);
+            compoundDraft.MergeDraftsWithTheSameName();
+            compoundDraft.SortDraftsByName();
+            compoundDraft.name = "Building";
+
             return compoundDraft;
         }
 

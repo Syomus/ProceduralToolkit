@@ -18,6 +18,18 @@ namespace ProceduralToolkit.Examples
             return facadesDraft;
         }
 
+        public static CompoundMeshDraft GenerateFacadesCompoundMeshDraft(List<Vector2> foundationPolygon, List<FacadeLayout> facadeLayouts)
+        {
+            var facadesDraft = new CompoundMeshDraft {name = "Facades"};
+            for (int i = 0; i < foundationPolygon.Count; i++)
+            {
+                Vector3 a = foundationPolygon[i].ToVector3XZ();
+                Vector3 b = foundationPolygon.GetLooped(i + 1).ToVector3XZ();
+                facadesDraft.Add(GenerateFacadeCompoundMeshDraft(a, b, facadeLayouts[i]));
+            }
+            return facadesDraft;
+        }
+
         private static MeshDraft GenerateFacadeMeshDraft(Vector3 a, Vector3 b, FacadeLayout facadeLayout)
         {
             var facadeDraft = facadeLayout.GetMeshDraft();
@@ -27,6 +39,20 @@ namespace ProceduralToolkit.Examples
             facadeDraft.Rotate(rotation);
             facadeDraft.Move(a);
             return facadeDraft;
+        }
+
+        private static CompoundMeshDraft GenerateFacadeCompoundMeshDraft(Vector3 a, Vector3 b, FacadeLayout facadeLayout)
+        {
+            var facadeCompoundDraft = facadeLayout.GetCompoundMeshDraft();
+
+            Vector3 normal = Vector3.Cross(Vector3.up, (b - a).normalized).normalized;
+            var rotation = Quaternion.LookRotation(-normal);
+            foreach (var draft in facadeCompoundDraft)
+            {
+                draft.Rotate(rotation);
+                draft.Move(a);
+            }
+            return facadeCompoundDraft;
         }
 
         #region Horizontal
