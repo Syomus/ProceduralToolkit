@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +12,7 @@ namespace ProceduralToolkit.Examples
     /// </remarks>
     public class CharacterGenerator : MonoBehaviour
     {
+        public bool constantSeed = false;
         public Text characterName;
         public SpriteRenderer hairRenderer;
         public SpriteRenderer bodyRenderer;
@@ -51,6 +52,11 @@ namespace ProceduralToolkit.Examples
 
         private void Generate()
         {
+            if (constantSeed)
+            {
+                Random.InitState(0);
+            }
+
             characterName.text = nameGenerator.fullName;
             hairRenderer.sprite = hairSprites.GetRandom();
             bodyRenderer.sprite = bodySprites.GetRandom();
