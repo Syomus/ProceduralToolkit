@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -226,7 +226,15 @@ namespace ProceduralToolkit
         #region DrawRect
 
         /// <summary>
-        /// Draws a filled rectangle on texture
+        /// Draws a filled rectangle on a texture
+        /// </summary>
+        public static void DrawRect(this Texture2D texture, RectInt rect, Color color)
+        {
+            DrawRect(texture, rect.x, rect.y, rect.width, rect.height, color);
+        }
+
+        /// <summary>
+        /// Draws a filled rectangle on a texture
         /// </summary>
         public static void DrawRect(this Texture2D texture, int x, int y, int blockWidth, int blockHeight, Color color)
         {
@@ -243,6 +251,14 @@ namespace ProceduralToolkit
                 }
             }
             texture.SetPixels(x, y, blockWidth, blockHeight, colors);
+        }
+
+        /// <summary>
+        /// Draws a filled rectangle on pixels
+        /// </summary>
+        public static void DrawRect(this Color[] pixels, int textureWidth, RectInt rect, Color color)
+        {
+            DrawRect(pixels, textureWidth, rect.x, rect.y, rect.width, rect.height, color);
         }
 
         /// <summary>
@@ -271,27 +287,31 @@ namespace ProceduralToolkit
         /// <summary>
         /// Fills texture with gradient
         /// </summary>
-        public static void DrawGradient(this Texture2D texture, Gradient gradient, Directions progressionDirection)
+        public static void DrawGradient(this Texture2D texture, Gradient gradient, Directions direction)
         {
-            if (texture == null)
-            {
-                throw new ArgumentNullException("texture");
-            }
-            DrawGradient(texture, 0, 0, texture.width, texture.height, gradient, progressionDirection);
+            DrawGradient(texture, 0, 0, texture.width, texture.height, gradient, direction);
         }
 
         /// <summary>
-        /// Draws a gradient rectangle on texture
+        /// Draws a gradient rectangle on a texture
+        /// </summary>t
+        public static void DrawGradient(this Texture2D texture, RectInt rect, Gradient gradient, Directions direction)
+        {
+            DrawGradient(texture, rect.x, rect.y, rect.width, rect.height, gradient, direction);
+        }
+
+        /// <summary>
+        /// Draws a gradient rectangle on a texture
         /// </summary>t
         public static void DrawGradient(this Texture2D texture, int x, int y, int blockWidth, int blockHeight,
-            Gradient gradient, Directions progressionDirection)
+            Gradient gradient, Directions direction)
         {
             if (texture == null)
             {
                 throw new ArgumentNullException("texture");
             }
             Func<int, int, Color> getColor;
-            switch (progressionDirection)
+            switch (direction)
             {
                 case Directions.Left:
                     getColor = (_x, _y) => gradient.Evaluate(1 - (float) _x/(float) blockWidth);
@@ -306,8 +326,7 @@ namespace ProceduralToolkit
                     getColor = (_x, _y) => gradient.Evaluate((float) _y/(float) blockHeight);
                     break;
                 default:
-                    throw new ArgumentException("Not supported direction: " + progressionDirection,
-                        "progressionDirection");
+                    throw new ArgumentException("Not supported direction: " + direction, "direction");
             }
 
             var colors = new Color[blockWidth*blockHeight];
@@ -325,27 +344,31 @@ namespace ProceduralToolkit
         /// Fills pixels with gradient
         /// </summary>
         public static void DrawGradient(this Color[] pixels, int textureWidth, int textureHeight, Gradient gradient,
-            Directions progressionDirection)
+            Directions direction)
         {
-            if (pixels == null)
-            {
-                throw new ArgumentNullException("pixels");
-            }
-            DrawGradient(pixels, textureWidth, 0, 0, textureWidth, textureHeight, gradient, progressionDirection);
+            DrawGradient(pixels, textureWidth, 0, 0, textureWidth, textureHeight, gradient, direction);
+        }
+
+        /// <summary>
+        /// Draws a gradient rectangle on pixels
+        /// </summary>t
+        public static void DrawGradient(this Color[] pixels, int textureWidth, RectInt rect, Gradient gradient, Directions direction)
+        {
+            DrawGradient(pixels, textureWidth, rect.x, rect.y, rect.width, rect.height, gradient, direction);
         }
 
         /// <summary>
         /// Draws a gradient rectangle on pixels
         /// </summary>
         public static void DrawGradient(this Color[] pixels, int textureWidth, int x, int y, int blockWidth,
-            int blockHeight, Gradient gradient, Directions progressionDirection)
+            int blockHeight, Gradient gradient, Directions direction)
         {
             if (pixels == null)
             {
                 throw new ArgumentNullException("pixels");
             }
             Func<int, int, Color> getColor;
-            switch (progressionDirection)
+            switch (direction)
             {
                 case Directions.Left:
                     getColor = (_x, _y) => gradient.Evaluate(1 - (float) _x/(float) blockWidth);
@@ -360,8 +383,7 @@ namespace ProceduralToolkit
                     getColor = (_x, _y) => gradient.Evaluate((float) _y/(float) blockHeight);
                     break;
                 default:
-                    throw new ArgumentException("Not supported direction: " + progressionDirection,
-                        "progressionDirection");
+                    throw new ArgumentException("Not supported direction: " + direction, "direction");
             }
 
             for (int _y = y; _y < y + blockHeight; _y++)
