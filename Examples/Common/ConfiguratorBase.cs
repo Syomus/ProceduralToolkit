@@ -19,7 +19,7 @@ namespace ProceduralToolkit.Examples
             return control;
         }
 
-        protected static MeshDraft Platform(float radius, float heignt, int segments = 128)
+        public static MeshDraft Platform(float radius, float heignt, int segments = 128)
         {
             float segmentAngle = 360f/segments;
             float currentAngle = 0;
@@ -50,7 +50,7 @@ namespace ProceduralToolkit.Examples
             return platform;
         }
 
-        protected static void AssignDraftToMeshFilter(MeshDraft draft, MeshFilter meshFilter, ref Mesh mesh)
+        public static void AssignDraftToMeshFilter(MeshDraft draft, MeshFilter meshFilter, ref Mesh mesh)
         {
             if (mesh == null)
             {
@@ -64,7 +64,7 @@ namespace ProceduralToolkit.Examples
             meshFilter.sharedMesh = mesh;
         }
 
-        protected static void AssignDraftToMeshFilter(CompoundMeshDraft compoundDraft, MeshFilter meshFilter, ref Mesh mesh)
+        public static void AssignDraftToMeshFilter(CompoundMeshDraft compoundDraft, MeshFilter meshFilter, ref Mesh mesh)
         {
             if (mesh == null)
             {
