@@ -1,7 +1,6 @@
-﻿# Procedural Toolkit v0.1.9
+# Procedural Toolkit v0.1.9
 
-Procedural Toolkit is a collection of instruments for development of procedural generation systems in Unity game engine. 
-It is free, open source and works with Unity Personal license.
+Procedural Toolkit is a procedural generation library for the Unity game engine. It is free, open source and works with Unity Personal license.
 
 **Warning: This is a programming toolkit, editor support is limited.**
 
@@ -11,22 +10,26 @@ It is free, open source and works with Unity Personal license.
 [Support email](mailto:proceduraltoolkit@syomus.com)
 
 ## Installation instructions
-Requires **Unity 5.4** or later. Tested on Windows, WebGL, Android and iOS. UnityScript interoperability is not supported.
+Requires **Unity 2017.2** or later. Tested on Windows, WebGL, Android and iOS. UnityScript is not supported.
 
 You can install Procedural Toolkit from any of the following sources:
 
 1. Import from the [Asset Store](https://www.assetstore.unity3d.com/#!/content/16508)
-2. Download from [Releases page](https://github.com/Syomus/ProceduralToolkit/releases). Same packages as in the Asset Store.
-3. Clone/download repository from [GitHub](https://github.com/Syomus/ProceduralToolkit). In this case you will have to create a subfolder for toolkit (e.g. `\Assets\ProceduralToolkit`).
+2. Download from the [Releases page](https://github.com/Syomus/ProceduralToolkit/releases). Same packages as in the Asset Store.
+3. Clone/download the repository from [GitHub](https://github.com/Syomus/ProceduralToolkit). In this case you will have to create a subfolder for toolkit (preferably `\Assets\ProceduralToolkit`).
 
-Folder containing example classes and scenes (`ProceduralToolkit\Examples`) can be safely removed. The same is true for `ProceduralToolkit\Shaders`, if you are not using examples. Removing `ProceduralToolkit\Editor` will leave you with code-only toolkit.
+If you have any previous versions of the toolkit installed it is highly recommended to delete them before importing a newer version.
+
+Renaming or moving toolkit's folder from the default path (`\Assets\ProceduralToolkit`) will break .cginc includes in the example shaders, otherwise it is safe to move the toolkit however you want.
+
+The folder containing example classes and scenes (`ProceduralToolkit\Examples`) can be safely removed. The same is true for `ProceduralToolkit\Shaders`, if you are not using examples. Removing `ProceduralToolkit\Editor` will leave you with a code-only toolkit.
 
 After installation you can import ProceduralToolkit namespace and start building your own PCG systems:
 ```C#
 using UnityEngine;
 using ProceduralToolkit;
 
-public class Example : MonoBehaviour
+public class ReadmeExample : MonoBehaviour
 {
     private void Update()
     {
@@ -41,7 +44,7 @@ public class Example : MonoBehaviour
 * ColorHSV: Representation of color in HSV model.
 * DebugE: Drawing methods similar to Debug.
 * Directions: Enum with directions along three axes.
-* Draw: Collection of drawing method-independent generic drawing algorithms.
+* Draw: Collection of generic drawing algorithms.
 * GizmosE: Drawing methods similar to Gizmos.
 * GLE: Drawing wrappers over GL.Vertex which follow Gizmos convention.
 * MeshDraft: Helper class for mesh generation.
@@ -55,13 +58,13 @@ public class Example : MonoBehaviour
 * VectorE: Vector extensions.
 
 ## Editor classes
-* ProceduralToolkitMenu: Submenu with constructors for primitives at `GameObject > Procedural Toolkit` and about window at `Help > About Procedural Toolkit`.
+* ProceduralToolkitMenu: Submenu with constructors for primitives at `GameObject > Procedural Toolkit`.
 * MeshFilterExtension: Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
 
 ## Examples
-Resources folder contains prefabs used for UI. UI folder contains scripts for ui controls, including camera rotator.
+Resources folder contains prefabs used for the UI. UI folder contains scripts for the ui controls, including camera rotator.
 
-### <a href="http://syomus.com/ProceduralToolkit/BuildingGenerator">BuildingGenerator</a>
+### <a href="http://syomus.com/ProceduralToolkit/BuildingGenerator">Buildings</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-building-generator.png">
 
 Procedural building generator.
@@ -72,7 +75,7 @@ Procedural building generator.
 * ProceduralFacadePanel: Fully procedural facade panels for building generator.
 * BuildingGeneratorConfiguratorEditor: Custom inspector for BuildingGeneratorConfigurator.
 
-### <a href="http://syomus.com/ProceduralToolkit/ChairGenerator">ChairGenerator</a>
+### <a href="http://syomus.com/ProceduralToolkit/ChairGenerator">Chairs</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-chair-generator.png">
 
 Procedural chair generator.
@@ -81,14 +84,7 @@ Procedural chair generator.
 * Armrests, Backs, Stretchers: Chair parts constructors.
 * ChairGeneratorConfiguratorEditor: Custom inspector for ChairGeneratorConfigurator.
 
-### <a href="http://syomus.com/ProceduralToolkit/Boids">Boids</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-boids.png">
-
-Single-mesh particle system with birds-like behaviour.
-* BoidController: Generates animated mesh based on input configuration.
-* BoidControllerConfigurator: Configurator for BoidController with UI controls.
-
-### <a href="http://syomus.com/ProceduralToolkit/LowPolyTerrainGenerator">LowPolyTerrainGenerator</a>
+### <a href="http://syomus.com/ProceduralToolkit/LowPolyTerrainGenerator">Low Poly Terrain</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-low-poly-terrain-generator.png">
 
 Simple Perlin noise based low poly terrain generator.
@@ -96,7 +92,7 @@ Simple Perlin noise based low poly terrain generator.
 * LowPolyTerrainGeneratorConfigurator: Configurator for generator with UI and editor controls.
 * LowPolyTerrainGeneratorConfiguratorEditor: Custom inspector for LowPolyTerrainGeneratorConfigurator.
 
-### <a href="http://syomus.com/ProceduralToolkit/CellularAutomaton">CellularAutomaton</a>
+### <a href="http://syomus.com/ProceduralToolkit/CellularAutomaton">Cellular Automata</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-cellular-automata.png">
 
 Generic cellular automaton for two-state rulesets.
@@ -123,10 +119,10 @@ Breakout clone with procedurally generated levels.
 * BreakoutConfigurator: Configurator for generator with UI controls.
 * Brick: Disables game object on collision.
 
-### <a href="http://syomus.com/ProceduralToolkit/CharacterGenerator">CharacterGenerator</a>
+### <a href="http://syomus.com/ProceduralToolkit/CharacterGenerator">Characters</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-character-generator.gif">
 
-Simple 2D character generator. Sprites made by <a href="https://www.patreon.com/chicmonster">Tess Young</a>.
+A simple 2D character generator. Sprites made by <a href="http://kenney.nl/">Kenney</a>.
 * CharacterGenerator: Generates a sprite set and a name for character.
 * NameGenerator: Generates a random name from a large array of names.
 
