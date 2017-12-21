@@ -34,6 +34,9 @@ namespace ProceduralToolkit.Examples
         protected const float WindowTopOffset = 0.3f;
         private const float WindowFrameWidth = 0.05f;
         private const float WindowSegmentMinWidth = 0.9f;
+        private const float WindowsillWidthOffset = 0.1f;
+        private const float WindowsillDepth = 0.15f;
+        private const float WindowsillThickness = 0.05f;
 
         private const float BalconyHeight = 1;
         private const float BalconyDepth = 0.8f;
@@ -42,7 +45,6 @@ namespace ProceduralToolkit.Examples
         private const float AtticHoleWidth = 0.3f;
         private const float AtticHoleHeight = 0.3f;
         private const float AtticHoleDepth = 0.5f;
-
 
         public MeshDraft GetMeshDraft()
         {
@@ -102,7 +104,8 @@ namespace ProceduralToolkit.Examples
             float topOffset,
             Color wallColor,
             Color frameColor,
-            Color glassColor)
+            Color glassColor,
+            bool hasWindowsill = false)
         {
             Vector3 widthVector = Vector3.right*width;
             Vector3 heightVector = Vector3.up*height;
@@ -124,7 +127,20 @@ namespace ProceduralToolkit.Examples
 
             var windowpane = Windowpane(frameMin + frameDepth, frameMax + frameDepth, frameColor, glassColor);
 
-            return new CompoundMeshDraft().Add(wall).Add(windowpane);
+            var compoundDraft = new CompoundMeshDraft().Add(wall).Add(windowpane);
+
+            if (hasWindowsill)
+            {
+                Vector3 windowsillWidth = frameWidth + Vector3.right*WindowsillWidthOffset;
+                Vector3 windowsillDepth = Vector3.forward*WindowsillDepth;
+                Vector3 windowsillHeight = Vector3.up*WindowsillThickness;
+                var windowsill = MeshDraft.PartialBox(windowsillWidth, windowsillDepth, windowsillHeight, Directions.All & ~Directions.Forward)
+                    .Move(frameMin + frameWidth/2 + frameDepth - windowsillDepth/2)
+                    .Paint(frameColor);
+                windowsill.name = WallDraftName;
+                compoundDraft.Add(windowsill);
+            }
+            return compoundDraft;
         }
 
         private static CompoundMeshDraft Windowpane(Vector3 min, Vector3 max, Color frameColor, Color glassColor)
@@ -223,7 +239,7 @@ namespace ProceduralToolkit.Examples
             var innerFrame = new List<Vector3>();
             foreach (Vector3 vertex in outerFrame)
             {
-                innerFrame.Add(vertex - windowDepth);
+                innerFrame.Add(vertex + windowDepth);
             }
             var frame = MeshDraft.FlatBand(innerFrame, outerFrame)
                 .Paint(wallColor);
@@ -232,8 +248,8 @@ namespace ProceduralToolkit.Examples
             wall.Add(frame);
             wall.name = WallDraftName;
 
-            Vector3 windowpaneMin1 = outerFrame[0] - windowDepth;
-            Vector3 windowpaneMin2 = outerFrame[4] - windowDepth;
+            Vector3 windowpaneMin1 = outerFrame[0] + windowDepth;
+            Vector3 windowpaneMin2 = outerFrame[4] + windowDepth;
             var windowpane = Windowpane(windowpaneMin1, windowpaneMin1 + doorWidth + doorHeight - innerHeightOffset,
                 frameColor, glassColor);
             windowpane.Add(Windowpane(windowpaneMin2, windowpaneMin2 + windowWidth - doorWidth + windowHeight,
@@ -464,7 +480,7 @@ namespace ProceduralToolkit.Examples
         public override CompoundMeshDraft GetCompoundMeshDraft()
         {
             return Window(origin.Value, width.Value, height.Value, WindowWidthOffset, WindowBottomOffset, WindowTopOffset,
-                wallColor, frameColor, glassColor);
+                wallColor, frameColor, glassColor, true);
         }
     }
 

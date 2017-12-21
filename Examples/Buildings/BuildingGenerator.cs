@@ -107,7 +107,7 @@ namespace ProceduralToolkit.Examples
             };
             constructors[PanelType.Attic] = new List<Func<IFacadePanel>>
             {
-                () => new ProceduralAtticVented(palette.wallColor, palette.roofColor),
+                () => new ProceduralAtticVented(palette.wallColor, palette.socleWindowColor),
                 () => new ProceduralWall(palette.wallColor)
             };
         }
