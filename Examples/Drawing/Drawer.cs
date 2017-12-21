@@ -21,16 +21,15 @@ namespace ProceduralToolkit.Examples
 
         private void OnRenderObject()
         {
-            GLE.wireMaterial.SetPass(0);
-            GL.Begin(GL.LINES);
+            GLE.BeginLines();
+            {
+                GL.Color(ColorE.fuchsia);
+                Quaternion rotation = transform.rotation;
+                Vector3 position = transform.position + Vector3.up;
 
-            GL.Color(ColorE.fuchsia);
-            Quaternion rotation = transform.rotation;
-            Vector3 position = transform.position + Vector3.up;
-
-            GLE.DrawWireHemisphere(position, rotation, radius);
-            GLE.DrawWireCone(position, rotation, radius, coneAngle, coneLength);
-
+                GLE.DrawWireHemisphere(position, rotation, radius);
+                GLE.DrawWireCone(position, rotation, radius, coneAngle, coneLength);
+            }
             GL.End();
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -20,6 +20,15 @@ namespace ProceduralToolkit
             wireMaterial.SetInt("_ZWrite", 0);
 
             drawLine = DrawLine;
+        }
+
+        /// <summary>
+        /// Set material and call GL.Begin(GL.LINES)
+        /// </summary>
+        public static void BeginLines()
+        {
+            wireMaterial.SetPass(0);
+            GL.Begin(GL.LINES);
         }
 
         public static void DrawLine(Vector3 from, Vector3 to)
