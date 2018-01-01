@@ -1,28 +1,98 @@
+.webgl-content * {
+    border: 0;
+    margin: 0;
+    padding: 0
+}
 
-/****************************************
-  ==== RESETS
-****************************************/
+.webgl-content {
+    margin-top: 20px;
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    -webkit-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+}
 
-html,body,div,canvas { margin: 0; padding: 0; }
-::-moz-selection { color: #333; text-shadow: none; }
-::selection {  color: #333; text-shadow: none; }
-.clear:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
-.clear { display: inline-table; clear: both; }
-/* Hides from IE-mac \*/ * html .clear { height: 1%; } .clear { display: block; } /* End hide from IE-mac */
+.webgl-content .logo, .progress {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
 
-/****************************************
-  ==== LAYOUT
-****************************************/
+.webgl-content .logo {
+    background: url('progressLogo.Light.png') no-repeat center/contain;
+    width: 154px;
+    height: 130px;
+}
 
-html, body { width: 100%; height: 100%; font-family: Helvetica, Verdana, Arial, sans-serif; }
-body { }
-p.header, p.footer { display: none; }
-div.logo { width: 204px; height: 38px; float: left; background: url(logo.png) 0 0 no-repeat; position: relative; z-index: 10; }
-div.title { height: 38px; line-height: 38px; padding: 0 10px; margin: 0 1px 0 0; float: right; color: #333; text-align: right; font-size: 18px; position: relative; z-index: 10; }
-.template-wrap { position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
-.template-wrap canvas { margin: 0 0 10px 0; position: relative; z-index: 9; box-shadow: 0 10px 30px rgba(0,0,0,0.2); -moz-box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-.fullscreen { float: right; position: relative; z-index: 10; }
+.webgl-content .progress {
+    height: 18px;
+    width: 141px;
+    margin-top: 90px;
+}
 
-body.template { }
-.template .template-wrap { }
-.template .template-wrap canvas { }
+.webgl-content .progress .empty {
+    background: url('progressEmpty.Light.png') no-repeat right/cover;
+    float: right;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
+
+.webgl-content .progress .full {
+    background: url('progressFull.Light.png') no-repeat left/cover;
+    float: left;
+    width: 0%;
+    height: 100%;
+    display: inline-block;
+}
+
+.webgl-content .logo.Dark { background-image: url('progressLogo.Dark.png'); }
+
+.webgl-content .progress.Dark .empty { background-image: url('progressEmpty.Dark.png'); }
+
+.webgl-content .progress.Dark .full { background-image: url('progressFull.Dark.png'); }
+
+.webgl-content .footer {
+    margin-top: 5px;
+    height: 38px;
+    line-height: 38px;
+    font-family: Helvetica, Verdana, Arial, sans-serif;
+    font-size: 18px;
+}
+
+.webgl-content .footer .title, .fullscreen {
+    height: 100%;
+    display: inline-block;
+    background: transparent center no-repeat;
+}
+
+.webgl-content .footer .title {
+    margin-top: 0px;
+    margin-right: 10px;
+    float: right;
+}
+
+.webgl-content .footer .fullscreen {
+    background-image: url('fullscreen.png');
+    width: 38px;
+    float: right;
+}
+
+.webgl-content .gallery {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.webgl-content .gallery .image {
+    margin: 1px;
+    width: 180px;
+    display: inline-block;
+}
+
+.webgl-content .gallery .image img {
+    width: 100%;
+    height: auto;
+}

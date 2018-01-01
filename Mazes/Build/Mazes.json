@@ -1,0 +1,11 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "Mazes.data.unityweb",
+"asmCodeUrl": "Mazes.asm.code.unityweb",
+"asmMemoryUrl": "Mazes.asm.memory.unityweb",
+"asmFrameworkUrl": "Mazes.asm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20"
+}
