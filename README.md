@@ -109,6 +109,17 @@ A simple Perlin noise based low poly terrain generator. Doesn't support chunking
 * LowPolyTerrainGeneratorConfigurator: Configurator for LowPolyTerrainGenerator with UI and editor controls.
 * LowPolyTerrainGeneratorConfiguratorEditor: Custom inspector for LowPolyTerrainGeneratorConfigurator.
 
+### <a href="http://syomus.com/ProceduralToolkit/SDF">Signed Distance Functions</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-sdf.png">
+
+A collection of shaders showing how you can utilise functions from the shader library.
+* StarPolygon: A simple shader that draws a star polygon and shows a difference beween "normal" and "cheap" functions.
+* Shapes: A demonstration of some of the available shapes.
+* DistanceOperations: A square and a circle combined with different functions.
+* Easing: All easing functions in one shader showing the ease curve and the easig motion.
+* Transitions: An example showing the sequencing and animation techniques.
+* Animation: A more complex example on how you can create patterns and animate them in shader.
+
 ### <a href="http://syomus.com/ProceduralToolkit/CellularAutomaton">Cellular Automata</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-cellular-automata.png">
 
@@ -143,10 +154,6 @@ A simple 2D character generator. Sprites made by <a href="http://kenney.nl/">Ken
 
 A demonstration of some of the available MeshDraft primitives.
 * Cylinder, Dodecahedron, FlatSphere, Hexahedron...: Mesh generators that can be configured via the inspector.
-
-### <a href="http://syomus.com/ProceduralToolkit/SDF">Signed Distance Functions</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-sdf.png">
-A collection of shaders showing how you can utilise functions from the shader library.
 
 ### Drawing
 An example showing usage of DebugE, GLE and GizmosE.
