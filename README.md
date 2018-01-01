@@ -80,8 +80,8 @@ public class ReadmeExample : MonoBehaviour
 ## Examples
 `Examples\Resources` contains UI prefabs and a skybox material used in examples. `Examples\Common` contains scripts for ui controls, a camera rotator and a skybox generator.
 
-### <a href="http://syomus.com/ProceduralToolkit/BuildingGenerator">Buildings</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-building-generator.png">
+### <a href="http://syomus.com/ProceduralToolkit/Buildings">Buildings</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-buildings.png">
 
 A fully procedural building generator, creates entire mesh from scratch and paints it's vertices. Keep in mind that there is no uv map in the generated mesh so using using it with Standard shader is pointless. If you are interested, the building design is called [Khrushchyovka](https://en.wikipedia.org/wiki/Khrushchyovka).
 * BuildingGenerator: Main generator class. Generates buildings based on input configuration.
@@ -92,8 +92,8 @@ A fully procedural building generator, creates entire mesh from scratch and pain
 * ProceduralFacadePanel: Fully procedural facade panels for building generator.
 * RoofGenerator: A simple roof generator, generates a roof MeshDraft from a foundation polygon and a config.
 
-### <a href="http://syomus.com/ProceduralToolkit/ChairGenerator">Chairs</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-chair-generator.png">
+### <a href="http://syomus.com/ProceduralToolkit/Chairs">Chairs</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-chairs.png">
 
 A fully procedural chair generator, creates entire mesh from scratch and paints it's vertices.
 * ChairGenerator: Main generator class. Generates chairs based on input configuration.
@@ -101,8 +101,8 @@ A fully procedural chair generator, creates entire mesh from scratch and paints 
 * ChairGeneratorConfiguratorEditor: Custom inspector for ChairGeneratorConfigurator.
 * Armrests, Backs, Stretchers: Chair parts constructors.
 
-### <a href="http://syomus.com/ProceduralToolkit/LowPolyTerrainGenerator">Low Poly Terrain</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-low-poly-terrain-generator.png">
+### <a href="http://syomus.com/ProceduralToolkit/LowPolyTerrain">Low Poly Terrain</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-low-poly-terrain.png">
 
 A simple Perlin noise based low poly terrain generator. Doesn't support chunking or anything like that, just an example of how you can use a noise function in a plane generation algorithm.
 * LowPolyTerrainGenerator: Main generator class. Generates terrain based on input configuration.
@@ -131,8 +131,8 @@ A [Breakout](https://en.wikipedia.org/wiki/Breakout_(video_game)) clone with pro
 * BreakoutConfigurator: Configurator for the game with UI controls.
 * Brick: Disables game object on collision.
 
-### <a href="http://syomus.com/ProceduralToolkit/CharacterGenerator">Characters</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-character-generator.gif">
+### <a href="http://syomus.com/ProceduralToolkit/Characters">Characters</a>
+<img src="http://syomus.com/ProceduralToolkit/screenshot-characters.gif">
 
 A simple 2D character generator. Sprites made by <a href="http://kenney.nl/">Kenney</a>.
 * CharacterGenerator: Generates a sprite set and a name for character.
@@ -149,7 +149,6 @@ A demonstration of some of the available MeshDraft primitives.
 A collection of shaders showing how you can utilise functions from the shader library.
 
 ### Drawing
-<img src="http://syomus.com/ProceduralToolkit/screenshot-drawing.png">
 An example showing usage of DebugE, GLE and GizmosE.
 
 ### Common classes
