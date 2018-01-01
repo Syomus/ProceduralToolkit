@@ -1,8 +1,11 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 namespace ProceduralToolkit.Editor
 {
+    /// <summary>
+    /// PropertyDrawer for ColorHSV
+    /// </summary>
     [CustomPropertyDrawer(typeof(ColorHSV))]
     public class ColorHSVDrawer : PropertyDrawer
     {

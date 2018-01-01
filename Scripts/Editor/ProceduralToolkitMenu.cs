@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using UnityEditor;
 using UnityEngine;
 
 namespace ProceduralToolkit.Editor
 {
+    /// <summary>
+    /// Submenu with constructors for primitives at `GameObject > Procedural Toolkit`
+    /// </summary>
     public class ProceduralToolkitMenu
     {
         public const string version = "0.1.9";

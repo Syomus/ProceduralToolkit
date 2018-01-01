@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 
 namespace ProceduralToolkit.Editor
 {
+    /// <summary>
+    /// Mesh saving utility available at `MeshFilter context menu > Save Mesh`
+    /// </summary>
     public class MeshFilterExtension
     {
         private const string menuPath = "CONTEXT/MeshFilter/Save Mesh";

@@ -1,9 +1,12 @@
-﻿using System.Text;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
 namespace ProceduralToolkit.Editor
 {
+    /// <summary>
+    /// PropertyDrawer for CellularAutomaton.Ruleset
+    /// </summary>
     [CustomPropertyDrawer(typeof(CellularAutomaton.Ruleset))]
     public class RulesetDrawer : PropertyDrawer
     {
