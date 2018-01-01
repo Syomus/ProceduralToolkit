@@ -1,6 +1,10 @@
 #ifndef PROCEDURAL_TOOLKIT_COMMON_INCLUDED
 #define PROCEDURAL_TOOLKIT_COMMON_INCLUDED
 
+//
+// Collection of shaping and debug functions
+//
+
 #include "UnityCG.cginc"
 
 //

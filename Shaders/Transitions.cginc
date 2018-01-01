@@ -1,6 +1,10 @@
 #ifndef PROCEDURAL_TOOLKIT_TRANSITIONS_INCLUDED
 #define PROCEDURAL_TOOLKIT_TRANSITIONS_INCLUDED
 
+//
+// Collection of transition animations
+//
+
 #include "SDF.cginc"
 
 float HorizontalTransition01(float2 p, float time01)

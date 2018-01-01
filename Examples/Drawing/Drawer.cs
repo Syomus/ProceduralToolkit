@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// An example showing usage of DebugE, GLE and GizmosE
+    /// </summary>
     [ExecuteInEditMode]
     public class Drawer : MonoBehaviour
     {

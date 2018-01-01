@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ProceduralToolkit
 {
     /// <summary>
-    /// Collection of drawing method-independent generic drawing algorithms
+    /// Collection of generic vector and raster drawing algorithms
     /// </summary>
     public static partial class Draw
     {

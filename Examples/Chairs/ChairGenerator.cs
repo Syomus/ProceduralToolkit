@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace ProceduralToolkit.Examples
 {
     /// <summary>
-    /// A procedural chair generator
+    /// A fully procedural chair generator, creates entire mesh from scratch and paints it's vertices
     /// </summary>
     public static class ChairGenerator
     {

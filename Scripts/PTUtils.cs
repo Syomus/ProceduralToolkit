@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit
 {
     /// <summary>
-    /// Useful utility methods
+    /// Various useful methods and constants
     /// </summary>
     public static class PTUtils
     {

@@ -8,7 +8,7 @@ namespace ProceduralToolkit.Examples
     /// 2D character generator
     /// </summary>
     /// <remarks>
-    /// Sprites made by Tess Young https://www.patreon.com/chicmonster
+    /// Sprites made by Kenney http://kenney.nl/
     /// </remarks>
     public class CharacterGenerator : MonoBehaviour
     {

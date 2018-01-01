@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Collection of drawing methods similar to Debug.DrawLine
+    /// </summary>
     public static class DebugE
     {
         private static readonly Draw.DebugDrawLine drawLine;

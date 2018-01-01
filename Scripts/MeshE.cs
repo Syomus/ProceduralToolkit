@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit
 {
     /// <summary>
-    /// Mesh extensions and constructors for primitives
+    /// Mesh extensions
     /// </summary>
     public static class MeshE
     {

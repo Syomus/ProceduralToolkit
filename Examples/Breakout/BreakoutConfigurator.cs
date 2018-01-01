@@ -1,8 +1,11 @@
-﻿using ProceduralToolkit.Examples.UI;
+using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// Configurator for Breakout with UI controls
+    /// </summary>
     public class BreakoutConfigurator : ConfiguratorBase
     {
         public RectTransform leftPanel;

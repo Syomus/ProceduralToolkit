@@ -1,6 +1,10 @@
 #ifndef PROCEDURAL_TOOLKIT_EASING_INCLUDED
 #define PROCEDURAL_TOOLKIT_EASING_INCLUDED
 
+//
+// Normalized easing functions
+//
+
 #include "UnityCG.cginc"
 
 //

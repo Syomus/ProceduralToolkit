@@ -1,8 +1,11 @@
-﻿using ProceduralToolkit.Examples.UI;
+using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// Configurator for ChairGenerator with UI and editor controls
+    /// </summary>
     public class ChairGeneratorConfigurator : ConfiguratorBase
     {
         public MeshFilter chairMeshFilter;

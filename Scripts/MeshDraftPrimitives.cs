@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Helper class for procedural mesh generation
+    /// </summary>
     public partial class MeshDraft
     {
         #region Mesh parts

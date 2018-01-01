@@ -1,5 +1,9 @@
-﻿#ifndef PROCEDURAL_TOOLKIT_SDF_INCLUDED
+#ifndef PROCEDURAL_TOOLKIT_SDF_INCLUDED
 #define PROCEDURAL_TOOLKIT_SDF_INCLUDED
+
+//
+// Collection of signed distance functions
+//
 
 #include "UnityCG.cginc"
 #include "Common.cginc"

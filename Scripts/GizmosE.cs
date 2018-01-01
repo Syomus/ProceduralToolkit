@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Collection of drawing methods similar to Gizmos
+    /// </summary>
     public static class GizmosE
     {
         private static readonly Action<Vector3, Vector3> drawLine;

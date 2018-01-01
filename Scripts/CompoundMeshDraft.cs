@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Helper class for mesh generation supporting large meshes and submeshes
+    /// </summary>
     public class CompoundMeshDraft : IEnumerable<MeshDraft>
     {
         public string name = "";

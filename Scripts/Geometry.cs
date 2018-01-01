@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Collection of basic computational geometry algorithms (distance, intersection, closest point, etc.)
+    /// </summary>
     public static class Geometry
     {
         public const float Epsilon = 0.00001f;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 namespace ProceduralToolkit
 {
     /// <summary>
-    /// Class for generating random data. Contains extensions for arrays and other classes.
+    /// Class for generating random data. Contains extensions for arrays and other collections.
     /// </summary>
     public static class RandomE
     {

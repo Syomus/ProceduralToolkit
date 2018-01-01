@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// Configurator for LowPolyTerrainGenerator with UI and editor controls
+    /// </summary>
     public class LowPolyTerrainGeneratorConfigurator : ConfiguratorBase
     {
         public MeshFilter terrainMeshFilter;

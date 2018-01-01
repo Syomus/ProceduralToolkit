@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// A demonstration of CellularAutomaton from the main library, draws the automaton simulation on a texture.
+    /// Note that some of the rulesets need noise value different from the default setting.
+    /// </summary>
     public class CellularAutomatonConfigurator : ConfiguratorBase
     {
         public RectTransform leftPanel;

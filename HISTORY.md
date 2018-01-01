@@ -1,4 +1,4 @@
-﻿## Version history
+## Version history
 ### 0.1.9 (2017.03.23)
 #### Features:
 * Added CharacterGenerator example with integrated NameGenerator which replaces Datasets class

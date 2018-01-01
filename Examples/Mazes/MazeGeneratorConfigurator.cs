@@ -1,10 +1,13 @@
-﻿using System.Collections;
+using System.Collections;
 using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ProceduralToolkit.Examples
 {
+    /// <summary>
+    /// Configurator for MazeGenerator with UI controls
+    /// </summary>
     public class MazeGeneratorConfigurator : ConfiguratorBase
     {
         public RectTransform leftPanel;

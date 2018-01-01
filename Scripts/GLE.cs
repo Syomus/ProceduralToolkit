@@ -4,6 +4,9 @@ using UnityEngine.Rendering;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Collection of GL drawing methods similar to Gizmos
+    /// </summary>
     public static class GLE
     {
         public static readonly Material wireMaterial;
