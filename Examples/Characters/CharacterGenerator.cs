@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ProceduralToolkit.Examples
 {
@@ -12,17 +11,7 @@ namespace ProceduralToolkit.Examples
     /// </remarks>
     public class CharacterGenerator : MonoBehaviour
     {
-        public bool constantSeed = false;
-        public Text characterName;
-        public SpriteRenderer hairRenderer;
-        public SpriteRenderer bodyRenderer;
-        public SpriteRenderer headRenderer;
-        public SpriteRenderer chestRenderer;
-        public SpriteRenderer legsRenderer;
-        public SpriteRenderer feetRenderer;
-        public SpriteRenderer weaponRenderer;
-        public SpriteRenderer shieldRenderer;
-        [Space]
+        public Character character;
         public TextAsset namesJson;
         public List<Sprite> hairSprites = new List<Sprite>();
         public List<Sprite> bodySprites = new List<Sprite>();
@@ -38,51 +27,37 @@ namespace ProceduralToolkit.Examples
         private void Awake()
         {
             nameGenerator = new NameGenerator(namesJson);
-
-            Generate();
         }
 
-        private void Update()
+        public void Generate()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Generate();
-            }
-        }
+            character.characterName.text = nameGenerator.fullName;
+            character.hairRenderer.sprite = hairSprites.GetRandom();
+            character.bodyRenderer.sprite = bodySprites.GetRandom();
+            character.headRenderer.sprite = headSprites.GetRandom();
+            character.chestRenderer.sprite = chestSprites.GetRandom();
+            character.legsRenderer.sprite = legsSprites.GetRandom();
+            character.feetRenderer.sprite = feetSprites.GetRandom();
 
-        private void Generate()
-        {
-            if (constantSeed)
-            {
-                Random.InitState(0);
-            }
-
-            characterName.text = nameGenerator.fullName;
-            hairRenderer.sprite = hairSprites.GetRandom();
-            bodyRenderer.sprite = bodySprites.GetRandom();
-            headRenderer.sprite = headSprites.GetRandom();
-            chestRenderer.sprite = chestSprites.GetRandom();
-            legsRenderer.sprite = legsSprites.GetRandom();
-            feetRenderer.sprite = feetSprites.GetRandom();
             if (RandomE.Chance(0.3f))
             {
-                weaponRenderer.enabled = true;
-                weaponRenderer.sprite = weaponSprites.GetRandom();
+                character.weaponRenderer.enabled = true;
+                character.weaponRenderer.sprite = weaponSprites.GetRandom();
 
                 if (RandomE.Chance(0.3f))
                 {
-                    shieldRenderer.enabled = true;
-                    shieldRenderer.sprite = shieldSprites.GetRandom();
+                    character.shieldRenderer.enabled = true;
+                    character.shieldRenderer.sprite = shieldSprites.GetRandom();
                 }
                 else
                 {
-                    shieldRenderer.enabled = false;
+                    character.shieldRenderer.enabled = false;
                 }
             }
             else
             {
-                weaponRenderer.enabled = false;
-                shieldRenderer.enabled = false;
+                character.weaponRenderer.enabled = false;
+                character.shieldRenderer.enabled = false;
             }
         }
     }
