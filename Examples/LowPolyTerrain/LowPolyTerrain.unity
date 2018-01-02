@@ -356,7 +356,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 693684432}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -340, y: 0, z: 0}
+  m_LocalPosition: {x: -240, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 466175284}
@@ -364,8 +364,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 300, y: 0}
-  m_SizeDelta: {x: -300, y: 0}
+  m_AnchoredPosition: {x: 400, y: 0}
+  m_SizeDelta: {x: -400, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &957521123
 GameObject:
@@ -705,7 +705,7 @@ GameObject:
   - component: {fileID: 1778108170}
   - component: {fileID: 1778108169}
   m_Layer: 0
-  m_Name: LowPolyTerrainGenerator
+  m_Name: LowPolyTerrainGeneratorConfigurator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
