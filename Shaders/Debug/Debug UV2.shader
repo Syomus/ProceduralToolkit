@@ -1,4 +1,4 @@
-﻿Shader "Procedural Toolkit/Debug/UV2"
+Shader "Procedural Toolkit/Debug/UV2"
 {
     SubShader
     {

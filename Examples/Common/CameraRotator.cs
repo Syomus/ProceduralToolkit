@@ -7,7 +7,7 @@ namespace ProceduralToolkit.Examples
     /// <summary>
     /// Simple camera controller
     /// </summary>
-    [RequireComponent(typeof (Image))]
+    [RequireComponent(typeof(Image))]
     public class CameraRotator : UIBehaviour, IDragHandler
     {
         public Transform cameraTransform;

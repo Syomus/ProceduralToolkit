@@ -1,4 +1,4 @@
-﻿Shader "Procedural Toolkit/Debug/Binormals"
+Shader "Procedural Toolkit/Debug/Binormals"
 {
     SubShader
     {

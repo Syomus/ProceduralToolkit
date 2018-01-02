@@ -1,4 +1,4 @@
-﻿Shader "Procedural Toolkit/Debug/Tangents"
+Shader "Procedural Toolkit/Debug/Tangents"
 {
     SubShader
     {

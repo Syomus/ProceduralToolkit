@@ -1,4 +1,4 @@
-﻿Shader "Procedural Toolkit/Debug/Normals"
+Shader "Procedural Toolkit/Debug/Normals"
 {
     SubShader
     {
