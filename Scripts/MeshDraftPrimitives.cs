@@ -288,7 +288,7 @@ namespace ProceduralToolkit
 
         #endregion Platonic solids
 
-        public static MeshDraft Plane(float xSize = 1, float zSize = 1, int xSegments = 1, int zSegments = 1)
+        public static MeshDraft Plane(float xSize = 1, float zSize = 1, int xSegments = 1, int zSegments = 1, bool generateUV = true)
         {
             float xStep = xSize/xSegments;
             float zStep = zSize/zSegments;
@@ -298,16 +298,19 @@ namespace ProceduralToolkit
                 name = "Plane",
                 vertices = new List<Vector3>(vertexCount),
                 triangles = new List<int>(xSegments*zSegments*6),
-                normals = new List<Vector3>(vertexCount),
-                uv = new List<Vector2>(vertexCount)
+                normals = new List<Vector3>(vertexCount)
             };
+
             for (int z = 0; z <= zSegments; z++)
             {
                 for (int x = 0; x <= xSegments; x++)
                 {
                     draft.vertices.Add(new Vector3(x*xStep, 0f, z*zStep));
                     draft.normals.Add(Vector3.up);
-                    draft.uv.Add(new Vector2((float) x/xSegments, (float) z/zSegments));
+                    if (generateUV)
+                    {
+                        draft.uv.Add(new Vector2((float) x/xSegments, (float) z/zSegments));
+                    }
                 }
             }
 
