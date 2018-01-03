@@ -1,9 +1,9 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
-    [CustomEditor(typeof (LowPolyTerrainGeneratorConfigurator))]
+    [CustomEditor(typeof(LowPolyTerrainGeneratorConfigurator))]
     public class LowPolyTerrainGeneratorConfiguratorEditor : UnityEditor.Editor
     {
         private LowPolyTerrainGeneratorConfigurator generator;

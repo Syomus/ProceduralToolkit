@@ -1,9 +1,9 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
 {
-    [CustomEditor(typeof (ChairGeneratorConfigurator))]
+    [CustomEditor(typeof(ChairGeneratorConfigurator))]
     public class ChairGeneratorConfiguratorEditor : UnityEditor.Editor
     {
         private ChairGeneratorConfigurator generator;

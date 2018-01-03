@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace ProceduralToolkit.Examples.Primitives
 {
@@ -12,8 +12,7 @@ namespace ProceduralToolkit.Examples.Primitives
 
         private void Start()
         {
-            GetComponent<MeshFilter>().mesh =
-                MeshDraft.Spheroid(radius, height, horizontalSegments, verticalSegments).ToMesh();
+            GetComponent<MeshFilter>().mesh = MeshDraft.Spheroid(radius, height, horizontalSegments, verticalSegments).ToMesh();
         }
     }
 }

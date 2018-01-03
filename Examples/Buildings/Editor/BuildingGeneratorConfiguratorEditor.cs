@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 
 namespace ProceduralToolkit.Examples
 {
-    [CustomEditor(typeof (BuildingGeneratorConfigurator))]
+    [CustomEditor(typeof(BuildingGeneratorConfigurator))]
     public class BuildingGeneratorConfiguratorEditor : UnityEditor.Editor
     {
         private BuildingGeneratorConfigurator generator;
