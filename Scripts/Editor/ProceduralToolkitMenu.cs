@@ -100,7 +100,7 @@ namespace ProceduralToolkit.Editor
         [MenuItem(primitivesPath + sphere, false, other + 4)]
         public static void Sphere()
         {
-            PrimitiveTemplate(sphere, () => MeshDraft.Sphere(1, 16, 16).ToMesh());
+            PrimitiveTemplate(sphere, () => MeshDraft.Sphere(0.5f, 16, 16).ToMesh());
         }
 
         #endregion Other
