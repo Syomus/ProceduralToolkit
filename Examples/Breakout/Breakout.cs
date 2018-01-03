@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -50,7 +50,8 @@ namespace ProceduralToolkit.Examples
         private GameObject ball;
         private Transform ballTransform;
         private Rigidbody2D ballRigidbody;
-        private List<GameObject> bricks = new List<GameObject>();
+        private List<Brick> activeBricks = new List<Brick>();
+        private Queue<Brick> pool = new Queue<Brick>();
 
         private Dictionary<BrickSize, float> sizeValues = new Dictionary<BrickSize, float>
         {
@@ -62,14 +63,14 @@ namespace ProceduralToolkit.Examples
         {
             bricksContainer = new GameObject("Bricks").transform;
 
-            // Generate texture and sprite for bricks, paddle and ball
+            // Generate the sprite used for bricks, the paddle and the ball
             var texture = Texture2D.whiteTexture;
             whiteSprite = Sprite.Create(texture,
                 rect: new Rect(0, 0, texture.width, texture.width),
                 pivot: new Vector2(0.5f, 0.5f),
                 pixelsPerUnit: texture.width);
 
-            // Bouncy material for walls, paddle and everything else
+            // Bouncy material for everything to prevent the ball from stopping
             bouncyMaterial = new PhysicsMaterial2D {name = "Bouncy", bounciness = 1, friction = 0};
         }
 
@@ -89,7 +90,7 @@ namespace ProceduralToolkit.Examples
             float delta = Input.GetAxis("Horizontal")*Time.deltaTime*paddleSpeed;
             paddleTransform.position += new Vector3(delta, 0);
 
-            // Prevent paddle from penetrating walls
+            // Prevent the paddle from penetrating walls
             float halfWall = (config.wallWidth - 1)/2f;
             if (paddleTransform.position.x > halfWall)
             {
@@ -100,10 +101,10 @@ namespace ProceduralToolkit.Examples
                 paddleTransform.position = new Vector3(-halfWall, 0);
             }
 
-            // Ball should move with constant velocity
+            // The ball should move with a constant velocity
             ballRigidbody.velocity = ballRigidbody.velocity.normalized*config.ballVelocityMagnitude;
 
-            if (ballTransform.position.y < -0.1f)
+            if (ballTransform.position.y < -0.1f || activeBricks.Count == 0)
             {
                 ResetLevel();
             }
@@ -111,7 +112,7 @@ namespace ProceduralToolkit.Examples
             float angle = Vector2.Angle(ballRigidbody.velocity, Vector2.right);
             if (angle < 30 || angle > 150)
             {
-                // Prevent ball from bouncing between walls
+                // Prevent the ball from bouncing between walls
                 KickBallInRandomDirection();
             }
         }
@@ -158,19 +159,19 @@ namespace ProceduralToolkit.Examples
 
         private void GenerateLevel()
         {
-            // Destroy existing bricks
-            foreach (var brick in bricks)
+            // Return all active bricks to the pool
+            foreach (var brick in activeBricks)
             {
-                Object.Destroy(brick);
+                ReturnBrickToPool(brick);
             }
-            bricks.Clear();
+            activeBricks.Clear();
 
             for (int y = 0; y < config.wallHeight; y++)
             {
-                // Select color for current line
+                // Select a color for the current line
                 var currentColor = new ColorHSV(config.gradient.Evaluate(y/(config.wallHeight - 1f)));
 
-                // Generate brick sizes for current line
+                // Generate brick sizes for the current line
                 List<BrickSize> brickSizes = FillWallWithBricks(config.wallWidth);
 
                 Vector3 leftEdge = Vector3.left*config.wallWidth/2 +
@@ -180,11 +181,17 @@ namespace ProceduralToolkit.Examples
                     var brickSize = brickSizes[i];
                     var position = leftEdge + Vector3.right*sizeValues[brickSize]/2;
 
-                    // Randomize tint of current brick
+                    // Randomize the tint of the current brick
                     float colorValue = Random.Range(brickColorMinValue, brickColorMaxValue);
                     Color color = currentColor.WithV(colorValue).ToColor();
 
-                    bricks.Add(GenerateBrick(position, color, brickSize));
+                    var brick = GetBrick();
+                    brick.transform.position = position;
+                    brick.transform.localScale = new Vector3(sizeValues[brickSize], brickHeight);
+                    brick.spriteRenderer.color = color;
+
+                    activeBricks.Add(brick);
+
                     leftEdge.x += sizeValues[brickSize];
                 }
             }
@@ -193,15 +200,15 @@ namespace ProceduralToolkit.Examples
         private List<BrickSize> FillWallWithBricks(float width)
         {
             // https://en.wikipedia.org/wiki/Knapsack_problem
-            // We are using knapsack problem solver to fill fixed width with bricks of random width
+            // We are using knapsack problem solver to fill a fixed width with bricks of random width
             Dictionary<BrickSize, int> knapsack;
             float knapsackWidth;
             do
             {
-                // Prefill knapsack to get nicer distribution of widths
+                // Prefill the knapsack to get a nicer distribution of widths
                 knapsack = GetRandomKnapsack(width);
-                // Calculate sum of brick widths in knapsack
-                knapsackWidth = KnapsackWidth(knapsack);
+                // Calculate a sum of widths in the knapsack
+                knapsackWidth = CalculateKnapsackWidth(knapsack);
             } while (knapsackWidth > width);
 
             width -= knapsackWidth;
@@ -228,7 +235,7 @@ namespace ProceduralToolkit.Examples
             return knapsack;
         }
 
-        private float KnapsackWidth(Dictionary<BrickSize, int> knapsack)
+        private float CalculateKnapsackWidth(Dictionary<BrickSize, int> knapsack)
         {
             float knapsackWidth = 0f;
             foreach (var key in knapsack.Keys)
@@ -238,20 +245,44 @@ namespace ProceduralToolkit.Examples
             return knapsackWidth;
         }
 
-        private GameObject GenerateBrick(Vector3 position, Color color, BrickSize size)
+        private Brick GetBrick()
         {
-            var brick = new GameObject("Brick");
-            brick.transform.position = position;
-            brick.transform.parent = bricksContainer;
-            brick.transform.localScale = new Vector3(sizeValues[size], brickHeight);
+            Brick brick;
+            if (pool.Count > 0)
+            {
+                brick = pool.Dequeue();
+                brick.gameObject.SetActive(true);
+            }
+            else
+            {
+                brick = GenerateBrick();
+                brick.onHit += () =>
+                {
+                    activeBricks.Remove(brick);
+                    ReturnBrickToPool(brick);
+                };
+            }
+            return brick;
+        }
 
-            var brickRenderer = brick.AddComponent<SpriteRenderer>();
-            brickRenderer.sprite = whiteSprite;
-            brickRenderer.color = color;
+        private void ReturnBrickToPool(Brick brick)
+        {
+            brick.gameObject.SetActive(false);
+            pool.Enqueue(brick);
+        }
 
-            var brickCollider = brick.AddComponent<BoxCollider2D>();
+        private Brick GenerateBrick()
+        {
+            var go = new GameObject("Brick");
+            go.transform.parent = bricksContainer;
+
+            var brick = go.AddComponent<Brick>();
+
+            brick.spriteRenderer = go.AddComponent<SpriteRenderer>();
+            brick.spriteRenderer.sprite = whiteSprite;
+
+            var brickCollider = go.AddComponent<BoxCollider2D>();
             brickCollider.sharedMaterial = bouncyMaterial;
-            brick.AddComponent<Brick>();
             return brick;
         }
 
