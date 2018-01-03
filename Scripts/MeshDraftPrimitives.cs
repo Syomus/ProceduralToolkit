@@ -372,27 +372,77 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        public static MeshDraft Cylinder(float radius, int segments, float heignt)
+        public static MeshDraft Cylinder(float radius, int segments, float height, bool generateUV = true)
         {
             float segmentAngle = 360f/segments;
             float currentAngle = 0;
 
+            var draft = new MeshDraft {name = "Cylinder"};
             var lowerRing = new List<Vector3>(segments);
             var upperRing = new List<Vector3>(segments);
+            var upperDiskUV = new List<Vector2>(segments);
+            var lowerDiskUV = new List<Vector2>(segments);
+            var strip = new List<Vector3>();
+            var stripNormals = new List<Vector3>();
+            var stripUV = new List<Vector2>();
             for (var i = 0; i < segments; i++)
             {
-                var point = PTUtils.PointOnCircle3XZ(radius, currentAngle);
-                lowerRing.Add(point - Vector3.up*heignt/2);
-                upperRing.Add(point + Vector3.up*heignt/2);
-                currentAngle -= segmentAngle;
+                Vector3 lowerVertex;
+                Vector3 upperVertex;
+                AddCylinderPoints(radius, currentAngle, height, generateUV,
+                    ref strip, ref stripUV, ref stripNormals, out lowerVertex, out upperVertex);
+
+                lowerVertex.z = -lowerVertex.z;
+                lowerRing.Add(lowerVertex);
+                upperRing.Add(upperVertex);
+                if (generateUV)
+                {
+                    Vector2 uv = PTUtils.PointOnCircle2(0.5f, currentAngle);
+                    lowerDiskUV.Add(-uv + new Vector2(0.5f, 0.5f));
+                    upperDiskUV.Add(uv + new Vector2(0.5f, 0.5f));
+                }
+                currentAngle += segmentAngle;
             }
 
-            var draft = new MeshDraft {name = "Cylinder"}
-                .AddTriangleFan(lowerRing)
-                .Add(Band(lowerRing, upperRing));
-            upperRing.Reverse();
-            draft.AddTriangleFan(upperRing);
+            Vector3 lowerSeamVertex;
+            Vector3 upperSeamVertex;
+            AddCylinderPoints(radius, currentAngle, height, generateUV,
+                ref strip, ref stripUV, ref stripNormals, out lowerSeamVertex, out upperSeamVertex);
+
+            if (generateUV)
+            {
+                draft.AddTriangleFan(lowerRing, Vector3.down, lowerDiskUV);
+                draft.AddTriangleFan(upperRing, Vector3.up, upperDiskUV);
+                draft.AddTriangleStrip(strip, stripNormals, stripUV);
+            }
+            else
+            {
+                draft.AddTriangleFan(lowerRing, Vector3.down);
+                draft.AddTriangleFan(upperRing, Vector3.up);
+            }
             return draft;
+        }
+
+        private static void AddCylinderPoints(float radius, float currentAngle, float height, bool generateUV,
+            ref List<Vector3> vertices, ref List<Vector2> uv, ref List<Vector3> normals,
+            out Vector3 lowerVertex, out Vector3 upperVertex)
+        {
+            Vector3 normal = PTUtils.PointOnCircle3XZ(1, currentAngle);
+            Vector3 point = normal*radius;
+            upperVertex = point + Vector3.up*height/2;
+            lowerVertex = point - Vector3.up*height/2;
+
+            vertices.Add(upperVertex);
+            normals.Add(normal);
+            vertices.Add(lowerVertex);
+            normals.Add(normal);
+
+            if (generateUV)
+            {
+                float u = 1 - currentAngle/360;
+                uv.Add(new Vector2(u, 1));
+                uv.Add(new Vector2(u, 0));
+            }
         }
 
         public static MeshDraft FlatSphere(float radius, int horizontalSegments, int verticalSegments)
