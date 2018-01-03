@@ -11,18 +11,6 @@ namespace ProceduralToolkit
     {
         #region Mesh parts
 
-        public static MeshDraft Quad(Vector3 origin, Vector3 width, Vector3 height)
-        {
-            return new MeshDraft {name = "Quad"}.AddQuad(origin, width, height,
-                new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
-        }
-
-        public static MeshDraft Quad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
-        {
-            return new MeshDraft {name = "Quad"}.AddQuad(vertex0, vertex1, vertex2, vertex3,
-                new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
-        }
-
         public static MeshDraft BaselessPyramid(float radius, int segments, float height, bool inverted = false)
         {
             return BaselessPyramid(Vector3.zero, Vector3.up*height*(inverted ? -1 : 1), radius, segments, inverted);
@@ -287,6 +275,34 @@ namespace ProceduralToolkit
         }
 
         #endregion Platonic solids
+
+        public static MeshDraft Quad(Vector3 origin, Vector3 width, Vector3 height, bool generateUV = true)
+        {
+            var draft = new MeshDraft {name = "Quad"};
+            if (generateUV)
+            {
+                draft.AddQuad(origin, width, height, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
+            }
+            else
+            {
+                draft.AddQuad(origin, width, height);
+            }
+            return draft;
+        }
+
+        public static MeshDraft Quad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, bool generateUV = true)
+        {
+            var draft = new MeshDraft {name = "Quad"};
+            if (generateUV)
+            {
+                draft.AddQuad(vertex0, vertex1, vertex2, vertex3, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
+            }
+            else
+            {
+                draft.AddQuad(vertex0, vertex1, vertex2, vertex3);
+            }
+            return draft;
+        }
 
         public static MeshDraft Plane(float xSize = 1, float zSize = 1, int xSegments = 1, int zSegments = 1, bool generateUV = true)
         {
