@@ -94,7 +94,7 @@ namespace ProceduralToolkit.Editor
         [MenuItem(primitivesPath + cylinder, false, other + 3)]
         public static void Cylinder()
         {
-            PrimitiveTemplate(cylinder, () => MeshDraft.Cylinder(1, 16, 1).ToMesh());
+            PrimitiveTemplate(cylinder, () => MeshDraft.Cylinder(0.5f, 16, 2).ToMesh());
         }
 
         [MenuItem(primitivesPath + sphere, false, other + 4)]
