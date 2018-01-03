@@ -451,24 +451,23 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        public static MeshDraft Sphere(float radius, int horizontalSegments, int verticalSegments)
+        public static MeshDraft Sphere(float radius, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
-            var draft = Spheroid(radius, radius, horizontalSegments, verticalSegments);
+            var draft = Spheroid(radius, radius, horizontalSegments, verticalSegments, generateUV);
             draft.name = "Sphere";
             return draft;
         }
 
-        public static MeshDraft Spheroid(float radius, float height, int horizontalSegments, int verticalSegments)
+        public static MeshDraft Spheroid(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
-            var draft = RevolutionSurface(PTUtils.PointOnSpheroid, radius, height, horizontalSegments, verticalSegments);
+            var draft = RevolutionSurface(PTUtils.PointOnSpheroid, radius, height, horizontalSegments, verticalSegments, generateUV);
             draft.name = "Spheroid";
             return draft;
         }
 
-        public static MeshDraft Teardrop(float radius, float height, int horizontalSegments, int verticalSegments)
+        public static MeshDraft Teardrop(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
-            var draft = RevolutionSurface(PTUtils.PointOnTeardrop, radius, height, horizontalSegments,
-                verticalSegments);
+            var draft = RevolutionSurface(PTUtils.PointOnTeardrop, radius, height, horizontalSegments, verticalSegments, generateUV);
             draft.name = "Teardrop";
             return draft;
         }
@@ -478,7 +477,8 @@ namespace ProceduralToolkit
             float radius,
             float height,
             int horizontalSegments,
-            int verticalSegments)
+            int verticalSegments,
+            bool generateUV = true)
         {
             var draft = new MeshDraft {name = "Revolution surface"};
 
@@ -489,26 +489,31 @@ namespace ProceduralToolkit
             for (int ring = 0; ring <= verticalSegments; ring++)
             {
                 float currentHorizontalAngle = 0f;
-                for (int i = 0; i < horizontalSegments; i++)
+                for (int i = 0; i <= horizontalSegments; i++)
                 {
                     Vector3 point = surfaceFunction(radius, height, currentHorizontalAngle, currentVerticalAngle);
                     draft.vertices.Add(point);
                     draft.normals.Add(point.normalized);
-                    draft.uv.Add(new Vector2((float) i/horizontalSegments, (float) ring/verticalSegments));
+                    if (generateUV)
+                    {
+                        draft.uv.Add(new Vector2((float) i/horizontalSegments, (float) ring/verticalSegments));
+                    }
                     currentHorizontalAngle -= horizontalSegmentAngle;
                 }
                 currentVerticalAngle += verticalSegmentAngle;
             }
 
+            // Extra vertices due to the uvmap seam
+            int horizontalCount = horizontalSegments + 1;
             for (int ring = 0; ring < verticalSegments; ring++)
             {
                 int i0, i1, i2, i3;
-                for (int i = 0; i < horizontalSegments - 1; i++)
+                for (int i = 0; i < horizontalCount - 1; i++)
                 {
-                    i0 = ring*horizontalSegments + i;
-                    i1 = (ring + 1)*horizontalSegments + i;
-                    i2 = ring*horizontalSegments + i + 1;
-                    i3 = (ring + 1)*horizontalSegments + i + 1;
+                    i0 = ring*horizontalCount + i;
+                    i1 = (ring + 1)*horizontalCount + i;
+                    i2 = ring*horizontalCount + i + 1;
+                    i3 = (ring + 1)*horizontalCount + i + 1;
 
                     draft.triangles.Add(i0);
                     draft.triangles.Add(i1);
@@ -519,10 +524,10 @@ namespace ProceduralToolkit
                     draft.triangles.Add(i3);
                 }
 
-                i0 = (ring + 1)*horizontalSegments - 1;
-                i1 = (ring + 2)*horizontalSegments - 1;
-                i2 = ring*horizontalSegments;
-                i3 = (ring + 1)*horizontalSegments;
+                i0 = (ring + 1)*horizontalCount - 1;
+                i1 = (ring + 2)*horizontalCount - 1;
+                i2 = ring*horizontalCount;
+                i3 = (ring + 1)*horizontalCount;
 
                 draft.triangles.Add(i0);
                 draft.triangles.Add(i1);
