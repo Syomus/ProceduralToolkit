@@ -173,30 +173,46 @@ namespace ProceduralToolkit
                 .AddTriangle(vertices[0], vertices[3], vertices[1]);
         }
 
-        public static MeshDraft Cube(float side)
+        public static MeshDraft Cube(float side, bool generateUV = true)
         {
-            var draft = Hexahedron(side, side, side);
+            var draft = Hexahedron(side, side, side, generateUV);
             draft.name = "Cube";
             return draft;
         }
 
-        public static MeshDraft Hexahedron(float width, float length, float height)
+        public static MeshDraft Hexahedron(float width, float length, float height, bool generateUV = true)
         {
-            return Hexahedron(Vector3.right*width, Vector3.forward*length, Vector3.up*height);
+            return Hexahedron(Vector3.right*width, Vector3.forward*length, Vector3.up*height, generateUV);
         }
 
-        public static MeshDraft Hexahedron(Vector3 width, Vector3 length, Vector3 height)
+        public static MeshDraft Hexahedron(Vector3 width, Vector3 length, Vector3 height, bool generateUV = true)
         {
             Vector3 corner0 = -width/2 - length/2 - height/2;
             Vector3 corner1 = width/2 + length/2 + height/2;
-
-            return new MeshDraft {name = "Hexahedron"}
-                .AddQuad(corner0, length, width)
-                .AddQuad(corner0, width, height)
-                .AddQuad(corner0, height, length)
-                .AddQuad(corner1, -width, -length)
-                .AddQuad(corner1, -height, -width)
-                .AddQuad(corner1, -length, -height);
+            var draft = new MeshDraft {name = "Hexahedron"};
+            if (generateUV)
+            {
+                Vector2 uv0 = new Vector2(0, 0);
+                Vector2 uv1 = new Vector2(0, 1);
+                Vector2 uv2 = new Vector2(1, 1);
+                Vector2 uv3 = new Vector2(1, 0);
+                draft.AddQuad(corner0, length, width, uv3, uv0, uv1, uv2)
+                    .AddQuad(corner0, width, height, uv2, uv3, uv0, uv1)
+                    .AddQuad(corner0, height, length, uv3, uv0, uv1, uv2)
+                    .AddQuad(corner1, -width, -length, uv0, uv1, uv2, uv3)
+                    .AddQuad(corner1, -height, -width, uv1, uv2, uv3, uv0)
+                    .AddQuad(corner1, -length, -height, uv2, uv3, uv0, uv1);
+            }
+            else
+            {
+                draft.AddQuad(corner0, length, width)
+                    .AddQuad(corner0, width, height)
+                    .AddQuad(corner0, height, length)
+                    .AddQuad(corner1, -width, -length)
+                    .AddQuad(corner1, -height, -width)
+                    .AddQuad(corner1, -length, -height);
+            }
+            return draft;
         }
 
         public static MeshDraft Octahedron(float radius)

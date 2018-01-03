@@ -108,14 +108,14 @@ namespace ProceduralToolkit.Examples
 
         private static MeshDraft Leg0(Vector3 center, float width, float height)
         {
-            var draft = MeshDraft.Hexahedron(width, width, height);
+            var draft = MeshDraft.Hexahedron(width, width, height, false);
             draft.Move(center + Vector3.up*height/2);
             return draft;
         }
 
         private static MeshDraft Seat0(Vector3 center, float width, float length, float height)
         {
-            var draft = MeshDraft.Hexahedron(width, length, height);
+            var draft = MeshDraft.Hexahedron(width, length, height, false);
             draft.Move(center + Vector3.up*height/2);
             return draft;
         }
@@ -123,7 +123,7 @@ namespace ProceduralToolkit.Examples
         public static MeshDraft BeamDraft(Vector3 from, Vector3 to, float width, float rotation = 0)
         {
             var up = to - from;
-            var draft = MeshDraft.Hexahedron(width, width, up.magnitude);
+            var draft = MeshDraft.Hexahedron(width, width, up.magnitude, false);
             Vector3 direction = up;
             direction.y = 0;
             var quaternion = Quaternion.identity;
