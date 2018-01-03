@@ -23,9 +23,9 @@ namespace ProceduralToolkit
                 new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
         }
 
-        public static MeshDraft BaselessPyramid(float radius, int segments, float heignt, bool inverted = false)
+        public static MeshDraft BaselessPyramid(float radius, int segments, float height, bool inverted = false)
         {
-            return BaselessPyramid(Vector3.zero, Vector3.up*heignt*(inverted ? -1 : 1), radius, segments, inverted);
+            return BaselessPyramid(Vector3.zero, Vector3.up*height*(inverted ? -1 : 1), radius, segments, inverted);
         }
 
         public static MeshDraft BaselessPyramid(Vector3 baseCenter, Vector3 apex, float radius, int segments,
@@ -329,9 +329,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        public static MeshDraft Pyramid(float radius, int segments, float heignt, bool inverted = false)
+        public static MeshDraft Pyramid(float radius, int segments, float height, bool inverted = false)
         {
-            var draft = BaselessPyramid(radius, segments, heignt, inverted);
+            var draft = BaselessPyramid(radius, segments, height, inverted);
             var vertices = new List<Vector3>(segments);
             for (int i = draft.vertices.Count - 2; i >= 0; i -= 3)
             {
@@ -342,14 +342,14 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        public static MeshDraft BiPyramid(float radius, int segments, float heignt)
+        public static MeshDraft BiPyramid(float radius, int segments, float height)
         {
-            var draft = BaselessPyramid(radius, segments, heignt);
-            draft.Add(BaselessPyramid(radius, segments, heignt, true));
+            var draft = BaselessPyramid(radius, segments, height);
+            draft.Add(BaselessPyramid(radius, segments, height, true));
             return draft;
         }
 
-        public static MeshDraft Prism(float radius, int segments, float heignt)
+        public static MeshDraft Prism(float radius, int segments, float height)
         {
             float segmentAngle = 360f/segments;
             float currentAngle = 0;
@@ -359,8 +359,8 @@ namespace ProceduralToolkit
             for (var i = 0; i < segments; i++)
             {
                 var point = PTUtils.PointOnCircle3XZ(radius, currentAngle);
-                lowerRing.Add(point - Vector3.up*heignt/2);
-                upperRing.Add(point + Vector3.up*heignt/2);
+                lowerRing.Add(point - Vector3.up*height/2);
+                upperRing.Add(point + Vector3.up*height/2);
                 currentAngle -= segmentAngle;
             }
 

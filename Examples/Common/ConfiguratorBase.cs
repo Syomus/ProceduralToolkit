@@ -19,7 +19,7 @@ namespace ProceduralToolkit.Examples
             return control;
         }
 
-        public static MeshDraft Platform(float radius, float heignt, int segments = 128)
+        public static MeshDraft Platform(float radius, float height, int segments = 128)
         {
             float segmentAngle = 360f/segments;
             float currentAngle = 0;
@@ -28,8 +28,8 @@ namespace ProceduralToolkit.Examples
             var upperRing = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
-                var lowerPoint = PTUtils.PointOnCircle3XZ(radius + heignt, currentAngle);
-                lowerRing.Add(lowerPoint + Vector3.down*heignt);
+                var lowerPoint = PTUtils.PointOnCircle3XZ(radius + height, currentAngle);
+                lowerRing.Add(lowerPoint + Vector3.down*height);
 
                 var upperPoint = PTUtils.PointOnCircle3XZ(radius, currentAngle);
                 upperRing.Add(upperPoint);
