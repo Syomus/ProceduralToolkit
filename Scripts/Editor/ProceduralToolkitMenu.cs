@@ -88,7 +88,7 @@ namespace ProceduralToolkit.Editor
         [MenuItem(primitivesPath + prism, false, other + 2)]
         public static void Prism()
         {
-            PrimitiveTemplate(prism, () => MeshDraft.Prism(1, 16, 1).ToMesh());
+            PrimitiveTemplate(prism, () => MeshDraft.Prism(0.5f, 16, 2).ToMesh());
         }
 
         [MenuItem(primitivesPath + cylinder, false, other + 3)]
