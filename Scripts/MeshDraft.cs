@@ -681,6 +681,106 @@ namespace ProceduralToolkit
 
         #endregion AddFlatTriangleBand
 
+        #region AddFlatQuadBand
+
+        public MeshDraft AddFlatQuadBand(Vector3[] lowerRing, Vector3[] upperRing, bool generateUV)
+        {
+            if (lowerRing.Length != upperRing.Length)
+            {
+                throw new ArgumentException("Array sizes must be equal");
+            }
+            if (lowerRing.Length < 3)
+            {
+                throw new ArgumentException("Array sizes must be greater than 2");
+            }
+
+            Vector2 uv00 = new Vector2(0, 0);
+            Vector2 uv10 = new Vector2(1, 0);
+            Vector2 uv01 = new Vector2(0, 1);
+            Vector2 uv11 = new Vector2(1, 1);
+
+            Vector3 lower0, upper0, lower1, upper1;
+            for (int i = 0; i < lowerRing.Length - 1; i++)
+            {
+                lower0 = lowerRing[i];
+                lower1 = lowerRing[i + 1];
+                upper0 = upperRing[i];
+                upper1 = upperRing[i + 1];
+                if (generateUV)
+                {
+                    AddQuad(lower1, upper1, upper0, lower0, uv00, uv01, uv11, uv10);
+                }
+                else
+                {
+                    AddQuad(lower1, upper1, upper0, lower0);
+                }
+            }
+
+            lower0 = lowerRing[lowerRing.Length - 1];
+            lower1 = lowerRing[0];
+            upper0 = upperRing[upperRing.Length - 1];
+            upper1 = upperRing[0];
+            if (generateUV)
+            {
+                AddQuad(lower1, upper1, upper0, lower0, uv00, uv01, uv11, uv10);
+            }
+            else
+            {
+                AddQuad(lower1, upper1, upper0, lower0);
+            }
+            return this;
+        }
+
+        public MeshDraft AddFlatQuadBand(List<Vector3> lowerRing, List<Vector3> upperRing, bool generateUV)
+        {
+            if (lowerRing.Count != upperRing.Count)
+            {
+                throw new ArgumentException("Array sizes must be equal");
+            }
+            if (lowerRing.Count < 3)
+            {
+                throw new ArgumentException("Array sizes must be greater than 2");
+            }
+
+            Vector2 uv00 = new Vector2(0, 0);
+            Vector2 uv10 = new Vector2(1, 0);
+            Vector2 uv01 = new Vector2(0, 1);
+            Vector2 uv11 = new Vector2(1, 1);
+
+            Vector3 lower0, upper0, lower1, upper1;
+            for (int i = 0; i < lowerRing.Count - 1; i++)
+            {
+                lower0 = lowerRing[i];
+                lower1 = lowerRing[i + 1];
+                upper0 = upperRing[i];
+                upper1 = upperRing[i + 1];
+                if (generateUV)
+                {
+                    AddQuad(lower1, upper1, upper0, lower0, uv00, uv01, uv11, uv10);
+                }
+                else
+                {
+                    AddQuad(lower1, upper1, upper0, lower0);
+                }
+            }
+
+            lower0 = lowerRing[lowerRing.Count - 1];
+            lower1 = lowerRing[0];
+            upper0 = upperRing[upperRing.Count - 1];
+            upper1 = upperRing[0];
+            if (generateUV)
+            {
+                AddQuad(lower1, upper1, upper0, lower0, uv00, uv01, uv11, uv10);
+            }
+            else
+            {
+                AddQuad(lower1, upper1, upper0, lower0);
+            }
+            return this;
+        }
+
+        #endregion AddFlatQuadBand
+
         /// <summary>
         /// Clears all vertex data and all triangle indices
         /// </summary>
