@@ -224,7 +224,7 @@ namespace ProceduralToolkit
         /// </remarks>
         public MeshDraft AddTriangleFan(IList<Vector3> fan)
         {
-            Vector3 normal = Vector3.Cross(fan[1] - fan[0], fan[2] - fan[0]).normalized;
+            Vector3 normal = Vector3.Cross(fan[1] - fan[0], fan[fan.Count - 1] - fan[0]).normalized;
             return AddTriangleFan(fan, normal);
         }
 
