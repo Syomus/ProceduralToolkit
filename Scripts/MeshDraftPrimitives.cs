@@ -114,12 +114,12 @@ namespace ProceduralToolkit
             }
 
             var draft = new MeshDraft {name = "Dodecahedron"}
-                .AddTriangleFan(upperCap)
+                .AddTriangleFan(upperCap, Vector3.up)
                 .AddFlatTriangleBand(upperRing, upperCap, false)
                 .AddFlatTriangleBand(lowerRing, upperRing, false)
                 .AddFlatTriangleBand(lowerCap, lowerRing, false);
             Array.Reverse(lowerCap);
-            draft.AddTriangleFan(lowerCap);
+            draft.AddTriangleFan(lowerCap, Vector3.down);
             return draft;
         }
 
@@ -245,11 +245,11 @@ namespace ProceduralToolkit
                     uv[i] = PTUtils.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
                     currentAngle -= segmentAngle;
                 }
-                draft.AddTriangleFan(ring, uv);
+                draft.AddTriangleFan(ring, Vector3.down, uv);
             }
             else
             {
-                draft.AddTriangleFan(ring);
+                draft.AddTriangleFan(ring, Vector3.down);
             }
             draft.name = "Pyramid";
             return draft;
