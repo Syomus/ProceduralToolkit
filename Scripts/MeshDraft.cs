@@ -517,6 +517,164 @@ namespace ProceduralToolkit
 
         #endregion AddTriangleStrip
 
+        #region AddBaselessPyramid
+
+        public MeshDraft AddBaselessPyramid(Vector3 apex, Vector3[] ring, bool generateUV)
+        {
+            if (generateUV)
+            {
+                var uv00 = new Vector2(0, 0);
+                var uvApex = new Vector2(0.5f, 1);
+                var uv10 = new Vector2(1, 0);
+                for (var i = 0; i < ring.Length - 1; i++)
+                {
+                    AddTriangle(ring[i + 1], apex, ring[i], uv00, uvApex, uv10);
+                }
+                AddTriangle(ring[0], apex, ring[ring.Length - 1], uv00, uvApex, uv10);
+            }
+            else
+            {
+                for (var i = 0; i < ring.Length - 1; i++)
+                {
+                    AddTriangle(ring[i + 1], apex, ring[i]);
+                }
+                AddTriangle(ring[0], apex, ring[ring.Length - 1]);
+            }
+            return this;
+        }
+
+        public MeshDraft AddBaselessPyramid(Vector3 apex, List<Vector3> ring, bool generateUV)
+        {
+            if (generateUV)
+            {
+                var uv00 = new Vector2(0, 0);
+                var uvApex = new Vector2(0.5f, 1);
+                var uv10 = new Vector2(1, 0);
+                for (var i = 0; i < ring.Count - 1; i++)
+                {
+                    AddTriangle(ring[i + 1], apex, ring[i], uv00, uvApex, uv10);
+                }
+                AddTriangle(ring[0], apex, ring[ring.Count - 1], uv00, uvApex, uv10);
+            }
+            else
+            {
+                for (var i = 0; i < ring.Count - 1; i++)
+                {
+                    AddTriangle(ring[i + 1], apex, ring[i]);
+                }
+                AddTriangle(ring[0], apex, ring[ring.Count - 1]);
+            }
+            return this;
+        }
+
+        #endregion AddBaselessPyramid
+
+        #region AddFlatTriangleBand
+
+        public MeshDraft AddFlatTriangleBand(Vector3[] lowerRing, Vector3[] upperRing, bool generateUV)
+        {
+            if (lowerRing.Length != upperRing.Length)
+            {
+                throw new ArgumentException("Array sizes must be equal");
+            }
+            if (lowerRing.Length < 3)
+            {
+                throw new ArgumentException("Array sizes must be greater than 2");
+            }
+
+            Vector2 uv00 = new Vector2(0, 0);
+            Vector2 uv01 = new Vector2(0, 1);
+            Vector2 uv11 = new Vector2(1, 1);
+            Vector2 uv10 = new Vector2(1, 0);
+            Vector3 lower0, upper0, lower1, upper1;
+            for (int i = 0; i < lowerRing.Length - 1; i++)
+            {
+                lower0 = lowerRing[i];
+                lower1 = lowerRing[i + 1];
+                upper0 = upperRing[i];
+                upper1 = upperRing[i + 1];
+                if (generateUV)
+                {
+                    AddTriangle(lower1, upper0, lower0, uv00, uv11, uv10);
+                    AddTriangle(lower1, upper1, upper0, uv00, uv01, uv11);
+                }
+                else
+                {
+                    AddTriangle(lower1, upper0, lower0);
+                    AddTriangle(lower1, upper1, upper0);
+                }
+            }
+
+            lower0 = lowerRing[lowerRing.Length - 1];
+            lower1 = lowerRing[0];
+            upper0 = upperRing[upperRing.Length - 1];
+            upper1 = upperRing[0];
+            if (generateUV)
+            {
+                AddTriangle(lower1, upper0, lower0, uv00, uv11, uv10);
+                AddTriangle(lower1, upper1, upper0, uv00, uv01, uv11);
+            }
+            else
+            {
+                AddTriangle(lower1, upper0, lower0);
+                AddTriangle(lower1, upper1, upper0);
+            }
+            return this;
+        }
+
+        public MeshDraft AddFlatTriangleBand(List<Vector3> lowerRing, List<Vector3> upperRing, bool generateUV)
+        {
+            if (lowerRing.Count != upperRing.Count)
+            {
+                throw new ArgumentException("Array sizes must be equal");
+            }
+            if (lowerRing.Count < 3)
+            {
+                throw new ArgumentException("Array sizes must be greater than 2");
+            }
+
+            Vector2 uv00 = new Vector2(0, 0);
+            Vector2 uv01 = new Vector2(0, 1);
+            Vector2 uv11 = new Vector2(1, 1);
+            Vector2 uv10 = new Vector2(1, 0);
+            Vector3 lower0, upper0, lower1, upper1;
+            for (int i = 0; i < lowerRing.Count - 1; i++)
+            {
+                lower0 = lowerRing[i];
+                lower1 = lowerRing[i + 1];
+                upper0 = upperRing[i];
+                upper1 = upperRing[i + 1];
+                if (generateUV)
+                {
+                    AddTriangle(lower1, upper0, lower0, uv00, uv11, uv10);
+                    AddTriangle(lower1, upper1, upper0, uv00, uv01, uv11);
+                }
+                else
+                {
+                    AddTriangle(lower1, upper0, lower0);
+                    AddTriangle(lower1, upper1, upper0);
+                }
+            }
+
+            lower0 = lowerRing[lowerRing.Count - 1];
+            lower1 = lowerRing[0];
+            upper0 = upperRing[upperRing.Count - 1];
+            upper1 = upperRing[0];
+            if (generateUV)
+            {
+                AddTriangle(lower1, upper0, lower0, uv00, uv11, uv10);
+                AddTriangle(lower1, upper1, upper0, uv00, uv01, uv11);
+            }
+            else
+            {
+                AddTriangle(lower1, upper0, lower0);
+                AddTriangle(lower1, upper1, upper0);
+            }
+            return this;
+        }
+
+        #endregion AddFlatTriangleBand
+
         /// <summary>
         /// Clears all vertex data and all triangle indices
         /// </summary>
