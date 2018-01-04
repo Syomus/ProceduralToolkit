@@ -28,23 +28,20 @@ namespace ProceduralToolkit.Examples
             var upperRing = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
-                var lowerPoint = PTUtils.PointOnCircle3XZ(radius + height, currentAngle);
-                lowerRing.Add(lowerPoint + Vector3.down*height);
-
-                var upperPoint = PTUtils.PointOnCircle3XZ(radius, currentAngle);
-                upperRing.Add(upperPoint);
-                currentAngle -= segmentAngle;
+                lowerRing.Add(PTUtils.PointOnCircle3XZ(radius + height, currentAngle) + Vector3.down*height);
+                upperRing.Add(PTUtils.PointOnCircle3XZ(radius, currentAngle));
+                currentAngle += segmentAngle;
             }
 
-            var platform = new MeshDraft {name = "Platform"};
-            platform.Add(new MeshDraft()
-                .AddTriangleFan(lowerRing)
-                .Add(MeshDraft.Band(lowerRing, upperRing))
-                .Paint(new Color(0.5f, 0.5f, 0.5f, 1)));
+            var platform = new MeshDraft {name = "Platform"}
+                .AddFlatQuadBand(lowerRing, upperRing, false);
 
-            upperRing.Reverse();
+            lowerRing.Reverse();
+            platform.AddTriangleFan(lowerRing, Vector3.down)
+                .Paint(new Color(0.5f, 0.5f, 0.5f, 1));
+
             platform.Add(new MeshDraft()
-                .AddTriangleFan(upperRing)
+                .AddTriangleFan(upperRing, Vector3.up)
                 .Paint(new Color(0.8f, 0.8f, 0.8f, 1)));
 
             return platform;
