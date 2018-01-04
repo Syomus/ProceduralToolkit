@@ -222,24 +222,18 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan)
+        public MeshDraft AddTriangleFan(IList<Vector3> fan, bool reverseTriangles = false)
         {
             Vector3 normal = Vector3.Cross(fan[1] - fan[0], fan[fan.Count - 1] - fan[0]).normalized;
-            return AddTriangleFan(fan, normal);
+            return AddTriangleFan(fan, normal, reverseTriangles);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, Vector3 normal)
+        public MeshDraft AddTriangleFan(IList<Vector3> fan, Vector3 normal, bool reverseTriangles = false)
         {
-            for (int i = 1; i < fan.Count - 1; i++)
-            {
-                triangles.Add(0 + vertices.Count);
-                triangles.Add(i + vertices.Count);
-                triangles.Add(i + 1 + vertices.Count);
-            }
-            vertices.AddRange(fan);
+            AddTriangleFanVertices(fan, reverseTriangles);
             for (int i = 0; i < fan.Count; i++)
             {
                 normals.Add(normal);
@@ -250,15 +244,9 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, IList<Vector3> normals)
+        public MeshDraft AddTriangleFan(IList<Vector3> fan, IList<Vector3> normals, bool reverseTriangles = false)
         {
-            for (int i = 1; i < fan.Count - 1; i++)
-            {
-                triangles.Add(0 + vertices.Count);
-                triangles.Add(i + vertices.Count);
-                triangles.Add(i + 1 + vertices.Count);
-            }
-            vertices.AddRange(fan);
+            AddTriangleFanVertices(fan, reverseTriangles);
             this.normals.AddRange(normals);
             return this;
         }
@@ -266,28 +254,52 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, IList<Vector2> uv)
+        public MeshDraft AddTriangleFan(IList<Vector3> fan, IList<Vector2> uv, bool reverseTriangles = false)
         {
             this.uv.AddRange(uv);
-            return AddTriangleFan(fan);
+            return AddTriangleFan(fan, reverseTriangles);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, Vector3 normal, IList<Vector2> uv)
+        public MeshDraft AddTriangleFan(IList<Vector3> fan, Vector3 normal, IList<Vector2> uv, bool reverseTriangles = false)
         {
             this.uv.AddRange(uv);
-            return AddTriangleFan(fan, normal);
+            return AddTriangleFan(fan, normal, reverseTriangles);
         }
 
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, IList<Vector3> normals, IList<Vector2> uv)
+        public MeshDraft AddTriangleFan(IList<Vector3> fan, IList<Vector3> normals, IList<Vector2> uv, bool reverseTriangles = false)
         {
             this.uv.AddRange(uv);
-            return AddTriangleFan(fan, normals);
+            return AddTriangleFan(fan, normals, reverseTriangles);
+        }
+
+        private void AddTriangleFanVertices(IList<Vector3> fan, bool reverseTriangles)
+        {
+            int count = vertices.Count;
+            if (reverseTriangles)
+            {
+                for (int i = fan.Count - 1; i > 1; i--)
+                {
+                    triangles.Add(0 + count);
+                    triangles.Add(i + count);
+                    triangles.Add(i - 1 + count);
+                }
+            }
+            else
+            {
+                for (int i = 1; i < fan.Count - 1; i++)
+                {
+                    triangles.Add(0 + count);
+                    triangles.Add(i + count);
+                    triangles.Add(i + 1 + count);
+                }
+            }
+            vertices.AddRange(fan);
         }
 
         #endregion AddTriangleFan
@@ -373,26 +385,48 @@ namespace ProceduralToolkit
 
         #region AddBaselessPyramid
 
-        public MeshDraft AddBaselessPyramid(Vector3 apex, IList<Vector3> ring, bool generateUV)
+        public MeshDraft AddBaselessPyramid(Vector3 apex, IList<Vector3> ring, bool generateUV, bool reverseTriangles = false)
         {
             if (generateUV)
             {
                 var uv00 = new Vector2(0, 0);
                 var uvApex = new Vector2(0.5f, 1);
                 var uv10 = new Vector2(1, 0);
-                for (var i = 0; i < ring.Count - 1; i++)
+                if (reverseTriangles)
                 {
-                    AddTriangle(ring[i + 1], apex, ring[i], uv00, uvApex, uv10);
+                    for (int i = ring.Count - 1; i > 0; i--)
+                    {
+                        AddTriangle(ring[i - 1], apex, ring[i], uv00, uvApex, uv10);
+                    }
+                    AddTriangle(ring[ring.Count - 1], apex, ring[0], uv00, uvApex, uv10);
                 }
-                AddTriangle(ring[0], apex, ring[ring.Count - 1], uv00, uvApex, uv10);
+                else
+                {
+                    for (var i = 0; i < ring.Count - 1; i++)
+                    {
+                        AddTriangle(ring[i + 1], apex, ring[i], uv00, uvApex, uv10);
+                    }
+                    AddTriangle(ring[0], apex, ring[ring.Count - 1], uv00, uvApex, uv10);
+                }
             }
             else
             {
-                for (var i = 0; i < ring.Count - 1; i++)
+                if (reverseTriangles)
                 {
-                    AddTriangle(ring[i + 1], apex, ring[i]);
+                    for (int i = ring.Count - 1; i > 0; i--)
+                    {
+                        AddTriangle(ring[i - 1], apex, ring[i]);
+                    }
+                    AddTriangle(ring[ring.Count - 1], apex, ring[0]);
                 }
-                AddTriangle(ring[0], apex, ring[ring.Count - 1]);
+                else
+                {
+                    for (var i = 0; i < ring.Count - 1; i++)
+                    {
+                        AddTriangle(ring[i + 1], apex, ring[i]);
+                    }
+                    AddTriangle(ring[0], apex, ring[ring.Count - 1]);
+                }
             }
             return this;
         }

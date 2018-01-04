@@ -117,9 +117,8 @@ namespace ProceduralToolkit
                 .AddTriangleFan(upperCap, Vector3.up)
                 .AddFlatTriangleBand(upperRing, upperCap, false)
                 .AddFlatTriangleBand(lowerRing, upperRing, false)
-                .AddFlatTriangleBand(lowerCap, lowerRing, false);
-            Array.Reverse(lowerCap);
-            draft.AddTriangleFan(lowerCap, Vector3.down);
+                .AddFlatTriangleBand(lowerCap, lowerRing, false)
+                .AddTriangleFan(lowerCap, Vector3.down, true);
             return draft;
         }
 
@@ -143,9 +142,8 @@ namespace ProceduralToolkit
 
             var draft = new MeshDraft {name = "Icosahedron"}
                 .AddBaselessPyramid(new Vector3(0, radius, 0), upperRing, generateUV)
-                .AddFlatTriangleBand(lowerRing, upperRing, generateUV);
-            Array.Reverse(lowerRing);
-            draft.AddBaselessPyramid(new Vector3(0, -radius, 0), lowerRing, generateUV);
+                .AddFlatTriangleBand(lowerRing, upperRing, generateUV)
+                .AddBaselessPyramid(new Vector3(0, -radius, 0), lowerRing, generateUV, true);
             return draft;
         }
 
@@ -236,20 +234,22 @@ namespace ProceduralToolkit
             }
 
             var draft = new MeshDraft().AddBaselessPyramid(Vector3.up*height, ring, generateUV);
-            Array.Reverse(ring);
             if (generateUV)
             {
-                var uv = new Vector2[segments];
-                for (int i = segments - 1; i >= 0; i--)
+                var fanUV = new Vector2[segments];
+                currentAngle = 0;
+                for (var i = 0; i < segments; i++)
                 {
-                    uv[i] = PTUtils.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
-                    currentAngle -= segmentAngle;
+                    Vector2 uv = PTUtils.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
+                    uv.x = 1 - uv.x;
+                    fanUV[i] = uv;
+                    currentAngle += segmentAngle;
                 }
-                draft.AddTriangleFan(ring, Vector3.down, uv);
+                draft.AddTriangleFan(ring, Vector3.down, fanUV, true);
             }
             else
             {
-                draft.AddTriangleFan(ring, Vector3.down);
+                draft.AddTriangleFan(ring, Vector3.down, true);
             }
             draft.name = "Pyramid";
             return draft;
@@ -268,9 +268,8 @@ namespace ProceduralToolkit
             }
 
             var draft = new MeshDraft {name = "Bipyramid"}
-                .AddBaselessPyramid(Vector3.up*height/2, ring, generateUV);
-            Array.Reverse(ring);
-            draft.AddBaselessPyramid(Vector3.down*height/2, ring, generateUV);
+                .AddBaselessPyramid(Vector3.up*height/2, ring, generateUV)
+                .AddBaselessPyramid(Vector3.down*height/2, ring, generateUV, true);
             return draft;
         }
 
@@ -294,7 +293,7 @@ namespace ProceduralToolkit
                 {
                     Vector2 uv = PTUtils.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
                     upperDiskUV.Add(uv);
-                    uv.x = -uv.x;
+                    uv.x = 1 - uv.x;
                     lowerDiskUV.Add(uv);
                 }
                 currentAngle += segmentAngle;
@@ -302,18 +301,16 @@ namespace ProceduralToolkit
 
             var draft = new MeshDraft {name = "Prism"}
                 .AddFlatQuadBand(lowerRing, upperRing, generateUV);
-            lowerRing.Reverse();
-            lowerDiskUV.Reverse();
 
             if (generateUV)
             {
                 draft.AddTriangleFan(upperRing, Vector3.up, upperDiskUV)
-                    .AddTriangleFan(lowerRing, Vector3.down, lowerDiskUV);
+                    .AddTriangleFan(lowerRing, Vector3.down, lowerDiskUV, true);
             }
             else
             {
                 draft.AddTriangleFan(upperRing, Vector3.up)
-                    .AddTriangleFan(lowerRing, Vector3.down);
+                    .AddTriangleFan(lowerRing, Vector3.down, true);
             }
             return draft;
         }
@@ -339,14 +336,14 @@ namespace ProceduralToolkit
                 AddCylinderPoints(radius, currentAngle, halfHeightUp, generateUV,
                     ref strip, ref stripUV, ref stripNormals, out lowerVertex, out upperVertex);
 
-                lowerVertex.z = -lowerVertex.z;
                 lowerRing.Add(lowerVertex);
                 upperRing.Add(upperVertex);
                 if (generateUV)
                 {
-                    Vector2 uv = PTUtils.PointOnCircle2(0.5f, currentAngle);
-                    lowerDiskUV.Add(-uv + new Vector2(0.5f, 0.5f));
-                    upperDiskUV.Add(uv + new Vector2(0.5f, 0.5f));
+                    Vector2 uv = PTUtils.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
+                    upperDiskUV.Add(uv);
+                    uv.x = 1 - uv.x;
+                    lowerDiskUV.Add(uv);
                 }
                 currentAngle += segmentAngle;
             }
@@ -358,13 +355,13 @@ namespace ProceduralToolkit
 
             if (generateUV)
             {
-                draft.AddTriangleFan(lowerRing, Vector3.down, lowerDiskUV);
+                draft.AddTriangleFan(lowerRing, Vector3.down, lowerDiskUV, true);
                 draft.AddTriangleFan(upperRing, Vector3.up, upperDiskUV);
                 draft.AddTriangleStrip(strip, stripNormals, stripUV);
             }
             else
             {
-                draft.AddTriangleFan(lowerRing, Vector3.down);
+                draft.AddTriangleFan(lowerRing, Vector3.down, true);
                 draft.AddTriangleFan(upperRing, Vector3.up);
             }
             return draft;
