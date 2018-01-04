@@ -142,23 +142,34 @@ namespace ProceduralToolkit
 
         #region Platonic solids
 
-        public static MeshDraft Tetrahedron(float radius)
+        public static MeshDraft Tetrahedron(float radius, bool generateUV = true)
         {
             const float tetrahedralAngle = -19.471220333f;
-            const float segmentAngle = 120;
-            float currentAngle = 0;
 
-            var vertices = new List<Vector3>(4) {new Vector3(0, radius, 0)};
-            for (var i = 1; i < 4; i++)
+            var vertex0 = new Vector3(0, radius, 0);
+            var vertex1 = PTUtils.PointOnSphere(radius, 0, tetrahedralAngle);
+            var vertex2 = PTUtils.PointOnSphere(radius, 120, tetrahedralAngle);
+            var vertex3 = PTUtils.PointOnSphere(radius, 240, tetrahedralAngle);
+
+            var draft = new MeshDraft {name = "Tetrahedron"};
+            if (generateUV)
             {
-                vertices.Add(PTUtils.PointOnSphere(radius, currentAngle, tetrahedralAngle));
-                currentAngle += segmentAngle;
+                var uv0 = new Vector2(0, 0);
+                var uv1 = new Vector2(0.5f, 1);
+                var uv2 = new Vector2(1, 0);
+                draft.AddTriangle(vertex2, vertex0, vertex1, uv0, uv1, uv2)
+                    .AddTriangle(vertex2, vertex1, vertex3, uv0, uv1, uv2)
+                    .AddTriangle(vertex3, vertex0, vertex2, uv0, uv1, uv2)
+                    .AddTriangle(vertex1, vertex0, vertex3, uv0, uv1, uv2);
             }
-            return new MeshDraft {name = "Tetrahedron"}
-                .AddTriangle(vertices[0], vertices[1], vertices[2])
-                .AddTriangle(vertices[1], vertices[3], vertices[2])
-                .AddTriangle(vertices[0], vertices[2], vertices[3])
-                .AddTriangle(vertices[0], vertices[3], vertices[1]);
+            else
+            {
+                draft.AddTriangle(vertex2, vertex0, vertex1)
+                    .AddTriangle(vertex2, vertex1, vertex3)
+                    .AddTriangle(vertex3, vertex0, vertex2)
+                    .AddTriangle(vertex1, vertex0, vertex3);
+            }
+            return draft;
         }
 
         public static MeshDraft Cube(float side, bool generateUV = true)
