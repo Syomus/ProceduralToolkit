@@ -583,9 +583,12 @@ namespace ProceduralToolkit
             }
 
             Vector2 uv00 = new Vector2(0, 0);
-            Vector2 uv01 = new Vector2(0, 1);
-            Vector2 uv11 = new Vector2(1, 1);
+            Vector2 uvBottomCenter = new Vector2(0.5f, 0);
             Vector2 uv10 = new Vector2(1, 0);
+            Vector2 uv01 = new Vector2(0, 1);
+            Vector2 uvTopCenter = new Vector2(0.5f, 1);
+            Vector2 uv11 = new Vector2(1, 1);
+
             Vector3 lower0, upper0, lower1, upper1;
             for (int i = 0; i < lowerRing.Length - 1; i++)
             {
@@ -595,8 +598,8 @@ namespace ProceduralToolkit
                 upper1 = upperRing[i + 1];
                 if (generateUV)
                 {
-                    AddTriangle(lower1, upper0, lower0, uv00, uv11, uv10);
-                    AddTriangle(lower1, upper1, upper0, uv00, uv01, uv11);
+                    AddTriangle(lower1, upper0, lower0, uv00, uvTopCenter, uv10);
+                    AddTriangle(lower1, upper1, upper0, uvBottomCenter, uv01, uv11);
                 }
                 else
                 {
@@ -611,8 +614,8 @@ namespace ProceduralToolkit
             upper1 = upperRing[0];
             if (generateUV)
             {
-                AddTriangle(lower1, upper0, lower0, uv00, uv11, uv10);
-                AddTriangle(lower1, upper1, upper0, uv00, uv01, uv11);
+                AddTriangle(lower1, upper0, lower0, uv00, uvTopCenter, uv10);
+                AddTriangle(lower1, upper1, upper0, uvBottomCenter, uv01, uv11);
             }
             else
             {
@@ -634,9 +637,12 @@ namespace ProceduralToolkit
             }
 
             Vector2 uv00 = new Vector2(0, 0);
-            Vector2 uv01 = new Vector2(0, 1);
-            Vector2 uv11 = new Vector2(1, 1);
+            Vector2 uvBottomCenter = new Vector2(0.5f, 0);
             Vector2 uv10 = new Vector2(1, 0);
+            Vector2 uv01 = new Vector2(0, 1);
+            Vector2 uvTopCenter = new Vector2(0.5f, 1);
+            Vector2 uv11 = new Vector2(1, 1);
+
             Vector3 lower0, upper0, lower1, upper1;
             for (int i = 0; i < lowerRing.Count - 1; i++)
             {
@@ -646,8 +652,8 @@ namespace ProceduralToolkit
                 upper1 = upperRing[i + 1];
                 if (generateUV)
                 {
-                    AddTriangle(lower1, upper0, lower0, uv00, uv11, uv10);
-                    AddTriangle(lower1, upper1, upper0, uv00, uv01, uv11);
+                    AddTriangle(lower1, upper0, lower0, uv00, uvTopCenter, uv10);
+                    AddTriangle(lower1, upper1, upper0, uvBottomCenter, uv01, uv11);
                 }
                 else
                 {
@@ -662,8 +668,8 @@ namespace ProceduralToolkit
             upper1 = upperRing[0];
             if (generateUV)
             {
-                AddTriangle(lower1, upper0, lower0, uv00, uv11, uv10);
-                AddTriangle(lower1, upper1, upper0, uv00, uv01, uv11);
+                AddTriangle(lower1, upper0, lower0, uv00, uvTopCenter, uv10);
+                AddTriangle(lower1, upper1, upper0, uvBottomCenter, uv01, uv11);
             }
             else
             {
