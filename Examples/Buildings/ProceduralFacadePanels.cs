@@ -117,7 +117,7 @@ namespace ProceduralToolkit.Examples
             Vector3 frameDepth = Vector3.forward*WindowDepth;
             Vector3 frameSize = frameMax - frameMin;
 
-            var frame = MeshDraft.PartialBox(frameWidth, -frameDepth, frameHeight, Directions.All & ~Directions.ZAxis)
+            var frame = MeshDraft.PartialBox(frameWidth, -frameDepth, frameHeight, Directions.All & ~Directions.ZAxis, false)
                 .Move(frameMin + frameSize/2 + frameDepth/2);
 
             var wall = PerforatedQuad(min, max, frameMin, frameMax)
@@ -134,7 +134,8 @@ namespace ProceduralToolkit.Examples
                 Vector3 windowsillWidth = frameWidth + Vector3.right*WindowsillWidthOffset;
                 Vector3 windowsillDepth = Vector3.forward*WindowsillDepth;
                 Vector3 windowsillHeight = Vector3.up*WindowsillThickness;
-                var windowsill = MeshDraft.PartialBox(windowsillWidth, windowsillDepth, windowsillHeight, Directions.All & ~Directions.Forward)
+                var windowsill = MeshDraft.PartialBox(windowsillWidth, windowsillDepth, windowsillHeight,
+                        Directions.All & ~Directions.Forward, false)
                     .Move(frameMin + frameWidth/2 + frameDepth - windowsillDepth/2)
                     .Paint(frameColor);
                 windowsill.name = WallDraftName;
@@ -162,7 +163,7 @@ namespace ProceduralToolkit.Examples
             for (int i = 0; i < rodCount; i++)
             {
                 var rod = MeshDraft.PartialBox(frameWidth*2, frameLength, heightVector - frameHeight*2,
-                        Directions.Left | Directions.Back | Directions.Right)
+                        Directions.Left | Directions.Back | Directions.Right, false)
                     .Move(startPosition + right*(i + 1)*interval);
                 frame.Add(rod);
             }
@@ -173,7 +174,7 @@ namespace ProceduralToolkit.Examples
             Vector3 windowMax = windowMin + windowWidth + windowHeight;
             frame.Add(PerforatedQuad(min, max, windowMin, windowMax));
 
-            var hole = MeshDraft.PartialBox(windowWidth, frameLength, windowHeight, Directions.All & ~Directions.ZAxis)
+            var hole = MeshDraft.PartialBox(windowWidth, frameLength, windowHeight, Directions.All & ~Directions.ZAxis, false)
                 .Move(startPosition + widthVector/2)
                 .FlipFaces();
             frame.Add(hole);
@@ -263,7 +264,7 @@ namespace ProceduralToolkit.Examples
             Vector3 balconyDepth = Vector3.back*BalconyDepth;
 
             var balconyOuter = MeshDraft.PartialBox(widthVector, balconyDepth, balconyHeight,
-                Directions.All & ~Directions.Up & ~Directions.Back);
+                Directions.All & ~Directions.Up & ~Directions.Back, false);
             balconyOuter.FlipFaces();
             Vector3 balconyCenter = origin + widthVector/2 + balconyDepth/2 + balconyHeight/2;
             balconyOuter.Move(balconyCenter);
@@ -275,7 +276,7 @@ namespace ProceduralToolkit.Examples
             Vector3 innerDepthOffset = Vector3.back*BalconyThickness;
             Vector3 innerDepth = balconyDepth - innerDepthOffset;
             var balconyInner = MeshDraft.PartialBox(innerWidth, innerDepth, innerHeight,
-                Directions.All & ~Directions.Up & ~Directions.Back);
+                Directions.All & ~Directions.Up & ~Directions.Back, false);
             balconyInner.Move(balconyCenter - innerDepthOffset/2 + innerHeightOffset/2);
 
             Vector3 borderOrigin = origin + widthVector + balconyHeight;
@@ -316,7 +317,8 @@ namespace ProceduralToolkit.Examples
             Vector3 balconyHeight = Vector3.up*BalconyHeight;
             Vector3 balconyDepth = Vector3.back*BalconyDepth;
 
-            var balcony = MeshDraft.PartialBox(widthVector, balconyDepth, balconyHeight, Directions.All & ~Directions.Up & ~Directions.Back)
+            var balcony = MeshDraft.PartialBox(widthVector, balconyDepth, balconyHeight,
+                    Directions.All & ~Directions.Up & ~Directions.Back, false)
                 .FlipFaces()
                 .Move(origin + widthVector/2 + balconyDepth/2 + balconyHeight/2)
                 .Paint(wallColor);
@@ -355,7 +357,7 @@ namespace ProceduralToolkit.Examples
             var draft = Bracket(origin, widthVector, heightVector, doorOrigin, doorWidth, doorHeight)
                 .Paint(wallColor);
 
-            var doorFrame = MeshDraft.PartialBox(doorWidth, -doorThickness, doorHeight, Directions.All & ~Directions.ZAxis)
+            var doorFrame = MeshDraft.PartialBox(doorWidth, -doorThickness, doorHeight, Directions.All & ~Directions.ZAxis, false)
                 .Move(doorOrigin + doorWidth/2 + doorHeight/2 + doorThickness/2)
                 .Paint(doorColor);
             draft.Add(doorFrame);
@@ -373,7 +375,7 @@ namespace ProceduralToolkit.Examples
             Vector3 widthVector = Vector3.right*width;
             Vector3 lengthVector = Vector3.forward*EntranceRoofLength;
 
-            var roof = MeshDraft.PartialBox(widthVector, lengthVector, Vector3.up*EntranceRoofHeight, Directions.All & ~Directions.Forward)
+            var roof = MeshDraft.PartialBox(widthVector, lengthVector, Vector3.up*EntranceRoofHeight, Directions.All & ~Directions.Forward, false)
                 .Move(origin + widthVector/2 + Vector3.up*(height - EntranceRoofHeight/2) - lengthVector/2)
                 .Paint(roofColor);
             draft.Add(roof);
@@ -402,7 +404,7 @@ namespace ProceduralToolkit.Examples
             Vector3 windowOrigin = origin + widthVector/2 - windowWidth/2 + Vector3.up*SocleWindowHeightOffset;
             Vector3 windowMax = windowOrigin + windowWidth + windowHeigth;
 
-            var frame = MeshDraft.PartialBox(windowWidth, -windowDepth, windowHeigth, Directions.All & ~Directions.ZAxis)
+            var frame = MeshDraft.PartialBox(windowWidth, -windowDepth, windowHeigth, Directions.All & ~Directions.ZAxis, false)
                 .Move(windowOrigin + windowWidth/2 + windowHeigth/2 + windowDepth/2);
 
             var wall = PerforatedQuad(origin, origin + widthVector + heightVector, windowOrigin, windowMax)
@@ -433,7 +435,7 @@ namespace ProceduralToolkit.Examples
             var wall = PerforatedQuad(origin, origin + widthVector + heightVector, holeOrigin, holeOrigin + holeWidth + holeHeight)
                 .Paint(wallColor);
 
-            var hole = MeshDraft.PartialBox(holeWidth, holeDepth, holeHeight, Directions.All & ~Directions.Back)
+            var hole = MeshDraft.PartialBox(holeWidth, holeDepth, holeHeight, Directions.All & ~Directions.Back, false)
                 .Move(center + holeDepth/2)
                 .FlipFaces()
                 .Paint(holeColor);
