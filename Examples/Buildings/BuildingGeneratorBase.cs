@@ -11,8 +11,8 @@ namespace ProceduralToolkit.Examples
             var facadesDraft = new MeshDraft {name = "Facades"};
             for (int i = 0; i < foundationPolygon.Count; i++)
             {
-                Vector3 a = foundationPolygon[i].ToVector3XZ();
-                Vector3 b = foundationPolygon.GetLooped(i + 1).ToVector3XZ();
+                Vector3 a = foundationPolygon.GetLooped(i + 1).ToVector3XZ();
+                Vector3 b = foundationPolygon[i].ToVector3XZ();
                 facadesDraft.Add(GenerateFacadeMeshDraft(a, b, facadeLayouts[i]));
             }
             return facadesDraft;
@@ -23,8 +23,8 @@ namespace ProceduralToolkit.Examples
             var facadesDraft = new CompoundMeshDraft {name = "Facades"};
             for (int i = 0; i < foundationPolygon.Count; i++)
             {
-                Vector3 a = foundationPolygon[i].ToVector3XZ();
-                Vector3 b = foundationPolygon.GetLooped(i + 1).ToVector3XZ();
+                Vector3 a = foundationPolygon.GetLooped(i + 1).ToVector3XZ();
+                Vector3 b = foundationPolygon[i].ToVector3XZ();
                 facadesDraft.Add(GenerateFacadeCompoundMeshDraft(a, b, facadeLayouts[i]));
             }
             return facadesDraft;

@@ -15,7 +15,7 @@ namespace ProceduralToolkit.Examples
             float roofHeight,
             RoofConfig roofConfig)
         {
-            List<Vector2> roofPolygon = OffsetPolygon(foundationPolygon, -roofConfig.overhang);
+            List<Vector2> roofPolygon = OffsetPolygon(foundationPolygon, roofConfig.overhang);
 
             MeshDraft roofDraft;
             switch (roofConfig.type)
@@ -51,9 +51,9 @@ namespace ProceduralToolkit.Examples
         private static MeshDraft GenerateFlat(List<Vector2> roofPolygon, RoofConfig roofConfig)
         {
             Vector3 a = roofPolygon[0].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 b = roofPolygon[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 b = roofPolygon[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
             Vector3 c = roofPolygon[2].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 d = roofPolygon[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 d = roofPolygon[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
 
             var roofDraft = new MeshDraft();
             roofDraft.AddQuad(a, d, c, b, Vector3.up);
@@ -63,9 +63,9 @@ namespace ProceduralToolkit.Examples
         public static MeshDraft GenerateGabled(List<Vector2> roofPolygon, RoofConfig roofConfig)
         {
             Vector3 a = roofPolygon[0].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 b = roofPolygon[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 b = roofPolygon[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
             Vector3 c = roofPolygon[2].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 d = roofPolygon[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 d = roofPolygon[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
 
             Vector3 ridgeHeight = Vector3.up*GabledRoofHeight;
             Vector3 ridge0 = (a + d)/2 + ridgeHeight;
@@ -82,9 +82,9 @@ namespace ProceduralToolkit.Examples
         public static MeshDraft GenerateHipped(List<Vector2> roofPolygon, RoofConfig roofConfig)
         {
             Vector3 a = roofPolygon[0].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 b = roofPolygon[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 b = roofPolygon[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
             Vector3 c = roofPolygon[2].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 d = roofPolygon[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 d = roofPolygon[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
 
             Vector3 ridgeHeight = Vector3.up*HippedRoofHeight;
             Vector3 ridgeOffset = (b - a).normalized*2;
@@ -102,7 +102,7 @@ namespace ProceduralToolkit.Examples
         {
             List<Vector3> lowerRing = roofPolygon.ConvertAll(v => v.ToVector3XZ());
             List<Vector3> upperRing = roofPolygon.ConvertAll(v => v.ToVector3XZ() + Vector3.up*roofConfig.thickness);
-            var border = MeshDraft.FlatBand(lowerRing, upperRing);
+            var border = new MeshDraft().AddFlatQuadBand(lowerRing, upperRing, false);
             return border;
         }
 
@@ -110,7 +110,7 @@ namespace ProceduralToolkit.Examples
         {
             List<Vector3> lowerRing = foundationPolygon.ConvertAll(v => v.ToVector3XZ());
             List<Vector3> upperRing = roofPolygon.ConvertAll(v => v.ToVector3XZ());
-            var overhang = MeshDraft.FlatBand(lowerRing, upperRing);
+            var overhang = new MeshDraft().AddFlatQuadBand(lowerRing, upperRing, false);
             return overhang;
         }
 

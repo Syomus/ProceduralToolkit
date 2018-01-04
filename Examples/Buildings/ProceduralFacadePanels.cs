@@ -210,30 +210,30 @@ namespace ProceduralToolkit.Examples
             Vector3 doorWidth = Vector3.right*windowWidth.magnitude/(rodCount + 1);
             Vector3 doorHeight = windowHeightOffset + windowHeight;
 
-            Vector3 outerFrameOrigin = origin + Vector3.right*WindowWidthOffset;
+            Vector3 outerFrameOrigin = origin + Vector3.right*WindowWidthOffset + innerHeightOffset;
             List<Vector3> outerFrame = new List<Vector3>
             {
-                outerFrameOrigin + innerHeightOffset,
-                outerFrameOrigin + doorHeight,
-                outerFrameOrigin + windowWidth + doorHeight,
-                outerFrameOrigin + windowWidth + windowHeightOffset,
+                outerFrameOrigin,
+                outerFrameOrigin + doorWidth,
                 outerFrameOrigin + doorWidth + windowHeightOffset,
-                outerFrameOrigin + doorWidth + innerHeightOffset
+                outerFrameOrigin + windowWidth + windowHeightOffset,
+                outerFrameOrigin + windowWidth + doorHeight,
+                outerFrameOrigin + doorHeight,
             };
 
             var panel = new MeshDraft().AddTriangleStrip(new List<Vector3>
             {
                 outerFrame[0],
                 origin,
-                outerFrame[1],
+                outerFrame[5],
                 origin + heightVector,
-                outerFrame[2],
+                outerFrame[4],
                 origin + widthVector + heightVector,
                 outerFrame[3],
                 origin + widthVector,
-                outerFrame[4],
+                outerFrame[2],
                 origin + widthVector,
-                outerFrame[5]
+                outerFrame[1]
             }).Paint(wallColor);
 
             var innerFrame = new List<Vector3>();
@@ -241,7 +241,7 @@ namespace ProceduralToolkit.Examples
             {
                 innerFrame.Add(vertex + windowDepth);
             }
-            var frame = MeshDraft.FlatBand(innerFrame, outerFrame)
+            var frame = new MeshDraft().AddFlatQuadBand(innerFrame, outerFrame, false)
                 .Paint(wallColor);
 
             wall.Add(panel);
@@ -249,11 +249,9 @@ namespace ProceduralToolkit.Examples
             wall.name = WallDraftName;
 
             Vector3 windowpaneMin1 = outerFrame[0] + windowDepth;
-            Vector3 windowpaneMin2 = outerFrame[4] + windowDepth;
-            var windowpane = Windowpane(windowpaneMin1, windowpaneMin1 + doorWidth + doorHeight - innerHeightOffset,
-                frameColor, glassColor);
-            windowpane.Add(Windowpane(windowpaneMin2, windowpaneMin2 + windowWidth - doorWidth + windowHeight,
-                frameColor, glassColor));
+            Vector3 windowpaneMin2 = outerFrame[2] + windowDepth;
+            var windowpane = Windowpane(windowpaneMin1, windowpaneMin1 + doorWidth + doorHeight, frameColor, glassColor);
+            windowpane.Add(Windowpane(windowpaneMin2, windowpaneMin2 + windowWidth - doorWidth + windowHeight, frameColor, glassColor));
 
             return new CompoundMeshDraft().Add(wall).Add(windowpane);
         }

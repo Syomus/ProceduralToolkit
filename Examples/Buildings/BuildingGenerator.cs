@@ -37,9 +37,9 @@ namespace ProceduralToolkit.Examples
             var foundationPolygon = new List<Vector2>
             {
                 Vector2.left*config.length/2 + Vector2.down*config.width/2,
-                Vector2.right*config.length/2 + Vector2.down*config.width/2,
+                Vector2.left*config.length/2 + Vector2.up*config.width/2,
                 Vector2.right*config.length/2 + Vector2.up*config.width/2,
-                Vector2.left*config.length/2 + Vector2.up*config.width/2
+                Vector2.right*config.length/2 + Vector2.down*config.width/2,
             };
 
             commonConstructors[PanelType.Entrance] = constructors[PanelType.Entrance].GetRandom();
@@ -48,9 +48,9 @@ namespace ProceduralToolkit.Examples
             var facadeLayouts = new List<FacadeLayout>();
             for (int i = 0; i < foundationPolygon.Count; i++)
             {
-                Vector2 a = foundationPolygon[i];
-                Vector2 b = foundationPolygon.GetLooped(i + 1);
-                float? entranceInterval = i == 0 ? config.entranceInterval : (float?) null;
+                Vector2 a = foundationPolygon.GetLooped(i + 1);
+                Vector2 b = foundationPolygon[i];
+                float? entranceInterval = i == foundationPolygon.Count - 1 ? config.entranceInterval : (float?) null;
                 bool hasBalconies = RandomE.Chance(0.5f);
                 facadeLayouts.Add(GenerateFacade(a, b, config.floors, hasBalconies, config.hasAttic, entranceInterval));
             }
