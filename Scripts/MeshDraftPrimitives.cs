@@ -11,48 +11,9 @@ namespace ProceduralToolkit
     {
         #region Mesh parts
 
-        public static MeshDraft BaselessPyramid(float radius, int segments, float height, bool inverted = false)
-        {
-            return BaselessPyramid(Vector3.zero, Vector3.up*height*(inverted ? -1 : 1), radius, segments, inverted);
-        }
-
-        public static MeshDraft BaselessPyramid(Vector3 baseCenter, Vector3 apex, float radius, int segments,
-            bool inverted = false)
-        {
-            float segmentAngle = 360f/segments*(inverted ? -1 : 1);
-            float currentAngle = 0;
-
-            var vertices = new Vector3[segments + 1];
-            vertices[0] = apex;
-            for (var i = 1; i <= segments; i++)
-            {
-                vertices[i] = PTUtils.PointOnCircle3XZ(radius, currentAngle) + baseCenter;
-                currentAngle += segmentAngle;
-            }
-
-            var draft = new MeshDraft {name = "BaselessPyramid"};
-            for (var i = 1; i < segments; i++)
-            {
-                draft.AddTriangle(vertices[0], vertices[i], vertices[i + 1]);
-            }
-            draft.AddTriangle(vertices[0], vertices[vertices.Length - 1], vertices[1]);
-            return draft;
-        }
-
-        public static MeshDraft BaselessPyramid(Vector3 apex, List<Vector3> ring)
-        {
-            var draft = new MeshDraft {name = "BaselessPyramid"};
-            for (var i = 0; i < ring.Count - 1; i++)
-            {
-                draft.AddTriangle(apex, ring[i], ring[i + 1]);
-            }
-            draft.AddTriangle(apex, ring[ring.Count - 1], ring[0]);
-            return draft;
-        }
-
         public static MeshDraft Band(List<Vector3> lowerRing, List<Vector3> upperRing)
         {
-            var draft = new MeshDraft {name = "Band"};
+            var draft = new MeshDraft();
             if (lowerRing.Count < 3 || upperRing.Count < 3)
             {
                 throw new ArgumentException("Array sizes must be greater than 2");
@@ -107,7 +68,7 @@ namespace ProceduralToolkit
 
         public static MeshDraft FlatBand(List<Vector3> lowerRing, List<Vector3> upperRing)
         {
-            var draft = new MeshDraft {name = "Flat band"};
+            var draft = new MeshDraft();
             if (lowerRing.Count < 3 || upperRing.Count < 3)
             {
                 throw new ArgumentException("Array sizes must be greater than 2");
@@ -124,16 +85,16 @@ namespace ProceduralToolkit
                 v1 = upperRing[i];
                 v2 = lowerRing[i + 1];
                 v3 = upperRing[i + 1];
-                draft.AddTriangle(v0, v1, v2)
-                    .AddTriangle(v2, v1, v3);
+                draft.AddTriangle(v0, v1, v2);
+                draft.AddTriangle(v2, v1, v3);
             }
 
             v0 = lowerRing[lowerRing.Count - 1];
             v1 = upperRing[upperRing.Count - 1];
             v2 = lowerRing[0];
             v3 = upperRing[0];
-            draft.AddTriangle(v0, v1, v2)
-                .AddTriangle(v2, v1, v3);
+            draft.AddTriangle(v0, v1, v2);
+            draft.AddTriangle(v2, v1, v3);
 
             return draft;
         }
@@ -214,9 +175,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        public static MeshDraft Octahedron(float radius)
+        public static MeshDraft Octahedron(float radius, bool generateUV = true)
         {
-            var draft = BiPyramid(radius, 4, radius);
+            var draft = BiPyramid(radius, 4, radius*2, generateUV);
             draft.name = "Octahedron";
             return draft;
         }
@@ -226,62 +187,57 @@ namespace ProceduralToolkit
             const float magicAngle1 = 52.62263590f;
             const float magicAngle2 = 10.81231754f;
             const float segmentAngle = 72;
-            float currentAngle = 0;
-            var lowerCap = new List<Vector3>();
-            var lowerRing = new List<Vector3>();
-            for (var i = 0; i < 5; i++)
-            {
-                lowerCap.Add(PTUtils.PointOnSphere(radius, currentAngle, -magicAngle1));
-                lowerRing.Add(PTUtils.PointOnSphere(radius, currentAngle, -magicAngle2));
-                currentAngle -= segmentAngle;
-            }
 
-            currentAngle = -segmentAngle/2;
-            var upperCap = new List<Vector3>();
-            var upperRing = new List<Vector3>();
+            float lowerAngle = 0;
+            float upperAngle = segmentAngle/2;
+
+            var lowerCap = new Vector3[5];
+            var lowerRing = new Vector3[5];
+            var upperCap = new Vector3[5];
+            var upperRing = new Vector3[5];
             for (var i = 0; i < 5; i++)
             {
-                upperCap.Add(PTUtils.PointOnSphere(radius, currentAngle, magicAngle1));
-                upperRing.Add(PTUtils.PointOnSphere(radius, currentAngle, magicAngle2));
-                currentAngle -= segmentAngle;
+                lowerCap[i] = PTUtils.PointOnSphere(radius, lowerAngle, -magicAngle1);
+                lowerRing[i] = PTUtils.PointOnSphere(radius, lowerAngle, -magicAngle2);
+                upperCap[i] = PTUtils.PointOnSphere(radius, upperAngle, magicAngle1);
+                upperRing[i] = PTUtils.PointOnSphere(radius, upperAngle, magicAngle2);
+                lowerAngle += segmentAngle;
+                upperAngle += segmentAngle;
             }
 
             var draft = new MeshDraft {name = "Dodecahedron"}
-                .AddTriangleFan(lowerCap)
-                .Add(FlatBand(lowerCap, lowerRing))
-                .Add(FlatBand(lowerRing, upperRing))
-                .Add(FlatBand(upperRing, upperCap));
-            upperCap.Reverse();
-            draft.AddTriangleFan(upperCap);
+                .AddTriangleFan(upperCap)
+                .AddFlatTriangleBand(upperRing, upperCap, false)
+                .AddFlatTriangleBand(lowerRing, upperRing, false)
+                .AddFlatTriangleBand(lowerCap, lowerRing, false);
+            Array.Reverse(lowerCap);
+            draft.AddTriangleFan(lowerCap);
             return draft;
         }
 
-        public static MeshDraft Icosahedron(float radius)
+        public static MeshDraft Icosahedron(float radius, bool generateUV = true)
         {
             const float magicAngle = 26.56505f;
             const float segmentAngle = 72;
-            float currentAngle = 0;
 
-            var upperRing = new List<Vector3>(5);
+            float lowerAngle = 0;
+            float upperAngle = segmentAngle/2;
+
+            var lowerRing = new Vector3[5];
+            var upperRing = new Vector3[5];
             for (var i = 0; i < 5; i++)
             {
-                upperRing.Add(PTUtils.PointOnSphere(radius, currentAngle, magicAngle));
-                currentAngle -= segmentAngle;
+                lowerRing[i] = PTUtils.PointOnSphere(radius, lowerAngle, -magicAngle);
+                upperRing[i] = PTUtils.PointOnSphere(radius, upperAngle, magicAngle);
+                lowerAngle += segmentAngle;
+                upperAngle += segmentAngle;
             }
 
-            currentAngle = segmentAngle/2;
-            var lowerRing = new List<Vector3>(5);
-            for (var i = 0; i < 5; i++)
-            {
-                lowerRing.Add(PTUtils.PointOnSphere(radius, currentAngle, -magicAngle));
-                currentAngle -= segmentAngle;
-            }
-
-            var draft = BaselessPyramid(new Vector3(0, -radius, 0), lowerRing);
-            draft.Add(FlatBand(lowerRing, upperRing));
-            upperRing.Reverse();
-            draft.Add(BaselessPyramid(new Vector3(0, radius, 0), upperRing));
-            draft.name = "Icosahedron";
+            var draft = new MeshDraft {name = "Icosahedron"}
+                .AddBaselessPyramid(new Vector3(0, radius, 0), upperRing, generateUV)
+                .AddFlatTriangleBand(lowerRing, upperRing, generateUV);
+            Array.Reverse(lowerRing);
+            draft.AddBaselessPyramid(new Vector3(0, -radius, 0), lowerRing, generateUV);
             return draft;
         }
 
@@ -359,23 +315,54 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        public static MeshDraft Pyramid(float radius, int segments, float height, bool inverted = false)
+        public static MeshDraft Pyramid(float radius, int segments, float height, bool generateUV = true)
         {
-            var draft = BaselessPyramid(radius, segments, height, inverted);
-            var vertices = new List<Vector3>(segments);
-            for (int i = draft.vertices.Count - 2; i >= 0; i -= 3)
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
+
+            var ring = new Vector3[segments];
+            for (var i = 0; i < segments; i++)
             {
-                vertices.Add(draft.vertices[i]);
+                ring[i] = PTUtils.PointOnCircle3XZ(radius, currentAngle);
+                currentAngle += segmentAngle;
             }
-            draft.AddTriangleFan(vertices);
+
+            var draft = new MeshDraft().AddBaselessPyramid(Vector3.up*height, ring, generateUV);
+            Array.Reverse(ring);
+            if (generateUV)
+            {
+                var uv = new Vector2[segments];
+                for (int i = segments - 1; i >= 0; i--)
+                {
+                    uv[i] = PTUtils.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
+                    currentAngle -= segmentAngle;
+                }
+                draft.AddTriangleFan(ring, uv);
+            }
+            else
+            {
+                draft.AddTriangleFan(ring);
+            }
             draft.name = "Pyramid";
             return draft;
         }
 
-        public static MeshDraft BiPyramid(float radius, int segments, float height)
+        public static MeshDraft BiPyramid(float radius, int segments, float height, bool generateUV = true)
         {
-            var draft = BaselessPyramid(radius, segments, height);
-            draft.Add(BaselessPyramid(radius, segments, height, true));
+            float segmentAngle = 360f/segments;
+            float currentAngle = 0;
+
+            var ring = new Vector3[segments];
+            for (var i = 0; i < segments; i++)
+            {
+                ring[i] = PTUtils.PointOnCircle3XZ(radius, currentAngle);
+                currentAngle += segmentAngle;
+            }
+
+            var draft = new MeshDraft {name = "Bipyramid"}
+                .AddBaselessPyramid(Vector3.up*height/2, ring, generateUV);
+            Array.Reverse(ring);
+            draft.AddBaselessPyramid(Vector3.down*height/2, ring, generateUV);
             return draft;
         }
 
@@ -628,7 +615,7 @@ namespace ProceduralToolkit
             Vector3 corner0 = -width/2 - length/2 - height/2;
             Vector3 corner1 = width/2 + length/2 + height/2;
 
-            var draft = new MeshDraft {name = "Hexahedron"};
+            var draft = new MeshDraft {name = "Partial box"};
             if (parts.HasFlag(Directions.Left))
             {
                 draft.AddQuad(corner0, height, length);
