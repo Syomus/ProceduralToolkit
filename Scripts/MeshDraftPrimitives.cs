@@ -484,25 +484,23 @@ namespace ProceduralToolkit
             }
         }
 
-        public static MeshDraft FlatSphere(float radius, int horizontalSegments, int verticalSegments)
+        public static MeshDraft FlatSphere(float radius, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
-            var draft = FlatSpheroid(radius, radius, horizontalSegments, verticalSegments);
+            var draft = FlatSpheroid(radius, radius, horizontalSegments, verticalSegments, generateUV);
             draft.name = "Flat sphere";
             return draft;
         }
 
-        public static MeshDraft FlatSpheroid(float radius, float height, int horizontalSegments, int verticalSegments)
+        public static MeshDraft FlatSpheroid(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
-            var draft = FlatRevolutionSurface(PTUtils.PointOnSpheroid, radius, height, horizontalSegments,
-                verticalSegments);
+            var draft = FlatRevolutionSurface(PTUtils.PointOnSpheroid, radius, height, horizontalSegments, verticalSegments, generateUV);
             draft.name = "Flat spheroid";
             return draft;
         }
 
-        public static MeshDraft FlatTeardrop(float radius, float height, int horizontalSegments, int verticalSegments)
+        public static MeshDraft FlatTeardrop(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
-            var draft = FlatRevolutionSurface(PTUtils.PointOnTeardrop, radius, height, horizontalSegments,
-                verticalSegments);
+            var draft = FlatRevolutionSurface(PTUtils.PointOnTeardrop, radius, height, horizontalSegments, verticalSegments, generateUV);
             draft.name = "Flat teardrop";
             return draft;
         }
@@ -512,30 +510,56 @@ namespace ProceduralToolkit
             float radius,
             float height,
             int horizontalSegments,
-            int verticalSegments)
+            int verticalSegments,
+            bool generateUV = true)
         {
             float horizontalSegmentAngle = 360f/horizontalSegments;
             float verticalSegmentAngle = 180f/verticalSegments;
             float currentVerticalAngle = -90;
+            int horizontalCount = horizontalSegments + 1;
 
-            var rings = new List<List<Vector3>>(verticalSegments);
-            for (int i = 0; i <= verticalSegments; i++)
+            var ringsVertices = new List<List<Vector3>>(verticalSegments);
+            var ringsUV = new List<List<Vector2>>(verticalSegments);
+            for (int y = 0; y <= verticalSegments; y++)
             {
                 float currentHorizontalAngle = 0f;
-                var ring = new List<Vector3>(horizontalSegments);
-                for (int j = 0; j < horizontalSegments; j++)
+                var ringVertices = new List<Vector3>(horizontalCount);
+                var ringUV = new List<Vector2>(horizontalCount);
+
+                for (int x = 0; x <= horizontalSegments; x++)
                 {
-                    ring.Add(surfaceFunction(radius, height, currentHorizontalAngle, currentVerticalAngle));
-                    currentHorizontalAngle -= horizontalSegmentAngle;
+                    var point = surfaceFunction(radius, height, currentHorizontalAngle, currentVerticalAngle);
+                    ringVertices.Add(point);
+                    if (generateUV)
+                    {
+                        ringUV.Add(new Vector2(1 - (float) x/horizontalSegments, (float) y/verticalSegments));
+                    }
+                    currentHorizontalAngle += horizontalSegmentAngle;
                 }
-                rings.Add(ring);
+                ringsVertices.Add(ringVertices);
+                ringsUV.Add(ringUV);
                 currentVerticalAngle += verticalSegmentAngle;
             }
 
             var draft = new MeshDraft {name = "Flat revolution surface"};
-            for (int i = 0; i < rings.Count - 1; i++)
+            for (int y = 0; y < ringsVertices.Count - 1; y++)
             {
-                draft.Add(FlatBand(rings[i], rings[i + 1]));
+                var lowerRingVertices = ringsVertices[y];
+                var upperRingVertices = ringsVertices[y + 1];
+                var lowerRingUV = ringsUV[y];
+                var upperRingUV = ringsUV[y + 1];
+                for (int x = 0; x < horizontalSegments; x++)
+                {
+                    Vector3 v00 = lowerRingVertices[x + 1];
+                    Vector3 v01 = upperRingVertices[x + 1];
+                    Vector3 v11 = upperRingVertices[x];
+                    Vector3 v10 = lowerRingVertices[x];
+                    Vector2 uv00 = lowerRingUV[x + 1];
+                    Vector2 uv01 = upperRingUV[x + 1];
+                    Vector2 uv11 = upperRingUV[x];
+                    Vector2 uv10 = lowerRingUV[x];
+                    draft.AddQuad(v00, v01, v11, v10, uv00, uv01, uv11, uv10);
+                }
             }
             return draft;
         }
@@ -575,17 +599,17 @@ namespace ProceduralToolkit
             float verticalSegmentAngle = 180f/verticalSegments;
             float currentVerticalAngle = -90;
 
-            for (int ring = 0; ring <= verticalSegments; ring++)
+            for (int y = 0; y <= verticalSegments; y++)
             {
                 float currentHorizontalAngle = 0f;
-                for (int i = 0; i <= horizontalSegments; i++)
+                for (int x = 0; x <= horizontalSegments; x++)
                 {
                     Vector3 point = surfaceFunction(radius, height, currentHorizontalAngle, currentVerticalAngle);
                     draft.vertices.Add(point);
                     draft.normals.Add(point.normalized);
                     if (generateUV)
                     {
-                        draft.uv.Add(new Vector2((float) i/horizontalSegments, (float) ring/verticalSegments));
+                        draft.uv.Add(new Vector2((float) x/horizontalSegments, (float) y/verticalSegments));
                     }
                     currentHorizontalAngle -= horizontalSegmentAngle;
                 }
