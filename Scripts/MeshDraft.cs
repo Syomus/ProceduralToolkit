@@ -145,7 +145,7 @@ namespace ProceduralToolkit
 
         public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
         {
-            Vector3 normal = Vector3.Cross(vertex1 - vertex0, vertex2 - vertex0).normalized;
+            Vector3 normal = Vector3.Cross(vertex1 - vertex0, vertex3 - vertex0).normalized;
             return AddQuad(vertex0, vertex1, vertex2, vertex3, normal, normal, normal, normal);
         }
 
