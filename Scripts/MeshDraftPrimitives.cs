@@ -366,26 +366,47 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        public static MeshDraft Prism(float radius, int segments, float height)
+        public static MeshDraft Prism(float radius, int segments, float height, bool generateUV = true)
         {
             float segmentAngle = 360f/segments;
             float currentAngle = 0;
+            Vector3 halfHeightUp = Vector3.up*height/2;
 
             var lowerRing = new List<Vector3>(segments);
+            var lowerDiskUV = new List<Vector2>();
             var upperRing = new List<Vector3>(segments);
+            var upperDiskUV = new List<Vector2>();
             for (var i = 0; i < segments; i++)
             {
                 var point = PTUtils.PointOnCircle3XZ(radius, currentAngle);
-                lowerRing.Add(point - Vector3.up*height/2);
-                upperRing.Add(point + Vector3.up*height/2);
-                currentAngle -= segmentAngle;
+                lowerRing.Add(point - halfHeightUp);
+                upperRing.Add(point + halfHeightUp);
+
+                if (generateUV)
+                {
+                    Vector2 uv = PTUtils.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
+                    upperDiskUV.Add(uv);
+                    uv.x = -uv.x;
+                    lowerDiskUV.Add(uv);
+                }
+                currentAngle += segmentAngle;
             }
 
             var draft = new MeshDraft {name = "Prism"}
-                .AddTriangleFan(lowerRing)
-                .Add(FlatBand(lowerRing, upperRing));
-            upperRing.Reverse();
-            draft.AddTriangleFan(upperRing);
+                .AddFlatQuadBand(lowerRing, upperRing, generateUV);
+            lowerRing.Reverse();
+            lowerDiskUV.Reverse();
+
+            if (generateUV)
+            {
+                draft.AddTriangleFan(upperRing, Vector3.up, upperDiskUV)
+                    .AddTriangleFan(lowerRing, Vector3.down, lowerDiskUV);
+            }
+            else
+            {
+                draft.AddTriangleFan(upperRing, Vector3.up)
+                    .AddTriangleFan(lowerRing, Vector3.down);
+            }
             return draft;
         }
 
@@ -393,12 +414,13 @@ namespace ProceduralToolkit
         {
             float segmentAngle = 360f/segments;
             float currentAngle = 0;
+            Vector3 halfHeightUp = Vector3.up*height/2;
 
             var draft = new MeshDraft {name = "Cylinder"};
             var lowerRing = new List<Vector3>(segments);
+            var lowerDiskUV = new List<Vector2>();
             var upperRing = new List<Vector3>(segments);
-            var upperDiskUV = new List<Vector2>(segments);
-            var lowerDiskUV = new List<Vector2>(segments);
+            var upperDiskUV = new List<Vector2>();
             var strip = new List<Vector3>();
             var stripNormals = new List<Vector3>();
             var stripUV = new List<Vector2>();
@@ -406,7 +428,7 @@ namespace ProceduralToolkit
             {
                 Vector3 lowerVertex;
                 Vector3 upperVertex;
-                AddCylinderPoints(radius, currentAngle, height, generateUV,
+                AddCylinderPoints(radius, currentAngle, halfHeightUp, generateUV,
                     ref strip, ref stripUV, ref stripNormals, out lowerVertex, out upperVertex);
 
                 lowerVertex.z = -lowerVertex.z;
@@ -423,7 +445,7 @@ namespace ProceduralToolkit
 
             Vector3 lowerSeamVertex;
             Vector3 upperSeamVertex;
-            AddCylinderPoints(radius, currentAngle, height, generateUV,
+            AddCylinderPoints(radius, currentAngle, halfHeightUp, generateUV,
                 ref strip, ref stripUV, ref stripNormals, out lowerSeamVertex, out upperSeamVertex);
 
             if (generateUV)
@@ -440,14 +462,14 @@ namespace ProceduralToolkit
             return draft;
         }
 
-        private static void AddCylinderPoints(float radius, float currentAngle, float height, bool generateUV,
+        private static void AddCylinderPoints(float radius, float currentAngle, Vector3 halfHeightUp, bool generateUV,
             ref List<Vector3> vertices, ref List<Vector2> uv, ref List<Vector3> normals,
             out Vector3 lowerVertex, out Vector3 upperVertex)
         {
             Vector3 normal = PTUtils.PointOnCircle3XZ(1, currentAngle);
             Vector3 point = normal*radius;
-            upperVertex = point + Vector3.up*height/2;
-            lowerVertex = point - Vector3.up*height/2;
+            lowerVertex = point - halfHeightUp;
+            upperVertex = point + halfHeightUp;
 
             vertices.Add(upperVertex);
             normals.Add(normal);
