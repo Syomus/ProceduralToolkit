@@ -28,65 +28,33 @@ namespace ProceduralToolkit
         /// <summary>
         /// Looped indexer getter, allows out of bounds indices
         /// </summary>
-        public static T GetLooped<T>(this T[] array, int index)
+        public static T GetLooped<T>(this IList<T> list, int index)
         {
             while (index < 0)
             {
-                index += array.Length;
+                index += list.Count;
             }
-            if (index >= array.Length)
+            if (index >= list.Count)
             {
-                index %= array.Length;
+                index %= list.Count;
             }
-            return array[index];
+            return list[index];
         }
 
         /// <summary>
-        /// Looped indexer setter, allows out of bounds indices
+        /// Looped indexer setter, allows out of bounds indices, ignores IList.IsReadOnly
         /// </summary>
-        public static void SetLooped<T>(this T[] array, int index, T value)
+        public static void SetLooped<T>(this IList<T> list, int index, T value)
         {
             while (index < 0)
             {
-                index += array.Length;
+                index += list.Count;
             }
-            if (index >= array.Length)
+            if (index >= list.Count)
             {
-                index %= array.Length;
+                index %= list.Count;
             }
-            array[index] = value;
-        }
-
-        /// <summary>
-        /// Looped indexer getter, allows out of bounds indices
-        /// </summary>
-        public static T GetLooped<T>(this List<T> array, int index)
-        {
-            while (index < 0)
-            {
-                index += array.Count;
-            }
-            if (index >= array.Count)
-            {
-                index %= array.Count;
-            }
-            return array[index];
-        }
-
-        /// <summary>
-        /// Looped indexer setter, allows out of bounds indices
-        /// </summary>
-        public static void SetLooped<T>(this List<T> array, int index, T value)
-        {
-            while (index < 0)
-            {
-                index += array.Count;
-            }
-            if (index >= array.Count)
-            {
-                index %= array.Count;
-            }
-            array[index] = value;
+            list[index] = value;
         }
 
         /// <summary>

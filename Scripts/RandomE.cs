@@ -259,33 +259,17 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random element
         /// </summary>
-        public static T GetRandom<T>(this List<T> items)
+        public static T GetRandom<T>(this IList<T> list)
         {
-            if (items == null)
+            if (list == null)
             {
-                throw new ArgumentNullException("items");
+                throw new ArgumentNullException("list");
             }
-            if (items.Count == 0)
+            if (list.Count == 0)
             {
-                throw new ArgumentException("Empty array");
+                throw new ArgumentException("Empty list");
             }
-            return items[Random.Range(0, items.Count)];
-        }
-
-        /// <summary>
-        /// Returns a random element
-        /// </summary>
-        public static T GetRandom<T>(this T[] items)
-        {
-            if (items == null)
-            {
-                throw new ArgumentNullException("items");
-            }
-            if (items.Length == 0)
-            {
-                throw new ArgumentException("Empty array");
-            }
-            return items[Random.Range(0, items.Length)];
+            return list[Random.Range(0, list.Count)];
         }
 
         /// <summary>
@@ -306,7 +290,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random value from dictionary
+        /// Returns a random value from the dictionary
         /// </summary>
         public static TValue GetRandom<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
         {
@@ -323,10 +307,10 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random element with chances for roll of each element based on <paramref name="weights"/>
+        /// Returns a random element with the chances of rolling based on <paramref name="weights"/>
         /// </summary>
         /// <param name="weights">Positive floats representing chances</param>
-        public static T GetRandom<T>(this List<T> list, List<float> weights)
+        public static T GetRandom<T>(this IList<T> list, IList<float> weights)
         {
             if (list == null)
             {
@@ -334,7 +318,7 @@ namespace ProceduralToolkit
             }
             if (list.Count == 0)
             {
-                throw new ArgumentException("Empty array");
+                throw new ArgumentException("Empty list");
             }
             if (weights == null)
             {
@@ -370,7 +354,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random character from string
+        /// Returns a random character from the string
         /// </summary>
         public static char GetRandom(this string chars)
         {
@@ -399,21 +383,21 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random element and removes it from list
+        /// Returns a random element and removes it from the list
         /// </summary>
-        public static T PopRandom<T>(this List<T> items)
+        public static T PopRandom<T>(this List<T> list)
         {
-            if (items == null)
+            if (list == null)
             {
-                throw new ArgumentNullException("items");
+                throw new ArgumentNullException("list");
             }
-            if (items.Count == 0)
+            if (list.Count == 0)
             {
-                throw new ArgumentException("Empty array");
+                throw new ArgumentException("Empty list");
             }
-            var index = Random.Range(0, items.Count);
-            var item = items[index];
-            items.RemoveAt(index);
+            var index = Random.Range(0, list.Count);
+            var item = list[index];
+            list.RemoveAt(index);
             return item;
         }
 
@@ -423,39 +407,18 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Fisher–Yates_shuffle
         /// </remarks>
-        public static void Shuffle<T>(this T[] array)
+        public static void Shuffle<T>(this IList<T> list)
         {
-            if (array == null)
+            if (list == null)
             {
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException("list");
             }
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                int j = Random.Range(i, array.Length);
-                T tmp = array[j];
-                array[j] = array[i];
-                array[i] = tmp;
-            }
-        }
-
-        /// <summary>
-        /// Fisher–Yates shuffle
-        /// </summary>
-        /// <remarks>
-        /// https://en.wikipedia.org/wiki/Fisher–Yates_shuffle
-        /// </remarks>
-        public static void Shuffle<T>(this List<T> array)
-        {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
-            for (int i = 0; i < array.Count; i++)
-            {
-                int j = Random.Range(i, array.Count);
-                T tmp = array[j];
-                array[j] = array[i];
-                array[i] = tmp;
+                int j = Random.Range(i, list.Count);
+                T tmp = list[j];
+                list[j] = list[i];
+                list[i] = tmp;
             }
         }
 
