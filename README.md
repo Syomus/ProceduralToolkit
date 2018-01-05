@@ -146,7 +146,9 @@ A [Breakout](https://en.wikipedia.org/wiki/Breakout_(video_game)) clone with pro
 <img src="http://syomus.com/ProceduralToolkit/screenshot-characters.gif">
 
 A simple 2D character generator. Sprites made by <a href="http://kenney.nl/">Kenney</a>.
+* Character: A container for sprite renderers
 * CharacterGenerator: Generates a sprite set and a name for character.
+* CharacterGeneratorConfigurator: Configurator for CharacterGenerator.
 * NameGenerator: Generates a random name from a large array of names.
 
 ### <a href="http://syomus.com/ProceduralToolkit/Primitives">Primitives</a>
