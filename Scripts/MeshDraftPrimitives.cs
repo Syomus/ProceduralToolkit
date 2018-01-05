@@ -525,13 +525,12 @@ namespace ProceduralToolkit
             int horizontalCount = horizontalSegments + 1;
             for (int ring = 0; ring < verticalSegments; ring++)
             {
-                int i0, i1, i2, i3;
                 for (int i = 0; i < horizontalCount - 1; i++)
                 {
-                    i0 = ring*horizontalCount + i;
-                    i1 = (ring + 1)*horizontalCount + i;
-                    i2 = ring*horizontalCount + i + 1;
-                    i3 = (ring + 1)*horizontalCount + i + 1;
+                    int i0 = ring*horizontalCount + i;
+                    int i1 = (ring + 1)*horizontalCount + i;
+                    int i2 = ring*horizontalCount + i + 1;
+                    int i3 = (ring + 1)*horizontalCount + i + 1;
 
                     draft.triangles.Add(i0);
                     draft.triangles.Add(i1);
@@ -541,19 +540,6 @@ namespace ProceduralToolkit
                     draft.triangles.Add(i1);
                     draft.triangles.Add(i3);
                 }
-
-                i0 = (ring + 1)*horizontalCount - 1;
-                i1 = (ring + 2)*horizontalCount - 1;
-                i2 = ring*horizontalCount;
-                i3 = (ring + 1)*horizontalCount;
-
-                draft.triangles.Add(i0);
-                draft.triangles.Add(i1);
-                draft.triangles.Add(i2);
-
-                draft.triangles.Add(i2);
-                draft.triangles.Add(i1);
-                draft.triangles.Add(i3);
             }
             return draft;
         }
