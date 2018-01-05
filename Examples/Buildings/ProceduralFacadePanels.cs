@@ -328,7 +328,7 @@ namespace ProceduralToolkit.Examples
             Vector3 roof2 = roof1 + balconyDepth;
             Vector3 roof3 = roof0 + balconyDepth;
             var roof = new MeshDraft()
-                .AddQuad(roof0, roof1, roof2, roof3)
+                .AddQuad(roof0, roof1, roof2, roof3, Vector3.up)
                 .Paint(roofColor);
 
             var wall = new MeshDraft {name = WallDraftName}.Add(balcony).Add(roof);
