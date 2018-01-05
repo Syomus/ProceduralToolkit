@@ -55,8 +55,15 @@ namespace ProceduralToolkit
 
         public static MeshDraft Hexahedron(Vector3 width, Vector3 length, Vector3 height, bool generateUV = true)
         {
-            Vector3 corner0 = -width/2 - length/2 - height/2;
-            Vector3 corner1 = width/2 + length/2 + height/2;
+            Vector3 v000 = -width/2 - length/2 - height/2;
+            Vector3 v001 = v000 + height;
+            Vector3 v010 = v000 + width;
+            Vector3 v011 = v000 + width + height;
+            Vector3 v100 = v000 + length;
+            Vector3 v101 = v000 + length + height;
+            Vector3 v110 = v000 + width + length;
+            Vector3 v111 = v000 + width + length + height;
+
             var draft = new MeshDraft {name = "Hexahedron"};
             if (generateUV)
             {
@@ -64,21 +71,21 @@ namespace ProceduralToolkit
                 Vector2 uv1 = new Vector2(0, 1);
                 Vector2 uv2 = new Vector2(1, 1);
                 Vector2 uv3 = new Vector2(1, 0);
-                draft.AddQuad(corner0, length, width, uv3, uv0, uv1, uv2)
-                    .AddQuad(corner0, width, height, uv0, uv1, uv2, uv3)
-                    .AddQuad(corner0, height, length, uv3, uv0, uv1, uv2)
-                    .AddQuad(corner1, -width, -length, uv0, uv1, uv2, uv3)
-                    .AddQuad(corner1, -height, -width, uv1, uv2, uv3, uv0)
-                    .AddQuad(corner1, -length, -height, uv2, uv3, uv0, uv1);
+                draft.AddQuad(v100, v101, v001, v000, Vector3.left, uv0, uv1, uv2, uv3)
+                    .AddQuad(v010, v011, v111, v110, Vector3.right, uv0, uv1, uv2, uv3)
+                    .AddQuad(v010, v110, v100, v000, Vector3.down, uv0, uv1, uv2, uv3)
+                    .AddQuad(v111, v011, v001, v101, Vector3.up, uv0, uv1, uv2, uv3)
+                    .AddQuad(v000, v001, v011, v010, Vector3.back, uv0, uv1, uv2, uv3)
+                    .AddQuad(v110, v111, v101, v100, Vector3.forward, uv0, uv1, uv2, uv3);
             }
             else
             {
-                draft.AddQuad(corner0, length, width)
-                    .AddQuad(corner0, width, height)
-                    .AddQuad(corner0, height, length)
-                    .AddQuad(corner1, -width, -length)
-                    .AddQuad(corner1, -height, -width)
-                    .AddQuad(corner1, -length, -height);
+                draft.AddQuad(v100, v101, v001, v000, Vector3.left)
+                    .AddQuad(v010, v011, v111, v110, Vector3.right)
+                    .AddQuad(v010, v110, v100, v000, Vector3.down)
+                    .AddQuad(v111, v011, v001, v101, Vector3.up)
+                    .AddQuad(v000, v001, v011, v010, Vector3.back)
+                    .AddQuad(v110, v111, v101, v100, Vector3.forward);
             }
             return draft;
         }
@@ -549,8 +556,14 @@ namespace ProceduralToolkit
         /// </summary>
         public static MeshDraft PartialBox(Vector3 width, Vector3 length, Vector3 height, Directions parts, bool generateUV = true)
         {
-            Vector3 corner0 = -width/2 - length/2 - height/2;
-            Vector3 corner1 = width/2 + length/2 + height/2;
+            Vector3 v000 = -width/2 - length/2 - height/2;
+            Vector3 v001 = v000 + height;
+            Vector3 v010 = v000 + width;
+            Vector3 v011 = v000 + width + height;
+            Vector3 v100 = v000 + length;
+            Vector3 v101 = v000 + length + height;
+            Vector3 v110 = v000 + width + length;
+            Vector3 v111 = v000 + width + length + height;
 
             var draft = new MeshDraft {name = "Partial box"};
 
@@ -561,21 +574,21 @@ namespace ProceduralToolkit
                 Vector2 uv2 = new Vector2(1, 1);
                 Vector2 uv3 = new Vector2(1, 0);
 
-                if (parts.HasFlag(Directions.Down)) draft.AddQuad(corner0, length, width, uv3, uv0, uv1, uv2);
-                if (parts.HasFlag(Directions.Back)) draft.AddQuad(corner0, width, height, uv0, uv1, uv2, uv3);
-                if (parts.HasFlag(Directions.Left)) draft.AddQuad(corner0, height, length, uv3, uv0, uv1, uv2);
-                if (parts.HasFlag(Directions.Up)) draft.AddQuad(corner1, -width, -length, uv0, uv1, uv2, uv3);
-                if (parts.HasFlag(Directions.Forward)) draft.AddQuad(corner1, -height, -width, uv1, uv2, uv3, uv0);
-                if (parts.HasFlag(Directions.Right)) draft.AddQuad(corner1, -length, -height, uv2, uv3, uv0, uv1);
+                if (parts.HasFlag(Directions.Left)) draft.AddQuad(v100, v101, v001, v000, Vector3.left, uv0, uv1, uv2, uv3);
+                if (parts.HasFlag(Directions.Right)) draft.AddQuad(v010, v011, v111, v110, Vector3.right, uv0, uv1, uv2, uv3);
+                if (parts.HasFlag(Directions.Down)) draft.AddQuad(v010, v110, v100, v000, Vector3.down, uv0, uv1, uv2, uv3);
+                if (parts.HasFlag(Directions.Up)) draft.AddQuad(v111, v011, v001, v101, Vector3.up, uv0, uv1, uv2, uv3);
+                if (parts.HasFlag(Directions.Back)) draft.AddQuad(v000, v001, v011, v010, Vector3.back, uv0, uv1, uv2, uv3);
+                if (parts.HasFlag(Directions.Forward)) draft.AddQuad(v110, v111, v101, v100, Vector3.forward, uv0, uv1, uv2, uv3);
             }
             else
             {
-                if (parts.HasFlag(Directions.Down)) draft.AddQuad(corner0, length, width);
-                if (parts.HasFlag(Directions.Back)) draft.AddQuad(corner0, width, height);
-                if (parts.HasFlag(Directions.Left)) draft.AddQuad(corner0, height, length);
-                if (parts.HasFlag(Directions.Up)) draft.AddQuad(corner1, -width, -length);
-                if (parts.HasFlag(Directions.Forward)) draft.AddQuad(corner1, -height, -width);
-                if (parts.HasFlag(Directions.Right)) draft.AddQuad(corner1, -length, -height);
+                if (parts.HasFlag(Directions.Left)) draft.AddQuad(v100, v101, v001, v000, Vector3.left);
+                if (parts.HasFlag(Directions.Right)) draft.AddQuad(v010, v011, v111, v110, Vector3.right);
+                if (parts.HasFlag(Directions.Down)) draft.AddQuad(v010, v110, v100, v000, Vector3.down);
+                if (parts.HasFlag(Directions.Up)) draft.AddQuad(v111, v011, v001, v101, Vector3.up);
+                if (parts.HasFlag(Directions.Back)) draft.AddQuad(v000, v001, v011, v010, Vector3.back);
+                if (parts.HasFlag(Directions.Forward)) draft.AddQuad(v110, v111, v101, v100, Vector3.forward);
             }
             return draft;
         }
