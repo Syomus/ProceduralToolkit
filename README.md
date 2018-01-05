@@ -120,7 +120,7 @@ A collection of shaders showing how you can utilise functions from the shader li
 * Transitions: An example showing the sequencing and animation techniques.
 * Animation: A more complex example on how you can create patterns and animate them in shader.
 
-### <a href="http://syomus.com/ProceduralToolkit/CellularAutomaton">Cellular Automata</a>
+### <a href="http://syomus.com/ProceduralToolkit/CellularAutomata">Cellular Automata</a>
 <img src="http://syomus.com/ProceduralToolkit/screenshot-cellular-automata.png">
 
 A demonstration of CellularAutomaton from the main library, draws the automaton simulation on a texture. Note that some of the rulesets need noise value different from the default setting.
