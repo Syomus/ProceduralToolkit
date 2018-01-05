@@ -114,7 +114,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Reverses winding order of mesh triangles
+        /// Reverses the winding order of mesh triangles
         /// </summary>
         public static void FlipTriangles(this Mesh mesh)
         {
@@ -134,7 +134,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Reverses direction of mesh normals
+        /// Reverses the direction of mesh normals
         /// </summary>
         public static void FlipNormals(this Mesh mesh)
         {
@@ -151,7 +151,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Flips UV map horizontally in selected <paramref name="channel"/>
+        /// Flips the UV map horizontally in the selected <paramref name="channel"/>
         /// </summary>
         public static void FlipUVHorizontally(this Mesh mesh, int channel = 0)
         {
@@ -169,7 +169,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Flips UV map vertically in selected <paramref name="channel"/>
+        /// Flips the UV map vertically in the selected <paramref name="channel"/>
         /// </summary>
         public static void FlipUVVertically(this Mesh mesh, int channel = 0)
         {
@@ -187,7 +187,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects vertices on a sphere with given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
+        /// Projects vertices on a sphere with the given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
         /// </summary>
         public static void Spherify(this Mesh mesh, float radius, Vector3 center = default(Vector3))
         {

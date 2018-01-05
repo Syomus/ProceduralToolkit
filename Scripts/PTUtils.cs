@@ -19,7 +19,7 @@ namespace ProceduralToolkit
         public const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <summary>
-        /// Digits from zero to nine
+        /// Digits from 0 to 9
         /// </summary>
         public const string digits = "0123456789";
 
@@ -34,7 +34,7 @@ namespace ProceduralToolkit
         public const string alphanumerics = letters + digits;
 
         /// <summary>
-        /// Returns point on circle in the XY plane
+        /// Returns a point on a circle in the XY plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="angle">Angle in degrees</param>
@@ -45,7 +45,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns list of points on circle in the XY plane
+        /// Returns a list of points on a circle in the XY plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="segments">Number of circle segments</param>
@@ -63,7 +63,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns point on circle in the XY plane
+        /// Returns a point on a circle in the XY plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="angle">Angle in degrees</param>
@@ -74,7 +74,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns list of points on circle in the XY plane
+        /// Returns a list of points on a circle in the XY plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="segments">Number of circle segments</param>
@@ -92,7 +92,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns point on circle in the XZ plane
+        /// Returns a point on a circle in the XZ plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="angle">Angle in degrees</param>
@@ -103,7 +103,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns list of points on circle in the XZ plane
+        /// Returns a list of points on a circle in the XZ plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="segments">Number of circle segments</param>
@@ -121,7 +121,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns point on circle in the YZ plane
+        /// Returns a point on a circle in the YZ plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="angle">Angle in degrees</param>
@@ -132,7 +132,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns list of points on circle in the YZ plane
+        /// Returns a list of points on a circle in the YZ plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="segments">Number of circle segments</param>
@@ -150,7 +150,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns point on sphere in geographic coordinate system
+        /// Returns a point on a sphere in geographic coordinate system
         /// </summary>
         /// <param name="radius">Sphere radius</param>
         /// <param name="horizontalAngle">Horizontal angle in degrees [0, 360]</param>
@@ -161,7 +161,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns point on spheroid in geographic coordinate system
+        /// Returns a point on a spheroid in geographic coordinate system
         /// </summary>
         /// <param name="radius">Spheroid radius</param>
         /// <param name="height">Spheroid height</param>
@@ -180,7 +180,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a point on teardrop surface in geographic coordinate system
+        /// Returns a point on a teardrop surface in geographic coordinate system
         /// </summary>
         /// <param name="radius">Teardrop radius</param>
         /// <param name="height">Teardrop height</param>

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace ProceduralToolkit
 {
@@ -46,7 +46,7 @@ namespace ProceduralToolkit
         #endregion Colors
 
         /// <summary>
-        /// Returns inverted color with the same alpha
+        /// Returns an inverted color with the same alpha
         /// </summary>
         public static Color Inverted(this Color color)
         {
@@ -78,7 +78,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new color with modified red component
+        /// Returns a new color with the modified red component
         /// </summary>
         public static Color WithR(this Color color, float r)
         {
@@ -86,7 +86,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new color with modified green component
+        /// Returns anew color with the modified green component
         /// </summary>
         public static Color WithG(this Color color, float g)
         {
@@ -94,7 +94,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new color with modified blue component
+        /// Returns a new color with the modified blue component
         /// </summary>
         public static Color WithB(this Color color, float b)
         {
@@ -102,7 +102,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new color with modified alpha component
+        /// Returns a new color with the modified alpha component
         /// </summary>
         public static Color WithA(this Color color, float a)
         {

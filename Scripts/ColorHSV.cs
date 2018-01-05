@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +31,7 @@ namespace ProceduralToolkit
         public float a;
 
         /// <summary>
-        /// Returns opposite color on the color wheel
+        /// Returns the opposite color on the color wheel
         /// </summary>
         public ColorHSV complementary { get { return WithOffsetH(180); } }
 
@@ -76,7 +76,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Constructs a new ColorHSV with given h, s, v, a components
+        /// Constructs a new ColorHSV with the given h, s, v, a components
         /// </summary>
         /// <param name="h">Hue component</param>
         /// <param name="s">Saturation component</param>
@@ -91,7 +91,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Constructs a new ColorHSV with given h, s, v components and sets alpha to 1
+        /// Constructs a new ColorHSV with the given h, s, v components and sets the alpha to 1
         /// </summary>
         /// <param name="h">Hue component</param>
         /// <param name="s">Saturation component</param>
@@ -182,7 +182,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new color with hue offset by <paramref name="angle"/> degrees
+        /// Returns a new color with the hue offset by <paramref name="angle"/> degrees
         /// </summary>
         public ColorHSV WithOffsetH(float angle)
         {
@@ -190,7 +190,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new color with modified hue component
+        /// Returns a new color with the modified hue component
         /// </summary>
         public ColorHSV WithH(float h)
         {
@@ -198,7 +198,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new color with modified saturation component
+        /// Returns a new color with the modified saturation component
         /// </summary>
         public ColorHSV WithS(float s)
         {
@@ -206,7 +206,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new color with modified value component
+        /// Returns a new color with the modified value component
         /// </summary>
         public ColorHSV WithV(float v)
         {
@@ -214,7 +214,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new color with modified saturation and value components
+        /// Returns a new color with the modified saturation and value components
         /// </summary>
         public ColorHSV WithSV(float s, float v)
         {
@@ -222,7 +222,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new color with modified alpha component
+        /// Returns a new color with the modified alpha component
         /// </summary>
         public ColorHSV WithA(float a)
         {
@@ -230,7 +230,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns list of this color, <paramref name="count"/> of analogous colors and optionally complementary color
+        /// Returns a list containing this color, a <paramref name="count"/> of analogous colors and an optional complementary color
         /// </summary>
         public List<ColorHSV> GetAnalogousPalette(int count = 2, bool withComplementary = false)
         {
@@ -256,7 +256,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns list of this color, two triadic colors and optionally complementary color
+        /// Returns a list containing this color, two triadic colors and an optional complementary color
         /// </summary>
         public List<ColorHSV> GetTriadicPalette(bool withComplementary = false)
         {
@@ -276,7 +276,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns list of this color and three tetradic colors
+        /// Returns a list containing this color and three tetradic colors
         /// </summary>
         public List<ColorHSV> GetTetradicPalette()
         {

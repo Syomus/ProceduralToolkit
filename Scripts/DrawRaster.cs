@@ -9,7 +9,7 @@ namespace ProceduralToolkit
     public static partial class Draw
     {
         /// <summary>
-        /// Draws aliased line and calls <paramref name="draw"/> on every pixel
+        /// Draws a line and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
@@ -20,7 +20,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws aliased line and calls <paramref name="draw"/> on every pixel
+        /// Draws a line and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
@@ -57,7 +57,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws anti-aliased line and calls <paramref name="draw"/> on every pixel
+        /// Draws an anti-aliased line and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
@@ -68,7 +68,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws anti-aliased line and calls <paramref name="draw"/> on every pixel
+        /// Draws an anti-aliased line and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
@@ -118,7 +118,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws aliased circle and calls <paramref name="draw"/> on every pixel
+        /// Draws a circle and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// A Rasterizing Algorithm for Drawing Curves
@@ -130,7 +130,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws aliased circle and calls <paramref name="draw"/> on every pixel
+        /// Draws a circle and calls <paramref name="draw"/> on every pixel
         /// </summary>
         /// <remarks>
         /// A Rasterizing Algorithm for Drawing Curves
@@ -166,7 +166,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws filled aliased circle and calls <paramref name="draw"/> on every pixel
+        /// Draws a filled circle and calls <paramref name="draw"/> on every pixel
         /// </summary>
         public static void RasterFilledCircle(Vector2Int v0, int radius, Action<int, int> draw)
         {
@@ -174,7 +174,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Draws filled aliased circle and calls <paramref name="draw"/> on every pixel
+        /// Draws a filled circle and calls <paramref name="draw"/> on every pixel
         /// </summary>
         public static void RasterFilledCircle(int x0, int y0, int radius, Action<int, int> draw)
         {

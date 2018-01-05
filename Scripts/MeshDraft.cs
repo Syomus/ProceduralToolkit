@@ -37,7 +37,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Creates new MeshDraft with vertex data from <paramref name="mesh"/>>
+        /// Creates a new MeshDraft with vertex data from the <paramref name="mesh"/>>
         /// </summary>
         public MeshDraft(Mesh mesh)
         {
@@ -56,7 +56,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Adds vertex data from <paramref name="draft"/>
+        /// Adds vertex data from the <paramref name="draft"/>
         /// </summary>
         public MeshDraft Add(MeshDraft draft)
         {
@@ -79,17 +79,26 @@ namespace ProceduralToolkit
 
         #region AddTriangle
 
+        /// <summary>
+        /// Adds a triangle with normals to the draft
+        /// </summary>
         public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
         {
             Vector3 normal = Vector3.Cross(vertex1 - vertex0, vertex2 - vertex0).normalized;
             return AddTriangle(vertex0, vertex1, vertex2, normal, normal, normal);
         }
 
+        /// <summary>
+        /// Adds a triangle with normals to the draft
+        /// </summary>
         public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal)
         {
             return AddTriangle(vertex0, vertex1, vertex2, normal, normal, normal);
         }
 
+        /// <summary>
+        /// Adds a triangle with normals to the draft
+        /// </summary>
         public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal0, Vector3 normal1,
             Vector3 normal2)
         {
@@ -105,6 +114,9 @@ namespace ProceduralToolkit
             return this;
         }
 
+        /// <summary>
+        /// Adds a triangle with normals and uv coordinates to the draft
+        /// </summary>
         public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector2 uv0, Vector2 uv1,
             Vector2 uv2)
         {
@@ -114,6 +126,9 @@ namespace ProceduralToolkit
             return AddTriangle(vertex0, vertex1, vertex2);
         }
 
+        /// <summary>
+        /// Adds a triangle with normals and uv coordinates to the draft
+        /// </summary>
         public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal, Vector2 uv0,
             Vector2 uv1, Vector2 uv2)
         {
@@ -123,6 +138,9 @@ namespace ProceduralToolkit
             return AddTriangle(vertex0, vertex1, vertex2, normal, normal, normal);
         }
 
+        /// <summary>
+        /// Adds a triangle with normals and uv coordinates to the draft
+        /// </summary>
         public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal0, Vector3 normal1,
             Vector3 normal2, Vector2 uv0, Vector2 uv1, Vector2 uv2)
         {
@@ -136,6 +154,9 @@ namespace ProceduralToolkit
 
         #region AddQuad
 
+        /// <summary>
+        /// Adds a quad with normals to the draft
+        /// </summary>
         public MeshDraft AddQuad(Vector3 origin, Vector3 width, Vector3 height)
         {
             Vector3 normal = Vector3.Cross(height, width).normalized;
@@ -143,17 +164,26 @@ namespace ProceduralToolkit
                 normal, normal, normal, normal);
         }
 
+        /// <summary>
+        /// Adds a quad with normals to the draft
+        /// </summary>
         public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
         {
             Vector3 normal = Vector3.Cross(vertex1 - vertex0, vertex3 - vertex0).normalized;
             return AddQuad(vertex0, vertex1, vertex2, vertex3, normal, normal, normal, normal);
         }
 
+        /// <summary>
+        /// Adds a quad with normals to the draft
+        /// </summary>
         public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector3 normal)
         {
             return AddQuad(vertex0, vertex1, vertex2, vertex3, normal, normal, normal, normal);
         }
 
+        /// <summary>
+        /// Adds a quad with normals to the draft
+        /// </summary>
         public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3,
             Vector3 normal0, Vector3 normal1, Vector3 normal2, Vector3 normal3)
         {
@@ -174,6 +204,9 @@ namespace ProceduralToolkit
             return this;
         }
 
+        /// <summary>
+        /// Adds a quad with normals and uv coordinates to the draft
+        /// </summary>
         public MeshDraft AddQuad(Vector3 origin, Vector3 width, Vector3 height,
             Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3)
         {
@@ -184,6 +217,9 @@ namespace ProceduralToolkit
             return AddQuad(origin, width, height);
         }
 
+        /// <summary>
+        /// Adds a quad with normals and uv coordinates to the draft
+        /// </summary>
         public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3,
             Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3)
         {
@@ -194,6 +230,9 @@ namespace ProceduralToolkit
             return AddQuad(vertex0, vertex1, vertex2, vertex3);
         }
 
+        /// <summary>
+        /// Adds a quad with normals and uv coordinates to the draft
+        /// </summary>
         public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector3 normal,
             Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3)
         {
@@ -204,6 +243,9 @@ namespace ProceduralToolkit
             return AddQuad(vertex0, vertex1, vertex2, vertex3, normal, normal, normal, normal);
         }
 
+        /// <summary>
+        /// Adds a quad with normals and uv coordinates to the draft
+        /// </summary>
         public MeshDraft AddQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3,
             Vector3 normal0, Vector3 normal1, Vector3 normal2, Vector3 normal3,
             Vector2 uv0, Vector2 uv1, Vector2 uv2, Vector2 uv3)
@@ -219,6 +261,9 @@ namespace ProceduralToolkit
 
         #region AddTriangleFan
 
+        /// <summary>
+        /// Adds a triangle fan to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
@@ -228,6 +273,9 @@ namespace ProceduralToolkit
             return AddTriangleFan(fan, normal, reverseTriangles);
         }
 
+        /// <summary>
+        /// Adds a triangle fan to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
@@ -241,6 +289,9 @@ namespace ProceduralToolkit
             return this;
         }
 
+        /// <summary>
+        /// Adds a triangle fan to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
@@ -251,6 +302,9 @@ namespace ProceduralToolkit
             return this;
         }
 
+        /// <summary>
+        /// Adds a triangle fan to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
@@ -260,6 +314,9 @@ namespace ProceduralToolkit
             return AddTriangleFan(fan, reverseTriangles);
         }
 
+        /// <summary>
+        /// Adds a triangle fan to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
@@ -269,6 +326,9 @@ namespace ProceduralToolkit
             return AddTriangleFan(fan, normal, reverseTriangles);
         }
 
+        /// <summary>
+        /// Adds a triangle fan to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
@@ -306,6 +366,9 @@ namespace ProceduralToolkit
 
         #region AddTriangleStrip
 
+        /// <summary>
+        /// Adds a triangle strip to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
@@ -315,6 +378,9 @@ namespace ProceduralToolkit
             return AddTriangleStrip(strip, normal);
         }
 
+        /// <summary>
+        /// Adds a triangle strip to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
@@ -336,6 +402,9 @@ namespace ProceduralToolkit
             return this;
         }
 
+        /// <summary>
+        /// Adds a triangle strip to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
@@ -354,6 +423,9 @@ namespace ProceduralToolkit
             return this;
         }
 
+        /// <summary>
+        /// Adds a triangle strip to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
@@ -363,6 +435,9 @@ namespace ProceduralToolkit
             return AddTriangleStrip(strip);
         }
 
+        /// <summary>
+        /// Adds a triangle strip to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
@@ -372,6 +447,9 @@ namespace ProceduralToolkit
             return AddTriangleStrip(strip, normal);
         }
 
+        /// <summary>
+        /// Adds a triangle strip to the draft
+        /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
@@ -385,6 +463,9 @@ namespace ProceduralToolkit
 
         #region AddBaselessPyramid
 
+        /// <summary>
+        /// Adds a baseless pyramid to the draft
+        /// </summary>
         public MeshDraft AddBaselessPyramid(Vector3 apex, IList<Vector3> ring, bool generateUV, bool reverseTriangles = false)
         {
             if (generateUV)
@@ -435,6 +516,9 @@ namespace ProceduralToolkit
 
         #region AddFlatTriangleBand
 
+        /// <summary>
+        /// Adds a band made from triangles to the draft
+        /// </summary>
         public MeshDraft AddFlatTriangleBand(IList<Vector3> lowerRing, IList<Vector3> upperRing, bool generateUV)
         {
             if (lowerRing.Count != upperRing.Count)
@@ -493,6 +577,9 @@ namespace ProceduralToolkit
 
         #region AddFlatQuadBand
 
+        /// <summary>
+        /// Adds a band made from quads to the draft
+        /// </summary>
         public MeshDraft AddFlatQuadBand(IList<Vector3> lowerRing, IList<Vector3> upperRing, bool generateUV)
         {
             if (lowerRing.Count != upperRing.Count)
@@ -633,7 +720,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Reverses winding order of draft triangles
+        /// Reverses the winding order of draft triangles
         /// </summary>
         public MeshDraft FlipTriangles()
         {
@@ -647,7 +734,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Reverses direction of draft normals
+        /// Reverses the direction of draft normals
         /// </summary>
         public MeshDraft FlipNormals()
         {
@@ -659,7 +746,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Flips UV map horizontally in selected <paramref name="channel"/>
+        /// Flips the UV map horizontally in the selected <paramref name="channel"/>
         /// </summary>
         public MeshDraft FlipUVHorizontally(int channel = 0)
         {
@@ -689,7 +776,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Flips UV map vertically in selected <paramref name="channel"/>
+        /// Flips the UV map vertically in the selected <paramref name="channel"/>
         /// </summary>
         public MeshDraft FlipUVVertically(int channel = 0)
         {
@@ -719,7 +806,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects vertices on a sphere with given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
+        /// Projects vertices on a sphere with the given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
         /// </summary>
         public MeshDraft Spherify(float radius, Vector3 center = default(Vector3))
         {
@@ -732,7 +819,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Creates new mesh from information in draft
+        /// Creates a new mesh from the data in the draft
         /// </summary>
         public Mesh ToMesh()
         {
@@ -742,7 +829,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Fills <paramref name="mesh"/> with information in draft
+        /// Fills the <paramref name="mesh"/> with the data in the draft
         /// </summary>
         public void ToMesh(ref Mesh mesh)
         {

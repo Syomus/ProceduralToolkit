@@ -10,7 +10,7 @@ namespace ProceduralToolkit
         #region Vector2
 
         /// <summary>
-        /// Returns new vector with zero Y component
+        /// Returns a new vector with zero Y component
         /// </summary>
         public static Vector2 ToVector2X(this Vector2 vector)
         {
@@ -18,7 +18,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new vector with zero X component
+        /// Returns a new vector with zero X component
         /// </summary>
         public static Vector2 ToVector2Y(this Vector2 vector)
         {
@@ -26,7 +26,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects vector onto three dimensional XY plane
+        /// Projects the vector onto the three dimensional XY plane
         /// </summary>
         public static Vector3 ToVector3XY(this Vector2 vector)
         {
@@ -34,7 +34,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects vector onto three dimensional XZ plane
+        /// Projects the vector onto the three dimensional XZ plane
         /// </summary>
         public static Vector3 ToVector3XZ(this Vector2 vector)
         {
@@ -42,7 +42,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects vector onto three dimensional YZ plane
+        /// Projects the vector onto the three dimensional YZ plane
         /// </summary>
         public static Vector3 ToVector3YZ(this Vector2 vector)
         {
@@ -58,7 +58,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns perp of vector
+        /// Returns a perp of the vector
         /// </summary>
         /// <remarks>
         /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
@@ -70,7 +70,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns perp dot product of vectors
+        /// Returns a perp dot product of vectors
         /// </summary>
         /// <remarks>
         /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
@@ -82,7 +82,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the signed clockwise angle in degrees [-180, 180] between from and to
+        /// Returns a signed clockwise angle in degrees [-180, 180] between from and to
         /// </summary>
         /// <param name="from">The angle extends round from this vector</param>
         /// <param name="to">The angle extends round to this vector</param>
@@ -92,7 +92,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the clockwise angle in degrees [0, 360] between from and to
+        /// Returns a clockwise angle in degrees [0, 360] between from and to
         /// </summary>
         /// <param name="from">The angle extends round from this vector</param>
         /// <param name="to">The angle extends round to this vector</param>
@@ -117,7 +117,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new vector rotated clockwise by specified angle
+        /// Returns a new vector rotated clockwise by specified angle
         /// </summary>
         public static Vector2 RotateCW(this Vector2 vector, float degrees)
         {
@@ -134,7 +134,7 @@ namespace ProceduralToolkit
         #region Vector2Int
 
         /// <summary>
-        /// Returns perp of vector
+        /// Returns a perp of vector
         /// </summary>
         /// <remarks>
         /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
@@ -146,7 +146,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns perp dot product of vectors
+        /// Returns a perp dot product of vectors
         /// </summary>
         /// <remarks>
         /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
@@ -162,7 +162,7 @@ namespace ProceduralToolkit
         #region Vector3
 
         /// <summary>
-        /// Returns new vector with zero Y and Z components
+        /// Returns a new vector with zero Y and Z components
         /// </summary>
         public static Vector3 ToVector3X(this Vector3 vector)
         {
@@ -170,7 +170,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new vector with zero X and Z components
+        /// Returns a new vector with zero X and Z components
         /// </summary>
         public static Vector3 ToVector3Y(this Vector3 vector)
         {
@@ -178,7 +178,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new vector with zero X and Y components
+        /// Returns a new vector with zero X and Y components
         /// </summary>
         public static Vector3 ToVector3Z(this Vector3 vector)
         {
@@ -186,7 +186,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new vector with zero Z component
+        /// Returns a new vector with zero Z component
         /// </summary>
         public static Vector3 ToVector3XY(this Vector3 vector)
         {
@@ -194,7 +194,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new vector with zero Y component
+        /// Returns a new vector with zero Y component
         /// </summary>
         public static Vector3 ToVector3XZ(this Vector3 vector)
         {
@@ -202,7 +202,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new vector with zero X component
+        /// Returns a new vector with zero X component
         /// </summary>
         public static Vector3 ToVector3YZ(this Vector3 vector)
         {
@@ -210,7 +210,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new Vector2 made from X and Y components of this vector
+        /// Returns a new Vector2 made from X and Y components of this vector
         /// </summary>
         public static Vector2 ToVector2XY(this Vector3 vector)
         {
@@ -218,7 +218,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new Vector2 made from X and Z components of this vector
+        /// Returns a new Vector2 made from X and Z components of this vector
         /// </summary>
         public static Vector2 ToVector2XZ(this Vector3 vector)
         {
@@ -226,7 +226,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns new Vector2 made from Y and Z components of this vector
+        /// Returns a new Vector2 made from Y and Z components of this vector
         /// </summary>
         public static Vector2 ToVector2YZ(this Vector3 vector)
         {
@@ -234,7 +234,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the angle in degrees [0, 360] between from and to
+        /// Returns an angle in degrees [0, 360] between from and to
         /// </summary>
         /// <param name="from">The angle extends round from this vector</param>
         /// <param name="to">The angle extends round to this vector</param>

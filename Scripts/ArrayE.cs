@@ -77,7 +77,7 @@ namespace ProceduralToolkit
         #region FloodVisit4
 
         /// <summary>
-        /// Visits all connected elements with the same value as start element
+        /// Visits all connected elements with the same value as the start element
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
@@ -89,7 +89,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits all connected elements with the same value as start element
+        /// Visits all connected elements with the same value as the start element
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
@@ -160,7 +160,7 @@ namespace ProceduralToolkit
         #region FloodVisit8
 
         /// <summary>
-        /// Visits all connected elements with the same value as start element
+        /// Visits all connected elements with the same value as the start element
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
@@ -172,7 +172,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits all connected elements with the same value as start element
+        /// Visits all connected elements with the same value as the start element
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Flood_fill
@@ -253,7 +253,7 @@ namespace ProceduralToolkit
         #region Visit4
 
         /// <summary>
-        /// Visits four cells orthogonally surrounding a central cell
+        /// Visits four cells orthogonally surrounding the centrer cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
@@ -264,7 +264,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits four cells orthogonally surrounding a central cell
+        /// Visits four cells orthogonally surrounding the centrer cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
@@ -293,7 +293,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits four cells orthogonally surrounding a central cell
+        /// Visits four cells orthogonally surrounding the centrer cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
@@ -304,7 +304,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits four cells orthogonally surrounding a central cell
+        /// Visits four cells orthogonally surrounding the centrer cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
@@ -325,7 +325,7 @@ namespace ProceduralToolkit
         #region Visit8
 
         /// <summary>
-        /// Visits eight cells surrounding a central cell
+        /// Visits eight cells surrounding the centrer cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood
@@ -336,7 +336,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits eight cells surrounding a central cell
+        /// Visits eight cells surrounding the centrer cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood
@@ -375,7 +375,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits eight cells surrounding a central cell
+        /// Visits eight cells surrounding the centrer cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood
@@ -386,7 +386,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits eight cells surrounding a central cell
+        /// Visits eight cells surrounding the centrer cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood

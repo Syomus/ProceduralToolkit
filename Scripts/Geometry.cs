@@ -14,7 +14,7 @@ namespace ProceduralToolkit
         #region Point-Line
 
         /// <summary>
-        /// Returns the distance to the closest point on the line
+        /// Returns a distance to the closest point on the line
         /// </summary>
         public static float DistanceToLine(Vector2 point, Ray2D line)
         {
@@ -22,7 +22,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the distance to the closest point on the line defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Returns a distance to the closest point on the line defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
         /// <param name="direction">Normalized direction of the line</param>
         public static float DistanceToLine(Vector2 point, Vector2 origin, Vector2 direction)
@@ -75,7 +75,7 @@ namespace ProceduralToolkit
         #region Point-Ray
 
         /// <summary>
-        /// Returns the distance to the closest point on the ray
+        /// Returns a distance to the closest point on the ray
         /// </summary>
         public static float DistanceToRay(Vector2 point, Ray2D ray)
         {
@@ -83,7 +83,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the distance to the closest point on the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Returns a distance to the closest point on the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
         /// <param name="direction">Normalized direction of the ray</param>
         public static float DistanceToRay(Vector2 point, Vector2 origin, Vector2 direction)
@@ -143,7 +143,7 @@ namespace ProceduralToolkit
         #region Point-Segement
 
         /// <summary>
-        /// Returns the distance to the closest point on the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
+        /// Returns a distance to the closest point on the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
         /// </summary>
         public static float DistanceToSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB)
         {
@@ -163,8 +163,8 @@ namespace ProceduralToolkit
         /// Projects the point onto the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
         /// </summary>
         /// <param name="projectedX">Normalized position of the projected point on the line segment. 
-        /// Value of zero means that projected point coincides with <paramref name="segmentA"/>. 
-        /// Value of one means that projected point coincides with <paramref name="segmentB"/>.</param>
+        /// Value of zero means that the projected point coincides with <paramref name="segmentA"/>. 
+        /// Value of one means that the projected point coincides with <paramref name="segmentB"/>.</param>
         public static Vector2 ClosestPointOnSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, out float projectedX)
         {
             Vector2 direction = segmentB - segmentA;
@@ -200,7 +200,7 @@ namespace ProceduralToolkit
         #region Line-Line
 
         /// <summary>
-        /// Compute the intersection of the lines
+        /// Computes an intersection of the lines
         /// </summary>
         public static bool IntersectLineLine(Ray2D lineA, Ray2D lineB, out Vector2 intersection)
         {
@@ -208,7 +208,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Compute the intersection of the lines
+        /// Computes an intersection of the lines
         /// </summary>
         public static bool IntersectLineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
             out Vector2 intersection)
@@ -242,7 +242,7 @@ namespace ProceduralToolkit
         #region Line-Circle
 
         /// <summary>
-        /// Compute the intersection of the line and the circle
+        /// Computes an intersection of the line and the circle
         /// </summary>
         public static bool IntersectLineCircle(Ray2D line, Vector2 center, float radius,
             out Vector2 pointA, out Vector2 pointB)
@@ -251,7 +251,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Compute the intersection of the line and the circle
+        /// Computes an intersection of the line and the circle
         /// </summary>
         public static bool IntersectLineCircle(Vector2 origin, Vector2 direction, Vector2 center, float radius,
             out Vector2 pointA, out Vector2 pointB)
@@ -286,7 +286,7 @@ namespace ProceduralToolkit
         #region Ray-Circle
 
         /// <summary>
-        /// Compute the intersection of the ray and the circle
+        /// Computes an intersection of the ray and the circle
         /// </summary>
         public static bool IntersectRayCircle(Ray2D ray, Vector2 center, float radius,
             out Vector2 pointA, out Vector2 pointB)
@@ -295,7 +295,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Compute the intersection of the ray and the circle
+        /// Computes an intersection of the ray and the circle
         /// </summary>
         public static bool IntersectRayCircle(Vector2 origin, Vector2 direction, Vector2 center, float radius,
             out Vector2 pointA, out Vector2 pointB)
@@ -345,7 +345,7 @@ namespace ProceduralToolkit
         #region Point-Line
 
         /// <summary>
-        /// Returns the distance to the closest point on the line
+        /// Returns a distance to the closest point on the line
         /// </summary>
         public static float DistanceToLine(Vector3 point, Ray line)
         {
@@ -353,7 +353,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the distance to the closest point on the line defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Returns a distance to the closest point on the line defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
         /// <param name="direction">Normalized direction of the line</param>
         public static float DistanceToLine(Vector3 point, Vector3 origin, Vector3 direction)
@@ -406,7 +406,7 @@ namespace ProceduralToolkit
         #region Point-Ray
 
         /// <summary>
-        /// Returns the distance to the closest point on the ray
+        /// Returns a distance to the closest point on the ray
         /// </summary>
         public static float DistanceToRay(Vector3 point, Ray ray)
         {
@@ -414,7 +414,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns the distance to the closest point on the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Returns a distance to the closest point on the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
         /// </summary>
         /// <param name="direction">Normalized direction of the ray</param>
         public static float DistanceToRay(Vector3 point, Vector3 origin, Vector3 direction)
@@ -474,7 +474,7 @@ namespace ProceduralToolkit
         #region Point-Segement
 
         /// <summary>
-        /// Returns the distance to the closest point on the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
+        /// Returns a distance to the closest point on the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
         /// </summary>
         public static float DistanceToSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB)
         {
@@ -494,8 +494,8 @@ namespace ProceduralToolkit
         /// Projects the point onto the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
         /// </summary>
         /// <param name="projectedX">Normalized position of the projected point on the line segment. 
-        /// Value of zero means that projected point coincides with <paramref name="segmentA"/>. 
-        /// Value of one means that projected point coincides with <paramref name="segmentB"/>.</param>
+        /// Value of zero means that the projected point coincides with <paramref name="segmentA"/>. 
+        /// Value of one means that the projected point coincides with <paramref name="segmentB"/>.</param>
         public static Vector3 ClosestPointOnSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB, out float projectedX)
         {
             Vector3 direction = segmentB - segmentA;
@@ -531,7 +531,7 @@ namespace ProceduralToolkit
         #region Line-Line
 
         /// <summary>
-        /// Compute the intersection of the lines
+        /// Computes an intersection of the lines
         /// </summary>
         public static bool IntersectLineLine(Ray lineA, Ray lineB, out Vector3 intersection)
         {
@@ -539,7 +539,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Compute the intersection of the lines
+        /// Computes an intersection of the lines
         /// </summary>
         public static bool IntersectLineLine(Vector3 originA, Vector3 directionA, Vector3 originB, Vector3 directionB,
             out Vector3 intersection)
@@ -587,7 +587,7 @@ namespace ProceduralToolkit
         #region Line-Sphere
 
         /// <summary>
-        /// Compute the intersection of the line and the sphere
+        /// Computes an intersection of the line and the sphere
         /// </summary>
         public static bool IntersectLineSphere(Ray line, Vector3 center, float radius,
             out Vector3 pointA, out Vector3 pointB)
@@ -596,7 +596,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Compute the intersection of the line and the sphere
+        /// Computes an intersection of the line and the sphere
         /// </summary>
         public static bool IntersectLineSphere(Vector3 origin, Vector3 direction, Vector3 center, float radius,
             out Vector3 pointA, out Vector3 pointB)
@@ -631,7 +631,7 @@ namespace ProceduralToolkit
         #region Ray-Sphere
 
         /// <summary>
-        /// Compute the intersection of the ray and the sphere
+        /// Computes an intersection of the ray and the sphere
         /// </summary>
         public static bool IntersectRaySphere(Ray ray, Vector3 center, float radius,
             out Vector3 pointA, out Vector3 pointB)
@@ -640,7 +640,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Compute the intersection of the ray and the sphere
+        /// Computes an intersection of the ray and the sphere
         /// </summary>
         public static bool IntersectRaySphere(Vector3 origin, Vector3 direction, Vector3 center, float radius,
             out Vector3 pointA, out Vector3 pointB)

@@ -11,6 +11,9 @@ namespace ProceduralToolkit
     {
         #region Platonic solids
 
+        /// <summary>
+        /// Constructs a tetrahedron draft
+        /// </summary>
         public static MeshDraft Tetrahedron(float radius, bool generateUV = true)
         {
             const float tetrahedralAngle = -19.471220333f;
@@ -41,6 +44,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a cube draft
+        /// </summary>
         public static MeshDraft Cube(float side, bool generateUV = true)
         {
             var draft = Hexahedron(side, side, side, generateUV);
@@ -48,11 +54,17 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a hexahedron draft
+        /// </summary>
         public static MeshDraft Hexahedron(float width, float length, float height, bool generateUV = true)
         {
             return Hexahedron(Vector3.right*width, Vector3.forward*length, Vector3.up*height, generateUV);
         }
 
+        /// <summary>
+        /// Constructs a hexahedron draft
+        /// </summary>
         public static MeshDraft Hexahedron(Vector3 width, Vector3 length, Vector3 height, bool generateUV = true)
         {
             Vector3 v000 = -width/2 - length/2 - height/2;
@@ -90,6 +102,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a octahedron draft
+        /// </summary>
         public static MeshDraft Octahedron(float radius, bool generateUV = true)
         {
             var draft = BiPyramid(radius, 4, radius*2, generateUV);
@@ -97,6 +112,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a dodecahedron draft
+        /// </summary>
         public static MeshDraft Dodecahedron(float radius)
         {
             const float magicAngle1 = 52.62263590f;
@@ -129,6 +147,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a icosahedron draft
+        /// </summary>
         public static MeshDraft Icosahedron(float radius, bool generateUV = true)
         {
             const float magicAngle = 26.56505f;
@@ -156,6 +177,9 @@ namespace ProceduralToolkit
 
         #endregion Platonic solids
 
+        /// <summary>
+        /// Constructs a quad draft
+        /// </summary>
         public static MeshDraft Quad(Vector3 origin, Vector3 width, Vector3 height, bool generateUV = true)
         {
             var draft = new MeshDraft {name = "Quad"};
@@ -170,6 +194,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a quad draft
+        /// </summary>
         public static MeshDraft Quad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, bool generateUV = true)
         {
             var draft = new MeshDraft {name = "Quad"};
@@ -184,6 +211,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a plane draft
+        /// </summary>
         public static MeshDraft Plane(float xSize = 1, float zSize = 1, int xSegments = 1, int zSegments = 1, bool generateUV = true)
         {
             float xStep = xSize/xSegments;
@@ -228,6 +258,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a pyramid draft
+        /// </summary>
         public static MeshDraft Pyramid(float radius, int segments, float height, bool generateUV = true)
         {
             float segmentAngle = 360f/segments;
@@ -262,6 +295,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a bipyramid draft
+        /// </summary>
         public static MeshDraft BiPyramid(float radius, int segments, float height, bool generateUV = true)
         {
             float segmentAngle = 360f/segments;
@@ -280,6 +316,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a prism draft
+        /// </summary>
         public static MeshDraft Prism(float radius, int segments, float height, bool generateUV = true)
         {
             float segmentAngle = 360f/segments;
@@ -322,6 +361,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a cylinder draft
+        /// </summary>
         public static MeshDraft Cylinder(float radius, int segments, float height, bool generateUV = true)
         {
             float segmentAngle = 360f/segments;
@@ -396,6 +438,9 @@ namespace ProceduralToolkit
             }
         }
 
+        /// <summary>
+        /// Constructs a flat sphere draft
+        /// </summary>
         public static MeshDraft FlatSphere(float radius, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
             var draft = FlatSpheroid(radius, radius, horizontalSegments, verticalSegments, generateUV);
@@ -403,6 +448,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a flat spheroid draft
+        /// </summary>
         public static MeshDraft FlatSpheroid(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
             var draft = FlatRevolutionSurface(PTUtils.PointOnSpheroid, radius, height, horizontalSegments, verticalSegments, generateUV);
@@ -410,6 +458,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a flat teardrop draft
+        /// </summary>
         public static MeshDraft FlatTeardrop(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
             var draft = FlatRevolutionSurface(PTUtils.PointOnTeardrop, radius, height, horizontalSegments, verticalSegments, generateUV);
@@ -417,6 +468,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a flat revolution surface draft
+        /// </summary>
         public static MeshDraft FlatRevolutionSurface(
             Func<float, float, float, float, Vector3> surfaceFunction,
             float radius,
@@ -476,6 +530,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a sphere draft
+        /// </summary>
         public static MeshDraft Sphere(float radius, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
             var draft = Spheroid(radius, radius, horizontalSegments, verticalSegments, generateUV);
@@ -483,6 +540,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a spheroid draft
+        /// </summary>
         public static MeshDraft Spheroid(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
             var draft = RevolutionSurface(PTUtils.PointOnSpheroid, radius, height, horizontalSegments, verticalSegments, generateUV);
@@ -490,6 +550,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a teardrop draft
+        /// </summary>
         public static MeshDraft Teardrop(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
             var draft = RevolutionSurface(PTUtils.PointOnTeardrop, radius, height, horizontalSegments, verticalSegments, generateUV);
@@ -497,6 +560,9 @@ namespace ProceduralToolkit
             return draft;
         }
 
+        /// <summary>
+        /// Constructs a revolution surface draft
+        /// </summary>
         public static MeshDraft RevolutionSurface(
             Func<float, float, float, float, Vector3> surfaceFunction,
             float radius,
@@ -552,7 +618,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Constructs partial box with specified faces
+        /// Constructs a partial box with specified faces
         /// </summary>
         public static MeshDraft PartialBox(Vector3 width, Vector3 length, Vector3 height, Directions parts, bool generateUV = true)
         {

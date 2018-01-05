@@ -110,7 +110,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random point inside <paramref name="rect"/>
+        /// Returns a random point inside a <paramref name="rect"/>
         /// </summary>
         public static Vector2 PointInRect(Rect rect)
         {
@@ -118,7 +118,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random point on the perimeter of <paramref name="rect"/>
+        /// Returns a random point on the perimeter of a <paramref name="rect"/>
         /// </summary>
         public static Vector2 PointOnRect(Rect rect)
         {
@@ -159,7 +159,7 @@ namespace ProceduralToolkit
         public static Color color { get { return new Color(Random.value, Random.value, Random.value); } }
 
         /// <summary>
-        /// Returns a color with random hue and maximum saturation and value in HSV model
+        /// Returns a color with a random hue and a maximum saturation and value in HSV model
         /// </summary>
         public static ColorHSV colorHSV { get { return new ColorHSV(Random.value, 1, 1); } }
 
@@ -174,7 +174,7 @@ namespace ProceduralToolkit
         public static Gradient gradientHSV { get { return ColorE.Gradient(colorHSV, colorHSV); } }
 
         /// <summary>
-        /// Returns a color with random hue and given <paramref name="saturation"/> and <paramref name="value"/>
+        /// Returns a color with a random hue and a given <paramref name="saturation"/> and <paramref name="value"/>
         /// </summary>
         public static ColorHSV ColorHue(float saturation, float value, float alpha = 1)
         {
@@ -182,7 +182,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a color with random saturation and given <paramref name="hue"/> and <paramref name="value"/>
+        /// Returns a color with a random saturation and given <paramref name="hue"/> and <paramref name="value"/>
         /// </summary>
         public static ColorHSV ColorSaturation(float hue, float value, float alpha = 1)
         {
@@ -190,7 +190,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a color with random value and given <paramref name="hue"/> and <paramref name="saturation"/>
+        /// Returns a color with a random value and given <paramref name="hue"/> and <paramref name="saturation"/>
         /// </summary>
         public static ColorHSV ColorValue(float hue, float saturation, float alpha = 1)
         {
@@ -198,32 +198,24 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a analogous palette based on a color with random hue
+        /// Returns an analogous palette based on a color with a random hue
         /// </summary>
-        public static List<ColorHSV> AnalogousPalette(
-            float saturation = 1,
-            float value = 1,
-            float alpha = 1,
-            int count = 2,
+        public static List<ColorHSV> AnalogousPalette(float saturation = 1, float value = 1, float alpha = 1, int count = 2,
             bool withComplementary = false)
         {
             return ColorHue(saturation, value, alpha).GetAnalogousPalette(count, withComplementary);
         }
 
         /// <summary>
-        /// Returns a triadic palette based on a color with random hue
+        /// Returns a triadic palette based on a color with a random hue
         /// </summary>
-        public static List<ColorHSV> TriadicPalette(
-            float saturation = 1,
-            float value = 1,
-            float alpha = 1,
-            bool withComplementary = false)
+        public static List<ColorHSV> TriadicPalette(float saturation = 1, float value = 1, float alpha = 1, bool withComplementary = false)
         {
             return ColorHue(saturation, value, alpha).GetTriadicPalette(withComplementary);
         }
 
         /// <summary>
-        /// Returns a tetradic palette based on a color with random hue
+        /// Returns a tetradic palette based on a color with a random hue
         /// </summary>
         public static List<ColorHSV> TetradicPalette(float saturation = 1, float value = 1, float alpha = 1)
         {
@@ -423,7 +415,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns true with probability from <paramref name="percent"/>
+        /// Returns true with <paramref name="percent"/> probability
         /// </summary>
         /// <param name="percent">between 0.0 [inclusive] and 1.0 [inclusive]</param>
         public static bool Chance(float percent)
@@ -454,8 +446,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector4 Range(Vector4 min, Vector4 max)
         {
-            return new Vector4(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z),
-                Random.Range(min.w, max.w));
+            return new Vector4(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z), Random.Range(min.w, max.w));
         }
 
         /// <summary>
@@ -486,8 +477,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 Range(Vector3 min, Vector3 max, int variants)
         {
-            return new Vector3(Range(min.x, max.x, variants), Range(min.y, max.y, variants),
-                Range(min.z, max.z, variants));
+            return new Vector3(Range(min.x, max.x, variants), Range(min.y, max.y, variants), Range(min.z, max.z, variants));
         }
 
         /// <summary>
@@ -496,8 +486,8 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector4 Range(Vector4 min, Vector4 max, int variants)
         {
-            return new Vector4(Range(min.x, max.x, variants), Range(min.y, max.y, variants),
-                Range(min.z, max.z, variants), Range(min.w, max.w, variants));
+            return new Vector4(Range(min.x, max.x, variants), Range(min.y, max.y, variants), Range(min.z, max.z, variants),
+                Range(min.w, max.w, variants));
         }
     }
 }
