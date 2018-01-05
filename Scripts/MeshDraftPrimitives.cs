@@ -65,7 +65,7 @@ namespace ProceduralToolkit
                 Vector2 uv2 = new Vector2(1, 1);
                 Vector2 uv3 = new Vector2(1, 0);
                 draft.AddQuad(corner0, length, width, uv3, uv0, uv1, uv2)
-                    .AddQuad(corner0, width, height, uv2, uv3, uv0, uv1)
+                    .AddQuad(corner0, width, height, uv0, uv1, uv2, uv3)
                     .AddQuad(corner0, height, length, uv3, uv0, uv1, uv2)
                     .AddQuad(corner1, -width, -length, uv0, uv1, uv2, uv3)
                     .AddQuad(corner1, -height, -width, uv1, uv2, uv3, uv0)
@@ -562,7 +562,7 @@ namespace ProceduralToolkit
                 Vector2 uv3 = new Vector2(1, 0);
 
                 if (parts.HasFlag(Directions.Down)) draft.AddQuad(corner0, length, width, uv3, uv0, uv1, uv2);
-                if (parts.HasFlag(Directions.Back)) draft.AddQuad(corner0, width, height, uv2, uv3, uv0, uv1);
+                if (parts.HasFlag(Directions.Back)) draft.AddQuad(corner0, width, height, uv0, uv1, uv2, uv3);
                 if (parts.HasFlag(Directions.Left)) draft.AddQuad(corner0, height, length, uv3, uv0, uv1, uv2);
                 if (parts.HasFlag(Directions.Up)) draft.AddQuad(corner1, -width, -length, uv0, uv1, uv2, uv3);
                 if (parts.HasFlag(Directions.Forward)) draft.AddQuad(corner1, -height, -width, uv1, uv2, uv3, uv0);
