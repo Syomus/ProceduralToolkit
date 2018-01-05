@@ -1,4 +1,72 @@
 ## Version history
+
+### 0.2.0 (2018.01.05)
+This release is mainly focused on refactoring and documenting of the codebase, expect better performance and overall stability. That being said, there are a few new features as well.
+#### Features:
+* Added a new shader library with signed distance functions and easings, see `ProceduralToolkit\Shaders\*.cginc` files and `ProceduralToolkit\Examples\SDF` folder for details.
+* Added a new Geometry class with many computational geometry algorithms (distance, intersection, closest point, etc.).
+* Added a new example showing usage of DebugE, GLE and GizmosE, see `ProceduralToolkit\Examples\Drawing` folder for details.
+* Added a new CompoundMeshDraft class for generation of large meshes and submeshes.
+
+#### Improvements:
+* Lots of bugfixes and optimizations.
+* ArrayE:
+  * Visits now support IEqualityComparer.
+* CellularAutomata:
+  * CellularAutomaton.Ruleset is now Serializable and has a RulesetDrawer with a dropdown with common rulesets.
+* ColorHSV:
+  * ColorHSV is now Serializable and has a PropertyDrawer.
+* Directions:
+  * Added DirectionsExtensions to simplify the usage of flags.
+* GLE:
+  * Added BeginLines method, see usage in the Drawer example.
+* MeshDraft:
+  * Refactored and uv-mapped all primitives (except dodecahedron), use generateUV flag to control the generation of uv.
+  * Most of the MeshDraft methods now return the reference to the draft to allow chaining of operations.
+  * New API for construction: AddTriangle, AddQuad, AddTriangleFan, AddTriangleStrip, AddBaselessPyramid, AddFlatTriangleBand and AddFlatQuadBand.
+* RandomE:
+  * Added xRotation, yRotation and zRotation.
+  * Added insideUnitCircle3XY, insideUnitCircle3XZ and insideUnitCircle3YZ.
+  * Added PointOnSegment, PointInRect and PointOnRect.
+* TextureE:
+  * Added overloads for RectInt and Color arrays.
+* VectorE:
+  * Added ToVector2XY, ToVector2XZ and ToVector2YZ for Vector3.
+  * Added Angle360 for Vector3.
+* Breakout:
+  * The game level now resets when all bricks are destroyed.
+  * Added a simple pool for bricks.
+
+#### Changes:
+* Minimum supported Unity version is now 2017.2.
+* Renamed most of the examples and restructured folders.
+* Removed Boids example.
+* Removed Vector2Int, use UnityEngine.Vector2Int instead.
+* ArrayE:
+  * Renamed all visit methods.
+* CellularAutomata:
+  * Moved CellularAutomaton to the core library.
+  * Removed CellState and replaced it with bool to simplify integration.
+* Draw:
+  * Separated raster and vector methods into partial classes.
+* MeshDraft:
+  * Removed some of the primitives, use new MeshDraft.Add* methods instead.
+* PTUtils:
+  * Moved vector operations out from PTUtils to VectorE.
+* VectorE:
+  * Renamed Only* methods.
+* Buildings:
+  * Foundation polygon winding is now clockwise.
+  * The generated mesh is now split into submeshes and uses multiple materials.
+* Characters:
+  * New sprites for characters.
+  * Split CharacterGenerator into a generator, a configurator and a character.
+* Mazes:
+  * Removed RandomBreadthFirstTraversal algorithm.
+* ProceduralToolkitMenu:
+  * Removed "About" window.
+  * Removed shapes from the editor menu that duplicated the Unity functionality.
+
 ### 0.1.9 (2017.03.23)
 #### Features:
 * Added CharacterGenerator example with integrated NameGenerator which replaces Datasets class
