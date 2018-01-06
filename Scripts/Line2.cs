@@ -32,6 +32,16 @@ namespace ProceduralToolkit
             return new Line2(ray);
         }
 
+        public static Line2 operator +(Line2 line, Vector2 vector)
+        {
+            return new Line2(line.origin + vector, line.direction);
+        }
+
+        public static Line2 operator -(Line2 line, Vector2 vector)
+        {
+            return new Line2(line.origin - vector, line.direction);
+        }
+
         public override string ToString()
         {
             return string.Format("Line2(origin: {0}, direction: {1})", origin, direction);

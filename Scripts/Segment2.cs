@@ -18,6 +18,21 @@ namespace ProceduralToolkit
             this.b = b;
         }
 
+        public static explicit operator Line2(Segment2 segment)
+        {
+            return new Line2(segment.a, (segment.b - segment.a).normalized);
+        }
+
+        public static Segment2 operator +(Segment2 segment, Vector2 vector)
+        {
+            return new Segment2(segment.a + vector, segment.b + vector);
+        }
+
+        public static Segment2 operator -(Segment2 segment, Vector2 vector)
+        {
+            return new Segment2(segment.a - vector, segment.b - vector);
+        }
+
         public override string ToString()
         {
             return string.Format("Segment2(a: {0}, b: {1})", a, b);

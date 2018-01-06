@@ -11,10 +11,26 @@ namespace ProceduralToolkit
 
         public static Circle unit { get { return new Circle(Vector2.zero, 1); } }
 
+        public Circle(float radius)
+        {
+            center = Vector2.zero;
+            this.radius = radius;
+        }
+
         public Circle(Vector2 center, float radius)
         {
             this.center = center;
             this.radius = radius;
+        }
+
+        public static Circle operator +(Circle circle, Vector2 vector)
+        {
+            return new Circle(circle.center + vector, circle.radius);
+        }
+
+        public static Circle operator -(Circle circle, Vector2 vector)
+        {
+            return new Circle(circle.center - vector, circle.radius);
         }
 
         public override string ToString()
