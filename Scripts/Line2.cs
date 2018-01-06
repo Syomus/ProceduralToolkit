@@ -53,6 +53,29 @@ namespace ProceduralToolkit
             return new Line2(line.origin - vector, line.direction);
         }
 
+        public static bool operator ==(Line2 a, Line2 b)
+        {
+            return a.origin == b.origin && a.direction == b.direction;
+        }
+
+        public static bool operator !=(Line2 a, Line2 b)
+        {
+            return !(a == b);
+        }
+
+        public override int GetHashCode()
+        {
+            return origin.GetHashCode() ^ direction.GetHashCode() << 2;
+        }
+
+        public override bool Equals(object other)
+        {
+            if (!(other is Line2)) return false;
+
+            Line2 line = (Line2) other;
+            return origin.Equals(line.origin) && direction.Equals(line.direction);
+        }
+
         public override string ToString()
         {
             return string.Format("Line2(origin: {0}, direction: {1})", origin, direction);

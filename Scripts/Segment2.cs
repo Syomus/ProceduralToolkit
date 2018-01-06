@@ -44,6 +44,29 @@ namespace ProceduralToolkit
             return new Segment2(segment.a - vector, segment.b - vector);
         }
 
+        public static bool operator ==(Segment2 a, Segment2 b)
+        {
+            return a.a == b.a && a.b == b.b;
+        }
+
+        public static bool operator !=(Segment2 a, Segment2 b)
+        {
+            return !(a == b);
+        }
+
+        public override int GetHashCode()
+        {
+            return a.GetHashCode() ^ b.GetHashCode() << 2;
+        }
+
+        public override bool Equals(object other)
+        {
+            if (!(other is Segment2)) return false;
+
+            Segment2 segment = (Segment2) other;
+            return a.Equals(segment.a) && b.Equals(segment.b);
+        }
+
         public override string ToString()
         {
             return string.Format("Segment2(a: {0}, b: {1})", a, b);

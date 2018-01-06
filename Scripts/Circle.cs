@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Representation of a circle
+    /// </summary>
     [Serializable]
     public struct Circle
     {
@@ -42,6 +45,29 @@ namespace ProceduralToolkit
         public static Circle operator -(Circle circle, Vector2 vector)
         {
             return new Circle(circle.center - vector, circle.radius);
+        }
+
+        public static bool operator ==(Circle a, Circle b)
+        {
+            return a.center == b.center && a.radius == b.radius;
+        }
+
+        public static bool operator !=(Circle a, Circle b)
+        {
+            return !(a == b);
+        }
+
+        public override int GetHashCode()
+        {
+            return center.GetHashCode() ^ radius.GetHashCode() << 2;
+        }
+
+        public override bool Equals(object other)
+        {
+            if (!(other is Circle)) return false;
+
+            Circle circle = (Circle) other;
+            return center.Equals(circle.center) && radius.Equals(circle.radius);
         }
 
         public override string ToString()
