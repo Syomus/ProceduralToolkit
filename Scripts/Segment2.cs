@@ -7,7 +7,7 @@ namespace ProceduralToolkit
     /// Representation of a 2D line segment
     /// </summary>
     [Serializable]
-    public struct Segment2
+    public struct Segment2 : IEquatable<Segment2>
     {
         public Vector2 a;
         public Vector2 b;
@@ -61,10 +61,12 @@ namespace ProceduralToolkit
 
         public override bool Equals(object other)
         {
-            if (!(other is Segment2)) return false;
+            return other is Segment2 && Equals((Segment2) other);
+        }
 
-            Segment2 segment = (Segment2) other;
-            return a.Equals(segment.a) && b.Equals(segment.b);
+        public bool Equals(Segment2 other)
+        {
+            return a.Equals(other.a) && b.Equals(other.b);
         }
 
         public override string ToString()

@@ -7,7 +7,7 @@ namespace ProceduralToolkit
     /// Representation of a circle
     /// </summary>
     [Serializable]
-    public struct Circle
+    public struct Circle : IEquatable<Circle>
     {
         public Vector2 center;
         public float radius;
@@ -64,10 +64,12 @@ namespace ProceduralToolkit
 
         public override bool Equals(object other)
         {
-            if (!(other is Circle)) return false;
+            return other is Circle && Equals((Circle) other);
+        }
 
-            Circle circle = (Circle) other;
-            return center.Equals(circle.center) && radius.Equals(circle.radius);
+        public bool Equals(Circle other)
+        {
+            return center.Equals(other.center) && radius.Equals(other.radius);
         }
 
         public override string ToString()

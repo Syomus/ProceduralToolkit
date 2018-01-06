@@ -7,7 +7,7 @@ namespace ProceduralToolkit
     /// Representation of a 2D line
     /// </summary>
     [Serializable]
-    public struct Line2
+    public struct Line2 : IEquatable<Line2>
     {
         public Vector2 origin;
         public Vector2 direction;
@@ -70,10 +70,12 @@ namespace ProceduralToolkit
 
         public override bool Equals(object other)
         {
-            if (!(other is Line2)) return false;
+            return other is Line2 && Equals((Line2) other);
+        }
 
-            Line2 line = (Line2) other;
-            return origin.Equals(line.origin) && direction.Equals(line.direction);
+        public bool Equals(Line2 other)
+        {
+            return origin.Equals(other.origin) && direction.Equals(other.direction);
         }
 
         public override string ToString()
