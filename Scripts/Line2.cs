@@ -27,6 +27,17 @@ namespace ProceduralToolkit
             this.direction = direction;
         }
 
+        public static Line2 Lerp(Line2 a, Line2 b, float t)
+        {
+            t = Mathf.Clamp01(t);
+            return new Line2(a.origin + (b.origin - a.origin)*t, a.direction + (b.direction - a.direction)*t);
+        }
+
+        public static Line2 LerpUnclamped(Line2 a, Line2 b, float t)
+        {
+            return new Line2(a.origin + (b.origin - a.origin)*t, a.direction + (b.direction - a.direction)*t);
+        }
+
         public static implicit operator Line2(Ray2D ray)
         {
             return new Line2(ray);

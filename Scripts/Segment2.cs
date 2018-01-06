@@ -18,6 +18,17 @@ namespace ProceduralToolkit
             this.b = b;
         }
 
+        public static Segment2 Lerp(Segment2 a, Segment2 b, float t)
+        {
+            t = Mathf.Clamp01(t);
+            return new Segment2(a.a + (b.a - a.a)*t, a.b + (b.b - a.b)*t);
+        }
+
+        public static Segment2 LerpUnclamped(Segment2 a, Segment2 b, float t)
+        {
+            return new Segment2(a.a + (b.a - a.a)*t, a.b + (b.b - a.b)*t);
+        }
+
         public static explicit operator Line2(Segment2 segment)
         {
             return new Line2(segment.a, (segment.b - segment.a).normalized);

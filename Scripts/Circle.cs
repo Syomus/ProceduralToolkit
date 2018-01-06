@@ -23,6 +23,17 @@ namespace ProceduralToolkit
             this.radius = radius;
         }
 
+        public static Circle Lerp(Circle a, Circle b, float t)
+        {
+            t = Mathf.Clamp01(t);
+            return new Circle(a.center + (b.center - a.center)*t, a.radius + (b.radius - a.radius)*t);
+        }
+
+        public static Circle LerpUnclamped(Circle a, Circle b, float t)
+        {
+            return new Circle(a.center + (b.center - a.center)*t, a.radius + (b.radius - a.radius)*t);
+        }
+
         public static Circle operator +(Circle circle, Vector2 vector)
         {
             return new Circle(circle.center + vector, circle.radius);
