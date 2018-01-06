@@ -232,6 +232,60 @@ namespace ProceduralToolkit
 
         #endregion Point-Segment
 
+        #region Point-Circle
+
+        /// <summary>
+        /// Returns a distance to the closest point on the circle
+        /// </summary>
+        /// <returns>Positive value if the point is outside, negative otherwise</returns>
+        public static float DistanceToCircle(Vector2 point, Circle circle)
+        {
+            return DistanceToCircle(point, circle.center, circle.radius);
+        }
+
+        /// <summary>
+        /// Returns a distance to the closest point on the circle defined by <paramref name="center"/> and <paramref name="radius"/>
+        /// </summary>
+        /// <returns>Positive value if the point is outside, negative otherwise</returns>
+        public static float DistanceToCircle(Vector2 point, Vector2 center, float radius)
+        {
+            return (center - point).magnitude - radius;
+        }
+
+        /// <summary>
+        /// Projects the point onto the circle
+        /// </summary>
+        public static Vector2 ClosestPointOnCircle(Vector2 point, Circle circle)
+        {
+            return ClosestPointOnCircle(point, circle.center, circle.radius);
+        }
+
+        /// <summary>
+        /// Projects the point onto the circle defined by <paramref name="center"/> and <paramref name="radius"/>
+        /// </summary>
+        public static Vector2 ClosestPointOnCircle(Vector2 point, Vector2 center, float radius)
+        {
+            return (point - center).normalized*radius;
+        }
+
+        /// <summary>
+        /// Tests if the point is inside the circle
+        /// </summary>
+        public static bool IntersectPointCircle(Vector2 point, Circle circle)
+        {
+            return IntersectPointCircle(point, circle.center, circle.radius);
+        }
+
+        /// <summary>
+        /// Tests if the point is inside the circle
+        /// </summary>
+        public static bool IntersectPointCircle(Vector2 point, Vector2 center, float radius)
+        {
+            return (point - center).sqrMagnitude < radius*radius;
+        }
+
+        #endregion Point-Circle
+
         #region Line-Line
 
         /// <summary>

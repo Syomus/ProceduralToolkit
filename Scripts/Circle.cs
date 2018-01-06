@@ -26,6 +26,11 @@ namespace ProceduralToolkit
             this.radius = radius;
         }
 
+        public bool Contains(Vector2 point)
+        {
+            return Geometry.IntersectPointCircle(point, center, radius);
+        }
+
         public static Circle Lerp(Circle a, Circle b, float t)
         {
             t = Mathf.Clamp01(t);
