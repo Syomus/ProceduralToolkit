@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Representation of a 2D line segment
+    /// </summary>
     [Serializable]
     public struct Segment2
     {

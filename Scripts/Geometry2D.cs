@@ -14,7 +14,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a distance to the closest point on the line
         /// </summary>
-        public static float DistanceToLine(Vector2 point, Ray2D line)
+        public static float DistanceToLine(Vector2 point, Line2 line)
         {
             return Vector2.Distance(point, ClosestPointOnLine(point, line));
         }
@@ -31,9 +31,18 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the line
         /// </summary>
-        public static Vector2 ClosestPointOnLine(Vector2 point, Ray2D line)
+        public static Vector2 ClosestPointOnLine(Vector2 point, Line2 line)
         {
             float projectedX;
+            return ClosestPointOnLine(point, line.origin, line.direction, out projectedX);
+        }
+
+        /// <summary>
+        /// Projects the point onto the line
+        /// </summary>
+        /// <param name="projectedX">Position of the projected point on the line relative to the origin</param>
+        public static Vector2 ClosestPointOnLine(Vector2 point, Line2 line, out float projectedX)
+        {
             return ClosestPointOnLine(point, line.origin, line.direction, out projectedX);
         }
 
@@ -141,11 +150,39 @@ namespace ProceduralToolkit
         #region Point-Segment
 
         /// <summary>
+        /// Returns a distance to the closest point on the line segment
+        /// </summary>
+        public static float DistanceToSegment(Vector2 point, Segment2 segment)
+        {
+            return Vector2.Distance(point, ClosestPointOnSegment(point, segment));
+        }
+
+        /// <summary>
         /// Returns a distance to the closest point on the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
         /// </summary>
         public static float DistanceToSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB)
         {
             return Vector2.Distance(point, ClosestPointOnSegment(point, segmentA, segmentB));
+        }
+
+        /// <summary>
+        /// Projects the point onto the line segment
+        /// </summary>
+        public static Vector2 ClosestPointOnSegment(Vector2 point, Segment2 segment)
+        {
+            float projectedX;
+            return ClosestPointOnSegment(point, segment.a, segment.b, out projectedX);
+        }
+
+        /// <summary>
+        /// Projects the point onto the line segment
+        /// </summary>
+        /// <param name="projectedX">Normalized position of the projected point on the line segment. 
+        /// Value of zero means that the projected point coincides with segment.a. 
+        /// Value of one means that the projected point coincides with segment.b.</param>
+        public static Vector2 ClosestPointOnSegment(Vector2 point, Segment2 segment, out float projectedX)
+        {
+            return ClosestPointOnSegment(point, segment.a, segment.b, out projectedX);
         }
 
         /// <summary>
@@ -200,7 +237,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the lines
         /// </summary>
-        public static bool IntersectLineLine(Ray2D lineA, Ray2D lineB, out Vector2 intersection)
+        public static bool IntersectLineLine(Line2 lineA, Line2 lineB, out Vector2 intersection)
         {
             return IntersectLineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out intersection);
         }
@@ -208,8 +245,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the lines
         /// </summary>
-        public static bool IntersectLineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
-            out Vector2 intersection)
+        public static bool IntersectLineLine(Line2 lineA, Vector2 originB, Vector2 directionB, out Vector2 intersection)
+        {
+            return IntersectLineLine(lineA.origin, lineA.direction, originB, directionB, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the lines
+        /// </summary>
+        public static bool IntersectLineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB, out Vector2 intersection)
         {
             float denominator = VectorE.PerpDot(directionA, directionB);
             Vector2 originBToA = originA - originB;
@@ -242,8 +286,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the circle
         /// </summary>
-        public static bool IntersectLineCircle(Ray2D line, Vector2 center, float radius,
-            out Vector2 pointA, out Vector2 pointB)
+        public static bool IntersectLineCircle(Line2 line, Circle circle, out Vector2 pointA, out Vector2 pointB)
+        {
+            return IntersectLineCircle(line.origin, line.direction, circle.center, circle.radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the circle
+        /// </summary>
+        public static bool IntersectLineCircle(Line2 line, Vector2 center, float radius, out Vector2 pointA, out Vector2 pointB)
         {
             return IntersectLineCircle(line.origin, line.direction, center, radius, out pointA, out pointB);
         }
@@ -251,8 +302,16 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the circle
         /// </summary>
-        public static bool IntersectLineCircle(Vector2 origin, Vector2 direction, Vector2 center, float radius,
-            out Vector2 pointA, out Vector2 pointB)
+        public static bool IntersectLineCircle(Vector2 origin, Vector2 direction, Circle circle, out Vector2 pointA, out Vector2 pointB)
+        {
+            return IntersectLineCircle(origin, direction, circle.center, circle.radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the circle
+        /// </summary>
+        public static bool IntersectLineCircle(Vector2 origin, Vector2 direction, Vector2 center, float radius, out Vector2 pointA,
+            out Vector2 pointB)
         {
             Vector2 toCenter = center - origin;
             float toCenterOnLine = Vector2.Dot(toCenter, direction);
@@ -286,8 +345,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the ray and the circle
         /// </summary>
-        public static bool IntersectRayCircle(Ray2D ray, Vector2 center, float radius,
-            out Vector2 pointA, out Vector2 pointB)
+        public static bool IntersectRayCircle(Ray2D ray, Circle circle, out Vector2 pointA, out Vector2 pointB)
+        {
+            return IntersectRayCircle(ray.origin, ray.direction, circle.center, circle.radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the ray and the circle
+        /// </summary>
+        public static bool IntersectRayCircle(Ray2D ray, Vector2 center, float radius, out Vector2 pointA, out Vector2 pointB)
         {
             return IntersectRayCircle(ray.origin, ray.direction, center, radius, out pointA, out pointB);
         }
@@ -295,8 +361,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the ray and the circle
         /// </summary>
-        public static bool IntersectRayCircle(Vector2 origin, Vector2 direction, Vector2 center, float radius,
-            out Vector2 pointA, out Vector2 pointB)
+        public static bool IntersectRayCircle(Vector2 origin, Vector2 direction, Circle circle, out Vector2 pointA, out Vector2 pointB)
+        {
+            return IntersectRayCircle(origin, direction, circle.center, circle.radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the ray and the circle
+        /// </summary>
+        public static bool IntersectRayCircle(Vector2 origin, Vector2 direction, Vector2 center, float radius, out Vector2 pointA, out Vector2 pointB)
         {
             Vector2 toCenter = center - origin;
             float toCenterOnLine = Vector2.Dot(toCenter, direction);

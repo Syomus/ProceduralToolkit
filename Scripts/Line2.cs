@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Representation of a 2D line
+    /// </summary>
     [Serializable]
     public struct Line2
     {
@@ -12,10 +15,21 @@ namespace ProceduralToolkit
         public static Line2 xAxis { get { return new Line2(Vector2.zero, Vector2.right); } }
         public static Line2 yAxis { get { return new Line2(Vector2.zero, Vector2.up); } }
 
+        public Line2(Ray2D ray)
+        {
+            origin = ray.origin;
+            direction = ray.direction;
+        }
+
         public Line2(Vector2 origin, Vector2 direction)
         {
             this.origin = origin;
             this.direction = direction;
+        }
+
+        public static implicit operator Line2(Ray2D ray)
+        {
+            return new Line2(ray);
         }
 
         public override string ToString()
