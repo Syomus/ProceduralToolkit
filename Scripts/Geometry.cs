@@ -140,7 +140,7 @@ namespace ProceduralToolkit
 
         #endregion Point-Ray
 
-        #region Point-Segement
+        #region Point-Segment
 
         /// <summary>
         /// Returns a distance to the closest point on the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
@@ -195,7 +195,7 @@ namespace ProceduralToolkit
             return segmentA + direction*projectedX;
         }
 
-        #endregion Point-Segement
+        #endregion Point-Segment
 
         #region Line-Line
 
@@ -471,7 +471,7 @@ namespace ProceduralToolkit
 
         #endregion Point-Ray
 
-        #region Point-Segement
+        #region Point-Segment
 
         /// <summary>
         /// Returns a distance to the closest point on the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
@@ -526,7 +526,7 @@ namespace ProceduralToolkit
             return segmentA + direction*projectedX;
         }
 
-        #endregion Point-Segement
+        #endregion Point-Segment
 
         #region Line-Line
 
