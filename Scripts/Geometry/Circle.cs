@@ -79,12 +79,12 @@ namespace ProceduralToolkit
 
         public override string ToString()
         {
-            return string.Format("Color(center: {0}, radius: {1})", center, radius);
+            return string.Format("Circle(center: {0}, radius: {1})", center, radius);
         }
 
         public string ToString(string format)
         {
-            return string.Format("Color(center: {0}, radius: {1})", center.ToString(format), radius.ToString(format));
+            return string.Format("Circle(center: {0}, radius: {1})", center.ToString(format), radius.ToString(format));
         }
     }
 }
