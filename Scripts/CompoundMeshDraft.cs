@@ -139,11 +139,12 @@ namespace ProceduralToolkit
             mesh.SetVertices(finalDraft.vertices);
             mesh.subMeshCount = meshDrafts.Count;
 #if UNITY_2017_3_OR_NEWER
+            int baseVertex = 0;
             for (int i = 0; i < meshDrafts.Count; i++)
             {
                 var draft = meshDrafts[i];
-                int baseVertex = i > 0 ? meshDrafts[i - 1].vertexCount : 0;
                 mesh.SetTriangles(draft.triangles, i, false, baseVertex);
+                baseVertex += draft.vertexCount;
             }
 #else
             for (int submesh = 0; submesh < trianglesCounts.Count; submesh++)
