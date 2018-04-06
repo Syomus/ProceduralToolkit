@@ -113,9 +113,54 @@ namespace ProceduralToolkit
             a = color.a;
         }
 
+        public static explicit operator Vector3(ColorHSV c)
+        {
+            return new Vector3(c.h, c.s, c.v);
+        }
+
         public static explicit operator Vector4(ColorHSV c)
         {
             return new Vector4(c.h, c.s, c.v, c.a);
+        }
+
+        public static explicit operator ColorHSV(Vector3 v)
+        {
+            return new ColorHSV(v.x, v.y, v.z);
+        }
+
+        public static explicit operator ColorHSV(Vector4 v)
+        {
+            return new ColorHSV(v.x, v.y, v.z, v.w);
+        }
+
+        public static ColorHSV operator +(ColorHSV a, ColorHSV b)
+        {
+            return new ColorHSV(a.h + b.h, a.s + b.s, a.v + b.v, a.a + b.a);
+        }
+
+        public static ColorHSV operator -(ColorHSV a, ColorHSV b)
+        {
+            return new ColorHSV(a.h - b.h, a.s - b.s, a.v - b.v, a.a - b.a);
+        }
+
+        public static ColorHSV operator *(ColorHSV a, ColorHSV b)
+        {
+            return new ColorHSV(a.h*b.h, a.s*b.s, a.v*b.v, a.a*b.a);
+        }
+
+        public static ColorHSV operator *(ColorHSV a, float b)
+        {
+            return new ColorHSV(a.h*b, a.s*b, a.v*b, a.a*b);
+        }
+
+        public static ColorHSV operator *(float b, ColorHSV a)
+        {
+            return new ColorHSV(a.h*b, a.s*b, a.v*b, a.a*b);
+        }
+
+        public static ColorHSV operator /(ColorHSV a, float b)
+        {
+            return new ColorHSV(a.h/b, a.s/b, a.v/b, a.a/b);
         }
 
         public static bool operator ==(ColorHSV lhs, ColorHSV rhs)
