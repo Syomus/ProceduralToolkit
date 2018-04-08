@@ -55,7 +55,7 @@ Shader "Procedural Toolkit/Examples/Easing"
                 float time = TriangleWave(_Time.y*0.3);
 
                 float2 uv = i.uv;
-                float2 tiling = float2(3.0, 10.0);
+                float2 tiling = float2(3.0, 7.0);
                 float2 cell2 = TileIO(uv, tiling);
                 float cell = cell2.y*tiling.x + cell2.x;
 
@@ -172,54 +172,6 @@ Shader "Procedural Toolkit/Examples/Easing"
                 {
                     f = EaseInOutCirc(time);
                     p = EaseInOutCirc(uv.x);
-                }
-                // Back
-                else if (cell < 22.0)
-                {
-                    f = EaseInBack(time);
-                    p = EaseInBack(uv.x);
-                }
-                else if (cell < 23.0)
-                {
-                    f = EaseOutBack(time);
-                    p = EaseOutBack(uv.x);
-                }
-                else if (cell < 24.0)
-                {
-                    f = EaseInOutBack(time);
-                    p = EaseInOutBack(uv.x);
-                }
-                // Elastic
-                else if (cell < 25.0)
-                {
-                    f = EaseInElastic(time);
-                    p = EaseInElastic(uv.x);
-                }
-                else if (cell < 26.0)
-                {
-                    f = EaseOutElastic(time);
-                    p = EaseOutElastic(uv.x);
-                }
-                else if (cell < 27.0)
-                {
-                    f = EaseInOutElastic(time);
-                    p = EaseInOutElastic(uv.x);
-                }
-                // Bounce
-                else if (cell < 28.0)
-                {
-                    f = EaseInBounce(time);
-                    p = EaseInBounce(uv.x);
-                }
-                else if (cell < 29.0)
-                {
-                    f = EaseOutBounce(time);
-                    p = EaseOutBounce(uv.x);
-                }
-                else if (cell < 30.0)
-                {
-                    f = EaseInOutBounce(time);
-                    p = EaseInOutBounce(uv.x);
                 }
 
                 float4 color = _BackgroundColor;
