@@ -12,7 +12,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a distance to the closest point on the line
         /// </summary>
-        public static float DistanceToLine(Vector3 point, Ray line)
+        public static float DistanceToLine(Vector3 point, Line3 line)
         {
             return Vector3.Distance(point, ClosestPointOnLine(point, line));
         }
@@ -29,9 +29,18 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the line
         /// </summary>
-        public static Vector3 ClosestPointOnLine(Vector3 point, Ray line)
+        public static Vector3 ClosestPointOnLine(Vector3 point, Line3 line)
         {
             float projectedX;
+            return ClosestPointOnLine(point, line.origin, line.direction, out projectedX);
+        }
+
+        /// <summary>
+        /// Projects the point onto the line
+        /// </summary>
+        /// <param name="projectedX">Position of the projected point on the line relative to the origin</param>
+        public static Vector3 ClosestPointOnLine(Vector3 point, Line3 line, out float projectedX)
+        {
             return ClosestPointOnLine(point, line.origin, line.direction, out projectedX);
         }
 
@@ -139,11 +148,39 @@ namespace ProceduralToolkit
         #region Point-Segment
 
         /// <summary>
+        /// Returns a distance to the closest point on the line segment
+        /// </summary>
+        public static float DistanceToSegment(Vector3 point, Segment3 segment)
+        {
+            return Vector3.Distance(point, ClosestPointOnSegment(point, segment));
+        }
+
+        /// <summary>
         /// Returns a distance to the closest point on the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
         /// </summary>
         public static float DistanceToSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB)
         {
             return Vector3.Distance(point, ClosestPointOnSegment(point, segmentA, segmentB));
+        }
+
+        /// <summary>
+        /// Projects the point onto the line segment
+        /// </summary>
+        public static Vector3 ClosestPointOnSegment(Vector3 point, Segment3 segment)
+        {
+            float projectedX;
+            return ClosestPointOnSegment(point, segment.a, segment.b, out projectedX);
+        }
+
+        /// <summary>
+        /// Projects the point onto the line segment
+        /// </summary>
+        /// <param name="projectedX">Normalized position of the projected point on the line segment. 
+        /// Value of zero means that the projected point coincides with segment.a. 
+        /// Value of one means that the projected point coincides with segment.b.</param>
+        public static Vector3 ClosestPointOnSegment(Vector3 point, Segment3 segment, out float projectedX)
+        {
+            return ClosestPointOnSegment(point, segment.a, segment.b, out projectedX);
         }
 
         /// <summary>
@@ -252,9 +289,17 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the lines
         /// </summary>
-        public static bool IntersectLineLine(Ray lineA, Ray lineB, out Vector3 intersection)
+        public static bool IntersectLineLine(Line3 lineA, Line3 lineB, out Vector3 intersection)
         {
             return IntersectLineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the lines
+        /// </summary>
+        public static bool IntersectLineLine(Line3 lineA, Vector3 originB, Vector3 directionB, out Vector3 intersection)
+        {
+            return IntersectLineLine(lineA.origin, lineA.direction, originB, directionB, out intersection);
         }
 
         /// <summary>
@@ -308,10 +353,26 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the sphere
         /// </summary>
-        public static bool IntersectLineSphere(Ray line, Vector3 center, float radius,
+        public static bool IntersectLineSphere(Line3 line, Sphere sphere, out Vector3 pointA, out Vector3 pointB)
+        {
+            return IntersectLineSphere(line.origin, line.direction, sphere.center, sphere.radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the sphere
+        /// </summary>
+        public static bool IntersectLineSphere(Line3 line, Vector3 center, float radius,
             out Vector3 pointA, out Vector3 pointB)
         {
             return IntersectLineSphere(line.origin, line.direction, center, radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the sphere
+        /// </summary>
+        public static bool IntersectLineSphere(Vector3 origin, Vector3 direction, Sphere sphere, out Vector3 pointA, out Vector3 pointB)
+        {
+            return IntersectLineSphere(origin, direction, sphere.center, sphere.radius, out pointA, out pointB);
         }
 
         /// <summary>
@@ -352,8 +413,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the ray and the sphere
         /// </summary>
-        public static bool IntersectRaySphere(Ray ray, Vector3 center, float radius,
-            out Vector3 pointA, out Vector3 pointB)
+        public static bool IntersectRaySphere(Ray ray, Sphere sphere, out Vector3 pointA, out Vector3 pointB)
+        {
+            return IntersectRaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the ray and the sphere
+        /// </summary>
+        public static bool IntersectRaySphere(Ray ray, Vector3 center, float radius, out Vector3 pointA, out Vector3 pointB)
         {
             return IntersectRaySphere(ray.origin, ray.direction, center, radius, out pointA, out pointB);
         }
@@ -361,8 +429,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the ray and the sphere
         /// </summary>
-        public static bool IntersectRaySphere(Vector3 origin, Vector3 direction, Vector3 center, float radius,
-            out Vector3 pointA, out Vector3 pointB)
+        public static bool IntersectRaySphere(Vector3 origin, Vector3 direction, Sphere sphere, out Vector3 pointA, out Vector3 pointB)
+        {
+            return IntersectRaySphere(origin, direction, sphere.center, sphere.radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the ray and the sphere
+        /// </summary>
+        public static bool IntersectRaySphere(Vector3 origin, Vector3 direction, Vector3 center, float radius, out Vector3 pointA, out Vector3 pointB)
         {
             Vector3 toCenter = center - origin;
             float toCenterOnLine = Vector3.Dot(toCenter, direction);
