@@ -193,6 +193,60 @@ namespace ProceduralToolkit
 
         #endregion Point-Segment
 
+        #region Point-Sphere
+
+        /// <summary>
+        /// Returns a distance to the closest point on the sphere
+        /// </summary>
+        /// <returns>Positive value if the point is outside, negative otherwise</returns>
+        public static float DistanceToSphere(Vector3 point, Sphere sphere)
+        {
+            return DistanceToSphere(point, sphere.center, sphere.radius);
+        }
+
+        /// <summary>
+        /// Returns a distance to the closest point on the sphere defined by <paramref name="center"/> and <paramref name="radius"/>
+        /// </summary>
+        /// <returns>Positive value if the point is outside, negative otherwise</returns>
+        public static float DistanceToSphere(Vector3 point, Vector3 center, float radius)
+        {
+            return (center - point).magnitude - radius;
+        }
+
+        /// <summary>
+        /// Projects the point onto the sphere
+        /// </summary>
+        public static Vector3 ClosestPointOnSphere(Vector3 point, Sphere sphere)
+        {
+            return ClosestPointOnSphere(point, sphere.center, sphere.radius);
+        }
+
+        /// <summary>
+        /// Projects the point onto the sphere defined by <paramref name="center"/> and <paramref name="radius"/>
+        /// </summary>
+        public static Vector3 ClosestPointOnSphere(Vector3 point, Vector3 center, float radius)
+        {
+            return (point - center).normalized*radius;
+        }
+
+        /// <summary>
+        /// Tests if the point is inside the sphere
+        /// </summary>
+        public static bool IntersectPointSphere(Vector3 point, Sphere sphere)
+        {
+            return IntersectPointSphere(point, sphere.center, sphere.radius);
+        }
+
+        /// <summary>
+        /// Tests if the point is inside the sphere
+        /// </summary>
+        public static bool IntersectPointSphere(Vector3 point, Vector3 center, float radius)
+        {
+            return (point - center).sqrMagnitude < radius*radius;
+        }
+
+        #endregion Point-Sphere
+
         #region Line-Line
 
         /// <summary>
