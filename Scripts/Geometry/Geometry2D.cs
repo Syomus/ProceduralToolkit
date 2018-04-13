@@ -78,6 +78,61 @@ namespace ProceduralToolkit
             return origin + direction*projectedX;
         }
 
+        /// <summary>
+        /// Tests if the point lies on the line
+        /// </summary>
+        public static bool IntersectPointLine(Vector2 point, Line2 line)
+        {
+            return IntersectPointLine(point, line.origin, line.direction);
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the line
+        /// </summary>
+        /// <param name="side">
+        /// -1 if the point is to the left of the line,
+        /// 0 if it is on the line,
+        /// 1 if it is to the right of the line
+        /// </param>
+        public static bool IntersectPointLine(Vector2 point, Line2 line, out int side)
+        {
+            return IntersectPointLine(point, line.origin, line.direction, out side);
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the line
+        /// </summary>
+        public static bool IntersectPointLine(Vector2 point, Vector2 origin, Vector2 direction)
+        {
+            float perpDot = VectorE.PerpDot(point - origin, direction);
+            return -Epsilon < perpDot && perpDot < Epsilon;
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the line
+        /// </summary>
+        /// <param name="side">
+        /// -1 if the point is to the left of the line,
+        /// 0 if it is on the line,
+        /// 1 if it is to the right of the line
+        /// </param>
+        public static bool IntersectPointLine(Vector2 point, Vector2 origin, Vector2 direction, out int side)
+        {
+            float perpDot = VectorE.PerpDot(point - origin, direction);
+            if (perpDot < -Epsilon)
+            {
+                side = -1;
+                return false;
+            }
+            if (perpDot > Epsilon)
+            {
+                side = 1;
+                return false;
+            }
+            side = 0;
+            return true;
+        }
+
         #endregion Point-Line
 
         #region Point-Ray
