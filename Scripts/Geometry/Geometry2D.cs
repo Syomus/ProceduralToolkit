@@ -201,6 +201,64 @@ namespace ProceduralToolkit
             return origin + direction*projectedX;
         }
 
+        /// <summary>
+        /// Tests if the point lies on the ray
+        /// </summary>
+        public static bool IntersectPointRay(Vector2 point, Ray2D ray)
+        {
+            return IntersectPointRay(point, ray.origin, ray.direction);
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the ray
+        /// </summary>
+        /// <param name="side">
+        /// -1 if the point is to the left of the ray,
+        /// 0 if it is on the line,
+        /// 1 if it is to the right of the ray
+        /// </param>
+        public static bool IntersectPointRay(Vector2 point, Ray2D ray, out int side)
+        {
+            return IntersectPointRay(point, ray.origin, ray.direction, out side);
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the ray
+        /// </summary>
+        public static bool IntersectPointRay(Vector2 point, Vector2 origin, Vector2 direction)
+        {
+            Vector2 toPoint = point - origin;
+            float perpDot = VectorE.PerpDot(toPoint, direction);
+            return -Epsilon < perpDot && perpDot < Epsilon &&
+                   Vector2.Dot(toPoint, direction) > -Epsilon;
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the ray
+        /// </summary>
+        /// <param name="side">
+        /// -1 if the point is to the left of the ray,
+        /// 0 if it is on the line,
+        /// 1 if it is to the right of the ray
+        /// </param>
+        public static bool IntersectPointRay(Vector2 point, Vector2 origin, Vector2 direction, out int side)
+        {
+            Vector2 toPoint = point - origin;
+            float perpDot = VectorE.PerpDot(toPoint, direction);
+            if (perpDot < -Epsilon)
+            {
+                side = -1;
+                return false;
+            }
+            if (perpDot > Epsilon)
+            {
+                side = 1;
+                return false;
+            }
+            side = 0;
+            return Vector2.Dot(toPoint, direction) > -Epsilon;
+        }
+
         #endregion Point-Ray
 
         #region Point-Segment
