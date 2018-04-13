@@ -469,7 +469,10 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a distance between the closest points on the circles
         /// </summary>
-        /// <returns>Positive value if the circles do not intersect, negative otherwise</returns>
+        /// <returns>
+        /// Positive value if the circles do not intersect, negative otherwise.
+        /// Negative value can be interpreted as depth of penetration.
+        /// </returns>
         public static float DistanceToCircle(Circle circleA, Circle circleB)
         {
             return DistanceToCircle(circleA.center, circleA.radius, circleB.center, circleB.radius);
@@ -478,10 +481,32 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a distance between the closest points on the circles
         /// </summary>
-        /// <returns>Positive value if the circles do not intersect, negative otherwise</returns>
+        /// <returns>
+        /// Positive value if the circles do not intersect, negative otherwise.
+        /// Negative value can be interpreted as depth of penetration.
+        /// </returns>
         public static float DistanceToCircle(Vector2 centerA, float radiusA, Vector2 centerB, float radiusB)
         {
             return Vector2.Distance(centerA, centerB) - radiusA - radiusB;
+        }
+
+        /// <summary>
+        /// Finds closest points on circles
+        /// </summary>
+        public static void ClosestPointsOnCircles(Circle circleA, Circle circleB, out Vector2 pointA, out Vector2 pointB)
+        {
+            ClosestPointsOnCircles(circleA.center, circleA.radius, circleB.center, circleB.radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Finds closest points on circles
+        /// </summary>
+        public static void ClosestPointsOnCircles(Vector2 centerA, float radiusA, Vector2 centerB, float radiusB,
+            out Vector2 pointA, out Vector2 pointB)
+        {
+            Vector2 aToB = (centerB - centerA).normalized;
+            pointA = centerA + aToB*radiusA;
+            pointB = centerB - aToB*radiusB;
         }
 
         /// <summary>
