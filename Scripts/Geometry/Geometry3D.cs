@@ -263,7 +263,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 ClosestPointOnSphere(Vector3 point, Vector3 center, float radius)
         {
-            return (point - center).normalized*radius;
+            return center + (point - center).normalized*radius;
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool IntersectPointSphere(Vector3 point, Vector3 center, float radius)
         {
-            return (point - center).sqrMagnitude < radius*radius;
+            return (point - center).sqrMagnitude <= radius*radius;
         }
 
         #endregion Point-Sphere

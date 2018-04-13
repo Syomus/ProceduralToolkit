@@ -446,7 +446,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector2 ClosestPointOnCircle(Vector2 point, Vector2 center, float radius)
         {
-            return (point - center).normalized*radius;
+            return center + (point - center).normalized*radius;
         }
 
         /// <summary>
@@ -462,7 +462,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool IntersectPointCircle(Vector2 point, Vector2 center, float radius)
         {
-            return (point - center).sqrMagnitude < radius*radius;
+            return (point - center).sqrMagnitude <= radius*radius;
         }
 
         #endregion Point-Circle
