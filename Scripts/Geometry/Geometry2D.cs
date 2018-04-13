@@ -344,6 +344,73 @@ namespace ProceduralToolkit
             return segmentA + direction*projectedX;
         }
 
+        /// <summary>
+        /// Tests if the point lies on the segment
+        /// </summary>
+        public static bool IntersectPointSegment(Vector2 point, Segment2 segment)
+        {
+            return IntersectPointSegment(point, segment.a, segment.b);
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the segment
+        /// </summary>
+        /// <param name="side">
+        /// -1 if the point is to the left of the segment,
+        /// 0 if it is on the line,
+        /// 1 if it is to the right of the segment
+        /// </param>
+        public static bool IntersectPointSegment(Vector2 point, Segment2 segment, out int side)
+        {
+            return IntersectPointSegment(point, segment.a, segment.b, out side);
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the segment
+        /// </summary>
+        public static bool IntersectPointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB)
+        {
+            Vector2 direction = segmentB - segmentA;
+            Vector2 toPoint = point - segmentA;
+            float perpDot = VectorE.PerpDot(toPoint, direction);
+            if (-Epsilon < perpDot && perpDot < Epsilon)
+            {
+                float dotToPoint = Vector2.Dot(toPoint, direction);
+                return dotToPoint > -Epsilon &&
+                       dotToPoint < Vector2.Dot(direction, direction) + Epsilon;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the segment
+        /// </summary>
+        /// <param name="side">
+        /// -1 if the point is to the left of the segment,
+        /// 0 if it is on the line,
+        /// 1 if it is to the right of the segment
+        /// </param>
+        public static bool IntersectPointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, out int side)
+        {
+            Vector2 direction = segmentB - segmentA;
+            Vector2 toPoint = point - segmentA;
+            float perpDot = VectorE.PerpDot(toPoint, direction);
+            if (perpDot < -Epsilon)
+            {
+                side = -1;
+                return false;
+            }
+            if (perpDot > Epsilon)
+            {
+                side = 1;
+                return false;
+            }
+            side = 0;
+            float dotToPoint = Vector2.Dot(toPoint, direction);
+            return dotToPoint > -Epsilon &&
+                   dotToPoint < Vector2.Dot(direction, direction) + Epsilon;
+        }
+
         #endregion Point-Segment
 
         #region Point-Circle
