@@ -297,14 +297,6 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the lines
         /// </summary>
-        public static bool IntersectLineLine(Line3 lineA, Vector3 originB, Vector3 directionB, out Vector3 intersection)
-        {
-            return IntersectLineLine(lineA.origin, lineA.direction, originB, directionB, out intersection);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the lines
-        /// </summary>
         public static bool IntersectLineLine(Vector3 originA, Vector3 directionA, Vector3 originB, Vector3 directionB,
             out Vector3 intersection)
         {
@@ -361,23 +353,6 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the sphere
         /// </summary>
-        public static bool IntersectLineSphere(Line3 line, Vector3 center, float radius,
-            out Vector3 pointA, out Vector3 pointB)
-        {
-            return IntersectLineSphere(line.origin, line.direction, center, radius, out pointA, out pointB);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the line and the sphere
-        /// </summary>
-        public static bool IntersectLineSphere(Vector3 origin, Vector3 direction, Sphere sphere, out Vector3 pointA, out Vector3 pointB)
-        {
-            return IntersectLineSphere(origin, direction, sphere.center, sphere.radius, out pointA, out pointB);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the line and the sphere
-        /// </summary>
         public static bool IntersectLineSphere(Vector3 origin, Vector3 direction, Vector3 center, float radius,
             out Vector3 pointA, out Vector3 pointB)
         {
@@ -416,22 +391,6 @@ namespace ProceduralToolkit
         public static bool IntersectRaySphere(Ray ray, Sphere sphere, out Vector3 pointA, out Vector3 pointB)
         {
             return IntersectRaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out pointA, out pointB);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the ray and the sphere
-        /// </summary>
-        public static bool IntersectRaySphere(Ray ray, Vector3 center, float radius, out Vector3 pointA, out Vector3 pointB)
-        {
-            return IntersectRaySphere(ray.origin, ray.direction, center, radius, out pointA, out pointB);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the ray and the sphere
-        /// </summary>
-        public static bool IntersectRaySphere(Vector3 origin, Vector3 direction, Sphere sphere, out Vector3 pointA, out Vector3 pointB)
-        {
-            return IntersectRaySphere(origin, direction, sphere.center, sphere.radius, out pointA, out pointB);
         }
 
         /// <summary>

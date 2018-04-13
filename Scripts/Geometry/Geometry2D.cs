@@ -300,14 +300,6 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the lines
         /// </summary>
-        public static bool IntersectLineLine(Line2 lineA, Vector2 originB, Vector2 directionB, out Vector2 intersection)
-        {
-            return IntersectLineLine(lineA.origin, lineA.direction, originB, directionB, out intersection);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the lines
-        /// </summary>
         public static bool IntersectLineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB, out Vector2 intersection)
         {
             float denominator = VectorE.PerpDot(directionA, directionB);
@@ -344,22 +336,6 @@ namespace ProceduralToolkit
         public static bool IntersectLineCircle(Line2 line, Circle circle, out Vector2 pointA, out Vector2 pointB)
         {
             return IntersectLineCircle(line.origin, line.direction, circle.center, circle.radius, out pointA, out pointB);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the line and the circle
-        /// </summary>
-        public static bool IntersectLineCircle(Line2 line, Vector2 center, float radius, out Vector2 pointA, out Vector2 pointB)
-        {
-            return IntersectLineCircle(line.origin, line.direction, center, radius, out pointA, out pointB);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the line and the circle
-        /// </summary>
-        public static bool IntersectLineCircle(Vector2 origin, Vector2 direction, Circle circle, out Vector2 pointA, out Vector2 pointB)
-        {
-            return IntersectLineCircle(origin, direction, circle.center, circle.radius, out pointA, out pointB);
         }
 
         /// <summary>
@@ -403,22 +379,6 @@ namespace ProceduralToolkit
         public static bool IntersectRayCircle(Ray2D ray, Circle circle, out Vector2 pointA, out Vector2 pointB)
         {
             return IntersectRayCircle(ray.origin, ray.direction, circle.center, circle.radius, out pointA, out pointB);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the ray and the circle
-        /// </summary>
-        public static bool IntersectRayCircle(Ray2D ray, Vector2 center, float radius, out Vector2 pointA, out Vector2 pointB)
-        {
-            return IntersectRayCircle(ray.origin, ray.direction, center, radius, out pointA, out pointB);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the ray and the circle
-        /// </summary>
-        public static bool IntersectRayCircle(Vector2 origin, Vector2 direction, Circle circle, out Vector2 pointA, out Vector2 pointB)
-        {
-            return IntersectRayCircle(origin, direction, circle.center, circle.radius, out pointA, out pointB);
         }
 
         /// <summary>
