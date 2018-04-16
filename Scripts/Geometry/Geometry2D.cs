@@ -470,6 +470,65 @@ namespace ProceduralToolkit
         #region Line-Line
 
         /// <summary>
+        /// Returns the distance between the closest points on the lines
+        /// </summary>
+        public static float DistanceToLine(Line2 lineA, Line2 lineB)
+        {
+            return DistanceToLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction);
+        }
+
+        /// <summary>
+        /// Returns the distance between the closest points on the lines defined by origin and direction
+        /// </summary>
+        public static float DistanceToLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB)
+        {
+            Vector2 originBToA = originA - originB;
+            float denominator = VectorE.PerpDot(directionA, directionB);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                float dotA = Vector2.Dot(directionA, originBToA);
+                float distanceSqr = originBToA.sqrMagnitude - dotA*dotA;
+                return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
+            }
+
+            // Not parallel
+            return 0;
+        }
+
+        /// <summary>
+        /// Finds closest points on the lines
+        /// </summary>
+        public static void ClosestPointsOnLines(Line2 lineA, Line2 lineB, out Vector2 pointA, out Vector2 pointB)
+        {
+            ClosestPointsOnLines(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Finds closest points on the lines
+        /// </summary>
+        public static void ClosestPointsOnLines(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
+            out Vector2 pointA, out Vector2 pointB)
+        {
+            Vector2 originBToA = originA - originB;
+            float denominator = VectorE.PerpDot(directionA, directionB);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                pointA = originA - directionA*Vector2.Dot(directionA, originBToA);
+                pointB = originB;
+                return;
+            }
+
+            // Not parallel
+            float perpDotB = VectorE.PerpDot(directionB, originBToA);
+            pointA = originA + directionA*(perpDotB/denominator);
+            pointB = pointA;
+        }
+
+        /// <summary>
         /// Computes an intersection of the lines
         /// </summary>
         public static bool IntersectLineLine(Line2 lineA, Line2 lineB, out Vector2 intersection)
@@ -482,15 +541,15 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool IntersectLineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB, out Vector2 intersection)
         {
-            float denominator = VectorE.PerpDot(directionA, directionB);
             Vector2 originBToA = originA - originB;
-            float a = VectorE.PerpDot(directionA, originBToA);
-            float b = VectorE.PerpDot(directionB, originBToA);
+            float denominator = VectorE.PerpDot(directionA, directionB);
+            float perpDotB = VectorE.PerpDot(directionB, originBToA);
 
             if (Mathf.Abs(denominator) < Epsilon)
             {
                 // Parallel
-                if (Mathf.Abs(a) > Epsilon || Mathf.Abs(b) > Epsilon)
+                float perpDotA = VectorE.PerpDot(directionA, originBToA);
+                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
                     // Not collinear
                     intersection = Vector2.zero;
@@ -501,8 +560,8 @@ namespace ProceduralToolkit
                 return true;
             }
 
-            float distanceA = b/denominator;
-            intersection = originA + distanceA*directionA;
+            // Not parallel
+            intersection = originA + directionA*(perpDotB/denominator);
             return true;
         }
 
@@ -607,7 +666,7 @@ namespace ProceduralToolkit
         #region Circle-Circle
 
         /// <summary>
-        /// Returns a distance between the closest points on the circles
+        /// Returns the distance between the closest points on the circles
         /// </summary>
         /// <returns>
         /// Positive value if the circles do not intersect, negative otherwise.
@@ -619,7 +678,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a distance between the closest points on the circles
+        /// Returns the distance between the closest points on the circles
         /// </summary>
         /// <returns>
         /// Positive value if the circles do not intersect, negative otherwise.
@@ -631,7 +690,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Finds closest points on circles
+        /// Finds closest points on the circles
         /// </summary>
         public static void ClosestPointsOnCircles(Circle circleA, Circle circleB, out Vector2 pointA, out Vector2 pointB)
         {
@@ -639,7 +698,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Finds closest points on circles
+        /// Finds closest points on the circles
         /// </summary>
         public static void ClosestPointsOnCircles(Vector2 centerA, float radiusA, Vector2 centerB, float radiusB,
             out Vector2 pointA, out Vector2 pointB)
