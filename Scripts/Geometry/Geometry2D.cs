@@ -531,7 +531,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the lines
         /// </summary>
-        public static bool IntersectLineLine(Line2 lineA, Line2 lineB, out Vector2 intersection)
+        public static bool IntersectLineLine(Line2 lineA, Line2 lineB, out IntersectionLineLine2 intersection)
         {
             return IntersectLineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out intersection);
         }
@@ -539,8 +539,10 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the lines
         /// </summary>
-        public static bool IntersectLineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB, out Vector2 intersection)
+        public static bool IntersectLineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
+            out IntersectionLineLine2 intersection)
         {
+            intersection = new IntersectionLineLine2();
             Vector2 originBToA = originA - originB;
             float denominator = VectorE.PerpDot(directionA, directionB);
             float perpDotB = VectorE.PerpDot(directionB, originBToA);
@@ -552,16 +554,18 @@ namespace ProceduralToolkit
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
                     // Not collinear
-                    intersection = Vector2.zero;
+                    intersection.type = IntersectionType.None;
                     return false;
                 }
                 // Collinear
-                intersection = originA;
+                intersection.type = IntersectionType.Line;
+                intersection.point = originA;
                 return true;
             }
 
             // Not parallel
-            intersection = originA + directionA*(perpDotB/denominator);
+            intersection.type = IntersectionType.Point;
+            intersection.point = originA + directionA*(perpDotB/denominator);
             return true;
         }
 
