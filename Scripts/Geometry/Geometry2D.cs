@@ -482,15 +482,21 @@ namespace ProceduralToolkit
         /// </summary>
         public static float DistanceToLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB)
         {
-            Vector2 originBToA = originA - originB;
-            float denominator = VectorE.PerpDot(directionA, directionB);
-
-            if (Mathf.Abs(denominator) < Epsilon)
+            if (Mathf.Abs(VectorE.PerpDot(directionA, directionB)) < Epsilon)
             {
                 // Parallel
-                float dotA = Vector2.Dot(directionA, originBToA);
-                float distanceSqr = originBToA.sqrMagnitude - dotA*dotA;
-                return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                Vector2 originBToA = originA - originB;
+                if (Mathf.Abs(VectorE.PerpDot(directionA, originBToA)) > Epsilon ||
+                    Mathf.Abs(VectorE.PerpDot(directionB, originBToA)) > Epsilon)
+                {
+                    // Not collinear
+                    float dotA = Vector2.Dot(directionA, originBToA);
+                    float distanceSqr = originBToA.sqrMagnitude - dotA*dotA;
+                    return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                }
+
+                // Collinear
+                return 0;
             }
 
             // Not parallel
@@ -647,7 +653,8 @@ namespace ProceduralToolkit
                     {
                         return Vector2.Distance(originA, originB);
                     }
-                    return Mathf.Sqrt(originBToA.sqrMagnitude - dotA*dotA);
+                    float distanceSqr = originBToA.sqrMagnitude - dotA*dotA;
+                    return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
                 }
                 // Collinear
 
