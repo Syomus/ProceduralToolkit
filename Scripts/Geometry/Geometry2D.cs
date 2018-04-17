@@ -637,15 +637,20 @@ namespace ProceduralToolkit
             if (Mathf.Abs(denominator) < Epsilon)
             {
                 // Parallel
+
+                bool codirected = Vector2.Dot(directionA, directionB) > 0;
+                float dotA = Vector2.Dot(directionA, originBToA);
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
                     // Not collinear
-                    float dotA = Vector2.Dot(directionA, originBToA);
+                    if (!codirected && dotA > 0)
+                    {
+                        return Vector2.Distance(originA, originB);
+                    }
                     return Mathf.Sqrt(originBToA.sqrMagnitude - dotA*dotA);
                 }
                 // Collinear
 
-                bool codirected = Vector2.Dot(directionA, directionB) > 0;
                 if (codirected)
                 {
                     // Ray intersection
@@ -653,8 +658,7 @@ namespace ProceduralToolkit
                 }
                 else
                 {
-                    bool originAOnRayB = Vector2.Dot(directionA, originBToA) > 0;
-                    if (originAOnRayB)
+                    if (dotA > 0)
                     {
                         // No intersection
                         return Vector2.Distance(originA, originB);
@@ -850,17 +854,17 @@ namespace ProceduralToolkit
                 // Collinear
 
                 bool codirected = Vector2.Dot(directionA, directionB) > 0;
-                bool originAOnRayB = Vector2.Dot(directionA, originBToA) > 0;
+                float dotA = Vector2.Dot(directionA, originBToA);
                 if (codirected)
                 {
                     intersection.type = IntersectionType.Ray;
-                    intersection.pointA = originAOnRayB ? originA : originB;
+                    intersection.pointA = dotA > 0 ? originA : originB;
                     intersection.pointB = directionA;
                     return true;
                 }
                 else
                 {
-                    if (originAOnRayB)
+                    if (dotA > 0)
                     {
                         intersection.type = IntersectionType.None;
                         return false;
