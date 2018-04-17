@@ -617,6 +617,81 @@ namespace ProceduralToolkit
         #region Ray-Ray
 
         /// <summary>
+        /// Returns the distance between the closest points on the rays
+        /// </summary>
+        public static float DistanceToRay(Ray2D rayA, Ray2D rayB)
+        {
+            return DistanceToRay(rayA.origin, rayA.direction, rayB.origin, rayB.direction);
+        }
+
+        /// <summary>
+        /// Returns the distance between the closest points on the rays
+        /// </summary>
+        public static float DistanceToRay(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB)
+        {
+            Vector2 originBToA = originA - originB;
+            float denominator = VectorE.PerpDot(directionA, directionB);
+            float perpDotA = VectorE.PerpDot(directionA, originBToA);
+            float perpDotB = VectorE.PerpDot(directionB, originBToA);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                {
+                    // Not collinear
+                    float dotA = Vector2.Dot(directionA, originBToA);
+                    return Mathf.Sqrt(originBToA.sqrMagnitude - dotA*dotA);
+                }
+                // Collinear
+
+                bool codirected = Vector2.Dot(directionA, directionB) > 0;
+                if (codirected)
+                {
+                    // Ray intersection
+                    return 0;
+                }
+                else
+                {
+                    bool originAOnRayB = Vector2.Dot(directionA, originBToA) > 0;
+                    if (originAOnRayB)
+                    {
+                        // No intersection
+                        return Vector2.Distance(originA, originB);
+                    }
+                    else
+                    {
+                        // Segment intersection
+                        return 0;
+                    }
+                }
+            }
+
+            // The rays are skew and may intersect in a point
+            float distanceA = perpDotB/denominator;
+            float distanceB = perpDotA/denominator;
+            bool intersectionNotOnA = distanceA < -Epsilon;
+            bool intersectionNotOnB = distanceB < -Epsilon;
+            if (intersectionNotOnA && intersectionNotOnB)
+            {
+                // No intersection
+                return Vector2.Distance(originA, originB);
+            }
+            if (intersectionNotOnA)
+            {
+                // No intersection
+                return Vector2.Distance(originA, originB + directionB*distanceB);
+            }
+            if (intersectionNotOnB)
+            {
+                // No intersection
+                return Vector2.Distance(originB, originA + directionA*distanceA);
+            }
+            // Point intersection
+            return 0;
+        }
+
+        /// <summary>
         /// Computes an intersection of the rays
         /// </summary>
         public static bool IntersectRayRay(Ray2D rayA, Ray2D rayB, out IntersectionRayRay2 intersection)
