@@ -519,19 +519,27 @@ namespace ProceduralToolkit
         {
             Vector2 originBToA = originA - originB;
             float denominator = VectorE.PerpDot(directionA, directionB);
+            float perpDotB = VectorE.PerpDot(directionB, originBToA);
 
             if (Mathf.Abs(denominator) < Epsilon)
             {
                 // Parallel
-                pointA = originA - directionA*Vector2.Dot(directionA, originBToA);
-                pointB = originB;
+                if (Mathf.Abs(perpDotB) > Epsilon ||
+                    Mathf.Abs(VectorE.PerpDot(directionA, originBToA)) > Epsilon)
+                {
+                    // Not collinear
+                    pointA = originA;
+                    pointB = originB + directionB*Vector2.Dot(directionB, originBToA);
+                    return;
+                }
+
+                // Collinear
+                pointA = pointB = originA;
                 return;
             }
 
             // Not parallel
-            float perpDotB = VectorE.PerpDot(directionB, originBToA);
-            pointA = originA + directionA*(perpDotB/denominator);
-            pointB = pointA;
+            pointA = pointB = originA + directionA*(perpDotB/denominator);
         }
 
         /// <summary>
