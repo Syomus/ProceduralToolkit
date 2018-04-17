@@ -38,7 +38,7 @@ namespace ProceduralToolkit
             return new Line2(a.origin + (b.origin - a.origin)*t, a.direction + (b.direction - a.direction)*t);
         }
 
-        public static implicit operator Line2(Ray2D ray)
+        public static explicit operator Line2(Ray2D ray)
         {
             return new Line2(ray);
         }
