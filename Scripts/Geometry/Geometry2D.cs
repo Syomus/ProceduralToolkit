@@ -692,6 +692,132 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Finds closest points on the rays
+        /// </summary>
+        public static void ClosestPointsOnRays(Ray2D rayA, Ray2D rayB, out Vector2 pointA, out Vector2 pointB)
+        {
+            ClosestPointsOnRays(rayA.origin, rayA.direction, rayB.origin, rayB.direction, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Finds closest points on the rays
+        /// </summary>
+        public static void ClosestPointsOnRays(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
+            out Vector2 pointA, out Vector2 pointB)
+        {
+            Vector2 originBToA = originA - originB;
+            float denominator = VectorE.PerpDot(directionA, directionB);
+            float perpDotA = VectorE.PerpDot(directionA, originBToA);
+            float perpDotB = VectorE.PerpDot(directionB, originBToA);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                bool codirected = Vector2.Dot(directionA, directionB) > 0;
+                float dotA = Vector2.Dot(directionA, originBToA);
+
+                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                {
+                    // Not collinear
+                    if (codirected)
+                    {
+                        if (dotA > 0)
+                        {
+                            // Projection of originA is on rayB
+                            pointA = originA;
+                            pointB = originB + dotA*directionA;
+                            return;
+                        }
+                        else
+                        {
+                            pointA = originA - dotA*directionA;
+                            pointB = originB;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (dotA > 0)
+                        {
+                            pointA = originA;
+                            pointB = originB;
+                            return;
+                        }
+                        else
+                        {
+                            // Projection of originA is on rayB
+                            pointA = originA;
+                            pointB = originB + dotA*directionA;
+                            return;
+                        }
+                    }
+                }
+                // Collinear
+
+                if (codirected)
+                {
+                    // Ray intersection
+                    if (dotA > 0)
+                    {
+                        // Projection of originA is on rayB
+                        pointA = pointB = originA;
+                        return;
+                    }
+                    else
+                    {
+                        pointA = pointB = originB;
+                        return;
+                    }
+                }
+                else
+                {
+                    if (dotA > 0)
+                    {
+                        // No intersection
+                        pointA = originA;
+                        pointB = originB;
+                        return;
+                    }
+                    else
+                    {
+                        // Segment intersection
+                        pointA = pointB = originA;
+                        return;
+                    }
+                }
+            }
+
+            // The rays are skew and may intersect in a point
+            float distanceA = perpDotB/denominator;
+            float distanceB = perpDotA/denominator;
+            bool intersectionNotOnA = distanceA < -Epsilon;
+            bool intersectionNotOnB = distanceB < -Epsilon;
+            if (intersectionNotOnA && intersectionNotOnB)
+            {
+                // No intersection
+                pointA = originA;
+                pointB = originB;
+                return;
+            }
+            if (intersectionNotOnA)
+            {
+                // No intersection
+                pointA = originA;
+                pointB = originB + directionB*distanceB;
+                return;
+            }
+            if (intersectionNotOnB)
+            {
+                // No intersection
+                pointA = originA + directionA*distanceA;
+                pointB = originB;
+                return;
+            }
+            // Point intersection
+            pointA = pointB = originA + directionA*distanceA;
+        }
+
+        /// <summary>
         /// Computes an intersection of the rays
         /// </summary>
         public static bool IntersectRayRay(Ray2D rayA, Ray2D rayB, out IntersectionRayRay2 intersection)
