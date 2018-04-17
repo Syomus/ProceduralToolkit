@@ -614,6 +614,88 @@ namespace ProceduralToolkit
 
         #endregion Line-Circle
 
+        #region Ray-Ray
+
+        /// <summary>
+        /// Computes an intersection of the rays
+        /// </summary>
+        public static bool IntersectRayRay(Ray2D rayA, Ray2D rayB, out IntersectionRayRay2 intersection)
+        {
+            return IntersectRayRay(rayA.origin, rayA.direction, rayB.origin, rayB.direction, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the rays
+        /// </summary>
+        public static bool IntersectRayRay(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
+            out IntersectionRayRay2 intersection)
+        {
+            intersection = new IntersectionRayRay2();
+
+            Vector2 originBToA = originA - originB;
+            float denominator = VectorE.PerpDot(directionA, directionB);
+            float perpDotA = VectorE.PerpDot(directionA, originBToA);
+            float perpDotB = VectorE.PerpDot(directionB, originBToA);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                {
+                    // Not collinear
+                    intersection.type = IntersectionType.None;
+                    return false;
+                }
+                // Collinear
+
+                bool codirected = Vector2.Dot(directionA, directionB) > 0;
+                bool originAOnRayB = Vector2.Dot(directionA, originBToA) > 0;
+                if (codirected)
+                {
+                    intersection.type = IntersectionType.Ray;
+                    intersection.pointA = originAOnRayB ? originA : originB;
+                    intersection.pointB = directionA;
+                    return true;
+                }
+                else
+                {
+                    if (originAOnRayB)
+                    {
+                        intersection.type = IntersectionType.None;
+                        return false;
+                    }
+                    else
+                    {
+                        intersection.type = IntersectionType.Segment;
+                        intersection.pointA = originA;
+                        intersection.pointB = originB;
+                        return true;
+                    }
+                }
+            }
+
+            // The rays are skew and may intersect in a point
+            float distanceA = perpDotB/denominator;
+            if (distanceA < -Epsilon)
+            {
+                intersection.type = IntersectionType.None;
+                return false;
+            }
+
+            float distanceB = perpDotA/denominator;
+            if (distanceB < -Epsilon)
+            {
+                intersection.type = IntersectionType.None;
+                return false;
+            }
+
+            intersection.type = IntersectionType.Point;
+            intersection.pointA = originA + directionA*distanceA;
+            return true;
+        }
+
+        #endregion Ray-Ray
+
         #region Ray-Circle
 
         /// <summary>
