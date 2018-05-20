@@ -969,6 +969,225 @@ namespace ProceduralToolkit
 
         #endregion Ray-Circle
 
+        #region Segment-Segment
+
+        /// <summary>
+        /// Computes an intersection of the segments
+        /// </summary>
+        public static bool IntersectSegmentSegment(Segment2 segment1, Segment2 segment2, out IntersectionSegmentSegment2 intersection)
+        {
+            return IntersectSegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the segments
+        /// </summary>
+        public static bool IntersectSegmentSegment(Vector2 segment1A, Vector2 segment1B, Vector2 segment2A, Vector2 segment2B,
+            out IntersectionSegmentSegment2 intersection)
+        {
+            Vector2 from2ATo1A = segment1A - segment2A;
+            Vector2 direction1 = segment1B - segment1A;
+            Vector2 direction2 = segment2B - segment2A;
+            float denominator = VectorE.PerpDot(direction1, direction2);
+            float perpDot1 = VectorE.PerpDot(direction1, from2ATo1A);
+            float perpDot2 = VectorE.PerpDot(direction2, from2ATo1A);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                if (Mathf.Abs(perpDot1) > Epsilon || Mathf.Abs(perpDot2) > Epsilon)
+                {
+                    // Not collinear
+                    intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                    return false;
+                }
+                // Collinear or degenerate
+
+                bool segment1IsAPoint = direction1.sqrMagnitude < Epsilon;
+                bool segment2IsAPoint = direction2.sqrMagnitude < Epsilon;
+                if (segment1IsAPoint && segment2IsAPoint)
+                {
+                    if (segment1A == segment2A)
+                    {
+                        intersection = new IntersectionSegmentSegment2
+                        {
+                            type = IntersectionType.Point,
+                            pointA = segment1A
+                        };
+                        return true;
+                    }
+                    intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                    return false;
+                }
+                if (segment1IsAPoint)
+                {
+                    if (CollinearPointInSegment(segment2A, segment2B, point: segment1A))
+                    {
+                        intersection = new IntersectionSegmentSegment2
+                        {
+                            type = IntersectionType.Point,
+                            pointA = segment1A
+                        };
+                        return true;
+                    }
+                    intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                    return false;
+                }
+                if (segment2IsAPoint)
+                {
+                    if (CollinearPointInSegment(segment1A, segment1B, point: segment2A))
+                    {
+                        intersection = new IntersectionSegmentSegment2
+                        {
+                            type = IntersectionType.Point,
+                            pointA = segment2A
+                        };
+                        return true;
+                    }
+                    intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                    return false;
+                }
+
+                bool codirected = Vector2.Dot(direction1, direction2) > 0;
+                if (codirected)
+                {
+                    // Codirected
+                    float projectionFrom2ATo1A = Vector2.Dot(direction1, from2ATo1A);
+                    if (projectionFrom2ATo1A > 0)
+                    {
+                        // 2A------2B
+                        //     1A------1B
+                        return IntersectSegmentSegmentCollinear(segment2A, segment2B, segment1A, segment1B, out intersection);
+                    }
+                    else
+                    {
+                        // 1A------1B
+                        //     2A------2B
+                        return IntersectSegmentSegmentCollinear(segment1A, segment1B, segment2A, segment2B, out intersection);
+                    }
+                }
+                else
+                {
+                    // Contradirected
+                    float projectionFrom1ATo2B = Vector2.Dot(direction1, segment2B - segment1A);
+                    if (projectionFrom1ATo2B > 0)
+                    {
+                        // 1A------1B
+                        //     2B------2A
+                        return IntersectSegmentSegmentCollinear(segment1A, segment1B, segment2B, segment2A, out intersection);
+                    }
+                    else
+                    {
+                        // 2B------2A
+                        //     1A------1B
+                        return IntersectSegmentSegmentCollinear(segment2B, segment2A, segment1A, segment1B, out intersection);
+                    }
+                }
+            }
+
+            // The segments are skew
+            float distance1 = perpDot2/denominator;
+            if (distance1 < -Epsilon || distance1 > 1 + Epsilon)
+            {
+                intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                return false;
+            }
+
+            float distance2 = perpDot1/denominator;
+            if (distance2 < -Epsilon || distance2 > 1 + Epsilon)
+            {
+                intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                return false;
+            }
+
+            intersection = new IntersectionSegmentSegment2
+            {
+                type = IntersectionType.Point,
+                pointA = segment1A + direction1*distance1
+            };
+            return true;
+        }
+
+        private static bool CollinearPointInSegment(Vector2 segmentA, Vector2 segmentB, Vector2 point)
+        {
+            if (Mathf.Abs(segmentA.x - segmentB.x) < Epsilon)
+            {
+                // Segment is vertical
+                if (segmentA.y <= point.y && point.y <= segmentB.y)
+                {
+                    return true;
+                }
+                if (segmentA.y >= point.y && point.y >= segmentB.y)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                // Segment is not vertical
+                if (segmentA.x <= point.x && point.x <= segmentB.x)
+                {
+                    return true;
+                }
+                if (segmentA.x >= point.x && point.x >= segmentB.x)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static bool IntersectSegmentSegmentCollinear(Vector2 leftA, Vector2 leftB, Vector2 rightA, Vector2 rightB,
+            out IntersectionSegmentSegment2 intersection)
+        {
+            Vector2 leftDirection = leftB - leftA;
+            float projectionRA = Vector2.Dot(leftDirection, leftB - rightA);
+            if (Mathf.Abs(projectionRA) < Epsilon)
+            {
+                // LB == RA
+                // LA------LB
+                //         RA------RB
+                intersection = new IntersectionSegmentSegment2
+                {
+                    type = IntersectionType.Point,
+                    pointA = leftB,
+                };
+                return true;
+            }
+            if (projectionRA > 0)
+            {
+                // LB > RA
+                // LA------LB
+                //     RARB
+                //     RA--RB
+                //     RA------RB
+                Vector2 pointB;
+                float projectionRB = Vector2.Dot(leftDirection, rightB - leftA);
+                if (projectionRB > leftDirection.sqrMagnitude)
+                {
+                    pointB = leftB;
+                }
+                else
+                {
+                    pointB = rightB;
+                }
+                intersection = new IntersectionSegmentSegment2
+                {
+                    type = IntersectionType.Segment,
+                    pointA = rightA,
+                    pointB = pointB,
+                };
+                return true;
+            }
+            // LB < RA
+            // LA------LB
+            //             RA------RB
+            intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+            return false;
+        }
+
+        #endregion Segment-Segment
+
         #region Circle-Circle
 
         /// <summary>
