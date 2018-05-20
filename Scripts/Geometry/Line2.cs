@@ -27,6 +27,14 @@ namespace ProceduralToolkit
             this.direction = direction;
         }
 
+        /// <summary>
+        /// Returns a point at <paramref name="distance"/> units from origin along the line
+        /// </summary>
+        public Vector2 GetPoint(float distance)
+        {
+            return origin + direction*distance;
+        }
+
         public static Line2 Lerp(Line2 a, Line2 b, float t)
         {
             t = Mathf.Clamp01(t);

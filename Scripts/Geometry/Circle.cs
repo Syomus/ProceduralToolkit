@@ -26,6 +26,14 @@ namespace ProceduralToolkit
             this.radius = radius;
         }
 
+        /// <summary>
+        /// Returns a point on the circle at the given <paramref name="angle"/>
+        /// </summary>
+        public Vector2 GetPoint(float angle)
+        {
+            return center + PTUtils.PointOnCircle2(radius, angle);
+        }
+
         public bool Contains(Vector2 point)
         {
             return Geometry.IntersectPointCircle(point, center, radius);

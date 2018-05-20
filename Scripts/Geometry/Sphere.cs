@@ -26,6 +26,14 @@ namespace ProceduralToolkit
             this.radius = radius;
         }
 
+        /// <summary>
+        /// Returns a point on the sphere at the given coordinates
+        /// </summary>
+        public Vector3 GetPoint(float horizontalAngle, float verticalAngle)
+        {
+            return center + PTUtils.PointOnSphere(radius, horizontalAngle, verticalAngle);
+        }
+
         public bool Contains(Vector3 point)
         {
             return Geometry.IntersectPointSphere(point, center, radius);

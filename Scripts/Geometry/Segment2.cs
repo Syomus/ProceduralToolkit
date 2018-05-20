@@ -18,6 +18,14 @@ namespace ProceduralToolkit
             this.b = b;
         }
 
+        /// <summary>
+        /// Returns a point on the segment at the given normalized position
+        /// </summary>
+        public Vector2 GetPoint(float position)
+        {
+            return Vector2.Lerp(a, b, position);
+        }
+
         public static Segment2 Lerp(Segment2 a, Segment2 b, float t)
         {
             t = Mathf.Clamp01(t);
