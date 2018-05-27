@@ -623,6 +623,59 @@ namespace ProceduralToolkit
 
         #endregion Line-Line
 
+        #region Line-Segment
+
+        /// <summary>
+        /// Computes an intersection of the line and the segment
+        /// </summary>
+        public static bool IntersectLineSegment(Line2 line, Segment2 segment, out IntersectionLineSegment2 intersection)
+        {
+            return IntersectLineSegment(line.origin, line.direction, segment.a, segment.b, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the segment
+        /// </summary>
+        public static bool IntersectLineSegment(Vector2 lineOrigin, Vector2 lineDirection, Vector2 segmentA, Vector2 segmentB,
+            out IntersectionLineSegment2 intersection)
+        {
+            float lineDistance;
+            float segmentDistance;
+            Vector2 segmentDirection = segmentB - segmentA;
+            var intersectionType = IntersectLineLine(lineOrigin, lineDirection, segmentA, segmentDirection, out lineDistance, out segmentDistance);
+            if (intersectionType == IntersectionType.Line)
+            {
+                bool segmentIsAPoint = segmentDirection.sqrMagnitude < Epsilon;
+                if (segmentIsAPoint)
+                {
+                    intersection = IntersectionLineSegment2.Point(segmentA);
+                    return true;
+                }
+
+                bool codirected = Vector2.Dot(lineDirection, segmentB - segmentA) > 0;
+                if (codirected)
+                {
+                    intersection = IntersectionLineSegment2.Segment(segmentA, segmentB);
+                }
+                else
+                {
+                    intersection = IntersectionLineSegment2.Segment(segmentB, segmentA);
+                }
+                return true;
+            }
+            if (intersectionType == IntersectionType.Point &&
+                segmentDistance > -Epsilon && segmentDistance < 1 + Epsilon)
+            {
+                intersection = IntersectionLineSegment2.Point(lineOrigin + lineDirection*lineDistance);
+                return true;
+            }
+
+            intersection = IntersectionLineSegment2.None();
+            return false;
+        }
+
+        #endregion Line-Segment
+
         #region Line-Circle
 
         /// <summary>
