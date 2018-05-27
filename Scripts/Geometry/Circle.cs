@@ -36,7 +36,7 @@ namespace ProceduralToolkit
 
         public bool Contains(Vector2 point)
         {
-            return Geometry.IntersectPointCircle(point, center, radius);
+            return Intersect.PointCircle(point, center, radius);
         }
 
         public static Circle Lerp(Circle a, Circle b, float t)

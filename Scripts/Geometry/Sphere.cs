@@ -36,7 +36,7 @@ namespace ProceduralToolkit
 
         public bool Contains(Vector3 point)
         {
-            return Geometry.IntersectPointSphere(point, center, radius);
+            return Intersect.PointSphere(point, center, radius);
         }
 
         public static Sphere Lerp(Sphere a, Sphere b, float t)
