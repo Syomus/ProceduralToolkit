@@ -626,6 +626,55 @@ namespace ProceduralToolkit
         #region Line-Ray
 
         /// <summary>
+        /// Finds closest points on the line and the ray
+        /// </summary>
+        public static void ClosestPointsLineRay(Line2 line, Ray2D ray, out Vector2 linePoint, out Vector2 rayPoint)
+        {
+            ClosestPointsLineRay(line.origin, line.direction, ray.origin, ray.direction, out linePoint, out rayPoint);
+        }
+
+        /// <summary>
+        /// Finds closest points on the line and the ray
+        /// </summary>
+        public static void ClosestPointsLineRay(Vector2 lineOrigin, Vector2 lineDirection, Vector2 rayOrigin, Vector2 rayDirection,
+            out Vector2 linePoint, out Vector2 rayPoint)
+        {
+            Vector2 rayOriginToLineOrigin = lineOrigin - rayOrigin;
+            float denominator = VectorE.PerpDot(lineDirection, rayDirection);
+            float perpDotA = VectorE.PerpDot(lineDirection, rayOriginToLineOrigin);
+            float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                {
+                    // Not collinear
+                    float dotA = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
+                    linePoint = lineOrigin - dotA*lineDirection;
+                    rayPoint = rayOrigin;
+                    return;
+                }
+                // Collinear
+                linePoint = rayPoint = rayOrigin;
+                return;
+            }
+
+            // Not parallel
+            float lineDistance = perpDotB/denominator;
+            float rayDistance = perpDotA/denominator;
+            if (rayDistance < -Epsilon)
+            {
+                // No intersection
+                linePoint = lineOrigin + lineDirection*lineDistance;
+                rayPoint = rayOrigin;
+                return;
+            }
+            // Point intersection
+            linePoint = rayPoint = lineOrigin + lineDirection*lineDistance;
+        }
+
+        /// <summary>
         /// Computes an intersection of the line and the ray
         /// </summary>
         public static bool IntersectLineRay(Line2 line, Ray2D ray, out IntersectionLineRay2 intersection)
