@@ -623,6 +623,42 @@ namespace ProceduralToolkit
 
         #endregion Line-Line
 
+        #region Line-Ray
+
+        /// <summary>
+        /// Computes an intersection of the line and the ray
+        /// </summary>
+        public static bool IntersectLineRay(Line2 line, Ray2D ray, out IntersectionLineRay2 intersection)
+        {
+            return IntersectLineRay(line.origin, line.direction, ray.origin, ray.direction, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the ray
+        /// </summary>
+        public static bool IntersectLineRay(Vector2 lineOrigin, Vector2 lineDirection, Vector2 rayOrigin, Vector2 rayDirection,
+            out IntersectionLineRay2 intersection)
+        {
+            float lineDistance;
+            float rayDistance;
+            var intersectionType = IntersectLineLine(lineOrigin, lineDirection, rayOrigin, rayDirection, out lineDistance, out rayDistance);
+            if (intersectionType == IntersectionType.Line)
+            {
+                intersection = IntersectionLineRay2.Ray(rayOrigin);
+                return true;
+            }
+            if (intersectionType == IntersectionType.Point && rayDistance > -Epsilon)
+            {
+                intersection = IntersectionLineRay2.Point(lineOrigin + lineDirection*lineDistance);
+                return true;
+            }
+
+            intersection = IntersectionLineRay2.None();
+            return false;
+        }
+
+        #endregion Line-Ray
+
         #region Line-Segment
 
         /// <summary>
