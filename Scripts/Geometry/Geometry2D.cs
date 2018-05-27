@@ -556,7 +556,6 @@ namespace ProceduralToolkit
         public static bool IntersectLineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
             out IntersectionLineLine2 intersection)
         {
-            intersection = new IntersectionLineLine2();
             Vector2 originBToA = originA - originB;
             float denominator = VectorE.PerpDot(directionA, directionB);
             float perpDotB = VectorE.PerpDot(directionB, originBToA);
@@ -568,18 +567,16 @@ namespace ProceduralToolkit
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
                     // Not collinear
-                    intersection.type = IntersectionType.None;
+                    intersection = IntersectionLineLine2.None();
                     return false;
                 }
                 // Collinear
-                intersection.type = IntersectionType.Line;
-                intersection.point = originA;
+                intersection = IntersectionLineLine2.Line(originA);
                 return true;
             }
 
             // Not parallel
-            intersection.type = IntersectionType.Point;
-            intersection.point = originA + directionA*(perpDotB/denominator);
+            intersection = IntersectionLineLine2.Point(originA + directionA*(perpDotB/denominator));
             return true;
         }
 
