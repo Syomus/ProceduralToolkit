@@ -888,8 +888,6 @@ namespace ProceduralToolkit
         public static bool IntersectRayRay(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
             out IntersectionRayRay2 intersection)
         {
-            intersection = new IntersectionRayRay2();
-
             Vector2 originBToA = originA - originB;
             float denominator = VectorE.PerpDot(directionA, directionB);
             float perpDotA = VectorE.PerpDot(directionA, originBToA);
@@ -901,7 +899,7 @@ namespace ProceduralToolkit
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
                     // Not collinear
-                    intersection.type = IntersectionType.None;
+                    intersection = IntersectionRayRay2.None();
                     return false;
                 }
                 // Collinear
@@ -910,23 +908,19 @@ namespace ProceduralToolkit
                 float dotA = Vector2.Dot(directionA, originBToA);
                 if (codirected)
                 {
-                    intersection.type = IntersectionType.Ray;
-                    intersection.pointA = dotA > 0 ? originA : originB;
-                    intersection.pointB = directionA;
+                    intersection = IntersectionRayRay2.Ray(dotA > 0 ? originA : originB, directionA);
                     return true;
                 }
                 else
                 {
                     if (dotA > 0)
                     {
-                        intersection.type = IntersectionType.None;
+                        intersection = IntersectionRayRay2.None();
                         return false;
                     }
                     else
                     {
-                        intersection.type = IntersectionType.Segment;
-                        intersection.pointA = originA;
-                        intersection.pointB = originB;
+                        intersection = IntersectionRayRay2.Segment(originA, originB);
                         return true;
                     }
                 }
@@ -936,19 +930,18 @@ namespace ProceduralToolkit
             float distanceA = perpDotB/denominator;
             if (distanceA < -Epsilon)
             {
-                intersection.type = IntersectionType.None;
+                intersection = IntersectionRayRay2.None();
                 return false;
             }
 
             float distanceB = perpDotA/denominator;
             if (distanceB < -Epsilon)
             {
-                intersection.type = IntersectionType.None;
+                intersection = IntersectionRayRay2.None();
                 return false;
             }
 
-            intersection.type = IntersectionType.Point;
-            intersection.pointA = originA + directionA*distanceA;
+            intersection = IntersectionRayRay2.Point(originA + directionA*distanceA);
             return true;
         }
 
