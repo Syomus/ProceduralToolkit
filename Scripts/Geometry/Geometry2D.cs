@@ -626,6 +626,50 @@ namespace ProceduralToolkit
         #region Line-Ray
 
         /// <summary>
+        /// Returns the distance between the closest points on the line and the ray
+        /// </summary>
+        public static float DistanceLineRay(Line2 line, Ray2D ray)
+        {
+            return DistanceLineRay(line.origin, line.direction, ray.origin, ray.direction);
+        }
+
+        /// <summary>
+        /// Returns the distance between the closest points on the line and the ray
+        /// </summary>
+        public static float DistanceLineRay(Vector2 lineOrigin, Vector2 lineDirection, Vector2 rayOrigin, Vector2 rayDirection)
+        {
+            Vector2 rayOriginToLineOrigin = lineOrigin - rayOrigin;
+            float denominator = VectorE.PerpDot(lineDirection, rayDirection);
+            float perpDotA = VectorE.PerpDot(lineDirection, rayOriginToLineOrigin);
+            float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                {
+                    // Not collinear
+                    float dotA = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
+                    float distanceSqr = rayOriginToLineOrigin.sqrMagnitude - dotA*dotA;
+                    return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                }
+                // Collinear
+                return 0;
+            }
+
+            // Not parallel
+            float lineDistance = perpDotB/denominator;
+            float rayDistance = perpDotA/denominator;
+            if (rayDistance < -Epsilon)
+            {
+                // No intersection
+                return Vector2.Distance(rayOrigin, lineOrigin + lineDirection*lineDistance);
+            }
+            // Point intersection
+            return 0;
+        }
+
+        /// <summary>
         /// Finds closest points on the line and the ray
         /// </summary>
         public static void ClosestPointsLineRay(Line2 line, Ray2D ray, out Vector2 linePoint, out Vector2 rayPoint)
