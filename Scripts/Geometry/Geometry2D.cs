@@ -1120,7 +1120,7 @@ namespace ProceduralToolkit
                 if (Mathf.Abs(perpDot1) > Epsilon || Mathf.Abs(perpDot2) > Epsilon)
                 {
                     // Not collinear
-                    intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                    intersection = IntersectionSegmentSegment2.None();
                     return false;
                 }
                 // Collinear or degenerate
@@ -1131,42 +1131,30 @@ namespace ProceduralToolkit
                 {
                     if (segment1A == segment2A)
                     {
-                        intersection = new IntersectionSegmentSegment2
-                        {
-                            type = IntersectionType.Point,
-                            pointA = segment1A
-                        };
+                        intersection = IntersectionSegmentSegment2.Point(segment1A);
                         return true;
                     }
-                    intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                    intersection = IntersectionSegmentSegment2.None();
                     return false;
                 }
                 if (segment1IsAPoint)
                 {
                     if (CollinearPointInSegment(segment2A, segment2B, point: segment1A))
                     {
-                        intersection = new IntersectionSegmentSegment2
-                        {
-                            type = IntersectionType.Point,
-                            pointA = segment1A
-                        };
+                        intersection = IntersectionSegmentSegment2.Point(segment1A);
                         return true;
                     }
-                    intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                    intersection = IntersectionSegmentSegment2.None();
                     return false;
                 }
                 if (segment2IsAPoint)
                 {
                     if (CollinearPointInSegment(segment1A, segment1B, point: segment2A))
                     {
-                        intersection = new IntersectionSegmentSegment2
-                        {
-                            type = IntersectionType.Point,
-                            pointA = segment2A
-                        };
+                        intersection = IntersectionSegmentSegment2.Point(segment2A);
                         return true;
                     }
-                    intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                    intersection = IntersectionSegmentSegment2.None();
                     return false;
                 }
 
@@ -1211,22 +1199,18 @@ namespace ProceduralToolkit
             float distance1 = perpDot2/denominator;
             if (distance1 < -Epsilon || distance1 > 1 + Epsilon)
             {
-                intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                intersection = IntersectionSegmentSegment2.None();
                 return false;
             }
 
             float distance2 = perpDot1/denominator;
             if (distance2 < -Epsilon || distance2 > 1 + Epsilon)
             {
-                intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+                intersection = IntersectionSegmentSegment2.None();
                 return false;
             }
 
-            intersection = new IntersectionSegmentSegment2
-            {
-                type = IntersectionType.Point,
-                pointA = segment1A + direction1*distance1
-            };
+            intersection = IntersectionSegmentSegment2.Point(segment1A + direction1*distance1);
             return true;
         }
 
@@ -1269,11 +1253,7 @@ namespace ProceduralToolkit
                 // LB == RA
                 // LA------LB
                 //         RA------RB
-                intersection = new IntersectionSegmentSegment2
-                {
-                    type = IntersectionType.Point,
-                    pointA = leftB,
-                };
+                intersection = IntersectionSegmentSegment2.Point(leftB);
                 return true;
             }
             if (projectionRA > 0)
@@ -1293,18 +1273,13 @@ namespace ProceduralToolkit
                 {
                     pointB = rightB;
                 }
-                intersection = new IntersectionSegmentSegment2
-                {
-                    type = IntersectionType.Segment,
-                    pointA = rightA,
-                    pointB = pointB,
-                };
+                intersection = IntersectionSegmentSegment2.Segment(rightA, pointB);
                 return true;
             }
             // LB < RA
             // LA------LB
             //             RA------RB
-            intersection = new IntersectionSegmentSegment2 {type = IntersectionType.None};
+            intersection = IntersectionSegmentSegment2.None();
             return false;
         }
 
