@@ -3,7 +3,7 @@ using UnityEngine;
 namespace ProceduralToolkit
 {
     /// <summary>
-    /// Collection of basic computational geometry algorithms (distance, intersection, closest point, etc.)
+    /// Collection of basic computational geometry algorithms (intersection, closest point, etc.)
     /// </summary>
     public static partial class Geometry
     {
@@ -11,23 +11,6 @@ namespace ProceduralToolkit
         public const float EpsilonSqr = Epsilon*Epsilon;
 
         #region Point-Line
-
-        /// <summary>
-        /// Returns a distance to the closest point on the line
-        /// </summary>
-        public static float DistanceToLine(Vector2 point, Line2 line)
-        {
-            return Vector2.Distance(point, ClosestPointOnLine(point, line));
-        }
-
-        /// <summary>
-        /// Returns a distance to the closest point on the line defined by <paramref name="origin"/> and <paramref name="direction"/>
-        /// </summary>
-        /// <param name="direction">Normalized direction of the line</param>
-        public static float DistanceToLine(Vector2 point, Vector2 origin, Vector2 direction)
-        {
-            return Vector2.Distance(point, ClosestPointOnLine(point, origin, direction));
-        }
 
         /// <summary>
         /// Projects the point onto the line
@@ -138,23 +121,6 @@ namespace ProceduralToolkit
         #region Point-Ray
 
         /// <summary>
-        /// Returns a distance to the closest point on the ray
-        /// </summary>
-        public static float DistanceToRay(Vector2 point, Ray2D ray)
-        {
-            return Vector2.Distance(point, ClosestPointOnRay(point, ray));
-        }
-
-        /// <summary>
-        /// Returns a distance to the closest point on the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
-        /// </summary>
-        /// <param name="direction">Normalized direction of the ray</param>
-        public static float DistanceToRay(Vector2 point, Vector2 origin, Vector2 direction)
-        {
-            return Vector2.Distance(point, ClosestPointOnRay(point, origin, direction));
-        }
-
-        /// <summary>
         /// Projects the point onto the ray
         /// </summary>
         public static Vector2 ClosestPointOnRay(Vector2 point, Ray2D ray)
@@ -262,22 +228,6 @@ namespace ProceduralToolkit
         #endregion Point-Ray
 
         #region Point-Segment
-
-        /// <summary>
-        /// Returns a distance to the closest point on the line segment
-        /// </summary>
-        public static float DistanceToSegment(Vector2 point, Segment2 segment)
-        {
-            return Vector2.Distance(point, ClosestPointOnSegment(point, segment));
-        }
-
-        /// <summary>
-        /// Returns a distance to the closest point on the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
-        /// </summary>
-        public static float DistanceToSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB)
-        {
-            return Vector2.Distance(point, ClosestPointOnSegment(point, segmentA, segmentB));
-        }
 
         /// <summary>
         /// Projects the point onto the line segment
@@ -416,24 +366,6 @@ namespace ProceduralToolkit
         #region Point-Circle
 
         /// <summary>
-        /// Returns a distance to the closest point on the circle
-        /// </summary>
-        /// <returns>Positive value if the point is outside, negative otherwise</returns>
-        public static float DistanceToCircle(Vector2 point, Circle circle)
-        {
-            return DistanceToCircle(point, circle.center, circle.radius);
-        }
-
-        /// <summary>
-        /// Returns a distance to the closest point on the circle defined by <paramref name="center"/> and <paramref name="radius"/>
-        /// </summary>
-        /// <returns>Positive value if the point is outside, negative otherwise</returns>
-        public static float DistanceToCircle(Vector2 point, Vector2 center, float radius)
-        {
-            return (center - point).magnitude - radius;
-        }
-
-        /// <summary>
         /// Projects the point onto the circle
         /// </summary>
         public static Vector2 ClosestPointOnCircle(Vector2 point, Circle circle)
@@ -468,40 +400,6 @@ namespace ProceduralToolkit
         #endregion Point-Circle
 
         #region Line-Line
-
-        /// <summary>
-        /// Returns the distance between the closest points on the lines
-        /// </summary>
-        public static float DistanceToLine(Line2 lineA, Line2 lineB)
-        {
-            return DistanceToLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction);
-        }
-
-        /// <summary>
-        /// Returns the distance between the closest points on the lines defined by origin and direction
-        /// </summary>
-        public static float DistanceToLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB)
-        {
-            if (Mathf.Abs(VectorE.PerpDot(directionA, directionB)) < Epsilon)
-            {
-                // Parallel
-                Vector2 originBToA = originA - originB;
-                if (Mathf.Abs(VectorE.PerpDot(directionA, originBToA)) > Epsilon ||
-                    Mathf.Abs(VectorE.PerpDot(directionB, originBToA)) > Epsilon)
-                {
-                    // Not collinear
-                    float dotA = Vector2.Dot(directionA, originBToA);
-                    float distanceSqr = originBToA.sqrMagnitude - dotA*dotA;
-                    return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
-                }
-
-                // Collinear
-                return 0;
-            }
-
-            // Not parallel
-            return 0;
-        }
 
         /// <summary>
         /// Finds closest points on the lines
@@ -624,50 +522,6 @@ namespace ProceduralToolkit
         #endregion Line-Line
 
         #region Line-Ray
-
-        /// <summary>
-        /// Returns the distance between the closest points on the line and the ray
-        /// </summary>
-        public static float DistanceLineRay(Line2 line, Ray2D ray)
-        {
-            return DistanceLineRay(line.origin, line.direction, ray.origin, ray.direction);
-        }
-
-        /// <summary>
-        /// Returns the distance between the closest points on the line and the ray
-        /// </summary>
-        public static float DistanceLineRay(Vector2 lineOrigin, Vector2 lineDirection, Vector2 rayOrigin, Vector2 rayDirection)
-        {
-            Vector2 rayOriginToLineOrigin = lineOrigin - rayOrigin;
-            float denominator = VectorE.PerpDot(lineDirection, rayDirection);
-            float perpDotA = VectorE.PerpDot(lineDirection, rayOriginToLineOrigin);
-            float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
-
-            if (Mathf.Abs(denominator) < Epsilon)
-            {
-                // Parallel
-                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
-                {
-                    // Not collinear
-                    float dotA = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
-                    float distanceSqr = rayOriginToLineOrigin.sqrMagnitude - dotA*dotA;
-                    return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
-                }
-                // Collinear
-                return 0;
-            }
-
-            // Not parallel
-            float lineDistance = perpDotB/denominator;
-            float rayDistance = perpDotA/denominator;
-            if (rayDistance < -Epsilon)
-            {
-                // No intersection
-                return Vector2.Distance(rayOrigin, lineOrigin + lineDirection*lineDistance);
-            }
-            // Point intersection
-            return 0;
-        }
 
         /// <summary>
         /// Finds closest points on the line and the ray
@@ -849,86 +703,6 @@ namespace ProceduralToolkit
         #endregion Line-Circle
 
         #region Ray-Ray
-
-        /// <summary>
-        /// Returns the distance between the closest points on the rays
-        /// </summary>
-        public static float DistanceToRay(Ray2D rayA, Ray2D rayB)
-        {
-            return DistanceToRay(rayA.origin, rayA.direction, rayB.origin, rayB.direction);
-        }
-
-        /// <summary>
-        /// Returns the distance between the closest points on the rays
-        /// </summary>
-        public static float DistanceToRay(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB)
-        {
-            Vector2 originBToA = originA - originB;
-            float denominator = VectorE.PerpDot(directionA, directionB);
-            float perpDotA = VectorE.PerpDot(directionA, originBToA);
-            float perpDotB = VectorE.PerpDot(directionB, originBToA);
-
-            if (Mathf.Abs(denominator) < Epsilon)
-            {
-                // Parallel
-
-                bool codirected = Vector2.Dot(directionA, directionB) > 0;
-                float dotA = Vector2.Dot(directionA, originBToA);
-                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
-                {
-                    // Not collinear
-                    if (!codirected && dotA > 0)
-                    {
-                        return Vector2.Distance(originA, originB);
-                    }
-                    float distanceSqr = originBToA.sqrMagnitude - dotA*dotA;
-                    return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
-                }
-                // Collinear
-
-                if (codirected)
-                {
-                    // Ray intersection
-                    return 0;
-                }
-                else
-                {
-                    if (dotA > 0)
-                    {
-                        // No intersection
-                        return Vector2.Distance(originA, originB);
-                    }
-                    else
-                    {
-                        // Segment intersection
-                        return 0;
-                    }
-                }
-            }
-
-            // The rays are skew and may intersect in a point
-            float distanceA = perpDotB/denominator;
-            float distanceB = perpDotA/denominator;
-            bool intersectionNotOnA = distanceA < -Epsilon;
-            bool intersectionNotOnB = distanceB < -Epsilon;
-            if (intersectionNotOnA && intersectionNotOnB)
-            {
-                // No intersection
-                return Vector2.Distance(originA, originB);
-            }
-            if (intersectionNotOnA)
-            {
-                // No intersection
-                return Vector2.Distance(originA, originB + directionB*distanceB);
-            }
-            if (intersectionNotOnB)
-            {
-                // No intersection
-                return Vector2.Distance(originB, originA + directionA*distanceA);
-            }
-            // Point intersection
-            return 0;
-        }
 
         /// <summary>
         /// Finds closest points on the rays
@@ -1468,30 +1242,6 @@ namespace ProceduralToolkit
         #endregion Segment-Segment
 
         #region Circle-Circle
-
-        /// <summary>
-        /// Returns the distance between the closest points on the circles
-        /// </summary>
-        /// <returns>
-        /// Positive value if the circles do not intersect, negative otherwise.
-        /// Negative value can be interpreted as depth of penetration.
-        /// </returns>
-        public static float DistanceToCircle(Circle circleA, Circle circleB)
-        {
-            return DistanceToCircle(circleA.center, circleA.radius, circleB.center, circleB.radius);
-        }
-
-        /// <summary>
-        /// Returns the distance between the closest points on the circles
-        /// </summary>
-        /// <returns>
-        /// Positive value if the circles do not intersect, negative otherwise.
-        /// Negative value can be interpreted as depth of penetration.
-        /// </returns>
-        public static float DistanceToCircle(Vector2 centerA, float radiusA, Vector2 centerB, float radiusB)
-        {
-            return Vector2.Distance(centerA, centerB) - radiusA - radiusB;
-        }
 
         /// <summary>
         /// Finds closest points on the circles

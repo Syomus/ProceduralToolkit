@@ -3,28 +3,11 @@ using UnityEngine;
 namespace ProceduralToolkit
 {
     /// <summary>
-    /// Collection of basic computational geometry algorithms (distance, intersection, closest point, etc.)
+    /// Collection of basic computational geometry algorithms (intersection, closest point, etc.)
     /// </summary>
     public static partial class Geometry
     {
         #region Point-Line
-
-        /// <summary>
-        /// Returns a distance to the closest point on the line
-        /// </summary>
-        public static float DistanceToLine(Vector3 point, Line3 line)
-        {
-            return Vector3.Distance(point, ClosestPointOnLine(point, line));
-        }
-
-        /// <summary>
-        /// Returns a distance to the closest point on the line defined by <paramref name="origin"/> and <paramref name="direction"/>
-        /// </summary>
-        /// <param name="direction">Normalized direction of the line</param>
-        public static float DistanceToLine(Vector3 point, Vector3 origin, Vector3 direction)
-        {
-            return Vector3.Distance(point, ClosestPointOnLine(point, origin, direction));
-        }
 
         /// <summary>
         /// Projects the point onto the line
@@ -80,23 +63,6 @@ namespace ProceduralToolkit
         #region Point-Ray
 
         /// <summary>
-        /// Returns a distance to the closest point on the ray
-        /// </summary>
-        public static float DistanceToRay(Vector3 point, Ray ray)
-        {
-            return Vector3.Distance(point, ClosestPointOnRay(point, ray));
-        }
-
-        /// <summary>
-        /// Returns a distance to the closest point on the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
-        /// </summary>
-        /// <param name="direction">Normalized direction of the ray</param>
-        public static float DistanceToRay(Vector3 point, Vector3 origin, Vector3 direction)
-        {
-            return Vector3.Distance(point, ClosestPointOnRay(point, origin, direction));
-        }
-
-        /// <summary>
         /// Projects the point onto the ray
         /// </summary>
         public static Vector3 ClosestPointOnRay(Vector3 point, Ray ray)
@@ -146,22 +112,6 @@ namespace ProceduralToolkit
         #endregion Point-Ray
 
         #region Point-Segment
-
-        /// <summary>
-        /// Returns a distance to the closest point on the line segment
-        /// </summary>
-        public static float DistanceToSegment(Vector3 point, Segment3 segment)
-        {
-            return Vector3.Distance(point, ClosestPointOnSegment(point, segment));
-        }
-
-        /// <summary>
-        /// Returns a distance to the closest point on the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
-        /// </summary>
-        public static float DistanceToSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB)
-        {
-            return Vector3.Distance(point, ClosestPointOnSegment(point, segmentA, segmentB));
-        }
 
         /// <summary>
         /// Projects the point onto the line segment
@@ -231,24 +181,6 @@ namespace ProceduralToolkit
         #endregion Point-Segment
 
         #region Point-Sphere
-
-        /// <summary>
-        /// Returns a distance to the closest point on the sphere
-        /// </summary>
-        /// <returns>Positive value if the point is outside, negative otherwise</returns>
-        public static float DistanceToSphere(Vector3 point, Sphere sphere)
-        {
-            return DistanceToSphere(point, sphere.center, sphere.radius);
-        }
-
-        /// <summary>
-        /// Returns a distance to the closest point on the sphere defined by <paramref name="center"/> and <paramref name="radius"/>
-        /// </summary>
-        /// <returns>Positive value if the point is outside, negative otherwise</returns>
-        public static float DistanceToSphere(Vector3 point, Vector3 center, float radius)
-        {
-            return (center - point).magnitude - radius;
-        }
 
         /// <summary>
         /// Projects the point onto the sphere
