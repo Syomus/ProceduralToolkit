@@ -583,6 +583,47 @@ namespace ProceduralToolkit
             return true;
         }
 
+        /// <summary>
+        /// Computes an intersection of the lines
+        /// </summary>
+        public static IntersectionType IntersectLineLine(Line2 lineA, Line2 lineB, out float distanceA, out float distanceB)
+        {
+            return IntersectLineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out distanceA, out distanceB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the lines
+        /// </summary>
+        public static IntersectionType IntersectLineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
+            out float distanceA, out float distanceB)
+        {
+            Vector2 originBToA = originA - originB;
+            float denominator = VectorE.PerpDot(directionA, directionB);
+            float perpDotA = VectorE.PerpDot(directionA, originBToA);
+            float perpDotB = VectorE.PerpDot(directionB, originBToA);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                {
+                    // Not collinear
+                    distanceA = 0;
+                    distanceB = 0;
+                    return IntersectionType.None;
+                }
+                // Collinear
+                distanceA = 0;
+                distanceB = 0;
+                return IntersectionType.Line;
+            }
+
+            // Not parallel
+            distanceA = perpDotB/denominator;
+            distanceB = perpDotA/denominator;
+            return IntersectionType.Point;
+        }
+
         #endregion Line-Line
 
         #region Line-Circle
@@ -915,6 +956,97 @@ namespace ProceduralToolkit
         }
 
         #endregion Ray-Ray
+
+        #region Ray-Segment
+
+        /// <summary>
+        /// Computes an intersection of the ray and the segment
+        /// </summary>
+        public static bool IntersectRaySegment(Ray2D ray, Segment2 segment, out IntersectionRaySegment2 intersection)
+        {
+            return IntersectRaySegment(ray.origin, ray.direction, segment.a, segment.b, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the ray and the segment
+        /// </summary>
+        public static bool IntersectRaySegment(Vector2 rayOrigin, Vector2 rayDirection, Vector2 segmentA, Vector2 segmentB,
+            out IntersectionRaySegment2 intersection)
+        {
+            float rayDistance;
+            float segmentDistance;
+            Vector2 segmentDirection = segmentB - segmentA;
+            var intersectionType = IntersectLineLine(rayOrigin, rayDirection, segmentA, segmentDirection, out rayDistance, out segmentDistance);
+            if (intersectionType == IntersectionType.Line)
+            {
+                bool segmentIsAPoint = segmentDirection.sqrMagnitude < Epsilon;
+                float projectionFromOriginToA = Vector2.Dot(rayDirection, segmentA - rayOrigin);
+                if (segmentIsAPoint)
+                {
+                    if (projectionFromOriginToA > -Epsilon)
+                    {
+                        intersection = IntersectionRaySegment2.Point(segmentA);
+                        return true;
+                    }
+                    intersection = IntersectionRaySegment2.None();
+                    return false;
+                }
+
+                float projectionFromOriginToB = Vector2.Dot(rayDirection, segmentB - rayOrigin);
+                if (projectionFromOriginToA > -Epsilon)
+                {
+                    if (projectionFromOriginToB > -Epsilon)
+                    {
+                        if (projectionFromOriginToB > projectionFromOriginToA)
+                        {
+                            intersection = IntersectionRaySegment2.Segment(segmentA, segmentB);
+                        }
+                        else
+                        {
+                            intersection = IntersectionRaySegment2.Segment(segmentB, segmentA);
+                        }
+                    }
+                    else
+                    {
+                        if (projectionFromOriginToA > Epsilon)
+                        {
+                            intersection = IntersectionRaySegment2.Segment(rayOrigin, segmentA);
+                        }
+                        else
+                        {
+                            intersection = IntersectionRaySegment2.Point(rayOrigin);
+                        }
+                    }
+                    return true;
+                }
+                if (projectionFromOriginToB > -Epsilon)
+                {
+                    if (projectionFromOriginToB > Epsilon)
+                    {
+                        intersection = IntersectionRaySegment2.Segment(rayOrigin, segmentB);
+                    }
+                    else
+                    {
+                        intersection = IntersectionRaySegment2.Point(rayOrigin);
+                    }
+                    return true;
+                }
+                intersection = IntersectionRaySegment2.None();
+                return false;
+            }
+            if (intersectionType == IntersectionType.Point &&
+                rayDistance > -Epsilon &&
+                segmentDistance > -Epsilon && segmentDistance < 1 + Epsilon)
+            {
+                intersection = IntersectionRaySegment2.Point(rayOrigin + rayDirection*rayDistance);
+                return true;
+            }
+
+            intersection = IntersectionRaySegment2.None();
+            return false;
+        }
+
+        #endregion Ray-Segment
 
         #region Ray-Circle
 
