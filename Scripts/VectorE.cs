@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -129,6 +130,11 @@ namespace ProceduralToolkit
                 -vector.x*sin + vector.y*cos);
         }
 
+        public static string ToString(this Vector2 vector, string format, IFormatProvider formatProvider)
+        {
+            return string.Format("({0}, {1})", vector.x.ToString(format, formatProvider), vector.y.ToString(format, formatProvider));
+        }
+
         #endregion Vector2
 
         #region Vector2Int
@@ -258,6 +264,12 @@ namespace ProceduralToolkit
                 Mathf.InverseLerp(a.x, b.x, value.x),
                 Mathf.InverseLerp(a.y, b.y, value.y),
                 Mathf.InverseLerp(a.z, b.z, value.z));
+        }
+
+        public static string ToString(this Vector3 vector, string format, IFormatProvider formatProvider)
+        {
+            return string.Format("({0}, {1}, {2})", vector.x.ToString(format, formatProvider), vector.y.ToString(format, formatProvider),
+                vector.z.ToString(format, formatProvider));
         }
 
         #endregion Vector3

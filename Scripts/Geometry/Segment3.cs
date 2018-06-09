@@ -7,7 +7,7 @@ namespace ProceduralToolkit
     /// Representation of a 3D line segment
     /// </summary>
     [Serializable]
-    public struct Segment3 : IEquatable<Segment3>
+    public struct Segment3 : IEquatable<Segment3>, IFormattable
     {
         public Vector3 a;
         public Vector3 b;
@@ -85,6 +85,11 @@ namespace ProceduralToolkit
         public string ToString(string format)
         {
             return string.Format("Segment3(a: {0}, b: {1})", a.ToString(format), b.ToString(format));
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return string.Format("Segment3(a: {0}, b: {1})", a.ToString(format, formatProvider), b.ToString(format, formatProvider));
         }
     }
 }

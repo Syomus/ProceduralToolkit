@@ -7,7 +7,7 @@ namespace ProceduralToolkit
     /// Representation of a 2D line
     /// </summary>
     [Serializable]
-    public struct Line2 : IEquatable<Line2>
+    public struct Line2 : IEquatable<Line2>, IFormattable
     {
         public Vector2 origin;
         public Vector2 direction;
@@ -94,6 +94,12 @@ namespace ProceduralToolkit
         public string ToString(string format)
         {
             return string.Format("Line2(origin: {0}, direction: {1})", origin.ToString(format), direction.ToString(format));
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return string.Format("Line2(origin: {0}, direction: {1})", origin.ToString(format, formatProvider),
+                direction.ToString(format, formatProvider));
         }
     }
 }

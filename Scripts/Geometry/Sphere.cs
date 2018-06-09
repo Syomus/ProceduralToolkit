@@ -7,7 +7,7 @@ namespace ProceduralToolkit
     /// Representation of a sphere
     /// </summary>
     [Serializable]
-    public struct Sphere : IEquatable<Sphere>
+    public struct Sphere : IEquatable<Sphere>, IFormattable
     {
         public Vector3 center;
         public float radius;
@@ -93,6 +93,12 @@ namespace ProceduralToolkit
         public string ToString(string format)
         {
             return string.Format("Sphere(center: {0}, radius: {1})", center.ToString(format), radius.ToString(format));
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return string.Format("Sphere(center: {0}, radius: {1})", center.ToString(format, formatProvider),
+                radius.ToString(format, formatProvider));
         }
     }
 }

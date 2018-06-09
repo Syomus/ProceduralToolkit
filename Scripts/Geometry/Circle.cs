@@ -7,7 +7,7 @@ namespace ProceduralToolkit
     /// Representation of a circle
     /// </summary>
     [Serializable]
-    public struct Circle : IEquatable<Circle>
+    public struct Circle : IEquatable<Circle>, IFormattable
     {
         public Vector2 center;
         public float radius;
@@ -93,6 +93,12 @@ namespace ProceduralToolkit
         public string ToString(string format)
         {
             return string.Format("Circle(center: {0}, radius: {1})", center.ToString(format), radius.ToString(format));
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return string.Format("Circle(center: {0}, radius: {1})", center.ToString(format, formatProvider),
+                radius.ToString(format, formatProvider));
         }
     }
 }
