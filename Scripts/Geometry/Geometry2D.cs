@@ -289,7 +289,7 @@ namespace ProceduralToolkit
             if (rayDistance < -Epsilon)
             {
                 // No intersection
-                linePoint = lineOrigin + lineDirection*lineDistance;
+                linePoint = lineOrigin - lineDirection*Vector2.Dot(lineDirection, rayOriginToLineOrigin);
                 rayPoint = rayOrigin;
                 return;
             }
