@@ -122,23 +122,18 @@ namespace ProceduralToolkit
             {
                 Debug.LogError("A mesh may not have more than 65000 vertices. Vertex count: " + vCount);
             }
+
             var finalDraft = new MeshDraft();
-#if !UNITY_2017_3_OR_NEWER
-            var trianglesCounts = new List<int>();
-#endif
             for (int i = 0; i < meshDrafts.Count; i++)
             {
                 var draft = meshDrafts[i];
                 finalDraft.Add(draft);
-#if !UNITY_2017_3_OR_NEWER
-                trianglesCounts.Add(draft.triangles.Count);
-#endif
             }
 
             mesh.name = name;
             mesh.SetVertices(finalDraft.vertices);
             mesh.subMeshCount = meshDrafts.Count;
-#if UNITY_2017_3_OR_NEWER
+
             int baseVertex = 0;
             for (int i = 0; i < meshDrafts.Count; i++)
             {
@@ -146,18 +141,6 @@ namespace ProceduralToolkit
                 mesh.SetTriangles(draft.triangles, i, false, baseVertex);
                 baseVertex += draft.vertexCount;
             }
-#else
-            for (int submesh = 0; submesh < trianglesCounts.Count; submesh++)
-            {
-                int start = 0;
-                for (int i = 0; i < submesh; i++)
-                {
-                    start += trianglesCounts[i];
-                }
-                var triangles = finalDraft.triangles.GetRange(start, trianglesCounts[submesh]);
-                mesh.SetTriangles(triangles, submesh, false);
-            }
-#endif
 
             mesh.SetNormals(finalDraft.normals);
             mesh.SetTangents(finalDraft.tangents);
