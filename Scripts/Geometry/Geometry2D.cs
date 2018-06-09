@@ -265,10 +265,10 @@ namespace ProceduralToolkit
             Vector2 rayOriginToLineOrigin = lineOrigin - rayOrigin;
             float denominator = VectorE.PerpDot(lineDirection, rayDirection);
             float perpDotA = VectorE.PerpDot(lineDirection, rayOriginToLineOrigin);
-            float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
 
             if (Mathf.Abs(denominator) < Epsilon)
             {
+                float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
                 // Parallel
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
@@ -284,7 +284,6 @@ namespace ProceduralToolkit
             }
 
             // Not parallel
-            float lineDistance = perpDotB/denominator;
             float rayDistance = perpDotA/denominator;
             if (rayDistance < -Epsilon)
             {
@@ -294,7 +293,7 @@ namespace ProceduralToolkit
                 return;
             }
             // Point intersection
-            linePoint = rayPoint = lineOrigin + lineDirection*lineDistance;
+            linePoint = rayPoint = rayOrigin + rayDirection*rayDistance;
         }
 
         #endregion Line-Ray

@@ -146,29 +146,29 @@ namespace ProceduralToolkit
             Vector2 rayOriginToLineOrigin = lineOrigin - rayOrigin;
             float denominator = VectorE.PerpDot(lineDirection, rayDirection);
             float perpDotA = VectorE.PerpDot(lineDirection, rayOriginToLineOrigin);
-            float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
 
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
+                float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
                 // Parallel
                 if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
                     float dotA = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
                     float distanceSqr = rayOriginToLineOrigin.sqrMagnitude - dotA*dotA;
-                    return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                    return Mathf.Sqrt(distanceSqr);
                 }
                 // Collinear
                 return 0;
             }
 
             // Not parallel
-            float lineDistance = perpDotB/denominator;
             float rayDistance = perpDotA/denominator;
             if (rayDistance < -Geometry.Epsilon)
             {
                 // No intersection
-                return Vector2.Distance(rayOrigin, lineOrigin + lineDirection*lineDistance);
+                Vector2 linepoint = lineOrigin - lineDirection*Vector2.Dot(lineDirection, rayOriginToLineOrigin);
+                return Vector2.Distance(rayOrigin, linepoint);
             }
             // Point intersection
             return 0;

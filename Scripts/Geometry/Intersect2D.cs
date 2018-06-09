@@ -328,7 +328,7 @@ namespace ProceduralToolkit
             }
             if (intersectionType == IntersectionType.Point && rayDistance > -Geometry.Epsilon)
             {
-                intersection = IntersectionLineRay2.Point(lineOrigin + lineDirection*lineDistance);
+                intersection = IntersectionLineRay2.Point(rayOrigin + rayDirection*rayDistance);
                 return true;
             }
 
