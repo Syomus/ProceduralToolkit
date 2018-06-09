@@ -1,0 +1,10 @@
+{
+    "name": "ProceduralToolkit.Editor",
+    "references": [
+        "ProceduralToolkit"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}
