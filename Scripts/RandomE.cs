@@ -11,19 +11,39 @@ namespace ProceduralToolkit
     /// </summary>
     public static class RandomE
     {
-        #region Vectors
+        /// <summary>
+        /// Returns a random 2D rotation
+        /// </summary>
+        public static float rotation2 { get { return Random.Range(0, 360f); } }
+
+        /// <summary>
+        /// Returns a random rotation around X axis
+        /// </summary>
+        public static Quaternion xRotation { get { return Quaternion.Euler(rotation2, 0, 0); } }
+
+        /// <summary>
+        /// Returns a random rotation around Y axis
+        /// </summary>
+        public static Quaternion yRotation { get { return Quaternion.Euler(0, rotation2, 0); } }
+
+        /// <summary>
+        /// Returns a random rotation around Z axis
+        /// </summary>
+        public static Quaternion zRotation { get { return Quaternion.Euler(0, 0, rotation2); } }
+
+        #region Geometry
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector2 onUnitCircle2 { get { return PTUtils.PointOnCircle2(1, Random.Range(0, 360f)); } }
+        public static Vector2 onUnitCircle2 { get { return PTUtils.PointOnCircle2(1, rotation2); } }
 
         /// <summary>
         /// Returns a random point inside a circle with radius 1
         /// </summary>
         public static Vector3 insideUnitCircle3XY
         {
-            get { return PTUtils.PointOnCircle3XY(Random.value, Random.Range(0, 360f)); }
+            get { return PTUtils.PointOnCircle3XY(Random.value, rotation2); }
         }
 
         /// <summary>
@@ -31,7 +51,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 insideUnitCircle3XZ
         {
-            get { return PTUtils.PointOnCircle3XZ(Random.value, Random.Range(0, 360f)); }
+            get { return PTUtils.PointOnCircle3XZ(Random.value, rotation2); }
         }
 
         /// <summary>
@@ -39,23 +59,23 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 insideUnitCircle3YZ
         {
-            get { return PTUtils.PointOnCircle3YZ(Random.value, Random.Range(0, 360f)); }
+            get { return PTUtils.PointOnCircle3YZ(Random.value, rotation2); }
         }
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector3 onUnitCircle3XY { get { return PTUtils.PointOnCircle3XY(1, Random.Range(0, 360f)); } }
+        public static Vector3 onUnitCircle3XY { get { return PTUtils.PointOnCircle3XY(1, rotation2); } }
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector3 onUnitCircle3XZ { get { return PTUtils.PointOnCircle3XZ(1, Random.Range(0, 360f)); } }
+        public static Vector3 onUnitCircle3XZ { get { return PTUtils.PointOnCircle3XZ(1, rotation2); } }
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector3 onUnitCircle3YZ { get { return PTUtils.PointOnCircle3YZ(1, Random.Range(0, 360f)); } }
+        public static Vector3 onUnitCircle3YZ { get { return PTUtils.PointOnCircle3YZ(1, rotation2); } }
 
         /// <summary>
         /// Returns a random point inside a unit square
@@ -79,34 +99,99 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random rotation around X axis
+        /// Returns a random point on a line segment
         /// </summary>
-        public static Quaternion xRotation { get { return Quaternion.Euler(Random.Range(0, 360f), 0, 0); } }
-
-        /// <summary>
-        /// Returns a random rotation around Y axis
-        /// </summary>
-        public static Quaternion yRotation { get { return Quaternion.Euler(0, Random.Range(0, 360f), 0); } }
-
-        /// <summary>
-        /// Returns a random rotation around Z axis
-        /// </summary>
-        public static Quaternion zRotation { get { return Quaternion.Euler(0, 0, Random.Range(0, 360f)); } }
-
-        /// <summary>
-        /// Returns a random point on a line segment defined by <paramref name="a"/> and <paramref name="b"/>
-        /// </summary>
-        public static Vector2 PointOnSegment(Vector2 a, Vector2 b)
+        public static Vector2 PointOnSegment(Segment2 segment)
         {
-            return a + (b - a)*Random.value;
+            return PointOnSegment(segment.a, segment.b);
         }
 
         /// <summary>
-        /// Returns a random point on a line segment defined by <paramref name="a"/> and <paramref name="b"/>
+        /// Returns a random point on a line segment
         /// </summary>
-        public static Vector3 PointOnSegment(Vector3 a, Vector3 b)
+        public static Vector2 PointOnSegment(Vector2 segmentA, Vector2 segmentB)
         {
-            return a + (b - a)*Random.value;
+            return segmentA + (segmentB - segmentA)*Random.value;
+        }
+
+        /// <summary>
+        /// Returns a random point on a line segment
+        /// </summary>
+        public static Vector3 PointOnSegment(Segment3 segment)
+        {
+            return PointOnSegment(segment.a, segment.b);
+        }
+
+        /// <summary>
+        /// Returns a random point on a line segment
+        /// </summary>
+        public static Vector3 PointOnSegment(Vector3 segmentA, Vector3 segmentB)
+        {
+            return segmentA + (segmentB - segmentA)*Random.value;
+        }
+
+        /// <summary>
+        /// Returns a random point on a circle
+        /// </summary>
+        public static Vector2 PointOnCircle(Circle circle)
+        {
+            return PointOnCircle(circle.center, circle.radius);
+        }
+
+        /// <summary>
+        /// Returns a random point on a circle
+        /// </summary>
+        public static Vector2 PointOnCircle(Vector2 center, float radius)
+        {
+            return center + PTUtils.PointOnCircle2(radius, rotation2);
+        }
+
+        /// <summary>
+        /// Returns a random point inside a circle
+        /// </summary>
+        public static Vector2 PointInCircle(Circle circle)
+        {
+            return PointInCircle(circle.center, circle.radius);
+        }
+
+        /// <summary>
+        /// Returns a random point inside a circle
+        /// </summary>
+        public static Vector2 PointInCircle(Vector2 center, float radius)
+        {
+            return center + Random.insideUnitCircle*radius;
+        }
+
+        /// <summary>
+        /// Returns a random point on a sphere
+        /// </summary>
+        public static Vector3 PointOnSphere(Sphere sphere)
+        {
+            return PointOnSphere(sphere.center, sphere.radius);
+        }
+
+        /// <summary>
+        /// Returns a random point on a sphere
+        /// </summary>
+        public static Vector3 PointOnSphere(Vector3 center, float radius)
+        {
+            return center + Random.onUnitSphere*radius;
+        }
+
+        /// <summary>
+        /// Returns a random point inside a sphere
+        /// </summary>
+        public static Vector3 PointInSphere(Sphere sphere)
+        {
+            return PointInSphere(sphere.center, sphere.radius);
+        }
+
+        /// <summary>
+        /// Returns a random point inside a sphere
+        /// </summary>
+        public static Vector3 PointInSphere(Vector3 center, float radius)
+        {
+            return center + Random.insideUnitSphere*radius;
         }
 
         /// <summary>
@@ -149,7 +234,7 @@ namespace ProceduralToolkit
             return Range(bounds.min, bounds.max);
         }
 
-        #endregion Vectors
+        #endregion Geometry
 
         #region Colors
 
