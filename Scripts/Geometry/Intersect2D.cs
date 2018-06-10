@@ -214,7 +214,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool PointCircle(Vector2 point, Vector2 circleCenter, float circleRadius)
         {
-            // For points on the circle's edge magnitude is more stable than sqrMagnitude 
+            // For points on the circle's edge magnitude is more stable than sqrMagnitude
             return (point - circleCenter).magnitude < circleRadius + Geometry.Epsilon;
         }
 
@@ -854,9 +854,27 @@ namespace ProceduralToolkit
         /// Computes an intersection of the circles
         /// </summary>
         /// <returns>True if the circles intersect or one circle is contained within the other</returns>
+        public static bool CircleCircle(Circle circleA, Circle circleB)
+        {
+            return Distance.CircleCircle(circleA, circleB) < Geometry.Epsilon;
+        }
+
+        /// <summary>
+        /// Computes an intersection of the circles
+        /// </summary>
+        /// <returns>True if the circles intersect or one circle is contained within the other</returns>
         public static bool CircleCircle(Circle circleA, Circle circleB, out IntersectionCircleCircle intersection)
         {
             return CircleCircle(circleA.center, circleA.radius, circleB.center, circleB.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the circles
+        /// </summary>
+        /// <returns>True if the circles intersect or one circle is contained within the other</returns>
+        public static bool CircleCircle(Vector2 centerA, float radiusA, Vector2 centerB, float radiusB)
+        {
+            return Distance.CircleCircle(centerA, radiusA, centerB, radiusB) < Geometry.Epsilon;
         }
 
         /// <summary>
@@ -868,7 +886,7 @@ namespace ProceduralToolkit
         {
             Vector2 fromBtoA = centerA - centerB;
             float distanceFromBtoASqr = fromBtoA.sqrMagnitude;
-            if (distanceFromBtoASqr < Geometry.EpsilonSqr)
+            if (distanceFromBtoASqr < Geometry.Epsilon)
             {
                 if (Mathf.Abs(radiusA - radiusB) < Geometry.Epsilon)
                 {
@@ -881,33 +899,35 @@ namespace ProceduralToolkit
                 return true;
             }
 
+            // For intersections on the circle's edge magnitude is more stable than sqrMagnitude
+            float distanceFromBtoA = Mathf.Sqrt(distanceFromBtoASqr);
+
             float sumOfRadii = radiusA + radiusB;
-            float sumOfRadiiSqr = sumOfRadii*sumOfRadii;
-            if (distanceFromBtoASqr > sumOfRadiiSqr)
-            {
-                // No intersections, circles are separate
-                intersection = IntersectionCircleCircle.None();
-                return false;
-            }
-            if (Mathf.Abs(distanceFromBtoASqr - sumOfRadiiSqr) < Geometry.EpsilonSqr)
+            if (Mathf.Abs(distanceFromBtoA - sumOfRadii) < Geometry.Epsilon)
             {
                 // One intersection outside
                 intersection = IntersectionCircleCircle.Point(centerB + fromBtoA*(radiusB/sumOfRadii));
                 return true;
             }
+            if (distanceFromBtoA > sumOfRadii)
+            {
+                // No intersections, circles are separate
+                intersection = IntersectionCircleCircle.None();
+                return false;
+            }
 
             float differenceOfRadii = radiusA - radiusB;
-            float differenceOfRadiiSqr = differenceOfRadii*differenceOfRadii;
-            if (distanceFromBtoASqr < differenceOfRadiiSqr)
-            {
-                // One circle is contained within the other
-                intersection = IntersectionCircleCircle.None();
-                return true;
-            }
-            if (Mathf.Abs(distanceFromBtoASqr - differenceOfRadiiSqr) < Geometry.EpsilonSqr)
+            float differenceOfRadiiAbs = Mathf.Abs(differenceOfRadii);
+            if (Mathf.Abs(distanceFromBtoA - differenceOfRadiiAbs) < Geometry.Epsilon)
             {
                 // One intersection inside
                 intersection = IntersectionCircleCircle.Point(centerB - fromBtoA*(radiusB/differenceOfRadii));
+                return true;
+            }
+            if (distanceFromBtoA < differenceOfRadiiAbs)
+            {
+                // One circle is contained within the other
+                intersection = IntersectionCircleCircle.None();
                 return true;
             }
 
@@ -917,10 +937,6 @@ namespace ProceduralToolkit
             Vector2 middle = centerA - fromBtoA*distanceToMiddle;
 
             float discriminant = radiusASqr/distanceFromBtoASqr - distanceToMiddle*distanceToMiddle;
-            if (discriminant < 0)
-            {
-                discriminant = 0;
-            }
             Vector2 offset = fromBtoA.Perp()*Mathf.Sqrt(discriminant);
 
             intersection = IntersectionCircleCircle.TwoPoints(middle + offset, middle - offset);

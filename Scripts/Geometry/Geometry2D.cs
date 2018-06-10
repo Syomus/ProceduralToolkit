@@ -432,9 +432,9 @@ namespace ProceduralToolkit
         public static void ClosestPointsOnCircles(Vector2 centerA, float radiusA, Vector2 centerB, float radiusB,
             out Vector2 pointA, out Vector2 pointB)
         {
-            Vector2 aToB = (centerB - centerA).normalized;
-            pointA = centerA + aToB*radiusA;
-            pointB = centerB - aToB*radiusB;
+            Vector2 fromBtoA = (centerA - centerB).normalized;
+            pointA = centerA - fromBtoA*radiusA;
+            pointB = centerB + fromBtoA*radiusB;
         }
 
         #endregion Circle-Circle
