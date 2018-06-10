@@ -144,32 +144,29 @@ namespace ProceduralToolkit
         /// Value of one means that the projected point coincides with <paramref name="segmentB"/>.</param>
         public static Vector2 ClosestPointOnSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, out float projectedX)
         {
-            Vector2 direction = segmentB - segmentA;
-            Vector2 toPoint = point - segmentA;
-
-            float dotDirection = Vector2.Dot(direction, direction);
-            if (dotDirection < Epsilon)
+            Vector2 segmentDirection = segmentB - segmentA;
+            float sqrMagnitude = segmentDirection.sqrMagnitude;
+            if (sqrMagnitude < Epsilon)
             {
-                Debug.LogError("Invalid segment definition. segmentA: " + segmentA + " segmentB: " + segmentB);
+                // The segment is a point
                 projectedX = 0;
                 return segmentA;
             }
 
-            float dotToPoint = Vector2.Dot(toPoint, direction);
+            float dotToPoint = Vector2.Dot(segmentDirection, point - segmentA);
             if (dotToPoint <= 0)
             {
                 projectedX = 0;
                 return segmentA;
             }
-
-            if (dotToPoint >= dotDirection)
+            if (dotToPoint >= sqrMagnitude)
             {
                 projectedX = 1;
                 return segmentB;
             }
 
-            projectedX = dotToPoint/dotDirection;
-            return segmentA + direction*projectedX;
+            projectedX = dotToPoint/sqrMagnitude;
+            return segmentA + segmentDirection*projectedX;
         }
 
         #endregion Point-Segment

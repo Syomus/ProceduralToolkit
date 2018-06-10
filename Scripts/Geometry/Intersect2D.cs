@@ -156,14 +156,14 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB)
         {
-            Vector2 direction = segmentB - segmentA;
+            Vector2 segmentDirection = segmentB - segmentA;
             Vector2 toPoint = point - segmentA;
-            float perpDot = VectorE.PerpDot(toPoint, direction);
+            float perpDot = VectorE.PerpDot(toPoint, segmentDirection);
             if (-Geometry.Epsilon < perpDot && perpDot < Geometry.Epsilon)
             {
-                float dotToPoint = Vector2.Dot(toPoint, direction);
+                float dotToPoint = Vector2.Dot(segmentDirection, toPoint);
                 return dotToPoint > -Geometry.Epsilon &&
-                       dotToPoint < Vector2.Dot(direction, direction) + Geometry.Epsilon;
+                       dotToPoint < segmentDirection.sqrMagnitude + Geometry.Epsilon;
             }
             return false;
         }
@@ -178,9 +178,9 @@ namespace ProceduralToolkit
         /// </param>
         public static bool PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, out int side)
         {
-            Vector2 direction = segmentB - segmentA;
+            Vector2 segmentDirection = segmentB - segmentA;
             Vector2 toPoint = point - segmentA;
-            float perpDot = VectorE.PerpDot(toPoint, direction);
+            float perpDot = VectorE.PerpDot(toPoint, segmentDirection);
             if (perpDot < -Geometry.Epsilon)
             {
                 side = -1;
@@ -192,9 +192,9 @@ namespace ProceduralToolkit
                 return false;
             }
             side = 0;
-            float dotToPoint = Vector2.Dot(toPoint, direction);
+            float dotToPoint = Vector2.Dot(segmentDirection, toPoint);
             return dotToPoint > -Geometry.Epsilon &&
-                   dotToPoint < Vector2.Dot(direction, direction) + Geometry.Epsilon;
+                   dotToPoint < segmentDirection.sqrMagnitude + Geometry.Epsilon;
         }
 
         #endregion Point-Segment
