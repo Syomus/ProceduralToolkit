@@ -212,9 +212,10 @@ namespace ProceduralToolkit
         /// <summary>
         /// Tests if the point is inside the circle
         /// </summary>
-        public static bool PointCircle(Vector2 point, Vector2 center, float radius)
+        public static bool PointCircle(Vector2 point, Vector2 circleCenter, float circleRadius)
         {
-            return (point - center).sqrMagnitude <= radius*radius;
+            // For points on the circle's edge magnitude is more stable than sqrMagnitude 
+            return (point - circleCenter).magnitude < circleRadius + Geometry.Epsilon;
         }
 
         #endregion Point-Circle

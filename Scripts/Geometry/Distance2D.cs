@@ -83,9 +83,9 @@ namespace ProceduralToolkit
         /// Returns a distance to the closest point on the circle
         /// </summary>
         /// <returns>Positive value if the point is outside, negative otherwise</returns>
-        public static float PointCircle(Vector2 point, Vector2 center, float radius)
+        public static float PointCircle(Vector2 point, Vector2 circleCenter, float circleRadius)
         {
-            return (center - point).magnitude - radius;
+            return (circleCenter - point).magnitude - circleRadius;
         }
 
         #endregion Point-Circle

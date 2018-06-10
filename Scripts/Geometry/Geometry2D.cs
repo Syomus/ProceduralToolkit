@@ -182,11 +182,11 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the circle defined by <paramref name="center"/> and <paramref name="radius"/>
+        /// Projects the point onto the circle
         /// </summary>
-        public static Vector2 ClosestPointOnCircle(Vector2 point, Vector2 center, float radius)
+        public static Vector2 ClosestPointOnCircle(Vector2 point, Vector2 circleCenter, float circleRadius)
         {
-            return center + (point - center).normalized*radius;
+            return circleCenter + (point - circleCenter).normalized*circleRadius;
         }
 
         #endregion Point-Circle
