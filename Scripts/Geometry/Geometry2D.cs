@@ -31,34 +31,25 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the line defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Projects the point onto the line
         /// </summary>
-        /// <param name="direction">Normalized direction of the line</param>
-        public static Vector2 ClosestPointOnLine(Vector2 point, Vector2 origin, Vector2 direction)
+        /// <param name="lineDirection">Normalized direction of the line</param>
+        public static Vector2 ClosestPointOnLine(Vector2 point, Vector2 lineOrigin, Vector2 lineDirection)
         {
             float projectedX;
-            return ClosestPointOnLine(point, origin, direction, out projectedX);
+            return ClosestPointOnLine(point, lineOrigin, lineDirection, out projectedX);
         }
 
         /// <summary>
-        /// Projects the point onto the line defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Projects the point onto the line
         /// </summary>
-        /// <param name="direction">Normalized direction of the line</param>
+        /// <param name="lineDirection">Normalized direction of the line</param>
         /// <param name="projectedX">Position of the projected point on the line relative to the origin</param>
-        public static Vector2 ClosestPointOnLine(Vector2 point, Vector2 origin, Vector2 direction, out float projectedX)
+        public static Vector2 ClosestPointOnLine(Vector2 point, Vector2 lineOrigin, Vector2 lineDirection, out float projectedX)
         {
-            Vector2 toPoint = point - origin;
-
-            float dotDirection = Vector2.Dot(direction, direction);
-            if (dotDirection < Epsilon)
-            {
-                Debug.LogError("Invalid line definition. origin: " + origin + " direction: " + direction);
-                projectedX = 0;
-                return origin;
-            }
-
-            projectedX = Vector2.Dot(toPoint, direction)/dotDirection;
-            return origin + direction*projectedX;
+            // In theory, sqrMagnitude should be 1, but in practice this division helps with numerical stability
+            projectedX = Vector2.Dot(lineDirection, point - lineOrigin)/lineDirection.sqrMagnitude;
+            return lineOrigin + lineDirection*projectedX;
         }
 
         #endregion Point-Line

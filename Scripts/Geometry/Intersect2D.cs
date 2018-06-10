@@ -33,9 +33,9 @@ namespace ProceduralToolkit
         /// <summary>
         /// Tests if the point lies on the line
         /// </summary>
-        public static bool PointLine(Vector2 point, Vector2 origin, Vector2 direction)
+        public static bool PointLine(Vector2 point, Vector2 lineOrigin, Vector2 lineDirection)
         {
-            float perpDot = VectorE.PerpDot(point - origin, direction);
+            float perpDot = VectorE.PerpDot(point - lineOrigin, lineDirection);
             return -Geometry.Epsilon < perpDot && perpDot < Geometry.Epsilon;
         }
 
@@ -47,9 +47,9 @@ namespace ProceduralToolkit
         /// 0 if it is on the line,
         /// 1 if it is to the right of the line
         /// </param>
-        public static bool PointLine(Vector2 point, Vector2 origin, Vector2 direction, out int side)
+        public static bool PointLine(Vector2 point, Vector2 lineOrigin, Vector2 lineDirection, out int side)
         {
-            float perpDot = VectorE.PerpDot(point - origin, direction);
+            float perpDot = VectorE.PerpDot(point - lineOrigin, lineDirection);
             if (perpDot < -Geometry.Epsilon)
             {
                 side = -1;
