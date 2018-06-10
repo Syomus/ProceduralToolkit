@@ -113,9 +113,9 @@ namespace ProceduralToolkit
                     Mathf.Abs(VectorE.PerpDot(directionB, originBToA)) > Geometry.Epsilon)
                 {
                     // Not collinear
-                    float dotA = Vector2.Dot(directionA, originBToA);
-                    float distanceSqr = originBToA.sqrMagnitude - dotA*dotA;
-                    return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                    float originBProjection = Vector2.Dot(directionA, originBToA);
+                    float distanceSqr = originBToA.sqrMagnitude - originBProjection*originBProjection;
+                    return Mathf.Sqrt(distanceSqr);
                 }
 
                 // Collinear
@@ -154,8 +154,8 @@ namespace ProceduralToolkit
                 if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
-                    float dotA = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
-                    float distanceSqr = rayOriginToLineOrigin.sqrMagnitude - dotA*dotA;
+                    float rayOriginProjection = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
+                    float distanceSqr = rayOriginToLineOrigin.sqrMagnitude - rayOriginProjection*rayOriginProjection;
                     return Mathf.Sqrt(distanceSqr);
                 }
                 // Collinear
@@ -167,8 +167,9 @@ namespace ProceduralToolkit
             if (rayDistance < -Geometry.Epsilon)
             {
                 // No intersection
-                Vector2 linepoint = lineOrigin - lineDirection*Vector2.Dot(lineDirection, rayOriginToLineOrigin);
-                return Vector2.Distance(rayOrigin, linepoint);
+                float rayOriginProjection = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
+                Vector2 linePoint = lineOrigin - lineDirection*rayOriginProjection;
+                return Vector2.Distance(rayOrigin, linePoint);
             }
             // Point intersection
             return 0;
@@ -199,18 +200,17 @@ namespace ProceduralToolkit
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
-
                 bool codirected = Vector2.Dot(directionA, directionB) > 0;
-                float dotA = Vector2.Dot(directionA, originBToA);
+                float originBProjection = Vector2.Dot(directionA, originBToA);
                 if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
-                    if (!codirected && dotA > 0)
+                    if (!codirected && originBProjection > 0)
                     {
                         return Vector2.Distance(originA, originB);
                     }
-                    float distanceSqr = originBToA.sqrMagnitude - dotA*dotA;
-                    return distanceSqr < 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                    float distanceSqr = originBToA.sqrMagnitude - originBProjection*originBProjection;
+                    return Mathf.Sqrt(distanceSqr);
                 }
                 // Collinear
 
@@ -221,7 +221,7 @@ namespace ProceduralToolkit
                 }
                 else
                 {
-                    if (dotA > 0)
+                    if (originBProjection > 0)
                     {
                         // No intersection
                         return Vector2.Distance(originA, originB);

@@ -43,11 +43,11 @@ namespace ProceduralToolkit
         public static bool LineLine(Vector3 originA, Vector3 directionA, Vector3 originB, Vector3 directionB,
             out Vector3 intersection)
         {
-            float dotAA = Vector3.Dot(directionA, directionA);
-            float dotBB = Vector3.Dot(directionB, directionB);
+            float sqrMagnitudeA = directionA.sqrMagnitude;
+            float sqrMagnitudeB = directionB.sqrMagnitude;
             float dotAB = Vector3.Dot(directionA, directionB);
 
-            float denominator = dotAA*dotBB - dotAB*dotAB;
+            float denominator = sqrMagnitudeA*sqrMagnitudeB - dotAB*dotAB;
             Vector3 originBToA = originA - originB;
             float a = Vector3.Dot(directionA, originBToA);
             float b = Vector3.Dot(directionB, originBToA);
@@ -57,19 +57,19 @@ namespace ProceduralToolkit
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
-                float distanceB = dotAB > dotBB ? a/dotAB : b/dotBB;
+                float distanceB = dotAB > sqrMagnitudeB ? a/dotAB : b/sqrMagnitudeB;
 
                 closestPointA = originA;
-                closestPointB = originB + distanceB*directionB;
+                closestPointB = originB + directionB*distanceB;
             }
             else
             {
                 // Not parallel
-                float distanceA = (dotAA*b - dotAB*a)/denominator;
-                float distanceB = (dotAB*b - dotBB*a)/denominator;
+                float distanceA = (sqrMagnitudeA*b - dotAB*a)/denominator;
+                float distanceB = (dotAB*b - sqrMagnitudeB*a)/denominator;
 
-                closestPointA = originA + distanceA*directionA;
-                closestPointB = originB + distanceB*directionB;
+                closestPointA = originA + directionA*distanceA;
+                closestPointB = originB + directionB*distanceB;
             }
 
             if ((closestPointB - closestPointA).sqrMagnitude < Geometry.Epsilon)

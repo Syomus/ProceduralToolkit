@@ -225,9 +225,25 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the lines
         /// </summary>
+        public static bool LineLine(Line2 lineA, Line2 lineB)
+        {
+            return Distance.LineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction) < Geometry.Epsilon;
+        }
+
+        /// <summary>
+        /// Computes an intersection of the lines
+        /// </summary>
         public static bool LineLine(Line2 lineA, Line2 lineB, out IntersectionLineLine2 intersection)
         {
             return LineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the lines
+        /// </summary>
+        public static bool LineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB)
+        {
+            return Distance.LineLine(originA, directionA, originB, directionB) < Geometry.Epsilon;
         }
 
         /// <summary>
@@ -308,9 +324,25 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the ray
         /// </summary>
+        public static bool LineRay(Line2 line, Ray2D ray)
+        {
+            return Distance.LineRay(line.origin, line.direction, ray.origin, ray.direction) < Geometry.Epsilon;
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the ray
+        /// </summary>
         public static bool LineRay(Line2 line, Ray2D ray, out IntersectionLineRay2 intersection)
         {
             return LineRay(line.origin, line.direction, ray.origin, ray.direction, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the ray
+        /// </summary>
+        public static bool LineRay(Vector2 lineOrigin, Vector2 lineDirection, Vector2 rayOrigin, Vector2 rayDirection)
+        {
+            return Distance.LineRay(lineOrigin, lineDirection, rayOrigin, rayDirection) < Geometry.Epsilon;
         }
 
         /// <summary>
@@ -440,9 +472,25 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the rays
         /// </summary>
+        public static bool RayRay(Ray2D rayA, Ray2D rayB)
+        {
+            return Distance.RayRay(rayA.origin, rayA.direction, rayB.origin, rayB.direction) < Geometry.Epsilon;
+        }
+
+        /// <summary>
+        /// Computes an intersection of the rays
+        /// </summary>
         public static bool RayRay(Ray2D rayA, Ray2D rayB, out IntersectionRayRay2 intersection)
         {
             return RayRay(rayA.origin, rayA.direction, rayB.origin, rayB.direction, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the rays
+        /// </summary>
+        public static bool RayRay(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB)
+        {
+            return Distance.RayRay(originA, directionA, originB, directionB) < Geometry.Epsilon;
         }
 
         /// <summary>
@@ -468,15 +516,15 @@ namespace ProceduralToolkit
                 // Collinear
 
                 bool codirected = Vector2.Dot(directionA, directionB) > 0;
-                float dotA = Vector2.Dot(directionA, originBToA);
+                float originBProjection = Vector2.Dot(directionA, originBToA);
                 if (codirected)
                 {
-                    intersection = IntersectionRayRay2.Ray(dotA > 0 ? originA : originB, directionA);
+                    intersection = IntersectionRayRay2.Ray(originBProjection > 0 ? originA : originB, directionA);
                     return true;
                 }
                 else
                 {
-                    if (dotA > 0)
+                    if (originBProjection > 0)
                     {
                         intersection = IntersectionRayRay2.None();
                         return false;
@@ -533,10 +581,10 @@ namespace ProceduralToolkit
             if (intersectionType == IntersectionType.Line)
             {
                 bool segmentIsAPoint = segmentDirection.sqrMagnitude < Geometry.Epsilon;
-                float projectionFromOriginToA = Vector2.Dot(rayDirection, segmentA - rayOrigin);
+                float segmentAProjection = Vector2.Dot(rayDirection, segmentA - rayOrigin);
                 if (segmentIsAPoint)
                 {
-                    if (projectionFromOriginToA > -Geometry.Epsilon)
+                    if (segmentAProjection > -Geometry.Epsilon)
                     {
                         intersection = IntersectionRaySegment2.Point(segmentA);
                         return true;
@@ -545,12 +593,12 @@ namespace ProceduralToolkit
                     return false;
                 }
 
-                float projectionFromOriginToB = Vector2.Dot(rayDirection, segmentB - rayOrigin);
-                if (projectionFromOriginToA > -Geometry.Epsilon)
+                float segmentBProjection = Vector2.Dot(rayDirection, segmentB - rayOrigin);
+                if (segmentAProjection > -Geometry.Epsilon)
                 {
-                    if (projectionFromOriginToB > -Geometry.Epsilon)
+                    if (segmentBProjection > -Geometry.Epsilon)
                     {
-                        if (projectionFromOriginToB > projectionFromOriginToA)
+                        if (segmentBProjection > segmentAProjection)
                         {
                             intersection = IntersectionRaySegment2.Segment(segmentA, segmentB);
                         }
@@ -561,7 +609,7 @@ namespace ProceduralToolkit
                     }
                     else
                     {
-                        if (projectionFromOriginToA > Geometry.Epsilon)
+                        if (segmentAProjection > Geometry.Epsilon)
                         {
                             intersection = IntersectionRaySegment2.Segment(rayOrigin, segmentA);
                         }
@@ -572,9 +620,9 @@ namespace ProceduralToolkit
                     }
                     return true;
                 }
-                if (projectionFromOriginToB > -Geometry.Epsilon)
+                if (segmentBProjection > -Geometry.Epsilon)
                 {
-                    if (projectionFromOriginToB > Geometry.Epsilon)
+                    if (segmentBProjection > Geometry.Epsilon)
                     {
                         intersection = IntersectionRaySegment2.Segment(rayOrigin, segmentB);
                     }
@@ -725,8 +773,8 @@ namespace ProceduralToolkit
                 if (codirected)
                 {
                     // Codirected
-                    float projectionFrom2ATo1A = Vector2.Dot(direction1, from2ATo1A);
-                    if (projectionFrom2ATo1A > 0)
+                    float segment2AProjection = Vector2.Dot(direction1, from2ATo1A);
+                    if (segment2AProjection > 0)
                     {
                         // 2A------2B
                         //     1A------1B
@@ -742,8 +790,8 @@ namespace ProceduralToolkit
                 else
                 {
                     // Contradirected
-                    float projectionFrom1ATo2B = Vector2.Dot(direction1, segment2B - segment1A);
-                    if (projectionFrom1ATo2B > 0)
+                    float segment2BProjection = Vector2.Dot(direction1, segment2B - segment1A);
+                    if (segment2BProjection > 0)
                     {
                         // 1A------1B
                         //     2B------2A
@@ -810,8 +858,8 @@ namespace ProceduralToolkit
             out IntersectionSegmentSegment2 intersection)
         {
             Vector2 leftDirection = leftB - leftA;
-            float projectionRA = Vector2.Dot(leftDirection, leftB - rightA);
-            if (Mathf.Abs(projectionRA) < Geometry.Epsilon)
+            float rightAProjection = Vector2.Dot(leftDirection, leftB - rightA);
+            if (Mathf.Abs(rightAProjection) < Geometry.Epsilon)
             {
                 // LB == RA
                 // LA------LB
@@ -819,7 +867,7 @@ namespace ProceduralToolkit
                 intersection = IntersectionSegmentSegment2.Point(leftB);
                 return true;
             }
-            if (projectionRA > 0)
+            if (rightAProjection > 0)
             {
                 // LB > RA
                 // LA------LB
@@ -827,8 +875,8 @@ namespace ProceduralToolkit
                 //     RA--RB
                 //     RA------RB
                 Vector2 pointB;
-                float projectionRB = Vector2.Dot(leftDirection, rightB - leftA);
-                if (projectionRB > leftDirection.sqrMagnitude)
+                float rightBProjection = Vector2.Dot(leftDirection, rightB - leftA);
+                if (rightBProjection > leftDirection.sqrMagnitude)
                 {
                     pointB = leftB;
                 }

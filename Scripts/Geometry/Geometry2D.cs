@@ -8,7 +8,6 @@ namespace ProceduralToolkit
     public static partial class Geometry
     {
         public const float Epsilon = 0.00001f;
-        public const float EpsilonSqr = Epsilon*Epsilon;
 
         #region Point-Line
 
@@ -261,8 +260,8 @@ namespace ProceduralToolkit
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
                     // Not collinear
-                    float dotA = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
-                    linePoint = lineOrigin - dotA*lineDirection;
+                    float rayOriginProjection = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
+                    linePoint = lineOrigin - lineDirection*rayOriginProjection;
                     rayPoint = rayOrigin;
                     return;
                 }
@@ -276,7 +275,8 @@ namespace ProceduralToolkit
             if (rayDistance < -Epsilon)
             {
                 // No intersection
-                linePoint = lineOrigin - lineDirection*Vector2.Dot(lineDirection, rayOriginToLineOrigin);
+                float rayOriginProjection = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
+                linePoint = lineOrigin - lineDirection*rayOriginProjection;
                 rayPoint = rayOrigin;
                 return;
             }
@@ -311,30 +311,30 @@ namespace ProceduralToolkit
             {
                 // Parallel
                 bool codirected = Vector2.Dot(directionA, directionB) > 0;
-                float dotA = Vector2.Dot(directionA, originBToA);
+                float originBProjection = Vector2.Dot(directionA, originBToA);
 
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
                     // Not collinear
                     if (codirected)
                     {
-                        if (dotA > 0)
+                        if (originBProjection > 0)
                         {
                             // Projection of originA is on rayB
                             pointA = originA;
-                            pointB = originB + dotA*directionA;
+                            pointB = originB + directionA*originBProjection;
                             return;
                         }
                         else
                         {
-                            pointA = originA - dotA*directionA;
+                            pointA = originA - directionA*originBProjection;
                             pointB = originB;
                             return;
                         }
                     }
                     else
                     {
-                        if (dotA > 0)
+                        if (originBProjection > 0)
                         {
                             pointA = originA;
                             pointB = originB;
@@ -344,7 +344,7 @@ namespace ProceduralToolkit
                         {
                             // Projection of originA is on rayB
                             pointA = originA;
-                            pointB = originB + dotA*directionA;
+                            pointB = originB + directionA*originBProjection;
                             return;
                         }
                     }
@@ -354,7 +354,7 @@ namespace ProceduralToolkit
                 if (codirected)
                 {
                     // Ray intersection
-                    if (dotA > 0)
+                    if (originBProjection > 0)
                     {
                         // Projection of originA is on rayB
                         pointA = pointB = originA;
@@ -368,7 +368,7 @@ namespace ProceduralToolkit
                 }
                 else
                 {
-                    if (dotA > 0)
+                    if (originBProjection > 0)
                     {
                         // No intersection
                         pointA = originA;
