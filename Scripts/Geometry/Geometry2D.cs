@@ -66,41 +66,41 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Projects the point onto the ray
         /// </summary>
-        /// <param name="direction">Normalized direction of the ray</param>
-        public static Vector2 ClosestPointOnRay(Vector2 point, Vector2 origin, Vector2 direction)
+        /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
+        public static Vector2 ClosestPointOnRay(Vector2 point, Ray2D ray, out float projectedX)
         {
-            float projectedX;
-            return ClosestPointOnRay(point, origin, direction, out projectedX);
+            return ClosestPointOnRay(point, ray.origin, ray.direction, out projectedX);
         }
 
         /// <summary>
-        /// Projects the point onto the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Projects the point onto the ray
         /// </summary>
-        /// <param name="direction">Normalized direction of the ray</param>
-        /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
-        public static Vector2 ClosestPointOnRay(Vector2 point, Vector2 origin, Vector2 direction, out float projectedX)
+        /// <param name="rayDirection">Normalized direction of the ray</param>
+        public static Vector2 ClosestPointOnRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection)
         {
-            Vector2 toPoint = point - origin;
+            float projectedX;
+            return ClosestPointOnRay(point, rayOrigin, rayDirection, out projectedX);
+        }
 
-            float dotDirection = Vector2.Dot(direction, direction);
-            if (dotDirection < Epsilon)
-            {
-                Debug.LogError("Invalid ray definition. origin: " + origin + " direction: " + direction);
-                projectedX = 0;
-                return origin;
-            }
-
-            float dotToPoint = Vector2.Dot(toPoint, direction);
+        /// <summary>
+        /// Projects the point onto the ray
+        /// </summary>
+        /// <param name="rayDirection">Normalized direction of the ray</param>
+        /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
+        public static Vector2 ClosestPointOnRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection, out float projectedX)
+        {
+            float dotToPoint = Vector2.Dot(rayDirection, point - rayOrigin);
             if (dotToPoint <= 0)
             {
                 projectedX = 0;
-                return origin;
+                return rayOrigin;
             }
 
-            projectedX = dotToPoint/dotDirection;
-            return origin + direction*projectedX;
+            // In theory, sqrMagnitude should be 1, but in practice this division helps with numerical stability
+            projectedX = dotToPoint/rayDirection.sqrMagnitude;
+            return rayOrigin + rayDirection*projectedX;
         }
 
         #endregion Point-Ray

@@ -40,10 +40,10 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a distance to the closest point on the ray
         /// </summary>
-        /// <param name="direction">Normalized direction of the ray</param>
-        public static float PointRay(Vector2 point, Vector2 origin, Vector2 direction)
+        /// <param name="rayDirection">Normalized direction of the ray</param>
+        public static float PointRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection)
         {
-            return Vector2.Distance(point, Geometry.ClosestPointOnRay(point, origin, direction));
+            return Vector2.Distance(point, Geometry.ClosestPointOnRay(point, rayOrigin, rayDirection));
         }
 
         #endregion Point-Ray

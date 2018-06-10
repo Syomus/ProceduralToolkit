@@ -92,12 +92,12 @@ namespace ProceduralToolkit
         /// <summary>
         /// Tests if the point lies on the ray
         /// </summary>
-        public static bool PointRay(Vector2 point, Vector2 origin, Vector2 direction)
+        public static bool PointRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection)
         {
-            Vector2 toPoint = point - origin;
-            float perpDot = VectorE.PerpDot(toPoint, direction);
+            Vector2 toPoint = point - rayOrigin;
+            float perpDot = VectorE.PerpDot(toPoint, rayDirection);
             return -Geometry.Epsilon < perpDot && perpDot < Geometry.Epsilon &&
-                   Vector2.Dot(toPoint, direction) > -Geometry.Epsilon;
+                   Vector2.Dot(rayDirection, toPoint) > -Geometry.Epsilon;
         }
 
         /// <summary>
@@ -108,10 +108,10 @@ namespace ProceduralToolkit
         /// 0 if it is on the line,
         /// 1 if it is to the right of the ray
         /// </param>
-        public static bool PointRay(Vector2 point, Vector2 origin, Vector2 direction, out int side)
+        public static bool PointRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection, out int side)
         {
-            Vector2 toPoint = point - origin;
-            float perpDot = VectorE.PerpDot(toPoint, direction);
+            Vector2 toPoint = point - rayOrigin;
+            float perpDot = VectorE.PerpDot(toPoint, rayDirection);
             if (perpDot < -Geometry.Epsilon)
             {
                 side = -1;
@@ -123,7 +123,7 @@ namespace ProceduralToolkit
                 return false;
             }
             side = 0;
-            return Vector2.Dot(toPoint, direction) > -Geometry.Epsilon;
+            return Vector2.Dot(rayDirection, toPoint) > -Geometry.Epsilon;
         }
 
         #endregion Point-Ray
