@@ -115,7 +115,8 @@ namespace ProceduralToolkit
                     // Not collinear
                     float originBProjection = Vector2.Dot(directionA, originBToA);
                     float distanceSqr = originBToA.sqrMagnitude - originBProjection*originBProjection;
-                    return Mathf.Sqrt(distanceSqr);
+                    // distanceSqr can be negative
+                    return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
                 }
 
                 // Collinear
@@ -156,7 +157,8 @@ namespace ProceduralToolkit
                     // Not collinear
                     float rayOriginProjection = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
                     float distanceSqr = rayOriginToLineOrigin.sqrMagnitude - rayOriginProjection*rayOriginProjection;
-                    return Mathf.Sqrt(distanceSqr);
+                    // distanceSqr can be negative
+                    return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
                 }
                 // Collinear
                 return 0;
@@ -210,7 +212,8 @@ namespace ProceduralToolkit
                         return Vector2.Distance(originA, originB);
                     }
                     float distanceSqr = originBToA.sqrMagnitude - originBProjection*originBProjection;
-                    return Mathf.Sqrt(distanceSqr);
+                    // distanceSqr can be negative
+                    return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
                 }
                 // Collinear
 
