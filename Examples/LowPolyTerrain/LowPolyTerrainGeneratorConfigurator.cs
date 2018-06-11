@@ -1,4 +1,4 @@
-﻿using ProceduralToolkit.Examples.UI;
+using ProceduralToolkit.Examples.UI;
 using UnityEngine;
 
 namespace ProceduralToolkit.Examples
@@ -9,6 +9,7 @@ namespace ProceduralToolkit.Examples
     public class LowPolyTerrainGeneratorConfigurator : ConfiguratorBase
     {
         public MeshFilter terrainMeshFilter;
+        public MeshCollider terrainMeshCollider;
         public RectTransform leftPanel;
         public bool constantSeed = false;
         public LowPolyTerrainGenerator.Config config = new LowPolyTerrainGenerator.Config();
@@ -91,6 +92,7 @@ namespace ProceduralToolkit.Examples
             var draft = LowPolyTerrainGenerator.TerrainDraft(config);
             draft.Move(Vector3.left*config.terrainSize.x/2 + Vector3.back*config.terrainSize.z/2);
             AssignDraftToMeshFilter(draft, terrainMeshFilter, ref terrainMesh);
+            terrainMeshCollider.sharedMesh = terrainMesh;
         }
     }
 }
