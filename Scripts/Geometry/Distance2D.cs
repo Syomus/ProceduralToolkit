@@ -171,13 +171,65 @@ namespace ProceduralToolkit
                 // No intersection
                 float rayOriginProjection = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
                 Vector2 linePoint = lineOrigin - lineDirection*rayOriginProjection;
-                return Vector2.Distance(rayOrigin, linePoint);
+                return Vector2.Distance(linePoint, rayOrigin);
             }
             // Point intersection
             return 0;
         }
 
         #endregion Line-Ray
+
+        #region Line-Segment
+
+        /// <summary>
+        /// Returns the distance between the closest points on the line and the segment
+        /// </summary>
+        public static float LineSegment(Line2 line, Segment2 segment)
+        {
+            return LineSegment(line.origin, line.direction, segment.a, segment.b);
+        }
+
+        /// <summary>
+        /// Returns the distance between the closest points on the line and the segment
+        /// </summary>
+        public static float LineSegment(Vector2 lineOrigin, Vector2 lineDirection, Vector2 segmentA, Vector2 segmentB)
+        {
+            Vector2 segmentDirection = segmentB - segmentA;
+            Vector2 segmentAToLineOrigin = lineOrigin - segmentA;
+            float denominator = VectorE.PerpDot(lineDirection, segmentDirection);
+            float perpDotA = VectorE.PerpDot(lineDirection, segmentAToLineOrigin);
+            float perpDotB = VectorE.PerpDot(segmentDirection, segmentAToLineOrigin);
+
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
+            {
+                // Parallel
+                if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
+                {
+                    // Not collinear
+                    float segmentAProjection = Vector2.Dot(lineDirection, segmentAToLineOrigin);
+                    float distanceSqr = segmentAToLineOrigin.sqrMagnitude - segmentAProjection*segmentAProjection;
+                    // distanceSqr can be negative
+                    return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                }
+                // Collinear
+                return 0;
+            }
+
+            // Not parallel
+            float segmentDistance = perpDotA/denominator;
+            if (segmentDistance < -Geometry.Epsilon || segmentDistance > 1 + Geometry.Epsilon)
+            {
+                // No intersection
+                float lineDistance = perpDotB/denominator;
+                Vector2 linePoint = lineOrigin + lineDirection*lineDistance;
+                Vector2 segmentPoint = segmentA + segmentDirection*Mathf.Clamp01(segmentDistance);
+                return Vector2.Distance(linePoint, segmentPoint);
+            }
+            // Point intersection
+            return 0;
+        }
+
+        #endregion Line-Segment
 
         #region Ray-Ray
 
