@@ -220,9 +220,9 @@ namespace ProceduralToolkit
             if (segmentDistance < -Geometry.Epsilon || segmentDistance > 1 + Geometry.Epsilon)
             {
                 // No intersection
-                float lineDistance = perpDotB/denominator;
-                Vector2 linePoint = lineOrigin + lineDirection*lineDistance;
                 Vector2 segmentPoint = segmentA + segmentDirection*Mathf.Clamp01(segmentDistance);
+                float segmentPointProjection = Vector2.Dot(lineDirection, lineOrigin - segmentPoint);
+                Vector2 linePoint = lineOrigin - lineDirection*segmentPointProjection;
                 return Vector2.Distance(linePoint, segmentPoint);
             }
             // Point intersection

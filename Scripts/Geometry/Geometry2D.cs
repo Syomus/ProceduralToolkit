@@ -286,6 +286,80 @@ namespace ProceduralToolkit
 
         #endregion Line-Ray
 
+        #region Line-Segment
+
+        /// <summary>
+        /// Finds closest points on the line and the segment
+        /// </summary>
+        public static void ClosestPointsLineSegment(Line2 line, Segment2 segment, out Vector2 linePoint, out Vector2 segmentPoint)
+        {
+            ClosestPointsLineSegment(line.origin, line.direction, segment.a, segment.b, out linePoint, out segmentPoint);
+        }
+
+        /// <summary>
+        /// Finds closest points on the line and the segment
+        /// </summary>
+        public static void ClosestPointsLineSegment(Vector2 lineOrigin, Vector2 lineDirection, Vector2 segmentA, Vector2 segmentB,
+            out Vector2 linePoint, out Vector2 segmentPoint)
+        {
+            Vector2 segmentDirection = segmentB - segmentA;
+            Vector2 segmentAToLineOrigin = lineOrigin - segmentA;
+            float denominator = VectorE.PerpDot(lineDirection, segmentDirection);
+            float perpDotA = VectorE.PerpDot(lineDirection, segmentAToLineOrigin);
+            float perpDotB = VectorE.PerpDot(segmentDirection, segmentAToLineOrigin);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                bool codirected = Vector2.Dot(lineDirection, segmentDirection) > 0;
+
+                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                {
+                    // Not collinear
+                    if (codirected)
+                    {
+                        float segmentAProjection = Vector2.Dot(lineDirection, segmentAToLineOrigin);
+                        linePoint = lineOrigin - lineDirection*segmentAProjection;
+                        segmentPoint = segmentA;
+                    }
+                    else
+                    {
+                        float segmentBProjection = Vector2.Dot(lineDirection, lineOrigin - segmentB);
+                        linePoint = lineOrigin - lineDirection*segmentBProjection;
+                        segmentPoint = segmentB;
+                    }
+                    return;
+                }
+
+                // Collinear
+                if (codirected)
+                {
+                    linePoint = segmentPoint = segmentA;
+                }
+                else
+                {
+                    linePoint = segmentPoint = segmentB;
+                }
+                return;
+            }
+
+            // Not parallel
+            float segmentDistance = perpDotA/denominator;
+            if (segmentDistance < -Epsilon || segmentDistance > 1 + Epsilon)
+            {
+                // No intersection
+                segmentPoint = segmentA + segmentDirection*Mathf.Clamp01(segmentDistance);
+                float segmentPointProjection = Vector2.Dot(lineDirection, lineOrigin - segmentPoint);
+                linePoint = lineOrigin - lineDirection*segmentPointProjection;
+                return;
+            }
+            // Point intersection
+            float lineDistance = perpDotB/denominator;
+            linePoint = segmentPoint = lineOrigin + lineDirection*lineDistance;
+        }
+
+        #endregion Line-Segment
+
         #region Ray-Ray
 
         /// <summary>
