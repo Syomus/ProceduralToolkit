@@ -198,11 +198,11 @@ namespace ProceduralToolkit
             Vector2 segmentAToLineOrigin = lineOrigin - segmentA;
             float denominator = VectorE.PerpDot(lineDirection, segmentDirection);
             float perpDotA = VectorE.PerpDot(lineDirection, segmentAToLineOrigin);
-            float perpDotB = VectorE.PerpDot(segmentDirection, segmentAToLineOrigin);
 
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
+                float perpDotB = VectorE.PerpDot(segmentDirection, segmentAToLineOrigin);
                 if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
@@ -314,6 +314,90 @@ namespace ProceduralToolkit
         }
 
         #endregion Ray-Ray
+
+        #region Ray-Segment
+
+        /// <summary>
+        /// Returns the distance between the closest points on the ray and the segment
+        /// </summary>
+        public static float RaySegment(Ray2D ray, Segment2 segment)
+        {
+            return RaySegment(ray.origin, ray.direction, segment.a, segment.b);
+        }
+
+        /// <summary>
+        /// Returns the distance between the closest points on the ray and the segment
+        /// </summary>
+        public static float RaySegment(Vector2 rayOrigin, Vector2 rayDirection, Vector2 segmentA, Vector2 segmentB)
+        {
+            Vector2 segmentDirection = segmentB - segmentA;
+            Vector2 segmentAToRayOrigin = rayOrigin - segmentA;
+            float denominator = VectorE.PerpDot(rayDirection, segmentDirection);
+            float perpDotA = VectorE.PerpDot(rayDirection, segmentAToRayOrigin);
+            float perpDotB = VectorE.PerpDot(segmentDirection, segmentAToRayOrigin);
+
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
+            {
+                // Parallel
+                float segmentAProjection = -Vector2.Dot(rayDirection, segmentAToRayOrigin);
+                Vector2 rayOriginToSegmentB = segmentB - rayOrigin;
+                float segmentBProjection = Vector2.Dot(rayDirection, rayOriginToSegmentB);
+                if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
+                {
+                    // Not collinear
+                    if (segmentAProjection > -Geometry.Epsilon)
+                    {
+                        float distanceSqr = segmentAToRayOrigin.sqrMagnitude - segmentAProjection*segmentAProjection;
+                        // distanceSqr can be negative
+                        return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                    }
+                    if (segmentBProjection > -Geometry.Epsilon)
+                    {
+                        float distanceSqr = rayOriginToSegmentB.sqrMagnitude - segmentBProjection*segmentBProjection;
+                        // distanceSqr can be negative
+                        return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                    }
+
+                    if (segmentAProjection > segmentBProjection)
+                    {
+                        return Vector2.Distance(rayOrigin, segmentA);
+                    }
+                    return Vector2.Distance(rayOrigin, segmentB);
+                }
+                // Collinear
+                if (segmentAProjection > -Geometry.Epsilon || segmentBProjection > -Geometry.Epsilon)
+                {
+                    // Point or segment intersection
+                    return 0;
+                }
+                return segmentAProjection > segmentBProjection ? -segmentAProjection : -segmentBProjection;
+            }
+
+            // Not parallel
+            float rayDistance = perpDotB/denominator;
+            float segmentDistance = perpDotA/denominator;
+            if (rayDistance < -Geometry.Epsilon ||
+                segmentDistance < -Geometry.Epsilon || segmentDistance > 1 + Geometry.Epsilon)
+            {
+                // No intersection
+                Vector2 segmentPoint = segmentA + segmentDirection*Mathf.Clamp01(segmentDistance);
+                float segmentPointProjection = Vector2.Dot(rayDirection, segmentPoint - rayOrigin);
+                Vector2 rayPoint;
+                if (segmentPointProjection <= 0)
+                {
+                    rayPoint = rayOrigin;
+                }
+                else
+                {
+                    rayPoint = rayOrigin + rayDirection*segmentPointProjection;
+                }
+                return Vector2.Distance(rayPoint, segmentPoint);
+            }
+            // Point intersection
+            return 0;
+        }
+
+        #endregion Ray-Segment
 
         #region Circle-Circle
 
