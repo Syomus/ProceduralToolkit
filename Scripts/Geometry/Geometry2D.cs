@@ -490,6 +490,115 @@ namespace ProceduralToolkit
 
         #endregion Ray-Ray
 
+        #region Ray-Segment
+
+        /// <summary>
+        /// Finds closest points on the ray and the segment
+        /// </summary>
+        public static void ClosestPointsRaySegment(Ray2D ray, Segment2 segment, out Vector2 rayPoint, out Vector2 segmentPoint)
+        {
+            ClosestPointsRaySegment(ray.origin, ray.direction, segment.a, segment.b, out rayPoint, out segmentPoint);
+        }
+
+        /// <summary>
+        /// Finds closest points on the ray and the segment
+        /// </summary>
+        public static void ClosestPointsRaySegment(Vector2 rayOrigin, Vector2 rayDirection, Vector2 segmentA, Vector2 segmentB,
+            out Vector2 rayPoint, out Vector2 segmentPoint)
+        {
+            Vector2 segmentDirection = segmentB - segmentA;
+            Vector2 segmentAToRayOrigin = rayOrigin - segmentA;
+            float denominator = VectorE.PerpDot(rayDirection, segmentDirection);
+            float perpDotA = VectorE.PerpDot(rayDirection, segmentAToRayOrigin);
+            float perpDotB = VectorE.PerpDot(segmentDirection, segmentAToRayOrigin);
+
+            if (Mathf.Abs(denominator) < Epsilon)
+            {
+                // Parallel
+                float segmentAProjection = -Vector2.Dot(rayDirection, segmentAToRayOrigin);
+                Vector2 rayOriginToSegmentB = segmentB - rayOrigin;
+                float segmentBProjection = Vector2.Dot(rayDirection, rayOriginToSegmentB);
+                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                {
+                    // Not collinear
+                    if (segmentAProjection > -Epsilon && segmentBProjection > -Epsilon)
+                    {
+                        if (segmentAProjection < segmentBProjection)
+                        {
+                            rayPoint = rayOrigin + rayDirection*segmentAProjection;
+                            segmentPoint = segmentA;
+                            return;
+                        }
+                        else
+                        {
+                            rayPoint = rayOrigin + rayDirection*segmentBProjection;
+                            segmentPoint = segmentB;
+                            return;
+                        }
+                    }
+                    if (segmentAProjection > -Epsilon || segmentBProjection > -Epsilon)
+                    {
+                        rayPoint = rayOrigin;
+                        float sqrSegmentLength = segmentDirection.sqrMagnitude;
+                        if (sqrSegmentLength > Epsilon)
+                        {
+                            float rayOriginProjection = Vector2.Dot(segmentDirection, segmentAToRayOrigin)/sqrSegmentLength;
+                            segmentPoint = segmentA + segmentDirection*rayOriginProjection;
+                        }
+                        else
+                        {
+                            segmentPoint = segmentA;
+                        }
+                        return;
+                    }
+                    rayPoint = rayOrigin;
+                    segmentPoint = segmentAProjection > segmentBProjection ? segmentA : segmentB;
+                    return;
+                }
+
+                // Collinear
+                if (segmentAProjection > -Epsilon && segmentBProjection > -Epsilon)
+                {
+                    // Point or segment intersection
+                    rayPoint = segmentPoint = segmentAProjection < segmentBProjection ? segmentA : segmentB;
+                    return;
+                }
+                if (segmentAProjection > -Epsilon || segmentBProjection > -Epsilon)
+                {
+                    // Point or segment intersection
+                    rayPoint = segmentPoint = rayOrigin;
+                    return;
+                }
+                rayPoint = rayOrigin;
+                segmentPoint = segmentAProjection > segmentBProjection ? segmentA : segmentB;
+                return;
+            }
+
+            // Not parallel
+            float rayDistance = perpDotB/denominator;
+            float segmentDistance = perpDotA/denominator;
+            if (rayDistance < -Epsilon ||
+                segmentDistance < -Epsilon || segmentDistance > 1 + Epsilon)
+            {
+                // No intersection
+                segmentPoint = segmentA + segmentDirection*Mathf.Clamp01(segmentDistance);
+                float segmentPointProjection = Vector2.Dot(rayDirection, segmentPoint - rayOrigin);
+                if (segmentPointProjection <= 0)
+                {
+                    rayPoint = rayOrigin;
+                }
+                else
+                {
+                    rayPoint = rayOrigin + rayDirection*segmentPointProjection;
+                }
+                return;
+            }
+            // Point intersection
+            rayPoint = segmentPoint = rayOrigin + rayDirection*rayDistance;
+        }
+
+        #endregion Ray-Segment
+
         #region Circle-Circle
 
         /// <summary>
