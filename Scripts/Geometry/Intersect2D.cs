@@ -655,49 +655,51 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the ray and the circle
         /// </summary>
-        public static bool RayCircle(Ray2D ray, Circle circle, out Vector2 pointA, out Vector2 pointB)
+        public static bool RayCircle(Ray2D ray, Circle circle, out IntersectionRayCircle intersection)
         {
-            return RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out pointA, out pointB);
+            return RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out intersection);
         }
 
         /// <summary>
         /// Computes an intersection of the ray and the circle
         /// </summary>
-        public static bool RayCircle(Vector2 origin, Vector2 direction, Vector2 center, float radius, out Vector2 pointA, out Vector2 pointB)
+        public static bool RayCircle(Vector2 rayOrigin, Vector2 rayDirection, Vector2 circleCenter, float circleRadius,
+            out IntersectionRayCircle intersection)
         {
-            Vector2 toCenter = center - origin;
-            float toCenterOnLine = Vector2.Dot(toCenter, direction);
-            float sqrDistanceToLine = toCenter.sqrMagnitude - toCenterOnLine*toCenterOnLine;
-
-            float sqrRadius = radius*radius;
-            if (sqrDistanceToLine > sqrRadius)
+            Vector2 originToCenter = circleCenter - rayOrigin;
+            float centerProjection = Vector2.Dot(rayDirection, originToCenter);
+            if (centerProjection + circleRadius < -Geometry.Epsilon)
             {
-                pointA = Vector2.zero;
-                pointB = Vector2.zero;
+                intersection = IntersectionRayCircle.None();
                 return false;
             }
-            float fromClosestPointToIntersection = Mathf.Sqrt(sqrRadius - sqrDistanceToLine);
-            float intersectionA = toCenterOnLine - fromClosestPointToIntersection;
-            float intersectionB = toCenterOnLine + fromClosestPointToIntersection;
 
-            if (intersectionA > intersectionB)
+            float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
+            float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
             {
-                PTUtils.Swap(ref intersectionA, ref intersectionB);
+                intersection = IntersectionRayCircle.None();
+                return false;
+            }
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
+            {
+                intersection = IntersectionRayCircle.Point(rayOrigin + rayDirection*centerProjection);
+                return true;
             }
 
-            if (intersectionA < 0)
+            float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
+            float distanceA = centerProjection - distanceToIntersection;
+            float distanceB = centerProjection + distanceToIntersection;
+
+            if (distanceA < -Geometry.Epsilon)
             {
-                intersectionA = intersectionB;
-                if (intersectionA < 0)
-                {
-                    pointA = Vector2.zero;
-                    pointB = Vector2.zero;
-                    return false;
-                }
+                intersection = IntersectionRayCircle.Point(rayOrigin + rayDirection*distanceB);
+                return true;
             }
 
-            pointA = origin + intersectionA*direction;
-            pointB = origin + intersectionB*direction;
+            Vector2 pointA = rayOrigin + rayDirection*distanceA;
+            Vector2 pointB = rayOrigin + rayDirection*distanceB;
+            intersection = IntersectionRayCircle.TwoPoints(pointA, pointB);
             return true;
         }
 
