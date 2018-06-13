@@ -429,7 +429,7 @@ namespace ProceduralToolkit
 
         #endregion Ray-Segment
 
-        #region Line-Circle
+        #region Ray-Circle
 
         /// <summary>
         /// Returns the distance between the closest points on the ray and the circle
@@ -448,6 +448,7 @@ namespace ProceduralToolkit
             float centerProjection = Vector2.Dot(rayDirection, originToCenter);
             if (centerProjection + circleRadius < -Geometry.Epsilon)
             {
+                // No intersection
                 return Mathf.Sqrt(originToCenter.sqrMagnitude) - circleRadius;
             }
 
@@ -467,7 +468,7 @@ namespace ProceduralToolkit
             return 0;
         }
 
-        #endregion Line-Circle
+        #endregion Ray-Circle
 
         #region Circle-Circle
 

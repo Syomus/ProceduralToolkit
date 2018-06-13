@@ -642,6 +642,65 @@ namespace ProceduralToolkit
 
         #endregion Ray-Segment
 
+        #region Ray-Circle
+
+        /// <summary>
+        /// Finds closest points on the ray and the circle
+        /// </summary>
+        public static void ClosestPointsRayCircle(Ray2D ray, Circle circle, out Vector2 rayPoint, out Vector2 circlePoint)
+        {
+            ClosestPointsRayCircle(ray.origin, ray.direction, circle.center, circle.radius, out rayPoint, out circlePoint);
+        }
+
+        /// <summary>
+        /// Finds closest points on the ray and the circle
+        /// </summary>
+        public static void ClosestPointsRayCircle(Vector2 rayOrigin, Vector2 rayDirection, Vector2 circleCenter, float circleRadius,
+            out Vector2 rayPoint, out Vector2 circlePoint)
+        {
+            Vector2 originToCenter = circleCenter - rayOrigin;
+            float centerProjection = Vector2.Dot(rayDirection, originToCenter);
+            if (centerProjection + circleRadius < -Epsilon)
+            {
+                // No intersection
+                rayPoint = rayOrigin;
+                circlePoint = circleCenter - originToCenter.normalized*circleRadius;
+                return;
+            }
+
+            float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
+            float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Epsilon)
+            {
+                // No intersection
+                rayPoint = rayOrigin + rayDirection*centerProjection;
+                circlePoint = circleCenter - originToCenter.normalized*circleRadius;
+                return;
+            }
+            if (sqrDistanceToIntersection < Epsilon)
+            {
+                // Point intersection
+                rayPoint = circlePoint = rayOrigin + rayDirection*centerProjection;
+                return;
+            }
+
+            float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
+            float distanceA = centerProjection - distanceToIntersection;
+
+            if (distanceA < -Epsilon)
+            {
+                // Point intersection
+                float distanceB = centerProjection + distanceToIntersection;
+                rayPoint = circlePoint = rayOrigin + rayDirection*distanceB;
+                return;
+            }
+
+            // Two points intersection
+            rayPoint = circlePoint = rayOrigin + rayDirection*distanceA;
+        }
+
+        #endregion Ray-Circle
+
         #region Circle-Circle
 
         /// <summary>
