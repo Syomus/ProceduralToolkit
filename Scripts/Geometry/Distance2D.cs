@@ -231,6 +231,35 @@ namespace ProceduralToolkit
 
         #endregion Line-Segment
 
+        #region Line-Circle
+
+        /// <summary>
+        /// Returns the distance between the closest points on the line and the circle
+        /// </summary>
+        public static float LineCircle(Line2 line, Circle circle)
+        {
+            return LineCircle(line.origin, line.direction, circle.center, circle.radius);
+        }
+
+        /// <summary>
+        /// Returns the distance between the closest points on the line and the circle
+        /// </summary>
+        public static float LineCircle(Vector2 lineOrigin, Vector2 lineDirection, Vector2 circleCenter, float circleRadius)
+        {
+            Vector2 originToCenter = circleCenter - lineOrigin;
+            float centerProjection = Vector2.Dot(lineDirection, originToCenter);
+            float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
+
+            float sqrRadius = circleRadius*circleRadius;
+            if (sqrDistanceToLine > sqrRadius + Geometry.Epsilon)
+            {
+                return Mathf.Sqrt(sqrDistanceToLine) - circleRadius;
+            }
+            return 0;
+        }
+
+        #endregion Line-Circle
+
         #region Ray-Ray
 
         /// <summary>
