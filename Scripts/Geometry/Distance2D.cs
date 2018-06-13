@@ -253,6 +253,7 @@ namespace ProceduralToolkit
             float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
             if (sqrDistanceToIntersection < -Geometry.Epsilon)
             {
+                // No intersection
                 return Mathf.Sqrt(sqrDistanceToLine) - circleRadius;
             }
             return 0;
@@ -427,6 +428,46 @@ namespace ProceduralToolkit
         }
 
         #endregion Ray-Segment
+
+        #region Line-Circle
+
+        /// <summary>
+        /// Returns the distance between the closest points on the ray and the circle
+        /// </summary>
+        public static float RayCircle(Ray2D ray, Circle circle)
+        {
+            return RayCircle(ray.origin, ray.direction, circle.center, circle.radius);
+        }
+
+        /// <summary>
+        /// Returns the distance between the closest points on the ray and the circle
+        /// </summary>
+        public static float RayCircle(Vector2 rayOrigin, Vector2 rayDirection, Vector2 circleCenter, float circleRadius)
+        {
+            Vector2 originToCenter = circleCenter - rayOrigin;
+            float centerProjection = Vector2.Dot(rayDirection, originToCenter);
+            if (centerProjection + circleRadius < -Geometry.Epsilon)
+            {
+                return Mathf.Sqrt(originToCenter.sqrMagnitude) - circleRadius;
+            }
+
+            float sqrDistanceToOrigin = originToCenter.sqrMagnitude;
+            float sqrDistanceToLine = sqrDistanceToOrigin - centerProjection*centerProjection;
+            float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
+            {
+                // No intersection
+                if (centerProjection < -Geometry.Epsilon)
+                {
+                    return Mathf.Sqrt(sqrDistanceToOrigin) - circleRadius;
+                }
+                return Mathf.Sqrt(sqrDistanceToLine) - circleRadius;
+            }
+
+            return 0;
+        }
+
+        #endregion Line-Circle
 
         #region Circle-Circle
 
