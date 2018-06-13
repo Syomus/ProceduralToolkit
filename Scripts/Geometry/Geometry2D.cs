@@ -360,6 +360,56 @@ namespace ProceduralToolkit
 
         #endregion Line-Segment
 
+        #region Line-Circle
+
+        /// <summary>
+        /// Finds closest points on the line and the circle
+        /// </summary>
+        public static void ClosestPointsLineCircle(Line2 line, Circle circle, out Vector2 linePoint, out Vector2 circlePoint)
+        {
+            ClosestPointsLineCircle(line.origin, line.direction, circle.center, circle.radius, out linePoint, out circlePoint);
+        }
+
+        /// <summary>
+        /// Finds closest points on the line and the circle
+        /// </summary>
+        public static void ClosestPointsLineCircle(Vector2 lineOrigin, Vector2 lineDirection, Vector2 circleCenter, float circleRadius,
+            out Vector2 linePoint, out Vector2 circlePoint)
+        {
+            Vector2 originToCenter = circleCenter - lineOrigin;
+            float centerProjection = Vector2.Dot(lineDirection, originToCenter);
+            float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
+
+            float sqrRadius = circleRadius*circleRadius;
+            if (sqrDistanceToLine > sqrRadius + Epsilon)
+            {
+                // No intersection
+                linePoint = lineOrigin + lineDirection*centerProjection;
+                circlePoint = circleCenter + (linePoint - circleCenter).normalized*circleRadius;
+                return;
+            }
+            if (sqrDistanceToLine > sqrRadius - Epsilon)
+            {
+                // Point intersection
+                linePoint = circlePoint = lineOrigin + lineDirection*centerProjection;
+                return;
+            }
+            float sqrDistanceToIntersection = sqrRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection <= 0)
+            {
+                // Point intersection
+                linePoint = circlePoint = lineOrigin + lineDirection*centerProjection;
+                return;
+            }
+
+            // Two points intersection
+            float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
+            float distanceA = centerProjection - distanceToIntersection;
+            linePoint = circlePoint = lineOrigin + lineDirection*distanceA;
+        }
+
+        #endregion Line-Circle
+
         #region Ray-Ray
 
         /// <summary>
