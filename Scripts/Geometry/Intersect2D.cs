@@ -444,19 +444,13 @@ namespace ProceduralToolkit
             float centerProjection = Vector2.Dot(lineDirection, originToCenter);
             float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
 
-            float sqrRadius = circleRadius*circleRadius;
-            if (sqrDistanceToLine > sqrRadius + Geometry.Epsilon)
+            float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
             {
                 intersection = IntersectionLineCircle.None();
                 return false;
             }
-            if (sqrDistanceToLine > sqrRadius - Geometry.Epsilon)
-            {
-                intersection = IntersectionLineCircle.Point(lineOrigin + lineDirection*centerProjection);
-                return true;
-            }
-            float sqrDistanceToIntersection = sqrRadius - sqrDistanceToLine;
-            if (sqrDistanceToIntersection <= 0)
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
             {
                 intersection = IntersectionLineCircle.Point(lineOrigin + lineDirection*centerProjection);
                 return true;
@@ -465,10 +459,6 @@ namespace ProceduralToolkit
             float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
             float distanceA = centerProjection - distanceToIntersection;
             float distanceB = centerProjection + distanceToIntersection;
-            if (distanceA > distanceB)
-            {
-                PTUtils.Swap(ref distanceA, ref distanceB);
-            }
 
             Vector2 pointA = lineOrigin + lineDirection*distanceA;
             Vector2 pointB = lineOrigin + lineDirection*distanceB;

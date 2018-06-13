@@ -250,8 +250,8 @@ namespace ProceduralToolkit
             float centerProjection = Vector2.Dot(lineDirection, originToCenter);
             float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
 
-            float sqrRadius = circleRadius*circleRadius;
-            if (sqrDistanceToLine > sqrRadius + Geometry.Epsilon)
+            float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
             {
                 return Mathf.Sqrt(sqrDistanceToLine) - circleRadius;
             }

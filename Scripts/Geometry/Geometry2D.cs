@@ -380,22 +380,15 @@ namespace ProceduralToolkit
             float centerProjection = Vector2.Dot(lineDirection, originToCenter);
             float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
 
-            float sqrRadius = circleRadius*circleRadius;
-            if (sqrDistanceToLine > sqrRadius + Epsilon)
+            float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Epsilon)
             {
                 // No intersection
                 linePoint = lineOrigin + lineDirection*centerProjection;
                 circlePoint = circleCenter + (linePoint - circleCenter).normalized*circleRadius;
                 return;
             }
-            if (sqrDistanceToLine > sqrRadius - Epsilon)
-            {
-                // Point intersection
-                linePoint = circlePoint = lineOrigin + lineDirection*centerProjection;
-                return;
-            }
-            float sqrDistanceToIntersection = sqrRadius - sqrDistanceToLine;
-            if (sqrDistanceToIntersection <= 0)
+            if (sqrDistanceToIntersection < Epsilon)
             {
                 // Point intersection
                 linePoint = circlePoint = lineOrigin + lineDirection*centerProjection;
