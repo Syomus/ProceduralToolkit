@@ -464,7 +464,30 @@ namespace ProceduralToolkit
                 }
                 return Mathf.Sqrt(sqrDistanceToLine) - circleRadius;
             }
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
+            {
+                // Point intersection
+                return 0;
+            }
 
+            // Line intersection
+            float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
+            float distanceA = centerProjection - distanceToIntersection;
+            float distanceB = centerProjection + distanceToIntersection;
+
+            if (distanceA < -Geometry.Epsilon)
+            {
+                if (distanceB < -Geometry.Epsilon)
+                {
+                    // No intersection
+                    return Mathf.Sqrt(sqrDistanceToOrigin) - circleRadius;
+                }
+
+                // Point intersection;
+                return 0;
+            }
+
+            // Two points intersection;
             return 0;
         }
 

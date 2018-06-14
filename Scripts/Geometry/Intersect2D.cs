@@ -687,12 +687,19 @@ namespace ProceduralToolkit
                 return true;
             }
 
+            // Line intersection
             float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
             float distanceA = centerProjection - distanceToIntersection;
             float distanceB = centerProjection + distanceToIntersection;
 
             if (distanceA < -Geometry.Epsilon)
             {
+                if (distanceB < -Geometry.Epsilon)
+                {
+                    intersection = IntersectionRayCircle.None();
+                    return false;
+                }
+
                 intersection = IntersectionRayCircle.Point(rayOrigin + rayDirection*distanceB);
                 return true;
             }

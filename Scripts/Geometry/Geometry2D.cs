@@ -684,13 +684,22 @@ namespace ProceduralToolkit
                 return;
             }
 
+            // Line intersection
             float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
             float distanceA = centerProjection - distanceToIntersection;
 
             if (distanceA < -Epsilon)
             {
-                // Point intersection
                 float distanceB = centerProjection + distanceToIntersection;
+                if (distanceB < -Epsilon)
+                {
+                    // No intersection
+                    rayPoint = rayOrigin;
+                    circlePoint = circleCenter - originToCenter.normalized*circleRadius;
+                    return;
+                }
+
+                // Point intersection
                 rayPoint = circlePoint = rayOrigin + rayDirection*distanceB;
                 return;
             }
