@@ -710,6 +710,140 @@ namespace ProceduralToolkit
 
         #endregion Ray-Circle
 
+        #region Segment-Circle
+
+        /// <summary>
+        /// Finds closest points on the segment and the circle
+        /// </summary>
+        public static void ClosestPointsSegmentCircle(Segment2 segment, Circle circle, out Vector2 segmentPoint, out Vector2 circlePoint)
+        {
+            ClosestPointsSegmentCircle(segment.a, segment.b, circle.center, circle.radius, out segmentPoint, out circlePoint);
+        }
+
+        /// <summary>
+        /// Finds closest points on the segment and the circle
+        /// </summary>
+        public static void ClosestPointsSegmentCircle(Vector2 segmentA, Vector2 segmentB, Vector2 circleCenter, float circleRadius,
+            out Vector2 segmentPoint, out Vector2 circlePoint)
+        {
+            Vector2 segmentAToCenter = circleCenter - segmentA;
+            Vector2 fromAtoB = segmentB - segmentA;
+            float segmentLength = fromAtoB.magnitude;
+            Vector2 segmentDirection = fromAtoB.normalized;
+            float centerProjection = Vector2.Dot(segmentDirection, segmentAToCenter);
+            if (centerProjection + circleRadius < -Epsilon ||
+                centerProjection - circleRadius > segmentLength + Epsilon)
+            {
+                // No intersection
+                if (centerProjection < 0)
+                {
+                    segmentPoint = segmentA;
+                    circlePoint = circleCenter - segmentAToCenter.normalized*circleRadius;
+                    return;
+                }
+                segmentPoint = segmentB;
+                circlePoint = circleCenter - (circleCenter - segmentB).normalized*circleRadius;
+                return;
+            }
+
+            float sqrDistanceToLine = segmentAToCenter.sqrMagnitude - centerProjection*centerProjection;
+            float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Epsilon)
+            {
+                // No intersection
+                if (centerProjection < -Epsilon)
+                {
+                    segmentPoint = segmentA;
+                    circlePoint = circleCenter - segmentAToCenter.normalized*circleRadius;
+                    return;
+                }
+                if (centerProjection > segmentLength + Epsilon)
+                {
+                    segmentPoint = segmentB;
+                    circlePoint = circleCenter - (circleCenter - segmentB).normalized*circleRadius;
+                    return;
+                }
+                segmentPoint = segmentA + segmentDirection*centerProjection;
+                circlePoint = circleCenter + (segmentPoint - circleCenter).normalized*circleRadius;
+                return;
+            }
+
+            if (sqrDistanceToIntersection < Epsilon)
+            {
+                if (centerProjection < -Epsilon)
+                {
+                    // No intersection
+                    segmentPoint = segmentA;
+                    circlePoint = circleCenter - segmentAToCenter.normalized*circleRadius;
+                    return;
+                }
+                if (centerProjection > segmentLength + Epsilon)
+                {
+                    // No intersection
+                    segmentPoint = segmentB;
+                    circlePoint = circleCenter - (circleCenter - segmentB).normalized*circleRadius;
+                    return;
+                }
+                // Point intersection
+                segmentPoint = circlePoint = segmentA + segmentDirection*centerProjection;
+                return;
+            }
+
+            // Line intersection
+            float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
+            float distanceA = centerProjection - distanceToIntersection;
+            float distanceB = centerProjection + distanceToIntersection;
+
+            bool pointAIsAfterSegmentA = distanceA > -Epsilon;
+            bool pointBIsBeforeSegmentB = distanceB < segmentLength + Epsilon;
+
+            if (pointAIsAfterSegmentA && pointBIsBeforeSegmentB)
+            {
+                segmentPoint = circlePoint = segmentA + segmentDirection*distanceA;
+                return;
+            }
+            if (!pointAIsAfterSegmentA && !pointBIsBeforeSegmentB)
+            {
+                // The segment is inside, but no intersection
+                if (distanceA > -(distanceB - segmentLength))
+                {
+                    segmentPoint = segmentA;
+                    circlePoint = segmentA + segmentDirection*distanceA;
+                    return;
+                }
+                segmentPoint = segmentB;
+                circlePoint = segmentA + segmentDirection*distanceB;
+                return;
+            }
+
+            bool pointAIsBeforeSegmentB = distanceA < segmentLength + Epsilon;
+            if (pointAIsAfterSegmentA && pointAIsBeforeSegmentB)
+            {
+                // Point A intersection
+                segmentPoint = circlePoint = segmentA + segmentDirection*distanceA;
+                return;
+            }
+            bool pointBIsAfterSegmentA = distanceB > -Epsilon;
+            if (pointBIsAfterSegmentA && pointBIsBeforeSegmentB)
+            {
+                // Point B intersection
+                segmentPoint = circlePoint = segmentA + segmentDirection*distanceB;
+                return;
+            }
+
+            // No intersection
+            if (centerProjection < 0)
+            {
+                segmentPoint = segmentA;
+                circlePoint = circleCenter - segmentAToCenter.normalized*circleRadius;
+                return;
+            }
+            segmentPoint = segmentB;
+            circlePoint = circleCenter - (circleCenter - segmentB).normalized*circleRadius;
+        }
+
+        #endregion Segment-Circle
+
         #region Circle-Circle
 
         /// <summary>
