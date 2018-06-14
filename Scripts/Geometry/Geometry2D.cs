@@ -674,7 +674,7 @@ namespace ProceduralToolkit
             {
                 // No intersection
                 rayPoint = rayOrigin + rayDirection*centerProjection;
-                circlePoint = circleCenter - originToCenter.normalized*circleRadius;
+                circlePoint = circleCenter + (rayPoint - circleCenter).normalized*circleRadius;
                 return;
             }
             if (sqrDistanceToIntersection < Epsilon)
