@@ -927,12 +927,12 @@ namespace ProceduralToolkit
             float segmentLength = fromAtoB.magnitude;
             Vector2 segmentDirection = fromAtoB.normalized;
             float centerProjection = Vector2.Dot(segmentDirection, segmentAToCenter);
-            //if (centerProjection + circleRadius < -Geometry.Epsilon ||
-            //    centerProjection - circleRadius > segmentLength + Geometry.Epsilon)
-            //{
-            //    intersection = IntersectionSegmentCircle.None();
-            //    return false;
-            //}
+            if (centerProjection + circleRadius < -Geometry.Epsilon ||
+                centerProjection - circleRadius > segmentLength + Geometry.Epsilon)
+            {
+                intersection = IntersectionSegmentCircle.None();
+                return false;
+            }
 
             float sqrDistanceToLine = segmentAToCenter.sqrMagnitude - centerProjection*centerProjection;
             float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
