@@ -906,6 +906,97 @@ namespace ProceduralToolkit
 
         #endregion Segment-Segment
 
+        #region Segment-Circle
+
+        /// <summary>
+        /// Computes an intersection of the segment and the circle
+        /// </summary>
+        public static bool SegmentCircle(Segment2 segment, Circle circle, out IntersectionSegmentCircle intersection)
+        {
+            return SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the segment and the circle
+        /// </summary>
+        public static bool SegmentCircle(Vector2 segmentA, Vector2 segmentB, Vector2 circleCenter, float circleRadius,
+            out IntersectionSegmentCircle intersection)
+        {
+            Vector2 segmentAToCenter = circleCenter - segmentA;
+            Vector2 fromAtoB = segmentB - segmentA;
+            float segmentLength = fromAtoB.magnitude;
+            Vector2 segmentDirection = fromAtoB.normalized;
+            float centerProjection = Vector2.Dot(segmentDirection, segmentAToCenter);
+            //if (centerProjection + circleRadius < -Geometry.Epsilon ||
+            //    centerProjection - circleRadius > segmentLength + Geometry.Epsilon)
+            //{
+            //    intersection = IntersectionSegmentCircle.None();
+            //    return false;
+            //}
+
+            float sqrDistanceToLine = segmentAToCenter.sqrMagnitude - centerProjection*centerProjection;
+            float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
+            {
+                intersection = IntersectionSegmentCircle.None();
+                return false;
+            }
+
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
+            {
+                if (centerProjection < -Geometry.Epsilon ||
+                    centerProjection > segmentLength + Geometry.Epsilon)
+                {
+                    intersection = IntersectionSegmentCircle.None();
+                    return false;
+                }
+                intersection = IntersectionSegmentCircle.Point(segmentA + segmentDirection*centerProjection);
+                return true;
+            }
+
+            // Line intersection
+            float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
+            float distanceA = centerProjection - distanceToIntersection;
+            float distanceB = centerProjection + distanceToIntersection;
+
+            bool pointAIsAfterSegmentA = distanceA > -Geometry.Epsilon;
+            bool pointBIsBeforeSegmentB = distanceB < segmentLength + Geometry.Epsilon;
+
+            if (pointAIsAfterSegmentA && pointBIsBeforeSegmentB)
+            {
+                Vector2 pointA = segmentA + segmentDirection*distanceA;
+                Vector2 pointB = segmentA + segmentDirection*distanceB;
+                intersection = IntersectionSegmentCircle.TwoPoints(pointA, pointB);
+                return true;
+            }
+            if (!pointAIsAfterSegmentA && !pointBIsBeforeSegmentB)
+            {
+                // The segment is inside, but no intersection
+                intersection = IntersectionSegmentCircle.None();
+                return true;
+            }
+
+            bool pointAIsBeforeSegmentB = distanceA < segmentLength + Geometry.Epsilon;
+            if (pointAIsAfterSegmentA && pointAIsBeforeSegmentB)
+            {
+                // Point A intersection
+                intersection = IntersectionSegmentCircle.Point(segmentA + segmentDirection*distanceA);
+                return true;
+            }
+            bool pointBIsAfterSegmentA = distanceB > -Geometry.Epsilon;
+            if (pointBIsAfterSegmentA && pointBIsBeforeSegmentB)
+            {
+                // Point B intersection
+                intersection = IntersectionSegmentCircle.Point(segmentA + segmentDirection*distanceB);
+                return true;
+            }
+
+            intersection = IntersectionSegmentCircle.None();
+            return false;
+        }
+
+        #endregion Segment-Circle
+
         #region Circle-Circle
 
         /// <summary>
