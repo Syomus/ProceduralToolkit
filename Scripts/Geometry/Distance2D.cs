@@ -493,6 +493,113 @@ namespace ProceduralToolkit
 
         #endregion Ray-Circle
 
+        #region Segment-Circle
+
+        /// <summary>
+        /// Returns the distance between the closest points on the segment and the circle
+        /// </summary>
+        public static float SegmentCircle(Segment2 segment, Circle circle)
+        {
+            return SegmentCircle(segment.a, segment.b, circle.center, circle.radius);
+        }
+
+        /// <summary>
+        /// Returns the distance between the closest points on the segment and the circle
+        /// </summary>
+        public static float SegmentCircle(Vector2 segmentA, Vector2 segmentB, Vector2 circleCenter, float circleRadius)
+        {
+            Vector2 segmentAToCenter = circleCenter - segmentA;
+            Vector2 fromAtoB = segmentB - segmentA;
+            float segmentLength = fromAtoB.magnitude;
+            Vector2 segmentDirection = fromAtoB.normalized;
+            float centerProjection = Vector2.Dot(segmentDirection, segmentAToCenter);
+            if (centerProjection + circleRadius < -Geometry.Epsilon ||
+                centerProjection - circleRadius > segmentLength + Geometry.Epsilon)
+            {
+                // No intersection
+                if (centerProjection < 0)
+                {
+                    return Mathf.Sqrt(segmentAToCenter.sqrMagnitude) - circleRadius;
+                }
+                return (circleCenter - segmentB).magnitude - circleRadius;
+            }
+
+            float sqrDistanceToA = segmentAToCenter.sqrMagnitude;
+            float sqrDistanceToLine = sqrDistanceToA - centerProjection*centerProjection;
+            float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
+            {
+                // No intersection
+                if (centerProjection < -Geometry.Epsilon)
+                {
+                    return Mathf.Sqrt(sqrDistanceToA) - circleRadius;
+                }
+                if (centerProjection > segmentLength + Geometry.Epsilon)
+                {
+                    return (circleCenter - segmentB).magnitude - circleRadius;
+                }
+                return Mathf.Sqrt(sqrDistanceToLine) - circleRadius;
+            }
+
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
+            {
+                if (centerProjection < -Geometry.Epsilon)
+                {
+                    // No intersection
+                    return Mathf.Sqrt(sqrDistanceToA) - circleRadius;
+                }
+                if (centerProjection > segmentLength + Geometry.Epsilon)
+                {
+                    // No intersection
+                    return (circleCenter - segmentB).magnitude - circleRadius;
+                }
+                // Point intersection
+                return 0;
+            }
+
+            // Line intersection
+            float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
+            float distanceA = centerProjection - distanceToIntersection;
+            float distanceB = centerProjection + distanceToIntersection;
+
+            bool pointAIsAfterSegmentA = distanceA > -Geometry.Epsilon;
+            bool pointBIsBeforeSegmentB = distanceB < segmentLength + Geometry.Epsilon;
+
+            if (pointAIsAfterSegmentA && pointBIsBeforeSegmentB)
+            {
+                // Two points intersection
+                return 0;
+            }
+            if (!pointAIsAfterSegmentA && !pointBIsBeforeSegmentB)
+            {
+                // The segment is inside, but no intersection
+                distanceB = -(distanceB - segmentLength);
+                return distanceA > distanceB ? distanceA : distanceB;
+            }
+
+            bool pointAIsBeforeSegmentB = distanceA < segmentLength + Geometry.Epsilon;
+            if (pointAIsAfterSegmentA && pointAIsBeforeSegmentB)
+            {
+                // Point A intersection
+                return 0;
+            }
+            bool pointBIsAfterSegmentA = distanceB > -Geometry.Epsilon;
+            if (pointBIsAfterSegmentA && pointBIsBeforeSegmentB)
+            {
+                // Point B intersection
+                return 0;
+            }
+
+            // No intersection
+            if (centerProjection < 0)
+            {
+                return Mathf.Sqrt(sqrDistanceToA) - circleRadius;
+            }
+            return (circleCenter - segmentB).magnitude - circleRadius;
+        }
+
+        #endregion Segment-Circle
+
         #region Circle-Circle
 
         /// <summary>
