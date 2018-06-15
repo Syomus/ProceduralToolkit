@@ -302,12 +302,12 @@ namespace ProceduralToolkit
                 {
                     // Not collinear
                     distanceA = 0;
-                    distanceB = 0;
+                    distanceB = Vector2.Dot(directionB, originBToA);
                     return IntersectionType.None;
                 }
                 // Collinear
                 distanceA = 0;
-                distanceB = 0;
+                distanceB = Vector2.Dot(directionB, originBToA);
                 return IntersectionType.Line;
             }
 
