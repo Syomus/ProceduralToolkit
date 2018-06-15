@@ -35,6 +35,9 @@ namespace ProceduralToolkit
         /// </summary>
         public ColorHSV complementary { get { return WithOffsetH(180); } }
 
+        /// <summary>
+        /// Access the h, s, v, a components using [0], [1], [2], [3] respectively
+        /// </summary>
         public float this[int index]
         {
             get
@@ -338,7 +341,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Linearly interpolates between colors a and b by t.
+        /// Linearly interpolates between two colors
         /// </summary>
         public static ColorHSV Lerp(ColorHSV a, ColorHSV b, float t)
         {
@@ -347,7 +350,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Linearly interpolates between colors a and b by t.
+        /// Linearly interpolates between two colors without clamping the interpolant
         /// </summary>
         public static ColorHSV LerpUnclamped(ColorHSV a, ColorHSV b, float t)
         {
