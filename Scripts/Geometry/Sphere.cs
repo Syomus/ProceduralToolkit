@@ -39,15 +39,26 @@ namespace ProceduralToolkit
             return Intersect.PointSphere(point, center, radius);
         }
 
+        /// <summary>
+        /// Linearly interpolates between two spheres
+        /// </summary>
         public static Sphere Lerp(Sphere a, Sphere b, float t)
         {
             t = Mathf.Clamp01(t);
             return new Sphere(a.center + (b.center - a.center)*t, a.radius + (b.radius - a.radius)*t);
         }
 
+        /// <summary>
+        /// Linearly interpolates between two spheres without clamping the interpolant
+        /// </summary>
         public static Sphere LerpUnclamped(Sphere a, Sphere b, float t)
         {
             return new Sphere(a.center + (b.center - a.center)*t, a.radius + (b.radius - a.radius)*t);
+        }
+
+        public static explicit operator Circle(Sphere sphere)
+        {
+            return new Circle((Vector2) sphere.center, sphere.radius);
         }
 
         public static Sphere operator +(Sphere sphere, Vector3 vector)
@@ -72,7 +83,7 @@ namespace ProceduralToolkit
 
         public override int GetHashCode()
         {
-            return center.GetHashCode() ^ radius.GetHashCode() << 2;
+            return center.GetHashCode() ^ (radius.GetHashCode() << 2);
         }
 
         public override bool Equals(object other)

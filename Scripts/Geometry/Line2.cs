@@ -35,21 +35,46 @@ namespace ProceduralToolkit
             return origin + direction*distance;
         }
 
+        /// <summary>
+        /// Linearly interpolates between two lines
+        /// </summary>
         public static Line2 Lerp(Line2 a, Line2 b, float t)
         {
             t = Mathf.Clamp01(t);
             return new Line2(a.origin + (b.origin - a.origin)*t, a.direction + (b.direction - a.direction)*t);
         }
 
+        /// <summary>
+        /// Linearly interpolates between two lines without clamping the interpolant
+        /// </summary>
         public static Line2 LerpUnclamped(Line2 a, Line2 b, float t)
         {
             return new Line2(a.origin + (b.origin - a.origin)*t, a.direction + (b.direction - a.direction)*t);
         }
 
+        #region Casting operators
+
         public static explicit operator Line2(Ray2D ray)
         {
             return new Line2(ray);
         }
+
+        public static explicit operator Ray2D(Line2 line)
+        {
+            return new Ray2D(line.origin, line.direction);
+        }
+
+        public static explicit operator Ray(Line2 line)
+        {
+            return new Ray((Vector3) line.origin, (Vector3) line.direction);
+        }
+
+        public static explicit operator Line3(Line2 line)
+        {
+            return new Line3((Vector3) line.origin, (Vector3) line.direction);
+        }
+
+        #endregion Casting operators
 
         public static Line2 operator +(Line2 line, Vector2 vector)
         {
@@ -73,7 +98,7 @@ namespace ProceduralToolkit
 
         public override int GetHashCode()
         {
-            return origin.GetHashCode() ^ direction.GetHashCode() << 2;
+            return origin.GetHashCode() ^ (direction.GetHashCode() << 2);
         }
 
         public override bool Equals(object other)
