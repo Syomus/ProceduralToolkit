@@ -683,6 +683,12 @@ namespace ProceduralToolkit
             }
             if (sqrDistanceToIntersection < Geometry.Epsilon)
             {
+                if (centerProjection < -Geometry.Epsilon)
+                {
+                    // No intersection
+                    intersection = IntersectionRayCircle.None();
+                    return false;
+                }
                 intersection = IntersectionRayCircle.Point(rayOrigin + rayDirection*centerProjection);
                 return true;
             }

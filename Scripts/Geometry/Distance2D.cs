@@ -466,6 +466,11 @@ namespace ProceduralToolkit
             }
             if (sqrDistanceToIntersection < Geometry.Epsilon)
             {
+                if (centerProjection < -Geometry.Epsilon)
+                {
+                    // No intersection
+                    return Mathf.Sqrt(sqrDistanceToOrigin) - circleRadius;
+                }
                 // Point intersection
                 return 0;
             }
