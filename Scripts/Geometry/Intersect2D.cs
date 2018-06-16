@@ -156,14 +156,22 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB)
         {
-            Vector2 segmentDirection = segmentB - segmentA;
+            Vector2 fromAToB = segmentB - segmentA;
+            float sqrSegmentLength = fromAToB.sqrMagnitude;
+            if (sqrSegmentLength < Geometry.Epsilon)
+            {
+                // The segment is a point
+                return point == segmentA;
+            }
+            // Normalized direction gives more stable results
+            Vector2 segmentDirection = fromAToB.normalized;
             Vector2 toPoint = point - segmentA;
             float perpDot = VectorE.PerpDot(toPoint, segmentDirection);
             if (-Geometry.Epsilon < perpDot && perpDot < Geometry.Epsilon)
             {
-                float dotToPoint = Vector2.Dot(segmentDirection, toPoint);
-                return dotToPoint > -Geometry.Epsilon &&
-                       dotToPoint < segmentDirection.sqrMagnitude + Geometry.Epsilon;
+                float pointProjection = Vector2.Dot(segmentDirection, toPoint);
+                return pointProjection > -Geometry.Epsilon &&
+                       pointProjection < Mathf.Sqrt(sqrSegmentLength) + Geometry.Epsilon;
             }
             return false;
         }
@@ -178,7 +186,16 @@ namespace ProceduralToolkit
         /// </param>
         public static bool PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, out int side)
         {
-            Vector2 segmentDirection = segmentB - segmentA;
+            Vector2 fromAToB = segmentB - segmentA;
+            float sqrSegmentLength = fromAToB.sqrMagnitude;
+            if (sqrSegmentLength < Geometry.Epsilon)
+            {
+                // The segment is a point
+                side = 0;
+                return point == segmentA;
+            }
+            // Normalized direction gives more stable results
+            Vector2 segmentDirection = fromAToB.normalized;
             Vector2 toPoint = point - segmentA;
             float perpDot = VectorE.PerpDot(toPoint, segmentDirection);
             if (perpDot < -Geometry.Epsilon)
@@ -192,9 +209,9 @@ namespace ProceduralToolkit
                 return false;
             }
             side = 0;
-            float dotToPoint = Vector2.Dot(segmentDirection, toPoint);
-            return dotToPoint > -Geometry.Epsilon &&
-                   dotToPoint < segmentDirection.sqrMagnitude + Geometry.Epsilon;
+            float pointProjection = Vector2.Dot(segmentDirection, toPoint);
+            return pointProjection > -Geometry.Epsilon &&
+                   pointProjection < Mathf.Sqrt(sqrSegmentLength) + Geometry.Epsilon;
         }
 
         #endregion Point-Segment

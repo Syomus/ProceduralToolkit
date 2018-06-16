@@ -144,27 +144,27 @@ namespace ProceduralToolkit
         public static Vector2 ClosestPointOnSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, out float projectedX)
         {
             Vector2 segmentDirection = segmentB - segmentA;
-            float sqrMagnitude = segmentDirection.sqrMagnitude;
-            if (sqrMagnitude < Epsilon)
+            float sqrSegmentLength = segmentDirection.sqrMagnitude;
+            if (sqrSegmentLength < Epsilon)
             {
                 // The segment is a point
                 projectedX = 0;
                 return segmentA;
             }
 
-            float dotToPoint = Vector2.Dot(segmentDirection, point - segmentA);
-            if (dotToPoint <= 0)
+            float pointProjection = Vector2.Dot(segmentDirection, point - segmentA);
+            if (pointProjection < -Epsilon)
             {
                 projectedX = 0;
                 return segmentA;
             }
-            if (dotToPoint >= sqrMagnitude)
+            if (pointProjection > sqrSegmentLength + Epsilon)
             {
                 projectedX = 1;
                 return segmentB;
             }
 
-            projectedX = dotToPoint/sqrMagnitude;
+            projectedX = pointProjection/sqrSegmentLength;
             return segmentA + segmentDirection*projectedX;
         }
 
