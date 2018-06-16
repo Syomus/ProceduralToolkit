@@ -194,20 +194,21 @@ namespace ProceduralToolkit
         /// </summary>
         public static float LineSegment(Vector2 lineOrigin, Vector2 lineDirection, Vector2 segmentA, Vector2 segmentB)
         {
+            Vector2 segmentAToOrigin = lineOrigin - segmentA;
             Vector2 segmentDirection = segmentB - segmentA;
-            Vector2 segmentAToLineOrigin = lineOrigin - segmentA;
             float denominator = VectorE.PerpDot(lineDirection, segmentDirection);
-            float perpDotA = VectorE.PerpDot(lineDirection, segmentAToLineOrigin);
+            float perpDotA = VectorE.PerpDot(lineDirection, segmentAToOrigin);
 
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
-                float perpDotB = VectorE.PerpDot(segmentDirection, segmentAToLineOrigin);
+                // Normalized direction gives more stable results 
+                float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
                 if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
-                    float segmentAProjection = Vector2.Dot(lineDirection, segmentAToLineOrigin);
-                    float distanceSqr = segmentAToLineOrigin.sqrMagnitude - segmentAProjection*segmentAProjection;
+                    float segmentAProjection = Vector2.Dot(lineDirection, segmentAToOrigin);
+                    float distanceSqr = segmentAToOrigin.sqrMagnitude - segmentAProjection*segmentAProjection;
                     // distanceSqr can be negative
                     return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
                 }
@@ -221,8 +222,8 @@ namespace ProceduralToolkit
             {
                 // No intersection
                 Vector2 segmentPoint = segmentA + segmentDirection*Mathf.Clamp01(segmentDistance);
-                float segmentPointProjection = Vector2.Dot(lineDirection, lineOrigin - segmentPoint);
-                Vector2 linePoint = lineOrigin - lineDirection*segmentPointProjection;
+                float segmentPointProjection = Vector2.Dot(lineDirection, segmentPoint - lineOrigin);
+                Vector2 linePoint = lineOrigin + lineDirection*segmentPointProjection;
                 return Vector2.Distance(linePoint, segmentPoint);
             }
             // Point intersection

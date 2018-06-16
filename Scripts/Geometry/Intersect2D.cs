@@ -404,12 +404,23 @@ namespace ProceduralToolkit
         public static bool LineSegment(Vector2 lineOrigin, Vector2 lineDirection, Vector2 segmentA, Vector2 segmentB,
             out IntersectionLineSegment2 intersection)
         {
-            float lineDistance;
-            float segmentDistance;
+            Vector2 segmentAToOrigin = lineOrigin - segmentA;
             Vector2 segmentDirection = segmentB - segmentA;
-            var intersectionType = LineLine(lineOrigin, lineDirection, segmentA, segmentDirection, out lineDistance, out segmentDistance);
-            if (intersectionType == IntersectionType.Line)
+            float denominator = VectorE.PerpDot(lineDirection, segmentDirection);
+            float perpDotA = VectorE.PerpDot(lineDirection, segmentAToOrigin);
+
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
+                // Parallel
+                // Normalized direction gives more stable results 
+                float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
+                if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
+                {
+                    // Not collinear
+                    intersection = IntersectionLineSegment2.None();
+                    return false;
+                }
+                // Collinear
                 bool segmentIsAPoint = segmentDirection.sqrMagnitude < Geometry.Epsilon;
                 if (segmentIsAPoint)
                 {
@@ -417,7 +428,7 @@ namespace ProceduralToolkit
                     return true;
                 }
 
-                bool codirected = Vector2.Dot(lineDirection, segmentB - segmentA) > 0;
+                bool codirected = Vector2.Dot(lineDirection, segmentDirection) > 0;
                 if (codirected)
                 {
                     intersection = IntersectionLineSegment2.Segment(segmentA, segmentB);
@@ -428,13 +439,14 @@ namespace ProceduralToolkit
                 }
                 return true;
             }
-            if (intersectionType == IntersectionType.Point &&
-                segmentDistance > -Geometry.Epsilon && segmentDistance < 1 + Geometry.Epsilon)
+
+            // Not parallel
+            float segmentDistance = perpDotA/denominator;
+            if (segmentDistance > -Geometry.Epsilon && segmentDistance < 1 + Geometry.Epsilon)
             {
-                intersection = IntersectionLineSegment2.Point(lineOrigin + lineDirection*lineDistance);
+                intersection = IntersectionLineSegment2.Point(segmentA + segmentDirection*segmentDistance);
                 return true;
             }
-
             intersection = IntersectionLineSegment2.None();
             return false;
         }

@@ -303,22 +303,22 @@ namespace ProceduralToolkit
             out Vector2 linePoint, out Vector2 segmentPoint)
         {
             Vector2 segmentDirection = segmentB - segmentA;
-            Vector2 segmentAToLineOrigin = lineOrigin - segmentA;
+            Vector2 segmentAToOrigin = lineOrigin - segmentA;
             float denominator = VectorE.PerpDot(lineDirection, segmentDirection);
-            float perpDotA = VectorE.PerpDot(lineDirection, segmentAToLineOrigin);
-            float perpDotB = VectorE.PerpDot(segmentDirection, segmentAToLineOrigin);
+            float perpDotA = VectorE.PerpDot(lineDirection, segmentAToOrigin);
 
             if (Mathf.Abs(denominator) < Epsilon)
             {
                 // Parallel
                 bool codirected = Vector2.Dot(lineDirection, segmentDirection) > 0;
-
+                // Normalized direction gives more stable results 
+                float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
                     // Not collinear
                     if (codirected)
                     {
-                        float segmentAProjection = Vector2.Dot(lineDirection, segmentAToLineOrigin);
+                        float segmentAProjection = Vector2.Dot(lineDirection, segmentAToOrigin);
                         linePoint = lineOrigin - lineDirection*segmentAProjection;
                         segmentPoint = segmentA;
                     }
@@ -349,13 +349,12 @@ namespace ProceduralToolkit
             {
                 // No intersection
                 segmentPoint = segmentA + segmentDirection*Mathf.Clamp01(segmentDistance);
-                float segmentPointProjection = Vector2.Dot(lineDirection, lineOrigin - segmentPoint);
-                linePoint = lineOrigin - lineDirection*segmentPointProjection;
+                float segmentPointProjection = Vector2.Dot(lineDirection, segmentPoint - lineOrigin);
+                linePoint = lineOrigin + lineDirection*segmentPointProjection;
                 return;
             }
             // Point intersection
-            float lineDistance = perpDotB/denominator;
-            linePoint = segmentPoint = lineOrigin + lineDirection*lineDistance;
+            linePoint = segmentPoint = segmentA + segmentDirection*segmentDistance;
         }
 
         #endregion Line-Segment
