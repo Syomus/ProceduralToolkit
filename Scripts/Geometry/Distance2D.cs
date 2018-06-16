@@ -361,30 +361,31 @@ namespace ProceduralToolkit
         /// </summary>
         public static float RaySegment(Vector2 rayOrigin, Vector2 rayDirection, Vector2 segmentA, Vector2 segmentB)
         {
+            Vector2 segmentAToOrigin = rayOrigin - segmentA;
             Vector2 segmentDirection = segmentB - segmentA;
-            Vector2 segmentAToRayOrigin = rayOrigin - segmentA;
             float denominator = VectorE.PerpDot(rayDirection, segmentDirection);
-            float perpDotA = VectorE.PerpDot(rayDirection, segmentAToRayOrigin);
-            float perpDotB = VectorE.PerpDot(segmentDirection, segmentAToRayOrigin);
+            float perpDotA = VectorE.PerpDot(rayDirection, segmentAToOrigin);
+            // Normalized direction gives more stable results 
+            float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
 
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
-                float segmentAProjection = -Vector2.Dot(rayDirection, segmentAToRayOrigin);
-                Vector2 rayOriginToSegmentB = segmentB - rayOrigin;
-                float segmentBProjection = Vector2.Dot(rayDirection, rayOriginToSegmentB);
+                float segmentAProjection = -Vector2.Dot(rayDirection, segmentAToOrigin);
+                Vector2 originToSegmentB = segmentB - rayOrigin;
+                float segmentBProjection = Vector2.Dot(rayDirection, originToSegmentB);
                 if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
                     if (segmentAProjection > -Geometry.Epsilon)
                     {
-                        float distanceSqr = segmentAToRayOrigin.sqrMagnitude - segmentAProjection*segmentAProjection;
+                        float distanceSqr = segmentAToOrigin.sqrMagnitude - segmentAProjection*segmentAProjection;
                         // distanceSqr can be negative
                         return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
                     }
                     if (segmentBProjection > -Geometry.Epsilon)
                     {
-                        float distanceSqr = rayOriginToSegmentB.sqrMagnitude - segmentBProjection*segmentBProjection;
+                        float distanceSqr = originToSegmentB.sqrMagnitude - segmentBProjection*segmentBProjection;
                         // distanceSqr can be negative
                         return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
                     }
@@ -401,6 +402,7 @@ namespace ProceduralToolkit
                     // Point or segment intersection
                     return 0;
                 }
+                // No intersection
                 return segmentAProjection > segmentBProjection ? -segmentAProjection : -segmentBProjection;
             }
 

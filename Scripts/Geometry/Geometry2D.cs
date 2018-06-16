@@ -549,15 +549,16 @@ namespace ProceduralToolkit
             out Vector2 rayPoint, out Vector2 segmentPoint)
         {
             Vector2 segmentDirection = segmentB - segmentA;
-            Vector2 segmentAToRayOrigin = rayOrigin - segmentA;
+            Vector2 segmentAToOrigin = rayOrigin - segmentA;
             float denominator = VectorE.PerpDot(rayDirection, segmentDirection);
-            float perpDotA = VectorE.PerpDot(rayDirection, segmentAToRayOrigin);
-            float perpDotB = VectorE.PerpDot(segmentDirection, segmentAToRayOrigin);
+            float perpDotA = VectorE.PerpDot(rayDirection, segmentAToOrigin);
+            // Normalized direction gives more stable results 
+            float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
 
             if (Mathf.Abs(denominator) < Epsilon)
             {
                 // Parallel
-                float segmentAProjection = -Vector2.Dot(rayDirection, segmentAToRayOrigin);
+                float segmentAProjection = -Vector2.Dot(rayDirection, segmentAToOrigin);
                 Vector2 rayOriginToSegmentB = segmentB - rayOrigin;
                 float segmentBProjection = Vector2.Dot(rayDirection, rayOriginToSegmentB);
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
@@ -584,7 +585,7 @@ namespace ProceduralToolkit
                         float sqrSegmentLength = segmentDirection.sqrMagnitude;
                         if (sqrSegmentLength > Epsilon)
                         {
-                            float rayOriginProjection = Vector2.Dot(segmentDirection, segmentAToRayOrigin)/sqrSegmentLength;
+                            float rayOriginProjection = Vector2.Dot(segmentDirection, segmentAToOrigin)/sqrSegmentLength;
                             segmentPoint = segmentA + segmentDirection*rayOriginProjection;
                         }
                         else
@@ -601,7 +602,7 @@ namespace ProceduralToolkit
                 // Collinear
                 if (segmentAProjection > -Epsilon && segmentBProjection > -Epsilon)
                 {
-                    // Point or segment intersection
+                    // Segment intersection
                     rayPoint = segmentPoint = segmentAProjection < segmentBProjection ? segmentA : segmentB;
                     return;
                 }
@@ -611,6 +612,7 @@ namespace ProceduralToolkit
                     rayPoint = segmentPoint = rayOrigin;
                     return;
                 }
+                // No intersection
                 rayPoint = rayOrigin;
                 segmentPoint = segmentAProjection > segmentBProjection ? segmentA : segmentB;
                 return;
@@ -636,7 +638,7 @@ namespace ProceduralToolkit
                 return;
             }
             // Point intersection
-            rayPoint = segmentPoint = rayOrigin + rayDirection*rayDistance;
+            rayPoint = segmentPoint = segmentA + segmentDirection*segmentDistance;
         }
 
         #endregion Ray-Segment

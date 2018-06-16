@@ -604,12 +604,24 @@ namespace ProceduralToolkit
         public static bool RaySegment(Vector2 rayOrigin, Vector2 rayDirection, Vector2 segmentA, Vector2 segmentB,
             out IntersectionRaySegment2 intersection)
         {
-            float rayDistance;
-            float segmentDistance;
+            Vector2 segmentAToOrigin = rayOrigin - segmentA;
             Vector2 segmentDirection = segmentB - segmentA;
-            var intersectionType = LineLine(rayOrigin, rayDirection, segmentA, segmentDirection, out rayDistance, out segmentDistance);
-            if (intersectionType == IntersectionType.Line)
+            float denominator = VectorE.PerpDot(rayDirection, segmentDirection);
+            float perpDotA = VectorE.PerpDot(rayDirection, segmentAToOrigin);
+            // Normalized direction gives more stable results 
+            float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
+
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
+                // Parallel
+                if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
+                {
+                    // Not collinear
+                    intersection = IntersectionRaySegment2.None();
+                    return false;
+                }
+                // Collinear
+
                 bool segmentIsAPoint = segmentDirection.sqrMagnitude < Geometry.Epsilon;
                 float segmentAProjection = Vector2.Dot(rayDirection, segmentA - rayOrigin);
                 if (segmentIsAPoint)
@@ -665,14 +677,16 @@ namespace ProceduralToolkit
                 intersection = IntersectionRaySegment2.None();
                 return false;
             }
-            if (intersectionType == IntersectionType.Point &&
-                rayDistance > -Geometry.Epsilon &&
+
+            // Not parallel
+            float rayDistance = perpDotB/denominator;
+            float segmentDistance = perpDotA/denominator;
+            if (rayDistance > -Geometry.Epsilon &&
                 segmentDistance > -Geometry.Epsilon && segmentDistance < 1 + Geometry.Epsilon)
             {
-                intersection = IntersectionRaySegment2.Point(rayOrigin + rayDirection*rayDistance);
+                intersection = IntersectionRaySegment2.Point(segmentA + segmentDirection*segmentDistance);
                 return true;
             }
-
             intersection = IntersectionRaySegment2.None();
             return false;
         }
