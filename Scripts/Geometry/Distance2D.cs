@@ -282,15 +282,15 @@ namespace ProceduralToolkit
             float perpDotA = VectorE.PerpDot(directionA, originBToA);
             float perpDotB = VectorE.PerpDot(directionB, originBToA);
 
+            bool codirected = Vector2.Dot(directionA, directionB) > 0;
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
-                bool codirected = Vector2.Dot(directionA, directionB) > 0;
-                float originBProjection = Vector2.Dot(directionA, originBToA);
+                float originBProjection = -Vector2.Dot(directionA, originBToA);
                 if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
-                    if (!codirected && originBProjection > 0)
+                    if (!codirected && originBProjection < Geometry.Epsilon)
                     {
                         return Vector2.Distance(originA, originB);
                     }
@@ -307,7 +307,7 @@ namespace ProceduralToolkit
                 }
                 else
                 {
-                    if (originBProjection > 0)
+                    if (originBProjection < Geometry.Epsilon)
                     {
                         // No intersection
                         return Vector2.Distance(originA, originB);
@@ -320,25 +320,54 @@ namespace ProceduralToolkit
                 }
             }
 
-            // The rays are skew and may intersect in a point
+            // Not parallel
             float distanceA = perpDotB/denominator;
             float distanceB = perpDotA/denominator;
-            bool intersectionNotOnA = distanceA < -Geometry.Epsilon;
-            bool intersectionNotOnB = distanceB < -Geometry.Epsilon;
-            if (intersectionNotOnA && intersectionNotOnB)
+            if (distanceA < -Geometry.Epsilon || distanceB < -Geometry.Epsilon)
             {
                 // No intersection
-                return Vector2.Distance(originA, originB);
-            }
-            if (intersectionNotOnA)
-            {
-                // No intersection
-                return Vector2.Distance(originA, originB + directionB*distanceB);
-            }
-            if (intersectionNotOnB)
-            {
-                // No intersection
-                return Vector2.Distance(originB, originA + directionA*distanceA);
+                if (codirected)
+                {
+                    float originAProjection = Vector2.Dot(directionB, originBToA);
+                    if (originAProjection > -Geometry.Epsilon)
+                    {
+                        Vector2 rayPointA = originA;
+                        Vector2 rayPointB = originB + directionB*originAProjection;
+                        return Vector2.Distance(rayPointA, rayPointB);
+                    }
+                    float originBProjection = -Vector2.Dot(directionA, originBToA);
+                    if (originBProjection > -Geometry.Epsilon)
+                    {
+                        Vector2 rayPointA = originA + directionA*originBProjection;
+                        Vector2 rayPointB = originB;
+                        return Vector2.Distance(rayPointA, rayPointB);
+                    }
+                    return Vector2.Distance(originA, originB);
+                }
+                else
+                {
+                    if (distanceA > -Geometry.Epsilon)
+                    {
+                        float originBProjection = -Vector2.Dot(directionA, originBToA);
+                        if (originBProjection > -Geometry.Epsilon)
+                        {
+                            Vector2 rayPointA = originA + directionA*originBProjection;
+                            Vector2 rayPointB = originB;
+                            return Vector2.Distance(rayPointA, rayPointB);
+                        }
+                    }
+                    else if (distanceB > -Geometry.Epsilon)
+                    {
+                        float originAProjection = Vector2.Dot(directionB, originBToA);
+                        if (originAProjection > -Geometry.Epsilon)
+                        {
+                            Vector2 rayPointA = originA;
+                            Vector2 rayPointB = originB + directionB*originAProjection;
+                            return Vector2.Distance(rayPointA, rayPointB);
+                        }
+                    }
+                    return Vector2.Distance(originA, originB);
+                }
             }
             // Point intersection
             return 0;

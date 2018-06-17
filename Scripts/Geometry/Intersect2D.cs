@@ -558,28 +558,30 @@ namespace ProceduralToolkit
                 // Collinear
 
                 bool codirected = Vector2.Dot(directionA, directionB) > 0;
-                float originBProjection = Vector2.Dot(directionA, originBToA);
+                float originBProjection = -Vector2.Dot(directionA, originBToA);
                 if (codirected)
                 {
-                    intersection = IntersectionRayRay2.Ray(originBProjection > 0 ? originA : originB, directionA);
+                    intersection = IntersectionRayRay2.Ray(originBProjection > 0 ? originB : originA, directionA);
                     return true;
                 }
                 else
                 {
-                    if (originBProjection > 0)
+                    if (originBProjection < -Geometry.Epsilon)
                     {
                         intersection = IntersectionRayRay2.None();
                         return false;
                     }
-                    else
+                    if (originBProjection < Geometry.Epsilon)
                     {
-                        intersection = IntersectionRayRay2.Segment(originA, originB);
+                        intersection = IntersectionRayRay2.Point(originA);
                         return true;
                     }
+                    intersection = IntersectionRayRay2.Segment(originA, originB);
+                    return true;
                 }
             }
 
-            // The rays are skew and may intersect in a point
+            // Not parallel
             float distanceA = perpDotB/denominator;
             if (distanceA < -Geometry.Epsilon)
             {

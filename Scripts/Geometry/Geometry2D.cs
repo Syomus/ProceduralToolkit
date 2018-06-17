@@ -422,13 +422,12 @@ namespace ProceduralToolkit
             float denominator = VectorE.PerpDot(directionA, directionB);
             float perpDotA = VectorE.PerpDot(directionA, originBToA);
             float perpDotB = VectorE.PerpDot(directionB, originBToA);
+            bool codirected = Vector2.Dot(directionA, directionB) > 0;
 
             if (Mathf.Abs(denominator) < Epsilon)
             {
                 // Parallel
-                bool codirected = Vector2.Dot(directionA, directionB) > 0;
                 float originBProjection = Vector2.Dot(directionA, originBToA);
-
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
                     // Not collinear
@@ -500,31 +499,58 @@ namespace ProceduralToolkit
                 }
             }
 
-            // The rays are skew and may intersect in a point
+            // Not parallel
             float distanceA = perpDotB/denominator;
             float distanceB = perpDotA/denominator;
-            bool intersectionNotOnA = distanceA < -Epsilon;
-            bool intersectionNotOnB = distanceB < -Epsilon;
-            if (intersectionNotOnA && intersectionNotOnB)
+            if (distanceA < -Epsilon || distanceB < -Epsilon)
             {
                 // No intersection
-                pointA = originA;
-                pointB = originB;
-                return;
-            }
-            if (intersectionNotOnA)
-            {
-                // No intersection
-                pointA = originA;
-                pointB = originB + directionB*distanceB;
-                return;
-            }
-            if (intersectionNotOnB)
-            {
-                // No intersection
-                pointA = originA + directionA*distanceA;
-                pointB = originB;
-                return;
+                if (codirected)
+                {
+                    float originAProjection = Vector2.Dot(directionB, originBToA);
+                    if (originAProjection > -Epsilon)
+                    {
+                        pointA = originA;
+                        pointB = originB + directionB*originAProjection;
+                        return;
+                    }
+                    float originBProjection = -Vector2.Dot(directionA, originBToA);
+                    if (originBProjection > -Epsilon)
+                    {
+                        pointA = originA + directionA*originBProjection;
+                        pointB = originB;
+                        return;
+                    }
+                    pointA = originA;
+                    pointB = originB;
+                    return;
+                }
+                else
+                {
+                    if (distanceA > -Epsilon)
+                    {
+                        float originBProjection = -Vector2.Dot(directionA, originBToA);
+                        if (originBProjection > -Epsilon)
+                        {
+                            pointA = originA + directionA*originBProjection;
+                            pointB = originB;
+                            return;
+                        }
+                    }
+                    else if (distanceB > -Epsilon)
+                    {
+                        float originAProjection = Vector2.Dot(directionB, originBToA);
+                        if (originAProjection > -Epsilon)
+                        {
+                            pointA = originA;
+                            pointB = originB + directionB*originAProjection;
+                            return;
+                        }
+                    }
+                    pointA = originA;
+                    pointB = originB;
+                    return;
+                }
             }
             // Point intersection
             pointA = pointB = originA + directionA*distanceA;
