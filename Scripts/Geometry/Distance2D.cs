@@ -442,18 +442,82 @@ namespace ProceduralToolkit
                 segmentDistance < -Geometry.Epsilon || segmentDistance > 1 + Geometry.Epsilon)
             {
                 // No intersection
-                Vector2 segmentPoint = segmentA + segmentDirection*Mathf.Clamp01(segmentDistance);
-                float segmentPointProjection = Vector2.Dot(rayDirection, segmentPoint - rayOrigin);
-                Vector2 rayPoint;
-                if (segmentPointProjection <= 0)
+                bool codirected = Vector2.Dot(rayDirection, segmentDirection) > 0;
+                Vector2 segmentBToOrigin;
+                if (!codirected)
                 {
-                    rayPoint = rayOrigin;
+                    PTUtils.Swap(ref segmentA, ref segmentB);
+                    segmentDirection = -segmentDirection;
+                    segmentBToOrigin = segmentAToOrigin;
+                    segmentAToOrigin = rayOrigin - segmentA;
+                    segmentDistance = 1 - segmentDistance;
                 }
                 else
                 {
-                    rayPoint = rayOrigin + rayDirection*segmentPointProjection;
+                    segmentBToOrigin = rayOrigin - segmentB;
                 }
-                return Vector2.Distance(rayPoint, segmentPoint);
+
+                float segmentAProjection = -Vector2.Dot(rayDirection, segmentAToOrigin);
+                float segmentBProjection = -Vector2.Dot(rayDirection, segmentBToOrigin);
+                bool segmentAOnRay = segmentAProjection > -Geometry.Epsilon;
+                bool segmentBOnRay = segmentBProjection > -Geometry.Epsilon;
+                if (segmentAOnRay && segmentBOnRay)
+                {
+                    if (segmentDistance < 0)
+                    {
+                        Vector2 rayPoint = rayOrigin + rayDirection*segmentAProjection;
+                        Vector2 segmentPoint = segmentA;
+                        return Vector2.Distance(rayPoint, segmentPoint);
+                    }
+                    else
+                    {
+                        Vector2 rayPoint = rayOrigin + rayDirection*segmentBProjection;
+                        Vector2 segmentPoint = segmentB;
+                        return Vector2.Distance(rayPoint, segmentPoint);
+                    }
+                }
+                else if (!segmentAOnRay && segmentBOnRay)
+                {
+                    if (segmentDistance < 0)
+                    {
+                        Vector2 rayPoint = rayOrigin;
+                        Vector2 segmentPoint = segmentA;
+                        return Vector2.Distance(rayPoint, segmentPoint);
+                    }
+                    else if (segmentDistance > 1 + Geometry.Epsilon)
+                    {
+                        Vector2 rayPoint = rayOrigin + rayDirection*segmentBProjection;
+                        Vector2 segmentPoint = segmentB;
+                        return Vector2.Distance(rayPoint, segmentPoint);
+                    }
+                    else
+                    {
+                        Vector2 rayPoint = rayOrigin;
+                        float originProjection = Vector2.Dot(segmentDirection, segmentAToOrigin);
+                        Vector2 segmentPoint = segmentA + segmentDirection*originProjection/segmentDirection.sqrMagnitude;
+                        return Vector2.Distance(rayPoint, segmentPoint);
+                    }
+                }
+                else
+                {
+                    // Not on ray
+                    Vector2 rayPoint = rayOrigin;
+                    float originProjection = Vector2.Dot(segmentDirection, segmentAToOrigin);
+                    float sqrSegmentLength = segmentDirection.sqrMagnitude;
+                    if (originProjection < 0)
+                    {
+                        return Vector2.Distance(rayPoint, segmentA);
+                    }
+                    else if (originProjection > sqrSegmentLength)
+                    {
+                        return Vector2.Distance(rayPoint, segmentB);
+                    }
+                    else
+                    {
+                        Vector2 segmentPoint = segmentA + segmentDirection*originProjection/sqrSegmentLength;
+                        return Vector2.Distance(rayPoint, segmentPoint);
+                    }
+                }
             }
             // Point intersection
             return 0;
