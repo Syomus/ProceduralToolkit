@@ -255,8 +255,8 @@ namespace ProceduralToolkit
 
             if (Mathf.Abs(denominator) < Epsilon)
             {
-                float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
                 // Parallel
+                float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
                 if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
                 {
                     // Not collinear

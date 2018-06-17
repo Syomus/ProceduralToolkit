@@ -368,20 +368,32 @@ namespace ProceduralToolkit
         public static bool LineRay(Vector2 lineOrigin, Vector2 lineDirection, Vector2 rayOrigin, Vector2 rayDirection,
             out IntersectionLineRay2 intersection)
         {
-            float lineDistance;
-            float rayDistance;
-            var intersectionType = LineLine(lineOrigin, lineDirection, rayOrigin, rayDirection, out lineDistance, out rayDistance);
-            if (intersectionType == IntersectionType.Line)
+            Vector2 rayOriginToLineOrigin = lineOrigin - rayOrigin;
+            float denominator = VectorE.PerpDot(lineDirection, rayDirection);
+            float perpDotA = VectorE.PerpDot(lineDirection, rayOriginToLineOrigin);
+
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
+                // Parallel
+                float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
+                if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
+                {
+                    // Not collinear
+                    intersection = IntersectionLineRay2.None();
+                    return false;
+                }
+                // Collinear
                 intersection = IntersectionLineRay2.Ray(rayOrigin);
                 return true;
             }
-            if (intersectionType == IntersectionType.Point && rayDistance > -Geometry.Epsilon)
+
+            // Not parallel
+            float rayDistance = perpDotA/denominator;
+            if (rayDistance > -Geometry.Epsilon)
             {
                 intersection = IntersectionLineRay2.Point(rayOrigin + rayDirection*rayDistance);
                 return true;
             }
-
             intersection = IntersectionLineRay2.None();
             return false;
         }
