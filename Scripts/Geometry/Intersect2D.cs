@@ -780,9 +780,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the segments
         /// </summary>
+        public static bool SegmentSegment(Segment2 segment1, Segment2 segment2)
+        {
+            IntersectionSegmentSegment2 intersection;
+            return SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the segments
+        /// </summary>
         public static bool SegmentSegment(Segment2 segment1, Segment2 segment2, out IntersectionSegmentSegment2 intersection)
         {
             return SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the segments
+        /// </summary>
+        public static bool SegmentSegment(Vector2 segment1A, Vector2 segment1B, Vector2 segment2A, Vector2 segment2B)
+        {
+            IntersectionSegmentSegment2 intersection;
+            return SegmentSegment(segment1A, segment1B, segment2A, segment2B, out intersection);
         }
 
         /// <summary>
@@ -879,7 +897,7 @@ namespace ProceduralToolkit
                 }
             }
 
-            // The segments are skew
+            // Not parallel
             float distance1 = perpDot2/denominator;
             if (distance1 < -Geometry.Epsilon || distance1 > 1 + Geometry.Epsilon)
             {
@@ -902,7 +920,7 @@ namespace ProceduralToolkit
         {
             if (Mathf.Abs(segmentA.x - segmentB.x) < Geometry.Epsilon)
             {
-                // Segment is vertical
+                // Vertical
                 if (segmentA.y <= point.y && point.y <= segmentB.y)
                 {
                     return true;
@@ -914,7 +932,7 @@ namespace ProceduralToolkit
             }
             else
             {
-                // Segment is not vertical
+                // Not vertical
                 if (segmentA.x <= point.x && point.x <= segmentB.x)
                 {
                     return true;
