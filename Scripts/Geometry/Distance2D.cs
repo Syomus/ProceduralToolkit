@@ -594,6 +594,286 @@ namespace ProceduralToolkit
 
         #endregion Ray-Circle
 
+        #region Segment-Segment
+
+        /// <summary>
+        /// Returns the distance between the closest points on the segments
+        /// </summary>
+        public static float SegmentSegment(Segment2 segment1, Segment2 segment2)
+        {
+            return SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b);
+        }
+
+        /// <summary>
+        /// Returns the distance between the closest points on the segments
+        /// </summary>
+        public static float SegmentSegment(Vector2 segment1A, Vector2 segment1B, Vector2 segment2A, Vector2 segment2B)
+        {
+            Vector2 from2ATo1A = segment1A - segment2A;
+            Vector2 direction1 = segment1B - segment1A;
+            float segment1Length = direction1.magnitude;
+            direction1.Normalize();
+            Vector2 direction2 = segment2B - segment2A;
+            float segment2Length = direction2.magnitude;
+            direction2.Normalize();
+            float denominator = VectorE.PerpDot(direction1, direction2);
+            float perpDot1 = VectorE.PerpDot(direction1, from2ATo1A);
+            float perpDot2 = VectorE.PerpDot(direction2, from2ATo1A);
+
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
+            {
+                // Parallel
+                if (Mathf.Abs(perpDot1) > Geometry.Epsilon || Mathf.Abs(perpDot2) > Geometry.Epsilon)
+                {
+                    // Not collinear
+                    float segment2AProjection = -Vector2.Dot(direction1, from2ATo1A);
+                    if (segment2AProjection > -Geometry.Epsilon &&
+                        segment2AProjection < segment1Length + Geometry.Epsilon)
+                    {
+                        float distanceSqr = from2ATo1A.sqrMagnitude - segment2AProjection*segment2AProjection;
+                        // distanceSqr can be negative
+                        return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                    }
+
+                    Vector2 from1ATo2B = segment2B - segment1A;
+                    float segment2BProjection = Vector2.Dot(direction1, from1ATo2B);
+                    if (segment2BProjection > -Geometry.Epsilon &&
+                        segment2BProjection < segment1Length + Geometry.Epsilon)
+                    {
+                        float distanceSqr = from1ATo2B.sqrMagnitude - segment2BProjection*segment2BProjection;
+                        // distanceSqr can be negative
+                        return distanceSqr <= 0 ? 0 : Mathf.Sqrt(distanceSqr);
+                    }
+
+                    if (segment2AProjection < 0 && segment2BProjection < 0)
+                    {
+                        if (segment2AProjection > segment2BProjection)
+                        {
+                            return Vector2.Distance(segment1A, segment2A);
+                        }
+                        return Vector2.Distance(segment1A, segment2B);
+                    }
+                    if (segment2AProjection > 0 && segment2BProjection > 0)
+                    {
+                        if (segment2AProjection < segment2BProjection)
+                        {
+                            return Vector2.Distance(segment1B, segment2A);
+                        }
+                        return Vector2.Distance(segment1B, segment2B);
+                    }
+                    float segment1AProjection = Vector2.Dot(direction2, from2ATo1A);
+                    Vector2 segment2Point = segment2A + direction2*segment1AProjection;
+                    return Vector2.Distance(segment1A, segment2Point);
+                }
+                // Collinear or degenerate
+
+                bool segment1IsAPoint = segment1Length < Geometry.Epsilon;
+                bool segment2IsAPoint = segment2Length < Geometry.Epsilon;
+                if (segment1IsAPoint && segment2IsAPoint)
+                {
+                    if (segment1A == segment2A)
+                    {
+                        // Point intersection
+                        return 0;
+                    }
+                    return Vector2.Distance(segment1A, segment2A);
+                }
+                if (segment1IsAPoint)
+                {
+                    if (Intersect.CollinearPointInSegment(segment2A, segment2B, point: segment1A))
+                    {
+                        // Point intersection
+                        return 0;
+                    }
+                    float segment1AProjection = Vector2.Dot(direction2, from2ATo1A);
+                    if (segment1AProjection < 0)
+                    {
+                        return Mathf.Abs(segment1AProjection);
+                    }
+                    return segment1AProjection - segment2Length;
+                }
+                if (segment2IsAPoint)
+                {
+                    if (Intersect.CollinearPointInSegment(segment1A, segment1B, point: segment2A))
+                    {
+                        // Point intersection
+                        return 0;
+                    }
+                    float segment2AProjection = -Vector2.Dot(direction1, from2ATo1A);
+                    if (segment2AProjection < 0)
+                    {
+                        return Mathf.Abs(segment2AProjection);
+                    }
+                    return segment2AProjection - segment1Length;
+                }
+
+                bool codirected = Vector2.Dot(direction1, direction2) > 0;
+                if (codirected)
+                {
+                    // Codirected
+                    float segment2AProjection = Vector2.Dot(direction1, from2ATo1A);
+                    if (segment2AProjection > 0)
+                    {
+                        // 2A------2B
+                        //     1A------1B
+                        return SegmentSegmentCollinear(segment2A, segment2B, segment1A, segment1B);
+                    }
+                    else
+                    {
+                        // 1A------1B
+                        //     2A------2B
+                        return SegmentSegmentCollinear(segment1A, segment1B, segment2A, segment2B);
+                    }
+                }
+                else
+                {
+                    // Contradirected
+                    float segment2BProjection = Vector2.Dot(direction1, segment2B - segment1A);
+                    if (segment2BProjection > 0)
+                    {
+                        // 1A------1B
+                        //     2B------2A
+                        return SegmentSegmentCollinear(segment1A, segment1B, segment2B, segment2A);
+                    }
+                    else
+                    {
+                        // 2B------2A
+                        //     1A------1B
+                        return SegmentSegmentCollinear(segment2B, segment2A, segment1A, segment1B);
+                    }
+                }
+            }
+
+            // Not parallel
+            float distance1 = perpDot2/denominator;
+            float distance2 = perpDot1/denominator;
+            if (distance1 < -Geometry.Epsilon || distance1 > segment1Length + Geometry.Epsilon ||
+                distance2 < -Geometry.Epsilon || distance2 > segment2Length + Geometry.Epsilon)
+            {
+                // No intersection
+                bool codirected = Vector2.Dot(direction1, direction2) > 0;
+                Vector2 from1ATo2B;
+                if (!codirected)
+                {
+                    PTUtils.Swap(ref segment2A, ref segment2B);
+                    direction2 = -direction2;
+                    from1ATo2B = -from2ATo1A;
+                    from2ATo1A = segment1A - segment2A;
+                    distance2 = segment2Length - distance2;
+                }
+                else
+                {
+                    from1ATo2B = segment2B - segment1A;
+                }
+                Vector2 segment1Point;
+                Vector2 segment2Point;
+
+                float segment2AProjection = -Vector2.Dot(direction1, from2ATo1A);
+                float segment2BProjection = Vector2.Dot(direction1, from1ATo2B);
+
+                bool segment2AIsAfter1A = segment2AProjection > -Geometry.Epsilon;
+                bool segment2BIsBefore1B = segment2BProjection < segment1Length + Geometry.Epsilon;
+                bool segment2AOnSegment1 = segment2AIsAfter1A && segment2AProjection < segment1Length + Geometry.Epsilon;
+                bool segment2BOnSegment1 = segment2BProjection > -Geometry.Epsilon && segment2BIsBefore1B;
+                if (segment2AOnSegment1 && segment2BOnSegment1)
+                {
+                    if (distance2 < -Geometry.Epsilon)
+                    {
+                        segment1Point = segment1A + direction1*segment2AProjection;
+                        segment2Point = segment2A;
+                    }
+                    else
+                    {
+                        segment1Point = segment1A + direction1*segment2BProjection;
+                        segment2Point = segment2B;
+                    }
+                }
+                else if (!segment2AOnSegment1 && !segment2BOnSegment1)
+                {
+                    if (!segment2AIsAfter1A && !segment2BIsBefore1B)
+                    {
+                        segment1Point = distance1 < -Geometry.Epsilon ? segment1A : segment1B;
+                    }
+                    else
+                    {
+                        // Not on segment
+                        segment1Point = segment2AIsAfter1A ? segment1B : segment1A;
+                    }
+                    float segment1PointProjection = Vector2.Dot(direction2, segment1Point - segment2A);
+                    segment1PointProjection = Mathf.Clamp(segment1PointProjection, 0, segment2Length);
+                    segment2Point = segment2A + direction2*segment1PointProjection;
+                }
+                else if (segment2AOnSegment1)
+                {
+                    if (distance2 < -Geometry.Epsilon)
+                    {
+                        segment1Point = segment1A + direction1*segment2AProjection;
+                        segment2Point = segment2A;
+                    }
+                    else
+                    {
+                        segment1Point = segment1B;
+                        float segment1PointProjection = Vector2.Dot(direction2, segment1Point - segment2A);
+                        segment1PointProjection = Mathf.Clamp(segment1PointProjection, 0, segment2Length);
+                        segment2Point = segment2A + direction2*segment1PointProjection;
+                    }
+                }
+                else
+                {
+                    if (distance2 > segment2Length + Geometry.Epsilon)
+                    {
+                        segment1Point = segment1A + direction1*segment2BProjection;
+                        segment2Point = segment2B;
+                    }
+                    else
+                    {
+                        segment1Point = segment1A;
+                        float segment1PointProjection = Vector2.Dot(direction2, segment1Point - segment2A);
+                        segment1PointProjection = Mathf.Clamp(segment1PointProjection, 0, segment2Length);
+                        segment2Point = segment2A + direction2*segment1PointProjection;
+                    }
+                }
+                return Vector2.Distance(segment1Point, segment2Point);
+            }
+
+            // Point intersection
+            return 0;
+        }
+
+        private static float SegmentSegmentCollinear(Vector2 leftA, Vector2 leftB, Vector2 rightA, Vector2 rightB)
+        {
+            Vector2 leftDirection = leftB - leftA;
+            float rightAProjection = Vector2.Dot(leftDirection.normalized, rightA - leftB);
+            if (Mathf.Abs(rightAProjection) < Geometry.Epsilon)
+            {
+                // LB == RA
+                // LA------LB
+                //         RA------RB
+
+                // Point intersection
+                return 0;
+            }
+            if (rightAProjection < 0)
+            {
+                // LB > RA
+                // LA------LB
+                //     RARB
+                //     RA--RB
+                //     RA------RB
+
+                // Segment intersection
+                return 0;
+            }
+            // LB < RA
+            // LA------LB
+            //             RA------RB
+
+            // No intersection
+            return rightAProjection;
+        }
+
+        #endregion Segment-Segment
+
         #region Segment-Circle
 
         /// <summary>

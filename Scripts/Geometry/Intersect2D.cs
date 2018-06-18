@@ -916,7 +916,7 @@ namespace ProceduralToolkit
             return true;
         }
 
-        private static bool CollinearPointInSegment(Vector2 segmentA, Vector2 segmentB, Vector2 point)
+        public static bool CollinearPointInSegment(Vector2 segmentA, Vector2 segmentB, Vector2 point)
         {
             if (Mathf.Abs(segmentA.x - segmentB.x) < Geometry.Epsilon)
             {
@@ -949,7 +949,7 @@ namespace ProceduralToolkit
             out IntersectionSegmentSegment2 intersection)
         {
             Vector2 leftDirection = leftB - leftA;
-            float rightAProjection = Vector2.Dot(leftDirection, leftB - rightA);
+            float rightAProjection = Vector2.Dot(leftDirection, rightA - leftB);
             if (Mathf.Abs(rightAProjection) < Geometry.Epsilon)
             {
                 // LB == RA
@@ -958,7 +958,7 @@ namespace ProceduralToolkit
                 intersection = IntersectionSegmentSegment2.Point(leftB);
                 return true;
             }
-            if (rightAProjection > 0)
+            if (rightAProjection < 0)
             {
                 // LB > RA
                 // LA------LB
