@@ -651,17 +651,84 @@ namespace ProceduralToolkit
                 segmentDistance < -Epsilon || segmentDistance > 1 + Epsilon)
             {
                 // No intersection
-                segmentPoint = segmentA + segmentDirection*Mathf.Clamp01(segmentDistance);
-                float segmentPointProjection = Vector2.Dot(rayDirection, segmentPoint - rayOrigin);
-                if (segmentPointProjection <= 0)
+                bool codirected = Vector2.Dot(rayDirection, segmentDirection) > 0;
+                Vector2 segmentBToOrigin;
+                if (!codirected)
                 {
-                    rayPoint = rayOrigin;
+                    PTUtils.Swap(ref segmentA, ref segmentB);
+                    segmentDirection = -segmentDirection;
+                    segmentBToOrigin = segmentAToOrigin;
+                    segmentAToOrigin = rayOrigin - segmentA;
+                    segmentDistance = 1 - segmentDistance;
                 }
                 else
                 {
-                    rayPoint = rayOrigin + rayDirection*segmentPointProjection;
+                    segmentBToOrigin = rayOrigin - segmentB;
                 }
-                return;
+
+                float segmentAProjection = -Vector2.Dot(rayDirection, segmentAToOrigin);
+                float segmentBProjection = -Vector2.Dot(rayDirection, segmentBToOrigin);
+                bool segmentAOnRay = segmentAProjection > -Epsilon;
+                bool segmentBOnRay = segmentBProjection > -Epsilon;
+                if (segmentAOnRay && segmentBOnRay)
+                {
+                    if (segmentDistance < 0)
+                    {
+                        rayPoint = rayOrigin + rayDirection*segmentAProjection;
+                        segmentPoint = segmentA;
+                        return;
+                    }
+                    else
+                    {
+                        rayPoint = rayOrigin + rayDirection*segmentBProjection;
+                        segmentPoint = segmentB;
+                        return;
+                    }
+                }
+                else if (!segmentAOnRay && segmentBOnRay)
+                {
+                    if (segmentDistance < 0)
+                    {
+                        rayPoint = rayOrigin;
+                        segmentPoint = segmentA;
+                        return;
+                    }
+                    else if (segmentDistance > 1 + Epsilon)
+                    {
+                        rayPoint = rayOrigin + rayDirection*segmentBProjection;
+                        segmentPoint = segmentB;
+                        return;
+                    }
+                    else
+                    {
+                        rayPoint = rayOrigin;
+                        float originProjection = Vector2.Dot(segmentDirection, segmentAToOrigin);
+                        segmentPoint = segmentA + segmentDirection*originProjection/segmentDirection.sqrMagnitude;
+                        return;
+                    }
+                }
+                else
+                {
+                    // Not on ray
+                    rayPoint = rayOrigin;
+                    float originProjection = Vector2.Dot(segmentDirection, segmentAToOrigin);
+                    float sqrSegmentLength = segmentDirection.sqrMagnitude;
+                    if (originProjection < 0)
+                    {
+                        segmentPoint = segmentA;
+                        return;
+                    }
+                    else if (originProjection > sqrSegmentLength)
+                    {
+                        segmentPoint = segmentB;
+                        return;
+                    }
+                    else
+                    {
+                        segmentPoint = segmentA + segmentDirection*originProjection/sqrSegmentLength;
+                        return;
+                    }
+                }
             }
             // Point intersection
             rayPoint = segmentPoint = segmentA + segmentDirection*segmentDistance;
