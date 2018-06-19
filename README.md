@@ -17,7 +17,7 @@ You can install Procedural Toolkit from any of the following sources:
 
 1. Import from the [Asset Store](https://www.assetstore.unity3d.com/#!/content/16508)
 2. Download from the [Releases page](https://github.com/Syomus/ProceduralToolkit/releases). Same packages as in the Asset Store.
-3. Clone/download the repository from [GitHub](https://github.com/Syomus/ProceduralToolkit). In this case you will have to create a subfolder for the toolkit (preferably `\Assets\ProceduralToolkit`).
+3. Clone/download the repository from [GitHub](https://github.com/Syomus/ProceduralToolkit) and put it in a subfolder (preferably `\Assets\ProceduralToolkit`).
 
 If you have any previous versions of the toolkit installed it is highly recommended to delete them before importing a newer version.
 
@@ -48,18 +48,18 @@ to see if your issue hasn't already been reported. If it does exist, add a
 comment to the existing issue if there is extra information you can contribute.
 
 If you can't find a matching issue, open a [new issue](https://github.com/Syomus/ProceduralToolkit/issues/new/choose),
-choose the right template and provide us with enough information to investigate further.
-
+choose the right template and provide us with enough information to investigate further. 
 Alternatively, you can send a message to the [support email](mailto:proceduraltoolkit@syomus.com).
 
-## How can I contribute to Procedural Toolkit?
+## Contributing
 See [CONTRIBUTING.md](./.github/CONTRIBUTING.md) for a full guide on how you can help.
 
 If you're looking for something to work on, check out the [help wanted](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aissue+is%3Aopen+label%3A"help+wanted") label.
 
-We also accept donations through [PayPal](https://paypal.me/ProceduralToolkit).
+If you just want to show your appreciation, you can send a donation through [PayPal](https://paypal.me/ProceduralToolkit).
 
-## Scripts
+## Toolkit structure
+### Scripts
 * [ArrayE](Scripts/ArrayE.cs): Various Array and List extensions, such as looped getters/setters and flood fills.
 * [CellularAutomaton](Scripts/CellularAutomaton.cs): Generic cellular automaton for two-state rulesets. Common rulesets can be found in CellularAutomaton.Ruleset.
 * [ColorE](Scripts/ColorE.cs): Color extensions, HTML colors, Gradient constructors.
@@ -69,7 +69,6 @@ We also accept donations through [PayPal](https://paypal.me/ProceduralToolkit).
 * [Directions](Scripts/Directions.cs): Enum with direction flags along three axes.
 * [Draw](Scripts/Draw.cs): Collection of generic vector drawing algorithms.
 * [DrawRaster](Scripts/DrawRaster.cs): Collection of generic raster drawing algorithms.
-* [Geometry](Scripts/Geometry): Collection of basic computational geometry algorithms (distance, intersection, closest point, etc.)
 * [GizmosE](Scripts/GizmosE.cs): Collection of drawing methods similar to Gizmos.
 * [GLE](Scripts/GLE.cs): Collection of GL drawing methods similar to Gizmos.
 * [MeshDraft](Scripts/MeshDraft.cs): Helper class for mesh generation.
@@ -80,13 +79,16 @@ We also accept donations through [PayPal](https://paypal.me/ProceduralToolkit).
 * [TextureE](Scripts/TextureE.cs): Texture extensions.
 * [VectorE](Scripts/VectorE.cs): Vector extensions.
 
-## Scripts\Editor
+### [Scripts/Geometry](Scripts/Geometry)
+Collection of basic computational geometry algorithms and primitives.
+
+### Scripts\Editor
 * ColorHSVDrawer: PropertyDrawer for ColorHSV.
 * MeshFilterExtension: Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
 * ProceduralToolkitMenu: Submenu with constructors for primitives at `GameObject > Procedural Toolkit`.
 * RulesetDrawer: PropertyDrawer for CellularAutomaton.Ruleset.
 
-## Shaders
+### Shaders
 * Common.cginc: Collection of shaping and debug functions.
 * Easing.cginc: Normalized easing functions.
 * SDF.cginc: Collection of signed distance functions.
