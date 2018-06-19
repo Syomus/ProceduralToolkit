@@ -18,8 +18,16 @@ If you have an idea on how to improve Procedural Toolkit, don't hesitate to
 
 ### Proofreading
 If you find a typo or bad writing, let us know and [open a new issue](https://github.com/Syomus/ProceduralToolkit/issues/new/choose) 
-or, even better, send a [pull request](https://github.com/Syomus/ProceduralToolkit/pulls) on GitHub.
+or, even better, send a [pull request](https://github.com/Syomus/ProceduralToolkit/pulls).
 
-### Help wanted label
+### Help wanted
 If you're looking for something to work on, check out the 
-[help wanted](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aissue+is%3Aopen+label%3A"help+wanted") label.
+[help wanted](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aissue+is%3Aopen+label%3A"help+wanted") label. 
+If you see something you like, please comment on the issue to let the development team know you are interested in the issue.
+
+### Testing
+Tests are always appreciated. If you see a feature that doesn't have sufficient test coverage (especially if it is [Geometry](Scripts/Geometry)-related), we would
+be very grateful if you wrote some tests for it! Tests are written using the [Unity Test Runner](https://docs.unity3d.com/Manual/PlaymodeTestFramework.html).
+
+### Optimisation
+If you love profiling and optimising existing code we would like to hear from you.
