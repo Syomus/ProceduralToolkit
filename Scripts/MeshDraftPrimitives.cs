@@ -19,9 +19,9 @@ namespace ProceduralToolkit
             const float tetrahedralAngle = -19.471220333f;
 
             var vertex0 = new Vector3(0, radius, 0);
-            var vertex1 = PTUtils.PointOnSphere(radius, 0, tetrahedralAngle);
-            var vertex2 = PTUtils.PointOnSphere(radius, 120, tetrahedralAngle);
-            var vertex3 = PTUtils.PointOnSphere(radius, 240, tetrahedralAngle);
+            var vertex1 = Geometry.PointOnSphere(radius, 0, tetrahedralAngle);
+            var vertex2 = Geometry.PointOnSphere(radius, 120, tetrahedralAngle);
+            var vertex3 = Geometry.PointOnSphere(radius, 240, tetrahedralAngle);
 
             var draft = new MeshDraft {name = "Tetrahedron"};
             if (generateUV)
@@ -130,10 +130,10 @@ namespace ProceduralToolkit
             var upperRing = new Vector3[5];
             for (var i = 0; i < 5; i++)
             {
-                lowerCap[i] = PTUtils.PointOnSphere(radius, lowerAngle, -magicAngle1);
-                lowerRing[i] = PTUtils.PointOnSphere(radius, lowerAngle, -magicAngle2);
-                upperCap[i] = PTUtils.PointOnSphere(radius, upperAngle, magicAngle1);
-                upperRing[i] = PTUtils.PointOnSphere(radius, upperAngle, magicAngle2);
+                lowerCap[i] = Geometry.PointOnSphere(radius, lowerAngle, -magicAngle1);
+                lowerRing[i] = Geometry.PointOnSphere(radius, lowerAngle, -magicAngle2);
+                upperCap[i] = Geometry.PointOnSphere(radius, upperAngle, magicAngle1);
+                upperRing[i] = Geometry.PointOnSphere(radius, upperAngle, magicAngle2);
                 lowerAngle += segmentAngle;
                 upperAngle += segmentAngle;
             }
@@ -162,8 +162,8 @@ namespace ProceduralToolkit
             var upperRing = new Vector3[5];
             for (var i = 0; i < 5; i++)
             {
-                lowerRing[i] = PTUtils.PointOnSphere(radius, lowerAngle, -magicAngle);
-                upperRing[i] = PTUtils.PointOnSphere(radius, upperAngle, magicAngle);
+                lowerRing[i] = Geometry.PointOnSphere(radius, lowerAngle, -magicAngle);
+                upperRing[i] = Geometry.PointOnSphere(radius, upperAngle, magicAngle);
                 lowerAngle += segmentAngle;
                 upperAngle += segmentAngle;
             }
@@ -269,7 +269,7 @@ namespace ProceduralToolkit
             var ring = new Vector3[segments];
             for (var i = 0; i < segments; i++)
             {
-                ring[i] = PTUtils.PointOnCircle3XZ(radius, currentAngle);
+                ring[i] = Geometry.PointOnCircle3XZ(radius, currentAngle);
                 currentAngle += segmentAngle;
             }
 
@@ -280,7 +280,7 @@ namespace ProceduralToolkit
                 currentAngle = 0;
                 for (var i = 0; i < segments; i++)
                 {
-                    Vector2 uv = PTUtils.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
+                    Vector2 uv = Geometry.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
                     uv.x = 1 - uv.x;
                     fanUV[i] = uv;
                     currentAngle += segmentAngle;
@@ -306,7 +306,7 @@ namespace ProceduralToolkit
             var ring = new Vector3[segments];
             for (var i = 0; i < segments; i++)
             {
-                ring[i] = PTUtils.PointOnCircle3XZ(radius, currentAngle);
+                ring[i] = Geometry.PointOnCircle3XZ(radius, currentAngle);
                 currentAngle += segmentAngle;
             }
 
@@ -331,13 +331,13 @@ namespace ProceduralToolkit
             var upperDiskUV = new List<Vector2>();
             for (var i = 0; i < segments; i++)
             {
-                var point = PTUtils.PointOnCircle3XZ(radius, currentAngle);
+                var point = Geometry.PointOnCircle3XZ(radius, currentAngle);
                 lowerRing.Add(point - halfHeightUp);
                 upperRing.Add(point + halfHeightUp);
 
                 if (generateUV)
                 {
-                    Vector2 uv = PTUtils.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
+                    Vector2 uv = Geometry.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
                     upperDiskUV.Add(uv);
                     uv.x = 1 - uv.x;
                     lowerDiskUV.Add(uv);
@@ -389,7 +389,7 @@ namespace ProceduralToolkit
                 upperRing.Add(upperVertex);
                 if (generateUV)
                 {
-                    Vector2 uv = PTUtils.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
+                    Vector2 uv = Geometry.PointOnCircle2(0.5f, currentAngle) + new Vector2(0.5f, 0.5f);
                     upperDiskUV.Add(uv);
                     uv.x = 1 - uv.x;
                     lowerDiskUV.Add(uv);
@@ -420,7 +420,7 @@ namespace ProceduralToolkit
             ref List<Vector3> vertices, ref List<Vector2> uv, ref List<Vector3> normals,
             out Vector3 lowerVertex, out Vector3 upperVertex)
         {
-            Vector3 normal = PTUtils.PointOnCircle3XZ(1, currentAngle);
+            Vector3 normal = Geometry.PointOnCircle3XZ(1, currentAngle);
             Vector3 point = normal*radius;
             lowerVertex = point - halfHeightUp;
             upperVertex = point + halfHeightUp;
@@ -453,7 +453,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static MeshDraft FlatSpheroid(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
-            var draft = FlatRevolutionSurface(PTUtils.PointOnSpheroid, radius, height, horizontalSegments, verticalSegments, generateUV);
+            var draft = FlatRevolutionSurface(Geometry.PointOnSpheroid, radius, height, horizontalSegments, verticalSegments, generateUV);
             draft.name = "Flat spheroid";
             return draft;
         }
@@ -463,7 +463,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static MeshDraft FlatTeardrop(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
-            var draft = FlatRevolutionSurface(PTUtils.PointOnTeardrop, radius, height, horizontalSegments, verticalSegments, generateUV);
+            var draft = FlatRevolutionSurface(Geometry.PointOnTeardrop, radius, height, horizontalSegments, verticalSegments, generateUV);
             draft.name = "Flat teardrop";
             return draft;
         }
@@ -545,7 +545,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static MeshDraft Spheroid(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
-            var draft = RevolutionSurface(PTUtils.PointOnSpheroid, radius, height, horizontalSegments, verticalSegments, generateUV);
+            var draft = RevolutionSurface(Geometry.PointOnSpheroid, radius, height, horizontalSegments, verticalSegments, generateUV);
             draft.name = "Spheroid";
             return draft;
         }
@@ -555,7 +555,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static MeshDraft Teardrop(float radius, float height, int horizontalSegments, int verticalSegments, bool generateUV = true)
         {
-            var draft = RevolutionSurface(PTUtils.PointOnTeardrop, radius, height, horizontalSegments, verticalSegments, generateUV);
+            var draft = RevolutionSurface(Geometry.PointOnTeardrop, radius, height, horizontalSegments, verticalSegments, generateUV);
             draft.name = "Teardrop";
             return draft;
         }

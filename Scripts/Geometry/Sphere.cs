@@ -31,7 +31,7 @@ namespace ProceduralToolkit
         /// </summary>
         public Vector3 GetPoint(float horizontalAngle, float verticalAngle)
         {
-            return center + PTUtils.PointOnSphere(radius, horizontalAngle, verticalAngle);
+            return center + Geometry.PointOnSphere(radius, horizontalAngle, verticalAngle);
         }
 
         public bool Contains(Vector3 point)

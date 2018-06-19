@@ -31,7 +31,7 @@ namespace ProceduralToolkit
         /// </summary>
         public Vector2 GetPoint(float angle)
         {
-            return center + PTUtils.PointOnCircle2(radius, angle);
+            return center + Geometry.PointOnCircle2(radius, angle);
         }
 
         public bool Contains(Vector2 point)

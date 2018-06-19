@@ -36,14 +36,14 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector2 onUnitCircle2 { get { return PTUtils.PointOnCircle2(1, rotation2); } }
+        public static Vector2 onUnitCircle2 { get { return Geometry.PointOnCircle2(1, rotation2); } }
 
         /// <summary>
         /// Returns a random point inside a circle with radius 1
         /// </summary>
         public static Vector3 insideUnitCircle3XY
         {
-            get { return PTUtils.PointOnCircle3XY(Random.value, rotation2); }
+            get { return Geometry.PointOnCircle3XY(Random.value, rotation2); }
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 insideUnitCircle3XZ
         {
-            get { return PTUtils.PointOnCircle3XZ(Random.value, rotation2); }
+            get { return Geometry.PointOnCircle3XZ(Random.value, rotation2); }
         }
 
         /// <summary>
@@ -59,23 +59,23 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 insideUnitCircle3YZ
         {
-            get { return PTUtils.PointOnCircle3YZ(Random.value, rotation2); }
+            get { return Geometry.PointOnCircle3YZ(Random.value, rotation2); }
         }
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector3 onUnitCircle3XY { get { return PTUtils.PointOnCircle3XY(1, rotation2); } }
+        public static Vector3 onUnitCircle3XY { get { return Geometry.PointOnCircle3XY(1, rotation2); } }
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector3 onUnitCircle3XZ { get { return PTUtils.PointOnCircle3XZ(1, rotation2); } }
+        public static Vector3 onUnitCircle3XZ { get { return Geometry.PointOnCircle3XZ(1, rotation2); } }
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector3 onUnitCircle3YZ { get { return PTUtils.PointOnCircle3YZ(1, rotation2); } }
+        public static Vector3 onUnitCircle3YZ { get { return Geometry.PointOnCircle3YZ(1, rotation2); } }
 
         /// <summary>
         /// Returns a random point inside a unit square
@@ -143,7 +143,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector2 PointOnCircle(Vector2 center, float radius)
         {
-            return center + PTUtils.PointOnCircle2(radius, rotation2);
+            return center + Geometry.PointOnCircle2(radius, rotation2);
         }
 
         /// <summary>

@@ -28,8 +28,8 @@ namespace ProceduralToolkit.Examples
             var upperRing = new List<Vector3>(segments);
             for (var i = 0; i < segments; i++)
             {
-                lowerRing.Add(PTUtils.PointOnCircle3XZ(radius + height, currentAngle) + Vector3.down*height);
-                upperRing.Add(PTUtils.PointOnCircle3XZ(radius, currentAngle));
+                lowerRing.Add(Geometry.PointOnCircle3XZ(radius + height, currentAngle) + Vector3.down*height);
+                upperRing.Add(Geometry.PointOnCircle3XZ(radius, currentAngle));
                 currentAngle += segmentAngle;
             }
 
