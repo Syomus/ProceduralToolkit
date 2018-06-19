@@ -32,9 +32,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the lines
         /// </summary>
+        public static bool LineLine(Line3 lineA, Line3 lineB)
+        {
+            Vector3 intersection;
+            return LineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the lines
+        /// </summary>
         public static bool LineLine(Line3 lineA, Line3 lineB, out Vector3 intersection)
         {
             return LineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the lines
+        /// </summary>
+        public static bool LineLine(Vector3 originA, Vector3 directionA, Vector3 originB, Vector3 directionB)
+        {
+            Vector3 intersection;
+            return LineLine(originA, directionA, originB, directionB, out intersection);
         }
 
         /// <summary>
@@ -88,6 +106,16 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the sphere
         /// </summary>
+        public static bool LineSphere(Line3 line, Sphere sphere)
+        {
+            Vector3 pointA;
+            Vector3 pointB;
+            return LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the sphere
+        /// </summary>
         public static bool LineSphere(Line3 line, Sphere sphere, out Vector3 pointA, out Vector3 pointB)
         {
             return LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out pointA, out pointB);
@@ -96,14 +124,24 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the sphere
         /// </summary>
-        public static bool LineSphere(Vector3 origin, Vector3 direction, Vector3 center, float radius,
+        public static bool LineSphere(Vector3 lineOrigin, Vector3 lineDirection, Vector3 sphereCenter, float sphereRadius)
+        {
+            Vector3 pointA;
+            Vector3 pointB;
+            return LineSphere(lineOrigin, lineDirection, sphereCenter, sphereRadius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the sphere
+        /// </summary>
+        public static bool LineSphere(Vector3 lineOrigin, Vector3 lineDirection, Vector3 sphereCenter, float sphereRadius,
             out Vector3 pointA, out Vector3 pointB)
         {
-            Vector3 toCenter = center - origin;
-            float toCenterOnLine = Vector3.Dot(toCenter, direction);
+            Vector3 toCenter = sphereCenter - lineOrigin;
+            float toCenterOnLine = Vector3.Dot(toCenter, lineDirection);
             float sqrDistanceToLine = toCenter.sqrMagnitude - toCenterOnLine*toCenterOnLine;
 
-            float sqrRadius = radius*radius;
+            float sqrRadius = sphereRadius*sphereRadius;
             if (sqrDistanceToLine > sqrRadius)
             {
                 pointA = Vector3.zero;
@@ -119,14 +157,24 @@ namespace ProceduralToolkit
                 PTUtils.Swap(ref intersectionA, ref intersectionB);
             }
 
-            pointA = origin + intersectionA*direction;
-            pointB = origin + intersectionB*direction;
+            pointA = lineOrigin + intersectionA*lineDirection;
+            pointB = lineOrigin + intersectionB*lineDirection;
             return true;
         }
 
         #endregion Line-Sphere
 
         #region Ray-Sphere
+
+        /// <summary>
+        /// Computes an intersection of the ray and the sphere
+        /// </summary>
+        public static bool RaySphere(Ray ray, Sphere sphere)
+        {
+            Vector3 pointA;
+            Vector3 pointB;
+            return RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out pointA, out pointB);
+        }
 
         /// <summary>
         /// Computes an intersection of the ray and the sphere
@@ -139,13 +187,24 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the ray and the sphere
         /// </summary>
-        public static bool RaySphere(Vector3 origin, Vector3 direction, Vector3 center, float radius, out Vector3 pointA, out Vector3 pointB)
+        public static bool RaySphere(Vector3 rayOrigin, Vector3 rayDirection, Vector3 sphereCenter, float sphereRadius)
         {
-            Vector3 toCenter = center - origin;
-            float toCenterOnLine = Vector3.Dot(toCenter, direction);
+            Vector3 pointA;
+            Vector3 pointB;
+            return RaySphere(rayOrigin, rayDirection, sphereCenter, sphereRadius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the ray and the sphere
+        /// </summary>
+        public static bool RaySphere(Vector3 rayOrigin, Vector3 rayDirection, Vector3 sphereCenter, float sphereRadius, out Vector3 pointA,
+            out Vector3 pointB)
+        {
+            Vector3 toCenter = sphereCenter - rayOrigin;
+            float toCenterOnLine = Vector3.Dot(toCenter, rayDirection);
             float sqrDistanceToLine = toCenter.sqrMagnitude - toCenterOnLine*toCenterOnLine;
 
-            float sqrRadius = radius*radius;
+            float sqrRadius = sphereRadius*sphereRadius;
             if (sqrDistanceToLine > sqrRadius)
             {
                 pointA = Vector3.zero;
@@ -172,8 +231,8 @@ namespace ProceduralToolkit
                 }
             }
 
-            pointA = origin + intersectionA*direction;
-            pointB = origin + intersectionB*direction;
+            pointA = rayOrigin + intersectionA*rayDirection;
+            pointB = rayOrigin + intersectionB*rayDirection;
             return true;
         }
 

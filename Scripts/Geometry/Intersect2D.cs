@@ -288,7 +288,8 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool LineLine(Line2 lineA, Line2 lineB)
         {
-            return Distance.LineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction) < Geometry.Epsilon;
+            IntersectionLineLine2 intersection;
+            return LineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out intersection);
         }
 
         /// <summary>
@@ -304,7 +305,8 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool LineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB)
         {
-            return Distance.LineLine(originA, directionA, originB, directionB) < Geometry.Epsilon;
+            IntersectionLineLine2 intersection;
+            return LineLine(originA, directionA, originB, directionB, out intersection);
         }
 
         /// <summary>
@@ -387,7 +389,8 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool LineRay(Line2 line, Ray2D ray)
         {
-            return Distance.LineRay(line.origin, line.direction, ray.origin, ray.direction) < Geometry.Epsilon;
+            IntersectionLineRay2 intersection;
+            return LineRay(line.origin, line.direction, ray.origin, ray.direction, out intersection);
         }
 
         /// <summary>
@@ -403,7 +406,8 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool LineRay(Vector2 lineOrigin, Vector2 lineDirection, Vector2 rayOrigin, Vector2 rayDirection)
         {
-            return Distance.LineRay(lineOrigin, lineDirection, rayOrigin, rayDirection) < Geometry.Epsilon;
+            IntersectionLineRay2 intersection;
+            return LineRay(lineOrigin, lineDirection, rayOrigin, rayDirection, out intersection);
         }
 
         /// <summary>
@@ -449,9 +453,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the segment
         /// </summary>
+        public static bool LineSegment(Line2 line, Segment2 segment)
+        {
+            IntersectionLineSegment2 intersection;
+            return LineSegment(line.origin, line.direction, segment.a, segment.b, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the segment
+        /// </summary>
         public static bool LineSegment(Line2 line, Segment2 segment, out IntersectionLineSegment2 intersection)
         {
             return LineSegment(line.origin, line.direction, segment.a, segment.b, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the segment
+        /// </summary>
+        public static bool LineSegment(Vector2 lineOrigin, Vector2 lineDirection, Vector2 segmentA, Vector2 segmentB)
+        {
+            IntersectionLineSegment2 intersection;
+            return LineSegment(lineOrigin, lineDirection, segmentA, segmentB, out intersection);
         }
 
         /// <summary>
@@ -514,9 +536,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the circle
         /// </summary>
+        public static bool LineCircle(Line2 line, Circle circle)
+        {
+            IntersectionLineCircle intersection;
+            return LineCircle(line.origin, line.direction, circle.center, circle.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the circle
+        /// </summary>
         public static bool LineCircle(Line2 line, Circle circle, out IntersectionLineCircle intersection)
         {
             return LineCircle(line.origin, line.direction, circle.center, circle.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the line and the circle
+        /// </summary>
+        public static bool LineCircle(Vector2 lineOrigin, Vector2 lineDirection, Vector2 circleCenter, float circleRadius)
+        {
+            IntersectionLineCircle intersection;
+            return LineCircle(lineOrigin, lineDirection, circleCenter, circleRadius, out intersection);
         }
 
         /// <summary>
@@ -560,7 +600,8 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool RayRay(Ray2D rayA, Ray2D rayB)
         {
-            return Distance.RayRay(rayA.origin, rayA.direction, rayB.origin, rayB.direction) < Geometry.Epsilon;
+            IntersectionRayRay2 intersection;
+            return RayRay(rayA.origin, rayA.direction, rayB.origin, rayB.direction, out intersection);
         }
 
         /// <summary>
@@ -576,7 +617,8 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool RayRay(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB)
         {
-            return Distance.RayRay(originA, directionA, originB, directionB) < Geometry.Epsilon;
+            IntersectionRayRay2 intersection;
+            return RayRay(originA, directionA, originB, directionB, out intersection);
         }
 
         /// <summary>
@@ -651,9 +693,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the ray and the segment
         /// </summary>
+        public static bool RaySegment(Ray2D ray, Segment2 segment)
+        {
+            IntersectionRaySegment2 intersection;
+            return RaySegment(ray.origin, ray.direction, segment.a, segment.b, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the ray and the segment
+        /// </summary>
         public static bool RaySegment(Ray2D ray, Segment2 segment, out IntersectionRaySegment2 intersection)
         {
             return RaySegment(ray.origin, ray.direction, segment.a, segment.b, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the ray and the segment
+        /// </summary>
+        public static bool RaySegment(Vector2 rayOrigin, Vector2 rayDirection, Vector2 segmentA, Vector2 segmentB)
+        {
+            IntersectionRaySegment2 intersection;
+            return RaySegment(rayOrigin, rayDirection, segmentA, segmentB, out intersection);
         }
 
         /// <summary>
@@ -756,9 +816,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the ray and the circle
         /// </summary>
+        public static bool RayCircle(Ray2D ray, Circle circle)
+        {
+            IntersectionRayCircle intersection;
+            return RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the ray and the circle
+        /// </summary>
         public static bool RayCircle(Ray2D ray, Circle circle, out IntersectionRayCircle intersection)
         {
             return RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the ray and the circle
+        /// </summary>
+        public static bool RayCircle(Vector2 rayOrigin, Vector2 rayDirection, Vector2 circleCenter, float circleRadius)
+        {
+            IntersectionRayCircle intersection;
+            return RayCircle(rayOrigin, rayDirection, circleCenter, circleRadius, out intersection);
         }
 
         /// <summary>
@@ -1010,9 +1088,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the segment and the circle
         /// </summary>
+        public static bool SegmentCircle(Segment2 segment, Circle circle)
+        {
+            IntersectionSegmentCircle intersection;
+            return SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the segment and the circle
+        /// </summary>
         public static bool SegmentCircle(Segment2 segment, Circle circle, out IntersectionSegmentCircle intersection)
         {
             return SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the segment and the circle
+        /// </summary>
+        public static bool SegmentCircle(Vector2 segmentA, Vector2 segmentB, Vector2 circleCenter, float circleRadius)
+        {
+            IntersectionSegmentCircle intersection;
+            return SegmentCircle(segmentA, segmentB, circleCenter, circleRadius, out intersection);
         }
 
         /// <summary>
@@ -1121,7 +1217,8 @@ namespace ProceduralToolkit
         /// <returns>True if the circles intersect or one circle is contained within the other</returns>
         public static bool CircleCircle(Circle circleA, Circle circleB)
         {
-            return Distance.CircleCircle(circleA, circleB) < Geometry.Epsilon;
+            IntersectionCircleCircle intersection;
+            return CircleCircle(circleA.center, circleA.radius, circleB.center, circleB.radius, out intersection);
         }
 
         /// <summary>
@@ -1139,7 +1236,8 @@ namespace ProceduralToolkit
         /// <returns>True if the circles intersect or one circle is contained within the other</returns>
         public static bool CircleCircle(Vector2 centerA, float radiusA, Vector2 centerB, float radiusB)
         {
-            return Distance.CircleCircle(centerA, radiusA, centerB, radiusB) < Geometry.Epsilon;
+            IntersectionCircleCircle intersection;
+            return CircleCircle(centerA, radiusA, centerB, radiusB, out intersection);
         }
 
         /// <summary>
