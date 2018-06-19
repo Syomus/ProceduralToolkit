@@ -99,7 +99,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random point on a line segment
+        /// Returns a random point on a segment
         /// </summary>
         public static Vector2 PointOnSegment(Segment2 segment)
         {
@@ -107,7 +107,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random point on a line segment
+        /// Returns a random point on a segment
         /// </summary>
         public static Vector2 PointOnSegment(Vector2 segmentA, Vector2 segmentB)
         {
@@ -115,7 +115,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random point on a line segment
+        /// Returns a random point on a segment
         /// </summary>
         public static Vector3 PointOnSegment(Segment3 segment)
         {
@@ -123,7 +123,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random point on a line segment
+        /// Returns a random point on a segment
         /// </summary>
         public static Vector3 PointOnSegment(Vector3 segmentA, Vector3 segmentB)
         {

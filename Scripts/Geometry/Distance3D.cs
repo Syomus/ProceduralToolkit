@@ -50,7 +50,7 @@ namespace ProceduralToolkit
         #region Point-Segment
 
         /// <summary>
-        /// Returns a distance to the closest point on the line segment
+        /// Returns a distance to the closest point on the segment
         /// </summary>
         public static float PointSegment(Vector3 point, Segment3 segment)
         {
@@ -58,7 +58,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a distance to the closest point on the line segment
+        /// Returns a distance to the closest point on the segment
         /// </summary>
         public static float PointSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB)
         {
@@ -79,7 +79,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a distance to the closest point on the sphere defined by <paramref name="center"/> and <paramref name="radius"/>
+        /// Returns a distance to the closest point on the sphere
         /// </summary>
         /// <returns>Positive value if the point is outside, negative otherwise</returns>
         public static float PointSphere(Vector3 point, Vector3 center, float radius)

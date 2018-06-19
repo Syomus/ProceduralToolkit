@@ -28,7 +28,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the line defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Projects the point onto the line
         /// </summary>
         /// <param name="direction">Normalized direction of the line</param>
         public static Vector3 ClosestPointOnLine(Vector3 point, Vector3 origin, Vector3 direction)
@@ -38,7 +38,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the line defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Projects the point onto the line
         /// </summary>
         /// <param name="direction">Normalized direction of the line</param>
         /// <param name="projectedX">Position of the projected point on the line relative to the origin</param>
@@ -72,7 +72,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Projects the point onto the ray
         /// </summary>
         /// <param name="direction">Normalized direction of the ray</param>
         public static Vector3 ClosestPointOnRay(Vector3 point, Vector3 origin, Vector3 direction)
@@ -82,7 +82,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the ray defined by <paramref name="origin"/> and <paramref name="direction"/>
+        /// Projects the point onto the ray
         /// </summary>
         /// <param name="direction">Normalized direction of the ray</param>
         /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
@@ -114,7 +114,7 @@ namespace ProceduralToolkit
         #region Point-Segment
 
         /// <summary>
-        /// Projects the point onto the line segment
+        /// Projects the point onto the segment
         /// </summary>
         public static Vector3 ClosestPointOnSegment(Vector3 point, Segment3 segment)
         {
@@ -123,9 +123,9 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the line segment
+        /// Projects the point onto the segment
         /// </summary>
-        /// <param name="projectedX">Normalized position of the projected point on the line segment. 
+        /// <param name="projectedX">Normalized position of the projected point on the segment. 
         /// Value of zero means that the projected point coincides with segment.a. 
         /// Value of one means that the projected point coincides with segment.b.</param>
         public static Vector3 ClosestPointOnSegment(Vector3 point, Segment3 segment, out float projectedX)
@@ -134,7 +134,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
+        /// Projects the point onto the segment
         /// </summary>
         public static Vector3 ClosestPointOnSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB)
         {
@@ -143,9 +143,9 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the line segment defined by <paramref name="segmentA"/> and <paramref name="segmentB"/>
+        /// Projects the point onto the segment
         /// </summary>
-        /// <param name="projectedX">Normalized position of the projected point on the line segment. 
+        /// <param name="projectedX">Normalized position of the projected point on the segment. 
         /// Value of zero means that the projected point coincides with <paramref name="segmentA"/>. 
         /// Value of one means that the projected point coincides with <paramref name="segmentB"/>.</param>
         public static Vector3 ClosestPointOnSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB, out float projectedX)
@@ -191,7 +191,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Projects the point onto the sphere defined by <paramref name="center"/> and <paramref name="radius"/>
+        /// Projects the point onto the sphere
         /// </summary>
         public static Vector3 ClosestPointOnSphere(Vector3 point, Vector3 center, float radius)
         {
