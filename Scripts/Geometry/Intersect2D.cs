@@ -214,6 +214,50 @@ namespace ProceduralToolkit
                    pointProjection < Mathf.Sqrt(sqrSegmentLength) + Geometry.Epsilon;
         }
 
+        private static bool PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentDirection, float sqrSegmentLength)
+        {
+            float segmentLength = Mathf.Sqrt(sqrSegmentLength);
+            segmentDirection /= segmentLength;
+            Vector2 toPoint = point - segmentA;
+            float perpDot = VectorE.PerpDot(toPoint, segmentDirection);
+            if (-Geometry.Epsilon < perpDot && perpDot < Geometry.Epsilon)
+            {
+                float pointProjection = Vector2.Dot(segmentDirection, toPoint);
+                return pointProjection > -Geometry.Epsilon &&
+                       pointProjection < segmentLength + Geometry.Epsilon;
+            }
+            return false;
+        }
+
+        public static bool PointSegmentCollinear(Vector2 segmentA, Vector2 segmentB, Vector2 point)
+        {
+            if (Mathf.Abs(segmentA.x - segmentB.x) < Geometry.Epsilon)
+            {
+                // Vertical
+                if (segmentA.y <= point.y && point.y <= segmentB.y)
+                {
+                    return true;
+                }
+                if (segmentA.y >= point.y && point.y >= segmentB.y)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                // Not vertical
+                if (segmentA.x <= point.x && point.x <= segmentB.x)
+                {
+                    return true;
+                }
+                if (segmentA.x >= point.x && point.x >= segmentB.x)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         #endregion Point-Segment
 
         #region Point-Circle
@@ -812,6 +856,42 @@ namespace ProceduralToolkit
             Vector2 from2ATo1A = segment1A - segment2A;
             Vector2 direction1 = segment1B - segment1A;
             Vector2 direction2 = segment2B - segment2A;
+
+            float sqrSegment1Length = direction1.sqrMagnitude;
+            float sqrSegment2Length = direction2.sqrMagnitude;
+            bool segment1IsAPoint = sqrSegment1Length < Geometry.Epsilon;
+            bool segment2IsAPoint = sqrSegment2Length < Geometry.Epsilon;
+            if (segment1IsAPoint && segment2IsAPoint)
+            {
+                if (segment1A == segment2A)
+                {
+                    intersection = IntersectionSegmentSegment2.Point(segment1A);
+                    return true;
+                }
+                intersection = IntersectionSegmentSegment2.None();
+                return false;
+            }
+            if (segment1IsAPoint)
+            {
+                if (PointSegment(segment1A, segment2A, direction2, sqrSegment2Length))
+                {
+                    intersection = IntersectionSegmentSegment2.Point(segment1A);
+                    return true;
+                }
+                intersection = IntersectionSegmentSegment2.None();
+                return false;
+            }
+            if (segment2IsAPoint)
+            {
+                if (PointSegment(segment2A, segment1A, direction1, sqrSegment1Length))
+                {
+                    intersection = IntersectionSegmentSegment2.Point(segment2A);
+                    return true;
+                }
+                intersection = IntersectionSegmentSegment2.None();
+                return false;
+            }
+
             float denominator = VectorE.PerpDot(direction1, direction2);
             float perpDot1 = VectorE.PerpDot(direction1, from2ATo1A);
             float perpDot2 = VectorE.PerpDot(direction2, from2ATo1A);
@@ -825,40 +905,7 @@ namespace ProceduralToolkit
                     intersection = IntersectionSegmentSegment2.None();
                     return false;
                 }
-                // Collinear or degenerate
-
-                bool segment1IsAPoint = direction1.sqrMagnitude < Geometry.Epsilon;
-                bool segment2IsAPoint = direction2.sqrMagnitude < Geometry.Epsilon;
-                if (segment1IsAPoint && segment2IsAPoint)
-                {
-                    if (segment1A == segment2A)
-                    {
-                        intersection = IntersectionSegmentSegment2.Point(segment1A);
-                        return true;
-                    }
-                    intersection = IntersectionSegmentSegment2.None();
-                    return false;
-                }
-                if (segment1IsAPoint)
-                {
-                    if (CollinearPointInSegment(segment2A, segment2B, point: segment1A))
-                    {
-                        intersection = IntersectionSegmentSegment2.Point(segment1A);
-                        return true;
-                    }
-                    intersection = IntersectionSegmentSegment2.None();
-                    return false;
-                }
-                if (segment2IsAPoint)
-                {
-                    if (CollinearPointInSegment(segment1A, segment1B, point: segment2A))
-                    {
-                        intersection = IntersectionSegmentSegment2.Point(segment2A);
-                        return true;
-                    }
-                    intersection = IntersectionSegmentSegment2.None();
-                    return false;
-                }
+                // Collinear
 
                 bool codirected = Vector2.Dot(direction1, direction2) > 0;
                 if (codirected)
@@ -867,15 +914,15 @@ namespace ProceduralToolkit
                     float segment2AProjection = Vector2.Dot(direction1, from2ATo1A);
                     if (segment2AProjection > 0)
                     {
-                        // 2A------2B
                         //     1A------1B
-                        return SegmentSegmentCollinear(segment2A, segment2B, segment1A, segment1B, out intersection);
+                        // 2A------2B
+                        return SegmentSegmentCollinear(segment2A, segment2B, sqrSegment2Length, segment1A, segment1B, out intersection);
                     }
                     else
                     {
                         // 1A------1B
                         //     2A------2B
-                        return SegmentSegmentCollinear(segment1A, segment1B, segment2A, segment2B, out intersection);
+                        return SegmentSegmentCollinear(segment1A, segment1B, sqrSegment1Length, segment2A, segment2B, out intersection);
                     }
                 }
                 else
@@ -886,13 +933,13 @@ namespace ProceduralToolkit
                     {
                         // 1A------1B
                         //     2B------2A
-                        return SegmentSegmentCollinear(segment1A, segment1B, segment2B, segment2A, out intersection);
+                        return SegmentSegmentCollinear(segment1A, segment1B, sqrSegment1Length, segment2B, segment2A, out intersection);
                     }
                     else
                     {
-                        // 2B------2A
                         //     1A------1B
-                        return SegmentSegmentCollinear(segment2B, segment2A, segment1A, segment1B, out intersection);
+                        // 2B------2A
+                        return SegmentSegmentCollinear(segment2B, segment2A, sqrSegment2Length, segment1A, segment1B, out intersection);
                     }
                 }
             }
@@ -916,36 +963,7 @@ namespace ProceduralToolkit
             return true;
         }
 
-        public static bool CollinearPointInSegment(Vector2 segmentA, Vector2 segmentB, Vector2 point)
-        {
-            if (Mathf.Abs(segmentA.x - segmentB.x) < Geometry.Epsilon)
-            {
-                // Vertical
-                if (segmentA.y <= point.y && point.y <= segmentB.y)
-                {
-                    return true;
-                }
-                if (segmentA.y >= point.y && point.y >= segmentB.y)
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                // Not vertical
-                if (segmentA.x <= point.x && point.x <= segmentB.x)
-                {
-                    return true;
-                }
-                if (segmentA.x >= point.x && point.x >= segmentB.x)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private static bool SegmentSegmentCollinear(Vector2 leftA, Vector2 leftB, Vector2 rightA, Vector2 rightB,
+        private static bool SegmentSegmentCollinear(Vector2 leftA, Vector2 leftB, float sqrLeftLength, Vector2 rightA, Vector2 rightB,
             out IntersectionSegmentSegment2 intersection)
         {
             Vector2 leftDirection = leftB - leftA;
@@ -967,7 +985,7 @@ namespace ProceduralToolkit
                 //     RA------RB
                 Vector2 pointB;
                 float rightBProjection = Vector2.Dot(leftDirection, rightB - leftA);
-                if (rightBProjection > leftDirection.sqrMagnitude)
+                if (rightBProjection > sqrLeftLength)
                 {
                     pointB = leftB;
                 }

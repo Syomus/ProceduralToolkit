@@ -51,7 +51,7 @@ namespace ProceduralToolkit
         #region Point-Segment
 
         /// <summary>
-        /// Returns a distance to the closest point on the line segment
+        /// Returns a distance to the closest point on the segment
         /// </summary>
         public static float PointSegment(Vector2 point, Segment2 segment)
         {
@@ -59,11 +59,25 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a distance to the closest point on the line segment
+        /// Returns a distance to the closest point on the segment
         /// </summary>
         public static float PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB)
         {
             return Vector2.Distance(point, Geometry.ClosestPointOnSegment(point, segmentA, segmentB));
+        }
+
+        private static float PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, Vector2 segmentDirection, float segmentLength)
+        {
+            float pointProjection = Vector2.Dot(segmentDirection, point - segmentA);
+            if (pointProjection < -Geometry.Epsilon)
+            {
+                return Vector2.Distance(point, segmentA);
+            }
+            if (pointProjection > segmentLength + Geometry.Epsilon)
+            {
+                return Vector2.Distance(point, segmentB);
+            }
+            return Vector2.Distance(point, segmentA + segmentDirection*pointProjection);
         }
 
         #endregion Point-Segment
@@ -611,10 +625,28 @@ namespace ProceduralToolkit
         {
             Vector2 from2ATo1A = segment1A - segment2A;
             Vector2 direction1 = segment1B - segment1A;
-            float segment1Length = direction1.magnitude;
-            direction1.Normalize();
             Vector2 direction2 = segment2B - segment2A;
+            float segment1Length = direction1.magnitude;
             float segment2Length = direction2.magnitude;
+
+            bool segment1IsAPoint = segment1Length < Geometry.Epsilon;
+            bool segment2IsAPoint = segment2Length < Geometry.Epsilon;
+            if (segment1IsAPoint && segment2IsAPoint)
+            {
+                return Vector2.Distance(segment1A, segment2A);
+            }
+            if (segment1IsAPoint)
+            {
+                direction2.Normalize();
+                return PointSegment(segment1A, segment2A, segment2B, direction2, segment2Length);
+            }
+            if (segment2IsAPoint)
+            {
+                direction1.Normalize();
+                return PointSegment(segment2A, segment1A, segment1B, direction1, segment1Length);
+            }
+
+            direction1.Normalize();
             direction2.Normalize();
             float denominator = VectorE.PerpDot(direction1, direction2);
             float perpDot1 = VectorE.PerpDot(direction1, from2ATo1A);
@@ -665,47 +697,7 @@ namespace ProceduralToolkit
                     Vector2 segment2Point = segment2A + direction2*segment1AProjection;
                     return Vector2.Distance(segment1A, segment2Point);
                 }
-                // Collinear or degenerate
-
-                bool segment1IsAPoint = segment1Length < Geometry.Epsilon;
-                bool segment2IsAPoint = segment2Length < Geometry.Epsilon;
-                if (segment1IsAPoint && segment2IsAPoint)
-                {
-                    if (segment1A == segment2A)
-                    {
-                        // Point intersection
-                        return 0;
-                    }
-                    return Vector2.Distance(segment1A, segment2A);
-                }
-                if (segment1IsAPoint)
-                {
-                    if (Intersect.CollinearPointInSegment(segment2A, segment2B, point: segment1A))
-                    {
-                        // Point intersection
-                        return 0;
-                    }
-                    float segment1AProjection = Vector2.Dot(direction2, from2ATo1A);
-                    if (segment1AProjection < 0)
-                    {
-                        return Mathf.Abs(segment1AProjection);
-                    }
-                    return segment1AProjection - segment2Length;
-                }
-                if (segment2IsAPoint)
-                {
-                    if (Intersect.CollinearPointInSegment(segment1A, segment1B, point: segment2A))
-                    {
-                        // Point intersection
-                        return 0;
-                    }
-                    float segment2AProjection = -Vector2.Dot(direction1, from2ATo1A);
-                    if (segment2AProjection < 0)
-                    {
-                        return Mathf.Abs(segment2AProjection);
-                    }
-                    return segment2AProjection - segment1Length;
-                }
+                // Collinear
 
                 bool codirected = Vector2.Dot(direction1, direction2) > 0;
                 if (codirected)
@@ -714,15 +706,15 @@ namespace ProceduralToolkit
                     float segment2AProjection = Vector2.Dot(direction1, from2ATo1A);
                     if (segment2AProjection > 0)
                     {
-                        // 2A------2B
                         //     1A------1B
-                        return SegmentSegmentCollinear(segment2A, segment2B, segment1A, segment1B);
+                        // 2A------2B
+                        return SegmentSegmentCollinear(segment2A, segment2B, segment1A);
                     }
                     else
                     {
                         // 1A------1B
                         //     2A------2B
-                        return SegmentSegmentCollinear(segment1A, segment1B, segment2A, segment2B);
+                        return SegmentSegmentCollinear(segment1A, segment1B, segment2A);
                     }
                 }
                 else
@@ -733,13 +725,13 @@ namespace ProceduralToolkit
                     {
                         // 1A------1B
                         //     2B------2A
-                        return SegmentSegmentCollinear(segment1A, segment1B, segment2B, segment2A);
+                        return SegmentSegmentCollinear(segment1A, segment1B, segment2B);
                     }
                     else
                     {
-                        // 2B------2A
                         //     1A------1B
-                        return SegmentSegmentCollinear(segment2B, segment2A, segment1A, segment1B);
+                        // 2B------2A
+                        return SegmentSegmentCollinear(segment2B, segment2A, segment1A);
                     }
                 }
             }
@@ -840,7 +832,7 @@ namespace ProceduralToolkit
             return 0;
         }
 
-        private static float SegmentSegmentCollinear(Vector2 leftA, Vector2 leftB, Vector2 rightA, Vector2 rightB)
+        private static float SegmentSegmentCollinear(Vector2 leftA, Vector2 leftB, Vector2 rightA)
         {
             Vector2 leftDirection = leftB - leftA;
             float rightAProjection = Vector2.Dot(leftDirection.normalized, rightA - leftB);
