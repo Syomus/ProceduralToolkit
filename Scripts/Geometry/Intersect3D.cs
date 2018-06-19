@@ -307,5 +307,131 @@ namespace ProceduralToolkit
         }
 
         #endregion Ray-Sphere
+
+        #region Segment-Sphere
+
+        /// <summary>
+        /// Computes an intersection of the segment and the sphere
+        /// </summary>
+        public static bool SegmentSphere(Segment3 segment, Sphere sphere)
+        {
+            IntersectionSegmentSphere intersection;
+            return SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the segment and the sphere
+        /// </summary>
+        public static bool SegmentSphere(Segment3 segment, Sphere sphere, out IntersectionSegmentSphere intersection)
+        {
+            return SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the segment and the sphere
+        /// </summary>
+        public static bool SegmentSphere(Vector3 segmentA, Vector3 segmentB, Vector3 sphereCenter, float sphereRadius)
+        {
+            IntersectionSegmentSphere intersection;
+            return SegmentSphere(segmentA, segmentB, sphereCenter, sphereRadius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the segment and the sphere
+        /// </summary>
+        public static bool SegmentSphere(Vector3 segmentA, Vector3 segmentB, Vector3 sphereCenter, float sphereRadius,
+            out IntersectionSegmentSphere intersection)
+        {
+            Vector3 segmentAToCenter = sphereCenter - segmentA;
+            Vector3 fromAtoB = segmentB - segmentA;
+            float segmentLength = fromAtoB.magnitude;
+            if (segmentLength < Geometry.Epsilon)
+            {
+                float distanceToPoint = segmentAToCenter.magnitude;
+                if (distanceToPoint < sphereRadius + Geometry.Epsilon)
+                {
+                    if (distanceToPoint > sphereRadius - Geometry.Epsilon)
+                    {
+                        intersection = IntersectionSegmentSphere.Point(segmentA);
+                        return true;
+                    }
+                    intersection = IntersectionSegmentSphere.None();
+                    return true;
+                }
+                intersection = IntersectionSegmentSphere.None();
+                return false;
+            }
+
+            Vector3 segmentDirection = fromAtoB.normalized;
+            float centerProjection = Vector3.Dot(segmentDirection, segmentAToCenter);
+            if (centerProjection + sphereRadius < -Geometry.Epsilon ||
+                centerProjection - sphereRadius > segmentLength + Geometry.Epsilon)
+            {
+                intersection = IntersectionSegmentSphere.None();
+                return false;
+            }
+
+            float sqrDistanceToLine = segmentAToCenter.sqrMagnitude - centerProjection*centerProjection;
+            float sqrDistanceToIntersection = sphereRadius*sphereRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
+            {
+                intersection = IntersectionSegmentSphere.None();
+                return false;
+            }
+
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
+            {
+                if (centerProjection < -Geometry.Epsilon ||
+                    centerProjection > segmentLength + Geometry.Epsilon)
+                {
+                    intersection = IntersectionSegmentSphere.None();
+                    return false;
+                }
+                intersection = IntersectionSegmentSphere.Point(segmentA + segmentDirection*centerProjection);
+                return true;
+            }
+
+            // Line intersection
+            float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
+            float distanceA = centerProjection - distanceToIntersection;
+            float distanceB = centerProjection + distanceToIntersection;
+
+            bool pointAIsAfterSegmentA = distanceA > -Geometry.Epsilon;
+            bool pointBIsBeforeSegmentB = distanceB < segmentLength + Geometry.Epsilon;
+
+            if (pointAIsAfterSegmentA && pointBIsBeforeSegmentB)
+            {
+                Vector3 pointA = segmentA + segmentDirection*distanceA;
+                Vector3 pointB = segmentA + segmentDirection*distanceB;
+                intersection = IntersectionSegmentSphere.TwoPoints(pointA, pointB);
+                return true;
+            }
+            if (!pointAIsAfterSegmentA && !pointBIsBeforeSegmentB)
+            {
+                // The segment is inside, but no intersection
+                intersection = IntersectionSegmentSphere.None();
+                return true;
+            }
+
+            bool pointAIsBeforeSegmentB = distanceA < segmentLength + Geometry.Epsilon;
+            if (pointAIsAfterSegmentA && pointAIsBeforeSegmentB)
+            {
+                // Point A intersection
+                intersection = IntersectionSegmentSphere.Point(segmentA + segmentDirection*distanceA);
+                return true;
+            }
+            bool pointBIsAfterSegmentA = distanceB > -Geometry.Epsilon;
+            if (pointBIsAfterSegmentA && pointBIsBeforeSegmentB)
+            {
+                // Point B intersection
+                intersection = IntersectionSegmentSphere.Point(segmentA + segmentDirection*distanceB);
+                return true;
+            }
+
+            intersection = IntersectionSegmentSphere.None();
+            return false;
+        }
+
+        #endregion Segment-Sphere
     }
 }
