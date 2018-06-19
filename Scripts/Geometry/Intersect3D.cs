@@ -7,6 +7,66 @@ namespace ProceduralToolkit
     /// </summary>
     public static partial class Intersect
     {
+        #region Point-Line
+
+        /// <summary>
+        /// Tests if the point lies on the line
+        /// </summary>
+        public static bool PointLine(Vector3 point, Line3 line)
+        {
+            return PointLine(point, line.origin, line.direction);
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the line
+        /// </summary>
+        public static bool PointLine(Vector3 point, Vector3 lineOrigin, Vector3 lineDirection)
+        {
+            return Distance.PointLine(point, lineOrigin, lineDirection) < Geometry.Epsilon;
+        }
+
+        #endregion Point-Line
+
+        #region Point-Ray
+
+        /// <summary>
+        /// Tests if the point lies on the ray
+        /// </summary>
+        public static bool PointRay(Vector3 point, Ray ray)
+        {
+            return PointRay(point, ray.origin, ray.direction);
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the ray
+        /// </summary>
+        public static bool PointRay(Vector3 point, Vector3 rayOrigin, Vector3 rayDirection)
+        {
+            return Distance.PointRay(point, rayOrigin, rayDirection) < Geometry.Epsilon;
+        }
+
+        #endregion Point-Ray
+
+        #region Point-Segment
+
+        /// <summary>
+        /// Tests if the point lies on the segment
+        /// </summary>
+        public static bool PointSegment(Vector3 point, Segment3 segment)
+        {
+            return PointSegment(point, segment.a, segment.b);
+        }
+
+        /// <summary>
+        /// Tests if the point lies on the segment
+        /// </summary>
+        public static bool PointSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB)
+        {
+            return Distance.PointSegment(point, segmentA, segmentB) < Geometry.Epsilon;
+        }
+
+        #endregion Point-Segment
+
         #region Point-Sphere
 
         /// <summary>
@@ -136,8 +196,8 @@ namespace ProceduralToolkit
         public static bool LineSphere(Vector3 lineOrigin, Vector3 lineDirection, Vector3 sphereCenter, float sphereRadius,
             out IntersectionLineSphere intersection)
         {
-            Vector2 originToCenter = sphereCenter - lineOrigin;
-            float centerProjection = Vector2.Dot(lineDirection, originToCenter);
+            Vector3 originToCenter = sphereCenter - lineOrigin;
+            float centerProjection = Vector3.Dot(lineDirection, originToCenter);
             float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
 
             float sqrDistanceToIntersection = sphereRadius*sphereRadius - sqrDistanceToLine;
@@ -156,8 +216,8 @@ namespace ProceduralToolkit
             float distanceA = centerProjection - distanceToIntersection;
             float distanceB = centerProjection + distanceToIntersection;
 
-            Vector2 pointA = lineOrigin + lineDirection*distanceA;
-            Vector2 pointB = lineOrigin + lineDirection*distanceB;
+            Vector3 pointA = lineOrigin + lineDirection*distanceA;
+            Vector3 pointB = lineOrigin + lineDirection*distanceB;
             intersection = IntersectionLineSphere.TwoPoints(pointA, pointB);
             return true;
         }
