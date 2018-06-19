@@ -1150,6 +1150,28 @@ namespace ProceduralToolkit
             Vector2 segmentAToCenter = circleCenter - segmentA;
             Vector2 fromAtoB = segmentB - segmentA;
             float segmentLength = fromAtoB.magnitude;
+            if (segmentLength < Epsilon)
+            {
+                segmentPoint = segmentA;
+                float distanceToPoint = segmentAToCenter.magnitude;
+                if (distanceToPoint < circleRadius + Epsilon)
+                {
+                    if (distanceToPoint > circleRadius - Epsilon)
+                    {
+                        circlePoint = segmentPoint;
+                        return;
+                    }
+                    if (distanceToPoint < Epsilon)
+                    {
+                        circlePoint = segmentPoint;
+                        return;
+                    }
+                }
+                Vector2 toPoint = -segmentAToCenter/distanceToPoint;
+                circlePoint = circleCenter + toPoint*circleRadius;
+                return;
+            }
+
             Vector2 segmentDirection = fromAtoB.normalized;
             float centerProjection = Vector2.Dot(segmentDirection, segmentAToCenter);
             if (centerProjection + circleRadius < -Epsilon ||

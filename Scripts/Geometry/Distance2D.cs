@@ -884,6 +884,11 @@ namespace ProceduralToolkit
             Vector2 segmentAToCenter = circleCenter - segmentA;
             Vector2 fromAtoB = segmentB - segmentA;
             float segmentLength = fromAtoB.magnitude;
+            if (segmentLength < Geometry.Epsilon)
+            {
+                return segmentAToCenter.magnitude - circleRadius;
+            }
+
             Vector2 segmentDirection = fromAtoB.normalized;
             float centerProjection = Vector2.Dot(segmentDirection, segmentAToCenter);
             if (centerProjection + circleRadius < -Geometry.Epsilon ||

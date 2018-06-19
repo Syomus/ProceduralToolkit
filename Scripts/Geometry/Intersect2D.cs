@@ -1024,6 +1024,23 @@ namespace ProceduralToolkit
             Vector2 segmentAToCenter = circleCenter - segmentA;
             Vector2 fromAtoB = segmentB - segmentA;
             float segmentLength = fromAtoB.magnitude;
+            if (segmentLength < Geometry.Epsilon)
+            {
+                float distanceToPoint = segmentAToCenter.magnitude;
+                if (distanceToPoint < circleRadius + Geometry.Epsilon)
+                {
+                    if (distanceToPoint > circleRadius - Geometry.Epsilon)
+                    {
+                        intersection = IntersectionSegmentCircle.Point(segmentA);
+                        return true;
+                    }
+                    intersection = IntersectionSegmentCircle.None();
+                    return true;
+                }
+                intersection = IntersectionSegmentCircle.None();
+                return false;
+            }
+
             Vector2 segmentDirection = fromAtoB.normalized;
             float centerProjection = Vector2.Dot(segmentDirection, segmentAToCenter);
             if (centerProjection + circleRadius < -Geometry.Epsilon ||
