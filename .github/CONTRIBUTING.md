@@ -16,10 +16,10 @@ Alternatively, you can send a message to the [support email](mailto:proceduralto
 If you have an idea on how to improve Procedural Toolkit, don't hesitate to 
 [open a new issue](https://github.com/Syomus/ProceduralToolkit/issues/new/choose) and describe in details what you have in mind.
 
-## Proofreading
+### Proofreading
 If you find a typo or bad writing, let us know and [open a new issue](https://github.com/Syomus/ProceduralToolkit/issues/new/choose) 
 or, even better, send a [pull request](https://github.com/Syomus/ProceduralToolkit/pulls) on GitHub.
 
-## Help wanted label
+### Help wanted label
 If you're looking for something to work on, check out the 
 [help wanted](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aissue+is%3Aopen+label%3A"help+wanted") label.

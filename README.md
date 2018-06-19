@@ -79,7 +79,7 @@ If you just want to show your appreciation, you can send a donation through [Pay
 * [TextureE](Scripts/TextureE.cs): Texture extensions.
 * [VectorE](Scripts/VectorE.cs): Vector extensions.
 
-### [Scripts/Geometry](Scripts/Geometry)
+### [Scripts\Geometry](Scripts/Geometry)
 Collection of basic computational geometry algorithms and primitives.
 
 ### Scripts\Editor
@@ -100,8 +100,8 @@ Collection of basic computational geometry algorithms and primitives.
 ## Examples
 `Examples\Resources` contains UI prefabs and a skybox material used in examples. `Examples\Common` contains scripts for ui controls, a camera rotator and a skybox generator.
 
-### <a href="http://syomus.com/ProceduralToolkit/Buildings">Buildings</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-buildings.png">
+### [Buildings](http://syomus.com/ProceduralToolkit/Buildings)
+![](http://syomus.com/ProceduralToolkit/screenshot-buildings.png)
 
 A fully procedural building generator, creates entire mesh from scratch and paints it's vertices. Keep in mind that there is no uv map in the generated mesh so using using it with Standard shader is pointless. If you are interested, the building design is called [Khrushchyovka](https://en.wikipedia.org/wiki/Khrushchyovka).
 * BuildingGenerator: Main generator class. Generates buildings based on input configuration.
@@ -112,8 +112,8 @@ A fully procedural building generator, creates entire mesh from scratch and pain
 * ProceduralFacadePanel: Fully procedural facade panels for building generator.
 * RoofGenerator: A simple roof generator, generates a roof MeshDraft from a foundation polygon and a config.
 
-### <a href="http://syomus.com/ProceduralToolkit/Chairs">Chairs</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-chairs.png">
+### [Chairs](http://syomus.com/ProceduralToolkit/Chairs)
+![](http://syomus.com/ProceduralToolkit/screenshot-chairs.png)
 
 A fully procedural chair generator, creates entire mesh from scratch and paints it's vertices.
 * ChairGenerator: Main generator class. Generates chairs based on input configuration.
@@ -121,16 +121,16 @@ A fully procedural chair generator, creates entire mesh from scratch and paints 
 * ChairGeneratorConfiguratorEditor: Custom inspector for ChairGeneratorConfigurator.
 * Armrests, Backs, Stretchers: Chair parts constructors.
 
-### <a href="http://syomus.com/ProceduralToolkit/LowPolyTerrain">Low Poly Terrain</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-low-poly-terrain.png">
+### [Low Poly Terrain](http://syomus.com/ProceduralToolkit/LowPolyTerrain)
+![](http://syomus.com/ProceduralToolkit/screenshot-low-poly-terrain.png)
 
 A simple Perlin noise based low poly terrain generator. Doesn't support chunking or anything like that, just an example of how you can use a noise function in a plane generation algorithm.
 * LowPolyTerrainGenerator: Main generator class. Generates terrain based on input configuration.
 * LowPolyTerrainGeneratorConfigurator: Configurator for LowPolyTerrainGenerator with UI and editor controls.
 * LowPolyTerrainGeneratorConfiguratorEditor: Custom inspector for LowPolyTerrainGeneratorConfigurator.
 
-### <a href="http://syomus.com/ProceduralToolkit/SDF">Signed Distance Functions</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-sdf.png">
+### [Signed Distance Functions](http://syomus.com/ProceduralToolkit/SDF)
+![](http://syomus.com/ProceduralToolkit/screenshot-sdf.png)
 
 A collection of shaders showing how you can utilise functions from the shader library.
 * StarPolygon: A simple shader that draws a star polygon and shows a difference beween "normal" and "cheap" functions.
@@ -140,30 +140,30 @@ A collection of shaders showing how you can utilise functions from the shader li
 * Transitions: An example showing the sequencing and animation techniques.
 * Animation: A more complex example on how you can create patterns and animate them in shader.
 
-### <a href="http://syomus.com/ProceduralToolkit/CellularAutomata">Cellular Automata</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-cellular-automata.png">
+### [Cellular Automata](http://syomus.com/ProceduralToolkit/CellularAutomata)
+![](http://syomus.com/ProceduralToolkit/screenshot-cellular-automata.png)
 
 A demonstration of CellularAutomaton from the main library, draws the automaton simulation on a texture. Note that some of the rulesets need noise value different from the default setting.
 * CellularAutomatonConfigurator: Configurator for the automaton with UI controls.
 
-### <a href="http://syomus.com/ProceduralToolkit/Mazes">Mazes</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-mazes.png">
+### [Mazes](http://syomus.com/ProceduralToolkit/Mazes)
+![](http://syomus.com/ProceduralToolkit/screenshot-mazes.png)
 
 A generic maze generator, draws the maze generation process on a texture.
 * MazeGenerator: Main generator class. Generates mazes based on input configuration.
 * MazeGeneratorConfigurator: Configurator for MazeGenerator with UI controls.
 * Maze: Maze graph representation.
 
-### <a href="http://syomus.com/ProceduralToolkit/Breakout">Breakout</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-breakout.png">
+### [Breakout](http://syomus.com/ProceduralToolkit/Breakout)
+![](http://syomus.com/ProceduralToolkit/screenshot-breakout.png)
 
 A [Breakout](https://en.wikipedia.org/wiki/Breakout_(video_game)) clone with procedurally generated levels.
 * Breakout: Game engine and level generator.
 * BreakoutConfigurator: Configurator for the game with UI controls.
 * Brick: Disables game object on collision.
 
-### <a href="http://syomus.com/ProceduralToolkit/Characters">Characters</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-characters.gif">
+### [Characters](http://syomus.com/ProceduralToolkit/Characters)
+![](http://syomus.com/ProceduralToolkit/screenshot-characters.gif)
 
 A simple 2D character generator. Sprites made by <a href="http://kenney.nl/">Kenney</a>.
 * Character: A container for sprite renderers
@@ -171,8 +171,8 @@ A simple 2D character generator. Sprites made by <a href="http://kenney.nl/">Ken
 * CharacterGeneratorConfigurator: Configurator for CharacterGenerator.
 * NameGenerator: Generates a random name from a large array of names.
 
-### <a href="http://syomus.com/ProceduralToolkit/Primitives">Primitives</a>
-<img src="http://syomus.com/ProceduralToolkit/screenshot-primitives.png">
+### [Primitives](http://syomus.com/ProceduralToolkit/Primitives)
+![](http://syomus.com/ProceduralToolkit/screenshot-primitives.png)
 
 A demonstration of some of the available MeshDraft primitives.
 * Cylinder, Dodecahedron, FlatSphere, Hexahedron...: Mesh generators that can be configured via the inspector.
