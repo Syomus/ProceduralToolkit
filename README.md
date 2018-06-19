@@ -11,7 +11,7 @@ Procedural Toolkit is a procedural generation library for the Unity game engine.
 [Support email](mailto:proceduraltoolkit@syomus.com)
 
 ## Installation instructions
-Requires **Unity 2017.2** or later. Tested on Windows, WebGL, Android and iOS. UnityScript is not supported.
+Requires **Unity 2017.3** or later. Tested on Windows, WebGL, Android and iOS.
 
 You can install Procedural Toolkit from any of the following sources:
 
@@ -42,25 +42,25 @@ public class ReadmeExample : MonoBehaviour
 ```
 
 ## Scripts
-* ArrayE: Various Array and List extensions, such as looped getters/setters and flood fills.
-* CellularAutomaton: Generic cellular automaton for two-state rulesets. Common rulesets can be found in CellularAutomaton.Ruleset.
-* ColorE: Color extensions, HTML colors, Gradient constructors.
-* ColorHSV: Serializable representation of color in HSV model.
-* CompoundMeshDraft: Helper class for mesh generation supporting large meshes and submeshes.
-* DebugE: Collection of drawing methods similar to Debug.DrawLine.
-* Directions: Enum with direction flags along three axes.
-* Draw: Collection of generic vector drawing algorithms.
-* DrawRaster: Collection of generic raster drawing algorithms.
-* Geometry: Collection of basic computational geometry algorithms (distance, intersection, closest point, etc.)
-* GizmosE: Collection of drawing methods similar to Gizmos.
-* GLE: Collection of GL drawing methods similar to Gizmos.
-* MeshDraft: Helper class for mesh generation.
-* MeshDraftPrimitives: Constructors for MeshDraft primitives.
-* MeshE: Mesh extensions.
-* PTUtils: Various useful methods and constants.
-* RandomE: Class for generating random data. Contains extensions for arrays and other collections.
-* TextureE: Texture extensions.
-* VectorE: Vector extensions.
+* [ArrayE](Scripts/ArrayE.cs): Various Array and List extensions, such as looped getters/setters and flood fills.
+* [CellularAutomaton](Scripts/CellularAutomaton.cs): Generic cellular automaton for two-state rulesets. Common rulesets can be found in CellularAutomaton.Ruleset.
+* [ColorE](Scripts/ColorE.cs): Color extensions, HTML colors, Gradient constructors.
+* [ColorHSV](Scripts/ColorHSV.cs): Serializable representation of color in HSV model.
+* [CompoundMeshDraft](Scripts/CompoundMeshDraft.cs): Helper class for mesh generation supporting large meshes and submeshes.
+* [DebugE](Scripts/DebugE.cs): Collection of drawing methods similar to Debug.DrawLine.
+* [Directions](Scripts/Directions.cs): Enum with direction flags along three axes.
+* [Draw](Scripts/Draw.cs): Collection of generic vector drawing algorithms.
+* [DrawRaster](Scripts/DrawRaster.cs): Collection of generic raster drawing algorithms.
+* [Geometry](Scripts/Geometry): Collection of basic computational geometry algorithms (distance, intersection, closest point, etc.)
+* [GizmosE](Scripts/GizmosE.cs): Collection of drawing methods similar to Gizmos.
+* [GLE](Scripts/GLE.cs): Collection of GL drawing methods similar to Gizmos.
+* [MeshDraft](Scripts/MeshDraft.cs): Helper class for mesh generation.
+* [MeshDraftPrimitives](Scripts/MeshDraftPrimitives.cs): Constructors for MeshDraft primitives.
+* [MeshE](Scripts/MeshE.cs): Mesh extensions.
+* [PTUtils](Scripts/PTUtils.cs): Various useful methods and constants.
+* [RandomE](Scripts/RandomE.cs): Class for generating random data. Contains extensions for arrays and other collections.
+* [TextureE](Scripts/TextureE.cs): Texture extensions.
+* [VectorE](Scripts/VectorE.cs): Vector extensions.
 
 ## Scripts\Editor
 * ColorHSVDrawer: PropertyDrawer for ColorHSV.
@@ -167,7 +167,7 @@ An example showing usage of DebugE, GLE and GizmosE.
 * ConfiguratorBase: Base class for configurators.
 
 ## Contributing
-If you have found a bug or there is something you want added or changed, you are welcome to [submit an issue](https://github.com/Syomus/ProceduralToolkit/issues) or [pull request](https://github.com/Syomus/ProceduralToolkit/pulls) on the github page. Alternatively, you can send a message to the [support email](mailto:proceduraltoolkit@syomus.com).
+See [CONTRIBUTING](CONTRIBUTING.md)
 
 ## License
 [MIT](LICENSE.txt)
