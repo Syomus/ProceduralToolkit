@@ -298,5 +298,33 @@ namespace ProceduralToolkit
         }
 
         #endregion Segment-Sphere
+
+        #region Sphere-Sphere
+
+        /// <summary>
+        /// Returns the distance between the closest points on the spheres
+        /// </summary>
+        /// <returns>
+        /// Positive value if the spheres do not intersect, negative otherwise.
+        /// Negative value can be interpreted as depth of penetration.
+        /// </returns>
+        public static float SphereSphere(Sphere sphereA, Sphere sphereB)
+        {
+            return SphereSphere(sphereA.center, sphereA.radius, sphereB.center, sphereB.radius);
+        }
+
+        /// <summary>
+        /// Returns the distance between the closest points on the spheres
+        /// </summary>
+        /// <returns>
+        /// Positive value if the spheres do not intersect, negative otherwise.
+        /// Negative value can be interpreted as depth of penetration.
+        /// </returns>
+        public static float SphereSphere(Vector3 centerA, float radiusA, Vector3 centerB, float radiusB)
+        {
+            return Vector3.Distance(centerA, centerB) - radiusA - radiusB;
+        }
+
+        #endregion Sphere-Sphere
     }
 }

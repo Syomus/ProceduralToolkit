@@ -467,5 +467,28 @@ namespace ProceduralToolkit
         }
 
         #endregion Segment-Sphere
+
+        #region Sphere-Sphere
+
+        /// <summary>
+        /// Finds closest points on the spheres
+        /// </summary>
+        public static void SphereSphere(Sphere sphereA, Sphere sphereB, out Vector3 pointA, out Vector3 pointB)
+        {
+            SphereSphere(sphereA.center, sphereA.radius, sphereB.center, sphereB.radius, out pointA, out pointB);
+        }
+
+        /// <summary>
+        /// Finds closest points on the spheres
+        /// </summary>
+        public static void SphereSphere(Vector3 centerA, float radiusA, Vector3 centerB, float radiusB,
+            out Vector3 pointA, out Vector3 pointB)
+        {
+            Vector3 fromBtoA = (centerA - centerB).normalized;
+            pointA = centerA - fromBtoA*radiusA;
+            pointB = centerB + fromBtoA*radiusB;
+        }
+
+        #endregion Sphere-Sphere
     }
 }
