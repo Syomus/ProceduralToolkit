@@ -14,7 +14,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointLine(Vector2 point, Line2 line)
         {
-            return Vector2.Distance(point, Geometry.ClosestPointOnLine(point, line));
+            return Vector2.Distance(point, Closest.PointLine(point, line));
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointLine(Vector2 point, Vector2 lineOrigin, Vector2 lineDirection)
         {
-            return Vector2.Distance(point, Geometry.ClosestPointOnLine(point, lineOrigin, lineDirection));
+            return Vector2.Distance(point, Closest.PointLine(point, lineOrigin, lineDirection));
         }
 
         #endregion Point-Line
@@ -34,7 +34,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointRay(Vector2 point, Ray2D ray)
         {
-            return Vector2.Distance(point, Geometry.ClosestPointOnRay(point, ray));
+            return Vector2.Distance(point, Closest.PointRay(point, ray));
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace ProceduralToolkit
         /// <param name="rayDirection">Normalized direction of the ray</param>
         public static float PointRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection)
         {
-            return Vector2.Distance(point, Geometry.ClosestPointOnRay(point, rayOrigin, rayDirection));
+            return Vector2.Distance(point, Closest.PointRay(point, rayOrigin, rayDirection));
         }
 
         #endregion Point-Ray
@@ -55,7 +55,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointSegment(Vector2 point, Segment2 segment)
         {
-            return Vector2.Distance(point, Geometry.ClosestPointOnSegment(point, segment));
+            return Vector2.Distance(point, Closest.PointSegment(point, segment));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB)
         {
-            return Vector2.Distance(point, Geometry.ClosestPointOnSegment(point, segmentA, segmentB));
+            return Vector2.Distance(point, Closest.PointSegment(point, segmentA, segmentB));
         }
 
         private static float PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, Vector2 segmentDirection, float segmentLength)

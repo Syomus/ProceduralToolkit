@@ -3,40 +3,38 @@ using UnityEngine;
 namespace ProceduralToolkit
 {
     /// <summary>
-    /// Collection of basic computational geometry algorithms
+    /// Collection of closest point(s) algorithms
     /// </summary>
-    public static partial class Geometry
+    public static partial class Closest
     {
-        public const float Epsilon = 0.00001f;
-
         #region Point-Line
 
         /// <summary>
         /// Projects the point onto the line
         /// </summary>
-        public static Vector2 ClosestPointOnLine(Vector2 point, Line2 line)
+        public static Vector2 PointLine(Vector2 point, Line2 line)
         {
             float projectedX;
-            return ClosestPointOnLine(point, line.origin, line.direction, out projectedX);
+            return PointLine(point, line.origin, line.direction, out projectedX);
         }
 
         /// <summary>
         /// Projects the point onto the line
         /// </summary>
         /// <param name="projectedX">Position of the projected point on the line relative to the origin</param>
-        public static Vector2 ClosestPointOnLine(Vector2 point, Line2 line, out float projectedX)
+        public static Vector2 PointLine(Vector2 point, Line2 line, out float projectedX)
         {
-            return ClosestPointOnLine(point, line.origin, line.direction, out projectedX);
+            return PointLine(point, line.origin, line.direction, out projectedX);
         }
 
         /// <summary>
         /// Projects the point onto the line
         /// </summary>
         /// <param name="lineDirection">Normalized direction of the line</param>
-        public static Vector2 ClosestPointOnLine(Vector2 point, Vector2 lineOrigin, Vector2 lineDirection)
+        public static Vector2 PointLine(Vector2 point, Vector2 lineOrigin, Vector2 lineDirection)
         {
             float projectedX;
-            return ClosestPointOnLine(point, lineOrigin, lineDirection, out projectedX);
+            return PointLine(point, lineOrigin, lineDirection, out projectedX);
         }
 
         /// <summary>
@@ -44,7 +42,7 @@ namespace ProceduralToolkit
         /// </summary>
         /// <param name="lineDirection">Normalized direction of the line</param>
         /// <param name="projectedX">Position of the projected point on the line relative to the origin</param>
-        public static Vector2 ClosestPointOnLine(Vector2 point, Vector2 lineOrigin, Vector2 lineDirection, out float projectedX)
+        public static Vector2 PointLine(Vector2 point, Vector2 lineOrigin, Vector2 lineDirection, out float projectedX)
         {
             // In theory, sqrMagnitude should be 1, but in practice this division helps with numerical stability
             projectedX = Vector2.Dot(lineDirection, point - lineOrigin)/lineDirection.sqrMagnitude;
@@ -58,29 +56,29 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the ray
         /// </summary>
-        public static Vector2 ClosestPointOnRay(Vector2 point, Ray2D ray)
+        public static Vector2 PointRay(Vector2 point, Ray2D ray)
         {
             float projectedX;
-            return ClosestPointOnRay(point, ray.origin, ray.direction, out projectedX);
+            return PointRay(point, ray.origin, ray.direction, out projectedX);
         }
 
         /// <summary>
         /// Projects the point onto the ray
         /// </summary>
         /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
-        public static Vector2 ClosestPointOnRay(Vector2 point, Ray2D ray, out float projectedX)
+        public static Vector2 PointRay(Vector2 point, Ray2D ray, out float projectedX)
         {
-            return ClosestPointOnRay(point, ray.origin, ray.direction, out projectedX);
+            return PointRay(point, ray.origin, ray.direction, out projectedX);
         }
 
         /// <summary>
         /// Projects the point onto the ray
         /// </summary>
         /// <param name="rayDirection">Normalized direction of the ray</param>
-        public static Vector2 ClosestPointOnRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection)
+        public static Vector2 PointRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection)
         {
             float projectedX;
-            return ClosestPointOnRay(point, rayOrigin, rayDirection, out projectedX);
+            return PointRay(point, rayOrigin, rayDirection, out projectedX);
         }
 
         /// <summary>
@@ -88,7 +86,7 @@ namespace ProceduralToolkit
         /// </summary>
         /// <param name="rayDirection">Normalized direction of the ray</param>
         /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
-        public static Vector2 ClosestPointOnRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection, out float projectedX)
+        public static Vector2 PointRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection, out float projectedX)
         {
             float dotToPoint = Vector2.Dot(rayDirection, point - rayOrigin);
             if (dotToPoint <= 0)
@@ -109,10 +107,10 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the segment
         /// </summary>
-        public static Vector2 ClosestPointOnSegment(Vector2 point, Segment2 segment)
+        public static Vector2 PointSegment(Vector2 point, Segment2 segment)
         {
             float projectedX;
-            return ClosestPointOnSegment(point, segment.a, segment.b, out projectedX);
+            return PointSegment(point, segment.a, segment.b, out projectedX);
         }
 
         /// <summary>
@@ -121,18 +119,18 @@ namespace ProceduralToolkit
         /// <param name="projectedX">Normalized position of the projected point on the segment. 
         /// Value of zero means that the projected point coincides with segment.a. 
         /// Value of one means that the projected point coincides with segment.b.</param>
-        public static Vector2 ClosestPointOnSegment(Vector2 point, Segment2 segment, out float projectedX)
+        public static Vector2 PointSegment(Vector2 point, Segment2 segment, out float projectedX)
         {
-            return ClosestPointOnSegment(point, segment.a, segment.b, out projectedX);
+            return PointSegment(point, segment.a, segment.b, out projectedX);
         }
 
         /// <summary>
         /// Projects the point onto the segment
         /// </summary>
-        public static Vector2 ClosestPointOnSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB)
+        public static Vector2 PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB)
         {
             float projectedX;
-            return ClosestPointOnSegment(point, segmentA, segmentB, out projectedX);
+            return PointSegment(point, segmentA, segmentB, out projectedX);
         }
 
         /// <summary>
@@ -141,11 +139,11 @@ namespace ProceduralToolkit
         /// <param name="projectedX">Normalized position of the projected point on the segment. 
         /// Value of zero means that the projected point coincides with <paramref name="segmentA"/>. 
         /// Value of one means that the projected point coincides with <paramref name="segmentB"/>.</param>
-        public static Vector2 ClosestPointOnSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, out float projectedX)
+        public static Vector2 PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, out float projectedX)
         {
             Vector2 segmentDirection = segmentB - segmentA;
             float sqrSegmentLength = segmentDirection.sqrMagnitude;
-            if (sqrSegmentLength < Epsilon)
+            if (sqrSegmentLength < Geometry.Epsilon)
             {
                 // The segment is a point
                 projectedX = 0;
@@ -153,12 +151,12 @@ namespace ProceduralToolkit
             }
 
             float pointProjection = Vector2.Dot(segmentDirection, point - segmentA);
-            if (pointProjection < -Epsilon)
+            if (pointProjection < -Geometry.Epsilon)
             {
                 projectedX = 0;
                 return segmentA;
             }
-            if (pointProjection > sqrSegmentLength + Epsilon)
+            if (pointProjection > sqrSegmentLength + Geometry.Epsilon)
             {
                 projectedX = 1;
                 return segmentB;
@@ -168,14 +166,14 @@ namespace ProceduralToolkit
             return segmentA + segmentDirection*projectedX;
         }
 
-        private static Vector2 ClosestPointOnSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, Vector2 segmentDirection, float segmentLength)
+        private static Vector2 PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, Vector2 segmentDirection, float segmentLength)
         {
             float pointProjection = Vector2.Dot(segmentDirection, point - segmentA);
-            if (pointProjection < -Epsilon)
+            if (pointProjection < -Geometry.Epsilon)
             {
                 return segmentA;
             }
-            if (pointProjection > segmentLength + Epsilon)
+            if (pointProjection > segmentLength + Geometry.Epsilon)
             {
                 return segmentB;
             }
@@ -189,15 +187,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the circle
         /// </summary>
-        public static Vector2 ClosestPointOnCircle(Vector2 point, Circle circle)
+        public static Vector2 PointCircle(Vector2 point, Circle circle)
         {
-            return ClosestPointOnCircle(point, circle.center, circle.radius);
+            return PointCircle(point, circle.center, circle.radius);
         }
 
         /// <summary>
         /// Projects the point onto the circle
         /// </summary>
-        public static Vector2 ClosestPointOnCircle(Vector2 point, Vector2 circleCenter, float circleRadius)
+        public static Vector2 PointCircle(Vector2 point, Vector2 circleCenter, float circleRadius)
         {
             return circleCenter + (point - circleCenter).normalized*circleRadius;
         }
@@ -209,26 +207,26 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the lines
         /// </summary>
-        public static void ClosestPointsOnLines(Line2 lineA, Line2 lineB, out Vector2 pointA, out Vector2 pointB)
+        public static void LineLine(Line2 lineA, Line2 lineB, out Vector2 pointA, out Vector2 pointB)
         {
-            ClosestPointsOnLines(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out pointA, out pointB);
+            LineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out pointA, out pointB);
         }
 
         /// <summary>
         /// Finds closest points on the lines
         /// </summary>
-        public static void ClosestPointsOnLines(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
+        public static void LineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
             out Vector2 pointA, out Vector2 pointB)
         {
             Vector2 originBToA = originA - originB;
             float denominator = VectorE.PerpDot(directionA, directionB);
             float perpDotB = VectorE.PerpDot(directionB, originBToA);
 
-            if (Mathf.Abs(denominator) < Epsilon)
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
-                if (Mathf.Abs(perpDotB) > Epsilon ||
-                    Mathf.Abs(VectorE.PerpDot(directionA, originBToA)) > Epsilon)
+                if (Mathf.Abs(perpDotB) > Geometry.Epsilon ||
+                    Mathf.Abs(VectorE.PerpDot(directionA, originBToA)) > Geometry.Epsilon)
                 {
                     // Not collinear
                     pointA = originA;
@@ -252,26 +250,26 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the line and the ray
         /// </summary>
-        public static void ClosestPointsLineRay(Line2 line, Ray2D ray, out Vector2 linePoint, out Vector2 rayPoint)
+        public static void LineRay(Line2 line, Ray2D ray, out Vector2 linePoint, out Vector2 rayPoint)
         {
-            ClosestPointsLineRay(line.origin, line.direction, ray.origin, ray.direction, out linePoint, out rayPoint);
+            LineRay(line.origin, line.direction, ray.origin, ray.direction, out linePoint, out rayPoint);
         }
 
         /// <summary>
         /// Finds closest points on the line and the ray
         /// </summary>
-        public static void ClosestPointsLineRay(Vector2 lineOrigin, Vector2 lineDirection, Vector2 rayOrigin, Vector2 rayDirection,
+        public static void LineRay(Vector2 lineOrigin, Vector2 lineDirection, Vector2 rayOrigin, Vector2 rayDirection,
             out Vector2 linePoint, out Vector2 rayPoint)
         {
             Vector2 rayOriginToLineOrigin = lineOrigin - rayOrigin;
             float denominator = VectorE.PerpDot(lineDirection, rayDirection);
             float perpDotA = VectorE.PerpDot(lineDirection, rayOriginToLineOrigin);
 
-            if (Mathf.Abs(denominator) < Epsilon)
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
                 float perpDotB = VectorE.PerpDot(rayDirection, rayOriginToLineOrigin);
-                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
                     float rayOriginProjection = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
@@ -286,7 +284,7 @@ namespace ProceduralToolkit
 
             // Not parallel
             float rayDistance = perpDotA/denominator;
-            if (rayDistance < -Epsilon)
+            if (rayDistance < -Geometry.Epsilon)
             {
                 // No intersection
                 float rayOriginProjection = Vector2.Dot(lineDirection, rayOriginToLineOrigin);
@@ -305,15 +303,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the line and the segment
         /// </summary>
-        public static void ClosestPointsLineSegment(Line2 line, Segment2 segment, out Vector2 linePoint, out Vector2 segmentPoint)
+        public static void LineSegment(Line2 line, Segment2 segment, out Vector2 linePoint, out Vector2 segmentPoint)
         {
-            ClosestPointsLineSegment(line.origin, line.direction, segment.a, segment.b, out linePoint, out segmentPoint);
+            LineSegment(line.origin, line.direction, segment.a, segment.b, out linePoint, out segmentPoint);
         }
 
         /// <summary>
         /// Finds closest points on the line and the segment
         /// </summary>
-        public static void ClosestPointsLineSegment(Vector2 lineOrigin, Vector2 lineDirection, Vector2 segmentA, Vector2 segmentB,
+        public static void LineSegment(Vector2 lineOrigin, Vector2 lineDirection, Vector2 segmentA, Vector2 segmentB,
             out Vector2 linePoint, out Vector2 segmentPoint)
         {
             Vector2 segmentDirection = segmentB - segmentA;
@@ -321,13 +319,13 @@ namespace ProceduralToolkit
             float denominator = VectorE.PerpDot(lineDirection, segmentDirection);
             float perpDotA = VectorE.PerpDot(lineDirection, segmentAToOrigin);
 
-            if (Mathf.Abs(denominator) < Epsilon)
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
                 bool codirected = Vector2.Dot(lineDirection, segmentDirection) > 0;
                 // Normalized direction gives more stable results 
                 float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
-                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
                     if (codirected)
@@ -359,7 +357,7 @@ namespace ProceduralToolkit
 
             // Not parallel
             float segmentDistance = perpDotA/denominator;
-            if (segmentDistance < -Epsilon || segmentDistance > 1 + Epsilon)
+            if (segmentDistance < -Geometry.Epsilon || segmentDistance > 1 + Geometry.Epsilon)
             {
                 // No intersection
                 segmentPoint = segmentA + segmentDirection*Mathf.Clamp01(segmentDistance);
@@ -378,15 +376,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the line and the circle
         /// </summary>
-        public static void ClosestPointsLineCircle(Line2 line, Circle circle, out Vector2 linePoint, out Vector2 circlePoint)
+        public static void LineCircle(Line2 line, Circle circle, out Vector2 linePoint, out Vector2 circlePoint)
         {
-            ClosestPointsLineCircle(line.origin, line.direction, circle.center, circle.radius, out linePoint, out circlePoint);
+            LineCircle(line.origin, line.direction, circle.center, circle.radius, out linePoint, out circlePoint);
         }
 
         /// <summary>
         /// Finds closest points on the line and the circle
         /// </summary>
-        public static void ClosestPointsLineCircle(Vector2 lineOrigin, Vector2 lineDirection, Vector2 circleCenter, float circleRadius,
+        public static void LineCircle(Vector2 lineOrigin, Vector2 lineDirection, Vector2 circleCenter, float circleRadius,
             out Vector2 linePoint, out Vector2 circlePoint)
         {
             Vector2 originToCenter = circleCenter - lineOrigin;
@@ -394,14 +392,14 @@ namespace ProceduralToolkit
             float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
 
             float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
-            if (sqrDistanceToIntersection < -Epsilon)
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
             {
                 // No intersection
                 linePoint = lineOrigin + lineDirection*centerProjection;
                 circlePoint = circleCenter + (linePoint - circleCenter).normalized*circleRadius;
                 return;
             }
-            if (sqrDistanceToIntersection < Epsilon)
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
             {
                 // Point intersection
                 linePoint = circlePoint = lineOrigin + lineDirection*centerProjection;
@@ -421,15 +419,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the rays
         /// </summary>
-        public static void ClosestPointsOnRays(Ray2D rayA, Ray2D rayB, out Vector2 pointA, out Vector2 pointB)
+        public static void RayRay(Ray2D rayA, Ray2D rayB, out Vector2 pointA, out Vector2 pointB)
         {
-            ClosestPointsOnRays(rayA.origin, rayA.direction, rayB.origin, rayB.direction, out pointA, out pointB);
+            RayRay(rayA.origin, rayA.direction, rayB.origin, rayB.direction, out pointA, out pointB);
         }
 
         /// <summary>
         /// Finds closest points on the rays
         /// </summary>
-        public static void ClosestPointsOnRays(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
+        public static void RayRay(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
             out Vector2 pointA, out Vector2 pointB)
         {
             Vector2 originBToA = originA - originB;
@@ -438,11 +436,11 @@ namespace ProceduralToolkit
             float perpDotB = VectorE.PerpDot(directionB, originBToA);
             bool codirected = Vector2.Dot(directionA, directionB) > 0;
 
-            if (Mathf.Abs(denominator) < Epsilon)
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
                 float originBProjection = Vector2.Dot(directionA, originBToA);
-                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
                     if (codirected)
@@ -516,20 +514,20 @@ namespace ProceduralToolkit
             // Not parallel
             float distanceA = perpDotB/denominator;
             float distanceB = perpDotA/denominator;
-            if (distanceA < -Epsilon || distanceB < -Epsilon)
+            if (distanceA < -Geometry.Epsilon || distanceB < -Geometry.Epsilon)
             {
                 // No intersection
                 if (codirected)
                 {
                     float originAProjection = Vector2.Dot(directionB, originBToA);
-                    if (originAProjection > -Epsilon)
+                    if (originAProjection > -Geometry.Epsilon)
                     {
                         pointA = originA;
                         pointB = originB + directionB*originAProjection;
                         return;
                     }
                     float originBProjection = -Vector2.Dot(directionA, originBToA);
-                    if (originBProjection > -Epsilon)
+                    if (originBProjection > -Geometry.Epsilon)
                     {
                         pointA = originA + directionA*originBProjection;
                         pointB = originB;
@@ -541,20 +539,20 @@ namespace ProceduralToolkit
                 }
                 else
                 {
-                    if (distanceA > -Epsilon)
+                    if (distanceA > -Geometry.Epsilon)
                     {
                         float originBProjection = -Vector2.Dot(directionA, originBToA);
-                        if (originBProjection > -Epsilon)
+                        if (originBProjection > -Geometry.Epsilon)
                         {
                             pointA = originA + directionA*originBProjection;
                             pointB = originB;
                             return;
                         }
                     }
-                    else if (distanceB > -Epsilon)
+                    else if (distanceB > -Geometry.Epsilon)
                     {
                         float originAProjection = Vector2.Dot(directionB, originBToA);
-                        if (originAProjection > -Epsilon)
+                        if (originAProjection > -Geometry.Epsilon)
                         {
                             pointA = originA;
                             pointB = originB + directionB*originAProjection;
@@ -577,15 +575,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the ray and the segment
         /// </summary>
-        public static void ClosestPointsRaySegment(Ray2D ray, Segment2 segment, out Vector2 rayPoint, out Vector2 segmentPoint)
+        public static void RaySegment(Ray2D ray, Segment2 segment, out Vector2 rayPoint, out Vector2 segmentPoint)
         {
-            ClosestPointsRaySegment(ray.origin, ray.direction, segment.a, segment.b, out rayPoint, out segmentPoint);
+            RaySegment(ray.origin, ray.direction, segment.a, segment.b, out rayPoint, out segmentPoint);
         }
 
         /// <summary>
         /// Finds closest points on the ray and the segment
         /// </summary>
-        public static void ClosestPointsRaySegment(Vector2 rayOrigin, Vector2 rayDirection, Vector2 segmentA, Vector2 segmentB,
+        public static void RaySegment(Vector2 rayOrigin, Vector2 rayDirection, Vector2 segmentA, Vector2 segmentB,
             out Vector2 rayPoint, out Vector2 segmentPoint)
         {
             Vector2 segmentDirection = segmentB - segmentA;
@@ -595,16 +593,16 @@ namespace ProceduralToolkit
             // Normalized direction gives more stable results 
             float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
 
-            if (Mathf.Abs(denominator) < Epsilon)
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
                 float segmentAProjection = -Vector2.Dot(rayDirection, segmentAToOrigin);
                 Vector2 rayOriginToSegmentB = segmentB - rayOrigin;
                 float segmentBProjection = Vector2.Dot(rayDirection, rayOriginToSegmentB);
-                if (Mathf.Abs(perpDotA) > Epsilon || Mathf.Abs(perpDotB) > Epsilon)
+                if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
                     // Not collinear
-                    if (segmentAProjection > -Epsilon && segmentBProjection > -Epsilon)
+                    if (segmentAProjection > -Geometry.Epsilon && segmentBProjection > -Geometry.Epsilon)
                     {
                         if (segmentAProjection < segmentBProjection)
                         {
@@ -619,11 +617,11 @@ namespace ProceduralToolkit
                             return;
                         }
                     }
-                    if (segmentAProjection > -Epsilon || segmentBProjection > -Epsilon)
+                    if (segmentAProjection > -Geometry.Epsilon || segmentBProjection > -Geometry.Epsilon)
                     {
                         rayPoint = rayOrigin;
                         float sqrSegmentLength = segmentDirection.sqrMagnitude;
-                        if (sqrSegmentLength > Epsilon)
+                        if (sqrSegmentLength > Geometry.Epsilon)
                         {
                             float rayOriginProjection = Vector2.Dot(segmentDirection, segmentAToOrigin)/sqrSegmentLength;
                             segmentPoint = segmentA + segmentDirection*rayOriginProjection;
@@ -640,13 +638,13 @@ namespace ProceduralToolkit
                 }
 
                 // Collinear
-                if (segmentAProjection > -Epsilon && segmentBProjection > -Epsilon)
+                if (segmentAProjection > -Geometry.Epsilon && segmentBProjection > -Geometry.Epsilon)
                 {
                     // Segment intersection
                     rayPoint = segmentPoint = segmentAProjection < segmentBProjection ? segmentA : segmentB;
                     return;
                 }
-                if (segmentAProjection > -Epsilon || segmentBProjection > -Epsilon)
+                if (segmentAProjection > -Geometry.Epsilon || segmentBProjection > -Geometry.Epsilon)
                 {
                     // Point or segment intersection
                     rayPoint = segmentPoint = rayOrigin;
@@ -661,8 +659,8 @@ namespace ProceduralToolkit
             // Not parallel
             float rayDistance = perpDotB/denominator;
             float segmentDistance = perpDotA/denominator;
-            if (rayDistance < -Epsilon ||
-                segmentDistance < -Epsilon || segmentDistance > 1 + Epsilon)
+            if (rayDistance < -Geometry.Epsilon ||
+                segmentDistance < -Geometry.Epsilon || segmentDistance > 1 + Geometry.Epsilon)
             {
                 // No intersection
                 bool codirected = Vector2.Dot(rayDirection, segmentDirection) > 0;
@@ -682,8 +680,8 @@ namespace ProceduralToolkit
 
                 float segmentAProjection = -Vector2.Dot(rayDirection, segmentAToOrigin);
                 float segmentBProjection = -Vector2.Dot(rayDirection, segmentBToOrigin);
-                bool segmentAOnRay = segmentAProjection > -Epsilon;
-                bool segmentBOnRay = segmentBProjection > -Epsilon;
+                bool segmentAOnRay = segmentAProjection > -Geometry.Epsilon;
+                bool segmentBOnRay = segmentBProjection > -Geometry.Epsilon;
                 if (segmentAOnRay && segmentBOnRay)
                 {
                     if (segmentDistance < 0)
@@ -707,7 +705,7 @@ namespace ProceduralToolkit
                         segmentPoint = segmentA;
                         return;
                     }
-                    else if (segmentDistance > 1 + Epsilon)
+                    else if (segmentDistance > 1 + Geometry.Epsilon)
                     {
                         rayPoint = rayOrigin + rayDirection*segmentBProjection;
                         segmentPoint = segmentB;
@@ -755,20 +753,20 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the ray and the circle
         /// </summary>
-        public static void ClosestPointsRayCircle(Ray2D ray, Circle circle, out Vector2 rayPoint, out Vector2 circlePoint)
+        public static void RayCircle(Ray2D ray, Circle circle, out Vector2 rayPoint, out Vector2 circlePoint)
         {
-            ClosestPointsRayCircle(ray.origin, ray.direction, circle.center, circle.radius, out rayPoint, out circlePoint);
+            RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out rayPoint, out circlePoint);
         }
 
         /// <summary>
         /// Finds closest points on the ray and the circle
         /// </summary>
-        public static void ClosestPointsRayCircle(Vector2 rayOrigin, Vector2 rayDirection, Vector2 circleCenter, float circleRadius,
+        public static void RayCircle(Vector2 rayOrigin, Vector2 rayDirection, Vector2 circleCenter, float circleRadius,
             out Vector2 rayPoint, out Vector2 circlePoint)
         {
             Vector2 originToCenter = circleCenter - rayOrigin;
             float centerProjection = Vector2.Dot(rayDirection, originToCenter);
-            if (centerProjection + circleRadius < -Epsilon)
+            if (centerProjection + circleRadius < -Geometry.Epsilon)
             {
                 // No intersection
                 rayPoint = rayOrigin;
@@ -778,10 +776,10 @@ namespace ProceduralToolkit
 
             float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
             float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
-            if (sqrDistanceToIntersection < -Epsilon)
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
             {
                 // No intersection
-                if (centerProjection < -Epsilon)
+                if (centerProjection < -Geometry.Epsilon)
                 {
                     rayPoint = rayOrigin;
                     circlePoint = circleCenter - originToCenter.normalized*circleRadius;
@@ -791,9 +789,9 @@ namespace ProceduralToolkit
                 circlePoint = circleCenter + (rayPoint - circleCenter).normalized*circleRadius;
                 return;
             }
-            if (sqrDistanceToIntersection < Epsilon)
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
             {
-                if (centerProjection < -Epsilon)
+                if (centerProjection < -Geometry.Epsilon)
                 {
                     // No intersection
                     rayPoint = rayOrigin;
@@ -809,10 +807,10 @@ namespace ProceduralToolkit
             float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
             float distanceA = centerProjection - distanceToIntersection;
 
-            if (distanceA < -Epsilon)
+            if (distanceA < -Geometry.Epsilon)
             {
                 float distanceB = centerProjection + distanceToIntersection;
-                if (distanceB < -Epsilon)
+                if (distanceB < -Geometry.Epsilon)
                 {
                     // No intersection
                     rayPoint = rayOrigin;
@@ -836,15 +834,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the segments
         /// </summary>
-        public static void ClosestPointsSegmentSegment(Segment2 segment1, Segment2 segment2, out Vector2 segment1Point, out Vector2 segment2Point)
+        public static void SegmentSegment(Segment2 segment1, Segment2 segment2, out Vector2 segment1Point, out Vector2 segment2Point)
         {
-            ClosestPointsSegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out segment1Point, out segment2Point);
+            SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out segment1Point, out segment2Point);
         }
 
         /// <summary>
         /// Finds closest points on the segments
         /// </summary>
-        public static void ClosestPointsSegmentSegment(Vector2 segment1A, Vector2 segment1B, Vector2 segment2A, Vector2 segment2B,
+        public static void SegmentSegment(Vector2 segment1A, Vector2 segment1B, Vector2 segment2A, Vector2 segment2B,
             out Vector2 segment1Point, out Vector2 segment2Point)
         {
             Vector2 from2ATo1A = segment1A - segment2A;
@@ -853,8 +851,8 @@ namespace ProceduralToolkit
             float segment1Length = direction1.magnitude;
             float segment2Length = direction2.magnitude;
 
-            bool segment1IsAPoint = segment1Length < Epsilon;
-            bool segment2IsAPoint = segment2Length < Epsilon;
+            bool segment1IsAPoint = segment1Length < Geometry.Epsilon;
+            bool segment2IsAPoint = segment2Length < Geometry.Epsilon;
             if (segment1IsAPoint && segment2IsAPoint)
             {
                 if (segment1A == segment2A)
@@ -870,13 +868,13 @@ namespace ProceduralToolkit
             {
                 direction2.Normalize();
                 segment1Point = segment1A;
-                segment2Point = ClosestPointOnSegment(segment1A, segment2A, segment2B, direction2, segment2Length);
+                segment2Point = PointSegment(segment1A, segment2A, segment2B, direction2, segment2Length);
                 return;
             }
             if (segment2IsAPoint)
             {
                 direction1.Normalize();
-                segment1Point = ClosestPointOnSegment(segment2A, segment1A, segment1B, direction1, segment1Length);
+                segment1Point = PointSegment(segment2A, segment1A, segment1B, direction1, segment1Length);
                 segment2Point = segment2A;
                 return;
             }
@@ -887,11 +885,11 @@ namespace ProceduralToolkit
             float perpDot1 = VectorE.PerpDot(direction1, from2ATo1A);
             float perpDot2 = VectorE.PerpDot(direction2, from2ATo1A);
 
-            if (Mathf.Abs(denominator) < Epsilon)
+            if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
                 bool codirected = Vector2.Dot(direction1, direction2) > 0;
-                if (Mathf.Abs(perpDot1) > Epsilon || Mathf.Abs(perpDot2) > Epsilon)
+                if (Mathf.Abs(perpDot1) > Geometry.Epsilon || Mathf.Abs(perpDot2) > Geometry.Epsilon)
                 {
                     // Not collinear
                     Vector2 from1ATo2B;
@@ -909,8 +907,8 @@ namespace ProceduralToolkit
                     float segment2AProjection = -Vector2.Dot(direction1, from2ATo1A);
                     float segment2BProjection = Vector2.Dot(direction1, from1ATo2B);
 
-                    bool segment2AIsAfter1A = segment2AProjection > -Epsilon;
-                    bool segment2BIsAfter1A = segment2BProjection > -Epsilon;
+                    bool segment2AIsAfter1A = segment2AProjection > -Geometry.Epsilon;
+                    bool segment2BIsAfter1A = segment2BProjection > -Geometry.Epsilon;
                     if (!segment2AIsAfter1A && !segment2BIsAfter1A)
                     {
                         //           1A------1B
@@ -919,8 +917,8 @@ namespace ProceduralToolkit
                         segment2Point = segment2B;
                         return;
                     }
-                    bool segment2AIsBefore1B = segment2AProjection < segment1Length + Epsilon;
-                    bool segment2BIsBefore1B = segment2BProjection < segment1Length + Epsilon;
+                    bool segment2AIsBefore1B = segment2AProjection < segment1Length + Geometry.Epsilon;
+                    bool segment2BIsBefore1B = segment2BProjection < segment1Length + Geometry.Epsilon;
                     if (!segment2AIsBefore1B && !segment2BIsBefore1B)
                     {
                         // 1A------1B
@@ -1003,8 +1001,8 @@ namespace ProceduralToolkit
             // Not parallel
             float distance1 = perpDot2/denominator;
             float distance2 = perpDot1/denominator;
-            if (distance1 < -Epsilon || distance1 > segment1Length + Epsilon ||
-                distance2 < -Epsilon || distance2 > segment2Length + Epsilon)
+            if (distance1 < -Geometry.Epsilon || distance1 > segment1Length + Geometry.Epsilon ||
+                distance2 < -Geometry.Epsilon || distance2 > segment2Length + Geometry.Epsilon)
             {
                 // No intersection
                 bool codirected = Vector2.Dot(direction1, direction2) > 0;
@@ -1025,13 +1023,13 @@ namespace ProceduralToolkit
                 float segment2AProjection = -Vector2.Dot(direction1, from2ATo1A);
                 float segment2BProjection = Vector2.Dot(direction1, from1ATo2B);
 
-                bool segment2AIsAfter1A = segment2AProjection > -Epsilon;
-                bool segment2BIsBefore1B = segment2BProjection < segment1Length + Epsilon;
-                bool segment2AOnSegment1 = segment2AIsAfter1A && segment2AProjection < segment1Length + Epsilon;
-                bool segment2BOnSegment1 = segment2BProjection > -Epsilon && segment2BIsBefore1B;
+                bool segment2AIsAfter1A = segment2AProjection > -Geometry.Epsilon;
+                bool segment2BIsBefore1B = segment2BProjection < segment1Length + Geometry.Epsilon;
+                bool segment2AOnSegment1 = segment2AIsAfter1A && segment2AProjection < segment1Length + Geometry.Epsilon;
+                bool segment2BOnSegment1 = segment2BProjection > -Geometry.Epsilon && segment2BIsBefore1B;
                 if (segment2AOnSegment1 && segment2BOnSegment1)
                 {
-                    if (distance2 < -Epsilon)
+                    if (distance2 < -Geometry.Epsilon)
                     {
                         segment1Point = segment1A + direction1*segment2AProjection;
                         segment2Point = segment2A;
@@ -1046,7 +1044,7 @@ namespace ProceduralToolkit
                 {
                     if (!segment2AIsAfter1A && !segment2BIsBefore1B)
                     {
-                        segment1Point = distance1 < -Epsilon ? segment1A : segment1B;
+                        segment1Point = distance1 < -Geometry.Epsilon ? segment1A : segment1B;
                     }
                     else
                     {
@@ -1059,7 +1057,7 @@ namespace ProceduralToolkit
                 }
                 else if (segment2AOnSegment1)
                 {
-                    if (distance2 < -Epsilon)
+                    if (distance2 < -Geometry.Epsilon)
                     {
                         segment1Point = segment1A + direction1*segment2AProjection;
                         segment2Point = segment2A;
@@ -1074,7 +1072,7 @@ namespace ProceduralToolkit
                 }
                 else
                 {
-                    if (distance2 > segment2Length + Epsilon)
+                    if (distance2 > segment2Length + Geometry.Epsilon)
                     {
                         segment1Point = segment1A + direction1*segment2BProjection;
                         segment2Point = segment2B;
@@ -1098,7 +1096,7 @@ namespace ProceduralToolkit
         {
             Vector2 leftDirection = leftB - leftA;
             float rightAProjection = Vector2.Dot(leftDirection.normalized, rightA - leftB);
-            if (Mathf.Abs(rightAProjection) < Epsilon)
+            if (Mathf.Abs(rightAProjection) < Geometry.Epsilon)
             {
                 // LB == RA
                 // LA------LB
@@ -1136,32 +1134,32 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the segment and the circle
         /// </summary>
-        public static void ClosestPointsSegmentCircle(Segment2 segment, Circle circle, out Vector2 segmentPoint, out Vector2 circlePoint)
+        public static void SegmentCircle(Segment2 segment, Circle circle, out Vector2 segmentPoint, out Vector2 circlePoint)
         {
-            ClosestPointsSegmentCircle(segment.a, segment.b, circle.center, circle.radius, out segmentPoint, out circlePoint);
+            SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out segmentPoint, out circlePoint);
         }
 
         /// <summary>
         /// Finds closest points on the segment and the circle
         /// </summary>
-        public static void ClosestPointsSegmentCircle(Vector2 segmentA, Vector2 segmentB, Vector2 circleCenter, float circleRadius,
+        public static void SegmentCircle(Vector2 segmentA, Vector2 segmentB, Vector2 circleCenter, float circleRadius,
             out Vector2 segmentPoint, out Vector2 circlePoint)
         {
             Vector2 segmentAToCenter = circleCenter - segmentA;
             Vector2 fromAtoB = segmentB - segmentA;
             float segmentLength = fromAtoB.magnitude;
-            if (segmentLength < Epsilon)
+            if (segmentLength < Geometry.Epsilon)
             {
                 segmentPoint = segmentA;
                 float distanceToPoint = segmentAToCenter.magnitude;
-                if (distanceToPoint < circleRadius + Epsilon)
+                if (distanceToPoint < circleRadius + Geometry.Epsilon)
                 {
-                    if (distanceToPoint > circleRadius - Epsilon)
+                    if (distanceToPoint > circleRadius - Geometry.Epsilon)
                     {
                         circlePoint = segmentPoint;
                         return;
                     }
-                    if (distanceToPoint < Epsilon)
+                    if (distanceToPoint < Geometry.Epsilon)
                     {
                         circlePoint = segmentPoint;
                         return;
@@ -1174,8 +1172,8 @@ namespace ProceduralToolkit
 
             Vector2 segmentDirection = fromAtoB.normalized;
             float centerProjection = Vector2.Dot(segmentDirection, segmentAToCenter);
-            if (centerProjection + circleRadius < -Epsilon ||
-                centerProjection - circleRadius > segmentLength + Epsilon)
+            if (centerProjection + circleRadius < -Geometry.Epsilon ||
+                centerProjection - circleRadius > segmentLength + Geometry.Epsilon)
             {
                 // No intersection
                 if (centerProjection < 0)
@@ -1191,16 +1189,16 @@ namespace ProceduralToolkit
 
             float sqrDistanceToLine = segmentAToCenter.sqrMagnitude - centerProjection*centerProjection;
             float sqrDistanceToIntersection = circleRadius*circleRadius - sqrDistanceToLine;
-            if (sqrDistanceToIntersection < -Epsilon)
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
             {
                 // No intersection
-                if (centerProjection < -Epsilon)
+                if (centerProjection < -Geometry.Epsilon)
                 {
                     segmentPoint = segmentA;
                     circlePoint = circleCenter - segmentAToCenter.normalized*circleRadius;
                     return;
                 }
-                if (centerProjection > segmentLength + Epsilon)
+                if (centerProjection > segmentLength + Geometry.Epsilon)
                 {
                     segmentPoint = segmentB;
                     circlePoint = circleCenter - (circleCenter - segmentB).normalized*circleRadius;
@@ -1211,16 +1209,16 @@ namespace ProceduralToolkit
                 return;
             }
 
-            if (sqrDistanceToIntersection < Epsilon)
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
             {
-                if (centerProjection < -Epsilon)
+                if (centerProjection < -Geometry.Epsilon)
                 {
                     // No intersection
                     segmentPoint = segmentA;
                     circlePoint = circleCenter - segmentAToCenter.normalized*circleRadius;
                     return;
                 }
-                if (centerProjection > segmentLength + Epsilon)
+                if (centerProjection > segmentLength + Geometry.Epsilon)
                 {
                     // No intersection
                     segmentPoint = segmentB;
@@ -1237,8 +1235,8 @@ namespace ProceduralToolkit
             float distanceA = centerProjection - distanceToIntersection;
             float distanceB = centerProjection + distanceToIntersection;
 
-            bool pointAIsAfterSegmentA = distanceA > -Epsilon;
-            bool pointBIsBeforeSegmentB = distanceB < segmentLength + Epsilon;
+            bool pointAIsAfterSegmentA = distanceA > -Geometry.Epsilon;
+            bool pointBIsBeforeSegmentB = distanceB < segmentLength + Geometry.Epsilon;
 
             if (pointAIsAfterSegmentA && pointBIsBeforeSegmentB)
             {
@@ -1259,14 +1257,14 @@ namespace ProceduralToolkit
                 return;
             }
 
-            bool pointAIsBeforeSegmentB = distanceA < segmentLength + Epsilon;
+            bool pointAIsBeforeSegmentB = distanceA < segmentLength + Geometry.Epsilon;
             if (pointAIsAfterSegmentA && pointAIsBeforeSegmentB)
             {
                 // Point A intersection
                 segmentPoint = circlePoint = segmentA + segmentDirection*distanceA;
                 return;
             }
-            bool pointBIsAfterSegmentA = distanceB > -Epsilon;
+            bool pointBIsAfterSegmentA = distanceB > -Geometry.Epsilon;
             if (pointBIsAfterSegmentA && pointBIsBeforeSegmentB)
             {
                 // Point B intersection
@@ -1292,15 +1290,15 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the circles
         /// </summary>
-        public static void ClosestPointsOnCircles(Circle circleA, Circle circleB, out Vector2 pointA, out Vector2 pointB)
+        public static void CircleCircle(Circle circleA, Circle circleB, out Vector2 pointA, out Vector2 pointB)
         {
-            ClosestPointsOnCircles(circleA.center, circleA.radius, circleB.center, circleB.radius, out pointA, out pointB);
+            CircleCircle(circleA.center, circleA.radius, circleB.center, circleB.radius, out pointA, out pointB);
         }
 
         /// <summary>
         /// Finds closest points on the circles
         /// </summary>
-        public static void ClosestPointsOnCircles(Vector2 centerA, float radiusA, Vector2 centerB, float radiusB,
+        public static void CircleCircle(Vector2 centerA, float radiusA, Vector2 centerB, float radiusB,
             out Vector2 pointA, out Vector2 pointB)
         {
             Vector2 fromBtoA = (centerA - centerB).normalized;

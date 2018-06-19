@@ -14,7 +14,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointLine(Vector3 point, Line3 line)
         {
-            return Vector3.Distance(point, Geometry.ClosestPointOnLine(point, line));
+            return Vector3.Distance(point, Closest.PointLine(point, line));
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointLine(Vector3 point, Vector3 lineOrigin, Vector3 lineDirection)
         {
-            return Vector3.Distance(point, Geometry.ClosestPointOnLine(point, lineOrigin, lineDirection));
+            return Vector3.Distance(point, Closest.PointLine(point, lineOrigin, lineDirection));
         }
 
         #endregion Point-Line
@@ -34,7 +34,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointRay(Vector3 point, Ray ray)
         {
-            return Vector3.Distance(point, Geometry.ClosestPointOnRay(point, ray));
+            return Vector3.Distance(point, Closest.PointRay(point, ray));
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointRay(Vector3 point, Vector3 rayOrigin, Vector3 rayDirection)
         {
-            return Vector3.Distance(point, Geometry.ClosestPointOnRay(point, rayOrigin, rayDirection));
+            return Vector3.Distance(point, Closest.PointRay(point, rayOrigin, rayDirection));
         }
 
         #endregion Point-Ray
@@ -54,7 +54,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointSegment(Vector3 point, Segment3 segment)
         {
-            return Vector3.Distance(point, Geometry.ClosestPointOnSegment(point, segment));
+            return Vector3.Distance(point, Closest.PointSegment(point, segment));
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static float PointSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB)
         {
-            return Vector3.Distance(point, Geometry.ClosestPointOnSegment(point, segmentA, segmentB));
+            return Vector3.Distance(point, Closest.PointSegment(point, segmentA, segmentB));
         }
 
         #endregion Point-Segment
