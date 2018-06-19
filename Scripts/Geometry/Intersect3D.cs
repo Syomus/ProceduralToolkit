@@ -212,18 +212,18 @@ namespace ProceduralToolkit
                 return false;
             }
             float fromClosestPointToIntersection = Mathf.Sqrt(sqrRadius - sqrDistanceToLine);
-            float intersectionA = toCenterOnLine - fromClosestPointToIntersection;
-            float intersectionB = toCenterOnLine + fromClosestPointToIntersection;
+            float distanceA = toCenterOnLine - fromClosestPointToIntersection;
+            float distanceB = toCenterOnLine + fromClosestPointToIntersection;
 
-            if (intersectionA > intersectionB)
+            if (distanceA > distanceB)
             {
-                PTUtils.Swap(ref intersectionA, ref intersectionB);
+                PTUtils.Swap(ref distanceA, ref distanceB);
             }
 
-            if (intersectionA < 0)
+            if (distanceA < -Geometry.Epsilon)
             {
-                intersectionA = intersectionB;
-                if (intersectionA < 0)
+                distanceA = distanceB;
+                if (distanceA < -Geometry.Epsilon)
                 {
                     pointA = Vector3.zero;
                     pointB = Vector3.zero;
@@ -231,8 +231,8 @@ namespace ProceduralToolkit
                 }
             }
 
-            pointA = rayOrigin + intersectionA*rayDirection;
-            pointB = rayOrigin + intersectionB*rayDirection;
+            pointA = rayOrigin + distanceA*rayDirection;
+            pointB = rayOrigin + distanceB*rayDirection;
             return true;
         }
 

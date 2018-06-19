@@ -30,32 +30,23 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the line
         /// </summary>
-        /// <param name="direction">Normalized direction of the line</param>
-        public static Vector3 PointLine(Vector3 point, Vector3 origin, Vector3 direction)
+        /// <param name="lineDirection">Normalized direction of the line</param>
+        public static Vector3 PointLine(Vector3 point, Vector3 lineOrigin, Vector3 lineDirection)
         {
             float projectedX;
-            return PointLine(point, origin, direction, out projectedX);
+            return PointLine(point, lineOrigin, lineDirection, out projectedX);
         }
 
         /// <summary>
         /// Projects the point onto the line
         /// </summary>
-        /// <param name="direction">Normalized direction of the line</param>
+        /// <param name="lineDirection">Normalized direction of the line</param>
         /// <param name="projectedX">Position of the projected point on the line relative to the origin</param>
-        public static Vector3 PointLine(Vector3 point, Vector3 origin, Vector3 direction, out float projectedX)
+        public static Vector3 PointLine(Vector3 point, Vector3 lineOrigin, Vector3 lineDirection, out float projectedX)
         {
-            Vector3 toPoint = point - origin;
-
-            float dotDirection = Vector3.Dot(direction, direction);
-            if (dotDirection < Geometry.Epsilon)
-            {
-                Debug.LogError("Invalid line definition. origin: " + origin + " direction: " + direction);
-                projectedX = 0;
-                return origin;
-            }
-
-            projectedX = Vector3.Dot(toPoint, direction)/dotDirection;
-            return origin + direction*projectedX;
+            // In theory, sqrMagnitude should be 1, but in practice this division helps with numerical stability
+            projectedX = Vector3.Dot(lineDirection, point - lineOrigin)/lineDirection.sqrMagnitude;
+            return lineOrigin + lineDirection*projectedX;
         }
 
         #endregion Point-Line
@@ -74,39 +65,40 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the ray
         /// </summary>
-        /// <param name="direction">Normalized direction of the ray</param>
-        public static Vector3 PointRay(Vector3 point, Vector3 origin, Vector3 direction)
+        /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
+        public static Vector3 PointRay(Vector3 point, Ray ray, out float projectedX)
         {
-            float projectedX;
-            return PointRay(point, origin, direction, out projectedX);
+            return PointRay(point, ray.origin, ray.direction, out projectedX);
         }
 
         /// <summary>
         /// Projects the point onto the ray
         /// </summary>
-        /// <param name="direction">Normalized direction of the ray</param>
-        /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
-        public static Vector3 PointRay(Vector3 point, Vector3 origin, Vector3 direction, out float projectedX)
+        /// <param name="rayDirection">Normalized direction of the ray</param>
+        public static Vector3 PointRay(Vector3 point, Vector3 rayOrigin, Vector3 rayDirection)
         {
-            Vector3 toPoint = point - origin;
+            float projectedX;
+            return PointRay(point, rayOrigin, rayDirection, out projectedX);
+        }
 
-            float dotDirection = Vector3.Dot(direction, direction);
-            if (dotDirection < Geometry.Epsilon)
+        /// <summary>
+        /// Projects the point onto the ray
+        /// </summary>
+        /// <param name="rayDirection">Normalized direction of the ray</param>
+        /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
+        public static Vector3 PointRay(Vector3 point, Vector3 rayOrigin, Vector3 rayDirection, out float projectedX)
+        {
+            Vector3 toPoint = point - rayOrigin;
+            float pointProjection = Vector3.Dot(rayDirection, toPoint);
+            if (pointProjection <= 0)
             {
-                Debug.LogError("Invalid ray definition. origin: " + origin + " direction: " + direction);
                 projectedX = 0;
-                return origin;
+                return rayOrigin;
             }
 
-            float dotToPoint = Vector3.Dot(toPoint, direction);
-            if (dotToPoint <= 0)
-            {
-                projectedX = 0;
-                return origin;
-            }
-
-            projectedX = dotToPoint/dotDirection;
-            return origin + direction*projectedX;
+            // In theory, sqrMagnitude should be 1, but in practice this division helps with numerical stability
+            projectedX = pointProjection/rayDirection.sqrMagnitude;
+            return rayOrigin + rayDirection*projectedX;
         }
 
         #endregion Point-Ray
@@ -150,32 +142,29 @@ namespace ProceduralToolkit
         /// Value of one means that the projected point coincides with <paramref name="segmentB"/>.</param>
         public static Vector3 PointSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB, out float projectedX)
         {
-            Vector3 direction = segmentB - segmentA;
-            Vector3 toPoint = point - segmentA;
-
-            float dotDirection = Vector3.Dot(direction, direction);
-            if (dotDirection < Geometry.Epsilon)
+            Vector3 segmentDirection = segmentB - segmentA;
+            float sqrSegmentLength = segmentDirection.sqrMagnitude;
+            if (sqrSegmentLength < Geometry.Epsilon)
             {
-                Debug.LogError("Invalid segment definition. segmentA: " + segmentA + " segmentB: " + segmentB);
+                // The segment is a point
                 projectedX = 0;
                 return segmentA;
             }
 
-            float dotToPoint = Vector3.Dot(toPoint, direction);
-            if (dotToPoint <= 0)
+            float pointProjection = Vector3.Dot(segmentDirection, point - segmentA);
+            if (pointProjection <= 0)
             {
                 projectedX = 0;
                 return segmentA;
             }
-
-            if (dotToPoint >= dotDirection)
+            if (pointProjection >= sqrSegmentLength)
             {
                 projectedX = 1;
                 return segmentB;
             }
 
-            projectedX = dotToPoint/dotDirection;
-            return segmentA + direction*projectedX;
+            projectedX = pointProjection/sqrSegmentLength;
+            return segmentA + segmentDirection*projectedX;
         }
 
         #endregion Point-Segment

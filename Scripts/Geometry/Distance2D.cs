@@ -703,25 +703,25 @@ namespace ProceduralToolkit
                 if (codirected)
                 {
                     // Codirected
-                    float segment2AProjection = Vector2.Dot(direction1, from2ATo1A);
-                    if (segment2AProjection > 0)
-                    {
-                        //     1A------1B
-                        // 2A------2B
-                        return SegmentSegmentCollinear(segment2A, segment2B, segment1A);
-                    }
-                    else
+                    float segment2AProjection = -Vector2.Dot(direction1, from2ATo1A);
+                    if (segment2AProjection > -Geometry.Epsilon)
                     {
                         // 1A------1B
                         //     2A------2B
                         return SegmentSegmentCollinear(segment1A, segment1B, segment2A);
+                    }
+                    else
+                    {
+                        //     1A------1B
+                        // 2A------2B
+                        return SegmentSegmentCollinear(segment2A, segment2B, segment1A);
                     }
                 }
                 else
                 {
                     // Contradirected
                     float segment2BProjection = Vector2.Dot(direction1, segment2B - segment1A);
-                    if (segment2BProjection > 0)
+                    if (segment2BProjection > -Geometry.Epsilon)
                     {
                         // 1A------1B
                         //     2B------2A

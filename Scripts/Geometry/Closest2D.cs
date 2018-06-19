@@ -88,15 +88,15 @@ namespace ProceduralToolkit
         /// <param name="projectedX">Position of the projected point on the ray relative to the origin</param>
         public static Vector2 PointRay(Vector2 point, Vector2 rayOrigin, Vector2 rayDirection, out float projectedX)
         {
-            float dotToPoint = Vector2.Dot(rayDirection, point - rayOrigin);
-            if (dotToPoint <= 0)
+            float pointProjection = Vector2.Dot(rayDirection, point - rayOrigin);
+            if (pointProjection <= 0)
             {
                 projectedX = 0;
                 return rayOrigin;
             }
 
             // In theory, sqrMagnitude should be 1, but in practice this division helps with numerical stability
-            projectedX = dotToPoint/rayDirection.sqrMagnitude;
+            projectedX = pointProjection/rayDirection.sqrMagnitude;
             return rayOrigin + rayDirection*projectedX;
         }
 
@@ -151,12 +151,12 @@ namespace ProceduralToolkit
             }
 
             float pointProjection = Vector2.Dot(segmentDirection, point - segmentA);
-            if (pointProjection < -Geometry.Epsilon)
+            if (pointProjection <= 0)
             {
                 projectedX = 0;
                 return segmentA;
             }
-            if (pointProjection > sqrSegmentLength + Geometry.Epsilon)
+            if (pointProjection >= sqrSegmentLength)
             {
                 projectedX = 1;
                 return segmentB;
@@ -169,11 +169,11 @@ namespace ProceduralToolkit
         private static Vector2 PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, Vector2 segmentDirection, float segmentLength)
         {
             float pointProjection = Vector2.Dot(segmentDirection, point - segmentA);
-            if (pointProjection < -Geometry.Epsilon)
+            if (pointProjection <= 0)
             {
                 return segmentA;
             }
-            if (pointProjection > segmentLength + Geometry.Epsilon)
+            if (pointProjection >= segmentLength)
             {
                 return segmentB;
             }
@@ -445,7 +445,7 @@ namespace ProceduralToolkit
                     // Not collinear
                     if (codirected)
                     {
-                        if (originBProjection > 0)
+                        if (originBProjection > -Geometry.Epsilon)
                         {
                             // Projection of originA is on rayB
                             pointA = originA;
@@ -481,7 +481,7 @@ namespace ProceduralToolkit
                 if (codirected)
                 {
                     // Ray intersection
-                    if (originBProjection > 0)
+                    if (originBProjection > -Geometry.Epsilon)
                     {
                         // Projection of originA is on rayB
                         pointA = pointB = originA;
@@ -961,19 +961,19 @@ namespace ProceduralToolkit
                 if (codirected)
                 {
                     // Codirected
-                    float segment2AProjection = Vector2.Dot(direction1, from2ATo1A);
-                    if (segment2AProjection > 0)
-                    {
-                        //     1A------1B
-                        // 2A------2B
-                        SegmentSegmentCollinear(segment2A, segment2B, segment1A, out segment2Point, out segment1Point);
-                        return;
-                    }
-                    else
+                    float segment2AProjection = -Vector2.Dot(direction1, from2ATo1A);
+                    if (segment2AProjection > -Geometry.Epsilon)
                     {
                         // 1A------1B
                         //     2A------2B
                         SegmentSegmentCollinear(segment1A, segment1B, segment2A, out segment1Point, out segment2Point);
+                        return;
+                    }
+                    else
+                    {
+                        //     1A------1B
+                        // 2A------2B
+                        SegmentSegmentCollinear(segment2A, segment2B, segment1A, out segment2Point, out segment1Point);
                         return;
                     }
                 }
@@ -981,7 +981,7 @@ namespace ProceduralToolkit
                 {
                     // Contradirected
                     float segment2BProjection = Vector2.Dot(direction1, segment2B - segment1A);
-                    if (segment2BProjection > 0)
+                    if (segment2BProjection > -Geometry.Epsilon)
                     {
                         // 1A------1B
                         //     2B------2A
