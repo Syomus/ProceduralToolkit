@@ -82,9 +82,9 @@ namespace ProceduralToolkit
         /// Returns a distance to the closest point on the sphere
         /// </summary>
         /// <returns>Positive value if the point is outside, negative otherwise</returns>
-        public static float PointSphere(Vector3 point, Vector3 center, float radius)
+        public static float PointSphere(Vector3 point, Vector3 sphereCenter, float sphereRadius)
         {
-            return (center - point).magnitude - radius;
+            return (sphereCenter - point).magnitude - sphereRadius;
         }
 
         #endregion Point-Sphere

@@ -20,9 +20,10 @@ namespace ProceduralToolkit
         /// <summary>
         /// Tests if the point is inside the sphere
         /// </summary>
-        public static bool PointSphere(Vector3 point, Vector3 center, float radius)
+        public static bool PointSphere(Vector3 point, Vector3 sphereCenter, float sphereRadius)
         {
-            return (point - center).sqrMagnitude <= radius*radius;
+            // For points on the sphere's surface magnitude is more stable than sqrMagnitude
+            return (point - sphereCenter).magnitude < sphereRadius*sphereRadius + Geometry.Epsilon;
         }
 
         #endregion Point-Sphere
@@ -108,17 +109,16 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool LineSphere(Line3 line, Sphere sphere)
         {
-            Vector3 pointA;
-            Vector3 pointB;
-            return LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out pointA, out pointB);
+            IntersectionLineSphere intersection;
+            return LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out intersection);
         }
 
         /// <summary>
         /// Computes an intersection of the line and the sphere
         /// </summary>
-        public static bool LineSphere(Line3 line, Sphere sphere, out Vector3 pointA, out Vector3 pointB)
+        public static bool LineSphere(Line3 line, Sphere sphere, out IntersectionLineSphere intersection)
         {
-            return LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out pointA, out pointB);
+            return LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out intersection);
         }
 
         /// <summary>
@@ -126,39 +126,39 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool LineSphere(Vector3 lineOrigin, Vector3 lineDirection, Vector3 sphereCenter, float sphereRadius)
         {
-            Vector3 pointA;
-            Vector3 pointB;
-            return LineSphere(lineOrigin, lineDirection, sphereCenter, sphereRadius, out pointA, out pointB);
+            IntersectionLineSphere intersection;
+            return LineSphere(lineOrigin, lineDirection, sphereCenter, sphereRadius, out intersection);
         }
 
         /// <summary>
         /// Computes an intersection of the line and the sphere
         /// </summary>
         public static bool LineSphere(Vector3 lineOrigin, Vector3 lineDirection, Vector3 sphereCenter, float sphereRadius,
-            out Vector3 pointA, out Vector3 pointB)
+            out IntersectionLineSphere intersection)
         {
-            Vector3 toCenter = sphereCenter - lineOrigin;
-            float toCenterOnLine = Vector3.Dot(toCenter, lineDirection);
-            float sqrDistanceToLine = toCenter.sqrMagnitude - toCenterOnLine*toCenterOnLine;
+            Vector2 originToCenter = sphereCenter - lineOrigin;
+            float centerProjection = Vector2.Dot(lineDirection, originToCenter);
+            float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
 
-            float sqrRadius = sphereRadius*sphereRadius;
-            if (sqrDistanceToLine > sqrRadius)
+            float sqrDistanceToIntersection = sphereRadius*sphereRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
             {
-                pointA = Vector3.zero;
-                pointB = Vector3.zero;
+                intersection = IntersectionLineSphere.None();
                 return false;
             }
-            float fromClosestPointToIntersection = Mathf.Sqrt(sqrRadius - sqrDistanceToLine);
-            float intersectionA = toCenterOnLine - fromClosestPointToIntersection;
-            float intersectionB = toCenterOnLine + fromClosestPointToIntersection;
-
-            if (intersectionA > intersectionB)
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
             {
-                PTUtils.Swap(ref intersectionA, ref intersectionB);
+                intersection = IntersectionLineSphere.Point(lineOrigin + lineDirection*centerProjection);
+                return true;
             }
 
-            pointA = lineOrigin + intersectionA*lineDirection;
-            pointB = lineOrigin + intersectionB*lineDirection;
+            float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
+            float distanceA = centerProjection - distanceToIntersection;
+            float distanceB = centerProjection + distanceToIntersection;
+
+            Vector2 pointA = lineOrigin + lineDirection*distanceA;
+            Vector2 pointB = lineOrigin + lineDirection*distanceB;
+            intersection = IntersectionLineSphere.TwoPoints(pointA, pointB);
             return true;
         }
 
@@ -171,17 +171,16 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool RaySphere(Ray ray, Sphere sphere)
         {
-            Vector3 pointA;
-            Vector3 pointB;
-            return RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out pointA, out pointB);
+            IntersectionRaySphere intersection;
+            return RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out intersection);
         }
 
         /// <summary>
         /// Computes an intersection of the ray and the sphere
         /// </summary>
-        public static bool RaySphere(Ray ray, Sphere sphere, out Vector3 pointA, out Vector3 pointB)
+        public static bool RaySphere(Ray ray, Sphere sphere, out IntersectionRaySphere intersection)
         {
-            return RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out pointA, out pointB);
+            return RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out intersection);
         }
 
         /// <summary>
@@ -189,50 +188,61 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool RaySphere(Vector3 rayOrigin, Vector3 rayDirection, Vector3 sphereCenter, float sphereRadius)
         {
-            Vector3 pointA;
-            Vector3 pointB;
-            return RaySphere(rayOrigin, rayDirection, sphereCenter, sphereRadius, out pointA, out pointB);
+            IntersectionRaySphere intersection;
+            return RaySphere(rayOrigin, rayDirection, sphereCenter, sphereRadius, out intersection);
         }
 
         /// <summary>
         /// Computes an intersection of the ray and the sphere
         /// </summary>
-        public static bool RaySphere(Vector3 rayOrigin, Vector3 rayDirection, Vector3 sphereCenter, float sphereRadius, out Vector3 pointA,
-            out Vector3 pointB)
+        public static bool RaySphere(Vector3 rayOrigin, Vector3 rayDirection, Vector3 sphereCenter, float sphereRadius,
+            out IntersectionRaySphere intersection)
         {
-            Vector3 toCenter = sphereCenter - rayOrigin;
-            float toCenterOnLine = Vector3.Dot(toCenter, rayDirection);
-            float sqrDistanceToLine = toCenter.sqrMagnitude - toCenterOnLine*toCenterOnLine;
-
-            float sqrRadius = sphereRadius*sphereRadius;
-            if (sqrDistanceToLine > sqrRadius)
+            Vector3 originToCenter = sphereCenter - rayOrigin;
+            float centerProjection = Vector3.Dot(rayDirection, originToCenter);
+            if (centerProjection + sphereRadius < -Geometry.Epsilon)
             {
-                pointA = Vector3.zero;
-                pointB = Vector3.zero;
+                intersection = IntersectionRaySphere.None();
                 return false;
             }
-            float fromClosestPointToIntersection = Mathf.Sqrt(sqrRadius - sqrDistanceToLine);
-            float distanceA = toCenterOnLine - fromClosestPointToIntersection;
-            float distanceB = toCenterOnLine + fromClosestPointToIntersection;
 
-            if (distanceA > distanceB)
+            float sqrDistanceToLine = originToCenter.sqrMagnitude - centerProjection*centerProjection;
+            float sqrDistanceToIntersection = sphereRadius*sphereRadius - sqrDistanceToLine;
+            if (sqrDistanceToIntersection < -Geometry.Epsilon)
             {
-                PTUtils.Swap(ref distanceA, ref distanceB);
+                intersection = IntersectionRaySphere.None();
+                return false;
             }
+            if (sqrDistanceToIntersection < Geometry.Epsilon)
+            {
+                if (centerProjection < -Geometry.Epsilon)
+                {
+                    intersection = IntersectionRaySphere.None();
+                    return false;
+                }
+                intersection = IntersectionRaySphere.Point(rayOrigin + rayDirection*centerProjection);
+                return true;
+            }
+
+            // Line intersection
+            float distanceToIntersection = Mathf.Sqrt(sqrDistanceToIntersection);
+            float distanceA = centerProjection - distanceToIntersection;
+            float distanceB = centerProjection + distanceToIntersection;
 
             if (distanceA < -Geometry.Epsilon)
             {
-                distanceA = distanceB;
-                if (distanceA < -Geometry.Epsilon)
+                if (distanceB < -Geometry.Epsilon)
                 {
-                    pointA = Vector3.zero;
-                    pointB = Vector3.zero;
+                    intersection = IntersectionRaySphere.None();
                     return false;
                 }
+                intersection = IntersectionRaySphere.Point(rayOrigin + rayDirection*distanceB);
+                return true;
             }
 
-            pointA = rayOrigin + distanceA*rayDirection;
-            pointB = rayOrigin + distanceB*rayDirection;
+            Vector3 pointA = rayOrigin + rayDirection*distanceA;
+            Vector3 pointB = rayOrigin + rayDirection*distanceB;
+            intersection = IntersectionRaySphere.TwoPoints(pointA, pointB);
             return true;
         }
 

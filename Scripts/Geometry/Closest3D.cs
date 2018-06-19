@@ -182,9 +182,9 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the sphere
         /// </summary>
-        public static Vector3 PointSphere(Vector3 point, Vector3 center, float radius)
+        public static Vector3 PointSphere(Vector3 point, Vector3 sphereCenter, float sphereRadius)
         {
-            return center + (point - center).normalized*radius;
+            return sphereCenter + (point - sphereCenter).normalized*sphereRadius;
         }
 
         #endregion Point-Sphere

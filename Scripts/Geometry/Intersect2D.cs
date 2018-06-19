@@ -864,7 +864,6 @@ namespace ProceduralToolkit
             {
                 if (centerProjection < -Geometry.Epsilon)
                 {
-                    // No intersection
                     intersection = IntersectionRayCircle.None();
                     return false;
                 }
@@ -884,7 +883,6 @@ namespace ProceduralToolkit
                     intersection = IntersectionRayCircle.None();
                     return false;
                 }
-
                 intersection = IntersectionRayCircle.Point(rayOrigin + rayDirection*distanceB);
                 return true;
             }
