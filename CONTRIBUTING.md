@@ -1,1 +1,0 @@
-If you have found a bug or there is something you want added or changed, you are welcome to [submit an issue](https://github.com/Syomus/ProceduralToolkit/issues) or [pull request](https://github.com/Syomus/ProceduralToolkit/pulls) on the github page. Alternatively, you can send a message to the [support email](mailto:proceduraltoolkit@syomus.com).

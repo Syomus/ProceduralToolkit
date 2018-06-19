@@ -1,0 +1,18 @@
+Thank you for considering contributing to Procedural Toolkit! This document outlines the various ways in which you can help.
+
+## How can I contribute?
+
+### Reporting bugs and issues
+First, please search the [open issues](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aopen)
+and [closed issues](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aclosed)
+to see if your issue hasn't already been reported. If it does exist, add a
+:thumbsup: to the issue to indicate this is also an issue for you, and add a
+comment to the existing issue if there is extra information you can contribute.
+
+If you can't find a matching issue, open a [new issue](https://github.com/Syomus/ProceduralToolkit/issues/new/choose),
+choose the right template and provide us with enough information to investigate further. 
+Alternatively, you can send a message to the [support email](mailto:proceduraltoolkit@syomus.com).
+
+### Suggesting enhancements
+If you have an idea on how to improve Procedural Toolkit, don't hesitate to 
+[open a new issue](https://github.com/Syomus/ProceduralToolkit/issues/new/choose) and describe in details what you have in mind.

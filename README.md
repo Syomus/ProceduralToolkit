@@ -25,8 +25,7 @@ Renaming or moving toolkit's folder from the default path (`\Assets\ProceduralTo
 
 The folder containing example classes and scenes (`ProceduralToolkit\Examples`) can be safely removed. The same is true for `ProceduralToolkit\Shaders`, if you are not using examples. Removing `ProceduralToolkit\Scripts\Editor` will leave you with a code-only toolkit, but you will lose drawers for some of the classes.
 
-## Getting started
-
+### Getting started
 After installation you can import ProceduralToolkit namespace and start building your own PCG systems:
 ```C#
 using UnityEngine;
@@ -40,6 +39,25 @@ public class ReadmeExample : MonoBehaviour
     }
 }
 ```
+
+## I have a problem with Procedural Toolkit
+First, please search the [open issues](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aopen)
+and [closed issues](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aclosed)
+to see if your issue hasn't already been reported. If it does exist, add a
+:thumbsup: to the issue to indicate this is also an issue for you, and add a
+comment to the existing issue if there is extra information you can contribute.
+
+If you can't find a matching issue, open a [new issue](https://github.com/Syomus/ProceduralToolkit/issues/new/choose),
+choose the right template and provide us with enough information to investigate further.
+
+Alternatively, you can send a message to the [support email](mailto:proceduraltoolkit@syomus.com).
+
+## How can I contribute to Procedural Toolkit?
+See [CONTRIBUTING.md](./.github/CONTRIBUTING.md) for a full guide on how you can help.
+
+If you're looking for something to work on, check out the [help wanted](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aissue+is%3Aopen+label%3A"help+wanted") label.
+
+We also accept donations through [PayPal](https://paypal.me/ProceduralToolkit).
 
 ## Scripts
 * [ArrayE](Scripts/ArrayE.cs): Various Array and List extensions, such as looped getters/setters and flood fills.
@@ -165,9 +183,6 @@ An example showing usage of DebugE, GLE and GizmosE.
 * ButtonControl, SliderControl, TextControl, ToggleControl: UI controls for generators.
 * CameraRotator: Orbiting camera controller.
 * ConfiguratorBase: Base class for configurators.
-
-## Contributing
-See [CONTRIBUTING](CONTRIBUTING.md)
 
 ## License
 [MIT](LICENSE.txt)
