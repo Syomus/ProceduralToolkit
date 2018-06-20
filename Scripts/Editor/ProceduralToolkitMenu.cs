@@ -9,7 +9,7 @@ namespace ProceduralToolkit.Editor
     /// </summary>
     public class ProceduralToolkitMenu
     {
-        public const string version = "0.2.0";
+        public const string version = "0.2.1";
 
         private const string primitivesPath = "GameObject/Procedural Toolkit/";
         private const string create = "Create ";

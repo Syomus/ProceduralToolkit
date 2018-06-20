@@ -1,7 +1,29 @@
 ## Version history
 
+### 0.2.1 (2018.06.20)
+This release brings new computational geometry algorithms and geometric primitives.
+#### Features:
+* Added Circle, Sphere, Line2, Line3, Segment2 and Segment3. All new primitives are Serializable and IFormattable.
+* Added many new geometry algorithms. See [this wiki page](https://github.com/Syomus/ProceduralToolkit/wiki/Geometry-algorithms) for a full matrix.
+* Unit tests for the toolkit are now public and can be found [here](https://github.com/Syomus/ProceduralToolkit.Tests).
+
+#### Improvements:
+* Added assembly definition files.
+* ColorHSV: Added new casting and arithmetic operators.
+* CompoundMeshDraft: Fixed conversion to Mesh for Unity 2017.3.
+* LowPolyTerrain: Added MeshCollider.
+* RandomE: Added rotation2, PointOnSegment overloads, PointOnCircle, PointInCircle, PointOnSphere, PointInSphere.
+* SDF: Fixed the WebGL build.
+
+#### Changes:
+* Minimum supported Unity version is now 2017.3.
+* Split geometry algorithms into separate classes: Closest, Distance and Intersect.
+* Moved PointOn* methods from PTUtils to Geometry.
+
+
 ### 0.2.0 (2018.01.05)
-This release is mainly focused on refactoring and documenting of the codebase, expect better performance and overall stability. That being said, there are a few new features as well.
+This release is mainly focused on refactoring and documenting of the codebase, expect better performance and overall stability. 
+That being said, there are a few new features as well.
 #### Features:
 * Added a new shader library with signed distance functions and easings, see `ProceduralToolkit\Shaders\*.cginc` files and `ProceduralToolkit\Examples\SDF` folder for details.
 * Added a new Geometry class with many computational geometry algorithms (distance, intersection, closest point, etc.).
@@ -67,6 +89,7 @@ This release is mainly focused on refactoring and documenting of the codebase, e
   * Removed "About" window.
   * Removed shapes from the editor menu that duplicated the Unity functionality.
 
+
 ### 0.1.9 (2017.03.23)
 #### Features:
 * Added CharacterGenerator example with integrated NameGenerator which replaces Datasets class
@@ -96,21 +119,27 @@ This release is mainly focused on refactoring and documenting of the codebase, e
 
 #### Changes:
 * Dropped support for Unity 5.3
-* Removed Datasets class and name generators from RandomE and with CharacterGenerator example due to error in IL2CPP compiler which was preventing builds for Android and iOS. Name generators are now in NameGenerator class and string constants are in PTUtils.
+* Removed Datasets class and name generators from RandomE and with CharacterGenerator example 
+due to error in IL2CPP compiler which was preventing builds for Android and iOS. 
+Name generators are now in NameGenerator class and string constants are in PTUtils.
 * Replaced CircularList with extension methods in ArrayE: GetLooped and SetLooped
 * Renamed partial Hexahedron constructor to PartialBox
 * Moved all common example classes to `ProceduralToolkit\Examples\Common`
 
+
 ### 0.1.8 (2016.09.06)
 #### Features:
-* Added GizmosE, GLE and DebugE helper classes with extra drawing methods such as DrawWireCircle, DrawWireHemisphere, DrawWireCone, and others. GizmosE and DebugE have API similar to Gizmos and Debug, GLE is just a bunch of wrappers over GL.Vertex which follow Gizmos convention.
+* Added GizmosE, GLE and DebugE helper classes with extra drawing methods such as DrawWireCircle, 
+DrawWireHemisphere, DrawWireCone, and others. GizmosE and DebugE have API similar to Gizmos and Debug, 
+GLE is just a bunch of wrappers over GL.Vertex which follow Gizmos convention.
 * Added Draw helper class with generic drawing methods
 * Added Gradient Skybox shader
 * Added new random color generators: RandomE.ColorHue, ColorSaturation and ColorValue
 * Added static palette generators: ColorHSV.GetAnalogousPalette, GetTriadicPalette and GetTetradicPalette
 * Added random palette generators: RandomE.AnalogousPalette, TriadicPalette, TetradicPalette
 * 3D examples now have dynamic generated skyboxes
-* Added custom inspectors for BuildingGenerator, ChairGenerator and LowPolyTerrainGenerator. Changing values does not cause regeneration, but otherwise they bahave the same way as UI controls and work in editor and play mode.
+* Added custom inspectors for BuildingGenerator, ChairGenerator and LowPolyTerrainGenerator. 
+Changing values does not cause regeneration, but otherwise they bahave the same way as UI controls and work in editor and play mode.
 
 #### Improvements:
 * Optimized examples, mesh and texture helper classes to produce less garbage
@@ -136,6 +165,7 @@ This release is mainly focused on refactoring and documenting of the codebase, e
 * RandomE.colorHSV now returns ColorHSV
 * Moved drawing methods from PTUtils to Draw
 
+
 ### 0.1.7 (2015.12.19)
 #### Features:
 * Added ColorHSV class
@@ -154,6 +184,7 @@ This release is mainly focused on refactoring and documenting of the codebase, e
 * New CameraRotator behaviour, now requires Image to operate
 * PTUtils.WuLine is now DrawAALine, BresenhamLine is DrawLine
 
+
 ### 0.1.6 (2015.10.02)
 * Major refactoring, new UI for all examples
 * Removed ColorE.ToHex and ColorE.FromHex
@@ -168,16 +199,19 @@ This release is mainly focused on refactoring and documenting of the codebase, e
   * Removed Texture2D constructors
   * Added DrawCircle, DrawGradient and DrawGradientRect
 
+
 ### 0.1.5 (2015.05.14)
 * Unity 5 support
 * Added mesh saver
 * Added new example: Breakout
 * Added Standard Vertex Color shader
 
+
 ### 0.1.4 (2015.02.08)
 * Added new examples: Primitives and Mazes
 * Added Texture extensions
 * Added Bresenham and Wu line drawing algorithms
+
 
 ### 0.1.3 (2014.11.15)
 * Added new example: Khrushchyovka
@@ -188,9 +222,11 @@ This release is mainly focused on refactoring and documenting of the codebase, e
 * Added specular vertex color shader
 * Improved examples
 
+
 ### 0.1.2 (2014.11.10)
 * Added new example: chair generator
 * Small additions and fixes
+
 
 ### 0.1.1 (2014.10.26)
 * Added new primitives: cylinder and sphere
@@ -198,6 +234,7 @@ This release is mainly focused on refactoring and documenting of the codebase, e
 * Added RandomE.Range methods
 * Added PTUtils methods for points on circle and sphere
 * Improved documentation
+
 
 ### 0.1 (2014.10.13)
 * First release
