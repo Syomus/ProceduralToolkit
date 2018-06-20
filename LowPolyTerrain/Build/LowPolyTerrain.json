@@ -1,9 +1,11 @@
 {
-"TOTAL_MEMORY": 268435456,
+"companyName": "Syomus",
+"productName": "Procedural Toolkit",
 "dataUrl": "LowPolyTerrain.data.unityweb",
 "asmCodeUrl": "LowPolyTerrain.asm.code.unityweb",
 "asmMemoryUrl": "LowPolyTerrain.asm.memory.unityweb",
 "asmFrameworkUrl": "LowPolyTerrain.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
 "graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
 "webglContextAttributes": {"preserveDrawingBuffer": false},
 "splashScreenStyle": "Dark",
