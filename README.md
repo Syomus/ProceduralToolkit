@@ -96,17 +96,17 @@ Collection of intersection algorithms.
 * [Intersections](/Scripts/Geometry/Intersections) folder: Structures containing information about intersections.
 
 ### Scripts/Editor/
-* ColorHSVDrawer: PropertyDrawer for ColorHSV.
-* MeshFilterExtension: Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
-* ProceduralToolkitMenu: Submenu with constructors for primitives at `GameObject > Procedural Toolkit`.
-* RulesetDrawer: PropertyDrawer for CellularAutomaton.Ruleset.
+* [ColorHSVDrawer](/Scripts/Editor/ColorHSVDrawer.cs): PropertyDrawer for ColorHSV.
+* [MeshFilterExtension](/Scripts/Editor/MeshFilterExtension.cs): Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
+* [ProceduralToolkitMenu](/Scripts/Editor/ProceduralToolkitMenu.cs): Submenu with constructors for primitives at `GameObject > Procedural Toolkit`.
+* [RulesetDrawer](/Scripts/Editor/RulesetDrawer.cs): PropertyDrawer for CellularAutomaton.Ruleset.
 
 ### Shaders/
-* Common.cginc: Collection of shaping and debug functions.
-* Easing.cginc: Normalized easing functions.
-* SDF.cginc: Collection of signed distance functions.
-* Transitions.cginc: Collection of transition animations.
-* Gradient Skybox: Simple gradient skybox.
+* [Common.cginc](/Shaders/Common.cginc): Collection of shaping and debug functions.
+* [Easing.cginc](/Shaders/Easing.cginc): Normalized easing functions.
+* [SDF.cginc](/Shaders/SDF.cginc): Collection of signed distance functions.
+* [Transitions.cginc](/Shaders/Transitions.cginc): Collection of transition animations.
+* [Gradient Skybox](/Shaders/Gradient Skybox.shader): Simple gradient skybox.
 * [Debug](/Shaders/Debug) folder: Debug shaders for some of the most common mesh channels.
 * [VertexColor](/Shaders/VertexColor) folder: Textureless shaders for use with color information from the vertices.
 
