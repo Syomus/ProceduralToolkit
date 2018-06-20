@@ -106,7 +106,7 @@ Collection of intersection algorithms.
 * [Easing.cginc](/Shaders/Easing.cginc): Normalized easing functions.
 * [SDF.cginc](/Shaders/SDF.cginc): Collection of signed distance functions.
 * [Transitions.cginc](/Shaders/Transitions.cginc): Collection of transition animations.
-* [Gradient Skybox](/Shaders/Gradient Skybox.shader): Simple gradient skybox.
+* [Gradient Skybox](/Shaders/Gradient%20Skybox.shader): Simple gradient skybox.
 * [Debug](/Shaders/Debug) folder: Debug shaders for some of the most common mesh channels.
 * [VertexColor](/Shaders/VertexColor) folder: Textureless shaders for use with color information from the vertices.
 
