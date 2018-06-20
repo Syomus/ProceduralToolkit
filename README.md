@@ -93,7 +93,7 @@ Collection of distance calculation algorithms.
 * [Intersect2D](/Scripts/Geometry/Intersect2D.cs), [Intersect2D](/Scripts/Geometry/Intersect2D.cs): 
 Collection of intersection algorithms.
 * [IntersectionType](/Scripts/Geometry/IntersectionType.cs): Enum used in intersection algorithms.
-* [Intersections/](/Scripts/Geometry/Intersections): Structures containing information about intersections.
+* [Intersections](/Scripts/Geometry/Intersections) folder: Structures containing information about intersections.
 
 ### Scripts/Editor/
 * ColorHSVDrawer: PropertyDrawer for ColorHSV.
@@ -107,8 +107,8 @@ Collection of intersection algorithms.
 * SDF.cginc: Collection of signed distance functions.
 * Transitions.cginc: Collection of transition animations.
 * Gradient Skybox: Simple gradient skybox.
-* `Debug` folder: Debug shaders for some of the most common mesh channels.
-* `VertexColor` folder: Textureless shaders for use with color information from the vertices.
+* [Debug](/Shaders/Debug) folder: Debug shaders for some of the most common mesh channels.
+* [VertexColor](/Shaders/VertexColor) folder: Textureless shaders for use with color information from the vertices.
 
 ## Examples
 `Examples/Resources` contains UI prefabs and a skybox material used in examples. 
