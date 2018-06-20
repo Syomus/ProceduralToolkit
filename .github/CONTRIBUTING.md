@@ -30,16 +30,16 @@ Tests are always appreciated. If you see a feature that doesn't have sufficient 
 (especially if it is [Geometry](/Scripts/Geometry)-related), we would be very grateful if you wrote some tests for it! 
 Tests are written using the [Unity Test Runner](https://docs.unity3d.com/Manual/PlaymodeTestFramework.html).
 
-### Optimisation
+### Optimization
 If you notice some bottleneck or inefficiency, feel free to share it with us by opening a [new issue](https://github.com/Syomus/ProceduralToolkit/issues/new/choose) 
 or sending a [pull request](https://github.com/Syomus/ProceduralToolkit/pulls).
 
 ## Pull requests
 Pull requests are welcome. If you are interested in contributing, you will need to clone or download the [development project](https://github.com/Syomus/ProceduralToolkit.UnityProject) 
-and install the toolkit from your [fork](https://help.github.com/articles/working-with-forks/) to the default location `Assets/ProceduralToolkit`. 
+and install the toolkit from your [fork](https://help.github.com/articles/working-with-forks/) into `Assets/ProceduralToolkit`. 
 It is also recommended that you install the [tests](https://github.com/Syomus/ProceduralToolkit.Tests) into `Assets/ProceduralToolkit.Tests` to ensure that your changes do not introduce regressions.
 
-And that's it! After setting up the development project you can start making changes and commit them to your fork.
+And that's it! After setting up the development project you can start making changes and committing them to your fork.
 
 **Before you commit:**
  * Save all your changes.
