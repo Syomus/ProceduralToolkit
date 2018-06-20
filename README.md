@@ -52,7 +52,7 @@ choose the right template and provide us with enough information to investigate 
 Alternatively, you can send a message to the [support email](mailto:proceduraltoolkit@syomus.com).
 
 ## Contributing
-See [CONTRIBUTING.md](/.github/CONTRIBUTING.md) for a full guide on how you can help.
+See [CONTRIBUTING](/.github/CONTRIBUTING.md) for a full guide on how you can help.
 
 If you're looking for something to work on, check out the [help wanted](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aissue+is%3Aopen+label%3A"help+wanted") label.
 
@@ -61,7 +61,8 @@ If you just want to show your appreciation, you can send a donation through [Pay
 ## Toolkit structure
 ### Scripts/
 * [ArrayE](/Scripts/ArrayE.cs): Various Array and List extensions, such as looped getters/setters and flood fills.
-* [CellularAutomaton](/Scripts/CellularAutomaton.cs): Generic cellular automaton for two-state rulesets. Common rulesets can be found in CellularAutomaton.Ruleset.
+* [CellularAutomaton](/Scripts/CellularAutomaton.cs): Generic cellular automaton for two-state rulesets. 
+Common rulesets can be found in CellularAutomaton.Ruleset.
 * [ColorE](/Scripts/ColorE.cs): Color extensions, HTML colors, Gradient constructors.
 * [ColorHSV](/Scripts/ColorHSV.cs): Serializable representation of color in HSV model.
 * [CompoundMeshDraft](/Scripts/CompoundMeshDraft.cs): Helper class for mesh generation supporting large meshes and submeshes.
@@ -80,6 +81,7 @@ If you just want to show your appreciation, you can send a donation through [Pay
 * [VectorE](/Scripts/VectorE.cs): Vector extensions.
 
 ### Scripts/Geometry/
+See [this wiki page](https://github.com/Syomus/ProceduralToolkit/wiki/Geometry-algorithms) for a matrix of available algorithms.
 * [Circle](/Scripts/Geometry/Circle.cs), [Sphere](/Scripts/Geometry/Sphere.cs), 
 [Line2](/Scripts/Geometry/Line2.cs), [Line3](/Scripts/Geometry/Line3.cs), 
 [Segment2](/Scripts/Geometry/Segment2.cs), [Segment3](/Scripts/Geometry/Segment3.cs): 
@@ -109,12 +111,15 @@ Collection of intersection algorithms.
 * `VertexColor` folder: Textureless shaders for use with color information from the vertices.
 
 ## Examples
-`Examples/Resources` contains UI prefabs and a skybox material used in examples. `Examples/Common` contains scripts for ui controls, a camera rotator and a skybox generator.
+`Examples/Resources` contains UI prefabs and a skybox material used in examples. 
+`Examples/Common` contains scripts for ui controls, a camera rotator and a skybox generator.
 
 ### [Buildings](http://syomus.com/ProceduralToolkit/Buildings)
 ![](http://syomus.com/ProceduralToolkit/screenshot-buildings.png)
 
-A fully procedural building generator, creates entire mesh from scratch and paints it's vertices. Keep in mind that there is no uv map in the generated mesh so using using it with Standard shader is pointless. If you are interested, the building design is called [Khrushchyovka](https://en.wikipedia.org/wiki/Khrushchyovka).
+A fully procedural building generator, creates entire mesh from scratch and paints it's vertices. 
+Keep in mind that there is no uv map in the generated mesh so using using it with Standard shader is pointless.
+If you are interested, the building design is called [Khrushchyovka](https://en.wikipedia.org/wiki/Khrushchyovka).
 * BuildingGenerator: Main generator class. Generates buildings based on input configuration.
 * BuildingGeneratorBase: Base class for the generator.
 * BuildingGeneratorConfigurator: Configurator for BuildingGenerator with UI and editor controls.
@@ -135,7 +140,8 @@ A fully procedural chair generator, creates entire mesh from scratch and paints 
 ### [Low Poly Terrain](http://syomus.com/ProceduralToolkit/LowPolyTerrain)
 ![](http://syomus.com/ProceduralToolkit/screenshot-low-poly-terrain.png)
 
-A simple Perlin noise based low poly terrain generator. Doesn't support chunking or anything like that, just an example of how you can use a noise function in a plane generation algorithm.
+A simple Perlin noise based low poly terrain generator. 
+Doesn't support chunking or anything like that, just an example of how you can use a noise function in a plane generation algorithm.
 * LowPolyTerrainGenerator: Main generator class. Generates terrain based on input configuration.
 * LowPolyTerrainGeneratorConfigurator: Configurator for LowPolyTerrainGenerator with UI and editor controls.
 * LowPolyTerrainGeneratorConfiguratorEditor: Custom inspector for LowPolyTerrainGeneratorConfigurator.
@@ -154,7 +160,8 @@ A collection of shaders showing how you can utilise functions from the shader li
 ### [Cellular Automata](http://syomus.com/ProceduralToolkit/CellularAutomata)
 ![](http://syomus.com/ProceduralToolkit/screenshot-cellular-automata.png)
 
-A demonstration of CellularAutomaton from the main library, draws the automaton simulation on a texture. Note that some of the rulesets need noise value different from the default setting.
+A demonstration of CellularAutomaton from the main library, draws the automaton simulation on a texture. 
+Note that some of the rulesets need noise value different from the default setting.
 * CellularAutomatonConfigurator: Configurator for the automaton with UI controls.
 
 ### [Mazes](http://syomus.com/ProceduralToolkit/Mazes)
