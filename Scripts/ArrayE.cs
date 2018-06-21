@@ -253,7 +253,7 @@ namespace ProceduralToolkit
         #region Visit4
 
         /// <summary>
-        /// Visits four cells orthogonally surrounding the centrer cell
+        /// Visits four cells orthogonally surrounding the center cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
@@ -264,7 +264,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits four cells orthogonally surrounding the centrer cell
+        /// Visits four cells orthogonally surrounding the center cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
@@ -293,7 +293,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits four cells orthogonally surrounding the centrer cell
+        /// Visits four cells orthogonally surrounding the center cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
@@ -304,7 +304,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits four cells orthogonally surrounding the centrer cell
+        /// Visits four cells orthogonally surrounding the center cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
@@ -325,7 +325,7 @@ namespace ProceduralToolkit
         #region Visit8
 
         /// <summary>
-        /// Visits eight cells surrounding the centrer cell
+        /// Visits eight cells surrounding the center cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood
@@ -336,7 +336,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits eight cells surrounding the centrer cell
+        /// Visits eight cells surrounding the center cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood
@@ -375,7 +375,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits eight cells surrounding the centrer cell
+        /// Visits eight cells surrounding the center cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood
@@ -386,7 +386,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Visits eight cells surrounding the centrer cell
+        /// Visits eight cells surrounding the center cell
         /// </summary>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Moore_neighborhood

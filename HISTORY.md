@@ -139,7 +139,7 @@ GLE is just a bunch of wrappers over GL.Vertex which follow Gizmos convention.
 * Added random palette generators: RandomE.AnalogousPalette, TriadicPalette, TetradicPalette
 * 3D examples now have dynamic generated skyboxes
 * Added custom inspectors for BuildingGenerator, ChairGenerator and LowPolyTerrainGenerator. 
-Changing values does not cause regeneration, but otherwise they bahave the same way as UI controls and work in editor and play mode.
+Changing values does not cause regeneration, but otherwise they behave the same way as UI controls and work in editor and play mode.
 
 #### Improvements:
 * Optimized examples, mesh and texture helper classes to produce less garbage
@@ -194,7 +194,7 @@ Changing values does not cause regeneration, but otherwise they bahave the same 
 * Added datasets for names and last names
 * RandomE
   * Removed meshDraft
-  * Added onUnitCircle, insideUnitSquare, onUnitSquare, insideUnitCube, name constructors, new string and char constructos
+  * Added onUnitCircle, insideUnitSquare, onUnitSquare, insideUnitCube, name constructors, new string and char constructors
 * TextureE
   * Removed Texture2D constructors
   * Added DrawCircle, DrawGradient and DrawGradientRect

@@ -118,7 +118,7 @@ Collection of intersection algorithms.
 ![](http://syomus.com/ProceduralToolkit/screenshot-buildings.png)
 
 A fully procedural building generator, creates entire mesh from scratch and paints it's vertices. 
-Keep in mind that there is no uv map in the generated mesh so using using it with Standard shader is pointless.
+Keep in mind that there is no uv map in the generated mesh so using it with Standard shader is pointless.
 If you are interested, the building design is called [Khrushchyovka](https://en.wikipedia.org/wiki/Khrushchyovka).
 * BuildingGenerator: Main generator class. Generates buildings based on input configuration.
 * BuildingGeneratorBase: Base class for the generator.
@@ -150,7 +150,7 @@ Doesn't support chunking or anything like that, just an example of how you can u
 ![](http://syomus.com/ProceduralToolkit/screenshot-sdf.png)
 
 A collection of shaders showing how you can utilise functions from the shader library.
-* StarPolygon: A simple shader that draws a star polygon and shows a difference beween "normal" and "cheap" functions.
+* StarPolygon: A simple shader that draws a star polygon and shows a difference between "normal" and "cheap" functions.
 * Shapes: A demonstration of some of the available shapes.
 * DistanceOperations: A square and a circle combined with different functions.
 * Easing: All easing functions in one shader showing the ease curve and the easig motion.
