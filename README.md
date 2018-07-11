@@ -56,7 +56,7 @@ See [CONTRIBUTING](/.github/CONTRIBUTING.md) for a full guide on how you can hel
 
 If you're looking for something to work on, check out the [help wanted](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aissue+is%3Aopen+label%3A"help+wanted") label.
 
-If you just want to show your appreciation, you can send a donation through [Ko-fi](https://ko-fi.com/ProceduralToolkit).
+If you just want to show your appreciation, you can send a donation through [Ko-fi](https://ko-fi.com/ProceduralToolkit) or [PayPal](https://www.paypal.me/ProceduralToolkit/5usd).
 
 ## Toolkit structure
 ### Scripts/
