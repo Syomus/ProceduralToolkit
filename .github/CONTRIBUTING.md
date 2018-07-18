@@ -46,5 +46,6 @@ And that's it! After setting up the development project you can start making cha
  * Check the console window to make sure that there are no errors or warnings.
  * If you worked on something covered by tests, do not forget to run them too.
 
- For details on creating pull requests from a fork please refer to the official [documentation](https://help.github.com/articles/creating-a-pull-request-from-a-fork/).
- 
+For details on creating pull requests from a fork please refer to the official [documentation](https://help.github.com/articles/creating-a-pull-request-from-a-fork/).
+
+By submitting a pull request, you agree that your contribution will be licensed under the [MIT license](https://github.com/Syomus/ProceduralToolkit/blob/master/LICENSE.txt) for this project.
