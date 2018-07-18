@@ -59,7 +59,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a perp of the vector
+        /// Returns a new vector rotated counterclockwise by 90°
         /// </summary>
         /// <remarks>
         /// Hill, F. S. Jr. "The Pleasures of 'Perp Dot' Products."
@@ -127,7 +127,7 @@ namespace ProceduralToolkit
             float cos = Mathf.Cos(radians);
             return new Vector2(
                 vector.x*cos + vector.y*sin,
-                -vector.x*sin + vector.y*cos);
+                vector.y*cos - vector.x*sin);
         }
 
         /// <summary>
@@ -135,7 +135,44 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector2 RotateCCW(this Vector2 vector, float degrees)
         {
-            return RotateCW(vector, -degrees);
+            float radians = degrees*Mathf.Deg2Rad;
+            float sin = Mathf.Sin(radians);
+            float cos = Mathf.Cos(radians);
+            return new Vector2(
+                vector.x*cos - vector.y*sin,
+                vector.y*cos + vector.x*sin);
+        }
+
+        /// <summary>
+        /// Returns a new vector rotated clockwise by 45°
+        /// </summary>
+        public static Vector2 RotateCW45(this Vector2 vector)
+        {
+            return new Vector2((vector.x + vector.y)*PTUtils.Sqrt05, (vector.y - vector.x)*PTUtils.Sqrt05);
+        }
+
+        /// <summary>
+        /// Returns a new vector rotated counterclockwise by 45°
+        /// </summary>
+        public static Vector2 RotateCCW45(this Vector2 vector)
+        {
+            return new Vector2((vector.x - vector.y)*PTUtils.Sqrt05, (vector.y + vector.x)*PTUtils.Sqrt05);
+        }
+
+        /// <summary>
+        /// Returns a new vector rotated clockwise by 90°
+        /// </summary>
+        public static Vector2 RotateCW90(this Vector2 vector)
+        {
+            return new Vector2(vector.y, -vector.x);
+        }
+
+        /// <summary>
+        /// Returns a new vector rotated counterclockwise by 90°
+        /// </summary>
+        public static Vector2 RotateCCW90(this Vector2 vector)
+        {
+            return new Vector2(-vector.y, vector.x);
         }
 
         public static string ToString(this Vector2 vector, string format, IFormatProvider formatProvider)

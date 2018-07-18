@@ -34,6 +34,11 @@ namespace ProceduralToolkit
         public const string alphanumerics = letters + digits;
 
         /// <summary>
+        /// Square root of 0.5
+        /// </summary>
+        public const float Sqrt05 = 0.7071067811865475244f;
+
+        /// <summary>
         /// Swaps values of <paramref name="left"/> and <paramref name="right"/>
         /// </summary>
         public static void Swap<T>(ref T left, ref T right)
