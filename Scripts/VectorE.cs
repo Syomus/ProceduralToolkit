@@ -118,7 +118,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a new vector rotated clockwise by specified angle
+        /// Returns a new vector rotated clockwise by the specified angle
         /// </summary>
         public static Vector2 RotateCW(this Vector2 vector, float degrees)
         {
@@ -128,6 +128,14 @@ namespace ProceduralToolkit
             return new Vector2(
                 vector.x*cos + vector.y*sin,
                 -vector.x*sin + vector.y*cos);
+        }
+
+        /// <summary>
+        /// Returns a new vector rotated counterclockwise by the specified angle
+        /// </summary>
+        public static Vector2 RotateCCW(this Vector2 vector, float degrees)
+        {
+            return RotateCW(vector, -degrees);
         }
 
         public static string ToString(this Vector2 vector, string format, IFormatProvider formatProvider)
