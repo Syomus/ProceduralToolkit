@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace ProceduralToolkit
 {
@@ -12,22 +11,18 @@ namespace ProceduralToolkit
         /// Lowercase letters from a to z
         /// </summary>
         public const string lowercase = "abcdefghijklmnopqrstuvwxyz";
-
         /// <summary>
         /// Uppercase letters from A to Z
         /// </summary>
         public const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
         /// <summary>
         /// Digits from 0 to 9
         /// </summary>
         public const string digits = "0123456789";
-
         /// <summary>
         /// The concatenation of the strings <see cref="lowercase"/> and <see cref="uppercase"/>
         /// </summary>
         public const string letters = lowercase + uppercase;
-
         /// <summary>
         /// The concatenation of the strings <see cref="letters"/> and <see cref="digits"/>
         /// </summary>
@@ -37,6 +32,10 @@ namespace ProceduralToolkit
         /// Square root of 0.5
         /// </summary>
         public const float Sqrt05 = 0.7071067811865475244f;
+        /// <summary>
+        /// Square root of 2
+        /// </summary>
+        public const float Sqrt2 = 1.4142135623730950488f;
 
         /// <summary>
         /// Swaps values of <paramref name="left"/> and <paramref name="right"/>
