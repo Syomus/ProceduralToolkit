@@ -1298,7 +1298,7 @@ namespace ProceduralToolkit
             Vector2 middle = centerA - fromBtoA*distanceToMiddle;
 
             float discriminant = radiusASqr/distanceFromBtoASqr - distanceToMiddle*distanceToMiddle;
-            Vector2 offset = fromBtoA.Perp()*Mathf.Sqrt(discriminant);
+            Vector2 offset = fromBtoA.RotateCCW90()*Mathf.Sqrt(discriminant);
 
             intersection = IntersectionCircleCircle.TwoPoints(middle + offset, middle - offset);
             return true;
