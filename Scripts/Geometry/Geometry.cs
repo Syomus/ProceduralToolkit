@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 
 namespace ProceduralToolkit
 {
@@ -9,6 +10,8 @@ namespace ProceduralToolkit
     public static class Geometry
     {
         public const float Epsilon = 0.00001f;
+
+        #region Point samplers
 
         /// <summary>
         /// Returns a point on a circle in the XY plane
@@ -174,6 +177,53 @@ namespace ProceduralToolkit
                 x: radius*Mathf.Sin(horizontalRadians)*teardrop,
                 y: height*sinVertical,
                 z: radius*Mathf.Cos(horizontalRadians)*teardrop);
+        }
+
+        #endregion Point samplers
+
+        /// <summary>
+        /// Returns the bisector of an angle
+        /// </summary>
+        /// <param name="previous">Previous vertex</param>
+        /// <param name="current">Current vertex</param>
+        /// <param name="next">Next vertex</param>
+        /// <param name="degrees">Value of an angle in degrees</param>
+        public static Vector2 GetAngleBisector(Vector2 previous, Vector2 current, Vector2 next, out float degrees)
+        {
+            Vector2 toPrevious = (previous - current).normalized;
+            Vector2 toNext = (next - current).normalized;
+
+            degrees = VectorE.SignedAngle(toPrevious, toNext);
+            Assert.IsFalse(float.IsNaN(degrees));
+            return toPrevious.RotateCW(degrees/2);
+        }
+
+        /// <summary>
+        /// Offsets the supplied polygon. Does not handle intersections.
+        /// </summary>
+        /// <param name="polygon">Vertices of the polygon</param>
+        /// <param name="distance">Offset distance. Positive values offset inside, negative outside.</param>
+        public static List<Vector2> OffsetPolygon(List<Vector2> polygon, float distance)
+        {
+            var newPolygon = new List<Vector2>();
+            for (int i = 0; i < polygon.Count; i++)
+            {
+                Vector2 previous = polygon.GetLooped(i - 1);
+                Vector2 current = polygon[i];
+                Vector2 next = polygon.GetLooped(i + 1);
+
+                float angle;
+                Vector2 bisector = GetAngleBisector(previous, current, next, out angle);
+
+                if (angle > 180)
+                {
+                    angle = 360 - angle;
+                }
+                float hypotenuse = distance/Mathf.Sin(angle/2*Mathf.Deg2Rad);
+
+                newPolygon.Add(current + bisector*hypotenuse);
+            }
+            return newPolygon;
         }
     }
 }

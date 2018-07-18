@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace ProceduralToolkit.Examples
 {
@@ -15,7 +14,7 @@ namespace ProceduralToolkit.Examples
             float roofHeight,
             RoofConfig roofConfig)
         {
-            List<Vector2> roofPolygon = OffsetPolygon(foundationPolygon, roofConfig.overhang);
+            List<Vector2> roofPolygon = Geometry.OffsetPolygon(foundationPolygon, roofConfig.overhang);
 
             MeshDraft roofDraft;
             switch (roofConfig.type)
@@ -90,6 +89,7 @@ namespace ProceduralToolkit.Examples
             Vector3 ridgeOffset = (b - a).normalized*2;
             Vector3 ridge0 = (a + d)/2 + ridgeHeight + ridgeOffset;
             Vector3 ridge1 = (b + c)/2 + ridgeHeight - ridgeOffset;
+
             var roofDraft = new MeshDraft();
             roofDraft.AddQuad(a, ridge0, ridge1, b);
             roofDraft.AddTriangle(b, ridge1, c);
@@ -102,52 +102,14 @@ namespace ProceduralToolkit.Examples
         {
             List<Vector3> lowerRing = roofPolygon.ConvertAll(v => v.ToVector3XZ());
             List<Vector3> upperRing = roofPolygon.ConvertAll(v => v.ToVector3XZ() + Vector3.up*roofConfig.thickness);
-            var border = new MeshDraft().AddFlatQuadBand(lowerRing, upperRing, false);
-            return border;
+            return new MeshDraft().AddFlatQuadBand(lowerRing, upperRing, false);
         }
 
         private static MeshDraft GenerateOverhang(List<Vector2> foundationPolygon, List<Vector2> roofPolygon)
         {
             List<Vector3> lowerRing = foundationPolygon.ConvertAll(v => v.ToVector3XZ());
             List<Vector3> upperRing = roofPolygon.ConvertAll(v => v.ToVector3XZ());
-            var overhang = new MeshDraft().AddFlatQuadBand(lowerRing, upperRing, false);
-            return overhang;
-        }
-
-        private static List<Vector2> OffsetPolygon(List<Vector2> polygon, float distance)
-        {
-            var newPolygon = new List<Vector2>();
-            for (int i = 0; i < polygon.Count; i++)
-            {
-                var previous = polygon.GetLooped(i - 1);
-                var current = polygon[i];
-                var next = polygon.GetLooped(i + 1);
-                float angle;
-                Vector2 bisector = GetBisector(previous, current, next, out angle);
-                float hypotenuse = distance/GetBisectorSin(angle);
-
-                newPolygon.Add(current + bisector*hypotenuse);
-            }
-            return newPolygon;
-        }
-
-        private static Vector2 GetBisector(Vector2 previous, Vector2 current, Vector2 next, out float angle)
-        {
-            Vector2 toPrevious = (previous - current).normalized;
-            Vector2 toNext = (next - current).normalized;
-
-            angle = VectorE.SignedAngle(toPrevious, toNext);
-            Assert.IsFalse(float.IsNaN(angle));
-            return toPrevious.RotateCW(angle/2);
-        }
-
-        private static float GetBisectorSin(float angle)
-        {
-            if (angle > 180)
-            {
-                angle = 360 - angle;
-            }
-            return Mathf.Sin(angle/2*Mathf.Deg2Rad);
+            return new MeshDraft().AddFlatQuadBand(lowerRing, upperRing, false);
         }
     }
 
