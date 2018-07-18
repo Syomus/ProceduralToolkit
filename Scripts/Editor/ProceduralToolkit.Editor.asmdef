@@ -3,8 +3,10 @@
     "references": [
         "ProceduralToolkit"
     ],
+    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
-    "excludePlatforms": []
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
 }
