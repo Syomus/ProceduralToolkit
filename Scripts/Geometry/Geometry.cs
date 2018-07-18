@@ -187,13 +187,13 @@ namespace ProceduralToolkit
         /// <param name="previous">Previous vertex</param>
         /// <param name="current">Current vertex</param>
         /// <param name="next">Next vertex</param>
-        /// <param name="degrees">Value of an angle in degrees</param>
+        /// <param name="degrees">Value of the angle in degrees. Always positive.</param>
         public static Vector2 GetAngleBisector(Vector2 previous, Vector2 current, Vector2 next, out float degrees)
         {
             Vector2 toPrevious = (previous - current).normalized;
             Vector2 toNext = (next - current).normalized;
 
-            degrees = VectorE.SignedAngle(toPrevious, toNext);
+            degrees = VectorE.Angle360(toPrevious, toNext);
             Assert.IsFalse(float.IsNaN(degrees));
             return toPrevious.RotateCW(degrees/2);
         }
