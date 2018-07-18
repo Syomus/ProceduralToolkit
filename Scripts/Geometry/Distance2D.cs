@@ -896,7 +896,7 @@ namespace ProceduralToolkit
                 // No intersection
                 if (centerProjection < 0)
                 {
-                    return Mathf.Sqrt(segmentAToCenter.sqrMagnitude) - circleRadius;
+                    return segmentAToCenter.magnitude - circleRadius;
                 }
                 return (circleCenter - segmentB).magnitude - circleRadius;
             }
