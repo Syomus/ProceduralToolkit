@@ -182,7 +182,7 @@ namespace ProceduralToolkit
         #endregion Point samplers
 
         /// <summary>
-        /// Returns the bisector of an angle
+        /// Returns the bisector of an angle. Assumes clockwise order of the polygon.
         /// </summary>
         /// <param name="previous">Previous vertex</param>
         /// <param name="current">Current vertex</param>
@@ -193,16 +193,17 @@ namespace ProceduralToolkit
             Vector2 toPrevious = (previous - current).normalized;
             Vector2 toNext = (next - current).normalized;
 
-            degrees = VectorE.Angle360(toPrevious, toNext);
+            degrees = VectorE.Angle360(toNext, toPrevious);
             Assert.IsFalse(float.IsNaN(degrees));
-            return toPrevious.RotateCW(degrees/2);
+            return toNext.RotateCW(degrees/2);
         }
 
         /// <summary>
-        /// Offsets the supplied polygon. Does not handle intersections.
+        /// Creates a new offset polygon from the input polygon. Assumes clockwise order of the polygon.
+        /// Does not handle intersections.
         /// </summary>
-        /// <param name="polygon">Vertices of the polygon</param>
-        /// <param name="distance">Offset distance. Positive values offset inside, negative outside.</param>
+        /// <param name="polygon">Vertices of the polygon in clockwise order.</param>
+        /// <param name="distance">Offset distance. Positive values offset outside, negative inside.</param>
         public static List<Vector2> OffsetPolygon(IList<Vector2> polygon, float distance)
         {
             var newPolygon = new List<Vector2>(polygon.Count);
@@ -214,18 +215,19 @@ namespace ProceduralToolkit
 
                 float angle;
                 Vector2 bisector = GetAngleBisector(previous, current, next, out angle);
-                float hypotenuse = GetHypotenuse(distance, angle);
-                newPolygon.Add(current + bisector*hypotenuse);
+                float angleOffset = GetAngleOffset(distance, angle);
+                newPolygon.Add(current - bisector*angleOffset);
             }
             return newPolygon;
         }
 
         /// <summary>
-        /// Offsets the supplied polygon. Does not handle intersections.
+        /// Offsets the input polygon. Assumes clockwise order of the polygon.
+        /// Does not handle intersections.
         /// </summary>
-        /// <param name="polygon">Vertices of the polygon</param>
-        /// <param name="distance">Offset distance. Positive values offset inside, negative outside.</param>
-        public static void OffsetPolygon(ref IList<Vector2> polygon, float distance)
+        /// <param name="polygon">Vertices of the polygon in clockwise order.</param>
+        /// <param name="distance">Offset distance. Positive values offset outside, negative inside.</param>
+        public static void OffsetPolygon(ref List<Vector2> polygon, float distance)
         {
             var offsets = new Vector2[polygon.Count];
             for (int i = 0; i < polygon.Count; i++)
@@ -236,8 +238,8 @@ namespace ProceduralToolkit
 
                 float angle;
                 Vector2 bisector = GetAngleBisector(previous, current, next, out angle);
-                float hypotenuse = GetHypotenuse(distance, angle);
-                offsets[i] = bisector*hypotenuse;
+                float angleOffset = GetAngleOffset(distance, angle);
+                offsets[i] = -bisector*angleOffset;
             }
 
             for (int i = 0; i < polygon.Count; i++)
@@ -246,18 +248,41 @@ namespace ProceduralToolkit
             }
         }
 
-        public static float GetHypotenuse(float distance, float angle)
+        /// <summary>
+        /// Offsets the input polygon. Assumes clockwise order of the polygon.
+        /// Does not handle intersections.
+        /// </summary>
+        /// <param name="polygon">Vertices of the polygon in clockwise order.</param>
+        /// <param name="distance">Offset distance. Positive values offset outside, negative inside.</param>
+        public static void OffsetPolygon(ref Vector2[] polygon, float distance)
         {
-            return distance/GetAngleBisectorSin(angle);
+            var offsets = new Vector2[polygon.Length];
+            for (int i = 0; i < polygon.Length; i++)
+            {
+                Vector2 previous = polygon.GetLooped(i - 1);
+                Vector2 current = polygon[i];
+                Vector2 next = polygon.GetLooped(i + 1);
+
+                float angle;
+                Vector2 bisector = GetAngleBisector(previous, current, next, out angle);
+                float angleOffset = GetAngleOffset(distance, angle);
+                offsets[i] = -bisector*angleOffset;
+            }
+
+            for (int i = 0; i < polygon.Length; i++)
+            {
+                polygon[i] += offsets[i];
+            }
+        }
+
+        public static float GetAngleOffset(float edgeOffset, float angle)
+        {
+            return edgeOffset/GetAngleBisectorSin(angle);
         }
 
         public static float GetAngleBisectorSin(float angle)
         {
-            if (angle > 180)
-            {
-                angle = 360 - angle;
-            }
-            return Mathf.Sin(angle/2*Mathf.Deg2Rad);
+            return Mathf.Sin(angle*Mathf.Deg2Rad/2);
         }
     }
 }
