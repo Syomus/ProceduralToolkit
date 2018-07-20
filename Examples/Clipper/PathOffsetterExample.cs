@@ -11,19 +11,7 @@ namespace ProceduralToolkit.Examples
 
         private void Awake()
         {
-            var input = new List<Vector2>(4)
-            {
-                new Vector2(+0.00000f, +2.00000f),
-                new Vector2(+0.58779f, +0.80902f),
-                new Vector2(+1.90211f, +0.61803f),
-                new Vector2(+0.95106f, -0.30902f),
-                new Vector2(+1.17557f, -1.61803f),
-                new Vector2(-0.00000f, -1.00000f),
-                new Vector2(-1.17557f, -1.61803f),
-                new Vector2(-0.95106f, -0.30902f),
-                new Vector2(-1.90211f, +0.61803f),
-                new Vector2(-0.58779f, +0.80902f),
-            };
+            var input = Geometry.StarPolygon2(5, 1, 2);
             SetVertices(inputRenderer, input);
 
             var output = new List<List<Vector2>>();
