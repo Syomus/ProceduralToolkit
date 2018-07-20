@@ -182,6 +182,37 @@ namespace ProceduralToolkit
         #endregion Point samplers
 
         /// <summary>
+        /// Returns a list of points representing a polygon in the XY plane
+        /// </summary>
+        /// <param name="radius">Radius of the circle passing through the vertices</param>
+        /// <param name="vertices">Number of polygon vertices</param>
+        public static List<Vector2> Polygon2(int vertices, float radius)
+        {
+            return PointsOnCircle2(radius, vertices);
+        }
+
+        /// <summary>
+        /// Returns a list of points representing a star polygon in the XY plane
+        /// </summary>
+        /// <param name="innerRadius">Radius of the circle passing through the outer vertices</param>
+        /// <param name="outerRadius">Radius of the circle passing through the inner vertices</param>
+        /// <param name="vertices">Number of polygon vertices</param>
+        public static List<Vector2> StarPolygon2(int vertices, float innerRadius, float outerRadius)
+        {
+            float segmentAngle = 360f/vertices;
+            float halfSegmentAngle = segmentAngle/2;
+            float currentAngle = 0;
+            var polygon = new List<Vector2>(vertices);
+            for (var i = 0; i < vertices; i++)
+            {
+                polygon.Add(PointOnCircle2(outerRadius, currentAngle));
+                polygon.Add(PointOnCircle2(innerRadius, currentAngle + halfSegmentAngle));
+                currentAngle += segmentAngle;
+            }
+            return polygon;
+        }
+
+        /// <summary>
         /// Returns the bisector of an angle. Assumes clockwise order of the polygon.
         /// </summary>
         /// <param name="previous">Previous vertex</param>
