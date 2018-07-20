@@ -1,7 +1,8 @@
 {
     "name": "ProceduralToolkit",
     "references": [
-        "ProceduralToolkit.LibTessDotNet"
+        "ProceduralToolkit.LibTessDotNet",
+        "ProceduralToolkit.ClipperLib"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

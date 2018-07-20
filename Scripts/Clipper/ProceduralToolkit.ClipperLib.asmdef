@@ -1,0 +1,8 @@
+{
+    "name": "ProceduralToolkit.ClipperLib",
+    "references": [],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
