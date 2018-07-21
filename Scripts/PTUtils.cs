@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ProceduralToolkit
 {
@@ -36,6 +37,14 @@ namespace ProceduralToolkit
         /// Square root of 2
         /// </summary>
         public const float Sqrt2 = 1.4142135623730950488f;
+        /// <summary>
+        /// Square root of 5
+        /// </summary>
+        public const float Sqrt5 = 2.2360679774997896964f;
+        /// <summary>
+        /// Golden angle in radians
+        /// </summary>
+        public const float GoldenAngle = Mathf.PI*(3 - Sqrt5);
 
         /// <summary>
         /// Swaps values of <paramref name="left"/> and <paramref name="right"/>
