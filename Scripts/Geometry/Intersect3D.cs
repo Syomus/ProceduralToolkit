@@ -83,7 +83,7 @@ namespace ProceduralToolkit
         public static bool PointSphere(Vector3 point, Vector3 sphereCenter, float sphereRadius)
         {
             // For points on the sphere's surface magnitude is more stable than sqrMagnitude
-            return (point - sphereCenter).magnitude < sphereRadius*sphereRadius + Geometry.Epsilon;
+            return (point - sphereCenter).magnitude < sphereRadius + Geometry.Epsilon;
         }
 
         #endregion Point-Sphere
