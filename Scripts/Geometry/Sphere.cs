@@ -29,6 +29,8 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a point on the sphere at the given coordinates
         /// </summary>
+        /// <param name="horizontalAngle">Horizontal angle in degrees [0, 360]</param>
+        /// <param name="verticalAngle">Vertical angle in degrees [-90, 90]</param>
         public Vector3 GetPoint(float horizontalAngle, float verticalAngle)
         {
             return center + Geometry.PointOnSphere(radius, horizontalAngle, verticalAngle);
