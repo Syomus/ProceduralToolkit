@@ -187,7 +187,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the circle
         /// </summary>
-        public static Vector2 PointCircle(Vector2 point, Circle circle)
+        public static Vector2 PointCircle(Vector2 point, Circle2 circle)
         {
             return PointCircle(point, circle.center, circle.radius);
         }
@@ -376,7 +376,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the line and the circle
         /// </summary>
-        public static void LineCircle(Line2 line, Circle circle, out Vector2 linePoint, out Vector2 circlePoint)
+        public static void LineCircle(Line2 line, Circle2 circle, out Vector2 linePoint, out Vector2 circlePoint)
         {
             LineCircle(line.origin, line.direction, circle.center, circle.radius, out linePoint, out circlePoint);
         }
@@ -752,7 +752,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the ray and the circle
         /// </summary>
-        public static void RayCircle(Ray2D ray, Circle circle, out Vector2 rayPoint, out Vector2 circlePoint)
+        public static void RayCircle(Ray2D ray, Circle2 circle, out Vector2 rayPoint, out Vector2 circlePoint)
         {
             RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out rayPoint, out circlePoint);
         }
@@ -1133,7 +1133,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the segment and the circle
         /// </summary>
-        public static void SegmentCircle(Segment2 segment, Circle circle, out Vector2 segmentPoint, out Vector2 circlePoint)
+        public static void SegmentCircle(Segment2 segment, Circle2 circle, out Vector2 segmentPoint, out Vector2 circlePoint)
         {
             SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out segmentPoint, out circlePoint);
         }
@@ -1289,7 +1289,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the circles
         /// </summary>
-        public static void CircleCircle(Circle circleA, Circle circleB, out Vector2 pointA, out Vector2 pointB)
+        public static void CircleCircle(Circle2 circleA, Circle2 circleB, out Vector2 pointA, out Vector2 pointB)
         {
             CircleCircle(circleA.center, circleA.radius, circleB.center, circleB.radius, out pointA, out pointB);
         }

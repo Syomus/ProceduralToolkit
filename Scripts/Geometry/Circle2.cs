@@ -7,20 +7,20 @@ namespace ProceduralToolkit
     /// Representation of a circle
     /// </summary>
     [Serializable]
-    public struct Circle : IEquatable<Circle>, IFormattable
+    public struct Circle2 : IEquatable<Circle2>, IFormattable
     {
         public Vector2 center;
         public float radius;
 
-        public static Circle unit { get { return new Circle(Vector2.zero, 1); } }
+        public static Circle2 unit { get { return new Circle2(Vector2.zero, 1); } }
 
-        public Circle(float radius)
+        public Circle2(float radius)
         {
             center = Vector2.zero;
             this.radius = radius;
         }
 
-        public Circle(Vector2 center, float radius)
+        public Circle2(Vector2 center, float radius)
         {
             this.center = center;
             this.radius = radius;
@@ -42,41 +42,41 @@ namespace ProceduralToolkit
         /// <summary>
         /// Linearly interpolates between two circles
         /// </summary>
-        public static Circle Lerp(Circle a, Circle b, float t)
+        public static Circle2 Lerp(Circle2 a, Circle2 b, float t)
         {
             t = Mathf.Clamp01(t);
-            return new Circle(a.center + (b.center - a.center)*t, a.radius + (b.radius - a.radius)*t);
+            return new Circle2(a.center + (b.center - a.center)*t, a.radius + (b.radius - a.radius)*t);
         }
 
         /// <summary>
         /// Linearly interpolates between two circles without clamping the interpolant
         /// </summary>
-        public static Circle LerpUnclamped(Circle a, Circle b, float t)
+        public static Circle2 LerpUnclamped(Circle2 a, Circle2 b, float t)
         {
-            return new Circle(a.center + (b.center - a.center)*t, a.radius + (b.radius - a.radius)*t);
+            return new Circle2(a.center + (b.center - a.center)*t, a.radius + (b.radius - a.radius)*t);
         }
 
-        public static explicit operator Sphere(Circle circle)
+        public static explicit operator Sphere(Circle2 circle)
         {
             return new Sphere((Vector3) circle.center, circle.radius);
         }
 
-        public static Circle operator +(Circle circle, Vector2 vector)
+        public static Circle2 operator +(Circle2 circle, Vector2 vector)
         {
-            return new Circle(circle.center + vector, circle.radius);
+            return new Circle2(circle.center + vector, circle.radius);
         }
 
-        public static Circle operator -(Circle circle, Vector2 vector)
+        public static Circle2 operator -(Circle2 circle, Vector2 vector)
         {
-            return new Circle(circle.center - vector, circle.radius);
+            return new Circle2(circle.center - vector, circle.radius);
         }
 
-        public static bool operator ==(Circle a, Circle b)
+        public static bool operator ==(Circle2 a, Circle2 b)
         {
             return a.center == b.center && a.radius == b.radius;
         }
 
-        public static bool operator !=(Circle a, Circle b)
+        public static bool operator !=(Circle2 a, Circle2 b)
         {
             return !(a == b);
         }
@@ -88,10 +88,10 @@ namespace ProceduralToolkit
 
         public override bool Equals(object other)
         {
-            return other is Circle && Equals((Circle) other);
+            return other is Circle2 && Equals((Circle2) other);
         }
 
-        public bool Equals(Circle other)
+        public bool Equals(Circle2 other)
         {
             return center.Equals(other.center) && radius.Equals(other.radius);
         }

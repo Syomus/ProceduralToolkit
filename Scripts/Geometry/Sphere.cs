@@ -58,9 +58,9 @@ namespace ProceduralToolkit
             return new Sphere(a.center + (b.center - a.center)*t, a.radius + (b.radius - a.radius)*t);
         }
 
-        public static explicit operator Circle(Sphere sphere)
+        public static explicit operator Circle2(Sphere sphere)
         {
-            return new Circle((Vector2) sphere.center, sphere.radius);
+            return new Circle2((Vector2) sphere.center, sphere.radius);
         }
 
         public static Sphere operator +(Sphere sphere, Vector3 vector)

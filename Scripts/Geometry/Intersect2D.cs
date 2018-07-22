@@ -265,7 +265,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Tests if the point is inside the circle
         /// </summary>
-        public static bool PointCircle(Vector2 point, Circle circle)
+        public static bool PointCircle(Vector2 point, Circle2 circle)
         {
             return PointCircle(point, circle.center, circle.radius);
         }
@@ -536,7 +536,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the circle
         /// </summary>
-        public static bool LineCircle(Line2 line, Circle circle)
+        public static bool LineCircle(Line2 line, Circle2 circle)
         {
             IntersectionLineCircle intersection;
             return LineCircle(line.origin, line.direction, circle.center, circle.radius, out intersection);
@@ -545,7 +545,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the line and the circle
         /// </summary>
-        public static bool LineCircle(Line2 line, Circle circle, out IntersectionLineCircle intersection)
+        public static bool LineCircle(Line2 line, Circle2 circle, out IntersectionLineCircle intersection)
         {
             return LineCircle(line.origin, line.direction, circle.center, circle.radius, out intersection);
         }
@@ -816,7 +816,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the ray and the circle
         /// </summary>
-        public static bool RayCircle(Ray2D ray, Circle circle)
+        public static bool RayCircle(Ray2D ray, Circle2 circle)
         {
             IntersectionRayCircle intersection;
             return RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out intersection);
@@ -825,7 +825,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the ray and the circle
         /// </summary>
-        public static bool RayCircle(Ray2D ray, Circle circle, out IntersectionRayCircle intersection)
+        public static bool RayCircle(Ray2D ray, Circle2 circle, out IntersectionRayCircle intersection)
         {
             return RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out intersection);
         }
@@ -1086,7 +1086,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the segment and the circle
         /// </summary>
-        public static bool SegmentCircle(Segment2 segment, Circle circle)
+        public static bool SegmentCircle(Segment2 segment, Circle2 circle)
         {
             IntersectionSegmentCircle intersection;
             return SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out intersection);
@@ -1095,7 +1095,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the segment and the circle
         /// </summary>
-        public static bool SegmentCircle(Segment2 segment, Circle circle, out IntersectionSegmentCircle intersection)
+        public static bool SegmentCircle(Segment2 segment, Circle2 circle, out IntersectionSegmentCircle intersection)
         {
             return SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out intersection);
         }
@@ -1213,7 +1213,7 @@ namespace ProceduralToolkit
         /// Computes an intersection of the circles
         /// </summary>
         /// <returns>True if the circles intersect or one circle is contained within the other</returns>
-        public static bool CircleCircle(Circle circleA, Circle circleB)
+        public static bool CircleCircle(Circle2 circleA, Circle2 circleB)
         {
             IntersectionCircleCircle intersection;
             return CircleCircle(circleA.center, circleA.radius, circleB.center, circleB.radius, out intersection);
@@ -1223,7 +1223,7 @@ namespace ProceduralToolkit
         /// Computes an intersection of the circles
         /// </summary>
         /// <returns>True if the circles intersect or one circle is contained within the other</returns>
-        public static bool CircleCircle(Circle circleA, Circle circleB, out IntersectionCircleCircle intersection)
+        public static bool CircleCircle(Circle2 circleA, Circle2 circleB, out IntersectionCircleCircle intersection)
         {
             return CircleCircle(circleA.center, circleA.radius, circleB.center, circleB.radius, out intersection);
         }

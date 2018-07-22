@@ -88,7 +88,7 @@ namespace ProceduralToolkit
         /// Returns a distance to the closest point on the circle
         /// </summary>
         /// <returns>Positive value if the point is outside, negative otherwise</returns>
-        public static float PointCircle(Vector2 point, Circle circle)
+        public static float PointCircle(Vector2 point, Circle2 circle)
         {
             return PointCircle(point, circle.center, circle.radius);
         }
@@ -251,7 +251,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the distance between the closest points on the line and the circle
         /// </summary>
-        public static float LineCircle(Line2 line, Circle circle)
+        public static float LineCircle(Line2 line, Circle2 circle)
         {
             return LineCircle(line.origin, line.direction, circle.center, circle.radius);
         }
@@ -543,7 +543,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the distance between the closest points on the ray and the circle
         /// </summary>
-        public static float RayCircle(Ray2D ray, Circle circle)
+        public static float RayCircle(Ray2D ray, Circle2 circle)
         {
             return RayCircle(ray.origin, ray.direction, circle.center, circle.radius);
         }
@@ -870,7 +870,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the distance between the closest points on the segment and the circle
         /// </summary>
-        public static float SegmentCircle(Segment2 segment, Circle circle)
+        public static float SegmentCircle(Segment2 segment, Circle2 circle)
         {
             return SegmentCircle(segment.a, segment.b, circle.center, circle.radius);
         }
@@ -986,7 +986,7 @@ namespace ProceduralToolkit
         /// Positive value if the circles do not intersect, negative otherwise.
         /// Negative value can be interpreted as depth of penetration.
         /// </returns>
-        public static float CircleCircle(Circle circleA, Circle circleB)
+        public static float CircleCircle(Circle2 circleA, Circle2 circleB)
         {
             return CircleCircle(circleA.center, circleA.radius, circleB.center, circleB.radius);
         }

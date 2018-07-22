@@ -133,7 +133,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random point on a circle
         /// </summary>
-        public static Vector2 PointOnCircle(Circle circle)
+        public static Vector2 PointOnCircle(Circle2 circle)
         {
             return PointOnCircle(circle.center, circle.radius);
         }
@@ -149,7 +149,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random point inside a circle
         /// </summary>
-        public static Vector2 PointInCircle(Circle circle)
+        public static Vector2 PointInCircle(Circle2 circle)
         {
             return PointInCircle(circle.center, circle.radius);
         }
