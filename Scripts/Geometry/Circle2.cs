@@ -14,10 +14,8 @@ namespace ProceduralToolkit
 
         public static Circle2 unit { get { return new Circle2(Vector2.zero, 1); } }
 
-        public Circle2(float radius)
+        public Circle2(float radius) : this(Vector2.zero, radius)
         {
-            center = Vector2.zero;
-            this.radius = radius;
         }
 
         public Circle2(Vector2 center, float radius)
@@ -59,6 +57,11 @@ namespace ProceduralToolkit
         public static explicit operator Sphere(Circle2 circle)
         {
             return new Sphere((Vector3) circle.center, circle.radius);
+        }
+
+        public static explicit operator Circle3(Circle2 circle)
+        {
+            return new Circle3((Vector3) circle.center, Quaternion.identity, circle.radius);
         }
 
         public static Circle2 operator +(Circle2 circle, Vector2 vector)
