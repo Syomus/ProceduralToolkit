@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -128,6 +129,18 @@ namespace ProceduralToolkit
                 knapsack = Knapsack(set, keys, remainder, knapsack, startIndex);
             }
             return knapsack;
+        }
+
+        public static string ToString(this Vector3 vector, string format, IFormatProvider formatProvider)
+        {
+            return string.Format("({0}, {1}, {2})", vector.x.ToString(format, formatProvider), vector.y.ToString(format, formatProvider),
+                vector.z.ToString(format, formatProvider));
+        }
+
+        public static string ToString(this Quaternion quaternion, string format, IFormatProvider formatProvider)
+        {
+            return string.Format("({0}, {1}, {2}, {3})", quaternion.x.ToString(format, formatProvider), quaternion.y.ToString(format, formatProvider),
+                quaternion.z.ToString(format, formatProvider), quaternion.w.ToString(format, formatProvider));
         }
     }
 }

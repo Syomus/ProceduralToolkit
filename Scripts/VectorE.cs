@@ -311,12 +311,6 @@ namespace ProceduralToolkit
                 Mathf.InverseLerp(a.z, b.z, value.z));
         }
 
-        public static string ToString(this Vector3 vector, string format, IFormatProvider formatProvider)
-        {
-            return string.Format("({0}, {1}, {2})", vector.x.ToString(format, formatProvider), vector.y.ToString(format, formatProvider),
-                vector.z.ToString(format, formatProvider));
-        }
-
         #endregion Vector3
 
         #region Vector4
