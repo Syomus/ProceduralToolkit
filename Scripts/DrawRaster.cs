@@ -138,6 +138,12 @@ namespace ProceduralToolkit
         /// </remarks>
         public static void RasterCircle(int x0, int y0, int radius, Action<int, int> draw)
         {
+            if (radius == 0)
+            {
+                draw(x0, y0);
+                return;
+            }
+
             int x = -radius;
             int y = 0;
             int error = 2 - 2*radius; // 2 quadrant ◴
@@ -178,11 +184,26 @@ namespace ProceduralToolkit
         /// </summary>
         public static void RasterFilledCircle(int x0, int y0, int radius, Action<int, int> draw)
         {
+            if (radius == 0)
+            {
+                draw(x0, y0);
+                return;
+            }
+            if (radius == 1)
+            {
+                draw(x0, y0 + 1);
+                draw(x0 - 1, y0);
+                draw(x0, y0);
+                draw(x0 + 1, y0);
+                draw(x0, y0 - 1);
+                return;
+            }
+
             int x = -radius;
             int y = 0;
             int error = 2 - 2*radius; // 2 quadrant ◴
             // lastY must have a different value than y
-            int lastY = Int32.MaxValue;
+            int lastY = int.MaxValue;
             while (x < 0)
             {
                 // This check prevents overdraw at poles
