@@ -433,5 +433,104 @@ namespace ProceduralToolkit
         }
 
         #endregion Segment-Sphere
+
+        #region Sphere-Sphere
+
+        /// <summary>
+        /// Computes an intersection of the spheres
+        /// </summary>
+        /// <returns>True if the spheres intersect or one sphere is contained within the other</returns>
+        public static bool SphereSphere(Sphere sphereA, Sphere sphereB)
+        {
+            IntersectionSphereSphere intersection;
+            return SphereSphere(sphereA.center, sphereA.radius, sphereB.center, sphereB.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the spheres
+        /// </summary>
+        /// <returns>True if the spheres intersect or one sphere is contained within the other</returns>
+        public static bool SphereSphere(Sphere sphereA, Sphere sphereB, out IntersectionSphereSphere intersection)
+        {
+            return SphereSphere(sphereA.center, sphereA.radius, sphereB.center, sphereB.radius, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the spheres
+        /// </summary>
+        /// <returns>True if the spheres intersect or one sphere is contained within the other</returns>
+        public static bool SphereSphere(Vector3 centerA, float radiusA, Vector3 centerB, float radiusB)
+        {
+            IntersectionSphereSphere intersection;
+            return SphereSphere(centerA, radiusA, centerB, radiusB, out intersection);
+        }
+
+        /// <summary>
+        /// Computes an intersection of the spheres
+        /// </summary>
+        /// <returns>True if the spheres intersect or one sphere is contained within the other</returns>
+        public static bool SphereSphere(Vector3 centerA, float radiusA, Vector3 centerB, float radiusB,
+            out IntersectionSphereSphere intersection)
+        {
+            Vector3 fromBtoA = centerA - centerB;
+            float distanceFromBtoASqr = fromBtoA.sqrMagnitude;
+            if (distanceFromBtoASqr < Geometry.Epsilon)
+            {
+                if (Mathf.Abs(radiusA - radiusB) < Geometry.Epsilon)
+                {
+                    // Spheres are coincident
+                    intersection = IntersectionSphereSphere.Sphere(centerA, radiusA);
+                    return true;
+                }
+                // One sphere is inside the other
+                intersection = IntersectionSphereSphere.None();
+                return true;
+            }
+
+            // For intersections on the sphere's edge magnitude is more stable than sqrMagnitude
+            float distanceFromBtoA = Mathf.Sqrt(distanceFromBtoASqr);
+
+            float sumOfRadii = radiusA + radiusB;
+            if (Mathf.Abs(distanceFromBtoA - sumOfRadii) < Geometry.Epsilon)
+            {
+                // One intersection outside
+                intersection = IntersectionSphereSphere.Point(centerB + fromBtoA*(radiusB/sumOfRadii));
+                return true;
+            }
+            if (distanceFromBtoA > sumOfRadii)
+            {
+                // No intersections, spheres are separate
+                intersection = IntersectionSphereSphere.None();
+                return false;
+            }
+
+            float differenceOfRadii = radiusA - radiusB;
+            float differenceOfRadiiAbs = Mathf.Abs(differenceOfRadii);
+            if (Mathf.Abs(distanceFromBtoA - differenceOfRadiiAbs) < Geometry.Epsilon)
+            {
+                // One intersection inside
+                intersection = IntersectionSphereSphere.Point(centerB - fromBtoA*(radiusB/differenceOfRadii));
+                return true;
+            }
+            if (distanceFromBtoA < differenceOfRadiiAbs)
+            {
+                // One sphere is contained within the other
+                intersection = IntersectionSphereSphere.None();
+                return true;
+            }
+
+            // Circle intersection
+            float radiusASqr = radiusA*radiusA;
+            float distanceToMiddle = 0.5f*(radiusASqr - radiusB*radiusB)/distanceFromBtoASqr + 0.5f;
+            Vector3 middle = centerA - fromBtoA*distanceToMiddle;
+
+            float discriminant = radiusASqr/distanceFromBtoASqr - distanceToMiddle*distanceToMiddle;
+            float radius = distanceFromBtoA*Mathf.Sqrt(discriminant);
+
+            intersection = IntersectionSphereSphere.Circle(middle, -fromBtoA.normalized, radius);
+            return true;
+        }
+
+        #endregion Sphere-Sphere
     }
 }
