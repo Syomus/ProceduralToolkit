@@ -61,7 +61,7 @@ namespace ProceduralToolkit
 
         public static explicit operator Circle3(Circle2 circle)
         {
-            return new Circle3((Vector3) circle.center, Quaternion.identity, circle.radius);
+            return new Circle3((Vector3) circle.center, Vector3.back, circle.radius);
         }
 
         public static Circle2 operator +(Circle2 circle, Vector2 vector)

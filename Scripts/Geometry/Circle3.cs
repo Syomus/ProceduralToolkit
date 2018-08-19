@@ -10,31 +10,25 @@ namespace ProceduralToolkit
     public struct Circle3 : IEquatable<Circle3>, IFormattable
     {
         public Vector3 center;
-        public Quaternion rotation;
+        public Vector3 normal;
         public float radius;
 
-        public Vector3 normal { get { return rotation*Vector3.back; } }
+        public static Circle3 unitXY { get { return new Circle3(Vector3.zero, Vector3.back, 1); } }
+        public static Circle3 unitXZ { get { return new Circle3(Vector3.zero, Vector3.up, 1); } }
+        public static Circle3 unitYZ { get { return new Circle3(Vector3.zero, Vector3.left, 1); } }
 
-        public static Circle3 unitXY { get { return new Circle3(Vector3.zero, Quaternion.identity, 1); } }
-        public static Circle3 unitXZ { get { return new Circle3(Vector3.zero, Quaternion.Euler(90, 0, 0), 1); } }
-        public static Circle3 unitYZ { get { return new Circle3(Vector3.zero, Quaternion.Euler(0, 90, 90), 1); } }
-
-        public Circle3(float radius) : this(Vector3.zero, Quaternion.identity, radius)
+        public Circle3(float radius) : this(Vector3.zero, Vector3.back, radius)
         {
         }
 
-        public Circle3(Vector3 center, float radius) : this(center, Quaternion.identity, radius)
+        public Circle3(Vector3 center, float radius) : this(center, Vector3.back, radius)
         {
         }
 
-        public Circle3(Quaternion rotation, float radius) : this(Vector3.zero, rotation, radius)
-        {
-        }
-
-        public Circle3(Vector3 center, Quaternion rotation, float radius)
+        public Circle3(Vector3 center, Vector3 normal, float radius)
         {
             this.center = center;
-            this.rotation = rotation;
+            this.normal = normal;
             this.radius = radius;
         }
 
@@ -46,7 +40,7 @@ namespace ProceduralToolkit
             t = Mathf.Clamp01(t);
             return new Circle3(
                 center: a.center + (b.center - a.center)*t,
-                rotation: Quaternion.LerpUnclamped(a.rotation, b.rotation, t),
+                normal: Vector3.LerpUnclamped(a.normal, b.normal, t),
                 radius: a.radius + (b.radius - a.radius)*t);
         }
 
@@ -57,7 +51,7 @@ namespace ProceduralToolkit
         {
             return new Circle3(
                 center: a.center + (b.center - a.center)*t,
-                rotation: Quaternion.LerpUnclamped(a.rotation, b.rotation, t),
+                normal: Vector3.LerpUnclamped(a.normal, b.normal, t),
                 radius: a.radius + (b.radius - a.radius)*t);
         }
 
@@ -73,17 +67,17 @@ namespace ProceduralToolkit
 
         public static Circle3 operator +(Circle3 circle, Vector3 vector)
         {
-            return new Circle3(circle.center + vector, circle.rotation, circle.radius);
+            return new Circle3(circle.center + vector, circle.normal, circle.radius);
         }
 
         public static Circle3 operator -(Circle3 circle, Vector3 vector)
         {
-            return new Circle3(circle.center - vector, circle.rotation, circle.radius);
+            return new Circle3(circle.center - vector, circle.normal, circle.radius);
         }
 
         public static bool operator ==(Circle3 a, Circle3 b)
         {
-            return a.center == b.center && a.rotation == b.rotation && a.radius == b.radius;
+            return a.center == b.center && a.normal == b.normal && a.radius == b.radius;
         }
 
         public static bool operator !=(Circle3 a, Circle3 b)
@@ -93,7 +87,7 @@ namespace ProceduralToolkit
 
         public override int GetHashCode()
         {
-            return center.GetHashCode() ^ (rotation.GetHashCode() << 2) ^ (radius.GetHashCode() >> 2);
+            return center.GetHashCode() ^ (normal.GetHashCode() << 2) ^ (radius.GetHashCode() >> 2);
         }
 
         public override bool Equals(object other)
@@ -103,24 +97,24 @@ namespace ProceduralToolkit
 
         public bool Equals(Circle3 other)
         {
-            return center.Equals(other.center) && rotation.Equals(other.rotation) && radius.Equals(other.radius);
+            return center.Equals(other.center) && normal.Equals(other.normal) && radius.Equals(other.radius);
         }
 
         public override string ToString()
         {
-            return string.Format("Circle3(center: {0}, rotation: {1}, radius: {2})", center, rotation, radius);
+            return string.Format("Circle3(center: {0}, normal: {1}, radius: {2})", center, normal, radius);
         }
 
         public string ToString(string format)
         {
-            return string.Format("Circle3(center: {0}, rotation: {1}, radius: {2})",
-                center.ToString(format), rotation.ToString(format), radius.ToString(format));
+            return string.Format("Circle3(center: {0}, normal: {1}, radius: {2})",
+                center.ToString(format), normal.ToString(format), radius.ToString(format));
         }
 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return string.Format("Circle3(center: {0}, rotation: {1}, radius: {2})",
-                center.ToString(format, formatProvider), rotation.ToString(format, formatProvider), radius.ToString(format, formatProvider));
+            return string.Format("Circle3(center: {0}, normal: {1}, radius: {2})",
+                center.ToString(format, formatProvider), normal.ToString(format, formatProvider), radius.ToString(format, formatProvider));
         }
     }
 }
