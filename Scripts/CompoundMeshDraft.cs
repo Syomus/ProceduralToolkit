@@ -98,24 +98,24 @@ namespace ProceduralToolkit
             return finalDraft;
         }
 
-        public Mesh ToMeshWithSubMeshes()
+        public Mesh ToMeshWithSubMeshes(bool calculateBounds = true)
         {
             var mesh = new Mesh();
-            FillMesh(ref mesh);
+            FillMesh(ref mesh, calculateBounds);
             return mesh;
         }
 
-        public void ToMeshWithSubMeshes(ref Mesh mesh)
+        public void ToMeshWithSubMeshes(ref Mesh mesh, bool calculateBounds = true)
         {
             if (mesh == null)
             {
                 throw new ArgumentNullException("mesh");
             }
             mesh.Clear(false);
-            FillMesh(ref mesh);
+            FillMesh(ref mesh, calculateBounds);
         }
 
-        private void FillMesh(ref Mesh mesh)
+        private void FillMesh(ref Mesh mesh, bool calculateBounds)
         {
             int vCount = vertexCount;
             if (vCount > 65000)
@@ -140,6 +140,10 @@ namespace ProceduralToolkit
                 var draft = meshDrafts[i];
                 mesh.SetTriangles(draft.triangles, i, false, baseVertex);
                 baseVertex += draft.vertexCount;
+            }
+            if (calculateBounds)
+            {
+                mesh.RecalculateBounds();
             }
 
             mesh.SetNormals(finalDraft.normals);

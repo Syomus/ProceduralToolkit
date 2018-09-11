@@ -70,7 +70,6 @@ namespace ProceduralToolkit.Examples
             {
                 compoundDraft.ToMeshWithSubMeshes(ref mesh);
             }
-            mesh.RecalculateBounds();
             meshFilter.sharedMesh = mesh;
         }
 
