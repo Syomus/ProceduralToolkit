@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ProceduralToolkit
 {
@@ -821,31 +822,48 @@ namespace ProceduralToolkit
         /// <summary>
         /// Creates a new mesh from the data in the draft
         /// </summary>
-        public Mesh ToMesh(bool calculateBounds = true)
+        /// <param name="calculateBounds"> Calculate the bounding box of the Mesh after setting the triangles. </param>
+        /// <param name="autoIndexFormat"> Use 16 bit or 32 bit index buffers based on vertex count. </param>
+        public Mesh ToMesh(bool calculateBounds = true, bool autoIndexFormat = true)
         {
             var mesh = new Mesh();
-            FillMesh(ref mesh, calculateBounds);
+            FillMesh(ref mesh, calculateBounds, autoIndexFormat);
             return mesh;
         }
 
         /// <summary>
         /// Fills the <paramref name="mesh"/> with the data in the draft
         /// </summary>
-        public void ToMesh(ref Mesh mesh, bool calculateBounds = true)
+        /// <param name="mesh"> Resulting mesh. Cleared before use. </param>
+        /// <param name="calculateBounds"> Calculate the bounding box of the Mesh after setting the triangles. </param>
+        /// <param name="autoIndexFormat"> Use 16 bit or 32 bit index buffers based on vertex count. </param>
+        public void ToMesh(ref Mesh mesh, bool calculateBounds = true, bool autoIndexFormat = true)
         {
             if (mesh == null)
             {
                 throw new ArgumentNullException("mesh");
             }
             mesh.Clear(false);
-            FillMesh(ref mesh, calculateBounds);
+            FillMesh(ref mesh, calculateBounds, autoIndexFormat);
         }
 
-        private void FillMesh(ref Mesh mesh, bool calculateBounds)
+        private void FillMesh(ref Mesh mesh, bool calculateBounds, bool autoIndexFormat)
         {
-            if (vertexCount > 65000)
+            if (vertexCount > 65535)
             {
-                Debug.LogError("A mesh may not have more than 65000 vertices. Vertex count: " + vertexCount);
+                if (autoIndexFormat)
+                {
+                    mesh.indexFormat = IndexFormat.UInt32;
+                }
+                else
+                {
+                    Debug.LogError("A mesh can't have more than 65535 vertices with 16 bit index buffer. Vertex count: " + vertexCount);
+                    mesh.indexFormat = IndexFormat.UInt16;
+                }
+            }
+            else
+            {
+                mesh.indexFormat = IndexFormat.UInt16;
             }
             mesh.name = name;
             mesh.SetVertices(vertices);
