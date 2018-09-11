@@ -81,16 +81,26 @@ namespace ProceduralToolkit
         #region AddTriangle
 
         /// <summary>
-        /// Adds a triangle with normals to the draft
+        /// Adds a triangle to the draft
         /// </summary>
-        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, bool calculateNormal = false)
         {
-            Vector3 normal = Vector3.Cross(vertex1 - vertex0, vertex2 - vertex0).normalized;
-            return AddTriangle(vertex0, vertex1, vertex2, normal, normal, normal);
+            if (calculateNormal)
+            {
+                Vector3 normal = Vector3.Cross(vertex1 - vertex0, vertex2 - vertex0).normalized;
+                return AddTriangle(vertex0, vertex1, vertex2, normal, normal, normal);
+            }
+            triangles.Add(0 + vertices.Count);
+            triangles.Add(1 + vertices.Count);
+            triangles.Add(2 + vertices.Count);
+            vertices.Add(vertex0);
+            vertices.Add(vertex1);
+            vertices.Add(vertex2);
+            return this;
         }
 
         /// <summary>
-        /// Adds a triangle with normals to the draft
+        /// Adds a triangle to the draft
         /// </summary>
         public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal)
         {
@@ -98,10 +108,9 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Adds a triangle with normals to the draft
+        /// Adds a triangle to the draft
         /// </summary>
-        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal0, Vector3 normal1,
-            Vector3 normal2)
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal0, Vector3 normal1, Vector3 normal2)
         {
             triangles.Add(0 + vertices.Count);
             triangles.Add(1 + vertices.Count);
@@ -116,22 +125,20 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Adds a triangle with normals and uv coordinates to the draft
+        /// Adds a triangle to the draft
         /// </summary>
-        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector2 uv0, Vector2 uv1,
-            Vector2 uv2)
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, bool calculateNormal, Vector2 uv0, Vector2 uv1, Vector2 uv2)
         {
             uv.Add(uv0);
             uv.Add(uv1);
             uv.Add(uv2);
-            return AddTriangle(vertex0, vertex1, vertex2);
+            return AddTriangle(vertex0, vertex1, vertex2, calculateNormal);
         }
 
         /// <summary>
-        /// Adds a triangle with normals and uv coordinates to the draft
+        /// Adds a triangle to the draft
         /// </summary>
-        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal, Vector2 uv0,
-            Vector2 uv1, Vector2 uv2)
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal, Vector2 uv0, Vector2 uv1, Vector2 uv2)
         {
             uv.Add(uv0);
             uv.Add(uv1);
@@ -140,10 +147,10 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Adds a triangle with normals and uv coordinates to the draft
+        /// Adds a triangle to the draft
         /// </summary>
-        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal0, Vector3 normal1,
-            Vector3 normal2, Vector2 uv0, Vector2 uv1, Vector2 uv2)
+        public MeshDraft AddTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 normal0, Vector3 normal1, Vector3 normal2,
+            Vector2 uv0, Vector2 uv1, Vector2 uv2)
         {
             uv.Add(uv0);
             uv.Add(uv1);
@@ -478,17 +485,17 @@ namespace ProceduralToolkit
                 {
                     for (int i = ring.Count - 1; i > 0; i--)
                     {
-                        AddTriangle(ring[i - 1], apex, ring[i], uv00, uvApex, uv10);
+                        AddTriangle(ring[i - 1], apex, ring[i], true, uv00, uvApex, uv10);
                     }
-                    AddTriangle(ring[ring.Count - 1], apex, ring[0], uv00, uvApex, uv10);
+                    AddTriangle(ring[ring.Count - 1], apex, ring[0], true, uv00, uvApex, uv10);
                 }
                 else
                 {
                     for (var i = 0; i < ring.Count - 1; i++)
                     {
-                        AddTriangle(ring[i + 1], apex, ring[i], uv00, uvApex, uv10);
+                        AddTriangle(ring[i + 1], apex, ring[i], true, uv00, uvApex, uv10);
                     }
-                    AddTriangle(ring[0], apex, ring[ring.Count - 1], uv00, uvApex, uv10);
+                    AddTriangle(ring[0], apex, ring[ring.Count - 1], true, uv00, uvApex, uv10);
                 }
             }
             else
@@ -497,17 +504,17 @@ namespace ProceduralToolkit
                 {
                     for (int i = ring.Count - 1; i > 0; i--)
                     {
-                        AddTriangle(ring[i - 1], apex, ring[i]);
+                        AddTriangle(ring[i - 1], apex, ring[i], true);
                     }
-                    AddTriangle(ring[ring.Count - 1], apex, ring[0]);
+                    AddTriangle(ring[ring.Count - 1], apex, ring[0], true);
                 }
                 else
                 {
                     for (var i = 0; i < ring.Count - 1; i++)
                     {
-                        AddTriangle(ring[i + 1], apex, ring[i]);
+                        AddTriangle(ring[i + 1], apex, ring[i], true);
                     }
-                    AddTriangle(ring[0], apex, ring[ring.Count - 1]);
+                    AddTriangle(ring[0], apex, ring[ring.Count - 1], true);
                 }
             }
             return this;
@@ -547,13 +554,13 @@ namespace ProceduralToolkit
                 upper1 = upperRing[i + 1];
                 if (generateUV)
                 {
-                    AddTriangle(lower1, upper0, lower0, uv00, uvTopCenter, uv10);
-                    AddTriangle(lower1, upper1, upper0, uvBottomCenter, uv01, uv11);
+                    AddTriangle(lower1, upper0, lower0, true, uv00, uvTopCenter, uv10);
+                    AddTriangle(lower1, upper1, upper0, true, uvBottomCenter, uv01, uv11);
                 }
                 else
                 {
-                    AddTriangle(lower1, upper0, lower0);
-                    AddTriangle(lower1, upper1, upper0);
+                    AddTriangle(lower1, upper0, lower0, true);
+                    AddTriangle(lower1, upper1, upper0, true);
                 }
             }
 
@@ -563,13 +570,13 @@ namespace ProceduralToolkit
             upper1 = upperRing[0];
             if (generateUV)
             {
-                AddTriangle(lower1, upper0, lower0, uv00, uvTopCenter, uv10);
-                AddTriangle(lower1, upper1, upper0, uvBottomCenter, uv01, uv11);
+                AddTriangle(lower1, upper0, lower0, true, uv00, uvTopCenter, uv10);
+                AddTriangle(lower1, upper1, upper0, true, uvBottomCenter, uv01, uv11);
             }
             else
             {
-                AddTriangle(lower1, upper0, lower0);
-                AddTriangle(lower1, upper1, upper0);
+                AddTriangle(lower1, upper0, lower0, true);
+                AddTriangle(lower1, upper1, upper0, true);
             }
             return this;
         }

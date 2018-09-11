@@ -29,17 +29,17 @@ namespace ProceduralToolkit
                 var uv0 = new Vector2(0, 0);
                 var uv1 = new Vector2(0.5f, 1);
                 var uv2 = new Vector2(1, 0);
-                draft.AddTriangle(vertex2, vertex0, vertex1, uv0, uv1, uv2)
-                    .AddTriangle(vertex2, vertex1, vertex3, uv0, uv1, uv2)
-                    .AddTriangle(vertex3, vertex0, vertex2, uv0, uv1, uv2)
-                    .AddTriangle(vertex1, vertex0, vertex3, uv0, uv1, uv2);
+                draft.AddTriangle(vertex2, vertex0, vertex1, true, uv0, uv1, uv2)
+                    .AddTriangle(vertex2, vertex1, vertex3, true, uv0, uv1, uv2)
+                    .AddTriangle(vertex3, vertex0, vertex2, true, uv0, uv1, uv2)
+                    .AddTriangle(vertex1, vertex0, vertex3, true, uv0, uv1, uv2);
             }
             else
             {
-                draft.AddTriangle(vertex2, vertex0, vertex1)
-                    .AddTriangle(vertex2, vertex1, vertex3)
-                    .AddTriangle(vertex3, vertex0, vertex2)
-                    .AddTriangle(vertex1, vertex0, vertex3);
+                draft.AddTriangle(vertex2, vertex0, vertex1, true)
+                    .AddTriangle(vertex2, vertex1, vertex3, true)
+                    .AddTriangle(vertex3, vertex0, vertex2, true)
+                    .AddTriangle(vertex1, vertex0, vertex3, true);
             }
             return draft;
         }

@@ -72,9 +72,9 @@ namespace ProceduralToolkit.Examples
 
             var roofDraft = new MeshDraft();
             roofDraft.AddQuad(a, ridge0, ridge1, b);
-            roofDraft.AddTriangle(b, ridge1, c);
+            roofDraft.AddTriangle(b, ridge1, c, true);
             roofDraft.AddQuad(c, ridge1, ridge0, d);
-            roofDraft.AddTriangle(d, ridge0, a);
+            roofDraft.AddTriangle(d, ridge0, a, true);
             return roofDraft;
         }
 
@@ -92,9 +92,9 @@ namespace ProceduralToolkit.Examples
 
             var roofDraft = new MeshDraft();
             roofDraft.AddQuad(a, ridge0, ridge1, b);
-            roofDraft.AddTriangle(b, ridge1, c);
+            roofDraft.AddTriangle(b, ridge1, c, true);
             roofDraft.AddQuad(c, ridge1, ridge0, d);
-            roofDraft.AddTriangle(d, ridge0, a);
+            roofDraft.AddTriangle(d, ridge0, a, true);
             return roofDraft;
         }
 
