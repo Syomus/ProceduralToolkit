@@ -821,27 +821,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Creates a new mesh from the data in the draft
         /// </summary>
-        public Mesh ToMesh()
+        public Mesh ToMesh(bool calculateBounds = true)
         {
             var mesh = new Mesh();
-            FillMesh(ref mesh);
+            FillMesh(ref mesh, calculateBounds);
             return mesh;
         }
 
         /// <summary>
         /// Fills the <paramref name="mesh"/> with the data in the draft
         /// </summary>
-        public void ToMesh(ref Mesh mesh)
+        public void ToMesh(ref Mesh mesh, bool calculateBounds = true)
         {
             if (mesh == null)
             {
                 throw new ArgumentNullException("mesh");
             }
             mesh.Clear(false);
-            FillMesh(ref mesh);
+            FillMesh(ref mesh, calculateBounds);
         }
 
-        private void FillMesh(ref Mesh mesh)
+        private void FillMesh(ref Mesh mesh, bool calculateBounds)
         {
             if (vertexCount > 65000)
             {
@@ -849,7 +849,7 @@ namespace ProceduralToolkit
             }
             mesh.name = name;
             mesh.SetVertices(vertices);
-            mesh.SetTriangles(triangles, 0);
+            mesh.SetTriangles(triangles, 0, calculateBounds);
             mesh.SetNormals(normals);
             mesh.SetTangents(tangents);
             mesh.SetUVs(0, uv);

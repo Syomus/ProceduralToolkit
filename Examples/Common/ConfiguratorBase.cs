@@ -57,7 +57,6 @@ namespace ProceduralToolkit.Examples
             {
                 draft.ToMesh(ref mesh);
             }
-            mesh.RecalculateBounds();
             meshFilter.sharedMesh = mesh;
         }
 
