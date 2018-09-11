@@ -54,9 +54,144 @@ namespace ProceduralToolkit
             return this;
         }
 
+        /// <summary>
+        /// Clears all vertex data and all triangle indices
+        /// </summary>
         public void Clear()
         {
             meshDrafts.Clear();
+        }
+
+        /// <summary>
+        /// Moves draft vertices by <paramref name="vector"/>
+        /// </summary>
+        public CompoundMeshDraft Move(Vector3 vector)
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].Move(vector);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Rotates draft vertices by <paramref name="rotation"/>
+        /// </summary>
+        public CompoundMeshDraft Rotate(Quaternion rotation)
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].Rotate(rotation);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Scales draft vertices uniformly by <paramref name="scale"/>
+        /// </summary>
+        public CompoundMeshDraft Scale(float scale)
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].Scale(scale);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Scales draft vertices non-uniformly by <paramref name="scale"/>
+        /// </summary>
+        public CompoundMeshDraft Scale(Vector3 scale)
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].Scale(scale);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Paints draft vertices with <paramref name="color"/>
+        /// </summary>
+        public CompoundMeshDraft Paint(Color color)
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].Paint(color);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Flips draft faces
+        /// </summary>
+        public CompoundMeshDraft FlipFaces()
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].FlipFaces();
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Reverses the winding order of draft triangles
+        /// </summary>
+        public CompoundMeshDraft FlipTriangles()
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].FlipTriangles();
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Reverses the direction of draft normals
+        /// </summary>
+        public CompoundMeshDraft FlipNormals()
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].FlipNormals();
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Flips the UV map horizontally in the selected <paramref name="channel"/>
+        /// </summary>
+        public CompoundMeshDraft FlipUVHorizontally(int channel = 0)
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].FlipUVHorizontally(channel);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Flips the UV map vertically in the selected <paramref name="channel"/>
+        /// </summary>
+        public CompoundMeshDraft FlipUVVertically(int channel = 0)
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].FlipUVVertically(channel);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Projects vertices on a sphere with the given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
+        /// </summary>
+        public CompoundMeshDraft Spherify(float radius, Vector3 center = default(Vector3))
+        {
+            for (var i = 0; i < meshDrafts.Count; i++)
+            {
+                meshDrafts[i].Spherify(radius, center);
+            }
+            return this;
         }
 
         public void MergeDraftsWithTheSameName()
