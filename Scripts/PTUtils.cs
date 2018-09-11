@@ -12,23 +12,23 @@ namespace ProceduralToolkit
         /// <summary>
         /// Lowercase letters from a to z
         /// </summary>
-        public const string lowercase = "abcdefghijklmnopqrstuvwxyz";
+        public const string LowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
         /// <summary>
         /// Uppercase letters from A to Z
         /// </summary>
-        public const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public const string UppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         /// <summary>
         /// Digits from 0 to 9
         /// </summary>
-        public const string digits = "0123456789";
+        public const string Digits = "0123456789";
         /// <summary>
-        /// The concatenation of the strings <see cref="lowercase"/> and <see cref="uppercase"/>
+        /// The concatenation of the strings <see cref="LowercaseLetters"/> and <see cref="UppercaseLetters"/>
         /// </summary>
-        public const string letters = lowercase + uppercase;
+        public const string Letters = LowercaseLetters + UppercaseLetters;
         /// <summary>
-        /// The concatenation of the strings <see cref="letters"/> and <see cref="digits"/>
+        /// The concatenation of the strings <see cref="Letters"/> and <see cref="Digits"/>
         /// </summary>
-        public const string alphanumerics = letters + digits;
+        public const string Alphanumerics = Letters + Digits;
 
         /// <summary>
         /// Square root of 0.5

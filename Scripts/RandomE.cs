@@ -314,22 +314,22 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random alphanumeric 8-character string
         /// </summary>
-        public static string string8 { get { return PTUtils.alphanumerics.GetRandom(8); } }
+        public static string string8 { get { return PTUtils.Alphanumerics.GetRandom(8); } }
 
         /// <summary>
         /// Returns a random alphanumeric 16-character string
         /// </summary>
-        public static string string16 { get { return PTUtils.alphanumerics.GetRandom(16); } }
+        public static string string16 { get { return PTUtils.Alphanumerics.GetRandom(16); } }
 
         /// <summary>
         /// Returns a random lowercase letter
         /// </summary>
-        public static char lowercaseLetter { get { return PTUtils.lowercase.GetRandom(); } }
+        public static char lowercaseLetter { get { return PTUtils.LowercaseLetters.GetRandom(); } }
 
         /// <summary>
         /// Returns a random uppercase letter
         /// </summary>
-        public static char uppercaseLetter { get { return PTUtils.uppercase.GetRandom(); } }
+        public static char uppercaseLetter { get { return PTUtils.UppercaseLetters.GetRandom(); } }
 
         #endregion Strings
 
