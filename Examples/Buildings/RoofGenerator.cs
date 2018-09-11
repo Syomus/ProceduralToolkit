@@ -71,9 +71,9 @@ namespace ProceduralToolkit.Examples
             Vector3 ridge1 = (b + c)/2 + ridgeHeight;
 
             var roofDraft = new MeshDraft();
-            roofDraft.AddQuad(a, ridge0, ridge1, b);
+            roofDraft.AddQuad(a, ridge0, ridge1, b, true);
             roofDraft.AddTriangle(b, ridge1, c, true);
-            roofDraft.AddQuad(c, ridge1, ridge0, d);
+            roofDraft.AddQuad(c, ridge1, ridge0, d, true);
             roofDraft.AddTriangle(d, ridge0, a, true);
             return roofDraft;
         }
@@ -91,9 +91,9 @@ namespace ProceduralToolkit.Examples
             Vector3 ridge1 = (b + c)/2 + ridgeHeight - ridgeOffset;
 
             var roofDraft = new MeshDraft();
-            roofDraft.AddQuad(a, ridge0, ridge1, b);
+            roofDraft.AddQuad(a, ridge0, ridge1, b, true);
             roofDraft.AddTriangle(b, ridge1, c, true);
-            roofDraft.AddQuad(c, ridge1, ridge0, d);
+            roofDraft.AddQuad(c, ridge1, ridge0, d, true);
             roofDraft.AddTriangle(d, ridge0, a, true);
             return roofDraft;
         }

@@ -180,7 +180,7 @@ namespace ProceduralToolkit.Examples
             frame.Add(hole);
             frame.Paint(frameColor);
 
-            var glass = new MeshDraft().AddQuad(windowMin + frameLength, windowWidth, windowHeight)
+            var glass = new MeshDraft().AddQuad(windowMin + frameLength, windowWidth, windowHeight, true)
                 .Paint(glassColor);
             glass.name = GlassDraftName;
 
@@ -362,7 +362,7 @@ namespace ProceduralToolkit.Examples
                 .Paint(doorColor);
             draft.Add(doorFrame);
 
-            var door = new MeshDraft().AddQuad(doorOrigin + doorThickness, doorWidth, doorHeight)
+            var door = new MeshDraft().AddQuad(doorOrigin + doorThickness, doorWidth, doorHeight, true)
                 .Paint(doorColor);
             draft.Add(door);
             return draft;
@@ -413,7 +413,7 @@ namespace ProceduralToolkit.Examples
             wall.name = WallDraftName;
 
             var glass = new MeshDraft()
-                .AddQuad(windowOrigin + windowDepth/2, windowWidth, windowHeigth)
+                .AddQuad(windowOrigin + windowDepth/2, windowWidth, windowHeigth, true)
                 .Paint(glassColor);
             glass.name = GlassDraftName;
 
@@ -457,7 +457,7 @@ namespace ProceduralToolkit.Examples
         public override CompoundMeshDraft GetCompoundMeshDraft()
         {
             var wallDraft = new MeshDraft()
-                .AddQuad(origin.Value, Vector3.right*width.Value, Vector3.up*height.Value)
+                .AddQuad(origin.Value, Vector3.right*width.Value, Vector3.up*height.Value, true)
                 .Paint(wallColor);
             wallDraft.name = WallDraftName;
             return new CompoundMeshDraft().Add(wallDraft);

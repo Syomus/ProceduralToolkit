@@ -185,11 +185,11 @@ namespace ProceduralToolkit
             var draft = new MeshDraft {name = "Quad"};
             if (generateUV)
             {
-                draft.AddQuad(origin, width, height, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
+                draft.AddQuad(origin, width, height, true, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
             }
             else
             {
-                draft.AddQuad(origin, width, height);
+                draft.AddQuad(origin, width, height, true);
             }
             return draft;
         }
@@ -202,11 +202,11 @@ namespace ProceduralToolkit
             var draft = new MeshDraft {name = "Quad"};
             if (generateUV)
             {
-                draft.AddQuad(vertex0, vertex1, vertex2, vertex3, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
+                draft.AddQuad(vertex0, vertex1, vertex2, vertex3, true, new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
             }
             else
             {
-                draft.AddQuad(vertex0, vertex1, vertex2, vertex3);
+                draft.AddQuad(vertex0, vertex1, vertex2, vertex3, true);
             }
             return draft;
         }
@@ -524,7 +524,7 @@ namespace ProceduralToolkit
                     Vector2 uv01 = upperRingUV[x + 1];
                     Vector2 uv11 = upperRingUV[x];
                     Vector2 uv10 = lowerRingUV[x];
-                    draft.AddQuad(v00, v01, v11, v10, uv00, uv01, uv11, uv10);
+                    draft.AddQuad(v00, v01, v11, v10, true, uv00, uv01, uv11, uv10);
                 }
             }
             return draft;
