@@ -8,18 +8,16 @@ namespace ProceduralToolkit.Examples.Buildings
     {
         public abstract MeshDraft Construct(Vector2 parentLayoutOrigin);
 
-        protected static MeshDraft ConstructBorder(List<Vector2> roofPolygon, RoofConfig roofConfig)
+        protected static MeshDraft ConstructBorder(List<Vector2> roofPolygon2, List<Vector3> roofPolygon3, RoofConfig roofConfig)
         {
-            List<Vector3> lowerRing = roofPolygon.ConvertAll(v => v.ToVector3XZ());
-            List<Vector3> upperRing = roofPolygon.ConvertAll(v => v.ToVector3XZ() + Vector3.up*roofConfig.thickness);
-            return new MeshDraft().AddFlatQuadBand(lowerRing, upperRing, false);
+            List<Vector3> upperRing = roofPolygon2.ConvertAll(v => v.ToVector3XZ() + Vector3.up*roofConfig.thickness);
+            return new MeshDraft().AddFlatQuadBand(roofPolygon3, upperRing, false);
         }
 
-        protected static MeshDraft ConstructOverhang(List<Vector2> foundationPolygon, List<Vector2> roofPolygon)
+        protected static MeshDraft ConstructOverhang(List<Vector2> foundationPolygon, List<Vector3> roofPolygon3)
         {
             List<Vector3> lowerRing = foundationPolygon.ConvertAll(v => v.ToVector3XZ());
-            List<Vector3> upperRing = roofPolygon.ConvertAll(v => v.ToVector3XZ());
-            return new MeshDraft().AddFlatQuadBand(lowerRing, upperRing, false);
+            return new MeshDraft().AddFlatQuadBand(lowerRing, roofPolygon3, false);
         }
     }
 
@@ -38,26 +36,31 @@ namespace ProceduralToolkit.Examples.Buildings
 
         public override MeshDraft Construct(Vector2 parentLayoutOrigin)
         {
-            List<Vector2> roofPolygon = Geometry.OffsetPolygon(foundationPolygon, roofConfig.overhang);
+            List<Vector2> roofPolygon2 = Geometry.OffsetPolygon(foundationPolygon, roofConfig.overhang);
+            List<Vector3> roofPolygon3 = roofPolygon2.ConvertAll(v => v.ToVector3XZ());
 
             var roofDraft = new MeshDraft();
             if (roofConfig.thickness > 0)
             {
-                roofDraft.Add(ConstructBorder(roofPolygon, roofConfig));
+                roofDraft.Add(ConstructBorder(roofPolygon2, roofPolygon3, roofConfig));
             }
 
             if (roofConfig.overhang > 0)
             {
-                roofDraft.Add(ConstructOverhang(foundationPolygon, roofPolygon));
+                roofDraft.Add(ConstructOverhang(foundationPolygon, roofPolygon3));
             }
 
-            Vector3 a = roofPolygon[0].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 b = roofPolygon[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 c = roofPolygon[2].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 d = roofPolygon[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            roofDraft.AddQuad(a, d, c, b, Vector3.up)
+            var tessellator = new Tessellator();
+            tessellator.AddContour(roofPolygon3);
+            tessellator.Tessellate(normal: Vector3.up);
+            var roofTop = tessellator.ToMeshDraft()
+                .Move(Vector3.up*roofConfig.thickness);
+            for (var i = 0; i < roofTop.vertexCount; i++)
+            {
+                roofTop.normals.Add(Vector3.up);
+            }
+            return roofDraft.Add(roofTop)
                 .Paint(roofColor);
-            return roofDraft;
         }
     }
 
@@ -78,23 +81,24 @@ namespace ProceduralToolkit.Examples.Buildings
 
         public override MeshDraft Construct(Vector2 parentLayoutOrigin)
         {
-            List<Vector2> roofPolygon = Geometry.OffsetPolygon(foundationPolygon, roofConfig.overhang);
+            List<Vector2> roofPolygon2 = Geometry.OffsetPolygon(foundationPolygon, roofConfig.overhang);
+            List<Vector3> roofPolygon3 = roofPolygon2.ConvertAll(v => v.ToVector3XZ());
 
             var roofDraft = new MeshDraft();
             if (roofConfig.thickness > 0)
             {
-                roofDraft.Add(ConstructBorder(roofPolygon, roofConfig));
+                roofDraft.Add(ConstructBorder(roofPolygon2, roofPolygon3, roofConfig));
             }
 
             if (roofConfig.overhang > 0)
             {
-                roofDraft.Add(ConstructOverhang(foundationPolygon, roofPolygon));
+                roofDraft.Add(ConstructOverhang(foundationPolygon, roofPolygon3));
             }
 
-            Vector3 a = roofPolygon[0].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 b = roofPolygon[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 c = roofPolygon[2].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 d = roofPolygon[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 a = roofPolygon2[0].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 b = roofPolygon2[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 c = roofPolygon2[2].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 d = roofPolygon2[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
 
             Vector3 ridgeHeight = Vector3.up*HippedRoofHeight;
             Vector3 ridgeOffset = (b - a).normalized*2;
@@ -127,23 +131,24 @@ namespace ProceduralToolkit.Examples.Buildings
 
         public override MeshDraft Construct(Vector2 parentLayoutOrigin)
         {
-            List<Vector2> roofPolygon = Geometry.OffsetPolygon(foundationPolygon, roofConfig.overhang);
+            List<Vector2> roofPolygon2 = Geometry.OffsetPolygon(foundationPolygon, roofConfig.overhang);
+            List<Vector3> roofPolygon3 = roofPolygon2.ConvertAll(v => v.ToVector3XZ());
 
             var roofDraft = new MeshDraft();
             if (roofConfig.thickness > 0)
             {
-                roofDraft.Add(ConstructBorder(roofPolygon, roofConfig));
+                roofDraft.Add(ConstructBorder(roofPolygon2, roofPolygon3, roofConfig));
             }
 
             if (roofConfig.overhang > 0)
             {
-                roofDraft.Add(ConstructOverhang(foundationPolygon, roofPolygon));
+                roofDraft.Add(ConstructOverhang(foundationPolygon, roofPolygon3));
             }
 
-            Vector3 a = roofPolygon[0].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 b = roofPolygon[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 c = roofPolygon[2].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 d = roofPolygon[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 a = roofPolygon2[0].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 b = roofPolygon2[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 c = roofPolygon2[2].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            Vector3 d = roofPolygon2[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
 
             Vector3 ridgeHeight = Vector3.up*GabledRoofHeight;
             Vector3 ridge0 = (a + d)/2 + ridgeHeight;
