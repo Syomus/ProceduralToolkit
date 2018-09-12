@@ -2,9 +2,8 @@ using System.Collections.Generic;
 
 namespace ProceduralToolkit.Buildings
 {
-    public interface ILayout : ILayoutElement
+    public interface ILayout : ILayoutElement, IEnumerable<ILayoutElement>
     {
-        List<ILayoutElement> elements { get; }
         void Add(ILayoutElement element);
     }
 }

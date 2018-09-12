@@ -68,7 +68,7 @@ namespace ProceduralToolkit.Examples.Buildings
 
         public static void ConstructLayout(CompoundMeshDraft draft, Vector2 parentLayoutOrigin, ILayout layout)
         {
-            foreach (var element in layout.elements)
+            foreach (var element in layout)
             {
                 ConstructElement(draft, parentLayoutOrigin + layout.origin, element);
             }

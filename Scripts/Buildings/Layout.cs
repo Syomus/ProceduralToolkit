@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,11 +10,16 @@ namespace ProceduralToolkit.Buildings
         public float width { get; set; }
         public float height { get; set; }
 
-        public List<ILayoutElement> elements { get; protected set; }
+        private readonly List<ILayoutElement> elements = new List<ILayoutElement>();
 
-        protected Layout()
+        public IEnumerator<ILayoutElement> GetEnumerator()
         {
-            elements = new List<ILayoutElement>();
+            return elements.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public virtual void Add(ILayoutElement element)
