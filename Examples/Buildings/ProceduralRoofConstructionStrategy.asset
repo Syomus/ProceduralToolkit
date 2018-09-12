@@ -11,11 +11,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e25d73251e6c274d83d58f0e750628b, type: 3}
   m_Name: ProceduralRoofConstructionStrategy
   m_EditorClassIdentifier: 
-  lightProbeUsage: 0
-  lightProbeProxyVolumeOverride: {fileID: 0}
-  reflectionProbeUsage: 0
-  probeAnchor: {fileID: 0}
-  shadowCastingMode: 1
-  receiveShadows: 1
-  motionVectorGenerationMode: 2
+  rendererProperties:
+    lightProbeUsage: 0
+    lightProbeProxyVolumeOverride: {fileID: 0}
+    reflectionProbeUsage: 0
+    probeAnchor: {fileID: 0}
+    shadowCastingMode: 1
+    receiveShadows: 1
+    motionVectorGenerationMode: 2
   roofMaterial: {fileID: 2100000, guid: 6ce7f224d5b65714682ae04ffbeade75, type: 2}

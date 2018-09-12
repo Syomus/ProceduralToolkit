@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace ProceduralToolkit.Examples.Buildings
 {
@@ -9,19 +8,7 @@ namespace ProceduralToolkit.Examples.Buildings
     public class ProceduralFacadeConstructionStrategy : FacadeConstructionStrategy
     {
         [SerializeField]
-        private LightProbeUsage lightProbeUsage = LightProbeUsage.BlendProbes;
-        [SerializeField]
-        private GameObject lightProbeProxyVolumeOverride;
-        [SerializeField]
-        private ReflectionProbeUsage reflectionProbeUsage = ReflectionProbeUsage.BlendProbes;
-        [SerializeField]
-        private Transform probeAnchor;
-        [SerializeField]
-        private ShadowCastingMode shadowCastingMode = ShadowCastingMode.On;
-        [SerializeField]
-        private bool receiveShadows = true;
-        [SerializeField]
-        private MotionVectorGenerationMode motionVectorGenerationMode = MotionVectorGenerationMode.Object;
+        private RendererProperties rendererProperties;
         [SerializeField]
         private Material glassMaterial;
         [SerializeField]
@@ -58,13 +45,7 @@ namespace ProceduralToolkit.Examples.Buildings
             meshFilter.mesh = facadesDraft.ToMeshWithSubMeshes();
 
             var meshRenderer = rendererGo.gameObject.AddComponent<MeshRenderer>();
-            meshRenderer.lightProbeUsage = lightProbeUsage;
-            meshRenderer.lightProbeProxyVolumeOverride = lightProbeProxyVolumeOverride;
-            meshRenderer.reflectionProbeUsage = reflectionProbeUsage;
-            meshRenderer.probeAnchor = probeAnchor;
-            meshRenderer.shadowCastingMode = shadowCastingMode;
-            meshRenderer.receiveShadows = receiveShadows;
-            meshRenderer.motionVectorGenerationMode = motionVectorGenerationMode;
+            meshRenderer.ApplyProperties(rendererProperties);
 
             var materials = new List<Material>();
             foreach (var draft in facadesDraft)

@@ -1,6 +1,5 @@
 using ProceduralToolkit.Buildings;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace ProceduralToolkit.Examples.Buildings
 {
@@ -8,19 +7,7 @@ namespace ProceduralToolkit.Examples.Buildings
     public class ProceduralRoofConstructionStrategy : RoofConstructionStrategy
     {
         [SerializeField]
-        private LightProbeUsage lightProbeUsage = LightProbeUsage.BlendProbes;
-        [SerializeField]
-        private GameObject lightProbeProxyVolumeOverride;
-        [SerializeField]
-        private ReflectionProbeUsage reflectionProbeUsage = ReflectionProbeUsage.BlendProbes;
-        [SerializeField]
-        private Transform probeAnchor;
-        [SerializeField]
-        private ShadowCastingMode shadowCastingMode = ShadowCastingMode.On;
-        [SerializeField]
-        private bool receiveShadows = true;
-        [SerializeField]
-        private MotionVectorGenerationMode motionVectorGenerationMode = MotionVectorGenerationMode.Object;
+        private RendererProperties rendererProperties;
         [SerializeField]
         private Material roofMaterial;
 
@@ -32,13 +19,7 @@ namespace ProceduralToolkit.Examples.Buildings
             meshFilter.mesh = draft.ToMesh();
 
             var meshRenderer = parentTransform.gameObject.AddComponent<MeshRenderer>();
-            meshRenderer.lightProbeUsage = lightProbeUsage;
-            meshRenderer.lightProbeProxyVolumeOverride = lightProbeProxyVolumeOverride;
-            meshRenderer.reflectionProbeUsage = reflectionProbeUsage;
-            meshRenderer.probeAnchor = probeAnchor;
-            meshRenderer.shadowCastingMode = shadowCastingMode;
-            meshRenderer.receiveShadows = receiveShadows;
-            meshRenderer.motionVectorGenerationMode = motionVectorGenerationMode;
+            meshRenderer.ApplyProperties(rendererProperties);
             meshRenderer.material = roofMaterial;
         }
     }

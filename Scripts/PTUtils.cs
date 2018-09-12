@@ -142,5 +142,16 @@ namespace ProceduralToolkit
             return string.Format("({0}, {1}, {2}, {3})", quaternion.x.ToString(format, formatProvider), quaternion.y.ToString(format, formatProvider),
                 quaternion.z.ToString(format, formatProvider), quaternion.w.ToString(format, formatProvider));
         }
+
+        public static void ApplyProperties(this Renderer renderer, RendererProperties properties)
+        {
+            renderer.lightProbeUsage = properties.lightProbeUsage;
+            renderer.lightProbeProxyVolumeOverride = properties.lightProbeProxyVolumeOverride;
+            renderer.reflectionProbeUsage = properties.reflectionProbeUsage;
+            renderer.probeAnchor = properties.probeAnchor;
+            renderer.shadowCastingMode = properties.shadowCastingMode;
+            renderer.receiveShadows = properties.receiveShadows;
+            renderer.motionVectorGenerationMode = properties.motionVectorGenerationMode;
+        }
     }
 }
