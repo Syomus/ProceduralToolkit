@@ -54,19 +54,7 @@ namespace ProceduralToolkit.Buildings
             {
                 parent = new GameObject("Building").transform;
             }
-            for (var i = 0; i < facadeLayouts.Count; i++)
-            {
-                var facadeLayout = facadeLayouts[i];
-                Vector2 a = foundationPolygon.GetLooped(i + 1);
-                Vector2 b = foundationPolygon[i];
-
-                var facade = new GameObject("Facade_" + i).transform;
-                facade.SetParent(parent, false);
-                facade.localPosition = a.ToVector3XZ();
-                Vector3 normal = (b - a).Perp().ToVector3XZ();
-                facade.localRotation = Quaternion.LookRotation(normal);
-                facadeConstructionStrategy.Construct(facade, facadeLayout);
-            }
+            facadeConstructionStrategy.Construct(parent, foundationPolygon, facadeLayouts);
 
             if (roofPlanningStrategy != null && roofConstructionStrategy != null)
             {

@@ -29,18 +29,35 @@ namespace ProceduralToolkit.Examples.Buildings
         [SerializeField]
         private Material wallMaterial;
 
-        public override void Construct(Transform parentTransform, ILayout layout)
+        public override void Construct(Transform parentTransform, List<Vector2> foundationPolygon, List<ILayout> layouts)
         {
-            var compoundDraft = new CompoundMeshDraft();
-            ConstructLayout(compoundDraft, Vector2.zero, layout);
+            var facadesDraft = new CompoundMeshDraft();
 
-            compoundDraft.MergeDraftsWithTheSameName();
-            compoundDraft.SortDraftsByName();
+            var rendererGo = new GameObject("Facades");
+            rendererGo.transform.SetParent(parentTransform, false);
 
-            var meshFilter = parentTransform.gameObject.AddComponent<MeshFilter>();
-            meshFilter.mesh = compoundDraft.ToMeshWithSubMeshes();
+            for (var i = 0; i < layouts.Count; i++)
+            {
+                var layout = layouts[i];
 
-            var meshRenderer = parentTransform.gameObject.AddComponent<MeshRenderer>();
+                Vector2 a = foundationPolygon.GetLooped(i + 1);
+                Vector2 b = foundationPolygon[i];
+                Vector3 normal = (b - a).Perp().ToVector3XZ();
+
+                var facade = new CompoundMeshDraft();
+                ConstructLayout(facade, Vector2.zero, layout);
+                facade.Rotate(Quaternion.LookRotation(normal));
+                facade.Move(a.ToVector3XZ());
+                facadesDraft.Add(facade);
+            }
+
+            facadesDraft.MergeDraftsWithTheSameName();
+            facadesDraft.SortDraftsByName();
+
+            var meshFilter = rendererGo.gameObject.AddComponent<MeshFilter>();
+            meshFilter.mesh = facadesDraft.ToMeshWithSubMeshes();
+
+            var meshRenderer = rendererGo.gameObject.AddComponent<MeshRenderer>();
             meshRenderer.lightProbeUsage = lightProbeUsage;
             meshRenderer.lightProbeProxyVolumeOverride = lightProbeProxyVolumeOverride;
             meshRenderer.reflectionProbeUsage = reflectionProbeUsage;
@@ -50,7 +67,7 @@ namespace ProceduralToolkit.Examples.Buildings
             meshRenderer.motionVectorGenerationMode = motionVectorGenerationMode;
 
             var materials = new List<Material>();
-            foreach (var draft in compoundDraft)
+            foreach (var draft in facadesDraft)
             {
                 if (draft.name == "Glass")
                 {
