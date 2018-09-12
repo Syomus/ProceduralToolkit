@@ -23,7 +23,7 @@ namespace ProceduralToolkit.Examples.Buildings
         private const float EntranceDoorHeight = 2;
         private const float EntranceDoorThickness = 0.05f;
 
-        private const float EntranceRoofLength = 1;
+        private const float EntranceRoofDepth = 1;
         private const float EntranceRoofHeight = 0.15f;
 
         private const float EntranceWindowWidthOffset = 0.4f;
@@ -120,7 +120,8 @@ namespace ProceduralToolkit.Examples.Buildings
             Vector3 frameDepth = Vector3.forward*WindowDepth;
             Vector3 frameSize = frameMax - frameMin;
 
-            var frame = MeshDraft.PartialBox(frameWidth, -frameDepth, frameHeight, Directions.All & ~Directions.ZAxis, false)
+            var frame = MeshDraft.PartialBox(frameWidth, frameDepth, frameHeight, Directions.All & ~Directions.ZAxis, false)
+                .FlipFaces()
                 .Move(frameMin + frameSize/2 + frameDepth/2);
 
             var wall = PerforatedQuad(min, max, frameMin, frameMax)
@@ -149,45 +150,80 @@ namespace ProceduralToolkit.Examples.Buildings
 
         private static CompoundMeshDraft Windowpane(Vector3 min, Vector3 max, Color frameColor, Color glassColor)
         {
+            Vector3 frameDepth;
+            Vector3 windowMin;
+            Vector3 windowWidth;
+            Vector3 windowHeight;
+            var frame = WindowpaneFrame(min, max, frameColor, out frameDepth, out windowMin, out windowWidth, out windowHeight);
+            var glass = WindowpaneGlass(frameDepth, windowMin, windowWidth, windowHeight, glassColor);
+            return new CompoundMeshDraft().Add(frame).Add(glass);
+        }
+
+        private static MeshDraft WindowpaneFrame(Vector3 min, Vector3 max, Color frameColor,
+            out Vector3 frameDepth, out Vector3 windowMin, out Vector3 windowWidth, out Vector3 windowHeight)
+        {
             Vector3 size = max - min;
             Vector3 widthVector = size.ToVector3XZ();
             Vector3 heightVector = size.ToVector3Y();
-            Vector3 right = widthVector.normalized;
-            Vector3 normal = Vector3.Cross(widthVector, heightVector).normalized;
+
+            Vector3 frameWidth;
+            Vector3 frameHeight;
+            Vector3 startPosition;
+            var frame = WindowpaneFrameRods(min, widthVector, heightVector, out frameWidth, out frameHeight, out frameDepth, out startPosition);
+
+            windowMin = min + frameWidth + frameHeight;
+            windowWidth = widthVector - frameWidth*2;
+            windowHeight = heightVector - frameHeight*2;
+            Vector3 windowMax = windowMin + windowWidth + windowHeight;
+
+            frame.Add(WindowpaneOuterFrame(min, max, widthVector, frameDepth, startPosition, windowMin, windowWidth, windowHeight, windowMax));
+            frame.Paint(frameColor);
+            return frame;
+        }
+
+        private static MeshDraft WindowpaneFrameRods(Vector3 min, Vector3 widthVector, Vector3 heightVector,
+            out Vector3 frameWidth, out Vector3 frameHeight, out Vector3 frameDepth, out Vector3 startPosition)
+        {
             var frame = new MeshDraft {name = WallDraftName};
 
-            int rodCount = Mathf.FloorToInt(widthVector.magnitude/WindowSegmentMinWidth);
-            float interval = widthVector.magnitude/(rodCount + 1);
+            Vector3 right = widthVector.normalized;
+            Vector3 normal = Vector3.Cross(heightVector, right).normalized;
 
-            Vector3 frameWidth = right*WindowFrameWidth/2;
-            Vector3 frameHeight = Vector3.up*WindowFrameWidth/2;
-            Vector3 frameLength = normal*WindowFrameWidth/2;
-            Vector3 startPosition = min + heightVector/2 + frameLength/2;
+            float width = widthVector.magnitude;
+            int rodCount = Mathf.FloorToInt(width/WindowSegmentMinWidth);
+            float interval = width/(rodCount + 1);
+
+            frameWidth = right*WindowFrameWidth/2;
+            frameHeight = Vector3.up*WindowFrameWidth/2;
+            frameDepth = -normal*WindowFrameWidth/2;
+            startPosition = min + heightVector/2 + frameDepth/2;
             for (int i = 0; i < rodCount; i++)
             {
-                var rod = MeshDraft.PartialBox(frameWidth*2, frameLength, heightVector - frameHeight*2,
+                var rod = MeshDraft.PartialBox(frameWidth*2, frameDepth, heightVector - frameHeight*2,
                         Directions.Left | Directions.Back | Directions.Right, false)
                     .Move(startPosition + right*(i + 1)*interval);
                 frame.Add(rod);
             }
+            return frame;
+        }
 
-            Vector3 windowMin = min + frameWidth + frameHeight;
-            Vector3 windowWidth = widthVector - frameWidth*2;
-            Vector3 windowHeight = heightVector - frameHeight*2;
-            Vector3 windowMax = windowMin + windowWidth + windowHeight;
-            frame.Add(PerforatedQuad(min, max, windowMin, windowMax));
+        private static MeshDraft WindowpaneOuterFrame(Vector3 min, Vector3 max, Vector3 widthVector, Vector3 frameDepth, Vector3 startPosition,
+            Vector3 windowMin, Vector3 windowWidth, Vector3 windowHeight, Vector3 windowMax)
+        {
+            var outerFrame = new MeshDraft();
+            outerFrame.Add(PerforatedQuad(min, max, windowMin, windowMax));
+            var box = MeshDraft.PartialBox(windowWidth, frameDepth, windowHeight, Directions.All & ~Directions.ZAxis, false)
+                .FlipFaces()
+                .Move(startPosition + widthVector/2);
+            outerFrame.Add(box);
+            return outerFrame;
+        }
 
-            var hole = MeshDraft.PartialBox(windowWidth, frameLength, windowHeight, Directions.All & ~Directions.ZAxis, false)
-                .Move(startPosition + widthVector/2)
-                .FlipFaces();
-            frame.Add(hole);
-            frame.Paint(frameColor);
-
-            var glass = new MeshDraft().AddQuad(windowMin + frameLength, windowWidth, windowHeight, true)
+        private static MeshDraft WindowpaneGlass(Vector3 frameDepth, Vector3 windowMin, Vector3 windowWidth, Vector3 windowHeight, Color glassColor)
+        {
+            return new MeshDraft {name = GlassDraftName}
+                .AddQuad(windowMin + frameDepth, windowWidth, windowHeight, true)
                 .Paint(glassColor);
-            glass.name = GlassDraftName;
-
-            return new CompoundMeshDraft().Add(frame).Add(glass);
         }
 
         protected static CompoundMeshDraft Balcony(
@@ -201,7 +237,8 @@ namespace ProceduralToolkit.Examples.Buildings
             Vector3 widthVector = Vector3.right*width;
             Vector3 heightVector = Vector3.up*height;
 
-            var wall = Balcony(origin, width, wallColor);
+            var compoundDraft = new CompoundMeshDraft();
+            compoundDraft.Add(Balcony(origin, width, wallColor));
 
             Vector3 innerHeightOffset = Vector3.up*BalconyThickness;
 
@@ -225,90 +262,109 @@ namespace ProceduralToolkit.Examples.Buildings
                 outerFrameOrigin + doorHeight,
             };
 
-            var panel = new MeshDraft().AddTriangleStrip(new List<Vector3>
-            {
-                outerFrame[0],
-                origin,
-                outerFrame[5],
-                origin + heightVector,
-                outerFrame[4],
-                origin + widthVector + heightVector,
-                outerFrame[3],
-                origin + widthVector,
-                outerFrame[2],
-                origin + widthVector,
-                outerFrame[1]
-            }).Paint(wallColor);
-
-            var innerFrame = new List<Vector3>();
-            foreach (Vector3 vertex in outerFrame)
-            {
-                innerFrame.Add(vertex + windowDepth);
-            }
-            var frame = new MeshDraft().AddFlatQuadBand(innerFrame, outerFrame, false)
-                .Paint(wallColor);
-
-            wall.Add(panel);
-            wall.Add(frame);
-            wall.name = WallDraftName;
+            compoundDraft.Add(BalconyWallPanel(origin, widthVector, heightVector, windowDepth, outerFrame, wallColor));
 
             Vector3 windowpaneMin1 = outerFrame[0] + windowDepth;
             Vector3 windowpaneMin2 = outerFrame[2] + windowDepth;
-            var windowpane = Windowpane(windowpaneMin1, windowpaneMin1 + doorWidth + doorHeight, frameColor, glassColor);
-            windowpane.Add(Windowpane(windowpaneMin2, windowpaneMin2 + windowWidth - doorWidth + windowHeight, frameColor, glassColor));
+            compoundDraft.Add(Windowpane(windowpaneMin1, windowpaneMin1 + doorWidth + doorHeight, frameColor, glassColor));
+            compoundDraft.Add(Windowpane(windowpaneMin2, windowpaneMin2 + windowWidth - doorWidth + windowHeight, frameColor, glassColor));
 
-            return new CompoundMeshDraft().Add(wall).Add(windowpane);
+            return compoundDraft;
         }
 
         private static MeshDraft Balcony(Vector3 origin, float width, Color wallColor)
         {
             Vector3 widthVector = Vector3.right*width;
             Vector3 balconyHeight = Vector3.up*BalconyHeight;
-            Vector3 balconyDepth = Vector3.back*BalconyDepth;
+            Vector3 balconyDepth = Vector3.forward*BalconyDepth;
 
-            var balconyOuter = MeshDraft.PartialBox(widthVector, balconyDepth, balconyHeight,
-                Directions.All & ~Directions.Up & ~Directions.Back, false);
-            balconyOuter.FlipFaces();
-            Vector3 balconyCenter = origin + widthVector/2 + balconyDepth/2 + balconyHeight/2;
-            balconyOuter.Move(balconyCenter);
+            Vector3 balconyCenter;
+            var balconyOuter = BalconyOuter(origin, widthVector, balconyHeight, balconyDepth, out balconyCenter);
 
-            Vector3 innerWidthOffset = Vector3.right*BalconyThickness;
-            Vector3 innerWidth = widthVector - innerWidthOffset*2;
-            Vector3 innerHeightOffset = Vector3.up*BalconyThickness;
-            Vector3 innerHeight = balconyHeight - innerHeightOffset;
-            Vector3 innerDepthOffset = Vector3.back*BalconyThickness;
-            Vector3 innerDepth = balconyDepth - innerDepthOffset;
-            var balconyInner = MeshDraft.PartialBox(innerWidth, innerDepth, innerHeight,
-                Directions.All & ~Directions.Up & ~Directions.Back, false);
-            balconyInner.Move(balconyCenter - innerDepthOffset/2 + innerHeightOffset/2);
+            Vector3 innerWidthOffset;
+            Vector3 innerWidth;
+            Vector3 innerDepth;
+            var balconyInner = BalconyInner(widthVector, balconyHeight, balconyDepth, balconyCenter,
+                out innerWidthOffset, out innerWidth, out innerDepth);
 
-            Vector3 borderOrigin = origin + widthVector + balconyHeight;
-            Vector3 borderInnerOrigin = borderOrigin - innerWidthOffset;
-            var balconyBorder = Bracket(borderOrigin, -widthVector, balconyDepth,
-                borderInnerOrigin, -innerWidth, innerDepth);
+            var balconyBorder = BalconyBorder(origin, widthVector, balconyHeight, balconyDepth, innerWidthOffset, innerWidth, innerDepth);
 
-            var balcony = new MeshDraft();
-            balcony.Add(balconyOuter);
-            balcony.Add(balconyInner);
-            balcony.Add(balconyBorder);
-            balcony.Paint(wallColor);
-            return balcony;
+            return new MeshDraft {name = WallDraftName}
+                .Add(balconyOuter)
+                .Add(balconyInner)
+                .Add(balconyBorder)
+                .Paint(wallColor);
         }
 
-        private static MeshDraft Bracket(Vector3 origin, Vector3 width, Vector3 length,
-            Vector3 innerOrigin, Vector3 innerWidth, Vector3 innerLength)
+        private static MeshDraft BalconyOuter(Vector3 origin, Vector3 widthVector, Vector3 balconyHeight, Vector3 balconyDepth,
+            out Vector3 balconyCenter)
         {
+            balconyCenter = origin + widthVector/2 - balconyDepth/2 + balconyHeight/2;
+            return MeshDraft.PartialBox(widthVector, balconyDepth, balconyHeight,
+                    Directions.All & ~Directions.Up & ~Directions.Forward, false)
+                .Move(balconyCenter);
+        }
+
+        private static MeshDraft BalconyInner(Vector3 widthVector, Vector3 balconyHeight, Vector3 balconyDepth, Vector3 balconyCenter,
+            out Vector3 innerWidthOffset, out Vector3 innerWidth, out Vector3 innerDepth)
+        {
+            innerWidthOffset = Vector3.right*BalconyThickness;
+            innerWidth = widthVector - innerWidthOffset*2;
+            Vector3 innerHeightOffset = Vector3.up*BalconyThickness;
+            Vector3 innerHeight = balconyHeight - innerHeightOffset;
+            Vector3 innerDepthOffset = Vector3.forward*BalconyThickness;
+            innerDepth = balconyDepth - innerDepthOffset;
+            return MeshDraft.PartialBox(innerWidth, innerDepth, innerHeight,
+                    Directions.All & ~Directions.Up & ~Directions.Forward, false)
+                .FlipFaces()
+                .Move(balconyCenter + innerDepthOffset/2 + innerHeightOffset/2);
+        }
+
+        private static MeshDraft BalconyBorder(Vector3 origin, Vector3 widthVector, Vector3 balconyHeight, Vector3 balconyDepth,
+            Vector3 innerWidthOffset, Vector3 innerWidth, Vector3 innerDepth)
+        {
+            Vector3 borderOrigin = origin + balconyHeight;
+            Vector3 borderInnerOrigin = borderOrigin + innerWidthOffset;
             return new MeshDraft().AddTriangleStrip(new List<Vector3>
             {
-                innerOrigin,
-                origin,
-                innerOrigin + innerLength,
-                origin + length,
-                innerOrigin + innerLength + innerWidth,
-                origin + length + width,
-                innerOrigin + innerWidth,
-                origin + width
+                borderOrigin,
+                borderInnerOrigin,
+                borderOrigin - balconyDepth,
+                borderInnerOrigin - innerDepth,
+                borderOrigin - balconyDepth + widthVector,
+                borderInnerOrigin - innerDepth + innerWidth,
+                borderOrigin + widthVector,
+                borderInnerOrigin + innerWidth
             });
+        }
+
+        private static MeshDraft BalconyWallPanel(Vector3 origin, Vector3 widthVector, Vector3 heightVector, Vector3 windowDepth,
+            List<Vector3> outerFrame, Color wallColor)
+        {
+            var wall = new MeshDraft {name = WallDraftName}
+                .AddTriangleStrip(new List<Vector3>
+                {
+                    outerFrame[0],
+                    origin,
+                    outerFrame[5],
+                    origin + heightVector,
+                    outerFrame[4],
+                    origin + widthVector + heightVector,
+                    outerFrame[3],
+                    origin + widthVector,
+                    outerFrame[2],
+                    origin + widthVector,
+                    outerFrame[1]
+                });
+
+            var innerFrame = new List<Vector3>();
+            foreach (Vector3 vertex in outerFrame)
+            {
+                innerFrame.Add(vertex + windowDepth);
+            }
+            wall.AddFlatQuadBand(innerFrame, outerFrame, false);
+            wall.Paint(wallColor);
+            return wall;
         }
 
         protected static CompoundMeshDraft BalconyGlazed(Vector3 origin, float width, float height, Color wallColor,
@@ -318,33 +374,40 @@ namespace ProceduralToolkit.Examples.Buildings
             Vector3 heightVector = Vector3.up*height;
 
             Vector3 balconyHeight = Vector3.up*BalconyHeight;
-            Vector3 balconyDepth = Vector3.back*BalconyDepth;
+            Vector3 balconyDepth = Vector3.forward*BalconyDepth;
 
-            var balcony = MeshDraft.PartialBox(widthVector, balconyDepth, balconyHeight,
-                    Directions.All & ~Directions.Up & ~Directions.Back, false)
-                .FlipFaces()
-                .Move(origin + widthVector/2 + balconyDepth/2 + balconyHeight/2)
+            var compoundDraft = new CompoundMeshDraft();
+
+            Vector3 balconyCenter;
+            var balcony = BalconyOuter(origin, widthVector, balconyHeight, balconyDepth, out balconyCenter)
                 .Paint(wallColor);
+            balcony.name = WallDraftName;
+            compoundDraft.Add(balcony);
 
+            var roof = BalconyGlazedRoof(origin, widthVector, heightVector, balconyDepth, roofColor);
+            compoundDraft.Add(roof);
+
+            Vector3 glassHeight = new Vector3(0, height - BalconyHeight, 0);
+            Vector3 glass0 = origin + balconyHeight;
+            Vector3 glass1 = glass0 - balconyDepth;
+            Vector3 glass2 = glass1 + widthVector;
+            compoundDraft.Add(Windowpane(glass0, glass1 + glassHeight, frameColor, glassColor));
+            compoundDraft.Add(Windowpane(glass1, glass2 + glassHeight, frameColor, glassColor));
+            compoundDraft.Add(Windowpane(glass2, glass2 + balconyDepth + glassHeight, frameColor, glassColor));
+
+            return compoundDraft;
+        }
+
+        private static MeshDraft BalconyGlazedRoof(Vector3 origin, Vector3 widthVector, Vector3 heightVector, Vector3 balconyDepth, Color roofColor)
+        {
             Vector3 roof0 = origin + heightVector;
             Vector3 roof1 = roof0 + widthVector;
-            Vector3 roof2 = roof1 + balconyDepth;
-            Vector3 roof3 = roof0 + balconyDepth;
-            var roof = new MeshDraft()
+            Vector3 roof2 = roof1 - balconyDepth;
+            Vector3 roof3 = roof0 - balconyDepth;
+            var roof = new MeshDraft {name = WallDraftName}
                 .AddQuad(roof0, roof1, roof2, roof3, Vector3.up)
                 .Paint(roofColor);
-
-            var wall = new MeshDraft {name = WallDraftName}.Add(balcony).Add(roof);
-
-            Vector3 glassHeight = heightVector - balconyHeight;
-            Vector3 glass0 = origin + balconyHeight;
-            Vector3 glass1 = glass0 + balconyDepth;
-            Vector3 glass2 = glass1 + widthVector;
-            var windowpane = Windowpane(glass0, glass0 + balconyDepth + glassHeight, frameColor, glassColor)
-                .Add(Windowpane(glass1, glass1 + widthVector + glassHeight, frameColor, glassColor))
-                .Add(Windowpane(glass2, glass2 - balconyDepth + glassHeight, frameColor, glassColor));
-
-            return new CompoundMeshDraft().Add(wall).Add(windowpane);
+            return roof;
         }
 
         protected static MeshDraft Entrance(Vector3 origin, float width, float height, Color wallColor, Color doorColor)
@@ -357,7 +420,7 @@ namespace ProceduralToolkit.Examples.Buildings
             Vector3 doorThickness = Vector3.back*EntranceDoorThickness;
             Vector3 doorOrigin = origin + widthVector/2 - doorWidth/2;
 
-            var draft = Bracket(origin, widthVector, heightVector, doorOrigin, doorWidth, doorHeight)
+            var draft = EntranceBracket(origin, widthVector, heightVector, doorOrigin, doorWidth, doorHeight)
                 .Paint(wallColor);
 
             var doorFrame = MeshDraft.PartialBox(doorWidth, -doorThickness, doorHeight, Directions.All & ~Directions.ZAxis, false)
@@ -371,15 +434,31 @@ namespace ProceduralToolkit.Examples.Buildings
             return draft;
         }
 
+        private static MeshDraft EntranceBracket(Vector3 origin, Vector3 width, Vector3 depth,
+            Vector3 innerOrigin, Vector3 innerWidth, Vector3 innerDepth)
+        {
+            return new MeshDraft().AddTriangleStrip(new List<Vector3>
+            {
+                innerOrigin,
+                origin,
+                innerOrigin + innerDepth,
+                origin + depth,
+                innerOrigin + innerDepth + innerWidth,
+                origin + depth + width,
+                innerOrigin + innerWidth,
+                origin + width
+            });
+        }
+
         protected static MeshDraft EntranceRoofed(Vector3 origin, float width, float height, Color wallColor,
             Color doorColor, Color roofColor)
         {
             var draft = Entrance(origin, width, height, wallColor, doorColor);
             Vector3 widthVector = Vector3.right*width;
-            Vector3 lengthVector = Vector3.forward*EntranceRoofLength;
+            Vector3 depthVector = Vector3.forward*EntranceRoofDepth;
 
-            var roof = MeshDraft.PartialBox(widthVector, lengthVector, Vector3.up*EntranceRoofHeight, Directions.All & ~Directions.Forward, false)
-                .Move(origin + widthVector/2 + Vector3.up*(height - EntranceRoofHeight/2) - lengthVector/2)
+            var roof = MeshDraft.PartialBox(widthVector, depthVector, Vector3.up*EntranceRoofHeight, Directions.All & ~Directions.Forward, false)
+                .Move(origin + widthVector/2 + Vector3.up*(height - EntranceRoofHeight/2) - depthVector/2)
                 .Paint(roofColor);
             draft.Add(roof);
             return draft;
