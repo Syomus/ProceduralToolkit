@@ -107,7 +107,7 @@ namespace ProceduralToolkit.Examples.Buildings
             generator.SetFacadeConstructionStrategy(facadeConstructionStrategy);
             generator.SetRoofPlanningStrategy(roofPlanningStrategy);
             generator.SetRoofConstructionStrategy(roofConstructionStrategy);
-            building = generator.Generate(config, null).gameObject;
+            building = generator.Generate(config).gameObject;
 
             float buildingRadius = Mathf.Sqrt(config.length/2*config.length/2 + config.width/2*config.width/2);
             float platformRadius = buildingRadius + platformRadiusOffset;

@@ -32,7 +32,7 @@ namespace ProceduralToolkit.Buildings
             this.roofConstructionStrategy = roofConstructionStrategy;
         }
 
-        public Transform Generate(Config config, Transform parent)
+        public Transform Generate(Config config, Transform parent = null)
         {
             Assert.IsTrue(config.width > 0);
             Assert.IsTrue(config.length > 0);
