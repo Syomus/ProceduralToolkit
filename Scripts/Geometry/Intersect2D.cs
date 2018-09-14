@@ -339,47 +339,6 @@ namespace ProceduralToolkit
             return true;
         }
 
-        /// <summary>
-        /// Computes an intersection of the lines
-        /// </summary>
-        public static IntersectionType LineLine(Line2 lineA, Line2 lineB, out float distanceA, out float distanceB)
-        {
-            return LineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out distanceA, out distanceB);
-        }
-
-        /// <summary>
-        /// Computes an intersection of the lines
-        /// </summary>
-        public static IntersectionType LineLine(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
-            out float distanceA, out float distanceB)
-        {
-            Vector2 originBToA = originA - originB;
-            float denominator = VectorE.PerpDot(directionA, directionB);
-            float perpDotA = VectorE.PerpDot(directionA, originBToA);
-            float perpDotB = VectorE.PerpDot(directionB, originBToA);
-
-            if (Mathf.Abs(denominator) < Geometry.Epsilon)
-            {
-                // Parallel
-                if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
-                {
-                    // Not collinear
-                    distanceA = 0;
-                    distanceB = Vector2.Dot(directionB, originBToA);
-                    return IntersectionType.None;
-                }
-                // Collinear
-                distanceA = 0;
-                distanceB = Vector2.Dot(directionB, originBToA);
-                return IntersectionType.Line;
-            }
-
-            // Not parallel
-            distanceA = perpDotB/denominator;
-            distanceB = perpDotA/denominator;
-            return IntersectionType.Point;
-        }
-
         #endregion Line-Line
 
         #region Line-Ray
