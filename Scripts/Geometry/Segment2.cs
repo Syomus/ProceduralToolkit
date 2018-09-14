@@ -12,6 +12,15 @@ namespace ProceduralToolkit
         public Vector2 a;
         public Vector2 b;
 
+        /// <summary>
+        /// Returns the normalized direction of the segment
+        /// </summary>
+        public Vector2 direction { get { return (b - a).normalized; } }
+        /// <summary>
+        /// Returns the length of the segment
+        /// </summary>
+        public float length { get { return (b - a).magnitude; } }
+
         public Segment2(Vector2 a, Vector2 b)
         {
             this.a = a;
