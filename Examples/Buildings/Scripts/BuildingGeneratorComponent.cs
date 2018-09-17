@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
 using UnityEngine;
 
@@ -15,9 +14,9 @@ namespace ProceduralToolkit.Examples.Buildings
         [SerializeField]
         private RoofConstructionStrategy roofConstructionStrategy;
         [SerializeField]
-        private BuildingGenerator.Config config = new BuildingGenerator.Config();
+        private PolygonAsset foundationPolygon;
         [SerializeField]
-        private List<Vector2> foundationPolygon = Geometry.StarPolygon2(5, 10, 20);
+        private BuildingGenerator.Config config = new BuildingGenerator.Config();
 
         private void Awake()
         {
@@ -26,7 +25,7 @@ namespace ProceduralToolkit.Examples.Buildings
             generator.SetFacadeConstructionStrategy(facadeConstructionStrategy);
             generator.SetRoofPlanningStrategy(roofPlanningStrategy);
             generator.SetRoofConstructionStrategy(roofConstructionStrategy);
-            generator.Generate(foundationPolygon, config, transform);
+            generator.Generate(foundationPolygon.vertices, config, transform);
         }
     }
 }

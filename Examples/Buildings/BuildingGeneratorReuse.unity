@@ -283,8 +283,7 @@ MonoBehaviour:
   xCount: 10
   zCount: 10
   cellSize: 15
-  width: 10
-  length: 10
+  foundationPolygon: {fileID: 11400000, guid: 09da00ca6d480a14c993ced83db76fc7, type: 2}
   config:
     floors: 3
     entranceInterval: 10

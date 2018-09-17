@@ -18,16 +18,11 @@ namespace ProceduralToolkit.Examples.Buildings
         public FacadeConstructionStrategy facadeConstructionStrategy;
         public RoofPlanningStrategy roofPlanningStrategy;
         public RoofConstructionStrategy roofConstructionStrategy;
-        public float width = 12;
-        public float length = 36;
+        public List<PolygonAsset> foundationPolygons = new List<PolygonAsset>();
         public BuildingGenerator.Config config = new BuildingGenerator.Config();
 
-        private const int minWidth = 10;
-        private const int maxWidth = 30;
-        private const int minLength = 10;
-        private const int maxLength = 60;
         private const int minFloorCount = 1;
-        private const int maxFloorCount = 10;
+        private const int maxFloorCount = 15;
 
         private const float platformHeight = 0.5f;
         private const float platformRadiusOffset = 2;
@@ -39,20 +34,6 @@ namespace ProceduralToolkit.Examples.Buildings
         {
             Generate();
             SetupSkyboxAndPalette();
-
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Width", minWidth, maxWidth, (int) width, value =>
-                {
-                    width = value;
-                    Generate();
-                });
-
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Length", minLength, maxLength, (int) length, value =>
-                {
-                    length = value;
-                    Generate();
-                });
 
             InstantiateControl<SliderControl>(leftPanel)
                 .Initialize("Floors", minFloorCount, maxFloorCount, config.floors, value =>
@@ -110,17 +91,11 @@ namespace ProceduralToolkit.Examples.Buildings
             generator.SetFacadeConstructionStrategy(facadeConstructionStrategy);
             generator.SetRoofPlanningStrategy(roofPlanningStrategy);
             generator.SetRoofConstructionStrategy(roofConstructionStrategy);
-            var foundationPolygon = new List<Vector2>
-            {
-                Vector2.right*length/2 + Vector2.down*width/2,
-                Vector2.left*length/2 + Vector2.down*width/2,
-                Vector2.left*length/2 + Vector2.up*width/2,
-                Vector2.right*length/2 + Vector2.up*width/2,
-            };
-            building = generator.Generate(foundationPolygon, config).gameObject;
+            var foundationPolygon = foundationPolygons.GetRandom();
+            building = generator.Generate(foundationPolygon.vertices, config).gameObject;
 
-            float buildingRadius = Mathf.Sqrt(length/2*length/2 + width/2*width/2);
-            float platformRadius = buildingRadius + platformRadiusOffset;
+            var rect = Geometry.GetRect(foundationPolygon.vertices);
+            float platformRadius = Geometry.GetCircumradius(rect) + platformRadiusOffset;
 
             var platformDraft = Platform(platformRadius, platformHeight);
             AssignDraftToMeshFilter(platformDraft, platformMeshFilter, ref platformMesh);

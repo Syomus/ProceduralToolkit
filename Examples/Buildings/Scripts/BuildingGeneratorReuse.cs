@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
 using UnityEngine;
 
@@ -21,9 +20,7 @@ namespace ProceduralToolkit.Examples.Buildings
         [SerializeField]
         private float cellSize = 15;
         [SerializeField]
-        private float width = 10;
-        [SerializeField]
-        private float length = 10;
+        private PolygonAsset foundationPolygon;
         [SerializeField]
         private BuildingGenerator.Config config = new BuildingGenerator.Config();
 
@@ -35,14 +32,6 @@ namespace ProceduralToolkit.Examples.Buildings
             generator.SetRoofPlanningStrategy(roofPlanningStrategy);
             generator.SetRoofConstructionStrategy(roofConstructionStrategy);
 
-            var foundationPolygon = new List<Vector2>
-            {
-                Vector2.right*length/2 + Vector2.down*width/2,
-                Vector2.left*length/2 + Vector2.down*width/2,
-                Vector2.left*length/2 + Vector2.up*width/2,
-                Vector2.right*length/2 + Vector2.up*width/2,
-            };
-
             float xOffset = (xCount - 1)*0.5f*cellSize;
             float zOffset = (zCount - 1)*0.5f*cellSize;
             for (int z = 0; z < zCount; z++)
@@ -50,7 +39,7 @@ namespace ProceduralToolkit.Examples.Buildings
                 for (int x = 0; x < xCount; x++)
                 {
                     config.roofConfig.type = RandomE.GetRandom(RoofType.Flat, RoofType.Hipped, RoofType.Gabled);
-                    var building = generator.Generate(foundationPolygon, config);
+                    var building = generator.Generate(foundationPolygon.vertices, config);
                     building.position = new Vector3(x*cellSize - xOffset, 0, z*cellSize - zOffset);
                 }
             }

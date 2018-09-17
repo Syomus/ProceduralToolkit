@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples.Buildings
 {
-    [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Facade Construction Strategy", order = 2)]
+    [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Facade Construction Strategy", order = 3)]
     public class ProceduralFacadeConstructionStrategy : FacadeConstructionStrategy
     {
         [SerializeField]

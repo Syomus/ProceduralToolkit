@@ -1184,8 +1184,16 @@ MonoBehaviour:
     type: 2}
   roofConstructionStrategy: {fileID: 11400000, guid: 60b9ca7f2d3d0f044b509d70c12548a9,
     type: 2}
-  width: 12
-  length: 36
+  foundationPolygons:
+  - {fileID: 11400000, guid: 09da00ca6d480a14c993ced83db76fc7, type: 2}
+  - {fileID: 11400000, guid: 5024e1547db67bc43b8328b76143af2f, type: 2}
+  - {fileID: 11400000, guid: 5250309bd0f713f4dbcfeec2b1a2b825, type: 2}
+  - {fileID: 11400000, guid: 47ade13d71a9276459a0d83be35406c9, type: 2}
+  - {fileID: 11400000, guid: 12081c77a77b476449094acc5c3d1205, type: 2}
+  - {fileID: 11400000, guid: 9e10289c42df6ae4eb89bca44b2458ec, type: 2}
+  - {fileID: 11400000, guid: e4aae34922341e44984dda770f74b6b4, type: 2}
+  - {fileID: 11400000, guid: 6121e946995960a4489ee0a8a6dd5571, type: 2}
+  - {fileID: 11400000, guid: 2fc5ef4c77865954992f5c18bfda6ef3, type: 2}
   config:
     floors: 5
     entranceInterval: 12
