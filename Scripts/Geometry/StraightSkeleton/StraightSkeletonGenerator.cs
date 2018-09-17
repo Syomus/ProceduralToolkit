@@ -51,7 +51,7 @@ namespace ProceduralToolkit.Skeleton
             return activePlans;
         }
 
-        public bool OffsetAndDetectEvents()
+        private bool OffsetAndDetectEvents()
         {
             ResetInEventFlags();
             foreach (var plan in activePlans)
@@ -65,7 +65,7 @@ namespace ProceduralToolkit.Skeleton
 
                 plan.Offset(-offset);
 
-                var intersectionEvents = DetectIntersectionEvents(plan);
+                var intersectionEvents = FindIntersectionEvents(plan);
                 foreach (var intersectionEvent in intersectionEvents)
                 {
                     ProcessIntersectionEvent(plan, intersectionEvent);
@@ -123,67 +123,100 @@ namespace ProceduralToolkit.Skeleton
             return smallestOffset;
         }
 
-        private List<IntersectionEvent> DetectIntersectionEvents(Plan plan)
+        private List<IntersectionEvent> FindIntersectionEvents(Plan plan)
         {
             var intersectionEvents = new List<IntersectionEvent>();
             var vertex = plan.First;
             do
             {
-                if (vertex.inEvent)
+                CreateSplitVertices(plan, vertex);
+                var intersectionEvent = FindIntersectionEvent(vertex);
+                if (intersectionEvent != null)
                 {
-                    vertex = vertex.next;
-                    continue;
-                }
-                if (IncidentalVertices(vertex, vertex.next))
-                {
-                    var intersectionEvent = new IntersectionEvent(vertex.position);
                     intersectionEvents.Add(intersectionEvent);
-
-                    vertex.inEvent = true;
-                    vertex.next.inEvent = true;
-                    var chain = new List<Plan.Vertex> {vertex, vertex.next};
-                    FindCollapsedChain(vertex.next, vertex, ref chain);
-                    intersectionEvent.chains.Add(chain);
-
-                    var chainStart = chain[0];
-                    var chainEnd = chain[chain.Count - 1];
-                    if (chainEnd.next != chainStart)
+                    if (intersectionEvent.chains[0].Count == plan.Count)
                     {
-                        FindIncidentalVertices(plan, chainEnd.next, chainStart, intersectionEvent);
+                        return intersectionEvents;
                     }
-                    vertex = chainEnd.next;
+                }
+                vertex = vertex.next;
+            } while (vertex != plan.First);
+
+            CompressEvents(intersectionEvents);
+
+            return intersectionEvents;
+        }
+
+        private void CreateSplitVertices(Plan plan, Plan.Vertex searchVertex)
+        {
+            var vertex = searchVertex;
+            do
+            {
+                if (vertex != searchVertex &&
+                    vertex.next != searchVertex &&
+                    PointSegment(searchVertex.position, vertex.position, vertex.next.position))
+                {
+                    var newVertex = CreateSplitVertex(plan, searchVertex.position, vertex, vertex.next);
+                    vertex = newVertex.next;
                 }
                 else
                 {
                     vertex = vertex.next;
                 }
-            } while (vertex != plan.First);
-
-            vertex = plan.First;
-            do
-            {
-                if (vertex.inEvent)
-                {
-                    vertex = vertex.next;
-                    continue;
-                }
-                var intersectionEvent = new IntersectionEvent(vertex.position);
-                FindIncidentalVertices(plan, vertex.next, vertex, intersectionEvent);
-                if (intersectionEvent.chains.Count > 0)
-                {
-                    vertex.inEvent = true;
-                    intersectionEvent.chains.Add(new List<Plan.Vertex> {vertex});
-                    intersectionEvents.Add(intersectionEvent);
-                }
-
-                vertex = vertex.next;
-            } while (vertex != plan.First);
-            return intersectionEvents;
+            } while (vertex != searchVertex);
         }
 
-        private void FindCollapsedChain(Plan.Vertex searchStart, Plan.Vertex searchEnd, ref List<Plan.Vertex> chain)
+        private Plan.Vertex CreateSplitVertex(Plan plan, Vector2 position, Plan.Vertex segmentA, Plan.Vertex segmentB)
         {
-            var vertex = searchStart;
+            var newVertex = new Plan.Vertex(position)
+            {
+                previousPolygonIndex = segmentA.nextPolygonIndex,
+                nextPolygonIndex = segmentB.previousPolygonIndex
+            };
+            plan.Insert(newVertex, segmentA, segmentB);
+            CalculateBisector(newVertex);
+            return newVertex;
+        }
+
+        private IntersectionEvent FindIntersectionEvent(Plan.Vertex searchVertex)
+        {
+            var vertex = searchVertex;
+            do
+            {
+                if (!vertex.inEvent && vertex != searchVertex && IncidentalVertices(searchVertex, vertex))
+                {
+                    var intersectionEvent = new IntersectionEvent(searchVertex.position);
+                    ExpandEvent(intersectionEvent, searchVertex);
+                    return intersectionEvent;
+                }
+                vertex = vertex.next;
+            } while (vertex != searchVertex);
+            return null;
+        }
+
+        private void ExpandEvent(IntersectionEvent intersectionEvent, Plan.Vertex startVertex)
+        {
+            var vertex = startVertex;
+            do
+            {
+                if (!vertex.inEvent && IncidentalVertices(intersectionEvent.position, vertex.position))
+                {
+                    var chain = FindCollapsedChain(vertex);
+                    intersectionEvent.chains.Add(chain);
+                    vertex = chain[chain.Count - 1].next;
+                }
+                else
+                {
+                    vertex = vertex.next;
+                }
+            } while (vertex != startVertex);
+        }
+
+        private List<Plan.Vertex> FindCollapsedChain(Plan.Vertex startVertex)
+        {
+            startVertex.inEvent = true;
+            var chain = new List<Plan.Vertex> {startVertex};
+            var vertex = startVertex;
             do
             {
                 if (!vertex.next.inEvent && IncidentalVertices(vertex, vertex.next))
@@ -196,47 +229,25 @@ namespace ProceduralToolkit.Skeleton
                 {
                     break;
                 }
-            } while (vertex != searchEnd);
+            } while (vertex != startVertex);
+            return chain;
         }
 
-        private void FindIncidentalVertices(Plan plan, Plan.Vertex searchStart, Plan.Vertex searchEnd, IntersectionEvent intersectionEvent)
+        private void CompressEvents(List<IntersectionEvent> intersectionEvents)
         {
-            var vertex = searchStart;
-            while (vertex != searchEnd)
+            foreach (var intersectionEvent in intersectionEvents)
             {
-                if (!vertex.inEvent && IncidentalVertices(intersectionEvent.position, vertex.position))
+                var firstChain = intersectionEvent.chains[0];
+                var lastChain = intersectionEvent.chains[intersectionEvent.chains.Count - 1];
+                var lastVertex = lastChain[lastChain.Count - 1];
+                if (lastVertex.next == firstChain[0])
                 {
-                    vertex.inEvent = true;
-                    var chain = new List<Plan.Vertex> {vertex};
-                    FindCollapsedChain(vertex, searchEnd, ref chain);
-                    intersectionEvent.chains.Add(chain);
-                    vertex = chain[chain.Count - 1].next;
-                }
-                else if (vertex.next != searchEnd &&
-                         PointSegment(intersectionEvent.position, vertex.position, vertex.next.position))
-                {
-                    var newVertex = SplitEdge(plan, intersectionEvent, vertex, vertex.next);
-                    vertex = newVertex.next;
-                }
-                else
-                {
-                    vertex = vertex.next;
+                    lastChain.AddRange(firstChain);
+                    intersectionEvent.chains[0] = lastChain;
+                    firstChain.Clear();
+                    intersectionEvent.chains.RemoveAt(intersectionEvent.chains.Count - 1);
                 }
             }
-        }
-
-        private Plan.Vertex SplitEdge(Plan plan, IntersectionEvent intersectionEvent, Plan.Vertex segmentA, Plan.Vertex segmentB)
-        {
-            var vertex = new Plan.Vertex(intersectionEvent.position)
-            {
-                inEvent = true,
-                previousPolygonIndex = segmentA.nextPolygonIndex,
-                nextPolygonIndex = segmentB.previousPolygonIndex
-            };
-            plan.Insert(vertex, segmentA, segmentB);
-            intersectionEvent.chains.Add(new List<Plan.Vertex> {vertex});
-            CalculateBisector(vertex);
-            return vertex;
         }
 
         private void ProcessIntersectionEvent(Plan plan, IntersectionEvent intersectionEvent)
