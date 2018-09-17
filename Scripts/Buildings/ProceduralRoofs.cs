@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using ProceduralToolkit.Buildings;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples.Buildings
+namespace ProceduralToolkit.Buildings
 {
     public abstract class ProceduralRoof : IConstructible<MeshDraft>
     {
