@@ -8,11 +8,13 @@ namespace ProceduralToolkit.Buildings
     {
         protected readonly List<Vector2> foundationPolygon;
         protected readonly RoofConfig roofConfig;
+        protected readonly Color roofColor;
 
-        protected ProceduralRoof(List<Vector2> foundationPolygon, RoofConfig roofConfig)
+        protected ProceduralRoof(List<Vector2> foundationPolygon, RoofConfig roofConfig, Color roofColor)
         {
             this.foundationPolygon = foundationPolygon;
             this.roofConfig = roofConfig;
+            this.roofColor = roofColor;
         }
 
         public abstract MeshDraft Construct(Vector2 parentLayoutOrigin);
@@ -46,6 +48,49 @@ namespace ProceduralToolkit.Buildings
             return new MeshDraft().AddFlatQuadBand(lowerRing, roofPolygon3, false);
         }
 
+        protected static MeshDraft ConstructContourDraft(List<Vector2> skeletonPolygon2, float roofPitch)
+        {
+            Vector2 edgeA = skeletonPolygon2[0];
+            Vector2 edgeB = skeletonPolygon2[1];
+            Vector2 edgeDirection2 = (edgeB - edgeA).normalized;
+            Vector3 roofNormal = CalculateRoofNormal(edgeDirection2, roofPitch);
+
+            var skeletonPolygon3 = skeletonPolygon2.ConvertAll(v => v.ToVector3XZ());
+
+            var tessellator = new Tessellator();
+            tessellator.AddContour(skeletonPolygon3);
+            tessellator.Tessellate(normal: Vector3.up);
+            var contourDraft = tessellator.ToMeshDraft();
+
+            for (var i = 0; i < contourDraft.vertexCount; i++)
+            {
+                Vector2 vertex = contourDraft.vertices[i].ToVector2XZ();
+                float height = CalculateVertexHeight(vertex, edgeA, edgeDirection2, roofPitch);
+                contourDraft.vertices[i] = new Vector3(vertex.x, height, vertex.y);
+                contourDraft.normals.Add(roofNormal);
+            }
+            return contourDraft;
+        }
+
+        protected static MeshDraft ConstructGableDraft(List<Vector2> skeletonPolygon2, float roofPitch)
+        {
+            Vector2 edgeA2 = skeletonPolygon2[0];
+            Vector2 edgeB2 = skeletonPolygon2[1];
+            Vector2 peak2 = skeletonPolygon2[2];
+            Vector2 edgeDirection2 = (edgeB2 - edgeA2).normalized;
+
+            float peakHeight = CalculateVertexHeight(peak2, edgeA2, edgeDirection2, roofPitch);
+            Vector3 edgeA3 = edgeA2.ToVector3XZ();
+            Vector3 edgeB3 = edgeB2.ToVector3XZ();
+            Vector3 peak3 = new Vector3(peak2.x, peakHeight, peak2.y);
+            Vector2 gableTop2 = Closest.PointLine(peak2, edgeA2, edgeDirection2);
+            Vector3 gableTop3 = new Vector3(gableTop2.x, peakHeight, gableTop2.y);
+
+            return new MeshDraft().AddTriangle(edgeA3, edgeB3, gableTop3, true)
+                .AddTriangle(edgeA3, gableTop3, peak3, true)
+                .AddTriangle(edgeB3, peak3, gableTop3, true);
+        }
+
         protected static float CalculateVertexHeight(Vector2 vertex, Vector2 edgeA, Vector2 edgeDirection, float roofPitch)
         {
             float distance = Distance.PointLine(vertex, edgeA, edgeDirection);
@@ -60,12 +105,9 @@ namespace ProceduralToolkit.Buildings
 
     public class ProceduralFlatRoof : ProceduralRoof
     {
-        private readonly Color roofColor;
-
         public ProceduralFlatRoof(List<Vector2> foundationPolygon, RoofConfig roofConfig, Color roofColor)
-            : base(foundationPolygon, roofConfig)
+            : base(foundationPolygon, roofConfig, roofColor)
         {
-            this.roofColor = roofColor;
         }
 
         public override MeshDraft Construct(Vector2 parentLayoutOrigin)
@@ -92,12 +134,9 @@ namespace ProceduralToolkit.Buildings
     {
         private const float RoofPitch = 25;
 
-        private readonly Color roofColor;
-
         public ProceduralHippedRoof(List<Vector2> foundationPolygon, RoofConfig roofConfig, Color roofColor)
-            : base(foundationPolygon, roofConfig)
+            : base(foundationPolygon, roofConfig, roofColor)
         {
-            this.roofColor = roofColor;
         }
 
         public override MeshDraft Construct(Vector2 parentLayoutOrigin)
@@ -112,7 +151,7 @@ namespace ProceduralToolkit.Buildings
             var roofTop = new MeshDraft();
             foreach (var skeletonPolygon2 in skeleton.polygons)
             {
-                roofTop.Add(ConstructContourDraft(skeletonPolygon2));
+                roofTop.Add(ConstructContourDraft(skeletonPolygon2, RoofPitch));
             }
             roofTop.Move(Vector3.up*roofConfig.thickness);
 
@@ -120,42 +159,15 @@ namespace ProceduralToolkit.Buildings
                 .Paint(roofColor);
             return roofDraft;
         }
-
-        private MeshDraft ConstructContourDraft(List<Vector2> skeletonPolygon2)
-        {
-            Vector2 edgeA = skeletonPolygon2[0];
-            Vector2 edgeB = skeletonPolygon2[1];
-            Vector2 edgeDirection2 = (edgeB - edgeA).normalized;
-            Vector3 roofNormal = CalculateRoofNormal(edgeDirection2, RoofPitch);
-
-            var skeletonPolygon3 = skeletonPolygon2.ConvertAll(v => v.ToVector3XZ());
-
-            var tessellator = new Tessellator();
-            tessellator.AddContour(skeletonPolygon3);
-            tessellator.Tessellate(normal: Vector3.up);
-            var contourDraft = tessellator.ToMeshDraft();
-
-            for (var i = 0; i < contourDraft.vertexCount; i++)
-            {
-                Vector2 vertex = contourDraft.vertices[i].ToVector2XZ();
-                float height = CalculateVertexHeight(vertex, edgeA, edgeDirection2, RoofPitch);
-                contourDraft.vertices[i] = new Vector3(vertex.x, height, vertex.y);
-                contourDraft.normals.Add(roofNormal);
-            }
-            return contourDraft;
-        }
     }
 
     public class ProceduralGabledRoof : ProceduralRoof
     {
-        private const float GabledRoofHeight = 2;
-
-        private readonly Color roofColor;
+        private const float RoofPitch = 25;
 
         public ProceduralGabledRoof(List<Vector2> foundationPolygon, RoofConfig roofConfig, Color roofColor)
-            : base(foundationPolygon, roofConfig)
+            : base(foundationPolygon, roofConfig, roofColor)
         {
-            this.roofColor = roofColor;
         }
 
         public override MeshDraft Construct(Vector2 parentLayoutOrigin)
@@ -164,19 +176,24 @@ namespace ProceduralToolkit.Buildings
             List<Vector3> roofPolygon3;
             var roofDraft = ConstructRoofBase(out roofPolygon2, out roofPolygon3);
 
-            Vector3 a = roofPolygon2[0].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 b = roofPolygon2[3].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 c = roofPolygon2[2].ToVector3XZ() + Vector3.up*roofConfig.thickness;
-            Vector3 d = roofPolygon2[1].ToVector3XZ() + Vector3.up*roofConfig.thickness;
+            var skeletonGenerator = new StraightSkeletonGenerator();
+            var skeleton = skeletonGenerator.Generate(roofPolygon2);
 
-            Vector3 ridgeHeight = Vector3.up*GabledRoofHeight;
-            Vector3 ridge0 = (a + d)/2 + ridgeHeight;
-            Vector3 ridge1 = (b + c)/2 + ridgeHeight;
+            var roofTop = new MeshDraft();
+            foreach (var skeletonPolygon2 in skeleton.polygons)
+            {
+                if (skeletonPolygon2.Count == 3)
+                {
+                    roofTop.Add(ConstructGableDraft(skeletonPolygon2, RoofPitch));
+                }
+                else
+                {
+                    roofTop.Add(ConstructContourDraft(skeletonPolygon2, RoofPitch));
+                }
+            }
+            roofTop.Move(Vector3.up*roofConfig.thickness);
 
-            roofDraft.AddQuad(a, ridge0, ridge1, b, true)
-                .AddTriangle(b, ridge1, c, true)
-                .AddQuad(c, ridge1, ridge0, d, true)
-                .AddTriangle(d, ridge0, a, true)
+            roofDraft.Add(roofTop)
                 .Paint(roofColor);
             return roofDraft;
         }
