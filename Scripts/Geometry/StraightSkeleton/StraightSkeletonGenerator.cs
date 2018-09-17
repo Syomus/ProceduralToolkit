@@ -138,8 +138,13 @@ namespace ProceduralToolkit.Skeleton
                 {
                     var intersectionEvent = new IntersectionEvent(vertex.position);
                     intersectionEvents.Add(intersectionEvent);
-                    var chain = FindCollapsedChain(vertex);
+
+                    vertex.inEvent = true;
+                    vertex.next.inEvent = true;
+                    var chain = new List<Plan.Vertex> {vertex, vertex.next};
+                    FindCollapsedChain(vertex.next, vertex, ref chain);
                     intersectionEvent.chains.Add(chain);
+
                     var chainStart = chain[0];
                     var chainEnd = chain[chain.Count - 1];
                     if (chainEnd.next != chainStart)
@@ -176,70 +181,38 @@ namespace ProceduralToolkit.Skeleton
             return intersectionEvents;
         }
 
-        private List<Plan.Vertex> FindCollapsedChain(Plan.Vertex startVertex)
+        private void FindCollapsedChain(Plan.Vertex searchStart, Plan.Vertex searchEnd, ref List<Plan.Vertex> chain)
         {
-            startVertex.inEvent = true;
-            var chain = new List<Plan.Vertex> {startVertex};
-            var vertex = startVertex.next;
-            while (vertex != startVertex)
+            var vertex = searchStart;
+            do
             {
-                if (vertex.inEvent)
+                if (!vertex.next.inEvent && IncidentalVertices(vertex, vertex.next))
                 {
-                    break;
-                }
-                if (IncidentalVertices(vertex, vertex.next))
-                {
-                    vertex.inEvent = true;
-                    chain.Add(vertex);
-                    vertex = vertex.next;
-                }
-                else
-                {
-                    vertex.inEvent = true;
-                    chain.Add(vertex);
-                    break;
-                }
-            }
-            return chain;
-        }
-
-        private List<Plan.Vertex> FindCollapsedChain(Plan.Vertex startVertex, Plan.Vertex to)
-        {
-            startVertex.inEvent = true;
-            var chain = new List<Plan.Vertex> {startVertex};
-            var vertex = startVertex;
-            while (vertex != to)
-            {
-                if (vertex.inEvent)
-                {
-                    break;
-                }
-                if (IncidentalVertices(vertex, vertex.next))
-                {
-                    vertex.inEvent = true;
-                    chain.Add(vertex);
+                    vertex.next.inEvent = true;
+                    chain.Add(vertex.next);
                     vertex = vertex.next;
                 }
                 else
                 {
                     break;
                 }
-            }
-            return chain;
+            } while (vertex != searchEnd);
         }
 
-        private void FindIncidentalVertices(Plan plan, Plan.Vertex from, Plan.Vertex to, IntersectionEvent intersectionEvent)
+        private void FindIncidentalVertices(Plan plan, Plan.Vertex searchStart, Plan.Vertex searchEnd, IntersectionEvent intersectionEvent)
         {
-            var vertex = from;
-            while (vertex != to)
+            var vertex = searchStart;
+            while (vertex != searchEnd)
             {
                 if (!vertex.inEvent && IncidentalVertices(intersectionEvent.position, vertex.position))
                 {
-                    var chain = FindCollapsedChain(vertex, to);
+                    vertex.inEvent = true;
+                    var chain = new List<Plan.Vertex> {vertex};
+                    FindCollapsedChain(vertex, searchEnd, ref chain);
                     intersectionEvent.chains.Add(chain);
                     vertex = chain[chain.Count - 1].next;
                 }
-                else if (vertex.next != to &&
+                else if (vertex.next != searchEnd &&
                          PointSegment(intersectionEvent.position, vertex.position, vertex.next.position))
                 {
                     var newVertex = SplitEdge(plan, intersectionEvent, vertex, vertex.next);
