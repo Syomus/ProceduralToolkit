@@ -115,9 +115,7 @@ namespace ProceduralToolkit.Examples
             var chairDraft = ChairGenerator.Chair(config);
             AssignDraftToMeshFilter(chairDraft, chairMeshFilter, ref chairMesh);
 
-            float chairRadius = Mathf.Sqrt(config.seatWidth*config.seatWidth/4 + config.seatDepth*config.seatDepth/4);
-            float platformRadius = chairRadius + platformRadiusOffset;
-
+            float platformRadius = Geometry.GetCircumradius(config.seatWidth, config.seatDepth) + platformRadiusOffset;
             var platformDraft = Platform(platformRadius, platformHeight);
             AssignDraftToMeshFilter(platformDraft, platformMeshFilter, ref platformMesh);
         }

@@ -96,7 +96,6 @@ namespace ProceduralToolkit.Examples.Buildings
 
             var rect = Geometry.GetRect(foundationPolygon.vertices);
             float platformRadius = Geometry.GetCircumradius(rect) + platformRadiusOffset;
-
             var platformDraft = Platform(platformRadius, platformHeight);
             AssignDraftToMeshFilter(platformDraft, platformMeshFilter, ref platformMesh);
         }
