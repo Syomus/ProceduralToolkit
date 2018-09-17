@@ -23,7 +23,7 @@ namespace ProceduralToolkit.Examples.Buildings
             {PanelSize.Wide, 3},
         };
 
-        public override List<ILayout> Plan(List<Vector2> foundationPolygon, Config config)
+        public override List<ILayout> Plan(List<Vector2> foundationPolygon, BuildingGenerator.Config config)
         {
             SetupConstructors(config.palette);
 

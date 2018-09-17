@@ -14,7 +14,7 @@ namespace ProceduralToolkit.Examples.Buildings
         [SerializeField]
         private RoofConstructionStrategy roofConstructionStrategy;
         [SerializeField]
-        private Config config = new Config();
+        private BuildingGenerator.Config config = new BuildingGenerator.Config();
 
         private void Awake()
         {

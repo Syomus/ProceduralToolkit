@@ -17,7 +17,7 @@ namespace ProceduralToolkit.Examples.Buildings
         public FacadeConstructionStrategy facadeConstructionStrategy;
         public RoofPlanningStrategy roofPlanningStrategy;
         public RoofConstructionStrategy roofConstructionStrategy;
-        public Config config = new Config();
+        public BuildingGenerator.Config config = new BuildingGenerator.Config();
 
         private const int minWidth = 10;
         private const int maxWidth = 30;

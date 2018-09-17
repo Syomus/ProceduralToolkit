@@ -68,23 +68,23 @@ namespace ProceduralToolkit.Buildings
             }
             return parent;
         }
-    }
 
-    [Serializable]
-    public class Config
-    {
-        public float width = 12;
-        public float length = 36;
-        public int floors = 5;
-        public float entranceInterval = 12;
-        public bool hasAttic = true;
-        public RoofConfig roofConfig = new RoofConfig
+        [Serializable]
+        public class Config
         {
-            type = RoofType.Flat,
-            thickness = 0.2f,
-            overhang = 0.2f,
-        };
-        public Palette palette = new Palette();
+            public float width = 12;
+            public float length = 36;
+            public int floors = 5;
+            public float entranceInterval = 12;
+            public bool hasAttic = true;
+            public RoofConfig roofConfig = new RoofConfig
+            {
+                type = RoofType.Flat,
+                thickness = 0.2f,
+                overhang = 0.2f,
+            };
+            public Palette palette = new Palette();
+        }
     }
 
     [Serializable]

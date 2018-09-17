@@ -8,7 +8,7 @@ namespace ProceduralToolkit.Examples.Buildings
     [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Roof Planning Strategy", order = 1)]
     public class ProceduralRoofPlanningStrategy : RoofPlanningStrategy
     {
-        public override IConstructible<MeshDraft> Plan(List<Vector2> foundationPolygon, Config config)
+        public override IConstructible<MeshDraft> Plan(List<Vector2> foundationPolygon, BuildingGenerator.Config config)
         {
             switch (config.roofConfig.type)
             {

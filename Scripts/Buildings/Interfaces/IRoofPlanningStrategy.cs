@@ -5,6 +5,6 @@ namespace ProceduralToolkit.Buildings
 {
     public interface IRoofPlanningStrategy
     {
-        IConstructible<MeshDraft> Plan(List<Vector2> foundationPolygon, Config config);
+        IConstructible<MeshDraft> Plan(List<Vector2> foundationPolygon, BuildingGenerator.Config config);
     }
 }

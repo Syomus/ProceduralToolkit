@@ -5,6 +5,6 @@ namespace ProceduralToolkit.Buildings
 {
     public interface IFacadePlanningStrategy
     {
-        List<ILayout> Plan(List<Vector2> foundationPolygon, Config config);
+        List<ILayout> Plan(List<Vector2> foundationPolygon, BuildingGenerator.Config config);
     }
 }
