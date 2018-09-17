@@ -16,7 +16,7 @@ namespace ProceduralToolkit.Examples.Buildings
         [SerializeField]
         private Material wallMaterial;
 
-        public override void Construct(Transform parentTransform, List<Vector2> foundationPolygon, List<ILayout> layouts)
+        public override void Construct(List<Vector2> foundationPolygon, List<ILayout> layouts, Transform parentTransform)
         {
             var facadesDraft = new CompoundMeshDraft();
 

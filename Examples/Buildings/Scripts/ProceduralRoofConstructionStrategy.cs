@@ -11,7 +11,7 @@ namespace ProceduralToolkit.Examples.Buildings
         [SerializeField]
         private Material roofMaterial;
 
-        public override void Construct(Transform parentTransform, IConstructible<MeshDraft> constructible)
+        public override void Construct(IConstructible<MeshDraft> constructible, Transform parentTransform)
         {
             var draft = constructible.Construct(Vector2.zero);
 

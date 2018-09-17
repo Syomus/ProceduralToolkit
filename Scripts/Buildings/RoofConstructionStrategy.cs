@@ -4,6 +4,6 @@ namespace ProceduralToolkit.Buildings
 {
     public abstract class RoofConstructionStrategy : ScriptableObject, IRoofConstructionStrategy
     {
-        public abstract void Construct(Transform parentTransform, IConstructible<MeshDraft> constructible);
+        public abstract void Construct(IConstructible<MeshDraft> constructible, Transform parentTransform);
     }
 }

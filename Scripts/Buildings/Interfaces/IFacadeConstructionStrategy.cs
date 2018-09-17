@@ -5,6 +5,6 @@ namespace ProceduralToolkit.Buildings
 {
     public interface IFacadeConstructionStrategy
     {
-        void Construct(Transform parentTransform, List<Vector2> foundationPolygon, List<ILayout> layouts);
+        void Construct(List<Vector2> foundationPolygon, List<ILayout> layouts, Transform parentTransform);
     }
 }

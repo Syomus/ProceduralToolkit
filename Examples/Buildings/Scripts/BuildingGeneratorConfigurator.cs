@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
 using ProceduralToolkit.Examples.UI;
 using UnityEngine;
@@ -17,6 +18,8 @@ namespace ProceduralToolkit.Examples.Buildings
         public FacadeConstructionStrategy facadeConstructionStrategy;
         public RoofPlanningStrategy roofPlanningStrategy;
         public RoofConstructionStrategy roofConstructionStrategy;
+        public float width = 12;
+        public float length = 36;
         public BuildingGenerator.Config config = new BuildingGenerator.Config();
 
         private const int minWidth = 10;
@@ -38,16 +41,16 @@ namespace ProceduralToolkit.Examples.Buildings
             SetupSkyboxAndPalette();
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Width", minWidth, maxWidth, (int) config.width, value =>
+                .Initialize("Width", minWidth, maxWidth, (int) width, value =>
                 {
-                    config.width = value;
+                    width = value;
                     Generate();
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Length", minLength, maxLength, (int) config.length, value =>
+                .Initialize("Length", minLength, maxLength, (int) length, value =>
                 {
-                    config.length = value;
+                    length = value;
                     Generate();
                 });
 
@@ -107,9 +110,16 @@ namespace ProceduralToolkit.Examples.Buildings
             generator.SetFacadeConstructionStrategy(facadeConstructionStrategy);
             generator.SetRoofPlanningStrategy(roofPlanningStrategy);
             generator.SetRoofConstructionStrategy(roofConstructionStrategy);
-            building = generator.Generate(config).gameObject;
+            var foundationPolygon = new List<Vector2>
+            {
+                Vector2.left*length/2 + Vector2.down*width/2,
+                Vector2.left*length/2 + Vector2.up*width/2,
+                Vector2.right*length/2 + Vector2.up*width/2,
+                Vector2.right*length/2 + Vector2.down*width/2,
+            };
+            building = generator.Generate(foundationPolygon, config).gameObject;
 
-            float buildingRadius = Mathf.Sqrt(config.length/2*config.length/2 + config.width/2*config.width/2);
+            float buildingRadius = Mathf.Sqrt(length/2*length/2 + width/2*width/2);
             float platformRadius = buildingRadius + platformRadiusOffset;
 
             var platformDraft = Platform(platformRadius, platformHeight);

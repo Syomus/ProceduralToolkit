@@ -1184,9 +1184,9 @@ MonoBehaviour:
     type: 2}
   roofConstructionStrategy: {fileID: 11400000, guid: 60b9ca7f2d3d0f044b509d70c12548a9,
     type: 2}
+  width: 12
+  length: 36
   config:
-    width: 12
-    length: 36
     floors: 5
     entranceInterval: 12
     hasAttic: 1

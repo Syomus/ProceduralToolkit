@@ -32,20 +32,10 @@ namespace ProceduralToolkit.Buildings
             this.roofConstructionStrategy = roofConstructionStrategy;
         }
 
-        public Transform Generate(Config config, Transform parent = null)
+        public Transform Generate(List<Vector2> foundationPolygon, Config config, Transform parent = null)
         {
-            Assert.IsTrue(config.width > 0);
-            Assert.IsTrue(config.length > 0);
             Assert.IsTrue(config.floors > 0);
             Assert.IsTrue(config.entranceInterval > 0);
-
-            var foundationPolygon = new List<Vector2>
-            {
-                Vector2.left*config.length/2 + Vector2.down*config.width/2,
-                Vector2.left*config.length/2 + Vector2.up*config.width/2,
-                Vector2.right*config.length/2 + Vector2.up*config.width/2,
-                Vector2.right*config.length/2 + Vector2.down*config.width/2,
-            };
 
             List<ILayout> facadeLayouts = facadePlanningStrategy.Plan(foundationPolygon, config);
             float height = facadeLayouts[0].height;
@@ -54,7 +44,7 @@ namespace ProceduralToolkit.Buildings
             {
                 parent = new GameObject("Building").transform;
             }
-            facadeConstructionStrategy.Construct(parent, foundationPolygon, facadeLayouts);
+            facadeConstructionStrategy.Construct(foundationPolygon, facadeLayouts, parent);
 
             if (roofPlanningStrategy != null && roofConstructionStrategy != null)
             {
@@ -64,7 +54,7 @@ namespace ProceduralToolkit.Buildings
                 roof.SetParent(parent, false);
                 roof.localPosition = new Vector3(0, height, 0);
                 roof.localRotation = Quaternion.identity;
-                roofConstructionStrategy.Construct(roof, roofLayout);
+                roofConstructionStrategy.Construct(roofLayout, roof);
             }
             return parent;
         }
@@ -72,8 +62,6 @@ namespace ProceduralToolkit.Buildings
         [Serializable]
         public class Config
         {
-            public float width = 12;
-            public float length = 36;
             public int floors = 5;
             public float entranceInterval = 12;
             public bool hasAttic = true;

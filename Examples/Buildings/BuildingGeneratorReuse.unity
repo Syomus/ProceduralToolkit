@@ -280,9 +280,12 @@ MonoBehaviour:
     type: 2}
   roofConstructionStrategy: {fileID: 11400000, guid: 60b9ca7f2d3d0f044b509d70c12548a9,
     type: 2}
+  xCount: 10
+  zCount: 10
+  cellSize: 15
+  width: 10
+  length: 10
   config:
-    width: 10
-    length: 10
     floors: 3
     entranceInterval: 10
     hasAttic: 1

@@ -4,6 +4,6 @@ namespace ProceduralToolkit.Buildings
 {
     public interface IRoofConstructionStrategy
     {
-        void Construct(Transform parentTransform, IConstructible<MeshDraft> constructible);
+        void Construct(IConstructible<MeshDraft> constructible, Transform parentTransform);
     }
 }

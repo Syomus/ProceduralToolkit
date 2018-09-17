@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
 using UnityEngine;
 
@@ -14,6 +15,10 @@ namespace ProceduralToolkit.Examples.Buildings
         [SerializeField]
         private RoofConstructionStrategy roofConstructionStrategy;
         [SerializeField]
+        private float width = 12;
+        [SerializeField]
+        private float length = 36;
+        [SerializeField]
         private BuildingGenerator.Config config = new BuildingGenerator.Config();
 
         private void Awake()
@@ -23,7 +28,15 @@ namespace ProceduralToolkit.Examples.Buildings
             generator.SetFacadeConstructionStrategy(facadeConstructionStrategy);
             generator.SetRoofPlanningStrategy(roofPlanningStrategy);
             generator.SetRoofConstructionStrategy(roofConstructionStrategy);
-            generator.Generate(config, transform);
+
+            var foundationPolygon = new List<Vector2>
+            {
+                Vector2.left*length/2 + Vector2.down*width/2,
+                Vector2.left*length/2 + Vector2.up*width/2,
+                Vector2.right*length/2 + Vector2.up*width/2,
+                Vector2.right*length/2 + Vector2.down*width/2,
+            };
+            generator.Generate(foundationPolygon, config, transform);
         }
     }
 }
