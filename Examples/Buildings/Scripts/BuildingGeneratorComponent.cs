@@ -15,11 +15,9 @@ namespace ProceduralToolkit.Examples.Buildings
         [SerializeField]
         private RoofConstructionStrategy roofConstructionStrategy;
         [SerializeField]
-        private float width = 12;
-        [SerializeField]
-        private float length = 36;
-        [SerializeField]
         private BuildingGenerator.Config config = new BuildingGenerator.Config();
+        [SerializeField]
+        private List<Vector2> foundationPolygon = Geometry.StarPolygon2(5, 10, 20);
 
         private void Awake()
         {
@@ -28,14 +26,6 @@ namespace ProceduralToolkit.Examples.Buildings
             generator.SetFacadeConstructionStrategy(facadeConstructionStrategy);
             generator.SetRoofPlanningStrategy(roofPlanningStrategy);
             generator.SetRoofConstructionStrategy(roofConstructionStrategy);
-
-            var foundationPolygon = new List<Vector2>
-            {
-                Vector2.right*length/2 + Vector2.down*width/2,
-                Vector2.left*length/2 + Vector2.down*width/2,
-                Vector2.left*length/2 + Vector2.up*width/2,
-                Vector2.right*length/2 + Vector2.up*width/2,
-            };
             generator.Generate(foundationPolygon, config, transform);
         }
     }

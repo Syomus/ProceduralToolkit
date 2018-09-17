@@ -305,6 +305,19 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns the value of an angle. Assumes clockwise order of the polygon.
+        /// </summary>
+        /// <param name="previous">Previous vertex</param>
+        /// <param name="current">Current vertex</param>
+        /// <param name="next">Next vertex</param>
+        public static float GetAngle(Vector2 previous, Vector2 current, Vector2 next)
+        {
+            Vector2 toPrevious = (previous - current).normalized;
+            Vector2 toNext = (next - current).normalized;
+            return VectorE.Angle360(toNext, toPrevious);
+        }
+
+        /// <summary>
         /// Returns the bisector of an angle. Assumes clockwise order of the polygon.
         /// </summary>
         /// <param name="previous">Previous vertex</param>

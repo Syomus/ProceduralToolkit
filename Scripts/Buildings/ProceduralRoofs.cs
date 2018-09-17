@@ -83,7 +83,7 @@ namespace ProceduralToolkit.Buildings
             Vector3 edgeA3 = edgeA2.ToVector3XZ();
             Vector3 edgeB3 = edgeB2.ToVector3XZ();
             Vector3 peak3 = new Vector3(peak2.x, peakHeight, peak2.y);
-            Vector2 gableTop2 = Closest.PointLine(peak2, edgeA2, edgeDirection2);
+            Vector2 gableTop2 = Closest.PointSegment(peak2, edgeA2, edgeB2);
             Vector3 gableTop3 = new Vector3(gableTop2.x, peakHeight, gableTop2.y);
 
             return new MeshDraft().AddTriangle(edgeA3, edgeB3, gableTop3, true)

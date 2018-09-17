@@ -280,14 +280,12 @@ MonoBehaviour:
     type: 2}
   roofConstructionStrategy: {fileID: 11400000, guid: 60b9ca7f2d3d0f044b509d70c12548a9,
     type: 2}
-  width: 12
-  length: 36
   config:
     floors: 5
     entranceInterval: 12
     hasAttic: 1
     roofConfig:
-      type: 0
+      type: 1
       thickness: 0.2
       overhang: 0.2
     palette:
@@ -298,6 +296,17 @@ MonoBehaviour:
       frameColor: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 1}
       glassColor: {r: 1, g: 1, b: 1, a: 1}
       roofColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
+  foundationPolygon:
+  - {x: 0, y: 20}
+  - {x: 5.8778524, y: 8.09017}
+  - {x: 19.021132, y: 6.1803393}
+  - {x: 9.510566, y: -3.0901694}
+  - {x: 11.755704, y: -16.180342}
+  - {x: 0, y: -10}
+  - {x: -11.755703, y: -16.180342}
+  - {x: -9.510565, y: -3.0901709}
+  - {x: -19.02113, y: 6.1803427}
+  - {x: -5.877853, y: 8.09017}
 --- !u!4 &1452797201
 Transform:
   m_ObjectHideFlags: 0
