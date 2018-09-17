@@ -31,10 +31,10 @@ namespace ProceduralToolkit.Examples.Buildings
 
             var foundationPolygon = new List<Vector2>
             {
+                Vector2.right*length/2 + Vector2.down*width/2,
                 Vector2.left*length/2 + Vector2.down*width/2,
                 Vector2.left*length/2 + Vector2.up*width/2,
                 Vector2.right*length/2 + Vector2.up*width/2,
-                Vector2.right*length/2 + Vector2.down*width/2,
             };
             generator.Generate(foundationPolygon, config, transform);
         }

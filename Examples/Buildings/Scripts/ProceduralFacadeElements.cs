@@ -44,6 +44,7 @@ namespace ProceduralToolkit.Examples.Buildings
         private const float BalconyThickness = 0.1f;
 
         private const float AtticHoleWidth = 0.3f;
+        private const float AtticHoleMinWidth = 0.5f;
         private const float AtticHoleHeight = 0.3f;
         private const float AtticHoleDepth = 0.5f;
 
@@ -474,8 +475,7 @@ namespace ProceduralToolkit.Examples.Buildings
             return compoundDraft;
         }
 
-        protected static CompoundMeshDraft SocleWindowed(Vector3 origin, float width, float height, Color wallColor,
-            Color glassColor)
+        protected static CompoundMeshDraft SocleWindowed(Vector3 origin, float width, float height, Color wallColor, Color glassColor)
         {
             if (width < SocleWindowMinWidth)
             {
@@ -507,9 +507,13 @@ namespace ProceduralToolkit.Examples.Buildings
             return new CompoundMeshDraft().Add(wall).Add(glass);
         }
 
-        protected static MeshDraft AtticVented(Vector3 origin, float width, float height, Color wallColor,
-            Color holeColor)
+        protected static CompoundMeshDraft AtticVented(Vector3 origin, float width, float height, Color wallColor, Color holeColor)
         {
+            if (width < AtticHoleMinWidth)
+            {
+                return new CompoundMeshDraft().Add(Wall(origin, width, height, wallColor));
+            }
+
             Vector3 widthVector = Vector3.right*width;
             Vector3 heightVector = Vector3.up*height;
             Vector3 center = origin + widthVector/2 + heightVector/2;
@@ -528,7 +532,7 @@ namespace ProceduralToolkit.Examples.Buildings
                 .Paint(holeColor);
             wall.Add(hole);
             wall.name = WallDraftName;
-            return wall;
+            return new CompoundMeshDraft().Add(wall);
         }
     }
 
@@ -703,8 +707,7 @@ namespace ProceduralToolkit.Examples.Buildings
 
         public override CompoundMeshDraft Construct(Vector2 parentLayoutOrigin)
         {
-            var atticVentedDraft = AtticVented(parentLayoutOrigin + origin, width, height, wallColor, holeColor);
-            return new CompoundMeshDraft().Add(atticVentedDraft);
+            return AtticVented(parentLayoutOrigin + origin, width, height, wallColor, holeColor);
         }
     }
 }

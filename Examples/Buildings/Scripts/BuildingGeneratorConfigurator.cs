@@ -112,10 +112,10 @@ namespace ProceduralToolkit.Examples.Buildings
             generator.SetRoofConstructionStrategy(roofConstructionStrategy);
             var foundationPolygon = new List<Vector2>
             {
+                Vector2.right*length/2 + Vector2.down*width/2,
                 Vector2.left*length/2 + Vector2.down*width/2,
                 Vector2.left*length/2 + Vector2.up*width/2,
                 Vector2.right*length/2 + Vector2.up*width/2,
-                Vector2.right*length/2 + Vector2.down*width/2,
             };
             building = generator.Generate(foundationPolygon, config).gameObject;
 
