@@ -4,18 +4,19 @@ Procedural Toolkit is a procedural generation library for the Unity game engine.
 
 **Warning: This is a programming toolkit, editor support is limited.**
 
-[![Donate](http://syomus.com/ProceduralToolkit/donate.png)](https://ko-fi.com/ProceduralToolkit)| 
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.me/ProceduralToolkit/5usd)
+[![Donate](http://syomus.com/ProceduralToolkit/donate.png)](https://ko-fi.com/ProceduralToolkit) | 
 [GitHub](https://github.com/Syomus/ProceduralToolkit) |
-[Asset Store](https://www.assetstore.unity3d.com/#!/content/16508) |
+[Asset Store](https://assetstore.unity.com/packages/tools/utilities/procedural-toolkit-16508) |
 [Issues](https://github.com/Syomus/ProceduralToolkit/issues) |
 [Support email](mailto:proceduraltoolkit@syomus.com)
 
 ## Installation instructions
-Requires **Unity 2017.3** or later. Tested on Windows, WebGL, Android and iOS.
+Requires **Unity 2018.1** or later. Tested on Windows, WebGL, Android and iOS.
 
 You can install Procedural Toolkit from any of the following sources:
 
-1. Import from the [Asset Store](https://www.assetstore.unity3d.com/#!/content/16508)
+1. Import from the [Asset Store](https://assetstore.unity.com/packages/tools/utilities/procedural-toolkit-16508)
 2. Download from the [Releases page](https://github.com/Syomus/ProceduralToolkit/releases). Same packages as in the Asset Store.
 3. Clone/download the repository from [GitHub](https://github.com/Syomus/ProceduralToolkit) and put it in a subfolder (preferably `/Assets/ProceduralToolkit`).
 
@@ -23,7 +24,7 @@ If you have any previous versions of the toolkit installed it is highly recommen
 
 Renaming or moving toolkit's folder from the default path (`/Assets/ProceduralToolkit`) will break .cginc includes in the example shaders, otherwise it is safe to move the toolkit however you want.
 
-The folder containing example classes and scenes (`ProceduralToolkit/Examples`) can be safely removed. The same is true for `ProceduralToolkit/Shaders`, if you are not using examples. Removing `ProceduralToolkit/Scripts/Editor` will leave you with a code-only toolkit, but you will lose drawers for some of the classes.
+The folder containing example classes and scenes (`ProceduralToolkit/Examples`) can be safely removed. The same is true for `ProceduralToolkit/Shaders`, if you are not using examples.
 
 ### Getting started
 After installation you can import ProceduralToolkit namespace and start building your own PCG systems:
@@ -56,7 +57,7 @@ See [CONTRIBUTING](/.github/CONTRIBUTING.md) for a full guide on how you can hel
 
 If you're looking for something to work on, check out the [help wanted](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aissue+is%3Aopen+label%3A"help+wanted") label.
 
-If you just want to show your appreciation, you can send a donation through [Ko-fi](https://ko-fi.com/ProceduralToolkit) or [PayPal](https://www.paypal.me/ProceduralToolkit/5usd).
+If you just want to show your appreciation, you can send a donation through [PayPal](https://www.paypal.me/ProceduralToolkit/5usd) or [Ko-fi](https://ko-fi.com/ProceduralToolkit).
 
 ## Toolkit structure
 ### Scripts/
@@ -82,7 +83,7 @@ Common rulesets can be found in CellularAutomaton.Ruleset.
 
 ### Scripts/Geometry/
 See [this wiki page](https://github.com/Syomus/ProceduralToolkit/wiki/Geometry-algorithms) for a matrix of available algorithms.
-* [Circle](/Scripts/Geometry/Circle.cs), [Sphere](/Scripts/Geometry/Sphere.cs), 
+* [Circle2](/Scripts/Geometry/Circle2.cs), [Circle3](/Scripts/Geometry/Circle3.cs), [Sphere](/Scripts/Geometry/Sphere.cs), 
 [Line2](/Scripts/Geometry/Line2.cs), [Line3](/Scripts/Geometry/Line3.cs), 
 [Segment2](/Scripts/Geometry/Segment2.cs), [Segment3](/Scripts/Geometry/Segment3.cs): 
 Representations of geometric primitives.
@@ -90,7 +91,7 @@ Representations of geometric primitives.
 Collection of closest point(s) algorithms.
 * [Distance2D](/Scripts/Geometry/Distance2D.cs), [Distance3D](/Scripts/Geometry/Distance3D.cs): 
 Collection of distance calculation algorithms.
-* [Intersect2D](/Scripts/Geometry/Intersect2D.cs), [Intersect2D](/Scripts/Geometry/Intersect2D.cs): 
+* [Intersect2D](/Scripts/Geometry/Intersect2D.cs), [Intersect3D](/Scripts/Geometry/Intersect3D.cs): 
 Collection of intersection algorithms.
 * [IntersectionType](/Scripts/Geometry/IntersectionType.cs): Enum used in intersection algorithms.
 * [Intersections](/Scripts/Geometry/Intersections) folder: Structures containing information about intersections.
@@ -119,7 +120,6 @@ Collection of intersection algorithms.
 
 A fully procedural building generator, creates entire mesh from scratch and paints it's vertices. 
 Keep in mind that there is no uv map in the generated mesh so using it with Standard shader is pointless.
-If you are interested, the building design is called [Khrushchyovka](https://en.wikipedia.org/wiki/Khrushchyovka).
 * BuildingGenerator: Main generator class. Generates buildings based on input configuration.
 * BuildingGeneratorBase: Base class for the generator.
 * BuildingGeneratorConfigurator: Configurator for BuildingGenerator with UI and editor controls.
