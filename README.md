@@ -87,12 +87,21 @@ Serializable Renderer properties, use Renderer.ApplyProperties extension to appl
 * [VectorE](/Scripts/VectorE.cs): Vector extensions.
 
 ### Scripts/Buildings/
-* BuildingGenerator: The main generation class. Generates buildings based on input configuration and strategies, reusable. See examples for details.
-* ILayout, ILayoutElement, IConstructible, Layout, HorizontalLayout, VerticalLayout: Interfaces and classes used in facade layout generation.
-* IFacadePlanningStrategy, IFacadeConstructionStrategy, IRoofPlanningStrategy, IRoofConstructionStrategy: 
+* [BuildingGenerator](/Scripts/Buildings/BuildingGenerator.cs): 
+The main generation class. Generates buildings based on input configuration and strategies, reusable. See examples for details.
+* [ILayout](/Scripts/Buildings/Interfaces/ILayout.cs), [ILayoutElement](/Scripts/Buildings/Interfaces/ILayoutElement.cs), 
+[IConstructible](/Scripts/Buildings/Interfaces/IConstructible.cs), [Layout](/Scripts/Buildings/Layout.cs), 
+[HorizontalLayout](/Scripts/Buildings/HorizontalLayout.cs), [VerticalLayout](/Scripts/Buildings/VerticalLayout.cs): 
+Interfaces and classes used in facade layout generation.
+* [IFacadePlanningStrategy](/Scripts/Buildings/Interfaces/IFacadePlanningStrategy.cs), 
+[IFacadeConstructionStrategy](/Scripts/Buildings/Interfaces/IFacadeConstructionStrategy.cs), 
+[IRoofPlanningStrategy](/Scripts/Buildings/Interfaces/IRoofPlanningStrategy.cs), 
+[IRoofConstructionStrategy](/Scripts/Buildings/Interfaces/IRoofConstructionStrategy.cs): 
 Interfaces for strategies controlling the details of the building generation process.
-* FacadePlanningStrategy, FacadeConstructionStrategy, RoofPlanningStrategy, RoofConstructionStrategy: Serializable wrappers for strategy interfaces.
-* ProceduralRoofs: A collection of fully procedural roof for the building generator.
+* [FacadePlanningStrategy](/Scripts/Buildings/FacadePlanningStrategy.cs), [FacadeConstructionStrategy](/Scripts/Buildings/FacadeConstructionStrategy.cs), 
+[RoofPlanningStrategy](/Scripts/Buildings/RoofPlanningStrategy.cs), [RoofConstructionStrategy](/Scripts/Buildings/RoofConstructionStrategy.cs): 
+Serializable wrappers for strategy interfaces.
+* [ProceduralRoofs](/Scripts/Buildings/ProceduralRoofs.cs): A collection of roof constructors for the building generator.
 
 ### Scripts/Geometry/
 See [this wiki page](https://github.com/Syomus/ProceduralToolkit/wiki/Geometry-algorithms) for a matrix of available algorithms.
@@ -228,16 +237,16 @@ A demonstration of some of the available MeshDraft primitives.
 * Cylinder, Dodecahedron, FlatSphere, Hexahedron...: Mesh generators that can be configured via the inspector.
 
 ### Drawing
-An example showing the usage of DebugE, GLE and GizmosE.
+Three identical shapes made with three different methods: DebugE, GLE and GizmosE.
 
 ### Clipper
-Examples showing the usage of PathClipper and PathOffsetter.
+A simple example demonstrating the api's of PathClipper and PathOffsetter.
 
 ### Tessellator
 An example showing the usage of Tesselator.
 
 ### StraightSkeleton
-An example showing the usage of StraightSkeletonGenerator.
+An StraightSkeletonGenerator example showing how you can generate a straight skeleton from a polygon and use the result.
 
 ### Examples/Resources
 UI prefabs and the skybox material used in examples.
