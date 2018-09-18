@@ -4,8 +4,8 @@ Procedural Toolkit is a procedural generation library for the Unity game engine.
 
 **Warning: This is a programming toolkit, editor support is limited.**
 
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.me/ProceduralToolkit/5usd)
-[![Donate](http://syomus.com/ProceduralToolkit/donate.png)](https://ko-fi.com/ProceduralToolkit) | 
+[![Donate](http://syomus.com/ProceduralToolkit/donate_paypal.gif)](https://www.paypal.me/ProceduralToolkit/5usd)
+[![Donate](http://syomus.com/ProceduralToolkit/donate_kofi.png)](https://ko-fi.com/ProceduralToolkit) | 
 [GitHub](https://github.com/Syomus/ProceduralToolkit) |
 [Asset Store](https://assetstore.unity.com/packages/tools/utilities/procedural-toolkit-16508) |
 [Issues](https://github.com/Syomus/ProceduralToolkit/issues) |
