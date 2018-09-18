@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Utility class for conversion of Clipper data from and to Unity format
+    /// </summary>
     public class ClipperUtility
     {
         public const float ClipperScale = 100000;

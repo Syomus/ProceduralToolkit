@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Skeleton
 {
+    /// <summary>
+    /// Representation of the active plan during generation process
+    /// </summary>
     public class Plan : IEnumerable<Plan.Vertex>
     {
         public int Count { get { return vertices.Count; } }

@@ -4,6 +4,9 @@ using UnityEngine.Rendering;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// Serializable Renderer properties
+    /// </summary>
     [Serializable]
     public class RendererProperties
     {
