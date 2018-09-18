@@ -28,16 +28,6 @@ namespace ProceduralToolkit.Examples.Buildings
                 }, "Generate building");
                 generator.Generate(randomizeConfig: false);
             }
-            if (GUILayout.Button("Randomize config and generate building"))
-            {
-                Undo.RecordObjects(new Object[]
-                {
-                    generator,
-                    generator.building,
-                    generator.platformMeshFilter,
-                }, "Generate building");
-                generator.Generate(randomizeConfig: true);
-            }
         }
     }
 }
