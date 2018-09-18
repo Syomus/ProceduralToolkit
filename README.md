@@ -143,8 +143,6 @@ Use [Tessellator](/Scripts/Tessellator.cs) for seamless interoperability with Un
 * [VertexColor](/Shaders/VertexColor) folder: Textureless shaders for use with color information from the vertices.
 
 ## Examples
-`Examples/Resources` contains UI prefabs and a skybox material used in examples. 
-`Examples/Common` contains scripts for ui controls, a camera rotator and a skybox generator.
 
 ### [Buildings](http://syomus.com/ProceduralToolkit/Buildings)
 ![](http://syomus.com/ProceduralToolkit/screenshot-buildings.png)
@@ -230,9 +228,21 @@ A demonstration of some of the available MeshDraft primitives.
 * Cylinder, Dodecahedron, FlatSphere, Hexahedron...: Mesh generators that can be configured via the inspector.
 
 ### Drawing
-An example showing usage of DebugE, GLE and GizmosE.
+An example showing the usage of DebugE, GLE and GizmosE.
 
-### Common classes
+### Clipper
+Examples showing the usage of PathClipper and PathOffsetter.
+
+### Tessellator
+An example showing the usage of Tesselator.
+
+### StraightSkeleton
+An example showing the usage of StraightSkeletonGenerator.
+
+### Examples/Resources
+UI prefabs and the skybox material used in examples.
+
+### Examples/Common
 * SkyBoxGenerator: Skybox generator, assuming that scene uses gradient skybox shader, animates transitions to new parameters every few seconds.
 * ButtonControl, SliderControl, TextControl, ToggleControl: UI controls for generators.
 * CameraRotator: Orbiting camera controller.
