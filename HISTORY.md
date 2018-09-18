@@ -1,5 +1,43 @@
 ## Version history
 
+### 0.2.2 (2018.09.18)
+This release brings polygon tessellation, clipping and offsetting, straight skeleton generation and a completely rewritten Buildings example.
+#### Features:
+* Integrated [LibTessDotNet](https://github.com/speps/LibTessDotNet) library, see Tessellator wrapper class and it's example for details.
+* Integrated [Clipper](http://www.angusj.com/delphi/clipper.php) library, use PathClipper and PathOffsetter for seamless interoperability with Unity.
+* Added [straight skeleton](https://en.wikipedia.org/wiki/Straight_skeleton) generator.
+* New architecture for the Buildings example, all roof types now support convex and concave polygons.
+* Added Circle3.
+* Added serializable RendererProperties, use Renderer.ApplyProperties extension to apply them to a target renderer.
+
+#### Improvements:
+* Geometry:
+  * Added OffsetPolygon, GetAngle, GetAngleBisector, Polygon2, StarPolygon2, PointsInCircle*, PointsOnSphere, GetRect and GetCircumradius.
+* Segment2 and Segment3:
+  * Added direction and length.
+* Intersect3D:
+  * Added SphereSphere.
+* VectorE:
+  * Added RotateCCW, RotateCW45, RotateCCW45, RotateCW90 and RotateCCW90.
+* PTUtils:
+  * Added new constants: Sqrt05, Sqrt2, Sqrt5, GoldenAngle.
+* MeshDraft:
+  * Added calculateBounds flag for ToMesh.
+  * Added support for 32 bit Mesh index buffers.
+* CompoundMeshDraft:
+  * Added calculateBounds flag for ToMeshWithSubMeshes.
+  * Added support for 32 bit Mesh index buffers.
+  * Added Move, Rotate and other methods from MeshDraft.
+
+#### Changes:
+* Minimum supported Unity version is now 2018.1.
+* Renamed PTUtils string constants.
+* Renamed Circle to Circle2.
+* Moved `Examples\Resources` to `Examples\Common\Resources`.
+* MeshDraft: Made normals optional in AddTriangle and AddQuad.
+* Intersect2D: Removed LineLine overload with IntersectionType return type.
+
+
 ### 0.2.1 (2018.06.20)
 This release brings new computational geometry algorithms and geometric primitives.
 #### Features:
