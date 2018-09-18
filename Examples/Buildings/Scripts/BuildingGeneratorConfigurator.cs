@@ -23,12 +23,20 @@ namespace ProceduralToolkit.Examples.Buildings
 
         private const int minFloorCount = 1;
         private const int maxFloorCount = 15;
+        private static readonly RoofType[] roofTypes = new RoofType[]
+        {
+            RoofType.Flat,
+            RoofType.Hipped,
+            RoofType.Gabled,
+        };
 
         private const float platformHeight = 0.5f;
         private const float platformRadiusOffset = 2;
 
         private BuildingGenerator generator;
         private Mesh platformMesh;
+        private int currentPolygon = 0;
+        private int currentRoofType = 1;
 
         private void Awake()
         {
@@ -36,17 +44,28 @@ namespace ProceduralToolkit.Examples.Buildings
             SetupSkyboxAndPalette();
 
             InstantiateControl<SliderControl>(leftPanel)
+                .Initialize("Foundation Polygon", 1, foundationPolygons.Count, currentPolygon + 1, value =>
+                {
+                    currentPolygon = value - 1;
+                    Generate();
+                });
+            InstantiateControl<SliderControl>(leftPanel)
                 .Initialize("Floors", minFloorCount, maxFloorCount, config.floors, value =>
                 {
                     config.floors = value;
                     Generate();
                 });
-
             InstantiateControl<ToggleControl>(leftPanel).Initialize("Has attic", config.hasAttic, value =>
             {
                 config.hasAttic = value;
                 Generate();
             });
+            InstantiateControl<SliderControl>(leftPanel)
+                .Initialize("Roof Type", 1, roofTypes.Length, currentRoofType + 1, value =>
+                {
+                    currentRoofType = value - 1;
+                    Generate();
+                });
 
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", () => Generate());
         }
@@ -66,9 +85,7 @@ namespace ProceduralToolkit.Examples.Buildings
             if (randomizeConfig)
             {
                 GeneratePalette();
-
                 config.palette.wallColor = GetMainColorHSV().ToColor();
-                config.roofConfig.type = RandomE.GetRandom(RoofType.Flat, RoofType.Hipped, RoofType.Gabled);
             }
 
             if (generator == null)
@@ -91,7 +108,8 @@ namespace ProceduralToolkit.Examples.Buildings
             generator.SetFacadeConstructionStrategy(facadeConstructionStrategy);
             generator.SetRoofPlanningStrategy(roofPlanningStrategy);
             generator.SetRoofConstructionStrategy(roofConstructionStrategy);
-            var foundationPolygon = foundationPolygons.GetRandom();
+            var foundationPolygon = foundationPolygons[currentPolygon];
+            config.roofConfig.type = roofTypes[currentRoofType];
             building = generator.Generate(foundationPolygon.vertices, config).gameObject;
 
             var rect = Geometry.GetRect(foundationPolygon.vertices);
