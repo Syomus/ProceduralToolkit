@@ -56,7 +56,7 @@ namespace ProceduralToolkit
             var points = new List<Vector2>(count);
             for (int i = 0; i < count; i++)
             {
-                // The 0.5 offset impoves the position of the first point
+                // The 0.5 offset improves the position of the first point
                 float r = Mathf.Sqrt((i + 0.5f)/count);
                 points.Add(new Vector2(radius*Mathf.Sin(currentAngle)*r, radius*Mathf.Cos(currentAngle)*r));
                 currentAngle += PTUtils.GoldenAngle;
@@ -186,7 +186,7 @@ namespace ProceduralToolkit
             var points = new List<Vector2>(count);
             for (int i = 0; i < count; i++)
             {
-                // The 0.5 offset impoves the position of the first point
+                // The 0.5 offset improves the position of the first point
                 float r = Mathf.Sqrt((i + 0.5f)/count);
                 var point = new Vector3();
                 point[xIndex] = radius*Mathf.Sin(currentAngle)*r;
