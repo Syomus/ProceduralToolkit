@@ -93,7 +93,7 @@ namespace ProceduralToolkit
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="count">Number of points</param>
-        public static List<Vector2> PointsInCircle3XY(float radius, int count)
+        public static List<Vector3> PointsInCircle3XY(float radius, int count)
         {
             return PointsInCircle3(0, 1, radius, count);
         }
@@ -123,7 +123,7 @@ namespace ProceduralToolkit
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="count">Number of points</param>
-        public static List<Vector2> PointsInCircle3XZ(float radius, int count)
+        public static List<Vector3> PointsInCircle3XZ(float radius, int count)
         {
             return PointsInCircle3(0, 2, radius, count);
         }
@@ -153,7 +153,7 @@ namespace ProceduralToolkit
         /// </summary>
         /// <param name="radius">Circle radius</param>
         /// <param name="count">Number of points</param>
-        public static List<Vector2> PointsInCircle3YZ(float radius, int count)
+        public static List<Vector3> PointsInCircle3YZ(float radius, int count)
         {
             return PointsInCircle3(1, 2, radius, count);
         }
@@ -180,10 +180,10 @@ namespace ProceduralToolkit
             return points;
         }
 
-        private static List<Vector2> PointsInCircle3(int xIndex, int yIndex, float radius, int count)
+        private static List<Vector3> PointsInCircle3(int xIndex, int yIndex, float radius, int count)
         {
             float currentAngle = 0;
-            var points = new List<Vector2>(count);
+            var points = new List<Vector3>(count);
             for (int i = 0; i < count; i++)
             {
                 // The 0.5 offset improves the position of the first point
