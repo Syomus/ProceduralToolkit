@@ -93,13 +93,11 @@ The main generation class. Generates buildings based on input configuration and 
 [IConstructible](/Scripts/Buildings/Interfaces/IConstructible.cs), [Layout](/Scripts/Buildings/Layout.cs), 
 [HorizontalLayout](/Scripts/Buildings/HorizontalLayout.cs), [VerticalLayout](/Scripts/Buildings/VerticalLayout.cs): 
 Interfaces and classes used in facade layout generation.
-* [IFacadePlanningStrategy](/Scripts/Buildings/Interfaces/IFacadePlanningStrategy.cs), 
-[IFacadeConstructionStrategy](/Scripts/Buildings/Interfaces/IFacadeConstructionStrategy.cs), 
-[IRoofPlanningStrategy](/Scripts/Buildings/Interfaces/IRoofPlanningStrategy.cs), 
-[IRoofConstructionStrategy](/Scripts/Buildings/Interfaces/IRoofConstructionStrategy.cs): 
+* [IFacadePlanner](/Scripts/Buildings/Interfaces/IFacadePlanner.cs), [IFacadeConstructor](/Scripts/Buildings/Interfaces/IFacadeConstructor.cs), 
+[IRoofPlanner](/Scripts/Buildings/Interfaces/IRoofPlanner.cs), [IRoofConstructor](/Scripts/Buildings/Interfaces/IRoofConstructor.cs): 
 Interfaces for strategies controlling the details of the building generation process.
-* [FacadePlanningStrategy](/Scripts/Buildings/FacadePlanningStrategy.cs), [FacadeConstructionStrategy](/Scripts/Buildings/FacadeConstructionStrategy.cs), 
-[RoofPlanningStrategy](/Scripts/Buildings/RoofPlanningStrategy.cs), [RoofConstructionStrategy](/Scripts/Buildings/RoofConstructionStrategy.cs): 
+* [FacadePlanner](/Scripts/Buildings/FacadePlanner.cs), [FacadeConstructor](/Scripts/Buildings/FacadeConstructor.cs), 
+[RoofPlanner](/Scripts/Buildings/RoofPlanner.cs), [RoofConstructor](/Scripts/Buildings/RoofConstructor.cs): 
 Serializable wrappers for strategy interfaces.
 * [ProceduralRoofs](/Scripts/Buildings/ProceduralRoofs.cs): A collection of roof constructors for the building generator.
 
@@ -134,7 +132,7 @@ Use [PathClipper](/Scripts/PathClipper.cs) and [PathOffsetter](/Scripts/PathOffs
 
 ### Scripts/LibTessDotNet/
 The [LibTessDotNet](https://github.com/speps/LibTessDotNet) library. 
-Use [Tessellator](/Scripts/Tessellator.cs) for seamless interoperability with Unity.
+The recommended use is through the wrapper class [Tessellator](/Scripts/Tessellator.cs).
 
 ### Scripts/Editor/
 * [ColorHSVDrawer](/Scripts/Editor/ColorHSVDrawer.cs): PropertyDrawer for ColorHSV.
@@ -156,23 +154,23 @@ Use [Tessellator](/Scripts/Tessellator.cs) for seamless interoperability with Un
 ### [Buildings](https://syomus.com/ProceduralToolkit/Buildings)
 ![](https://syomus.com/ProceduralToolkit/screenshot-buildings.png)
 
-A fully procedural building generator, creates entire mesh from scratch and paints it's vertices. 
+A fully procedural building generator, creates an entire mesh from scratch and paints it's vertices. 
 Keep in mind that the generated mesh has no uv map so using it with Standard shader is pointless.
 * BuildingGeneratorComponent: A simple minimal example on how you can use BuildingGenerator
 * BuildingGeneratorConfigurator: A configurator for BuildingGenerator with UI and editor controls.
 * BuildingGeneratorReuse: An example on how you can reuse the same generator to generate multiple buildings.
-* PolygonAsset: A ScriptableObject container for vertices.
-* ProceduralFacadePlanningStrategy: A fully procedural facade planning strategy, controls the layouts of the facades.
-* ProceduralFacadeConstructionStrategy: A fully procedural facade construction strategy, used in conjunction with ProceduralFacadePlanningStrategy.
-* ProceduralRoofPlanningStrategy: A fully procedural roof planning strategy, generates a roof description based on the input config.
-* ProceduralRoofConstructionStrategy: A fully procedural roof construction strategy, used in conjunction with ProceduralRoofPlanningStrategy.
+* ProceduralFacadePlanner: A facade planning strategy, controls the layouts of the facades.
+* ProceduralFacadeConstructor: A facade construction strategy, used in conjunction with ProceduralFacadePlanner.
+* ProceduralRoofPlanner: A roof planning strategy, generates a roof description based on the input config.
+* ProceduralRoofConstructor: A roof construction strategy, used in conjunction with ProceduralRoofPlanner.
 * ProceduralFacadeElements: A collection of fully procedural facade panels for the building generator.
+* PolygonAsset: A ScriptableObject container for vertices.
 * BuildingGeneratorConfiguratorEditor: A custom inspector for BuildingGeneratorConfigurator.
 
 ### [Chairs](https://syomus.com/ProceduralToolkit/Chairs)
 ![](https://syomus.com/ProceduralToolkit/screenshot-chairs.png)
 
-A fully procedural chair generator, creates entire mesh from scratch and paints it's vertices.
+A fully procedural chair generator, creates an entire mesh from scratch and paints it's vertices.
 * ChairGenerator: Main generator class. Generates chairs based on input configuration.
 * ChairGeneratorConfigurator: Configurator for ChairGenerator with UI and editor controls.
 * ChairGeneratorConfiguratorEditor: Custom inspector for ChairGeneratorConfigurator.
@@ -194,7 +192,7 @@ A collection of shaders showing how you can utilise functions from the shader li
 * StarPolygon: A simple shader that draws a star polygon and shows a difference between "normal" and "cheap" functions.
 * Shapes: A demonstration of some of the available shapes.
 * DistanceOperations: A square and a circle combined with different functions.
-* Easing: All easing functions in one shader showing the ease curve and the easig motion.
+* Easing: All easing functions in one shader showing the ease curve and the easing motion.
 * Transitions: An example showing the sequencing and animation techniques.
 * Animation: A more complex example on how you can create patterns and animate them in shader.
 

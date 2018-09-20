@@ -7,29 +7,29 @@ namespace ProceduralToolkit.Buildings
 {
     public class BuildingGenerator
     {
-        private IFacadePlanningStrategy facadePlanningStrategy;
-        private IFacadeConstructionStrategy facadeConstructionStrategy;
-        private IRoofPlanningStrategy roofPlanningStrategy;
-        private IRoofConstructionStrategy roofConstructionStrategy;
+        private IFacadePlanner facadePlanner;
+        private IFacadeConstructor facadeConstructor;
+        private IRoofPlanner roofPlanner;
+        private IRoofConstructor roofConstructor;
 
-        public void SetFacadePlanningStrategy(IFacadePlanningStrategy facadePlanningStrategy)
+        public void SetFacadePlanner(IFacadePlanner facadePlanner)
         {
-            this.facadePlanningStrategy = facadePlanningStrategy;
+            this.facadePlanner = facadePlanner;
         }
 
-        public void SetFacadeConstructionStrategy(IFacadeConstructionStrategy facadeConstructionStrategy)
+        public void SetFacadeConstructor(IFacadeConstructor facadeConstructor)
         {
-            this.facadeConstructionStrategy = facadeConstructionStrategy;
+            this.facadeConstructor = facadeConstructor;
         }
 
-        public void SetRoofPlanningStrategy(IRoofPlanningStrategy roofPlanningStrategy)
+        public void SetRoofPlanner(IRoofPlanner roofPlanner)
         {
-            this.roofPlanningStrategy = roofPlanningStrategy;
+            this.roofPlanner = roofPlanner;
         }
 
-        public void SetRoofConstructionStrategy(IRoofConstructionStrategy roofConstructionStrategy)
+        public void SetRoofConstructor(IRoofConstructor roofConstructor)
         {
-            this.roofConstructionStrategy = roofConstructionStrategy;
+            this.roofConstructor = roofConstructor;
         }
 
         public Transform Generate(List<Vector2> foundationPolygon, Config config, Transform parent = null)
@@ -37,24 +37,24 @@ namespace ProceduralToolkit.Buildings
             Assert.IsTrue(config.floors > 0);
             Assert.IsTrue(config.entranceInterval > 0);
 
-            List<ILayout> facadeLayouts = facadePlanningStrategy.Plan(foundationPolygon, config);
+            List<ILayout> facadeLayouts = facadePlanner.Plan(foundationPolygon, config);
             float height = facadeLayouts[0].height;
 
             if (parent == null)
             {
                 parent = new GameObject("Building").transform;
             }
-            facadeConstructionStrategy.Construct(foundationPolygon, facadeLayouts, parent);
+            facadeConstructor.Construct(foundationPolygon, facadeLayouts, parent);
 
-            if (roofPlanningStrategy != null && roofConstructionStrategy != null)
+            if (roofPlanner != null && roofConstructor != null)
             {
-                var roofLayout = roofPlanningStrategy.Plan(foundationPolygon, config);
+                var roofConstructible = roofPlanner.Plan(foundationPolygon, config);
 
                 var roof = new GameObject("Roof").transform;
                 roof.SetParent(parent, false);
                 roof.localPosition = new Vector3(0, height, 0);
                 roof.localRotation = Quaternion.identity;
-                roofConstructionStrategy.Construct(roofLayout, roof);
+                roofConstructor.Construct(roofConstructible, roof);
             }
             return parent;
         }

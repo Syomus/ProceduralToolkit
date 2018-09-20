@@ -272,14 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63742e35d5ad93478e30874b53c62c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  facadePlanningStrategy: {fileID: 11400000, guid: 0d499f1d69be22d43b78571bb5c6708c,
-    type: 2}
-  facadeConstructionStrategy: {fileID: 11400000, guid: 721d020d3fea92147a87e71ee42a460e,
-    type: 2}
-  roofPlanningStrategy: {fileID: 11400000, guid: b810929d94a721f418eca36d454efce4,
-    type: 2}
-  roofConstructionStrategy: {fileID: 11400000, guid: 60b9ca7f2d3d0f044b509d70c12548a9,
-    type: 2}
+  facadePlanner: {fileID: 11400000, guid: 0d499f1d69be22d43b78571bb5c6708c, type: 2}
+  facadeConstructor: {fileID: 11400000, guid: 721d020d3fea92147a87e71ee42a460e, type: 2}
+  roofPlanner: {fileID: 11400000, guid: b810929d94a721f418eca36d454efce4, type: 2}
+  roofConstructor: {fileID: 11400000, guid: 60b9ca7f2d3d0f044b509d70c12548a9, type: 2}
   xCount: 10
   zCount: 10
   cellSize: 15

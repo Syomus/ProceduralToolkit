@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples.Buildings
 {
-    [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Facade Planning Strategy", order = 1)]
-    public class ProceduralFacadePlanningStrategy : FacadePlanningStrategy
+    [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Facade Planner", order = 1)]
+    public class ProceduralFacadePlanner : FacadePlanner
     {
         private const float socleHeight = 1;
         private const float floorHeight = 2.5f;

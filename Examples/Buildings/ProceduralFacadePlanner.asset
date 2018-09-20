@@ -8,6 +8,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 310cbf3cce760b3459434f4e51c8eaf0, type: 3}
-  m_Name: ProceduralRoofPlanningStrategy
+  m_Script: {fileID: 11500000, guid: a37959aa9f521534c846a70edb0a07ff, type: 3}
+  m_Name: ProceduralFacadePlanner
   m_EditorClassIdentifier: 

@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples.Buildings
 {
-    [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Roof Construction Strategy", order = 4)]
-    public class ProceduralRoofConstructionStrategy : RoofConstructionStrategy
+    [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Roof Constructor", order = 4)]
+    public class ProceduralRoofConstructor : RoofConstructor
     {
         [SerializeField]
         private RendererProperties rendererProperties;

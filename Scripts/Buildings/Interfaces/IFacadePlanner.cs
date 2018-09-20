@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProceduralToolkit.Buildings
 {
-    public interface IFacadePlanningStrategy
+    public interface IFacadePlanner
     {
         List<ILayout> Plan(List<Vector2> foundationPolygon, BuildingGenerator.Config config);
     }

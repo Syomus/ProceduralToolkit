@@ -1,18 +1,19 @@
 using ProceduralToolkit.Buildings;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ProceduralToolkit.Examples.Buildings
 {
     public class BuildingGeneratorComponent : MonoBehaviour
     {
-        [SerializeField]
-        private FacadePlanningStrategy facadePlanningStrategy;
-        [SerializeField]
-        private FacadeConstructionStrategy facadeConstructionStrategy;
-        [SerializeField]
-        private RoofPlanningStrategy roofPlanningStrategy;
-        [SerializeField]
-        private RoofConstructionStrategy roofConstructionStrategy;
+        [SerializeField, FormerlySerializedAs("facadePlanningStrategy")]
+        private FacadePlanner facadePlanner;
+        [SerializeField, FormerlySerializedAs("facadeConstructionStrategy")]
+        private FacadeConstructor facadeConstructor;
+        [SerializeField, FormerlySerializedAs("roofPlanningStrategy")]
+        private RoofPlanner roofPlanner;
+        [SerializeField, FormerlySerializedAs("roofConstructionStrategy")]
+        private RoofConstructor roofConstructor;
         [SerializeField]
         private PolygonAsset foundationPolygon;
         [SerializeField]
@@ -21,10 +22,10 @@ namespace ProceduralToolkit.Examples.Buildings
         private void Awake()
         {
             var generator = new BuildingGenerator();
-            generator.SetFacadePlanningStrategy(facadePlanningStrategy);
-            generator.SetFacadeConstructionStrategy(facadeConstructionStrategy);
-            generator.SetRoofPlanningStrategy(roofPlanningStrategy);
-            generator.SetRoofConstructionStrategy(roofConstructionStrategy);
+            generator.SetFacadePlanner(facadePlanner);
+            generator.SetFacadeConstructor(facadeConstructor);
+            generator.SetRoofPlanner(roofPlanner);
+            generator.SetRoofConstructor(roofConstructor);
             generator.Generate(foundationPolygon.vertices, config, transform);
         }
     }

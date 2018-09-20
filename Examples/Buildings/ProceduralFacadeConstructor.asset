@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c3a8c5f5e3dbcc46b099cf219499f25, type: 3}
-  m_Name: ProceduralFacadeConstructionStrategy
+  m_Name: ProceduralFacadeConstructor
   m_EditorClassIdentifier: 
   rendererProperties:
     lightProbeUsage: 0

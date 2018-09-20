@@ -1,18 +1,19 @@
 using ProceduralToolkit.Buildings;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ProceduralToolkit.Examples.Buildings
 {
     public class BuildingGeneratorReuse : MonoBehaviour
     {
-        [SerializeField]
-        private FacadePlanningStrategy facadePlanningStrategy;
-        [SerializeField]
-        private FacadeConstructionStrategy facadeConstructionStrategy;
-        [SerializeField]
-        private RoofPlanningStrategy roofPlanningStrategy;
-        [SerializeField]
-        private RoofConstructionStrategy roofConstructionStrategy;
+        [SerializeField, FormerlySerializedAs("facadePlanningStrategy")]
+        private FacadePlanner facadePlanner;
+        [SerializeField, FormerlySerializedAs("facadeConstructionStrategy")]
+        private FacadeConstructor facadeConstructor;
+        [SerializeField, FormerlySerializedAs("roofPlanningStrategy")]
+        private RoofPlanner roofPlanner;
+        [SerializeField, FormerlySerializedAs("roofConstructionStrategy")]
+        private RoofConstructor roofConstructor;
         [SerializeField]
         private int xCount = 10;
         [SerializeField]
@@ -27,10 +28,10 @@ namespace ProceduralToolkit.Examples.Buildings
         private void Awake()
         {
             var generator = new BuildingGenerator();
-            generator.SetFacadePlanningStrategy(facadePlanningStrategy);
-            generator.SetFacadeConstructionStrategy(facadeConstructionStrategy);
-            generator.SetRoofPlanningStrategy(roofPlanningStrategy);
-            generator.SetRoofConstructionStrategy(roofConstructionStrategy);
+            generator.SetFacadePlanner(facadePlanner);
+            generator.SetFacadeConstructor(facadeConstructor);
+            generator.SetRoofPlanner(roofPlanner);
+            generator.SetRoofConstructor(roofConstructor);
 
             float xOffset = (xCount - 1)*0.5f*cellSize;
             float zOffset = (zCount - 1)*0.5f*cellSize;

@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Examples.Buildings
 {
-    [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Roof Planning Strategy", order = 2)]
-    public class ProceduralRoofPlanningStrategy : RoofPlanningStrategy
+    [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Roof Planner", order = 2)]
+    public class ProceduralRoofPlanner : RoofPlanner
     {
         public override IConstructible<MeshDraft> Plan(List<Vector2> foundationPolygon, BuildingGenerator.Config config)
         {

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
 using ProceduralToolkit.Examples.UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ProceduralToolkit.Examples.Buildings
 {
@@ -14,10 +15,14 @@ namespace ProceduralToolkit.Examples.Buildings
         public MeshFilter platformMeshFilter;
         public RectTransform leftPanel;
         public bool constantSeed = false;
-        public FacadePlanningStrategy facadePlanningStrategy;
-        public FacadeConstructionStrategy facadeConstructionStrategy;
-        public RoofPlanningStrategy roofPlanningStrategy;
-        public RoofConstructionStrategy roofConstructionStrategy;
+        [FormerlySerializedAs("facadePlanningStrategy")]
+        public FacadePlanner facadePlanner;
+        [FormerlySerializedAs("facadeConstructionStrategy")]
+        public FacadeConstructor facadeConstructor;
+        [FormerlySerializedAs("roofPlanningStrategy")]
+        public RoofPlanner roofPlanner;
+        [FormerlySerializedAs("roofConstructionStrategy")]
+        public RoofConstructor roofConstructor;
         public List<PolygonAsset> foundationPolygons = new List<PolygonAsset>();
         public BuildingGenerator.Config config = new BuildingGenerator.Config();
 
@@ -104,10 +109,10 @@ namespace ProceduralToolkit.Examples.Buildings
                     DestroyImmediate(building);
                 }
             }
-            generator.SetFacadePlanningStrategy(facadePlanningStrategy);
-            generator.SetFacadeConstructionStrategy(facadeConstructionStrategy);
-            generator.SetRoofPlanningStrategy(roofPlanningStrategy);
-            generator.SetRoofConstructionStrategy(roofConstructionStrategy);
+            generator.SetFacadePlanner(facadePlanner);
+            generator.SetFacadeConstructor(facadeConstructor);
+            generator.SetRoofPlanner(roofPlanner);
+            generator.SetRoofConstructor(roofConstructor);
             var foundationPolygon = foundationPolygons[currentPolygon];
             config.roofConfig.type = roofTypes[currentRoofType];
             building = generator.Generate(foundationPolygon.vertices, config).gameObject;
