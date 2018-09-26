@@ -659,5 +659,115 @@ namespace ProceduralToolkit
             }
             return draft;
         }
+
+	    public static MeshDraft Capsule(double height, double radius, int segments, int rings)
+	    {
+			var numVerts = 2 * rings * segments + 2;
+		    var numFaces = 4 * rings * segments;
+		    var theta = 2 * Math.PI / segments;
+		    var phi = Math.PI / (2 * rings);
+
+		    var verts = new Vector3[numVerts];
+		    var faces = new int[3 * numFaces];
+		    int vi = 0, fi = 0, topCap = 0, botCap = 1;
+
+		    verts[vi++].Set(0, (float) height / 2, 0);
+			verts[vi++].Set(0, (float) -height / 2, 0);
+
+			for(var s = 0; s < segments; s++)
+			{
+				for (var r = 1; r <= rings; r++)
+				{
+					var radial = radius * Math.Sin(r * phi);
+
+					// create verts
+					verts[vi++].Set(
+						(float) (radial * Math.Cos(s * theta)),
+						(float) (height / 2 - radius * (1 - Math.Cos(r * phi))),
+						(float) (radial * Math.Sin(s * theta))
+					);
+
+					verts[vi++].Set(
+						(float) (radial * Math.Cos(s * theta)),
+						(float) (-height / 2 + radius * (1 - Math.Cos(r * phi))),
+						(float) (radial * Math.Sin(s * theta))
+					);
+
+					int top_s1r1 = vi - 2, top_s1r0 = vi - 4;
+					int bot_s1r1 = vi - 1, bot_s1r0 = vi - 3;
+					int top_s0r1 = top_s1r1 - 2 * rings, top_s0r0 = top_s1r0 - 2 * rings;
+					int bot_s0r1 = bot_s1r1 - 2 * rings, bot_s0r0 = bot_s1r0 - 2 * rings;
+					if (s == 0)
+					{
+						top_s0r1 += numVerts - 2;
+						top_s0r0 += numVerts - 2;
+						bot_s0r1 += numVerts - 2;
+						bot_s0r0 += numVerts - 2;
+					}
+
+					// create faces
+					if (r == 1)
+					{
+						faces[3 * fi + 0] = topCap;
+						faces[3 * fi + 1] = top_s1r1;
+						faces[3 * fi + 2] = top_s0r1;
+						fi++;
+
+						faces[3 * fi + 0] = botCap;
+						faces[3 * fi + 1] = bot_s0r1;
+						faces[3 * fi + 2] = bot_s1r1;
+						fi++;
+					}
+					else
+					{
+						faces[3 * fi + 0] = top_s1r0;
+						faces[3 * fi + 1] = top_s1r1;
+						faces[3 * fi + 2] = top_s0r0;
+						fi++;
+
+						faces[3 * fi + 0] = top_s0r0;
+						faces[3 * fi + 1] = top_s1r1;
+						faces[3 * fi + 2] = top_s0r1;
+						fi++;
+
+						faces[3 * fi + 0] = bot_s0r1;
+						faces[3 * fi + 1] = bot_s1r1;
+						faces[3 * fi + 2] = bot_s0r0;
+						fi++;
+
+						faces[3 * fi + 0] = bot_s0r0;
+						faces[3 * fi + 1] = bot_s1r1;
+						faces[3 * fi + 2] = bot_s1r0;
+						fi++;
+					}
+				}
+
+				// create long sides
+				int top_s1 = vi = 2, top_s0 = top_s1 - 2 * rings;
+				int bot_s1 = vi - 1, bot_s0 = bot_s1 - 2 * rings;
+				if (s == 0)
+				{
+					top_s0 += numVerts - 2;
+					bot_s0 += numVerts - 2;
+				}
+
+				faces[3 * fi + 0] = top_s0;
+				faces[3 * fi + 1] = top_s1;
+				faces[3 * fi + 2] = bot_s1;
+				fi++;
+
+				faces[3 * fi + 0] = bot_s0;
+				faces[3 * fi + 1] = top_s0;
+				faces[3 * fi + 2] = bot_s1;
+				fi++;
+			}
+
+			return new MeshDraft()
+			{
+				name = "Capsule",
+				vertices = new List<Vector3>(verts),
+				triangles = new List<int>(faces)
+			};
+	    }
     }
 }
