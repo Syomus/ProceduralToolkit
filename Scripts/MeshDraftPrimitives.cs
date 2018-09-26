@@ -668,24 +668,24 @@ namespace ProceduralToolkit
 		/// <param name="segments">The number of radial segments. Defaults to 12</param>
 		/// <param name="rings">The number of end-cap rings. Defaults to 8</param>
 		/// <returns></returns>
-	    public static MeshDraft Capsule(double height, double radius, int segments = 12, int rings = 8)
-	    {
+		public static MeshDraft Capsule(double height, double radius, int segments = 12, int rings = 8)
+		{
 			var numVerts = 2 * rings * segments + 2;
-		    var numFaces = 4 * rings * segments;
-		    var theta = 2 * Math.PI / segments;
-		    var phi = Math.PI / (2 * rings);
+			var numFaces = 4 * rings * segments;
+			var theta = 2 * Math.PI / segments;
+			var phi = Math.PI / (2 * rings);
 
-		    var verts = new Vector3[numVerts];
-		    var norms = new Vector3[numVerts];
-		    var faces = new int[3 * numFaces];
-		    int vi = 0, fi = 0, topCap = 0, botCap = 1;
+			var verts = new Vector3[numVerts];
+			var norms = new Vector3[numVerts];
+			var faces = new int[3 * numFaces];
+			int vi = 0, fi = 0, topCap = 0, botCap = 1;
 
-		    verts[vi].Set(0, (float) (height / 2 + radius), 0);
-		    norms[vi++].Set(0, 1, 0);
-			verts[vi].Set(0, (float) (-height / 2 - radius), 0);
-		    norms[vi++].Set(0, -1, 0);
+			verts[vi].Set(0, (float)(height / 2 + radius), 0);
+			norms[vi++].Set(0, 1, 0);
+			verts[vi].Set(0, (float)(-height / 2 - radius), 0);
+			norms[vi++].Set(0, -1, 0);
 
-			for(var s = 0; s < segments; s++)
+			for (var s = 0; s < segments; s++)
 			{
 				for (var r = 1; r <= rings; r++)
 				{
@@ -693,20 +693,20 @@ namespace ProceduralToolkit
 
 					// create verts (top cap)
 					verts[vi].Set(
-						(float) (radial * Math.Cos(s * theta)),
-						(float) (height / 2 + radius * Math.Cos(r * phi)),
-						(float) (radial * Math.Sin(s * theta))
+						(float)(radial * Math.Cos(s * theta)),
+						(float)(height / 2 + radius * Math.Cos(r * phi)),
+						(float)(radial * Math.Sin(s * theta))
 					);
 					norms[vi].Set(
-						(float) Math.Cos(s * theta),
-						(float) Math.Cos(r * phi),
-						(float) Math.Sin(s * theta)
+						(float)Math.Cos(s * theta),
+						(float)Math.Cos(r * phi),
+						(float)Math.Sin(s * theta)
 					);
 					norms[vi++].Normalize();
 
 					// mirror top-cap verts for bottom cap
-					verts[vi].Set( verts[vi-1].x, -verts[vi-1].y, verts[vi-1].z );
-					norms[vi].Set( norms[vi-1].x, -norms[vi-1].y, norms[vi-1].z );
+					verts[vi].Set(verts[vi - 1].x, -verts[vi - 1].y, verts[vi - 1].z);
+					norms[vi].Set(norms[vi - 1].x, -norms[vi - 1].y, norms[vi - 1].z);
 					vi++;
 
 					int top_s1r1 = vi - 2, top_s1r0 = vi - 4;
@@ -778,13 +778,13 @@ namespace ProceduralToolkit
 				fi++;
 			}
 
-		    return new MeshDraft()
+			return new MeshDraft()
 			{
 				name = "Capsule",
 				vertices = new List<Vector3>(verts),
 				triangles = new List<int>(faces),
 				normals = new List<Vector3>(norms)
 			};
-	    }
-    }
+		}
+	}
 }
