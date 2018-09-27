@@ -412,6 +412,7 @@ namespace ProceduralToolkit
             {
                 draft.AddTriangleFan(lowerRing, Vector3.down, true);
                 draft.AddTriangleFan(upperRing, Vector3.up);
+                draft.AddTriangleStrip(strip, stripNormals);
             }
             return draft;
         }
