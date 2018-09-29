@@ -662,128 +662,133 @@ namespace ProceduralToolkit
         /// <summary>
         /// Constructs a capsule draft
         /// </summary>
-        /// <param name="height">The height of the capsule, not including the end caps</param>
+        /// <param name="height">The height of the capsule</param>
         /// <param name="radius">The radius of the capsule</param>
-        /// <param name="segments">The number of radial segments. Defaults to 12</param>
+        /// <param name="segments">The number of radial segments. Defaults to 32</param>
         /// <param name="rings">The number of end-cap rings. Defaults to 8</param>
-        /// <returns></returns>
-        public static MeshDraft Capsule(float height, float radius, int segments = 12, int rings = 8)
+        public static MeshDraft Capsule(float height, float radius, int segments = 32, int rings = 8)
         {
-            int numVerts = 2 * rings * segments + 2;
-            int numFaces = 4 * rings * segments;
-            double theta = 2 * Math.PI / segments;
-            double phi = Math.PI / (2 * rings);
+            float cylinderHeight = height - radius*2;
+            int vertexCount = 2*rings*segments + 2;
+            int triangleCount = 4*rings*segments;
+            float horizontalAngle = 360f/segments;
+            float verticalAngle = 90f/rings;
 
-            Vector3[] verts = new Vector3[numVerts];
-            Vector3[] norms = new Vector3[numVerts];
-            int[] faces = new int[3 * numFaces];
-            int vi = 0, fi = 0, topCap = 0, botCap = 1;
+            var vertices = new Vector3[vertexCount];
+            var normals = new Vector3[vertexCount];
+            var triangles = new int[3*triangleCount];
 
-            verts[vi].Set(0, height / 2 + radius, 0);
-            norms[vi++].Set(0, 1, 0);
-            verts[vi].Set(0, -height / 2 - radius, 0);
-            norms[vi++].Set(0, -1, 0);
+            int vi = 2;
+            int ti = 0;
+            int topCapIndex = 0;
+            int bottomCapIndex = 1;
 
-            for (var s = 0; s < segments; s++)
+            vertices[topCapIndex].Set(0, cylinderHeight/2 + radius, 0);
+            normals[topCapIndex].Set(0, 1, 0);
+            vertices[bottomCapIndex].Set(0, -cylinderHeight/2 - radius, 0);
+            normals[bottomCapIndex].Set(0, -1, 0);
+
+            for (int s = 0; s < segments; s++)
             {
-                for (var r = 1; r <= rings; r++)
+                for (int r = 1; r <= rings; r++)
                 {
-                    double radial = radius * Math.Sin(r * phi);
-
-                    // create verts (top cap)
-                    verts[vi].Set(
-                        (float)(radial * Math.Cos(s * theta)),
-                        (float)(height / 2 + radius * Math.Cos(r * phi)),
-                        (float)(radial * Math.Sin(s * theta))
-                    );
-                    norms[vi].Set(
-                        (float)Math.Cos(s * theta),
-                        (float)Math.Cos(r * phi),
-                        (float)Math.Sin(s * theta)
-                    );
-                    norms[vi++].Normalize();
-
-                    // mirror top-cap verts for bottom cap
-                    verts[vi].Set(verts[vi - 1].x, -verts[vi - 1].y, verts[vi - 1].z);
-                    norms[vi].Set(norms[vi - 1].x, -norms[vi - 1].y, norms[vi - 1].z);
+                    // Top cap vertex
+                    Vector3 normal = Geometry.PointOnSphere(1, s*horizontalAngle, 90 - r*verticalAngle);
+                    Vector3 vertex = new Vector3(
+                        x: radius*normal.x,
+                        y: radius*normal.y + cylinderHeight/2,
+                        z: radius*normal.z);
+                    vertices[vi] = vertex;
+                    normals[vi] = normal;
                     vi++;
 
-                    int top_s1r1 = vi - 2, top_s1r0 = vi - 4;
-                    int bot_s1r1 = vi - 1, bot_s1r0 = vi - 3;
-                    int top_s0r1 = top_s1r1 - 2 * rings, top_s0r0 = top_s1r0 - 2 * rings;
-                    int bot_s0r1 = bot_s1r1 - 2 * rings, bot_s0r0 = bot_s1r0 - 2 * rings;
+                    // Bottom cap vertex
+                    vertices[vi].Set(vertex.x, -vertex.y, vertex.z);
+                    normals[vi].Set(normal.x, -normal.y, normal.z);
+                    vi++;
+
+                    int top_s1r1 = vi - 2;
+                    int top_s1r0 = vi - 4;
+                    int bot_s1r1 = vi - 1;
+                    int bot_s1r0 = vi - 3;
+                    int top_s0r1 = top_s1r1 - 2*rings;
+                    int top_s0r0 = top_s1r0 - 2*rings;
+                    int bot_s0r1 = bot_s1r1 - 2*rings;
+                    int bot_s0r0 = bot_s1r0 - 2*rings;
                     if (s == 0)
                     {
-                        top_s0r1 += numVerts - 2;
-                        top_s0r0 += numVerts - 2;
-                        bot_s0r1 += numVerts - 2;
-                        bot_s0r0 += numVerts - 2;
+                        top_s0r1 += vertexCount - 2;
+                        top_s0r0 += vertexCount - 2;
+                        bot_s0r1 += vertexCount - 2;
+                        bot_s0r0 += vertexCount - 2;
                     }
 
-                    // create cap faces
+                    // Create cap triangles
                     if (r == 1)
                     {
-                        faces[3 * fi + 0] = topCap;
-                        faces[3 * fi + 1] = top_s1r1;
-                        faces[3 * fi + 2] = top_s0r1;
-                        fi++;
+                        triangles[3*ti + 0] = topCapIndex;
+                        triangles[3*ti + 1] = top_s0r1;
+                        triangles[3*ti + 2] = top_s1r1;
+                        ti++;
 
-                        faces[3 * fi + 0] = botCap;
-                        faces[3 * fi + 1] = bot_s0r1;
-                        faces[3 * fi + 2] = bot_s1r1;
-                        fi++;
+                        triangles[3*ti + 0] = bottomCapIndex;
+                        triangles[3*ti + 1] = bot_s1r1;
+                        triangles[3*ti + 2] = bot_s0r1;
+                        ti++;
                     }
                     else
                     {
-                        faces[3 * fi + 0] = top_s1r0;
-                        faces[3 * fi + 1] = top_s1r1;
-                        faces[3 * fi + 2] = top_s0r0;
-                        fi++;
+                        triangles[3*ti + 0] = top_s1r0;
+                        triangles[3*ti + 1] = top_s0r0;
+                        triangles[3*ti + 2] = top_s1r1;
+                        ti++;
 
-                        faces[3 * fi + 0] = top_s0r0;
-                        faces[3 * fi + 1] = top_s1r1;
-                        faces[3 * fi + 2] = top_s0r1;
-                        fi++;
+                        triangles[3*ti + 0] = top_s0r0;
+                        triangles[3*ti + 1] = top_s0r1;
+                        triangles[3*ti + 2] = top_s1r1;
+                        ti++;
 
-                        faces[3 * fi + 0] = bot_s0r1;
-                        faces[3 * fi + 1] = bot_s1r1;
-                        faces[3 * fi + 2] = bot_s0r0;
-                        fi++;
+                        triangles[3*ti + 0] = bot_s0r1;
+                        triangles[3*ti + 1] = bot_s0r0;
+                        triangles[3*ti + 2] = bot_s1r1;
+                        ti++;
 
-                        faces[3 * fi + 0] = bot_s0r0;
-                        faces[3 * fi + 1] = bot_s1r1;
-                        faces[3 * fi + 2] = bot_s1r0;
-                        fi++;
+                        triangles[3*ti + 0] = bot_s0r0;
+                        triangles[3*ti + 1] = bot_s1r0;
+                        triangles[3*ti + 2] = bot_s1r1;
+                        ti++;
                     }
                 }
 
-                // create long sides
-                int top_s1 = vi - 2, top_s0 = top_s1 - 2 * rings;
-                int bot_s1 = vi - 1, bot_s0 = bot_s1 - 2 * rings;
+                // Create side triangles
+                int top_s1 = vi - 2;
+                int top_s0 = top_s1 - 2*rings;
+                int bot_s1 = vi - 1;
+                int bot_s0 = bot_s1 - 2*rings;
                 if (s == 0)
                 {
-                    top_s0 += numVerts - 2;
-                    bot_s0 += numVerts - 2;
+                    top_s0 += vertexCount - 2;
+                    bot_s0 += vertexCount - 2;
                 }
 
-                faces[3 * fi + 0] = top_s0;
-                faces[3 * fi + 1] = top_s1;
-                faces[3 * fi + 2] = bot_s1;
-                fi++;
+                triangles[3*ti + 0] = top_s0;
+                triangles[3*ti + 1] = bot_s1;
+                triangles[3*ti + 2] = top_s1;
+                ti++;
 
-                faces[3 * fi + 0] = bot_s0;
-                faces[3 * fi + 1] = top_s0;
-                faces[3 * fi + 2] = bot_s1;
-                fi++;
+                triangles[3*ti + 0] = bot_s0;
+                triangles[3*ti + 1] = bot_s1;
+                triangles[3*ti + 2] = top_s0;
+                ti++;
             }
 
-            return new MeshDraft()
+            return new MeshDraft
             {
                 name = "Capsule",
-                vertices = new List<Vector3>(verts),
-                triangles = new List<int>(faces),
-                normals = new List<Vector3>(norms)
+                vertices = new List<Vector3>(vertices),
+                triangles = new List<int>(triangles),
+                normals = new List<Vector3>(normals)
             };
         }
-	}
+    }
 }

@@ -443,9 +443,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c60ce91736c38434b83205ec0ffecde8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 1
-  radius: 0.4
-  segments: 12
+  height: 2
+  radius: 0.5
+  segments: 32
   rings: 8
 --- !u!33 &248611936
 MeshFilter:
