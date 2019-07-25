@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -17,7 +17,7 @@ namespace ProceduralToolkit.Examples
             public Vector3 terrainSize = new Vector3(20, 1, 20);
             public float cellSize = 1;
             public float noiseScale = 5;
-            public Gradient gradient;
+            public Gradient gradient = ColorE.Gradient(Color.black, Color.white);
         }
 
         public static MeshDraft TerrainDraft(Config config)
