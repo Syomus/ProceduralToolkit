@@ -153,5 +153,13 @@ namespace ProceduralToolkit
             renderer.receiveShadows = properties.receiveShadows;
             renderer.motionVectorGenerationMode = properties.motionVectorGenerationMode;
         }
+
+        public static MeshRenderer CreateMeshRenderer(string name, out MeshFilter meshFilter)
+        {
+            var gameObject = new GameObject(name);
+            meshFilter = gameObject.AddComponent<MeshFilter>();
+            var meshRenderer = gameObject.AddComponent<MeshRenderer>();
+            return meshRenderer;
+        }
     }
 }
