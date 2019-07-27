@@ -36,9 +36,7 @@ or sending a [pull request](https://github.com/Syomus/ProceduralToolkit/pulls).
 
 ## Pull requests
 Pull requests are welcome. If you are interested in contributing, you will need to clone or download the [development project](https://github.com/Syomus/ProceduralToolkit.UnityProject) 
-and install the toolkit from your [fork](https://help.github.com/articles/working-with-forks/) into `Assets/ProceduralToolkit`. 
-It is also recommended that you install the [tests](https://github.com/Syomus/ProceduralToolkit.Tests) into `Assets/ProceduralToolkit.Tests` to ensure that your changes do not introduce regressions.
-
+and install the toolkit from your [fork](https://help.github.com/articles/working-with-forks/) into `Unity_ProceduralToolkit/Packages`. 
 And that's it! After setting up the development project you can start making changes and committing them to your fork.
 
 **Before you commit:**
@@ -48,4 +46,4 @@ And that's it! After setting up the development project you can start making cha
 
 For details on creating pull requests from a fork please refer to the official [documentation](https://help.github.com/articles/creating-a-pull-request-from-a-fork/).
 
-By submitting a pull request, you agree that your contribution will be licensed under the [MIT license](https://github.com/Syomus/ProceduralToolkit/blob/master/LICENSE.txt) for this project.
+By submitting a pull request, you agree that your contribution will be licensed under the [MIT license](https://github.com/Syomus/ProceduralToolkit/blob/master/LICENSE.md) for this project.

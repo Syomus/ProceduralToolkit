@@ -1,4 +1,4 @@
-# Procedural Toolkit 0.2.2
+# Procedural Toolkit 0.2.3
 
 Procedural Toolkit is a procedural generation library for the Unity game engine.
 
@@ -12,22 +12,38 @@ Procedural Toolkit is a procedural generation library for the Unity game engine.
 [Support email](mailto:proceduraltoolkit@syomus.com)
 
 ## Installation instructions
-Requires **Unity 2018.1** or later. Tested on Windows, WebGL, Android and iOS.
+Requires **Unity 2019.1** or later. Tested on Windows, WebGL, Android and iOS.
 
-You can install Procedural Toolkit from any of the following sources:
+There are several ways to install Procedural Toolkit:
 
-1. Import from the [Asset Store](https://assetstore.unity.com/packages/tools/utilities/procedural-toolkit-16508)
-2. Download from the [Releases page](https://github.com/Syomus/ProceduralToolkit/releases). Same packages as in the Asset Store.
-3. Clone/download the repository from [GitHub](https://github.com/Syomus/ProceduralToolkit) and put it in a subfolder (preferably `/Assets/ProceduralToolkit`).
+### Package Manager
+The best way is to install this library as a [Git package](https://docs.unity3d.com/Manual/upm-git.html) using the Package Manager.
+First, make sure that you to have Git installed and available in your system's PATH.
+After that you need to add the following line to your project's `manifest.json`:
+```"com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git",```
 
-If you have any previous versions of the toolkit installed it is highly recommended to delete them before importing a newer version.
+It should look like this, notice the comma at the end of the line:
+```
+{
+  "dependencies": {
+    "com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git",
+    "com.unity.package-manager-ui": "2.1.2",
+    "com.unity.modules.ai": "1.0.0",
+    "com.unity.modules.animation": "1.0.0",
+    ...
+  }
+}
+```
 
-Renaming or moving toolkit's folder from the default path (`/Assets/ProceduralToolkit`) will break .cginc includes in the example shaders, otherwise it is safe to move the toolkit however you want.
+If you don't want to use Git, you can download this library as an archive and install it as a [local package](https://docs.unity3d.com/Manual/upm-ui-local.html).
 
-The folder containing example classes and scenes (`ProceduralToolkit/Examples`) can be safely removed. The same is true for `ProceduralToolkit/Shaders`, if you are not using examples.
+### Asset Store or .unitypackage
+The other way is to import a package from the [Asset Store](https://assetstore.unity.com/packages/tools/utilities/procedural-toolkit-16508) 
+or the [Releases page](https://github.com/Syomus/ProceduralToolkit/releases).
+If you have any previous versions of the toolkit installed, it is highly recommended to delete them before importing a newer version.
 
 ### Getting started
-After installation you can import ProceduralToolkit namespace and start building your own PCG systems:
+After installation you can import `ProceduralToolkit` namespace and start building your own PCG systems:
 ```C#
 using UnityEngine;
 using ProceduralToolkit;
@@ -40,6 +56,9 @@ public class ReadmeExample : MonoBehaviour
     }
 }
 ```
+
+If you are using [Assembly Definitions](https://docs.unity3d.com/Manual/ScriptCompilationAssemblyDefinitionFiles.html), 
+you will also need to add `ProceduralToolkit` as a reference.
 
 ## I have a problem with Procedural Toolkit
 First, please search the [open issues](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aopen)
@@ -256,4 +275,4 @@ UI prefabs and the skybox material used in examples.
 * ConfiguratorBase: Base class for configurators.
 
 ## License
-[MIT](LICENSE.txt)
+[MIT](LICENSE.md)
