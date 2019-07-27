@@ -7,9 +7,9 @@ namespace ProceduralToolkit.Examples.Buildings
     public class ProceduralRoofConstructor : RoofConstructor
     {
         [SerializeField]
-        private RendererProperties rendererProperties;
+        private RendererProperties rendererProperties = null;
         [SerializeField]
-        private Material roofMaterial;
+        private Material roofMaterial = null;
 
         public override void Construct(IConstructible<MeshDraft> constructible, Transform parentTransform)
         {

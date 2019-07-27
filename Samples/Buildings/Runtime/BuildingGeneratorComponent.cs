@@ -7,15 +7,15 @@ namespace ProceduralToolkit.Examples.Buildings
     public class BuildingGeneratorComponent : MonoBehaviour
     {
         [SerializeField, FormerlySerializedAs("facadePlanningStrategy")]
-        private FacadePlanner facadePlanner;
+        private FacadePlanner facadePlanner = null;
         [SerializeField, FormerlySerializedAs("facadeConstructionStrategy")]
-        private FacadeConstructor facadeConstructor;
+        private FacadeConstructor facadeConstructor = null;
         [SerializeField, FormerlySerializedAs("roofPlanningStrategy")]
-        private RoofPlanner roofPlanner;
+        private RoofPlanner roofPlanner = null;
         [SerializeField, FormerlySerializedAs("roofConstructionStrategy")]
-        private RoofConstructor roofConstructor;
+        private RoofConstructor roofConstructor = null;
         [SerializeField]
-        private PolygonAsset foundationPolygon;
+        private PolygonAsset foundationPolygon = null;
         [SerializeField]
         private BuildingGenerator.Config config = new BuildingGenerator.Config();
 
