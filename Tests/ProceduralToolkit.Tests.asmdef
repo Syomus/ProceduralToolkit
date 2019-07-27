@@ -1,0 +1,19 @@
+{
+    "name": "ProceduralToolkit.Tests",
+    "references": [
+        "GUID:561cd3090aa423b4584912885a62ef6f"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
