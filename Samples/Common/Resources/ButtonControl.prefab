@@ -234,5 +234,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9585afe73a0dd4896f46d4c5903688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headerText: {fileID: 0}
-  button: {fileID: 0}
+  headerText: {fileID: 11420872}
+  button: {fileID: 11450778}
