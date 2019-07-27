@@ -1,0 +1,18 @@
+{
+    "name": "ProceduralToolkit.Samples.LowPolyTerrain.Editor",
+    "references": [
+        "GUID:561cd3090aa423b4584912885a62ef6f",
+        "GUID:6780ef107b1e13c43aba3f074716af3e"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

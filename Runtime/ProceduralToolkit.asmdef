@@ -1,0 +1,16 @@
+{
+    "name": "ProceduralToolkit",
+    "references": [
+        "GUID:1a45dfb1ec3294540ab1e99aa964d155",
+        "GUID:7e6803b5127cb5a45a5400e9fcdfa294"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

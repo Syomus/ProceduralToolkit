@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c3a8c5f5e3dbcc46b099cf219499f25, type: 3}
+  m_Name: ProceduralFacadeConstructor
+  m_EditorClassIdentifier: 
+  rendererProperties:
+    lightProbeUsage: 0
+    lightProbeProxyVolumeOverride: {fileID: 0}
+    reflectionProbeUsage: 0
+    probeAnchor: {fileID: 0}
+    shadowCastingMode: 1
+    receiveShadows: 1
+    motionVectorGenerationMode: 2
+  glassMaterial: {fileID: 2100000, guid: 87b51630da5ec9041a1376328e8709e7, type: 2}
+  roofMaterial: {fileID: 2100000, guid: 6ce7f224d5b65714682ae04ffbeade75, type: 2}
+  wallMaterial: {fileID: 2100000, guid: 996522b382717a54c945df7c35053044, type: 2}

@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Easing
+  m_Shader: {fileID: 4800000, guid: bc95973503a3e374db32fdb2d91a8cdc, type: 3}
+  m_ShaderKeywords: _FRAC_ON _TOGGLE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AA: 1
+    - _BumpScale: 1
+    - _Cheap: 0
+    - _Cutoff: 0.5
+    - _Debug: 0
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _Frac: 1
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Offset: 36
+    - _Parallax: 0.02
+    - _Rotation: 0
+    - _Scale: 1.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Toggle: 1
+    - _UVSec: 0
+    - _Value: 5
+    - _Value2: 0
+    - _Vertices: 5
+    - _ZWrite: 1
+    m_Colors:
+    - _BackgroundColor: {r: 0.19607839, g: 0.04229141, b: 0.19393653, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EasingColor: {r: 0.78431374, g: 0.16941175, b: 0.16941175, a: 1}
+    - _EdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FarMinusColor: {r: 0.56696475, g: 0.56696475, b: 0.753, a: 1}
+    - _FarPlusColor: {r: 1, g: 0.5019608, b: 0.5019608, a: 1}
+    - _MinusColor: {r: 0.7529412, g: 0.7529412, b: 1, a: 1}
+    - _NearMinusColor: {r: 0.18798923, g: 0.18798923, b: 0.2509804, a: 1}
+    - _NearPlusColor: {r: 0.2509804, g: 0.062368628, b: 0.12549017, a: 1}
+    - _PlotColor: {r: 0.7826003, g: 0.78431374, b: 0.16916561, a: 1}
+    - _PlusColor: {r: 1, g: 0.753, b: 0.753, a: 1}
+    - _Vector: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
