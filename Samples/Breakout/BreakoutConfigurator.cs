@@ -1,7 +1,7 @@
-using ProceduralToolkit.Examples.UI;
+using ProceduralToolkit.Samples.UI;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Samples
 {
     /// <summary>
     /// Configurator for Breakout with UI controls

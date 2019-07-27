@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Samples
 {
     /// <summary>
     /// 2D character generator

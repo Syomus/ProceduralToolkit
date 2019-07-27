@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using ProceduralToolkit.Examples.UI;
+using ProceduralToolkit.Samples.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Samples
 {
     /// <summary>
     /// A demonstration of CellularAutomaton from the main library, draws the automaton simulation on a texture.

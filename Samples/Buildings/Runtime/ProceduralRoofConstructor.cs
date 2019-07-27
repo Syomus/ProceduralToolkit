@@ -1,7 +1,7 @@
 using ProceduralToolkit.Buildings;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples.Buildings
+namespace ProceduralToolkit.Samples.Buildings
 {
     [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Roof Constructor", order = 4)]
     public class ProceduralRoofConstructor : RoofConstructor

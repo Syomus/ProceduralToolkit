@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Samples
 {
     /// <summary>
     /// An example showing usage of DebugE, GLE and GizmosE

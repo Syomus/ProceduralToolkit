@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Samples
 {
     public enum BrickSize
     {

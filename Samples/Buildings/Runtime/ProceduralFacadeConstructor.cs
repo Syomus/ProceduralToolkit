@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples.Buildings
+namespace ProceduralToolkit.Samples.Buildings
 {
     [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Facade Constructor", order = 3)]
     public class ProceduralFacadeConstructor : FacadeConstructor

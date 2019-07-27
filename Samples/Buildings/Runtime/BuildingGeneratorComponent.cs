@@ -2,7 +2,7 @@ using ProceduralToolkit.Buildings;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace ProceduralToolkit.Examples.Buildings
+namespace ProceduralToolkit.Samples.Buildings
 {
     public class BuildingGeneratorComponent : MonoBehaviour
     {

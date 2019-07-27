@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Samples
 {
     [CustomEditor(typeof(LowPolyTerrainGeneratorConfigurator))]
     public class LowPolyTerrainGeneratorConfiguratorEditor : UnityEditor.Editor

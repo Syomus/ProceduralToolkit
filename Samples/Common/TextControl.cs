@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProceduralToolkit.Examples.UI
+namespace ProceduralToolkit.Samples.UI
 {
     public class TextControl : MonoBehaviour
     {

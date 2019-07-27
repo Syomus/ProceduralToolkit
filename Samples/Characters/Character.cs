@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Samples
 {
     public class Character : MonoBehaviour
     {

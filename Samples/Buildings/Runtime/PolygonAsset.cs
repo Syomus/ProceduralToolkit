@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples.Buildings
+namespace ProceduralToolkit.Samples.Buildings
 {
     [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Foundation Polygon", order = 0)]
     public class PolygonAsset : ScriptableObject

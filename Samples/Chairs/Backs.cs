@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Samples
 {
     public static class Backs
     {

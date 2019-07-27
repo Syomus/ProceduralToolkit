@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples.Buildings
+namespace ProceduralToolkit.Samples.Buildings
 {
     [CreateAssetMenu(menuName = "ProceduralToolkit/Buildings/Procedural Roof Planner", order = 2)]
     public class ProceduralRoofPlanner : RoofPlanner

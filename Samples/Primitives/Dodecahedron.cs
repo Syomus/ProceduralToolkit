@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ProceduralToolkit.Examples.Primitives
+namespace ProceduralToolkit.Samples.Primitives
 {
     [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
     public class Dodecahedron : MonoBehaviour

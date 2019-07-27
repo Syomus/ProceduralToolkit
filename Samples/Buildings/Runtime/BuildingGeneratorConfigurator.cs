@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
-using ProceduralToolkit.Examples.UI;
+using ProceduralToolkit.Samples.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace ProceduralToolkit.Examples.Buildings
+namespace ProceduralToolkit.Samples.Buildings
 {
     /// <summary>
     /// Configurator for BuildingGenerator with UI and editor controls

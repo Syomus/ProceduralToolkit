@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace ProceduralToolkit.Examples.Buildings
+namespace ProceduralToolkit.Samples.Buildings
 {
     [CustomEditor(typeof(BuildingGeneratorConfigurator))]
     public class BuildingGeneratorConfiguratorEditor : UnityEditor.Editor

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples.Buildings
+namespace ProceduralToolkit.Samples.Buildings
 {
     public abstract class ProceduralFacadeElement : ILayoutElement, IConstructible<CompoundMeshDraft>
     {

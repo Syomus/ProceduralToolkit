@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProceduralToolkit.ClipperLib;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Samples
 {
     public class PathClipperExample : MonoBehaviour
     {

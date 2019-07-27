@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ProceduralToolkit.Examples
+namespace ProceduralToolkit.Samples
 {
     public class Brick : MonoBehaviour
     {
