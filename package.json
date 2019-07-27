@@ -8,5 +8,8 @@
     "name": "Syomus",
     "email": "proceduraltoolkit@syomus.com",
     "url": "https://github.com/Syomus/ProceduralToolkit"
+  },
+  "dependencies": {
+    "com.unity.ugui": "1.0.0"
   }
 }
