@@ -79,85 +79,79 @@ If you're looking for something to work on, check out the [help wanted](https://
 If you just want to show your appreciation, you can send a donation through [PayPal](https://www.paypal.me/ProceduralToolkit/5usd) or [Ko-fi](https://ko-fi.com/ProceduralToolkit).
 
 ## Toolkit structure
-### Scripts/
-* [ArrayE](/Scripts/ArrayE.cs): Various Array and List extensions, such as looped getters/setters and flood fills.
-* [CellularAutomaton](/Scripts/CellularAutomaton.cs): Generic cellular automaton for two-state rulesets. 
+### Runtime/
+* [ArrayE](/Runtime/ArrayE.cs): Various Array and List extensions, such as looped getters/setters and flood fills.
+* [CellularAutomaton](/Runtime/CellularAutomaton.cs): Generic cellular automaton for two-state rulesets. 
 Common rulesets can be found in CellularAutomaton.Ruleset.
-* [ClipperUtility](/Scripts/ClipperUtility.cs): Utility class for conversion of Clipper data from and to Unity format.
-* [ColorE](/Scripts/ColorE.cs): Color extensions, HTML colors, Gradient constructors.
-* [ColorHSV](/Scripts/ColorHSV.cs): Serializable representation of color in HSV model.
-* [CompoundMeshDraft](/Scripts/CompoundMeshDraft.cs): Helper class for mesh generation supporting large meshes and submeshes.
-* [DebugE](/Scripts/DebugE.cs): Collection of drawing methods similar to Debug.DrawLine.
-* [Directions](/Scripts/Directions.cs): Enum with direction flags along three axes.
-* [Draw](/Scripts/Draw.cs): Collection of generic vector drawing algorithms.
-* [DrawRaster](/Scripts/DrawRaster.cs): Collection of generic raster drawing algorithms.
-* [GizmosE](/Scripts/GizmosE.cs): Collection of drawing methods similar to Gizmos.
-* [GLE](/Scripts/GLE.cs): Collection of GL drawing methods similar to Gizmos.
-* [MeshDraft](/Scripts/MeshDraft.cs): Helper class for mesh generation.
-* [MeshDraftPrimitives](/Scripts/MeshDraftPrimitives.cs): Constructors for MeshDraft primitives.
-* [MeshE](/Scripts/MeshE.cs): Mesh extensions.
-* [PathClipper](/Scripts/PathClipper.cs) and [PathOffsetter](/Scripts/PathOffsetter.cs): [Clipper](http://www.angusj.com/delphi/clipper.php) library wrappers.
-* [PTUtils](/Scripts/PTUtils.cs): Various useful methods and constants.
-* [RandomE](/Scripts/RandomE.cs): Class for generating random data. Contains extensions for arrays and other collections.
-* [RendererProperties](/Scripts/RendererProperties.cs): 
+* [ClipperUtility](/Runtime/ClipperUtility.cs): Utility class for conversion of Clipper data from and to Unity format.
+* [ColorE](/Runtime/ColorE.cs): Color extensions, HTML colors, Gradient constructors.
+* [ColorHSV](/Runtime/ColorHSV.cs): Serializable representation of color in HSV model.
+* [CompoundMeshDraft](/Runtime/CompoundMeshDraft.cs): Helper class for mesh generation supporting large meshes and submeshes.
+* [DebugE](/Runtime/DebugE.cs): Collection of drawing methods similar to Debug.DrawLine.
+* [Directions](/Runtime/Directions.cs): Enum with direction flags along three axes.
+* [Draw](/Runtime/Draw.cs): Collection of generic vector drawing algorithms.
+* [DrawRaster](/Runtime/DrawRaster.cs): Collection of generic raster drawing algorithms.
+* [GizmosE](/Runtime/GizmosE.cs): Collection of drawing methods similar to Gizmos.
+* [GLE](/Runtime/GLE.cs): Collection of GL drawing methods similar to Gizmos.
+* [MeshDraft](/Runtime/MeshDraft.cs): Helper class for mesh generation.
+* [MeshDraftPrimitives](/Runtime/MeshDraftPrimitives.cs): Constructors for MeshDraft primitives.
+* [MeshE](/Runtime/MeshE.cs): Mesh extensions.
+* [PathClipper](/Runtime/PathClipper.cs) and [PathOffsetter](/Runtime/PathOffsetter.cs): [Clipper](http://www.angusj.com/delphi/clipper.php) library wrappers.
+* [PTUtils](/Runtime/PTUtils.cs): Various useful methods and constants.
+* [RandomE](/Runtime/RandomE.cs): Class for generating random data. Contains extensions for arrays and other collections.
+* [RendererProperties](/Runtime/RendererProperties.cs): 
 Serializable Renderer properties, use Renderer.ApplyProperties extension to apply them to a target renderer.
-* [Tessellator](/Scripts/Tessellator.cs): [LibTessDotNet](https://github.com/speps/LibTessDotNet) library wrapper.
-* [TextureE](/Scripts/TextureE.cs): Texture extensions.
-* [VectorE](/Scripts/VectorE.cs): Vector extensions.
+* [Tessellator](/Runtime/Tessellator.cs): [LibTessDotNet](https://github.com/speps/LibTessDotNet) library wrapper.
+* [TextureE](/Runtime/TextureE.cs): Texture extensions.
+* [VectorE](/Runtime/VectorE.cs): Vector extensions.
 
-### Scripts/Buildings/
-* [BuildingGenerator](/Scripts/Buildings/BuildingGenerator.cs): 
+### Runtime/Buildings/
+* [BuildingGenerator](/Runtime/Buildings/BuildingGenerator.cs): 
 The main generation class. Generates buildings based on input configuration and strategies, reusable. See examples for details.
-* [ILayout](/Scripts/Buildings/Interfaces/ILayout.cs), [ILayoutElement](/Scripts/Buildings/Interfaces/ILayoutElement.cs), 
-[IConstructible](/Scripts/Buildings/Interfaces/IConstructible.cs), [Layout](/Scripts/Buildings/Layout.cs), 
-[HorizontalLayout](/Scripts/Buildings/HorizontalLayout.cs), [VerticalLayout](/Scripts/Buildings/VerticalLayout.cs): 
+* [ILayout](/Runtime/Buildings/Interfaces/ILayout.cs), [ILayoutElement](/Runtime/Buildings/Interfaces/ILayoutElement.cs), 
+[IConstructible](/Runtime/Buildings/Interfaces/IConstructible.cs), [Layout](/Runtime/Buildings/Layout.cs), 
+[HorizontalLayout](/Runtime/Buildings/HorizontalLayout.cs), [VerticalLayout](/Runtime/Buildings/VerticalLayout.cs): 
 Interfaces and classes used in facade layout generation.
-* [IFacadePlanner](/Scripts/Buildings/Interfaces/IFacadePlanner.cs), [IFacadeConstructor](/Scripts/Buildings/Interfaces/IFacadeConstructor.cs), 
-[IRoofPlanner](/Scripts/Buildings/Interfaces/IRoofPlanner.cs), [IRoofConstructor](/Scripts/Buildings/Interfaces/IRoofConstructor.cs): 
+* [IFacadePlanner](/Runtime/Buildings/Interfaces/IFacadePlanner.cs), [IFacadeConstructor](/Runtime/Buildings/Interfaces/IFacadeConstructor.cs), 
+[IRoofPlanner](/Runtime/Buildings/Interfaces/IRoofPlanner.cs), [IRoofConstructor](/Runtime/Buildings/Interfaces/IRoofConstructor.cs): 
 Interfaces for strategies controlling the details of the building generation process.
-* [FacadePlanner](/Scripts/Buildings/FacadePlanner.cs), [FacadeConstructor](/Scripts/Buildings/FacadeConstructor.cs), 
-[RoofPlanner](/Scripts/Buildings/RoofPlanner.cs), [RoofConstructor](/Scripts/Buildings/RoofConstructor.cs): 
+* [FacadePlanner](/Runtime/Buildings/FacadePlanner.cs), [FacadeConstructor](/Runtime/Buildings/FacadeConstructor.cs), 
+[RoofPlanner](/Runtime/Buildings/RoofPlanner.cs), [RoofConstructor](/Runtime/Buildings/RoofConstructor.cs): 
 Serializable wrappers for strategy interfaces.
-* [ProceduralRoofs](/Scripts/Buildings/ProceduralRoofs.cs): A collection of roof constructors for the building generator.
+* [ProceduralRoofs](/Runtime/Buildings/ProceduralRoofs.cs): A collection of roof constructors for the building generator.
 
-### Scripts/Geometry/
+### Runtime/Geometry/
 See [this wiki page](https://github.com/Syomus/ProceduralToolkit/wiki/Geometry-algorithms) for a matrix of available algorithms.
-* [Circle2](/Scripts/Geometry/Circle2.cs), [Circle3](/Scripts/Geometry/Circle3.cs), [Sphere](/Scripts/Geometry/Sphere.cs), 
-[Line2](/Scripts/Geometry/Line2.cs), [Line3](/Scripts/Geometry/Line3.cs), 
-[Segment2](/Scripts/Geometry/Segment2.cs), [Segment3](/Scripts/Geometry/Segment3.cs): 
+* [Circle2](/Runtime/Geometry/Circle2.cs), [Circle3](/Runtime/Geometry/Circle3.cs), [Sphere](/Runtime/Geometry/Sphere.cs), 
+[Line2](/Runtime/Geometry/Line2.cs), [Line3](/Runtime/Geometry/Line3.cs), 
+[Segment2](/Runtime/Geometry/Segment2.cs), [Segment3](/Runtime/Geometry/Segment3.cs): 
 Representations of geometric primitives.
-* [Geometry](/Scripts/Geometry/Geometry.cs): Utility class for computational geometry algorithms, contains various point samplers and helper methods.
-* [Closest2D](/Scripts/Geometry/Closest2D.cs), [Closest3D](/Scripts/Geometry/Closest3D.cs): 
+* [Geometry](/Runtime/Geometry/Geometry.cs): Utility class for computational geometry algorithms, contains various point samplers and helper methods.
+* [Closest2D](/Runtime/Geometry/Closest2D.cs), [Closest3D](/Runtime/Geometry/Closest3D.cs): 
 Collection of closest point(s) algorithms.
-* [Distance2D](/Scripts/Geometry/Distance2D.cs), [Distance3D](/Scripts/Geometry/Distance3D.cs): 
+* [Distance2D](/Runtime/Geometry/Distance2D.cs), [Distance3D](/Runtime/Geometry/Distance3D.cs): 
 Collection of distance calculation algorithms.
-* [Intersect2D](/Scripts/Geometry/Intersect2D.cs), [Intersect3D](/Scripts/Geometry/Intersect3D.cs): 
+* [Intersect2D](/Runtime/Geometry/Intersect2D.cs), [Intersect3D](/Runtime/Geometry/Intersect3D.cs): 
 Collection of intersection algorithms.
-* [IntersectionType](/Scripts/Geometry/IntersectionType.cs): Enum used in intersection algorithms.
-* [Intersections](/Scripts/Geometry/Intersections) folder: Structures containing information about intersections.
+* [IntersectionType](/Runtime/Geometry/IntersectionType.cs): Enum used in intersection algorithms.
+* [Intersections](/Runtime/Geometry/Intersections) folder: Structures containing information about intersections.
 
-### Scripts/Geometry/StraightSkeleton/
+### Runtime/Geometry/StraightSkeleton/
 Classes used in [straight skeleton](https://en.wikipedia.org/wiki/Straight_skeleton) generation.
-* [StraightSkeletonGenerator](/Scripts/Geometry/StraightSkeleton/StraightSkeletonGenerator.cs): 
+* [StraightSkeletonGenerator](/Runtime/Geometry/StraightSkeleton/StraightSkeletonGenerator.cs): 
 A straight skeleton generator, computes a straight skeleton for the input polygon, reusable. 
 The generation algorithm is loosely based on the work of Tom Kelly (2014) 
 [Unwritten procedural modeling with the straight skeleton](http://www.twak.co.uk/2014/02/unwritten-procedural-modeling-with.html).
-* [StraightSkeleton](/Scripts/Geometry/StraightSkeleton/StraightSkeleton.cs): A straight skeleton representation.
-* [Plan](/Scripts/Geometry/StraightSkeleton/Plan.cs): Representation of the active plan during generation process.
+* [StraightSkeleton](/Runtime/Geometry/StraightSkeleton/StraightSkeleton.cs): A straight skeleton representation.
+* [Plan](/Runtime/Geometry/StraightSkeleton/Plan.cs): Representation of the active plan during generation process.
 
-### Scripts/Clipper/
+### Runtime/Clipper/
 The [Clipper](http://www.angusj.com/delphi/clipper.php) library. 
-Use [PathClipper](/Scripts/PathClipper.cs) and [PathOffsetter](/Scripts/PathOffsetter.cs) for seamless interoperability with Unity.
+Use [PathClipper](/Runtime/PathClipper.cs) and [PathOffsetter](/Runtime/PathOffsetter.cs) for seamless interoperability with Unity.
 
-### Scripts/LibTessDotNet/
+### Runtime/LibTessDotNet/
 The [LibTessDotNet](https://github.com/speps/LibTessDotNet) library. 
-The recommended use is through the wrapper class [Tessellator](/Scripts/Tessellator.cs).
-
-### Scripts/Editor/
-* [ColorHSVDrawer](/Scripts/Editor/ColorHSVDrawer.cs): PropertyDrawer for ColorHSV.
-* [MeshFilterExtension](/Scripts/Editor/MeshFilterExtension.cs): Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
-* [ProceduralToolkitMenu](/Scripts/Editor/ProceduralToolkitMenu.cs): Submenu with constructors for primitives at `GameObject > Procedural Toolkit`.
-* [RulesetDrawer](/Scripts/Editor/RulesetDrawer.cs): PropertyDrawer for CellularAutomaton.Ruleset.
+The recommended use is through the wrapper class [Tessellator](/Runtime/Tessellator.cs).
 
 ### Shaders/
 * [Common.cginc](/Shaders/Common.cginc): Collection of shaping and debug functions.
@@ -167,6 +161,15 @@ The recommended use is through the wrapper class [Tessellator](/Scripts/Tessella
 * [Gradient Skybox](/Shaders/Gradient%20Skybox.shader): Simple gradient skybox.
 * [Debug](/Shaders/Debug) folder: Debug shaders for some of the most common mesh channels.
 * [VertexColor](/Shaders/VertexColor) folder: Textureless shaders for use with color information from the vertices.
+
+### Editor/
+* [ColorHSVDrawer](/Runtime/Editor/ColorHSVDrawer.cs): PropertyDrawer for ColorHSV.
+* [MeshFilterExtension](/Runtime/Editor/MeshFilterExtension.cs): Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
+* [ProceduralToolkitMenu](/Runtime/Editor/ProceduralToolkitMenu.cs): Submenu with constructors for primitives at `GameObject > Procedural Toolkit`.
+* [RulesetDrawer](/Runtime/Editor/RulesetDrawer.cs): PropertyDrawer for CellularAutomaton.Ruleset.
+
+### Tests/
+Tests for the library
 
 ## Examples
 
@@ -265,10 +268,8 @@ An example showing the usage of Tesselator.
 ### StraightSkeleton
 An StraightSkeletonGenerator example showing how you can generate a straight skeleton from a polygon and use the result.
 
-### Examples/Resources
+### Samples~/Common
 UI prefabs and the skybox material used in examples.
-
-### Examples/Common
 * SkyBoxGenerator: Skybox generator, assuming that scene uses gradient skybox shader, animates transitions to new parameters every few seconds.
 * ButtonControl, SliderControl, TextControl, ToggleControl: UI controls for generators.
 * CameraRotator: Orbiting camera controller.
