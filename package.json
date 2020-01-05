@@ -1,9 +1,9 @@
 {
   "name": "com.syomus.proceduraltoolkit",
-  "version": "0.2.3",
+  "version": "0.2.3-preview",
   "displayName": "Procedural Toolkit",
   "description": "Procedural generation library for Unity",
-  "unity": "2019.1",
+  "unity": "2019.2",
   "author": {
     "name": "Syomus",
     "email": "proceduraltoolkit@syomus.com",

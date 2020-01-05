@@ -1,4 +1,4 @@
-# Procedural Toolkit 0.2.3
+# Procedural Toolkit 0.2.3-preview
 
 Procedural Toolkit is a procedural generation library for the Unity game engine.
 
@@ -12,7 +12,7 @@ Procedural Toolkit is a procedural generation library for the Unity game engine.
 [Support email](mailto:proceduraltoolkit@syomus.com)
 
 ## Installation instructions
-Requires **Unity 2019.1** or later. Tested on Windows, WebGL, Android and iOS.
+Requires **Unity 2019.2** or later. Tested on Windows, WebGL, Android and iOS.
 
 There are several ways to install Procedural Toolkit:
 
@@ -27,7 +27,7 @@ It should look like this, notice the comma at the end of the line:
 {
   "dependencies": {
     "com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git",
-    "com.unity.package-manager-ui": "2.1.2",
+    "com.unity.package-manager-ui": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     ...
