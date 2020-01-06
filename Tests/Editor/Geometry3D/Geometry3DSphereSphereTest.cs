@@ -410,9 +410,9 @@ namespace ProceduralToolkit.Tests.Geometry3D
         private void False_Intersect(Sphere sphereA, Sphere sphereB)
         {
             Assert.False(Intersect.SphereSphere(sphereA, sphereB));
-            Assert.False(Intersect.SphereSphere(sphereA, sphereB, out IntersectionSphereSphere intersection));
+            Assert.False(Intersect.SphereSphere(sphereA, sphereB, out _));
             Assert.False(Intersect.SphereSphere(sphereB, sphereA));
-            Assert.False(Intersect.SphereSphere(sphereB, sphereA, out intersection));
+            Assert.False(Intersect.SphereSphere(sphereB, sphereA, out _));
         }
 
         #endregion Intersect

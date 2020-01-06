@@ -377,9 +377,9 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void False_Intersect(Circle2 circleA, Circle2 circleB)
         {
             Assert.False(Intersect.CircleCircle(circleA, circleB));
-            Assert.False(Intersect.CircleCircle(circleA, circleB, out IntersectionCircleCircle intersection));
+            Assert.False(Intersect.CircleCircle(circleA, circleB, out _));
             Assert.False(Intersect.CircleCircle(circleB, circleA));
-            Assert.False(Intersect.CircleCircle(circleB, circleA, out intersection));
+            Assert.False(Intersect.CircleCircle(circleB, circleA, out _));
         }
 
         #endregion Intersect

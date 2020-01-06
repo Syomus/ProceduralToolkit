@@ -440,8 +440,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void IsFalse_Intersect(Ray2D rayA, Ray2D rayB)
         {
             string message = string.Format(format, rayA.ToString("F8"), rayB.ToString("F8"));
-            Assert.IsFalse(Intersect.RayRay(rayA, rayB, out IntersectionRayRay2 intersection), message);
-            Assert.IsFalse(Intersect.RayRay(rayB, rayA, out intersection), message);
+            Assert.IsFalse(Intersect.RayRay(rayA, rayB, out _), message);
+            Assert.IsFalse(Intersect.RayRay(rayB, rayA, out _), message);
         }
 
         #endregion Intersect

@@ -577,8 +577,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void IsFalse_Intersect(Ray2D ray, Segment2 segment)
         {
             string message = string.Format(format, ray.ToString("F8"), segment);
-            Assert.IsFalse(Intersect.RaySegment(ray.origin, ray.direction, segment.a, segment.b, out IntersectionRaySegment2 intersection), message);
-            Assert.IsFalse(Intersect.RaySegment(ray.origin, ray.direction, segment.b, segment.a, out intersection), message);
+            Assert.IsFalse(Intersect.RaySegment(ray.origin, ray.direction, segment.a, segment.b, out _), message);
+            Assert.IsFalse(Intersect.RaySegment(ray.origin, ray.direction, segment.b, segment.a, out _), message);
         }
 
         #endregion Intersect

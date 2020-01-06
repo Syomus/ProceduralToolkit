@@ -358,8 +358,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void IsFalse_IntersectSwap(Line2 line, Ray2D ray)
         {
             string message = string.Format(format, line, ray.ToString("F8"));
-            Assert.IsFalse(Intersect.LineRay(line.origin, line.direction, ray.origin, ray.direction, out IntersectionLineRay2 intersection), message);
-            Assert.IsFalse(Intersect.LineRay(line.origin, line.direction, ray.origin, -ray.direction, out intersection), message);
+            Assert.IsFalse(Intersect.LineRay(line.origin, line.direction, ray.origin, ray.direction, out _), message);
+            Assert.IsFalse(Intersect.LineRay(line.origin, line.direction, ray.origin, -ray.direction, out _), message);
         }
 
         private void IsFalse_Intersect(Line2 line, Ray2D ray)

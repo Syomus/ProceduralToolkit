@@ -808,7 +808,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void True_IntersectPoint(Segment2 segment1, Segment2 segment2, Vector2 expected)
         {
             string message = string.Format(format, segment1, segment2);
-            Assert.IsTrue(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out IntersectionSegmentSegment2 intersection), message);
+            Assert.IsTrue(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out IntersectionSegmentSegment2 intersection),
+                message);
             Assert.AreEqual(IntersectionType.Point, intersection.type, message);
             AreEqual(intersection.pointA, expected, message);
             Assert.IsTrue(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.b, segment2.a, out intersection), message);
@@ -831,7 +832,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
             Vector2 expected2B)
         {
             string message = string.Format(format, segment1, segment2);
-            Assert.IsTrue(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out IntersectionSegmentSegment2 intersection), message);
+            Assert.IsTrue(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out IntersectionSegmentSegment2 intersection),
+                message);
             Assert.AreEqual(IntersectionType.Segment, intersection.type, message);
             AreEqual(intersection.pointA, expected1A, message);
             AreEqual(intersection.pointB, expected1B, message);
@@ -851,10 +853,10 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void False_Intersect(Segment2 segment1, Segment2 segment2)
         {
-            Assert.IsFalse(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out IntersectionSegmentSegment2 intersection), format, segment1, segment2);
-            Assert.IsFalse(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.b, segment2.a, out intersection), format, segment1, segment2);
-            Assert.IsFalse(Intersect.SegmentSegment(segment2.a, segment2.b, segment1.a, segment1.b, out intersection), format, segment1, segment2);
-            Assert.IsFalse(Intersect.SegmentSegment(segment2.a, segment2.b, segment1.b, segment1.a, out intersection), format, segment1, segment2);
+            Assert.IsFalse(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out _), format, segment1, segment2);
+            Assert.IsFalse(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.b, segment2.a, out _), format, segment1, segment2);
+            Assert.IsFalse(Intersect.SegmentSegment(segment2.a, segment2.b, segment1.a, segment1.b, out _), format, segment1, segment2);
+            Assert.IsFalse(Intersect.SegmentSegment(segment2.a, segment2.b, segment1.b, segment1.a, out _), format, segment1, segment2);
         }
 
         #endregion Intersect

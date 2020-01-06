@@ -395,10 +395,8 @@ namespace ProceduralToolkit
                 currentAngle += segmentAngle;
             }
 
-            Vector3 lowerSeamVertex;
-            Vector3 upperSeamVertex;
             AddCylinderPoints(radius, currentAngle, halfHeightUp, generateUV,
-                ref strip, ref stripUV, ref stripNormals, out lowerSeamVertex, out upperSeamVertex);
+                ref strip, ref stripUV, ref stripNormals, out _, out _);
 
             if (generateUV)
             {

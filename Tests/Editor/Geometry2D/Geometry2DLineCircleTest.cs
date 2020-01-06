@@ -255,7 +255,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void True_Intersect(Line2 line, Circle2 circle, Vector2 expected)
         {
             string message = string.Format(format, line, circle);
-            Assert.True(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out IntersectionLineCircle intersection), format, line, circle);
+            Assert.True(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out IntersectionLineCircle intersection),
+                format, line, circle);
             Assert.AreEqual(IntersectionType.Point, intersection.type, format, line, circle);
             AreEqual(intersection.pointA, expected, message);
             Assert.True(Intersect.LineCircle(line.origin, -line.direction, circle.center, circle.radius, out intersection), format, line, circle);
@@ -266,7 +267,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void True_Intersect(Line2 line, Circle2 circle, Vector2 expectedA, Vector2 expectedB)
         {
             string message = string.Format(format, line, circle);
-            Assert.True(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out IntersectionLineCircle intersection), format, line, circle);
+            Assert.True(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out IntersectionLineCircle intersection),
+                format, line, circle);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, format, line, circle);
             AreEqual(intersection.pointA, expectedA, message);
             AreEqual(intersection.pointB, expectedB, message);
@@ -278,8 +280,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void False_Intersect(Line2 line, Circle2 circle)
         {
-            Assert.False(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out IntersectionLineCircle intersection), format, line, circle);
-            Assert.False(Intersect.LineCircle(line.origin, -line.direction, circle.center, circle.radius, out intersection), format, line, circle);
+            Assert.False(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out _), format, line, circle);
+            Assert.False(Intersect.LineCircle(line.origin, -line.direction, circle.center, circle.radius, out _), format, line, circle);
         }
 
         #endregion Intersect

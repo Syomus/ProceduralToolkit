@@ -632,7 +632,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void True_IntersectPoint(Segment2 segment, Circle2 circle, Vector2 expected)
         {
             string message = string.Format(format, segment, circle);
-            Assert.True(Intersect.SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out IntersectionSegmentCircle intersection), format, segment, circle);
+            Assert.True(Intersect.SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out IntersectionSegmentCircle intersection),
+                format, segment, circle);
             Assert.AreEqual(IntersectionType.Point, intersection.type, format, segment, circle);
             AreEqual(intersection.pointA, expected, message);
             Assert.True(Intersect.SegmentCircle(segment.b, segment.a, circle.center, circle.radius, out intersection), format, segment, circle);
@@ -643,7 +644,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void True_IntersectTwoPoints(Segment2 segment, Circle2 circle, Vector2 expectedA, Vector2 expectedB)
         {
             string message = string.Format(format, segment, circle);
-            Assert.True(Intersect.SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out IntersectionSegmentCircle intersection), format, segment, circle);
+            Assert.True(Intersect.SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out IntersectionSegmentCircle intersection),
+                format, segment, circle);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, format, segment, circle);
             AreEqual(intersection.pointA, expectedA, message);
             AreEqual(intersection.pointB, expectedB, message);
@@ -655,7 +657,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void True_IntersectNone(Segment2 segment, Circle2 circle)
         {
-            Assert.True(Intersect.SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out IntersectionSegmentCircle intersection), format, segment, circle);
+            Assert.True(Intersect.SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out IntersectionSegmentCircle intersection),
+                format, segment, circle);
             Assert.AreEqual(IntersectionType.None, intersection.type, format, segment, circle);
             Assert.True(Intersect.SegmentCircle(segment.b, segment.a, circle.center, circle.radius, out intersection), format, segment, circle);
             Assert.AreEqual(IntersectionType.None, intersection.type, format, segment, circle);
@@ -663,8 +666,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void False_Intersect(Segment2 segment, Circle2 circle)
         {
-            Assert.False(Intersect.SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out IntersectionSegmentCircle intersection), format, segment, circle);
-            Assert.False(Intersect.SegmentCircle(segment.b, segment.a, circle.center, circle.radius, out intersection), format, segment, circle);
+            Assert.False(Intersect.SegmentCircle(segment.a, segment.b, circle.center, circle.radius, out _), format, segment, circle);
+            Assert.False(Intersect.SegmentCircle(segment.b, segment.a, circle.center, circle.radius, out _), format, segment, circle);
         }
 
         #endregion Intersect

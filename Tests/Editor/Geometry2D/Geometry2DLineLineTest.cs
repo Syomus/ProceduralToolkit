@@ -296,8 +296,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void IsFalse_Intersect(Line2 lineA, Line2 lineB)
         {
-            Assert.IsFalse(Intersect.LineLine(lineA, lineB, out IntersectionLineLine2 intersection), linesFormat, lineA, lineB);
-            Assert.IsFalse(Intersect.LineLine(lineB, lineA, out intersection), linesFormat, lineA, lineB);
+            Assert.IsFalse(Intersect.LineLine(lineA, lineB, out _), linesFormat, lineA, lineB);
+            Assert.IsFalse(Intersect.LineLine(lineB, lineA, out _), linesFormat, lineA, lineB);
         }
 
         #endregion Intersect
