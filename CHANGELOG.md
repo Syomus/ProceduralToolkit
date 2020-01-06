@@ -1,8 +1,26 @@
-## Version history
+# Changelog
 
-### 0.2.2 (2018.09.18)
+## [Unreleased]
+This release adds Unity Package Manager Support.
+### Improvements
+* MeshDraft: Added new Capsule primitive.
+* PTUtils: Added CreateMeshRenderer.
+
+### Changes
+* Folder structure and some of the namespaces were changed in accordance with the package manager guidelines.
+* Tests are now distributed with the library.
+* Minimum supported Unity version is now 2019.2.
+* Buildings: Renamed PlanningStrategy to Planner, ConstructionStrategy to Constructor.
+* SDF: Include instructions are now installation type dependent.
+
+### Fixes
+* Geometry: Fixed PointsInCircle3* returning incorrect type.
+* MeshDraft: Fixed uv-less cylinders missing sides.
+
+
+## [0.2.2] - 2018-09-18
 This release brings polygon tessellation, clipping and offsetting, straight skeleton generation and a completely rewritten Buildings example.
-#### Features:
+### Features
 * Integrated [LibTessDotNet](https://github.com/speps/LibTessDotNet) library, see Tessellator wrapper class and it's example for details.
 * Integrated [Clipper](http://www.angusj.com/delphi/clipper.php) library, use PathClipper and PathOffsetter for seamless interoperability with Unity.
 * Added [straight skeleton](https://en.wikipedia.org/wiki/Straight_skeleton) generator.
@@ -10,7 +28,7 @@ This release brings polygon tessellation, clipping and offsetting, straight skel
 * Added Circle3.
 * Added serializable RendererProperties, use Renderer.ApplyProperties extension to apply them to a target renderer.
 
-#### Improvements:
+### Improvements
 * Geometry:
   * Added OffsetPolygon, GetAngle, GetAngleBisector, Polygon2, StarPolygon2, PointsInCircle*, PointsOnSphere, GetRect and GetCircumradius.
 * Segment2 and Segment3:
@@ -29,7 +47,7 @@ This release brings polygon tessellation, clipping and offsetting, straight skel
   * Added support for 32 bit Mesh index buffers.
   * Added Move, Rotate and other methods from MeshDraft.
 
-#### Changes:
+### Changes
 * Minimum supported Unity version is now 2018.1.
 * Renamed PTUtils string constants.
 * Renamed Circle to Circle2.
@@ -38,14 +56,14 @@ This release brings polygon tessellation, clipping and offsetting, straight skel
 * Intersect2D: Removed LineLine overload with IntersectionType return type.
 
 
-### 0.2.1 (2018.06.20)
+## [0.2.1] - 2018-06-20
 This release brings new computational geometry algorithms and geometric primitives.
-#### Features:
+### Features
 * Added Circle, Sphere, Line2, Line3, Segment2 and Segment3. All new primitives are Serializable and IFormattable.
 * Added many new geometry algorithms. See [this wiki page](https://github.com/Syomus/ProceduralToolkit/wiki/Geometry-algorithms) for a full matrix.
 * Unit tests for the toolkit are now public and can be found [here](https://github.com/Syomus/ProceduralToolkit.Tests).
 
-#### Improvements:
+### Improvements
 * Added assembly definition files.
 * ColorHSV: Added new casting and arithmetic operators.
 * CompoundMeshDraft: Fixed conversion to Mesh for Unity 2017.3.
@@ -53,22 +71,22 @@ This release brings new computational geometry algorithms and geometric primitiv
 * RandomE: Added rotation2, PointOnSegment overloads, PointOnCircle, PointInCircle, PointOnSphere, PointInSphere.
 * SDF: Fixed the WebGL build.
 
-#### Changes:
+### Changes
 * Minimum supported Unity version is now 2017.3.
 * Split geometry algorithms into separate classes: Closest, Distance and Intersect.
 * Moved PointOn* methods from PTUtils to Geometry.
 
 
-### 0.2.0 (2018.01.05)
+## [0.2.0] - 2018-01-05
 This release is mainly focused on refactoring and documenting of the codebase, expect better performance and overall stability. 
 That being said, there are a few new features as well.
-#### Features:
+### Features
 * Added a new shader library with signed distance functions and easings, see `ProceduralToolkit\Shaders\*.cginc` files and `ProceduralToolkit\Examples\SDF` folder for details.
 * Added a new Geometry class with many computational geometry algorithms (distance, intersection, closest point, etc.).
 * Added a new example showing usage of DebugE, GLE and GizmosE, see `ProceduralToolkit\Examples\Drawing` folder for details.
 * Added a new CompoundMeshDraft class for generation of large meshes and submeshes.
 
-#### Improvements:
+### Improvements
 * Lots of bugfixes and optimizations.
 * ArrayE:
   * Visits now support IEqualityComparer.
@@ -97,7 +115,7 @@ That being said, there are a few new features as well.
   * The game level now resets when all bricks are destroyed.
   * Added a simple pool for bricks.
 
-#### Changes:
+### Changes
 * Minimum supported Unity version is now 2017.2.
 * Renamed most of the examples and restructured folders.
 * Removed Boids example.
@@ -128,14 +146,14 @@ That being said, there are a few new features as well.
   * Removed shapes from the editor menu that duplicated the Unity functionality.
 
 
-### 0.1.9 (2017.03.23)
-#### Features:
+## [0.1.9] - 2017-03-23
+### Features
 * Added CharacterGenerator example with integrated NameGenerator which replaces Datasets class
 * Added VectorE class with useful extensions for vectors
 * Rewritten building generator with new layouting system
 * Added debug shaders for UV1, UV2, normals, tangents and bitangents
 
-#### Improvements:
+### Improvements
 * MeshDraft:
   * Added missing tangents and uv channels
   * Added Clear method to clear all vertex data
@@ -155,7 +173,7 @@ That being said, there are a few new features as well.
 * Updated documentation and comments
 * A few bugfixes and simplifications
 
-#### Changes:
+### Changes
 * Dropped support for Unity 5.3
 * Removed Datasets class and name generators from RandomE and with CharacterGenerator example 
 due to error in IL2CPP compiler which was preventing builds for Android and iOS. 
@@ -165,8 +183,8 @@ Name generators are now in NameGenerator class and string constants are in PTUti
 * Moved all common example classes to `ProceduralToolkit\Examples\Common`
 
 
-### 0.1.8 (2016.09.06)
-#### Features:
+## [0.1.8] - 2016-09-06
+### Features
 * Added GizmosE, GLE and DebugE helper classes with extra drawing methods such as DrawWireCircle, 
 DrawWireHemisphere, DrawWireCone, and others. GizmosE and DebugE have API similar to Gizmos and Debug, 
 GLE is just a bunch of wrappers over GL.Vertex which follow Gizmos convention.
@@ -179,7 +197,7 @@ GLE is just a bunch of wrappers over GL.Vertex which follow Gizmos convention.
 * Added custom inspectors for BuildingGenerator, ChairGenerator and LowPolyTerrainGenerator. 
 Changing values does not cause regeneration, but otherwise they behave the same way as UI controls and work in editor and play mode.
 
-#### Improvements:
+### Improvements
 * Optimized examples, mesh and texture helper classes to produce less garbage
 * Fixed shadowcasting in vertex color shaders
 * Fixed typos and bugs in some classes
@@ -190,7 +208,7 @@ Changing values does not cause regeneration, but otherwise they behave the same 
 * TerrainMesh received a full rewrite and is now LowPolyTerrainGenerator
 * Added ColorHSV.WithH, WithS, WithV, WithA, WithOffsetH, Lerp and various useful methods (ToString, GetHashCode and the like)
 
-#### Changes:
+### Changes
 * Dropped support for Unity 5.2
 * Renamed PTUtils.PointsOnCircle3 to PTUtils.PointsOnCircle3XZ
 * Renamed Khrushchyovka to BuildingGenerator to avoid confusion
@@ -204,26 +222,26 @@ Changing values does not cause regeneration, but otherwise they behave the same 
 * Moved drawing methods from PTUtils to Draw
 
 
-### 0.1.7 (2015.12.19)
-#### Features:
+## [0.1.7] - 2015-12-19
+### Features
 * Added ColorHSV class
 * Added Vector2Int class
 * Added ArrayE class
 * Added CircularList class
 * Added CellularAutomaton example
 
-#### Improvements:
+### Improvements
 * Added PTUtils.DrawFilledCircle
 * Refactored drawing methods, eliminated overdraw
 * Fixed a few ui and generator bugs in examples
 
-#### Changes:
+### Changes
 * Removed ColorE.HSVToRGB, use ColorHSV instead
 * New CameraRotator behaviour, now requires Image to operate
 * PTUtils.WuLine is now DrawAALine, BresenhamLine is DrawLine
 
 
-### 0.1.6 (2015.10.02)
+## [0.1.6] - 2015-10-02
 * Major refactoring, new UI for all examples
 * Removed ColorE.ToHex and ColorE.FromHex
 * Moved all static MeshDraft constructors from MeshE to MeshDraft
@@ -238,20 +256,20 @@ Changing values does not cause regeneration, but otherwise they behave the same 
   * Added DrawCircle, DrawGradient and DrawGradientRect
 
 
-### 0.1.5 (2015.05.14)
+## [0.1.5] - 2015-05-14
 * Unity 5 support
 * Added mesh saver
 * Added new example: Breakout
 * Added Standard Vertex Color shader
 
 
-### 0.1.4 (2015.02.08)
+## [0.1.4] - 2015-02-08
 * Added new examples: Primitives and Mazes
 * Added Texture extensions
 * Added Bresenham and Wu line drawing algorithms
 
 
-### 0.1.3 (2014.11.15)
+## [0.1.3] - 2014-11-15
 * Added new example: Khrushchyovka
 * Added knapsack problem solver
 * Added new Color extensions
@@ -261,12 +279,12 @@ Changing values does not cause regeneration, but otherwise they behave the same 
 * Improved examples
 
 
-### 0.1.2 (2014.11.10)
+## [0.1.2] - 2014-11-10
 * Added new example: chair generator
 * Small additions and fixes
 
 
-### 0.1.1 (2014.10.26)
+## [0.1.1] - 2014-10-26
 * Added new primitives: cylinder and sphere
 * Added mesh extensions: move, rotate, scale, paint, flip faces
 * Added RandomE.Range methods
@@ -274,5 +292,5 @@ Changing values does not cause regeneration, but otherwise they behave the same 
 * Improved documentation
 
 
-### 0.1 (2014.10.13)
+## [0.1] - 2014-10-13
 * First release

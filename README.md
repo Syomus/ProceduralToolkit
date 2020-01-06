@@ -20,10 +20,12 @@ There are several ways to install Procedural Toolkit:
 The best way is to install this library as a [Git package](https://docs.unity3d.com/Manual/upm-git.html) using the Package Manager.
 First, make sure that you to have Git installed and available in your system's PATH.
 After that you need to add the following line to your project's `manifest.json`:
-```"com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git",```
+```JSON
+"com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git",
+```
 
 It should look like this, notice the comma at the end of the line:
-```
+```JSON
 {
   "dependencies": {
     "com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git",
@@ -154,6 +156,14 @@ The [LibTessDotNet](https://github.com/speps/LibTessDotNet) library.
 The recommended use is through the wrapper class [Tessellator](/Runtime/Tessellator.cs).
 
 ### Shaders/
+Depending on the installation type, the shader library can be used like this:
+```HLSL
+#include "Packages/com.syomus.proceduraltoolkit/Shaders/SDF.cginc"
+```
+Or like this:
+```HLSL
+#include "Assets/ProceduralToolkit/Shaders/SDF.cginc"
+```
 * [Common.cginc](/Shaders/Common.cginc): Collection of shaping and debug functions.
 * [Easing.cginc](/Shaders/Easing.cginc): Normalized easing functions.
 * [SDF.cginc](/Shaders/SDF.cginc): Collection of signed distance functions.
