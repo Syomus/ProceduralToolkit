@@ -176,9 +176,8 @@ namespace ProceduralToolkit.Samples
 
                 Vector3 leftEdge = Vector3.left*config.wallWidth/2 +
                                    Vector3.up*(config.wallHeightOffset + y*brickHeight);
-                for (int i = 0; i < brickSizes.Count; i++)
+                foreach (var brickSize in brickSizes)
                 {
-                    var brickSize = brickSizes[i];
                     var position = leftEdge + Vector3.right*sizeValues[brickSize]/2;
 
                     // Randomize the tint of the current brick

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ProceduralToolkit.Samples
 {
     [CustomEditor(typeof(ChairGeneratorConfigurator))]
-    public class ChairGeneratorConfiguratorEditor : UnityEditor.Editor
+    public class ChairGeneratorConfiguratorEditor : Editor
     {
         private ChairGeneratorConfigurator generator;
 

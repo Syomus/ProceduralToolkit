@@ -36,11 +36,11 @@ namespace ProceduralToolkit.Samples
             SetDebug(true);
         }
 
-        private void SelectImage(Image image)
+        private void SelectImage(Image selectedImage)
         {
-            for (int i = 0; i < images.Count; i++)
+            foreach (var image in images)
             {
-                images[i].enabled = images[i] == image;
+                image.enabled = image == selectedImage;
             }
         }
 

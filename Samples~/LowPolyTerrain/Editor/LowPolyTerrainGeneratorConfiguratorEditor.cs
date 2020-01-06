@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ProceduralToolkit.Samples
 {
     [CustomEditor(typeof(LowPolyTerrainGeneratorConfigurator))]
-    public class LowPolyTerrainGeneratorConfiguratorEditor : UnityEditor.Editor
+    public class LowPolyTerrainGeneratorConfiguratorEditor : Editor
     {
         private LowPolyTerrainGeneratorConfigurator generator;
 

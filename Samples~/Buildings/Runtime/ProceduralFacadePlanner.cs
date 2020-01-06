@@ -94,8 +94,7 @@ namespace ProceduralToolkit.Samples.Buildings
 
         private ILayout PlanNormalFacade(float facadeWidth, int floors, bool hasAttic, bool leftIsConvex, bool rightIsConvex)
         {
-            float remainder;
-            List<PanelSize> panelSizes = DivideFacade(facadeWidth, leftIsConvex, rightIsConvex, out remainder);
+            List<PanelSize> panelSizes = DivideFacade(facadeWidth, leftIsConvex, rightIsConvex, out float remainder);
             bool hasBalconies = RandomE.Chance(0.5f);
 
             var vertical = CreateNormalFacadeVertical(panelSizes, 0, panelSizes.Count, floors, hasAttic, hasBalconies);
@@ -114,8 +113,7 @@ namespace ProceduralToolkit.Samples.Buildings
         private ILayout PlanEntranceFacade(float facadeWidth, int floors, float entranceInterval, bool hasAttic, bool leftIsConvex,
             bool rightIsConvex)
         {
-            float remainder;
-            List<PanelSize> panelSizes = DivideFacade(facadeWidth, leftIsConvex, rightIsConvex, out remainder);
+            List<PanelSize> panelSizes = DivideFacade(facadeWidth, leftIsConvex, rightIsConvex, out float remainder);
             bool hasBalconies = RandomE.Chance(0.5f);
 
             commonConstructors[PanelType.Entrance] = constructors[PanelType.Entrance].GetRandom();

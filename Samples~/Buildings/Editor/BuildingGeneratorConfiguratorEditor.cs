@@ -4,7 +4,7 @@ using UnityEditor;
 namespace ProceduralToolkit.Samples.Buildings
 {
     [CustomEditor(typeof(BuildingGeneratorConfigurator))]
-    public class BuildingGeneratorConfiguratorEditor : UnityEditor.Editor
+    public class BuildingGeneratorConfiguratorEditor : Editor
     {
         private BuildingGeneratorConfigurator generator;
 

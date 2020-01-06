@@ -91,10 +91,7 @@ namespace ProceduralToolkit.Samples
 
         private void DrawEdge(Maze.Edge edge)
         {
-            Vector2Int position;
-            int width;
-            int height;
-            MazeGenerator.EdgeToRect(edge, wallSize, roomSize, out position, out width, out height);
+            MazeGenerator.EdgeToRect(edge, wallSize, roomSize, out Vector2Int position, out int width, out int height);
 
             Color color;
             if (useGradient)

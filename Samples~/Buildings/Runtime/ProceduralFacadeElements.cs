@@ -151,11 +151,7 @@ namespace ProceduralToolkit.Samples.Buildings
 
         private static CompoundMeshDraft Windowpane(Vector3 min, Vector3 max, Color frameColor, Color glassColor)
         {
-            Vector3 frameDepth;
-            Vector3 windowMin;
-            Vector3 windowWidth;
-            Vector3 windowHeight;
-            var frame = WindowpaneFrame(min, max, frameColor, out frameDepth, out windowMin, out windowWidth, out windowHeight);
+            var frame = WindowpaneFrame(min, max, frameColor, out Vector3 frameDepth, out Vector3 windowMin, out Vector3 windowWidth, out Vector3 windowHeight);
             var glass = WindowpaneGlass(frameDepth, windowMin, windowWidth, windowHeight, glassColor);
             return new CompoundMeshDraft().Add(frame).Add(glass);
         }
@@ -166,11 +162,7 @@ namespace ProceduralToolkit.Samples.Buildings
             Vector3 size = max - min;
             Vector3 widthVector = size.ToVector3XZ();
             Vector3 heightVector = size.ToVector3Y();
-
-            Vector3 frameWidth;
-            Vector3 frameHeight;
-            Vector3 startPosition;
-            var frame = WindowpaneFrameRods(min, widthVector, heightVector, out frameWidth, out frameHeight, out frameDepth, out startPosition);
+            var frame = WindowpaneFrameRods(min, widthVector, heightVector, out Vector3 frameWidth, out Vector3 frameHeight, out frameDepth, out Vector3 startPosition);
 
             windowMin = min + frameWidth + frameHeight;
             windowWidth = widthVector - frameWidth*2;
@@ -279,14 +271,9 @@ namespace ProceduralToolkit.Samples.Buildings
             Vector3 balconyHeight = Vector3.up*BalconyHeight;
             Vector3 balconyDepth = Vector3.forward*BalconyDepth;
 
-            Vector3 balconyCenter;
-            var balconyOuter = BalconyOuter(origin, widthVector, balconyHeight, balconyDepth, out balconyCenter);
-
-            Vector3 innerWidthOffset;
-            Vector3 innerWidth;
-            Vector3 innerDepth;
+            var balconyOuter = BalconyOuter(origin, widthVector, balconyHeight, balconyDepth, out Vector3 balconyCenter);
             var balconyInner = BalconyInner(widthVector, balconyHeight, balconyDepth, balconyCenter,
-                out innerWidthOffset, out innerWidth, out innerDepth);
+                out Vector3 innerWidthOffset, out Vector3 innerWidth, out Vector3 innerDepth);
 
             var balconyBorder = BalconyBorder(origin, widthVector, balconyHeight, balconyDepth, innerWidthOffset, innerWidth, innerDepth);
 
@@ -379,8 +366,7 @@ namespace ProceduralToolkit.Samples.Buildings
 
             var compoundDraft = new CompoundMeshDraft();
 
-            Vector3 balconyCenter;
-            var balcony = BalconyOuter(origin, widthVector, balconyHeight, balconyDepth, out balconyCenter)
+            var balcony = BalconyOuter(origin, widthVector, balconyHeight, balconyDepth, out Vector3 balconyCenter)
                 .Paint(wallColor);
             balcony.name = WallDraftName;
             compoundDraft.Add(balcony);
