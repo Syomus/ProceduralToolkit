@@ -16,6 +16,7 @@ This release adds Unity Package Manager Support.
 ### Fixes
 * Geometry: Fixed PointsInCircle3* returning incorrect type.
 * MeshDraft: Fixed uv-less cylinders missing sides.
+* MeshFilterExtension: Removed useless Instantiate breaking the link to the mesh.
 
 
 ## [0.2.2] - 2018-09-18
