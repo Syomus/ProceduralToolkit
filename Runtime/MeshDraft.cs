@@ -188,6 +188,12 @@ namespace ProceduralToolkit
             if (calculateNormal)
             {
                 Vector3 normal = Vector3.Cross(vertex1 - vertex0, vertex3 - vertex0).normalized;
+
+                // Fix for degenerate triangle-like quads
+                if (normal.sqrMagnitude < Geometry.Epsilon)
+                {
+                    normal = Vector3.Cross(vertex3 - vertex2, vertex1 - vertex2).normalized;
+                }
                 return AddQuad(vertex0, vertex1, vertex2, vertex3, normal, normal, normal, normal);
             }
             return _AddQuad(vertex0, vertex1, vertex2, vertex3);

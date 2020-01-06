@@ -15,7 +15,9 @@ This release adds Unity Package Manager Support.
 
 ### Fixes
 * Geometry: Fixed PointsInCircle3* returning incorrect type.
-* MeshDraft: Fixed uv-less cylinders missing sides.
+* MeshDraft:
+  * Fixed uv-less cylinders missing sides.
+  * Fixed normal calculation for degenerate quads in AddQuad.
 * MeshFilterExtension: Removed useless Instantiate breaking the link to the mesh.
 
 
