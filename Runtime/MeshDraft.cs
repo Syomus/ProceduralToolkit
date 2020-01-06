@@ -42,7 +42,7 @@ namespace ProceduralToolkit
         /// </summary>
         public MeshDraft(Mesh mesh)
         {
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
 
             name = mesh.name;
             mesh.GetVertices(vertices);
@@ -61,7 +61,7 @@ namespace ProceduralToolkit
         /// </summary>
         public MeshDraft Add(MeshDraft draft)
         {
-            if (draft == null) throw new ArgumentNullException("draft");
+            if (draft == null) throw new ArgumentNullException(nameof(draft));
 
             for (var i = 0; i < draft.triangles.Count; i++)
             {
@@ -797,7 +797,7 @@ namespace ProceduralToolkit
                     list = uv4;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("channel");
+                    throw new ArgumentOutOfRangeException(nameof(channel));
             }
             for (var i = 0; i < list.Count; i++)
             {
@@ -827,7 +827,7 @@ namespace ProceduralToolkit
                     list = uv4;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("channel");
+                    throw new ArgumentOutOfRangeException(nameof(channel));
             }
             for (var i = 0; i < list.Count; i++)
             {
@@ -871,7 +871,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             mesh.Clear(false);
             FillMesh(ref mesh, calculateBounds, autoIndexFormat);

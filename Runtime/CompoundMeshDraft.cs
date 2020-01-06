@@ -40,7 +40,7 @@ namespace ProceduralToolkit
 
         public CompoundMeshDraft Add(MeshDraft draft)
         {
-            if (draft == null) throw new ArgumentNullException("draft");
+            if (draft == null) throw new ArgumentNullException(nameof(draft));
 
             meshDrafts.Add(draft);
             return this;
@@ -48,7 +48,7 @@ namespace ProceduralToolkit
 
         public CompoundMeshDraft Add(CompoundMeshDraft compoundDraft)
         {
-            if (compoundDraft == null) throw new ArgumentNullException("compoundDraft");
+            if (compoundDraft == null) throw new ArgumentNullException(nameof(compoundDraft));
 
             meshDrafts.AddRange(compoundDraft.meshDrafts);
             return this;
@@ -256,7 +256,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             mesh.Clear(false);
             FillMesh(ref mesh, calculateBounds, autoIndexFormat);

@@ -16,7 +16,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             var vertices = mesh.vertices;
             for (int i = 0; i < vertices.Length; i++)
@@ -33,7 +33,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             var vertices = mesh.vertices;
             var normals = mesh.normals;
@@ -53,7 +53,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             var vertices = mesh.vertices;
             for (int i = 0; i < vertices.Length; i++)
@@ -70,7 +70,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             var vertices = mesh.vertices;
             var normals = mesh.normals;
@@ -90,7 +90,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             var colors = new Color[mesh.vertexCount];
             for (int i = 0; i < mesh.vertexCount; i++)
@@ -107,7 +107,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             mesh.FlipTriangles();
             mesh.FlipNormals();
@@ -120,7 +120,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             for (int i = 0; i < mesh.subMeshCount; i++)
             {
@@ -140,7 +140,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             var normals = mesh.normals;
             for (int i = 0; i < normals.Length; i++)
@@ -157,7 +157,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             var list = new List<Vector2>();
             mesh.GetUVs(channel, list);
@@ -175,7 +175,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             var list = new List<Vector2>();
             mesh.GetUVs(channel, list);
@@ -193,7 +193,7 @@ namespace ProceduralToolkit
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
             var vertices = mesh.vertices;
             var normals = mesh.normals;

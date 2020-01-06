@@ -340,7 +340,7 @@ namespace ProceduralToolkit
         {
             if (list == null)
             {
-                throw new ArgumentNullException("list");
+                throw new ArgumentNullException(nameof(list));
             }
             if (list.Count == 0)
             {
@@ -373,7 +373,7 @@ namespace ProceduralToolkit
         {
             if (dictionary == null)
             {
-                throw new ArgumentNullException("dictionary");
+                throw new ArgumentNullException(nameof(dictionary));
             }
             var keys = dictionary.Keys;
             if (keys.Count == 0)
@@ -391,7 +391,7 @@ namespace ProceduralToolkit
         {
             if (list == null)
             {
-                throw new ArgumentNullException("list");
+                throw new ArgumentNullException(nameof(list));
             }
             if (list.Count == 0)
             {
@@ -399,7 +399,7 @@ namespace ProceduralToolkit
             }
             if (weights == null)
             {
-                throw new ArgumentNullException("weights");
+                throw new ArgumentNullException(nameof(weights));
             }
             if (weights.Count == 0)
             {
@@ -466,7 +466,7 @@ namespace ProceduralToolkit
         {
             if (list == null)
             {
-                throw new ArgumentNullException("list");
+                throw new ArgumentNullException(nameof(list));
             }
             if (list.Count == 0)
             {
@@ -488,7 +488,7 @@ namespace ProceduralToolkit
         {
             if (list == null)
             {
-                throw new ArgumentNullException("list");
+                throw new ArgumentNullException(nameof(list));
             }
             for (int i = 0; i < list.Count; i++)
             {

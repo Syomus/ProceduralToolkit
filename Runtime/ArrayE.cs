@@ -70,7 +70,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool IsInBounds<T>(this T[,] array, int x, int y)
         {
-            if (array == null) throw new ArgumentNullException("array");
+            if (array == null) throw new ArgumentNullException(nameof(array));
             return x >= 0 && x < array.GetLength(0) && y >= 0 && y < array.GetLength(1);
         }
 
@@ -97,14 +97,14 @@ namespace ProceduralToolkit
         public static void FloodVisit4<T>(this T[,] array, int startX, int startY, Action<int, int> visit,
             IEqualityComparer<T> comparer = null)
         {
-            if (array == null) throw new ArgumentNullException("array");
-            if (visit == null) throw new ArgumentNullException("visit");
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            if (visit == null) throw new ArgumentNullException(nameof(visit));
 
             int lengthX = array.GetLength(0);
             int lengthY = array.GetLength(1);
 
-            if (startX < 0 || startX >= lengthX) throw new ArgumentOutOfRangeException("startX");
-            if (startY < 0 || startY >= lengthY) throw new ArgumentOutOfRangeException("startY");
+            if (startX < 0 || startX >= lengthX) throw new ArgumentOutOfRangeException(nameof(startX));
+            if (startY < 0 || startY >= lengthY) throw new ArgumentOutOfRangeException(nameof(startY));
 
             if (comparer == null)
             {
@@ -180,14 +180,14 @@ namespace ProceduralToolkit
         public static void FloodVisit8<T>(this T[,] array, int startX, int startY, Action<int, int> visit,
             IEqualityComparer<T> comparer = null)
         {
-            if (array == null) throw new ArgumentNullException("array");
-            if (visit == null) throw new ArgumentNullException("visit");
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            if (visit == null) throw new ArgumentNullException(nameof(visit));
 
             int lengthX = array.GetLength(0);
             int lengthY = array.GetLength(1);
 
-            if (startX < 0 || startX >= lengthX) throw new ArgumentOutOfRangeException("startX");
-            if (startY < 0 || startY >= lengthY) throw new ArgumentOutOfRangeException("startY");
+            if (startX < 0 || startX >= lengthX) throw new ArgumentOutOfRangeException(nameof(startX));
+            if (startY < 0 || startY >= lengthY) throw new ArgumentOutOfRangeException(nameof(startY));
 
             if (comparer == null)
             {
@@ -271,8 +271,8 @@ namespace ProceduralToolkit
         /// </remarks>
         public static void Visit4<T>(this T[,] array, int x, int y, Action<int, int> visit)
         {
-            if (array == null) throw new ArgumentNullException("array");
-            if (visit == null) throw new ArgumentNullException("visit");
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            if (visit == null) throw new ArgumentNullException(nameof(visit));
 
             if (x > 0)
             {
@@ -311,8 +311,8 @@ namespace ProceduralToolkit
         /// </remarks>
         public static void Visit4Unbounded<T>(this T[,] array, int x, int y, Action<int, int> visit)
         {
-            if (array == null) throw new ArgumentNullException("array");
-            if (visit == null) throw new ArgumentNullException("visit");
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            if (visit == null) throw new ArgumentNullException(nameof(visit));
 
             visit(x - 1, y);
             visit(x + 1, y);
@@ -343,8 +343,8 @@ namespace ProceduralToolkit
         /// </remarks>
         public static void Visit8<T>(this T[,] array, int x, int y, Action<int, int> visit)
         {
-            if (array == null) throw new ArgumentNullException("array");
-            if (visit == null) throw new ArgumentNullException("visit");
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            if (visit == null) throw new ArgumentNullException(nameof(visit));
 
             bool xGreaterThanZero = x > 0;
             bool xLessThanWidth = x + 1 < array.GetLength(0);
@@ -393,8 +393,8 @@ namespace ProceduralToolkit
         /// </remarks>
         public static void Visit8Unbounded<T>(this T[,] array, int x, int y, Action<int, int> visit)
         {
-            if (array == null) throw new ArgumentNullException("array");
-            if (visit == null) throw new ArgumentNullException("visit");
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            if (visit == null) throw new ArgumentNullException(nameof(visit));
 
             visit(x - 1, y - 1);
             visit(x, y - 1);

@@ -17,7 +17,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             Draw.RasterLine(v0, v1, (x, y) => texture.SetPixel(x, y, color));
         }
@@ -29,7 +29,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             Draw.RasterLine(x0, y0, x1, y1, (x, y) => texture.SetPixel(x, y, color));
         }
@@ -41,7 +41,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             Draw.RasterLine(v0, v1, (x, y) => pixels[x + y*textureWidth] = color);
         }
@@ -53,7 +53,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             Draw.RasterLine(x0, y0, x1, y1, (x, y) => pixels[x + y*textureWidth] = color);
         }
@@ -69,7 +69,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             Draw.RasterAALine(v0, v1, (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t)));
         }
@@ -81,7 +81,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             Draw.RasterAALine(x0, y0, x1, y1, (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t)));
         }
@@ -93,7 +93,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             Draw.RasterAALine(v0, v1, (x, y, t) => pixels[x + y*textureWidth] = Color.Lerp(pixels[x + y*textureWidth], color, t));
         }
@@ -105,7 +105,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             Draw.RasterAALine(x0, y0, x1, y1, (x, y, t) => pixels[x + y*textureWidth] = Color.Lerp(pixels[x + y*textureWidth], color, t));
         }
@@ -121,7 +121,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             Draw.RasterCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
         }
@@ -133,7 +133,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             Draw.RasterCircle(centerX, centerY, radius, (x, y) => texture.SetPixel(x, y, color));
         }
@@ -145,7 +145,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             Draw.RasterCircle(center, radius, (x, y) => pixels[x + y*textureWidth] = color);
         }
@@ -157,7 +157,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             Draw.RasterCircle(centerX, centerY, radius, (x, y) => pixels[x + y*textureWidth] = color);
         }
@@ -173,7 +173,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             Draw.RasterFilledCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
         }
@@ -185,7 +185,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             Draw.RasterFilledCircle(centerX, centerY, radius, (x, y) => texture.SetPixel(x, y, color));
         }
@@ -197,7 +197,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             Draw.RasterFilledCircle(center, radius, (x, y) => pixels[x + y*textureWidth] = color);
         }
@@ -209,7 +209,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             Draw.RasterFilledCircle(centerX, centerY, radius, (x, y) => pixels[x + y*textureWidth] = color);
         }
@@ -233,7 +233,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             var colors = new Color[blockWidth*blockHeight];
             for (int _y = 0; _y < blockHeight; _y++)
@@ -261,7 +261,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             for (int _y = y; _y < y + blockHeight; _y++)
             {
@@ -300,7 +300,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             Func<int, int, Color> getColor;
             switch (direction)
@@ -318,7 +318,7 @@ namespace ProceduralToolkit
                     getColor = (_x, _y) => gradient.Evaluate((float) _y/(float) blockHeight);
                     break;
                 default:
-                    throw new ArgumentException("Not supported direction: " + direction, "direction");
+                    throw new ArgumentException("Not supported direction: " + direction, nameof(direction));
             }
 
             var colors = new Color[blockWidth*blockHeight];
@@ -356,7 +356,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             Func<int, int, Color> getColor;
             switch (direction)
@@ -374,7 +374,7 @@ namespace ProceduralToolkit
                     getColor = (_x, _y) => gradient.Evaluate((float) _y/(float) blockHeight);
                     break;
                 default:
-                    throw new ArgumentException("Not supported direction: " + direction, "direction");
+                    throw new ArgumentException("Not supported direction: " + direction, nameof(direction));
             }
 
             for (int _y = y; _y < y + blockHeight; _y++)
@@ -405,7 +405,7 @@ namespace ProceduralToolkit
         {
             if (texture == null)
             {
-                throw new ArgumentNullException("texture");
+                throw new ArgumentNullException(nameof(texture));
             }
             var pixels = new Color[texture.width*texture.height];
             for (var i = 0; i < pixels.Length; i++)
@@ -430,7 +430,7 @@ namespace ProceduralToolkit
         {
             if (pixels == null)
             {
-                throw new ArgumentNullException("pixels");
+                throw new ArgumentNullException(nameof(pixels));
             }
             for (var i = 0; i < pixels.Length; i++)
             {
