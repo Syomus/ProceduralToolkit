@@ -118,7 +118,7 @@ namespace ProceduralToolkit
             queue.Enqueue(new Vector2Int(startX, startY));
             processed[startX, startY] = true;
 
-            Action<int, int> process = (x, y) =>
+            void process(int x, int y)
             {
                 if (!processed[x, y])
                 {
@@ -128,7 +128,7 @@ namespace ProceduralToolkit
                     }
                     processed[x, y] = true;
                 }
-            };
+            }
 
             while (queue.Count > 0)
             {
@@ -201,7 +201,7 @@ namespace ProceduralToolkit
             queue.Enqueue(new Vector2Int(startX, startY));
             processed[startX, startY] = true;
 
-            Action<int, int> process = (x, y) =>
+            void process(int x, int y)
             {
                 if (!processed[x, y])
                 {
@@ -211,7 +211,7 @@ namespace ProceduralToolkit
                     }
                     processed[x, y] = true;
                 }
-            };
+            }
 
             while (queue.Count > 0)
             {

@@ -10,6 +10,7 @@ This release adds Unity Package Manager Support.
 * Folder structure and some of the namespaces were changed in accordance with the package manager guidelines.
 * Tests are now distributed with the library.
 * Minimum supported Unity version is now 2019.2.
+* Dropped support for the old scripting runtime.
 * Buildings: Renamed PlanningStrategy to Planner, ConstructionStrategy to Constructor.
 * SDF: Include instructions are now installation type dependent.
 

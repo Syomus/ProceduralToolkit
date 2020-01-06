@@ -839,7 +839,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects vertices on a sphere with the given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
         /// </summary>
-        public MeshDraft Spherify(float radius, Vector3 center = default(Vector3))
+        public MeshDraft Spherify(float radius, Vector3 center = default)
         {
             for (var i = 0; i < vertices.Count; i++)
             {

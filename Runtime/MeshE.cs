@@ -189,7 +189,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects vertices on a sphere with the given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
         /// </summary>
-        public static void Spherify(this Mesh mesh, float radius, Vector3 center = default(Vector3))
+        public static void Spherify(this Mesh mesh, float radius, Vector3 center = default)
         {
             if (mesh == null)
             {

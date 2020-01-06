@@ -18,9 +18,9 @@ namespace ProceduralToolkit
             get
             {
                 int count = 0;
-                for (int i = 0; i < meshDrafts.Count; i++)
+                foreach (var meshDraft in meshDrafts)
                 {
-                    count += meshDrafts[i].vertexCount;
+                    count += meshDraft.vertexCount;
                 }
                 return count;
             }
@@ -67,9 +67,9 @@ namespace ProceduralToolkit
         /// </summary>
         public CompoundMeshDraft Move(Vector3 vector)
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].Move(vector);
+                meshDraft.Move(vector);
             }
             return this;
         }
@@ -79,9 +79,9 @@ namespace ProceduralToolkit
         /// </summary>
         public CompoundMeshDraft Rotate(Quaternion rotation)
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].Rotate(rotation);
+                meshDraft.Rotate(rotation);
             }
             return this;
         }
@@ -91,9 +91,9 @@ namespace ProceduralToolkit
         /// </summary>
         public CompoundMeshDraft Scale(float scale)
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].Scale(scale);
+                meshDraft.Scale(scale);
             }
             return this;
         }
@@ -103,9 +103,9 @@ namespace ProceduralToolkit
         /// </summary>
         public CompoundMeshDraft Scale(Vector3 scale)
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].Scale(scale);
+                meshDraft.Scale(scale);
             }
             return this;
         }
@@ -115,9 +115,9 @@ namespace ProceduralToolkit
         /// </summary>
         public CompoundMeshDraft Paint(Color color)
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].Paint(color);
+                meshDraft.Paint(color);
             }
             return this;
         }
@@ -127,9 +127,9 @@ namespace ProceduralToolkit
         /// </summary>
         public CompoundMeshDraft FlipFaces()
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].FlipFaces();
+                meshDraft.FlipFaces();
             }
             return this;
         }
@@ -139,9 +139,9 @@ namespace ProceduralToolkit
         /// </summary>
         public CompoundMeshDraft FlipTriangles()
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].FlipTriangles();
+                meshDraft.FlipTriangles();
             }
             return this;
         }
@@ -151,9 +151,9 @@ namespace ProceduralToolkit
         /// </summary>
         public CompoundMeshDraft FlipNormals()
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].FlipNormals();
+                meshDraft.FlipNormals();
             }
             return this;
         }
@@ -163,9 +163,9 @@ namespace ProceduralToolkit
         /// </summary>
         public CompoundMeshDraft FlipUVHorizontally(int channel = 0)
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].FlipUVHorizontally(channel);
+                meshDraft.FlipUVHorizontally(channel);
             }
             return this;
         }
@@ -175,9 +175,9 @@ namespace ProceduralToolkit
         /// </summary>
         public CompoundMeshDraft FlipUVVertically(int channel = 0)
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].FlipUVVertically(channel);
+                meshDraft.FlipUVVertically(channel);
             }
             return this;
         }
@@ -185,11 +185,11 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects vertices on a sphere with the given <paramref name="radius"/> and <paramref name="center"/>, recalculates normals
         /// </summary>
-        public CompoundMeshDraft Spherify(float radius, Vector3 center = default(Vector3))
+        public CompoundMeshDraft Spherify(float radius, Vector3 center = default)
         {
-            for (var i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                meshDrafts[i].Spherify(radius, center);
+                meshDraft.Spherify(radius, center);
             }
             return this;
         }
@@ -227,9 +227,9 @@ namespace ProceduralToolkit
         public MeshDraft ToMeshDraft()
         {
             var finalDraft = new MeshDraft();
-            for (int i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                finalDraft.Add(meshDrafts[i]);
+                finalDraft.Add(meshDraft);
             }
             return finalDraft;
         }
@@ -283,10 +283,9 @@ namespace ProceduralToolkit
             }
 
             var finalDraft = new MeshDraft();
-            for (int i = 0; i < meshDrafts.Count; i++)
+            foreach (var meshDraft in meshDrafts)
             {
-                var draft = meshDrafts[i];
-                finalDraft.Add(draft);
+                finalDraft.Add(meshDraft);
             }
 
             mesh.name = name;

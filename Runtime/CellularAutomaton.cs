@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -218,18 +218,18 @@ namespace ProceduralToolkit
 
             public bool CanSpawn(int aliveCells)
             {
-                for (int i = 0; i < birthRule.Length; i++)
+                foreach (byte number in birthRule)
                 {
-                    if (birthRule[i] == aliveCells) return true;
+                    if (number == aliveCells) return true;
                 }
                 return false;
             }
 
             public bool CanSurvive(int aliveCells)
             {
-                for (int i = 0; i < survivalRule.Length; i++)
+                foreach (byte number in survivalRule)
                 {
-                    if (survivalRule[i] == aliveCells) return true;
+                    if (number == aliveCells) return true;
                 }
                 return false;
             }
