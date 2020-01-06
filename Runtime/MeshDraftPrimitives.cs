@@ -486,12 +486,20 @@ namespace ProceduralToolkit
             int horizontalCount = horizontalSegments + 1;
 
             var ringsVertices = new List<List<Vector3>>(verticalSegments);
-            var ringsUV = new List<List<Vector2>>(verticalSegments);
+            List<List<Vector2>> ringsUV = null;
+            if (generateUV)
+            {
+                ringsUV = new List<List<Vector2>>(verticalSegments);
+            }
             for (int y = 0; y <= verticalSegments; y++)
             {
                 float currentHorizontalAngle = 0f;
                 var ringVertices = new List<Vector3>(horizontalCount);
-                var ringUV = new List<Vector2>(horizontalCount);
+                List<Vector2> ringUV = null;
+                if (generateUV)
+                {
+                    ringUV = new List<Vector2>(horizontalCount);
+                }
 
                 for (int x = 0; x <= horizontalSegments; x++)
                 {
@@ -504,7 +512,10 @@ namespace ProceduralToolkit
                     currentHorizontalAngle += horizontalSegmentAngle;
                 }
                 ringsVertices.Add(ringVertices);
-                ringsUV.Add(ringUV);
+                if (generateUV)
+                {
+                    ringsUV.Add(ringUV);
+                }
                 currentVerticalAngle += verticalSegmentAngle;
             }
 
@@ -513,19 +524,34 @@ namespace ProceduralToolkit
             {
                 var lowerRingVertices = ringsVertices[y];
                 var upperRingVertices = ringsVertices[y + 1];
-                var lowerRingUV = ringsUV[y];
-                var upperRingUV = ringsUV[y + 1];
-                for (int x = 0; x < horizontalSegments; x++)
+
+                if (generateUV)
                 {
-                    Vector3 v00 = lowerRingVertices[x + 1];
-                    Vector3 v01 = upperRingVertices[x + 1];
-                    Vector3 v11 = upperRingVertices[x];
-                    Vector3 v10 = lowerRingVertices[x];
-                    Vector2 uv00 = lowerRingUV[x + 1];
-                    Vector2 uv01 = upperRingUV[x + 1];
-                    Vector2 uv11 = upperRingUV[x];
-                    Vector2 uv10 = lowerRingUV[x];
-                    draft.AddQuad(v00, v01, v11, v10, true, uv00, uv01, uv11, uv10);
+                    var lowerRingUV = ringsUV[y];
+                    var upperRingUV = ringsUV[y + 1];
+                    for (int x = 0; x < horizontalSegments; x++)
+                    {
+                        Vector3 v00 = lowerRingVertices[x + 1];
+                        Vector3 v01 = upperRingVertices[x + 1];
+                        Vector3 v11 = upperRingVertices[x];
+                        Vector3 v10 = lowerRingVertices[x];
+                        Vector2 uv00 = lowerRingUV[x + 1];
+                        Vector2 uv01 = upperRingUV[x + 1];
+                        Vector2 uv11 = upperRingUV[x];
+                        Vector2 uv10 = lowerRingUV[x];
+                        draft.AddQuad(v00, v01, v11, v10, true, uv00, uv01, uv11, uv10);
+                    }
+                }
+                else
+                {
+                    for (int x = 0; x < horizontalSegments; x++)
+                    {
+                        Vector3 v00 = lowerRingVertices[x + 1];
+                        Vector3 v01 = upperRingVertices[x + 1];
+                        Vector3 v11 = upperRingVertices[x];
+                        Vector3 v10 = lowerRingVertices[x];
+                        draft.AddQuad(v00, v01, v11, v10, true);
+                    }
                 }
             }
             return draft;

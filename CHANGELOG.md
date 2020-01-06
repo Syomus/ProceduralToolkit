@@ -18,6 +18,7 @@ This release adds Unity Package Manager Support.
 * MeshDraft:
   * Fixed uv-less cylinders missing sides.
   * Fixed normal calculation for degenerate quads in AddQuad.
+  * Fixed an exception in FlatRevolutionSurface (#58).
 * MeshFilterExtension: Removed useless Instantiate breaking the link to the mesh.
 
 
