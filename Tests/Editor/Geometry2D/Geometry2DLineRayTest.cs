@@ -226,10 +226,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void AreEqual_ClosestPoints(Line2 line, Ray2D ray, Vector2 lineExpected, Vector2 rayExpected)
         {
-            Vector2 linePoint;
-            Vector2 rayPoint;
             string message = string.Format(format, line, ray.ToString("F8"));
-            Closest.LineRay(line, ray, out linePoint, out rayPoint);
+            Closest.LineRay(line, ray, out Vector2 linePoint, out Vector2 rayPoint);
             AreEqual(linePoint, lineExpected, message);
             AreEqual(rayPoint, rayExpected, message);
         }
@@ -340,18 +338,16 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void IsTrue_IntersectPoint(Line2 line, Ray2D ray, Vector2 expected)
         {
-            IntersectionLineRay2 intersection;
             string message = string.Format(format, line, ray.ToString("F8"));
-            Assert.IsTrue(Intersect.LineRay(line, ray, out intersection), message);
+            Assert.IsTrue(Intersect.LineRay(line, ray, out IntersectionLineRay2 intersection), message);
             Assert.AreEqual(IntersectionType.Point, intersection.type);
             AreEqual(intersection.point, expected);
         }
 
         private void IsTrue_IntersectRay(Line2 line, Ray2D ray)
         {
-            IntersectionLineRay2 intersection;
             string message = string.Format(format, line, ray.ToString("F8"));
-            Assert.IsTrue(Intersect.LineRay(line.origin, line.direction, ray.origin, ray.direction, out intersection), message);
+            Assert.IsTrue(Intersect.LineRay(line.origin, line.direction, ray.origin, ray.direction, out IntersectionLineRay2 intersection), message);
             Assert.AreEqual(IntersectionType.Ray, intersection.type, message);
             AreEqual(intersection.point, ray.origin, message);
             Assert.IsTrue(Intersect.LineRay(line.origin, line.direction, ray.origin, -ray.direction, out intersection), message);
@@ -361,17 +357,15 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void IsFalse_IntersectSwap(Line2 line, Ray2D ray)
         {
-            IntersectionLineRay2 intersection;
             string message = string.Format(format, line, ray.ToString("F8"));
-            Assert.IsFalse(Intersect.LineRay(line.origin, line.direction, ray.origin, ray.direction, out intersection), message);
+            Assert.IsFalse(Intersect.LineRay(line.origin, line.direction, ray.origin, ray.direction, out IntersectionLineRay2 intersection), message);
             Assert.IsFalse(Intersect.LineRay(line.origin, line.direction, ray.origin, -ray.direction, out intersection), message);
         }
 
         private void IsFalse_Intersect(Line2 line, Ray2D ray)
         {
-            IntersectionLineRay2 intersection;
             string message = string.Format(format, line, ray.ToString("F8"));
-            Assert.IsFalse(Intersect.LineRay(line, ray, out intersection), message);
+            Assert.IsFalse(Intersect.LineRay(line, ray, out IntersectionLineRay2 intersection), message);
         }
 
         #endregion Intersect

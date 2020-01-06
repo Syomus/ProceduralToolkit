@@ -349,8 +349,7 @@ namespace ProceduralToolkit
                 Vector2 current = polygon[i];
                 Vector2 next = polygon.GetLooped(i + 1);
 
-                float angle;
-                Vector2 bisector = GetAngleBisector(previous, current, next, out angle);
+                Vector2 bisector = GetAngleBisector(previous, current, next, out float angle);
                 float angleOffset = GetAngleOffset(distance, angle);
                 newPolygon.Add(current - bisector*angleOffset);
             }
@@ -372,8 +371,7 @@ namespace ProceduralToolkit
                 Vector2 current = polygon[i];
                 Vector2 next = polygon.GetLooped(i + 1);
 
-                float angle;
-                Vector2 bisector = GetAngleBisector(previous, current, next, out angle);
+                Vector2 bisector = GetAngleBisector(previous, current, next, out float angle);
                 float angleOffset = GetAngleOffset(distance, angle);
                 offsets[i] = -bisector*angleOffset;
             }
@@ -399,8 +397,7 @@ namespace ProceduralToolkit
                 Vector2 current = polygon[i];
                 Vector2 next = polygon.GetLooped(i + 1);
 
-                float angle;
-                Vector2 bisector = GetAngleBisector(previous, current, next, out angle);
+                Vector2 bisector = GetAngleBisector(previous, current, next, out float angle);
                 float angleOffset = GetAngleOffset(distance, angle);
                 offsets[i] = -bisector*angleOffset;
             }

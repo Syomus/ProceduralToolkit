@@ -367,10 +367,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void AreEqual_ClosestPoints(Ray2D ray, Segment2 segment, Vector2 expectedRay, Vector2 expectedSegment)
         {
-            Vector2 rayPoint;
-            Vector2 segmentPoint;
             string message = string.Format(format, ray.ToString("F8"), segment);
-            Closest.RaySegment(ray.origin, ray.direction, segment.a, segment.b, out rayPoint, out segmentPoint);
+            Closest.RaySegment(ray.origin, ray.direction, segment.a, segment.b, out Vector2 rayPoint, out Vector2 segmentPoint);
             AreEqual(rayPoint, expectedRay, message);
             AreEqual(segmentPoint, expectedSegment, message);
             Closest.RaySegment(ray.origin, ray.direction, segment.b, segment.a, out rayPoint, out segmentPoint);
@@ -554,9 +552,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void IsTrue_IntersectSegment(Ray2D ray, Segment2 segment, Vector2 expectedA, Vector2 expectedB)
         {
-            IntersectionRaySegment2 intersection;
             string message = string.Format(format, ray.ToString("F8"), segment);
-            Assert.IsTrue(Intersect.RaySegment(ray.origin, ray.direction, segment.a, segment.b, out intersection), message);
+            Assert.IsTrue(Intersect.RaySegment(ray.origin, ray.direction, segment.a, segment.b, out IntersectionRaySegment2 intersection), message);
             Assert.AreEqual(IntersectionType.Segment, intersection.type, message);
             AreEqual(intersection.pointA, expectedA, message);
             AreEqual(intersection.pointB, expectedB, message);
@@ -568,9 +565,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void IsTrue_IntersectPoint(Ray2D ray, Segment2 segment, Vector2 expected)
         {
-            IntersectionRaySegment2 intersection;
             string message = string.Format(format, ray.ToString("F8"), segment);
-            Assert.IsTrue(Intersect.RaySegment(ray.origin, ray.direction, segment.a, segment.b, out intersection), message);
+            Assert.IsTrue(Intersect.RaySegment(ray.origin, ray.direction, segment.a, segment.b, out IntersectionRaySegment2 intersection), message);
             Assert.AreEqual(IntersectionType.Point, intersection.type, message);
             AreEqual(intersection.pointA, expected, message);
             Assert.IsTrue(Intersect.RaySegment(ray.origin, ray.direction, segment.b, segment.a, out intersection), message);
@@ -580,9 +576,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void IsFalse_Intersect(Ray2D ray, Segment2 segment)
         {
-            IntersectionRaySegment2 intersection;
             string message = string.Format(format, ray.ToString("F8"), segment);
-            Assert.IsFalse(Intersect.RaySegment(ray.origin, ray.direction, segment.a, segment.b, out intersection), message);
+            Assert.IsFalse(Intersect.RaySegment(ray.origin, ray.direction, segment.a, segment.b, out IntersectionRaySegment2 intersection), message);
             Assert.IsFalse(Intersect.RaySegment(ray.origin, ray.direction, segment.b, segment.a, out intersection), message);
         }
 

@@ -185,10 +185,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void AreEqual_ClosestPoints(Line2 lineA, Line2 lineB, Vector2 expectedA, Vector2 expectedB)
         {
-            Vector2 pointA;
-            Vector2 pointB;
             string message = string.Format(linesFormat, lineA, lineB);
-            Closest.LineLine(lineA, lineB, out pointA, out pointB);
+            Closest.LineLine(lineA, lineB, out Vector2 pointA, out Vector2 pointB);
             AreEqual(pointA, expectedA, message);
             AreEqual(pointB, expectedB, message);
         }
@@ -279,18 +277,16 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void Intersect_Line(Line2 lineA, Line2 lineB)
         {
-            IntersectionLineLine2 intersection;
             string message = string.Format(linesFormat, lineA, lineB);
-            Assert.IsTrue(Intersect.LineLine(lineA, lineB, out intersection), linesFormat, lineA, lineB);
+            Assert.IsTrue(Intersect.LineLine(lineA, lineB, out IntersectionLineLine2 intersection), linesFormat, lineA, lineB);
             Assert.AreEqual(intersection.type, IntersectionType.Line, message);
             AreEqual(intersection.point, lineA.origin, message);
         }
 
         private void Intersect_Point(Line2 lineA, Line2 lineB, Vector2 expected)
         {
-            IntersectionLineLine2 intersection;
             string message = string.Format(linesFormat, lineA, lineB);
-            Assert.IsTrue(Intersect.LineLine(lineA, lineB, out intersection), linesFormat, lineA, lineB);
+            Assert.IsTrue(Intersect.LineLine(lineA, lineB, out IntersectionLineLine2 intersection), linesFormat, lineA, lineB);
             Assert.AreEqual(intersection.type, IntersectionType.Point, message);
             AreEqual(intersection.point, expected, message);
             Assert.IsTrue(Intersect.LineLine(lineB, lineA, out intersection), linesFormat, lineA, lineB);
@@ -300,8 +296,7 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void IsFalse_Intersect(Line2 lineA, Line2 lineB)
         {
-            IntersectionLineLine2 intersection;
-            Assert.IsFalse(Intersect.LineLine(lineA, lineB, out intersection), linesFormat, lineA, lineB);
+            Assert.IsFalse(Intersect.LineLine(lineA, lineB, out IntersectionLineLine2 intersection), linesFormat, lineA, lineB);
             Assert.IsFalse(Intersect.LineLine(lineB, lineA, out intersection), linesFormat, lineA, lineB);
         }
 

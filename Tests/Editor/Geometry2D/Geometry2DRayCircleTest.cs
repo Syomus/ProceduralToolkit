@@ -294,9 +294,7 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void AreEqual_ClosestPoints(Ray2D ray, Circle2 circle, Vector2 expectedRay, Vector2 expectedCircle)
         {
             string message = string.Format(format, ray, circle);
-            Vector2 rayPoint;
-            Vector2 centerPoint;
-            Closest.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out rayPoint, out centerPoint);
+            Closest.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out Vector2 rayPoint, out Vector2 centerPoint);
             AreEqual(rayPoint, expectedRay, message);
             AreEqual(centerPoint, expectedCircle, message);
         }
@@ -443,18 +441,16 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void True_IntersectPoint(Ray2D ray, Circle2 circle, Vector2 expected)
         {
-            IntersectionRayCircle intersection;
             string message = string.Format(format, ray.ToString("F8"), circle);
-            Assert.True(Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out intersection), message);
+            Assert.True(Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out IntersectionRayCircle intersection), message);
             Assert.AreEqual(IntersectionType.Point, intersection.type, message);
             AreEqual(intersection.pointA, expected, message);
         }
 
         private void True_IntersectTwoPoints(Ray2D ray, Circle2 circle, Vector2 expectedA, Vector2 expectedB)
         {
-            IntersectionRayCircle intersection;
             string message = string.Format(format, ray.ToString("F8"), circle);
-            Assert.True(Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out intersection), message);
+            Assert.True(Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out IntersectionRayCircle intersection), message);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, message);
             AreEqual(intersection.pointA, expectedA, message);
             AreEqual(intersection.pointB, expectedB, message);
@@ -462,9 +458,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void False_Intersect(Ray2D ray, Circle2 circle)
         {
-            IntersectionRayCircle intersection;
             string message = string.Format(format, ray.ToString("F8"), circle);
-            Assert.False(Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out intersection), message);
+            Assert.False(Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out IntersectionRayCircle intersection), message);
         }
 
         #endregion Intersect

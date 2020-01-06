@@ -38,8 +38,7 @@ namespace ProceduralToolkit.Tests
 
         private void GetAngleBisector(Vector2 previous, Vector2 current, Vector2 next, Vector2 expectedBisector, float expectedAngle)
         {
-            float degrees;
-            Vector2 bisector = Geometry.GetAngleBisector(previous, current, next, out degrees);
+            Vector2 bisector = Geometry.GetAngleBisector(previous, current, next, out float degrees);
             string message = string.Format("previous: {0}\ncurrent: {1}\nnext: {2}", previous, current, next);
             AreEqual(bisector, expectedBisector, message);
             AreEqual(degrees, expectedAngle, message);

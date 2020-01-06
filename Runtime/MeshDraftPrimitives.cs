@@ -380,10 +380,8 @@ namespace ProceduralToolkit
             var stripUV = new List<Vector2>();
             for (var i = 0; i < segments; i++)
             {
-                Vector3 lowerVertex;
-                Vector3 upperVertex;
                 AddCylinderPoints(radius, currentAngle, halfHeightUp, generateUV,
-                    ref strip, ref stripUV, ref stripNormals, out lowerVertex, out upperVertex);
+                    ref strip, ref stripUV, ref stripNormals, out Vector3 lowerVertex, out Vector3 upperVertex);
 
                 lowerRing.Add(lowerVertex);
                 upperRing.Add(upperVertex);

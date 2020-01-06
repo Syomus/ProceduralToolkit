@@ -201,9 +201,7 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void AreEqual_ClosestPoints(Segment3 segment, Sphere sphere, Vector3 expectedSegment, Vector3 expectedSphere)
         {
-            Vector3 segmentPoint;
-            Vector3 centerPoint;
-            Closest.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out segmentPoint, out centerPoint);
+            Closest.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out Vector3 segmentPoint, out Vector3 centerPoint);
             AreEqual(segmentPoint, expectedSegment);
             AreEqual(centerPoint, expectedSphere);
         }
@@ -305,16 +303,14 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void True_IntersectPoint(Segment3 segment, Sphere sphere, Vector3 expected)
         {
-            IntersectionSegmentSphere intersection;
-            Assert.True(Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out intersection), format, segment, sphere);
+            Assert.True(Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out IntersectionSegmentSphere intersection), format, segment, sphere);
             Assert.AreEqual(IntersectionType.Point, intersection.type, format, segment, sphere);
             AreEqual(intersection.pointA, expected);
         }
 
         private void True_IntersectTwoPoints(Segment3 segment, Sphere sphere, Vector3 expectedA, Vector3 expectedB)
         {
-            IntersectionSegmentSphere intersection;
-            Assert.True(Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out intersection), format, segment, sphere);
+            Assert.True(Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out IntersectionSegmentSphere intersection), format, segment, sphere);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, format, segment, sphere);
             AreEqual(intersection.pointA, expectedA);
             AreEqual(intersection.pointB, expectedB);
@@ -322,8 +318,7 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void False_Intersect(Segment3 segment, Sphere sphere)
         {
-            IntersectionSegmentSphere intersection;
-            Assert.False(Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out intersection), format, segment, sphere);
+            Assert.False(Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out IntersectionSegmentSphere intersection), format, segment, sphere);
         }
 
         #endregion Intersect

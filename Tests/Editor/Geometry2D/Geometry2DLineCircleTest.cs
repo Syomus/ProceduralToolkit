@@ -174,9 +174,7 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void AreEqual_ClosestPointsSwap(Line2 line, Circle2 circle, Vector2 expectedLine, Vector2 expectedCircle)
         {
             string message = string.Format(format, line, circle);
-            Vector2 linePoint;
-            Vector2 centerPoint;
-            Closest.LineCircle(line.origin, line.direction, circle.center, circle.radius, out linePoint, out centerPoint);
+            Closest.LineCircle(line.origin, line.direction, circle.center, circle.radius, out Vector2 linePoint, out Vector2 centerPoint);
             AreEqual(linePoint, expectedLine, message);
             AreEqual(centerPoint, expectedCircle, message);
             Closest.LineCircle(line.origin, -line.direction, circle.center, circle.radius, out linePoint, out centerPoint);
@@ -187,9 +185,7 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void AreEqual_ClosestPoints(Line2 line, Circle2 circle, Vector2 expectedLine, Vector2 expectedCircle)
         {
             string message = string.Format(format, line, circle);
-            Vector2 linePoint;
-            Vector2 centerPoint;
-            Closest.LineCircle(line.origin, line.direction, circle.center, circle.radius, out linePoint, out centerPoint);
+            Closest.LineCircle(line.origin, line.direction, circle.center, circle.radius, out Vector2 linePoint, out Vector2 centerPoint);
             AreEqual(linePoint, expectedLine, message);
             AreEqual(centerPoint, expectedCircle, message);
         }
@@ -258,9 +254,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void True_Intersect(Line2 line, Circle2 circle, Vector2 expected)
         {
-            IntersectionLineCircle intersection;
             string message = string.Format(format, line, circle);
-            Assert.True(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out intersection), format, line, circle);
+            Assert.True(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out IntersectionLineCircle intersection), format, line, circle);
             Assert.AreEqual(IntersectionType.Point, intersection.type, format, line, circle);
             AreEqual(intersection.pointA, expected, message);
             Assert.True(Intersect.LineCircle(line.origin, -line.direction, circle.center, circle.radius, out intersection), format, line, circle);
@@ -270,9 +265,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void True_Intersect(Line2 line, Circle2 circle, Vector2 expectedA, Vector2 expectedB)
         {
-            IntersectionLineCircle intersection;
             string message = string.Format(format, line, circle);
-            Assert.True(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out intersection), format, line, circle);
+            Assert.True(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out IntersectionLineCircle intersection), format, line, circle);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, format, line, circle);
             AreEqual(intersection.pointA, expectedA, message);
             AreEqual(intersection.pointB, expectedB, message);
@@ -284,8 +278,7 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void False_Intersect(Line2 line, Circle2 circle)
         {
-            IntersectionLineCircle intersection;
-            Assert.False(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out intersection), format, line, circle);
+            Assert.False(Intersect.LineCircle(line.origin, line.direction, circle.center, circle.radius, out IntersectionLineCircle intersection), format, line, circle);
             Assert.False(Intersect.LineCircle(line.origin, -line.direction, circle.center, circle.radius, out intersection), format, line, circle);
         }
 

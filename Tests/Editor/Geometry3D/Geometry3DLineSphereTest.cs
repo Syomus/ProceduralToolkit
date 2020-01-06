@@ -186,9 +186,7 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void AreEqual_ClosestPoints(Line3 line, Sphere sphere, Vector3 expectedLine, Vector3 expectedSphere)
         {
-            Vector3 linePoint;
-            Vector3 centerPoint;
-            Closest.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out linePoint, out centerPoint);
+            Closest.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out Vector3 linePoint, out Vector3 centerPoint);
             AreEqual(linePoint, expectedLine);
             AreEqual(centerPoint, expectedSphere);
         }
@@ -283,16 +281,14 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void True_Intersect(Line3 line, Sphere sphere, Vector3 expected)
         {
-            IntersectionLineSphere intersection;
-            Assert.True(Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out intersection), format, line, sphere);
+            Assert.True(Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out IntersectionLineSphere intersection), format, line, sphere);
             Assert.AreEqual(IntersectionType.Point, intersection.type, format, line, sphere);
             AreEqual(intersection.pointA, expected);
         }
 
         private void True_Intersect(Line3 line, Sphere sphere, Vector3 expectedA, Vector3 expectedB)
         {
-            IntersectionLineSphere intersection;
-            Assert.True(Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out intersection), format, line, sphere);
+            Assert.True(Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out IntersectionLineSphere intersection), format, line, sphere);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, format, line, sphere);
             AreEqual(intersection.pointA, expectedA);
             AreEqual(intersection.pointB, expectedB);
@@ -300,8 +296,7 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void False_Intersect(Line3 line, Sphere sphere)
         {
-            IntersectionLineSphere intersection;
-            Assert.False(Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out intersection), format, line, sphere);
+            Assert.False(Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out IntersectionLineSphere intersection), format, line, sphere);
         }
 
         #endregion Intersect

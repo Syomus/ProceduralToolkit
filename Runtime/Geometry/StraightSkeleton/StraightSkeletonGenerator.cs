@@ -104,8 +104,7 @@ namespace ProceduralToolkit.Skeleton
             float smallestOffset = float.PositiveInfinity;
             foreach (var vertex in plan)
             {
-                float offset;
-                if (BisectorBisector(vertex, vertex.next, out offset))
+                if (BisectorBisector(vertex, vertex.next, out float offset))
                 {
                     smallestOffset = Mathf.Min(smallestOffset, offset);
                 }
@@ -333,8 +332,7 @@ namespace ProceduralToolkit.Skeleton
         {
             Plan.Vertex previous = vertex.previous;
             Plan.Vertex next = vertex.next;
-            float angle;
-            Vector2 direction = Geometry.GetAngleBisector(previous.position, vertex.position, next.position, out angle);
+            Vector2 direction = Geometry.GetAngleBisector(previous.position, vertex.position, next.position, out float angle);
             vertex.angle = angle;
             vertex.bisector = direction;
         }
@@ -351,8 +349,7 @@ namespace ProceduralToolkit.Skeleton
 
         private static bool BisectorBisector(Plan.Vertex vertexA, Plan.Vertex vertexB, out float offset)
         {
-            IntersectionRayRay2 intersection;
-            if (Intersect.RayRay(vertexA.position, vertexA.bisector, vertexB.position, vertexB.bisector, out intersection))
+            if (Intersect.RayRay(vertexA.position, vertexA.bisector, vertexB.position, vertexB.bisector, out var intersection))
             {
                 if (intersection.type == IntersectionType.Point)
                 {
@@ -392,8 +389,7 @@ namespace ProceduralToolkit.Skeleton
 
         private static bool BisectorSegment(Plan.Vertex vertex, Vector2 segmentA, Vector2 segmentB, out float offset)
         {
-            IntersectionRaySegment2 intersection;
-            if (Intersect.RaySegment(vertex.position, vertex.bisector, segmentA, segmentB, out intersection))
+            if (Intersect.RaySegment(vertex.position, vertex.bisector, segmentA, segmentB, out var intersection))
             {
                 if (intersection.type == IntersectionType.Point)
                 {

@@ -194,9 +194,7 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void AreEqual_ClosestPoints(Sphere sphereA, Sphere sphereB, Vector3 expectedA, Vector3 expectedB)
         {
-            Vector3 pointA;
-            Vector3 pointB;
-            Closest.SphereSphere(sphereA, sphereB, out pointA, out pointB);
+            Closest.SphereSphere(sphereA, sphereB, out Vector3 pointA, out Vector3 pointB);
             AreEqual(pointA, expectedA);
             AreEqual(pointB, expectedB);
             Closest.SphereSphere(sphereB, sphereA, out pointA, out pointB);
@@ -363,9 +361,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void True_IntersectNone(Sphere sphereA, Sphere sphereB)
         {
-            IntersectionSphereSphere intersection;
             Assert.True(Intersect.SphereSphere(sphereA, sphereB), format, sphereA, sphereB);
-            Assert.True(Intersect.SphereSphere(sphereA, sphereB, out intersection), format, sphereA, sphereB);
+            Assert.True(Intersect.SphereSphere(sphereA, sphereB, out IntersectionSphereSphere intersection), format, sphereA, sphereB);
             Assert.AreEqual(IntersectionType.None, intersection.type, format, sphereA, sphereB);
             Assert.True(Intersect.SphereSphere(sphereB, sphereA), format, sphereA, sphereB);
             Assert.True(Intersect.SphereSphere(sphereB, sphereA, out intersection), format, sphereA, sphereB);
@@ -374,9 +371,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void True_IntersectSphere(Sphere sphereA, Sphere sphereB)
         {
-            IntersectionSphereSphere intersection;
             Assert.True(Intersect.SphereSphere(sphereA, sphereB), format, sphereA, sphereB);
-            Assert.True(Intersect.SphereSphere(sphereA, sphereB, out intersection), format, sphereA, sphereB);
+            Assert.True(Intersect.SphereSphere(sphereA, sphereB, out IntersectionSphereSphere intersection), format, sphereA, sphereB);
             Assert.AreEqual(IntersectionType.Sphere, intersection.type, format, sphereA, sphereB);
             Assert.True(Intersect.SphereSphere(sphereB, sphereA), format, sphereA, sphereB);
             Assert.True(Intersect.SphereSphere(sphereB, sphereA, out intersection), format, sphereA, sphereB);
@@ -385,9 +381,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void True_Intersect(Sphere sphereA, Sphere sphereB, Vector3 expected)
         {
-            IntersectionSphereSphere intersection;
             Assert.True(Intersect.SphereSphere(sphereA, sphereB), format, sphereA, sphereB);
-            Assert.True(Intersect.SphereSphere(sphereA, sphereB, out intersection), format, sphereA, sphereB);
+            Assert.True(Intersect.SphereSphere(sphereA, sphereB, out IntersectionSphereSphere intersection), format, sphereA, sphereB);
             Assert.AreEqual(IntersectionType.Point, intersection.type, format, sphereA, sphereB);
             AreEqual(intersection.point, expected);
             Assert.True(Intersect.SphereSphere(sphereB, sphereA), format, sphereA, sphereB);
@@ -398,9 +393,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void True_Intersect(Sphere sphereA, Sphere sphereB, Circle3 expected)
         {
-            IntersectionSphereSphere intersection;
             Assert.True(Intersect.SphereSphere(sphereA, sphereB));
-            Assert.True(Intersect.SphereSphere(sphereA, sphereB, out intersection));
+            Assert.True(Intersect.SphereSphere(sphereA, sphereB, out IntersectionSphereSphere intersection));
             Assert.AreEqual(IntersectionType.Circle, intersection.type);
             AreEqual(intersection.point, expected.center);
             AreEqual(intersection.normal, expected.normal);
@@ -415,9 +409,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void False_Intersect(Sphere sphereA, Sphere sphereB)
         {
-            IntersectionSphereSphere intersection;
             Assert.False(Intersect.SphereSphere(sphereA, sphereB));
-            Assert.False(Intersect.SphereSphere(sphereA, sphereB, out intersection));
+            Assert.False(Intersect.SphereSphere(sphereA, sphereB, out IntersectionSphereSphere intersection));
             Assert.False(Intersect.SphereSphere(sphereB, sphereA));
             Assert.False(Intersect.SphereSphere(sphereB, sphereA, out intersection));
         }

@@ -536,10 +536,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void AreEqual_ClosestPoints(Segment2 segment1, Segment2 segment2, Vector2 expected1A, Vector2 expected2A,
             Vector2 expected1B, Vector2 expected2B)
         {
-            Vector2 point1;
-            Vector2 point2;
             string message = string.Format(format, segment1, segment2);
-            Closest.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out point1, out point2);
+            Closest.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out Vector2 point1, out Vector2 point2);
             AreEqual(point1, expected1A, message);
             AreEqual(point2, expected2A, message);
             Closest.SegmentSegment(segment1.a, segment1.b, segment2.b, segment2.a, out point1, out point2);
@@ -809,9 +807,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void True_IntersectPoint(Segment2 segment1, Segment2 segment2, Vector2 expected)
         {
-            IntersectionSegmentSegment2 intersection;
             string message = string.Format(format, segment1, segment2);
-            Assert.IsTrue(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out intersection), message);
+            Assert.IsTrue(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out IntersectionSegmentSegment2 intersection), message);
             Assert.AreEqual(IntersectionType.Point, intersection.type, message);
             AreEqual(intersection.pointA, expected, message);
             Assert.IsTrue(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.b, segment2.a, out intersection), message);
@@ -833,9 +830,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void True_IntersectSegment(Segment2 segment1, Segment2 segment2, Vector2 expected1A, Vector2 expected1B, Vector2 expected2A,
             Vector2 expected2B)
         {
-            IntersectionSegmentSegment2 intersection;
             string message = string.Format(format, segment1, segment2);
-            Assert.IsTrue(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out intersection), message);
+            Assert.IsTrue(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out IntersectionSegmentSegment2 intersection), message);
             Assert.AreEqual(IntersectionType.Segment, intersection.type, message);
             AreEqual(intersection.pointA, expected1A, message);
             AreEqual(intersection.pointB, expected1B, message);
@@ -855,8 +851,7 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void False_Intersect(Segment2 segment1, Segment2 segment2)
         {
-            IntersectionSegmentSegment2 intersection;
-            Assert.IsFalse(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out intersection), format, segment1, segment2);
+            Assert.IsFalse(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.a, segment2.b, out IntersectionSegmentSegment2 intersection), format, segment1, segment2);
             Assert.IsFalse(Intersect.SegmentSegment(segment1.a, segment1.b, segment2.b, segment2.a, out intersection), format, segment1, segment2);
             Assert.IsFalse(Intersect.SegmentSegment(segment2.a, segment2.b, segment1.a, segment1.b, out intersection), format, segment1, segment2);
             Assert.IsFalse(Intersect.SegmentSegment(segment2.a, segment2.b, segment1.b, segment1.a, out intersection), format, segment1, segment2);

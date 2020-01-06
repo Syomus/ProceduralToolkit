@@ -14,8 +14,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 PointLine(Vector3 point, Line3 line)
         {
-            float projectedX;
-            return PointLine(point, line.origin, line.direction, out projectedX);
+            return PointLine(point, line.origin, line.direction, out float projectedX);
         }
 
         /// <summary>
@@ -33,8 +32,7 @@ namespace ProceduralToolkit
         /// <param name="lineDirection">Normalized direction of the line</param>
         public static Vector3 PointLine(Vector3 point, Vector3 lineOrigin, Vector3 lineDirection)
         {
-            float projectedX;
-            return PointLine(point, lineOrigin, lineDirection, out projectedX);
+            return PointLine(point, lineOrigin, lineDirection, out float projectedX);
         }
 
         /// <summary>
@@ -58,8 +56,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 PointRay(Vector3 point, Ray ray)
         {
-            float projectedX;
-            return PointRay(point, ray.origin, ray.direction, out projectedX);
+            return PointRay(point, ray.origin, ray.direction, out float projectedX);
         }
 
         /// <summary>
@@ -77,8 +74,7 @@ namespace ProceduralToolkit
         /// <param name="rayDirection">Normalized direction of the ray</param>
         public static Vector3 PointRay(Vector3 point, Vector3 rayOrigin, Vector3 rayDirection)
         {
-            float projectedX;
-            return PointRay(point, rayOrigin, rayDirection, out projectedX);
+            return PointRay(point, rayOrigin, rayDirection, out float projectedX);
         }
 
         /// <summary>
@@ -110,8 +106,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 PointSegment(Vector3 point, Segment3 segment)
         {
-            float projectedX;
-            return PointSegment(point, segment.a, segment.b, out projectedX);
+            return PointSegment(point, segment.a, segment.b, out float projectedX);
         }
 
         /// <summary>
@@ -130,8 +125,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 PointSegment(Vector3 point, Vector3 segmentA, Vector3 segmentB)
         {
-            float projectedX;
-            return PointSegment(point, segmentA, segmentB, out projectedX);
+            return PointSegment(point, segmentA, segmentB, out float projectedX);
         }
 
         /// <summary>

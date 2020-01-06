@@ -296,10 +296,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void AreEqual_ClosestPoints(Line2 line, Segment2 segment, Vector2 expectedLine, Vector2 expectedSegment)
         {
-            Vector2 linePoint;
-            Vector2 segmentPoint;
             string message = string.Format(format, line, segment);
-            Closest.LineSegment(line.origin, line.direction, segment.a, segment.b, out linePoint, out segmentPoint);
+            Closest.LineSegment(line.origin, line.direction, segment.a, segment.b, out Vector2 linePoint, out Vector2 segmentPoint);
             AreEqual(linePoint, expectedLine, message);
             AreEqual(segmentPoint, expectedSegment, message);
             Closest.LineSegment(line.origin, line.direction, segment.b, segment.a, out linePoint, out segmentPoint);
@@ -447,9 +445,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void IsTrue_IntersectSegment(Line2 line, Segment2 segment)
         {
-            IntersectionLineSegment2 intersection;
             string message = string.Format(format, line, segment);
-            Assert.IsTrue(Intersect.LineSegment(line.origin, line.direction, segment.a, segment.b, out intersection), message);
+            Assert.IsTrue(Intersect.LineSegment(line.origin, line.direction, segment.a, segment.b, out IntersectionLineSegment2 intersection), message);
             Assert.AreEqual(IntersectionType.Segment, intersection.type, message);
             AreEqual(intersection.pointA, segment.a, message);
             AreEqual(intersection.pointB, segment.b, message);
@@ -461,9 +458,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void IsTrue_IntersectPoint(Line2 line, Segment2 segment, Vector2 expected)
         {
-            IntersectionLineSegment2 intersection;
             string message = string.Format(format, line, segment);
-            Assert.IsTrue(Intersect.LineSegment(line.origin, line.direction, segment.a, segment.b, out intersection), message);
+            Assert.IsTrue(Intersect.LineSegment(line.origin, line.direction, segment.a, segment.b, out IntersectionLineSegment2 intersection), message);
             Assert.AreEqual(IntersectionType.Point, intersection.type, message);
             AreEqual(intersection.pointA, expected, message);
             Assert.IsTrue(Intersect.LineSegment(line.origin, line.direction, segment.b, segment.a, out intersection), message);
@@ -473,8 +469,7 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void IsFalse_Intersect(Line2 line, Segment2 segment)
         {
-            IntersectionLineSegment2 intersection;
-            Assert.IsFalse(Intersect.LineSegment(line.origin, line.direction, segment.a, segment.b, out intersection), format, line, segment);
+            Assert.IsFalse(Intersect.LineSegment(line.origin, line.direction, segment.a, segment.b, out IntersectionLineSegment2 intersection), format, line, segment);
             Assert.IsFalse(Intersect.LineSegment(line.origin, line.direction, segment.b, segment.a, out intersection), format, line, segment);
         }
 

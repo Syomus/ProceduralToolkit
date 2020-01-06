@@ -502,9 +502,7 @@ namespace ProceduralToolkit
         public static void WireArc(Func<float, float, Vector3> pointOnCircle, Action<Vector3, Vector3> drawLine, Vector3 position, float radius,
             float fromAngle, float toAngle)
         {
-            int segments;
-            float segmentAngle;
-            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out segments, out segmentAngle);
+            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out int segments, out float segmentAngle);
 
             WireArc(pointOnCircle, drawLine, position, radius, fromAngle, segments, segmentAngle);
         }
@@ -515,9 +513,7 @@ namespace ProceduralToolkit
         public static void WireArc(Func<float, float, Vector3> pointOnCircle, DebugDrawLine drawLine, Vector3 position, float radius, float fromAngle,
             float toAngle, Color color, float duration, bool depthTest)
         {
-            int segments;
-            float segmentAngle;
-            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out segments, out segmentAngle);
+            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out int segments, out float segmentAngle);
 
             WireArc(pointOnCircle, drawLine, position, radius, fromAngle, segments, segmentAngle, color, duration, depthTest);
         }
@@ -528,9 +524,7 @@ namespace ProceduralToolkit
         public static void WireArc(Func<float, float, Vector3> pointOnCircle, Action<Vector3, Vector3> drawLine, Vector3 position,
             Quaternion rotation, float radius, float fromAngle, float toAngle)
         {
-            int segments;
-            float segmentAngle;
-            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out segments, out segmentAngle);
+            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out int segments, out float segmentAngle);
 
             WireArc(pointOnCircle, drawLine, position, rotation, radius, fromAngle, segments, segmentAngle);
         }
@@ -541,9 +535,7 @@ namespace ProceduralToolkit
         public static void WireArc(Func<float, float, Vector3> pointOnCircle, DebugDrawLine drawLine, Vector3 position, Quaternion rotation,
             float radius, float fromAngle, float toAngle, Color color, float duration, bool depthTest)
         {
-            int segments;
-            float segmentAngle;
-            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out segments, out segmentAngle);
+            GetSegmentsAndSegmentAngle(fromAngle, toAngle, out int segments, out float segmentAngle);
 
             WireArc(pointOnCircle, drawLine, position, rotation, radius, fromAngle, segments, segmentAngle, color, duration, depthTest);
         }

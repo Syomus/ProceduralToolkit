@@ -112,9 +112,7 @@ namespace ProceduralToolkit.Buildings
 
         public override MeshDraft Construct(Vector2 parentLayoutOrigin)
         {
-            List<Vector2> roofPolygon2;
-            List<Vector3> roofPolygon3;
-            var roofDraft = ConstructRoofBase(out roofPolygon2, out roofPolygon3);
+            var roofDraft = ConstructRoofBase(out List<Vector2> roofPolygon2, out List<Vector3> roofPolygon3);
 
             var tessellator = new Tessellator();
             tessellator.AddContour(roofPolygon3);
@@ -141,9 +139,7 @@ namespace ProceduralToolkit.Buildings
 
         public override MeshDraft Construct(Vector2 parentLayoutOrigin)
         {
-            List<Vector2> roofPolygon2;
-            List<Vector3> roofPolygon3;
-            var roofDraft = ConstructRoofBase(out roofPolygon2, out roofPolygon3);
+            var roofDraft = ConstructRoofBase(out List<Vector2> roofPolygon2, out List<Vector3> roofPolygon3);
 
             var skeletonGenerator = new StraightSkeletonGenerator();
             var skeleton = skeletonGenerator.Generate(roofPolygon2);
@@ -172,9 +168,7 @@ namespace ProceduralToolkit.Buildings
 
         public override MeshDraft Construct(Vector2 parentLayoutOrigin)
         {
-            List<Vector2> roofPolygon2;
-            List<Vector3> roofPolygon3;
-            var roofDraft = ConstructRoofBase(out roofPolygon2, out roofPolygon3);
+            var roofDraft = ConstructRoofBase(out List<Vector2> roofPolygon2, out List<Vector3> roofPolygon3);
 
             var skeletonGenerator = new StraightSkeletonGenerator();
             var skeleton = skeletonGenerator.Generate(roofPolygon2);

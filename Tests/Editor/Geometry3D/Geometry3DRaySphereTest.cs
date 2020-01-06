@@ -191,9 +191,7 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void AreEqual_ClosestPoints(Ray ray, Sphere sphere, Vector3 expectedRay, Vector3 expectedSphere)
         {
-            Vector3 rayPoint;
-            Vector3 centerPoint;
-            Closest.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out rayPoint, out centerPoint);
+            Closest.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out Vector3 rayPoint, out Vector3 centerPoint);
             AreEqual(rayPoint, expectedRay);
             AreEqual(centerPoint, expectedSphere);
         }
@@ -291,16 +289,14 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void True_IntersectPoint(Ray ray, Sphere sphere, Vector3 expected)
         {
-            IntersectionRaySphere intersection;
-            Assert.True(Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out intersection), format, ray, sphere);
+            Assert.True(Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out IntersectionRaySphere intersection), format, ray, sphere);
             Assert.AreEqual(IntersectionType.Point, intersection.type, format, ray, sphere);
             AreEqual(intersection.pointA, expected);
         }
 
         private void True_IntersectTwoPoints(Ray ray, Sphere sphere, Vector3 expectedA, Vector3 expectedB)
         {
-            IntersectionRaySphere intersection;
-            Assert.True(Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out intersection), format, ray, sphere);
+            Assert.True(Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out IntersectionRaySphere intersection), format, ray, sphere);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, format, ray, sphere);
             AreEqual(intersection.pointA, expectedA);
             AreEqual(intersection.pointB, expectedB);
@@ -308,8 +304,7 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void False_Intersect(Ray ray, Sphere sphere)
         {
-            IntersectionRaySphere intersection;
-            Assert.False(Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out intersection), format, ray, sphere);
+            Assert.False(Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out IntersectionRaySphere intersection), format, ray, sphere);
         }
 
         #endregion Intersect

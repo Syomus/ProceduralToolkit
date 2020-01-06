@@ -148,19 +148,17 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void False_Intersect(Line2 line, Vector2 point, int expected = 0)
         {
-            int side;
             string message = string.Format(format, line, point.ToString("F8"));
             Assert.False(Intersect.PointLine(point, line), message);
-            Assert.False(Intersect.PointLine(point, line, out side), message);
+            Assert.False(Intersect.PointLine(point, line, out int side), message);
             Assert.AreEqual(expected, side, message);
         }
 
         private void True_Intersect(Line2 line, Vector2 point)
         {
-            int side;
             string message = string.Format(format, line, point.ToString("F8"));
             Assert.True(Intersect.PointLine(point, line), message);
-            Assert.True(Intersect.PointLine(point, line, out side), message);
+            Assert.True(Intersect.PointLine(point, line, out int side), message);
             Assert.AreEqual(0, side, message);
         }
 

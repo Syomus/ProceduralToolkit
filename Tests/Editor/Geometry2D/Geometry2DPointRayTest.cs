@@ -149,19 +149,17 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void True_Intersect(Ray2D ray, Vector2 point)
         {
-            int side;
             string message = string.Format(format, ray.ToString("F8"), point.ToString("F8"));
             Assert.True(Intersect.PointRay(point, ray.origin, ray.direction), message);
-            Assert.True(Intersect.PointRay(point, ray.origin, ray.direction, out side), message);
+            Assert.True(Intersect.PointRay(point, ray.origin, ray.direction, out int side), message);
             Assert.AreEqual(0, side, message);
         }
 
         private void False_Intersect(Ray2D ray, Vector2 point, int expected = 0)
         {
-            int side;
             string message = string.Format(format, ray.ToString("F8"), point.ToString("F8"));
             Assert.False(Intersect.PointRay(point, ray.origin, ray.direction), message);
-            Assert.False(Intersect.PointRay(point, ray.origin, ray.direction, out side), message);
+            Assert.False(Intersect.PointRay(point, ray.origin, ray.direction, out int side), message);
             Assert.AreEqual(expected, side, message);
         }
 

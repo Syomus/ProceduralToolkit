@@ -203,10 +203,9 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void True_Intersect(Segment2 segment, Vector2 point)
         {
-            int side;
             string message = string.Format(format, segment, point.ToString("F8"));
             Assert.True(Intersect.PointSegment(point, segment.a, segment.b), message);
-            Assert.True(Intersect.PointSegment(point, segment.a, segment.b, out side), message);
+            Assert.True(Intersect.PointSegment(point, segment.a, segment.b, out int side), message);
             Assert.AreEqual(0, side, message);
             Assert.True(Intersect.PointSegment(point, segment.b, segment.a), message);
             Assert.True(Intersect.PointSegment(point, segment.b, segment.a, out side), message);
@@ -215,10 +214,9 @@ namespace ProceduralToolkit.Tests.Geometry2D
 
         private void False_Intersect(Segment2 segment, Vector2 point, int expected = 0)
         {
-            int side;
             string message = string.Format(format, segment, point.ToString("F8"));
             Assert.False(Intersect.PointSegment(point, segment.a, segment.b), message);
-            Assert.False(Intersect.PointSegment(point, segment.a, segment.b, out side), message);
+            Assert.False(Intersect.PointSegment(point, segment.a, segment.b, out int side), message);
             Assert.AreEqual(expected, side, message);
             Assert.False(Intersect.PointSegment(point, segment.b, segment.a), message);
             Assert.False(Intersect.PointSegment(point, segment.b, segment.a, out side), message);

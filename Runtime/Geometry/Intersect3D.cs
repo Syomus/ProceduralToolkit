@@ -95,8 +95,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool LineLine(Line3 lineA, Line3 lineB)
         {
-            Vector3 intersection;
-            return LineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out intersection);
+            return LineLine(lineA.origin, lineA.direction, lineB.origin, lineB.direction, out Vector3 intersection);
         }
 
         /// <summary>
@@ -112,8 +111,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool LineLine(Vector3 originA, Vector3 directionA, Vector3 originB, Vector3 directionB)
         {
-            Vector3 intersection;
-            return LineLine(originA, directionA, originB, directionB, out intersection);
+            return LineLine(originA, directionA, originB, directionB, out Vector3 intersection);
         }
 
         /// <summary>
@@ -169,8 +167,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool LineSphere(Line3 line, Sphere sphere)
         {
-            IntersectionLineSphere intersection;
-            return LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out intersection);
+            return LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out IntersectionLineSphere intersection);
         }
 
         /// <summary>
@@ -186,8 +183,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool LineSphere(Vector3 lineOrigin, Vector3 lineDirection, Vector3 sphereCenter, float sphereRadius)
         {
-            IntersectionLineSphere intersection;
-            return LineSphere(lineOrigin, lineDirection, sphereCenter, sphereRadius, out intersection);
+            return LineSphere(lineOrigin, lineDirection, sphereCenter, sphereRadius, out IntersectionLineSphere intersection);
         }
 
         /// <summary>
@@ -231,8 +227,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool RaySphere(Ray ray, Sphere sphere)
         {
-            IntersectionRaySphere intersection;
-            return RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out intersection);
+            return RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out IntersectionRaySphere intersection);
         }
 
         /// <summary>
@@ -248,8 +243,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool RaySphere(Vector3 rayOrigin, Vector3 rayDirection, Vector3 sphereCenter, float sphereRadius)
         {
-            IntersectionRaySphere intersection;
-            return RaySphere(rayOrigin, rayDirection, sphereCenter, sphereRadius, out intersection);
+            return RaySphere(rayOrigin, rayDirection, sphereCenter, sphereRadius, out IntersectionRaySphere intersection);
         }
 
         /// <summary>
@@ -315,8 +309,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool SegmentSphere(Segment3 segment, Sphere sphere)
         {
-            IntersectionSegmentSphere intersection;
-            return SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out intersection);
+            return SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out IntersectionSegmentSphere intersection);
         }
 
         /// <summary>
@@ -332,8 +325,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool SegmentSphere(Vector3 segmentA, Vector3 segmentB, Vector3 sphereCenter, float sphereRadius)
         {
-            IntersectionSegmentSphere intersection;
-            return SegmentSphere(segmentA, segmentB, sphereCenter, sphereRadius, out intersection);
+            return SegmentSphere(segmentA, segmentB, sphereCenter, sphereRadius, out IntersectionSegmentSphere intersection);
         }
 
         /// <summary>
@@ -442,8 +434,7 @@ namespace ProceduralToolkit
         /// <returns>True if the spheres intersect or one sphere is contained within the other</returns>
         public static bool SphereSphere(Sphere sphereA, Sphere sphereB)
         {
-            IntersectionSphereSphere intersection;
-            return SphereSphere(sphereA.center, sphereA.radius, sphereB.center, sphereB.radius, out intersection);
+            return SphereSphere(sphereA.center, sphereA.radius, sphereB.center, sphereB.radius, out IntersectionSphereSphere intersection);
         }
 
         /// <summary>
@@ -461,8 +452,7 @@ namespace ProceduralToolkit
         /// <returns>True if the spheres intersect or one sphere is contained within the other</returns>
         public static bool SphereSphere(Vector3 centerA, float radiusA, Vector3 centerB, float radiusB)
         {
-            IntersectionSphereSphere intersection;
-            return SphereSphere(centerA, radiusA, centerB, radiusB, out intersection);
+            return SphereSphere(centerA, radiusA, centerB, radiusB, out IntersectionSphereSphere intersection);
         }
 
         /// <summary>
