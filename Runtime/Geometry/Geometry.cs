@@ -17,6 +17,44 @@ namespace ProceduralToolkit
         #region Point samplers 2D
 
         /// <summary>
+        /// Returns a point on a segment at the given normalized position
+        /// </summary>
+        /// <param name="a">Start of the segment</param>
+        /// <param name="b">End of the segment</param>
+        /// <param name="position">Normalized position</param>
+        public static Vector2 PointOnSegment2(Vector2 a, Vector2 b, float position)
+        {
+            return Vector2.Lerp(a, b, position);
+        }
+
+        /// <summary>
+        /// Returns a list of evenly distributed points on a segment
+        /// </summary>
+        /// <param name="a">Start of the segment</param>
+        /// <param name="b">End of the segment</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector2> PointsOnSegment2(Vector2 a, Vector2 b, int count)
+        {
+            var points = new List<Vector2>(count);
+            if (count <= 0)
+            {
+                return points;
+            }
+            if (count == 1)
+            {
+                points.Add(a);
+                return points;
+            }
+            for (int i = 0; i < count; i++)
+            {
+                points.Add(PointOnSegment2(a, b, i/(float) (count - 1)));
+            }
+            return points;
+        }
+
+        #region PointOnCircle2
+
+        /// <summary>
         /// Returns a point on a circle in the XY plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
@@ -26,6 +64,21 @@ namespace ProceduralToolkit
             float angleInRadians = angle*Mathf.Deg2Rad;
             return new Vector2(radius*Mathf.Sin(angleInRadians), radius*Mathf.Cos(angleInRadians));
         }
+
+        /// <summary>
+        /// Returns a point on a circle in the XY plane
+        /// </summary>
+        /// <param name="center">Center of the circle</param>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="angle">Angle in degrees</param>
+        public static Vector2 PointOnCircle2(Vector2 center, float radius, float angle)
+        {
+            return center + PointOnCircle2(radius, angle);
+        }
+
+        #endregion PointOnCircle2
+
+        #region PointsOnCircle2
 
         /// <summary>
         /// Returns a list of evenly distributed points on a circle in the XY plane
@@ -46,6 +99,29 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns a list of evenly distributed points on a circle in the XY plane
+        /// </summary>
+        /// <param name="center">Center of the circle</param>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector2> PointsOnCircle2(Vector2 center, float radius, int count)
+        {
+            float segmentAngle = 360f/count;
+            float currentAngle = 0;
+            var points = new List<Vector2>(count);
+            for (var i = 0; i < count; i++)
+            {
+                points.Add(PointOnCircle2(center, radius, currentAngle));
+                currentAngle += segmentAngle;
+            }
+            return points;
+        }
+
+        #endregion PointsOnCircle2
+
+        #region PointsInCircle2
+
+        /// <summary>
         /// Returns a list of evenly distributed points inside a circle in the XY plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
@@ -64,9 +140,69 @@ namespace ProceduralToolkit
             return points;
         }
 
+        /// <summary>
+        /// Returns a list of evenly distributed points inside a circle in the XY plane
+        /// </summary>
+        /// <param name="center">Center of the circle</param>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector2> PointsInCircle2(Vector2 center, float radius, int count)
+        {
+            float currentAngle = 0;
+            var points = new List<Vector2>(count);
+            for (int i = 0; i < count; i++)
+            {
+                // The 0.5 offset improves the position of the first point
+                float r = Mathf.Sqrt((i + 0.5f)/count);
+                points.Add(center + new Vector2(radius*Mathf.Sin(currentAngle)*r, radius*Mathf.Cos(currentAngle)*r));
+                currentAngle += PTUtils.GoldenAngle;
+            }
+            return points;
+        }
+
+        #endregion PointsInCircle2
+
         #endregion Point samplers 2D
 
         #region Point samplers 3D
+
+        /// <summary>
+        /// Returns a point on a segment at the given normalized position
+        /// </summary>
+        /// <param name="a">Start of the segment</param>
+        /// <param name="b">End of the segment</param>
+        /// <param name="position">Normalized position</param>
+        public static Vector3 PointOnSegment3(Vector3 a, Vector3 b, float position)
+        {
+            return Vector3.Lerp(a, b, position);
+        }
+
+        /// <summary>
+        /// Returns a list of evenly distributed points on a segment
+        /// </summary>
+        /// <param name="a">Start of the segment</param>
+        /// <param name="b">End of the segment</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsOnSegment3(Vector3 a, Vector3 b, int count)
+        {
+            var points = new List<Vector3>(count);
+            if (count <= 0)
+            {
+                return points;
+            }
+            if (count == 1)
+            {
+                points.Add(a);
+                return points;
+            }
+            for (int i = 0; i < count; i++)
+            {
+                points.Add(PointOnSegment3(a, b, i/(float) (count - 1)));
+            }
+            return points;
+        }
+
+        #region PointOnCircle3
 
         /// <summary>
         /// Returns a point on a circle in the XY plane
@@ -79,23 +215,14 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a list of evenly distributed points on a circle in the XY plane
+        /// Returns a point on a circle in the XY plane
         /// </summary>
+        /// <param name="center">Center of the circle</param>
         /// <param name="radius">Circle radius</param>
-        /// <param name="count">Number of points</param>
-        public static List<Vector3> PointsOnCircle3XY(float radius, int count)
+        /// <param name="angle">Angle in degrees</param>
+        public static Vector3 PointOnCircle3XY(Vector3 center, float radius, float angle)
         {
-            return PointsOnCircle3(0, 1, radius, count);
-        }
-
-        /// <summary>
-        /// Returns a list of evenly distributed points inside a circle in the XY plane
-        /// </summary>
-        /// <param name="radius">Circle radius</param>
-        /// <param name="count">Number of points</param>
-        public static List<Vector3> PointsInCircle3XY(float radius, int count)
-        {
-            return PointsInCircle3(0, 1, radius, count);
+            return PointOnCircle3(0, 1, center, radius, angle);
         }
 
         /// <summary>
@@ -109,23 +236,14 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a list of evenly distributed points on a circle in the XZ plane
+        /// Returns a point on a circle in the XZ plane
         /// </summary>
+        /// <param name="center">Center of the circle</param>
         /// <param name="radius">Circle radius</param>
-        /// <param name="count">Number of points</param>
-        public static List<Vector3> PointsOnCircle3XZ(float radius, int count)
+        /// <param name="angle">Angle in degrees</param>
+        public static Vector3 PointOnCircle3XZ(Vector3 center, float radius, float angle)
         {
-            return PointsOnCircle3(0, 2, radius, count);
-        }
-
-        /// <summary>
-        /// Returns a list of evenly distributed points inside a circle in the XZ plane
-        /// </summary>
-        /// <param name="radius">Circle radius</param>
-        /// <param name="count">Number of points</param>
-        public static List<Vector3> PointsInCircle3XZ(float radius, int count)
-        {
-            return PointsInCircle3(0, 2, radius, count);
+            return PointOnCircle3(0, 2, center, radius, angle);
         }
 
         /// <summary>
@@ -139,6 +257,77 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Returns a point on a circle in the YZ plane
+        /// </summary>
+        /// <param name="center">Center of the circle</param>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="angle">Angle in degrees</param>
+        public static Vector3 PointOnCircle3YZ(Vector3 center, float radius, float angle)
+        {
+            return PointOnCircle3(1, 2, center, radius, angle);
+        }
+
+        private static Vector3 PointOnCircle3(int xIndex, int yIndex, float radius, float angle)
+        {
+            float angleInRadians = angle*Mathf.Deg2Rad;
+            var point = new Vector3();
+            point[xIndex] = radius*Mathf.Sin(angleInRadians);
+            point[yIndex] = radius*Mathf.Cos(angleInRadians);
+            return point;
+        }
+
+        private static Vector3 PointOnCircle3(int xIndex, int yIndex, Vector3 center, float radius, float angle)
+        {
+            return center + PointOnCircle3(xIndex, yIndex, radius, angle);
+        }
+
+        #endregion PointOnCircle3
+
+        #region PointsOnCircle3
+
+        /// <summary>
+        /// Returns a list of evenly distributed points on a circle in the XY plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsOnCircle3XY(float radius, int count)
+        {
+            return PointsOnCircle3(0, 1, radius, count);
+        }
+
+        /// <summary>
+        /// Returns a list of evenly distributed points on a circle in the XY plane
+        /// </summary>
+        /// <param name="center">Center of the circle</param>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsOnCircle3XY(Vector3 center, float radius, int count)
+        {
+            return PointsOnCircle3(0, 1, center, radius, count);
+        }
+
+        /// <summary>
+        /// Returns a list of evenly distributed points on a circle in the XZ plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsOnCircle3XZ(float radius, int count)
+        {
+            return PointsOnCircle3(0, 2, radius, count);
+        }
+
+        /// <summary>
+        /// Returns a list of evenly distributed points on a circle in the XZ plane
+        /// </summary>
+        /// <param name="center">Center of the circle</param>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsOnCircle3XZ(Vector3 center, float radius, int count)
+        {
+            return PointsOnCircle3(0, 2, center, radius, count);
+        }
+
+        /// <summary>
         /// Returns a list of evenly distributed points on a circle in the YZ plane
         /// </summary>
         /// <param name="radius">Circle radius</param>
@@ -149,22 +338,14 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a list of evenly distributed points inside a circle in the YZ plane
+        /// Returns a list of evenly distributed points on a circle in the YZ plane
         /// </summary>
+        /// <param name="center">Center of the circle</param>
         /// <param name="radius">Circle radius</param>
         /// <param name="count">Number of points</param>
-        public static List<Vector3> PointsInCircle3YZ(float radius, int count)
+        public static List<Vector3> PointsOnCircle3YZ(Vector3 center, float radius, int count)
         {
-            return PointsInCircle3(1, 2, radius, count);
-        }
-
-        private static Vector3 PointOnCircle3(int xIndex, int yIndex, float radius, float angle)
-        {
-            float angleInRadians = angle*Mathf.Deg2Rad;
-            var point = new Vector3();
-            point[xIndex] = radius*Mathf.Sin(angleInRadians);
-            point[yIndex] = radius*Mathf.Cos(angleInRadians);
-            return point;
+            return PointsOnCircle3(1, 2, center, radius, count);
         }
 
         private static List<Vector3> PointsOnCircle3(int xIndex, int yIndex, float radius, int count)
@@ -178,6 +359,83 @@ namespace ProceduralToolkit
                 currentAngle += segmentAngle;
             }
             return points;
+        }
+
+        private static List<Vector3> PointsOnCircle3(int xIndex, int yIndex, Vector3 center, float radius, int count)
+        {
+            float segmentAngle = 360f/count;
+            float currentAngle = 0;
+            var points = new List<Vector3>(count);
+            for (var i = 0; i < count; i++)
+            {
+                points.Add(PointOnCircle3(xIndex, yIndex, center, radius, currentAngle));
+                currentAngle += segmentAngle;
+            }
+            return points;
+        }
+
+        #endregion PointsOnCircle3
+
+        #region PointsInCircle3
+
+        /// <summary>
+        /// Returns a list of evenly distributed points inside a circle in the XY plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsInCircle3XY(float radius, int count)
+        {
+            return PointsInCircle3(0, 1, radius, count);
+        }
+
+        /// <summary>
+        /// Returns a list of evenly distributed points inside a circle in the XY plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsInCircle3XY(Vector3 center, float radius, int count)
+        {
+            return PointsInCircle3(0, 1, center, radius, count);
+        }
+
+        /// <summary>
+        /// Returns a list of evenly distributed points inside a circle in the XZ plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsInCircle3XZ(float radius, int count)
+        {
+            return PointsInCircle3(0, 2, radius, count);
+        }
+
+        /// <summary>
+        /// Returns a list of evenly distributed points inside a circle in the XZ plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsInCircle3XZ(Vector3 center, float radius, int count)
+        {
+            return PointsInCircle3(0, 2, center, radius, count);
+        }
+
+        /// <summary>
+        /// Returns a list of evenly distributed points inside a circle in the YZ plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsInCircle3YZ(float radius, int count)
+        {
+            return PointsInCircle3(1, 2, radius, count);
+        }
+
+        /// <summary>
+        /// Returns a list of evenly distributed points inside a circle in the YZ plane
+        /// </summary>
+        /// <param name="radius">Circle radius</param>
+        /// <param name="count">Number of points</param>
+        public static List<Vector3> PointsInCircle3YZ(Vector3 center, float radius, int count)
+        {
+            return PointsInCircle3(1, 2, center, radius, count);
         }
 
         private static List<Vector3> PointsInCircle3(int xIndex, int yIndex, float radius, int count)
@@ -196,6 +454,25 @@ namespace ProceduralToolkit
             }
             return points;
         }
+
+        private static List<Vector3> PointsInCircle3(int xIndex, int yIndex, Vector3 center, float radius, int count)
+        {
+            float currentAngle = 0;
+            var points = new List<Vector3>(count);
+            for (int i = 0; i < count; i++)
+            {
+                // The 0.5 offset improves the position of the first point
+                float r = Mathf.Sqrt((i + 0.5f)/count);
+                var point = new Vector3();
+                point[xIndex] = radius*Mathf.Sin(currentAngle)*r;
+                point[yIndex] = radius*Mathf.Cos(currentAngle)*r;
+                points.Add(center + point);
+                currentAngle += PTUtils.GoldenAngle;
+            }
+            return points;
+        }
+
+        #endregion PointsInCircle3
 
         /// <summary>
         /// Returns a point on a sphere in geographic coordinate system

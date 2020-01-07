@@ -62,31 +62,19 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a point on the segment at the given normalized position
         /// </summary>
+        /// <param name="position">Normalized position</param>
         public Vector3 GetPoint(float position)
         {
-            return Vector3.Lerp(a, b, position);
+            return Geometry.PointOnSegment3(a, b, position);
         }
 
         /// <summary>
-        /// Returns a list of points on the segment
+        /// Returns a list of evenly distributed points on the segment
         /// </summary>
-        public List<Vector3> GetPoints(int number)
+        /// <param name="count">Number of points</param>
+        public List<Vector3> GetPoints(int count)
         {
-            var points = new List<Vector3>(number);
-            if (number <= 0)
-            {
-                return points;
-            }
-            if (number == 1)
-            {
-                points.Add(a);
-                return points;
-            }
-            for (int i = 0; i < number; i++)
-            {
-                points.Add(GetPoint(i/(float) (number - 1)));
-            }
-            return points;
+            return Geometry.PointsOnSegment3(a, b, count);
         }
 
         /// <summary>

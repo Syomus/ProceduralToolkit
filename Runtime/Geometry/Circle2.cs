@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -27,11 +28,24 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a point on the circle at the given <paramref name="angle"/>
         /// </summary>
+        /// <param name="angle">Angle in degrees</param>
         public Vector2 GetPoint(float angle)
         {
-            return center + Geometry.PointOnCircle2(radius, angle);
+            return Geometry.PointOnCircle2(center, radius, angle);
         }
 
+        /// <summary>
+        /// Returns a list of evenly distributed points on the circle
+        /// </summary>
+        /// <param name="count">Number of points</param>
+        public List<Vector2> GetPoints(int count)
+        {
+            return Geometry.PointsOnCircle2(center, radius, count);
+        }
+
+        /// <summary>
+        /// Returns true if the point intersects the circle
+        /// </summary>
         public bool Contains(Vector2 point)
         {
             return Intersect.PointCircle(point, center, radius);
