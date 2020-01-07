@@ -12,7 +12,10 @@ This release adds Unity Package Manager support and [FastNoise](https://github.c
 * Segment2 and Segment3:
   * Added GetPoints.
   * Added center and aabb.
-* Circle2: Added GetPoints.
+* Circle2:
+  * Added GetPoints.
+  * Added perimeter and area.
+* Circle3: Added perimeter and area.
 
 ### Changes
 * Folder structure and some of the namespaces were changed in accordance with the package manager guidelines.

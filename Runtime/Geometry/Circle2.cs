@@ -13,7 +13,16 @@ namespace ProceduralToolkit
         public Vector2 center;
         public float radius;
 
-        public static Circle2 unit { get { return new Circle2(Vector2.zero, 1); } }
+        /// <summary>
+        /// Returns the perimeter of the circle
+        /// </summary>
+        public float perimeter => 2*Mathf.PI*radius;
+        /// <summary>
+        /// Returns the area of the circle
+        /// </summary>
+        public float area => Mathf.PI*radius*radius;
+
+        public static Circle2 unit => new Circle2(Vector2.zero, 1);
 
         public Circle2(float radius) : this(Vector2.zero, radius)
         {

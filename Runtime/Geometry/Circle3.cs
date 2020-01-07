@@ -13,9 +13,18 @@ namespace ProceduralToolkit
         public Vector3 normal;
         public float radius;
 
-        public static Circle3 unitXY { get { return new Circle3(Vector3.zero, Vector3.back, 1); } }
-        public static Circle3 unitXZ { get { return new Circle3(Vector3.zero, Vector3.up, 1); } }
-        public static Circle3 unitYZ { get { return new Circle3(Vector3.zero, Vector3.left, 1); } }
+        /// <summary>
+        /// Returns the perimeter of the circle
+        /// </summary>
+        public float perimeter => 2*Mathf.PI*radius;
+        /// <summary>
+        /// Returns the area of the circle
+        /// </summary>
+        public float area => Mathf.PI*radius*radius;
+
+        public static Circle3 unitXY => new Circle3(Vector3.zero, Vector3.back, 1);
+        public static Circle3 unitXZ => new Circle3(Vector3.zero, Vector3.up, 1);
+        public static Circle3 unitYZ => new Circle3(Vector3.zero, Vector3.left, 1);
 
         public Circle3(float radius) : this(Vector3.zero, Vector3.back, radius)
         {
