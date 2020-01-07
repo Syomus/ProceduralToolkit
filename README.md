@@ -20,12 +20,12 @@ There are several ways to install Procedural Toolkit:
 The best way is to install this library as a [Git package](https://docs.unity3d.com/Manual/upm-git.html) using the Package Manager.
 First, make sure that you to have Git installed and available in your system's PATH.
 After that you need to add the following line to your project's `manifest.json`:
-```JSON
+```
 "com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git",
 ```
 
 It should look like this, notice the comma at the end of the line:
-```JSON
+```
 {
   "dependencies": {
     "com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git",
@@ -155,6 +155,9 @@ Use [PathClipper](/Runtime/PathClipper.cs) and [PathOffsetter](/Runtime/PathOffs
 The [LibTessDotNet](https://github.com/speps/LibTessDotNet) library. 
 The recommended use is through the wrapper class [Tessellator](/Runtime/Tessellator.cs).
 
+### Runtime/FastNoiseLib/
+The [FastNoise](https://github.com/Auburns/FastNoise_CSharp) library.
+
 ### Shaders/
 Depending on the installation type, the shader library can be used like this:
 ```HLSL
@@ -277,6 +280,9 @@ An example showing the usage of Tesselator.
 
 ### StraightSkeleton
 An StraightSkeletonGenerator example showing how you can generate a straight skeleton from a polygon and use the result.
+
+### Noise
+An example demonstrating various noise types.
 
 ### Samples~/Common
 UI prefabs and the skybox material used in examples.
