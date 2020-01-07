@@ -19,21 +19,21 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a point on a segment at the given normalized position
         /// </summary>
-        /// <param name="a">Start of the segment</param>
-        /// <param name="b">End of the segment</param>
+        /// <param name="segmentA">Start of the segment</param>
+        /// <param name="segmentB">End of the segment</param>
         /// <param name="position">Normalized position</param>
-        public static Vector2 PointOnSegment2(Vector2 a, Vector2 b, float position)
+        public static Vector2 PointOnSegment2(Vector2 segmentA, Vector2 segmentB, float position)
         {
-            return Vector2.Lerp(a, b, position);
+            return Vector2.Lerp(segmentA, segmentB, position);
         }
 
         /// <summary>
         /// Returns a list of evenly distributed points on a segment
         /// </summary>
-        /// <param name="a">Start of the segment</param>
-        /// <param name="b">End of the segment</param>
+        /// <param name="segmentA">Start of the segment</param>
+        /// <param name="segmentB">End of the segment</param>
         /// <param name="count">Number of points</param>
-        public static List<Vector2> PointsOnSegment2(Vector2 a, Vector2 b, int count)
+        public static List<Vector2> PointsOnSegment2(Vector2 segmentA, Vector2 segmentB, int count)
         {
             var points = new List<Vector2>(count);
             if (count <= 0)
@@ -42,12 +42,12 @@ namespace ProceduralToolkit
             }
             if (count == 1)
             {
-                points.Add(a);
+                points.Add(segmentA);
                 return points;
             }
             for (int i = 0; i < count; i++)
             {
-                points.Add(PointOnSegment2(a, b, i/(float) (count - 1)));
+                points.Add(PointOnSegment2(segmentA, segmentB, i/(float) (count - 1)));
             }
             return points;
         }
@@ -169,21 +169,21 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a point on a segment at the given normalized position
         /// </summary>
-        /// <param name="a">Start of the segment</param>
-        /// <param name="b">End of the segment</param>
+        /// <param name="segmentA">Start of the segment</param>
+        /// <param name="segmentB">End of the segment</param>
         /// <param name="position">Normalized position</param>
-        public static Vector3 PointOnSegment3(Vector3 a, Vector3 b, float position)
+        public static Vector3 PointOnSegment3(Vector3 segmentA, Vector3 segmentB, float position)
         {
-            return Vector3.Lerp(a, b, position);
+            return Vector3.Lerp(segmentA, segmentB, position);
         }
 
         /// <summary>
         /// Returns a list of evenly distributed points on a segment
         /// </summary>
-        /// <param name="a">Start of the segment</param>
-        /// <param name="b">End of the segment</param>
+        /// <param name="segmentA">Start of the segment</param>
+        /// <param name="segmentB">End of the segment</param>
         /// <param name="count">Number of points</param>
-        public static List<Vector3> PointsOnSegment3(Vector3 a, Vector3 b, int count)
+        public static List<Vector3> PointsOnSegment3(Vector3 segmentA, Vector3 segmentB, int count)
         {
             var points = new List<Vector3>(count);
             if (count <= 0)
@@ -192,12 +192,12 @@ namespace ProceduralToolkit
             }
             if (count == 1)
             {
-                points.Add(a);
+                points.Add(segmentA);
                 return points;
             }
             for (int i = 0; i < count; i++)
             {
-                points.Add(PointOnSegment3(a, b, i/(float) (count - 1)));
+                points.Add(PointOnSegment3(segmentA, segmentB, i/(float) (count - 1)));
             }
             return points;
         }
