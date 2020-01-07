@@ -214,11 +214,11 @@ A fully procedural chair generator, creates an entire mesh from scratch and pain
 ### [Low Poly Terrain](https://syomus.com/ProceduralToolkit/LowPolyTerrain)
 ![](https://syomus.com/ProceduralToolkit/screenshot-low-poly-terrain.png)
 
-A simple Perlin noise based low poly terrain generator. 
+A simple low poly terrain generator based on fractal noise. 
 Doesn't support chunking or anything like that, just an example of how you can use a noise function in a plane generation algorithm.
 * LowPolyTerrainGenerator: Main generator class. Generates terrain based on input configuration.
-* LowPolyTerrainGeneratorConfigurator: Configurator for LowPolyTerrainGenerator with UI and editor controls.
-* LowPolyTerrainGeneratorConfiguratorEditor: Custom inspector for LowPolyTerrainGeneratorConfigurator.
+* LowPolyTerrainExample: Configurator for LowPolyTerrainGenerator with UI and editor controls.
+* LowPolyTerrainExampleEditor: Custom inspector for LowPolyTerrainExample.
 
 ### [Signed Distance Functions](https://syomus.com/ProceduralToolkit/SDF)
 ![](https://syomus.com/ProceduralToolkit/screenshot-sdf.png)

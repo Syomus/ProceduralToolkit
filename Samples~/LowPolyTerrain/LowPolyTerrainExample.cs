@@ -6,7 +6,7 @@ namespace ProceduralToolkit.Samples
     /// <summary>
     /// Configurator for LowPolyTerrainGenerator with UI and editor controls
     /// </summary>
-    public class LowPolyTerrainGeneratorConfigurator : ConfiguratorBase
+    public class LowPolyTerrainExample : ConfiguratorBase
     {
         public MeshFilter terrainMeshFilter;
         public MeshCollider terrainMeshCollider;
@@ -14,16 +14,12 @@ namespace ProceduralToolkit.Samples
         public bool constantSeed = false;
         public LowPolyTerrainGenerator.Config config = new LowPolyTerrainGenerator.Config();
 
-        private const int minXSize = 10;
-        private const int maxXSize = 30;
         private const int minYSize = 1;
-        private const int maxYSize = 5;
-        private const int minZSize = 10;
-        private const int maxZSize = 30;
+        private const int maxYSize = 10;
         private const float minCellSize = 0.3f;
-        private const float maxCellSize = 2;
-        private const int minNoiseScale = 1;
-        private const int maxNoiseScale = 20;
+        private const float maxCellSize = 1;
+        private const int minNoiseFrequency = 1;
+        private const int maxNoiseFrequency = 8;
 
         private Mesh terrainMesh;
 
@@ -33,23 +29,9 @@ namespace ProceduralToolkit.Samples
             SetupSkyboxAndPalette();
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Terrain size X", minXSize, maxXSize, (int) config.terrainSize.x, value =>
-                {
-                    config.terrainSize.x = value;
-                    Generate();
-                });
-
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Terrain size Y", minYSize, maxYSize, (int) config.terrainSize.y, value =>
+                .Initialize("Terrain height", minYSize, maxYSize, (int) config.terrainSize.y, value =>
                 {
                     config.terrainSize.y = value;
-                    Generate();
-                });
-
-            InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Terrain size Z", minZSize, maxZSize, (int) config.terrainSize.z, value =>
-                {
-                    config.terrainSize.z = value;
                     Generate();
                 });
 
@@ -61,9 +43,9 @@ namespace ProceduralToolkit.Samples
                 });
 
             InstantiateControl<SliderControl>(leftPanel)
-                .Initialize("Noise scale", minNoiseScale, maxNoiseScale, (int) config.noiseScale, value =>
+                .Initialize("Noise frequency", minNoiseFrequency, maxNoiseFrequency, (int) config.noiseFrequency, value =>
                 {
-                    config.noiseScale = value;
+                    config.noiseFrequency = value;
                     Generate();
                 });
 

@@ -13,6 +13,7 @@ This release adds Unity Package Manager support and [FastNoise](https://github.c
 * Minimum supported Unity version is now 2019.2.
 * Dropped support for the old scripting runtime.
 * Buildings: Renamed PlanningStrategy to Planner, ConstructionStrategy to Constructor.
+* LowPolyTerrain: Renamed classes and simlified a bit.
 * SDF: Include instructions are now installation type dependent.
 
 ### Fixes

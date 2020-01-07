@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ProceduralToolkit.FastNoiseLib;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
@@ -7,16 +8,16 @@ using Random = UnityEngine.Random;
 namespace ProceduralToolkit.Samples
 {
     /// <summary>
-    /// A simple Perlin noise based low poly terrain generator
+    /// A simple low poly terrain generator based on fractal noise
     /// </summary>
     public static class LowPolyTerrainGenerator
     {
         [Serializable]
         public class Config
         {
-            public Vector3 terrainSize = new Vector3(20, 1, 20);
-            public float cellSize = 1;
-            public float noiseScale = 5;
+            public Vector3 terrainSize = new Vector3(32, 5, 32);
+            public float cellSize = 0.5f;
+            public float noiseFrequency = 4;
             public Gradient gradient = ColorE.Gradient(Color.black, Color.white);
         }
 
@@ -51,6 +52,10 @@ namespace ProceduralToolkit.Samples
                 draft.colors.Add(Color.black);
             }
 
+            var noise = new FastNoise();
+            noise.SetNoiseType(FastNoise.NoiseType.SimplexFractal);
+            noise.SetFrequency(config.noiseFrequency);
+
             for (int x = 0; x < xSegments; x++)
             {
                 for (int z = 0; z < zSegments; z++)
@@ -62,10 +67,10 @@ namespace ProceduralToolkit.Samples
                     int index4 = index0 + 4;
                     int index5 = index0 + 5;
 
-                    float height00 = GetHeight(x + 0, z + 0, xSegments, zSegments, noiseOffset, config.noiseScale);
-                    float height01 = GetHeight(x + 0, z + 1, xSegments, zSegments, noiseOffset, config.noiseScale);
-                    float height10 = GetHeight(x + 1, z + 0, xSegments, zSegments, noiseOffset, config.noiseScale);
-                    float height11 = GetHeight(x + 1, z + 1, xSegments, zSegments, noiseOffset, config.noiseScale);
+                    float height00 = GetHeight(x + 0, z + 0, xSegments, zSegments, noiseOffset, noise);
+                    float height01 = GetHeight(x + 0, z + 1, xSegments, zSegments, noiseOffset, noise);
+                    float height10 = GetHeight(x + 1, z + 0, xSegments, zSegments, noiseOffset, noise);
+                    float height11 = GetHeight(x + 1, z + 1, xSegments, zSegments, noiseOffset, noise);
 
                     var vertex00 = new Vector3((x + 0)*xStep, height00*config.terrainSize.y, (z + 0)*zStep);
                     var vertex01 = new Vector3((x + 0)*xStep, height01*config.terrainSize.y, (z + 1)*zStep);
@@ -108,11 +113,11 @@ namespace ProceduralToolkit.Samples
             return draft;
         }
 
-        private static float GetHeight(int x, int z, int xSegments, int zSegments, Vector2 noiseOffset, float noiseScale)
+        private static float GetHeight(int x, int z, int xSegments, int zSegments, Vector2 noiseOffset, FastNoise noise)
         {
-            float noiseX = noiseScale*x/xSegments + noiseOffset.x;
-            float noiseZ = noiseScale*z/zSegments + noiseOffset.y;
-            return Mathf.PerlinNoise(noiseX, noiseZ);
+            float noiseX = x/(float) xSegments + noiseOffset.x;
+            float noiseZ = z/(float) zSegments + noiseOffset.y;
+            return noise.GetNoise(noiseX, noiseZ)*0.5f + 0.5f;
         }
     }
 }

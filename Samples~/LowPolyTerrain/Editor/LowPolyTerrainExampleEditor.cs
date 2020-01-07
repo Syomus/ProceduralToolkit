@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace ProceduralToolkit.Samples
 {
-    [CustomEditor(typeof(LowPolyTerrainGeneratorConfigurator))]
-    public class LowPolyTerrainGeneratorConfiguratorEditor : Editor
+    [CustomEditor(typeof(LowPolyTerrainExample))]
+    public class LowPolyTerrainExampleEditor : Editor
     {
-        private LowPolyTerrainGeneratorConfigurator generator;
+        private LowPolyTerrainExample generator;
 
         private void OnEnable()
         {
-            generator = (LowPolyTerrainGeneratorConfigurator) target;
+            generator = (LowPolyTerrainExample) target;
         }
 
         public override void OnInspectorGUI()
