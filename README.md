@@ -147,7 +147,7 @@ The generation algorithm is loosely based on the work of Tom Kelly (2014)
 * [StraightSkeleton](/Runtime/Geometry/StraightSkeleton/StraightSkeleton.cs): A straight skeleton representation.
 * [Plan](/Runtime/Geometry/StraightSkeleton/Plan.cs): Representation of the active plan during generation process.
 
-### Runtime/Clipper/
+### Runtime/ClipperLib/
 The [Clipper](http://www.angusj.com/delphi/clipper.php) library. 
 Use [PathClipper](/Runtime/PathClipper.cs) and [PathOffsetter](/Runtime/PathOffsetter.cs) for seamless interoperability with Unity.
 
