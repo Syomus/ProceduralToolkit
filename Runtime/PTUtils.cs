@@ -163,6 +163,17 @@ namespace ProceduralToolkit
             return meshRenderer;
         }
 
+        public static Texture2D CreateTexture(int width, int height, Color clearColor)
+        {
+            var texture = new Texture2D(width, height, TextureFormat.ARGB32, false, true)
+            {
+                filterMode = FilterMode.Point
+            };
+            texture.Clear(clearColor);
+            texture.Apply();
+            return texture;
+        }
+
         /// <summary>
         /// Returns a noise value between 0.0 and 1.0
         /// </summary>

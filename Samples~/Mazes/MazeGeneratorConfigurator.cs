@@ -35,10 +35,7 @@ namespace ProceduralToolkit.Samples
 
             int textureWidth = MazeGenerator.GetMapWidth(config.width, wallSize, roomSize);
             int textureHeight = MazeGenerator.GetMapHeight(config.height, wallSize, roomSize);
-            texture = new Texture2D(textureWidth, textureHeight, TextureFormat.ARGB32, false, true)
-            {
-                filterMode = FilterMode.Point
-            };
+            texture = PTUtils.CreateTexture(textureWidth, textureHeight, Color.black);
             mazeImage.texture = texture;
 
             var header = InstantiateControl<TextControl>(algorithmsGroup.transform.parent);

@@ -49,12 +49,7 @@ namespace ProceduralToolkit.Samples
         private void Awake()
         {
             pixels = new Color[config.width*config.height];
-            texture = new Texture2D(config.width, config.height, TextureFormat.ARGB32, false, true)
-            {
-                filterMode = FilterMode.Point
-            };
-            texture.Clear(Color.clear);
-            texture.Apply();
+            texture = PTUtils.CreateTexture(config.width, config.height, Color.clear);
             image.texture = texture;
 
             header = InstantiateControl<TextControl>(leftPanel);
