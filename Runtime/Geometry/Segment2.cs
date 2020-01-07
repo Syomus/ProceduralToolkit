@@ -16,11 +16,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the normalized direction of the segment
         /// </summary>
-        public Vector2 direction { get { return (b - a).normalized; } }
+        public Vector2 direction => (b - a).normalized;
         /// <summary>
         /// Returns the length of the segment
         /// </summary>
-        public float length { get { return (b - a).magnitude; } }
+        public float length => (b - a).magnitude;
+        /// <summary>
+        /// Returns the center of the segment
+        /// </summary>
+        public Vector2 center => GetPoint(0.5f);
+        /// <summary>
+        /// Returns the axis-aligned bounding box of the segment
+        /// </summary>
+        public Rect aabb
+        {
+            get
+            {
+                Vector2 min = Vector2.Min(a, b);
+                Vector2 max = Vector2.Max(a, b);
+                return Rect.MinMaxRect(min.x, min.y, max.x, max.y);
+            }
+        }
 
         public Segment2(Vector2 a, Vector2 b)
         {

@@ -9,7 +9,9 @@ This release adds Unity Package Manager support and [FastNoise](https://github.c
 * Geometry:
   * Added PointOnSegment2, PointsOnSegment2, PointOnSegment3 and PointsOnSegment3.
   * Added overrides with center for circle point samplers.
-* Segment2 and Segment3: Added GetPoints.
+* Segment2 and Segment3:
+  * Added GetPoints.
+  * Added center and aabb.
 * Circle2: Added GetPoints.
 
 ### Changes

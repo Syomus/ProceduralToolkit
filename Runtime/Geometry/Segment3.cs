@@ -16,11 +16,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the normalized direction of the segment
         /// </summary>
-        public Vector3 direction { get { return (b - a).normalized; } }
+        public Vector3 direction => (b - a).normalized;
         /// <summary>
         /// Returns the length of the segment
         /// </summary>
-        public float length { get { return (b - a).magnitude; } }
+        public float length => (b - a).magnitude;
+        /// <summary>
+        /// Returns the center of the segment
+        /// </summary>
+        public Vector2 center => GetPoint(0.5f);
+        /// <summary>
+        /// Returns the axis-aligned bounding box of the segment
+        /// </summary>
+        public Bounds aabb
+        {
+            get
+            {
+                var bounds = new Bounds();
+                bounds.SetMinMax(Vector3.Min(a, b), Vector3.Max(a, b));
+                return bounds;
+            }
+        }
 
         public Segment3(Vector3 a, Vector3 b)
         {
