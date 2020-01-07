@@ -16,6 +16,7 @@ This release adds Unity Package Manager support and [FastNoise](https://github.c
   * Added GetPoints.
   * Added perimeter and area.
 * Circle3: Added perimeter and area.
+* Sphere: Added area and volume.
 
 ### Changes
 * Folder structure and some of the namespaces were changed in accordance with the package manager guidelines.

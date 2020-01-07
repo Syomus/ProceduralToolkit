@@ -12,7 +12,16 @@ namespace ProceduralToolkit
         public Vector3 center;
         public float radius;
 
-        public static Sphere unit { get { return new Sphere(Vector3.zero, 1); } }
+        /// <summary>
+        /// Returns the area of the sphere
+        /// </summary>
+        public float area => 4*Mathf.PI*radius*radius;
+        /// <summary>
+        /// Returns the volume of the sphere
+        /// </summary>
+        public float volume => 4f/3f*Mathf.PI*radius*radius*radius;
+
+        public static Sphere unit => new Sphere(Vector3.zero, 1);
 
         public Sphere(float radius)
         {
@@ -36,6 +45,9 @@ namespace ProceduralToolkit
             return center + Geometry.PointOnSphere(radius, horizontalAngle, verticalAngle);
         }
 
+        /// <summary>
+        /// Returns true if the point intersects the sphere
+        /// </summary>
         public bool Contains(Vector3 point)
         {
             return Intersect.PointSphere(point, center, radius);
