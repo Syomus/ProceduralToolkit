@@ -1,8 +1,9 @@
 # Changelog
 
 ## [Unreleased]
-This release adds Unity Package Manager Support.
-### Improvements
+This release adds Unity Package Manager support and [FastNoise](https://github.com/Auburns/FastNoise_CSharp) library integration.
+### Added
+* Integrated [FastNoise](https://github.com/Auburns/FastNoise_CSharp) library, see Noise example on its usage.
 * MeshDraft: Added new Capsule primitive.
 * PTUtils: Added CreateMeshRenderer.
 
@@ -19,14 +20,14 @@ This release adds Unity Package Manager Support.
 * MeshDraft:
   * Fixed uv-less cylinders missing sides.
   * Fixed normal calculation for degenerate quads in AddQuad.
-  * Fixed an exception in FlatRevolutionSurface (#58).
+  * Fixed an exception in FlatRevolutionSurface ([#58](https://github.com/Syomus/ProceduralToolkit/issues/58)).
 * MeshFilterExtension: Removed useless Instantiate breaking the link to the mesh.
 
 
 ## [0.2.2] - 2018-09-18
 This release brings polygon tessellation, clipping and offsetting, straight skeleton generation and a completely rewritten Buildings example.
 ### Features
-* Integrated [LibTessDotNet](https://github.com/speps/LibTessDotNet) library, see Tessellator wrapper class and it's example for details.
+* Integrated [LibTessDotNet](https://github.com/speps/LibTessDotNet) library, see Tessellator wrapper class and its example for details.
 * Integrated [Clipper](http://www.angusj.com/delphi/clipper.php) library, use PathClipper and PathOffsetter for seamless interoperability with Unity.
 * Added [straight skeleton](https://en.wikipedia.org/wiki/Straight_skeleton) generator.
 * New architecture for the Buildings example, all roof types now support convex and concave polygons.
