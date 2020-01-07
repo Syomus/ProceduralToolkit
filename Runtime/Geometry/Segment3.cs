@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -64,6 +65,28 @@ namespace ProceduralToolkit
         public Vector3 GetPoint(float position)
         {
             return Vector3.Lerp(a, b, position);
+        }
+
+        /// <summary>
+        /// Returns a list of points on the segment
+        /// </summary>
+        public List<Vector3> GetPoints(int number)
+        {
+            var points = new List<Vector3>(number);
+            if (number <= 0)
+            {
+                return points;
+            }
+            if (number == 1)
+            {
+                points.Add(a);
+                return points;
+            }
+            for (int i = 0; i < number; i++)
+            {
+                points.Add(GetPoint(i/(float) (number - 1)));
+            }
+            return points;
         }
 
         /// <summary>

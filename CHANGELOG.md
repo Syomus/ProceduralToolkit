@@ -6,6 +6,7 @@ This release adds Unity Package Manager support and [FastNoise](https://github.c
 * Integrated [FastNoise](https://github.com/Auburns/FastNoise_CSharp) library, see Noise example on its usage.
 * MeshDraft: Added new Capsule primitive.
 * PTUtils: Added CreateMeshRenderer.
+* Segment2 and Segment3: Added GetPoints.
 
 ### Changes
 * Folder structure and some of the namespaces were changed in accordance with the package manager guidelines.
