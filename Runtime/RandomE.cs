@@ -101,63 +101,63 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random point on a segment
         /// </summary>
-        public static Vector2 PointOnSegment(Segment2 segment)
+        public static Vector2 PointOnSegment2(Segment2 segment)
         {
-            return PointOnSegment(segment.a, segment.b);
+            return PointOnSegment2(segment.a, segment.b);
         }
 
         /// <summary>
         /// Returns a random point on a segment
         /// </summary>
-        public static Vector2 PointOnSegment(Vector2 segmentA, Vector2 segmentB)
+        public static Vector2 PointOnSegment2(Vector2 segmentA, Vector2 segmentB)
         {
-            return segmentA + (segmentB - segmentA)*Random.value;
+            return Geometry.PointOnSegment2(segmentA, segmentB, Random.value);
         }
 
         /// <summary>
         /// Returns a random point on a segment
         /// </summary>
-        public static Vector3 PointOnSegment(Segment3 segment)
+        public static Vector3 PointOnSegment3(Segment3 segment)
         {
-            return PointOnSegment(segment.a, segment.b);
+            return PointOnSegment3(segment.a, segment.b);
         }
 
         /// <summary>
         /// Returns a random point on a segment
         /// </summary>
-        public static Vector3 PointOnSegment(Vector3 segmentA, Vector3 segmentB)
+        public static Vector3 PointOnSegment3(Vector3 segmentA, Vector3 segmentB)
         {
-            return segmentA + (segmentB - segmentA)*Random.value;
+            return Geometry.PointOnSegment3(segmentA, segmentB, Random.value);
         }
 
         /// <summary>
         /// Returns a random point on a circle
         /// </summary>
-        public static Vector2 PointOnCircle(Circle2 circle)
+        public static Vector2 PointOnCircle2(Circle2 circle)
         {
-            return PointOnCircle(circle.center, circle.radius);
+            return PointOnCircle2(circle.center, circle.radius);
         }
 
         /// <summary>
         /// Returns a random point on a circle
         /// </summary>
-        public static Vector2 PointOnCircle(Vector2 center, float radius)
+        public static Vector2 PointOnCircle2(Vector2 center, float radius)
         {
-            return center + Geometry.PointOnCircle2(radius, rotation2);
+            return Geometry.PointOnCircle2(center, radius, rotation2);
         }
 
         /// <summary>
         /// Returns a random point inside a circle
         /// </summary>
-        public static Vector2 PointInCircle(Circle2 circle)
+        public static Vector2 PointInCircle2(Circle2 circle)
         {
-            return PointInCircle(circle.center, circle.radius);
+            return PointInCircle2(circle.center, circle.radius);
         }
 
         /// <summary>
         /// Returns a random point inside a circle
         /// </summary>
-        public static Vector2 PointInCircle(Vector2 center, float radius)
+        public static Vector2 PointInCircle2(Vector2 center, float radius)
         {
             return center + Random.insideUnitCircle*radius;
         }
