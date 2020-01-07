@@ -1,3 +1,4 @@
+using ProceduralToolkit.FastNoiseLib;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -160,6 +161,14 @@ namespace ProceduralToolkit
             meshFilter = gameObject.AddComponent<MeshFilter>();
             var meshRenderer = gameObject.AddComponent<MeshRenderer>();
             return meshRenderer;
+        }
+
+        /// <summary>
+        /// Returns a noise value between 0.0 and 1.0
+        /// </summary>
+        public static float GetNoise01(this FastNoise noise, float x, float y)
+        {
+            return Mathf.Clamp01(noise.GetNoise(x, y)*0.5f + 0.5f);
         }
     }
 }

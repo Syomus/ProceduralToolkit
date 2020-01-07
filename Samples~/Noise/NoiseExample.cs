@@ -64,8 +64,7 @@ namespace ProceduralToolkit.Samples
             {
                 for (int y = 0; y < height; y++)
                 {
-                    float value = noise.GetNoise(x, y);
-                    value = value*0.5f + 0.5f;
+                    float value = noise.GetNoise01(x, y);
                     pixels[y*width + x] = new Color(value, value, value);
                 }
             }

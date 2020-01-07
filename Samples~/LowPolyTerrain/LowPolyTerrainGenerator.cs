@@ -117,7 +117,7 @@ namespace ProceduralToolkit.Samples
         {
             float noiseX = x/(float) xSegments + noiseOffset.x;
             float noiseZ = z/(float) zSegments + noiseOffset.y;
-            return noise.GetNoise(noiseX, noiseZ)*0.5f + 0.5f;
+            return noise.GetNoise01(noiseX, noiseZ);
         }
     }
 }
