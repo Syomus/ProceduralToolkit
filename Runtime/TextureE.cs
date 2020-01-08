@@ -15,11 +15,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawLine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
-            if (texture == null)
-            {
-                throw new ArgumentNullException(nameof(texture));
-            }
-            Draw.RasterLine(v0, v1, (x, y) => texture.SetPixel(x, y, color));
+            DrawLine(texture, v0.x, v0.y, v1.x, v1.y, color);
         }
 
         /// <summary>
@@ -39,11 +35,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawLine(this Color[] pixels, int textureWidth, Vector2Int v0, Vector2Int v1, Color color)
         {
-            if (pixels == null)
-            {
-                throw new ArgumentNullException(nameof(pixels));
-            }
-            Draw.RasterLine(v0, v1, (x, y) => pixels[x + y*textureWidth] = color);
+            DrawLine(pixels, textureWidth, v0.x, v0.y, v1.x, v1.y, color);
         }
 
         /// <summary>
@@ -67,11 +59,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawAALine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
-            if (texture == null)
-            {
-                throw new ArgumentNullException(nameof(texture));
-            }
-            Draw.RasterAALine(v0, v1, (x, y, t) => texture.SetPixel(x, y, Color.Lerp(texture.GetPixel(x, y), color, t)));
+            DrawAALine(texture, v0.x, v0.y, v1.x, v1.y, color);
         }
 
         /// <summary>
@@ -91,11 +79,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawAALine(this Color[] pixels, int textureWidth, Vector2Int v0, Vector2Int v1, Color color)
         {
-            if (pixels == null)
-            {
-                throw new ArgumentNullException(nameof(pixels));
-            }
-            Draw.RasterAALine(v0, v1, (x, y, t) => pixels[x + y*textureWidth] = Color.Lerp(pixels[x + y*textureWidth], color, t));
+            DrawAALine(pixels, textureWidth, v0.x, v0.y, v1.x, v1.y, color);
         }
 
         /// <summary>
@@ -119,11 +103,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
-            if (texture == null)
-            {
-                throw new ArgumentNullException(nameof(texture));
-            }
-            Draw.RasterCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
+            DrawCircle(texture, center.x, center.y, radius, color);
         }
 
         /// <summary>
@@ -143,11 +123,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawCircle(this Color[] pixels, int textureWidth, Vector2Int center, int radius, Color color)
         {
-            if (pixels == null)
-            {
-                throw new ArgumentNullException(nameof(pixels));
-            }
-            Draw.RasterCircle(center, radius, (x, y) => pixels[x + y*textureWidth] = color);
+            DrawCircle(pixels, textureWidth, center.x, center.y, radius, color);
         }
 
         /// <summary>
@@ -171,11 +147,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawFilledCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
-            if (texture == null)
-            {
-                throw new ArgumentNullException(nameof(texture));
-            }
-            Draw.RasterFilledCircle(center, radius, (x, y) => texture.SetPixel(x, y, color));
+            DrawFilledCircle(texture, center.x, center.y, radius, color);
         }
 
         /// <summary>
@@ -195,11 +167,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawFilledCircle(this Color[] pixels, int textureWidth, Vector2Int center, int radius, Color color)
         {
-            if (pixels == null)
-            {
-                throw new ArgumentNullException(nameof(pixels));
-            }
-            Draw.RasterFilledCircle(center, radius, (x, y) => pixels[x + y*textureWidth] = color);
+            DrawFilledCircle(pixels, textureWidth, center.x, center.y, radius, color);
         }
 
         /// <summary>

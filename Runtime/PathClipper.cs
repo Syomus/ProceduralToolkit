@@ -13,16 +13,28 @@ namespace ProceduralToolkit
         /// <summary>
         /// If set to true, polygons returned by clipping operations will have orientations opposite to their normal orientations.
         /// </summary>
-        public bool reverseSolution { get { return clipper.ReverseSolution; } set { clipper.ReverseSolution = value; } }
+        public bool reverseSolution
+        {
+            get => clipper.ReverseSolution;
+            set => clipper.ReverseSolution = value;
+        }
         /// <summary>
         /// If set to true, polygons returned by clipping operations will be strictly simple, otherwise they may be weakly simple.
         /// Computationally expensive.
         /// </summary>
-        public bool strictlySimple { get { return clipper.StrictlySimple; } set { clipper.StrictlySimple = value; } }
+        public bool strictlySimple
+        {
+            get => clipper.StrictlySimple;
+            set => clipper.StrictlySimple = value;
+        }
         /// <summary>
         /// If set to true, collinear vertices in input paths will not be removed before clipping.
         /// </summary>
-        public bool preserveCollinear { get { return clipper.PreserveCollinear; } set { clipper.PreserveCollinear = value; } }
+        public bool preserveCollinear
+        {
+            get => clipper.PreserveCollinear;
+            set => clipper.PreserveCollinear = value;
+        }
 
         private readonly Clipper clipper;
 

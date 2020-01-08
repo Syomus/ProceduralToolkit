@@ -14,89 +14,74 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random 2D rotation
         /// </summary>
-        public static float rotation2 { get { return Random.Range(0, 360f); } }
+        public static float rotation2 => Random.Range(0, 360f);
 
         /// <summary>
         /// Returns a random rotation around X axis
         /// </summary>
-        public static Quaternion xRotation { get { return Quaternion.Euler(rotation2, 0, 0); } }
+        public static Quaternion xRotation => Quaternion.Euler(rotation2, 0, 0);
 
         /// <summary>
         /// Returns a random rotation around Y axis
         /// </summary>
-        public static Quaternion yRotation { get { return Quaternion.Euler(0, rotation2, 0); } }
+        public static Quaternion yRotation => Quaternion.Euler(0, rotation2, 0);
 
         /// <summary>
         /// Returns a random rotation around Z axis
         /// </summary>
-        public static Quaternion zRotation { get { return Quaternion.Euler(0, 0, rotation2); } }
+        public static Quaternion zRotation => Quaternion.Euler(0, 0, rotation2);
 
         #region Geometry
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector2 onUnitCircle2 { get { return Geometry.PointOnCircle2(1, rotation2); } }
+        public static Vector2 onUnitCircle2 => Geometry.PointOnCircle2(1, rotation2);
 
         /// <summary>
         /// Returns a random point inside a circle with radius 1
         /// </summary>
-        public static Vector3 insideUnitCircle3XY
-        {
-            get { return Geometry.PointOnCircle3XY(Random.value, rotation2); }
-        }
+        public static Vector3 insideUnitCircle3XY => Geometry.PointOnCircle3XY(Random.value, rotation2);
 
         /// <summary>
         /// Returns a random point inside a circle with radius 1
         /// </summary>
-        public static Vector3 insideUnitCircle3XZ
-        {
-            get { return Geometry.PointOnCircle3XZ(Random.value, rotation2); }
-        }
+        public static Vector3 insideUnitCircle3XZ => Geometry.PointOnCircle3XZ(Random.value, rotation2);
 
         /// <summary>
         /// Returns a random point inside a circle with radius 1
         /// </summary>
-        public static Vector3 insideUnitCircle3YZ
-        {
-            get { return Geometry.PointOnCircle3YZ(Random.value, rotation2); }
-        }
+        public static Vector3 insideUnitCircle3YZ => Geometry.PointOnCircle3YZ(Random.value, rotation2);
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector3 onUnitCircle3XY { get { return Geometry.PointOnCircle3XY(1, rotation2); } }
+        public static Vector3 onUnitCircle3XY => Geometry.PointOnCircle3XY(1, rotation2);
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector3 onUnitCircle3XZ { get { return Geometry.PointOnCircle3XZ(1, rotation2); } }
+        public static Vector3 onUnitCircle3XZ => Geometry.PointOnCircle3XZ(1, rotation2);
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
         /// </summary>
-        public static Vector3 onUnitCircle3YZ { get { return Geometry.PointOnCircle3YZ(1, rotation2); } }
+        public static Vector3 onUnitCircle3YZ => Geometry.PointOnCircle3YZ(1, rotation2);
 
         /// <summary>
         /// Returns a random point inside a unit square
         /// </summary>
-        public static Vector2 insideUnitSquare
-        {
-            get { return Range(new Vector2(-0.5f, -0.5f), new Vector2(0.5f, 0.5f)); }
-        }
+        public static Vector2 insideUnitSquare => Range(new Vector2(-0.5f, -0.5f), new Vector2(0.5f, 0.5f));
 
         /// <summary>
         /// Returns a random point on the perimeter of a unit square
         /// </summary>
-        public static Vector2 onUnitSquare { get { return PointOnRect(new Rect(-0.5f, -0.5f, 1, 1)); } }
+        public static Vector2 onUnitSquare => PointOnRect(new Rect(-0.5f, -0.5f, 1, 1));
 
         /// <summary>
         /// Returns a random point inside a unit cube
         /// </summary>
-        public static Vector3 insideUnitCube
-        {
-            get { return Range(new Vector3(-0.5f, -0.5f, -0.5f), new Vector3(0.5f, 0.5f, 0.5f)); }
-        }
+        public static Vector3 insideUnitCube => Range(new Vector3(-0.5f, -0.5f, -0.5f), new Vector3(0.5f, 0.5f, 0.5f));
 
         /// <summary>
         /// Returns a random point on a segment
@@ -241,22 +226,22 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random color between black [inclusive] and white [inclusive]
         /// </summary>
-        public static Color color { get { return new Color(Random.value, Random.value, Random.value); } }
+        public static Color color => new Color(Random.value, Random.value, Random.value);
 
         /// <summary>
         /// Returns a color with a random hue and a maximum saturation and value in HSV model
         /// </summary>
-        public static ColorHSV colorHSV { get { return new ColorHSV(Random.value, 1, 1); } }
+        public static ColorHSV colorHSV => new ColorHSV(Random.value, 1, 1);
 
         /// <summary>
         /// Returns a gradient between two random colors
         /// </summary>
-        public static Gradient gradient { get { return ColorE.Gradient(color, color); } }
+        public static Gradient gradient => ColorE.Gradient(color, color);
 
         /// <summary>
         /// Returns a gradient between two random HSV colors
         /// </summary>
-        public static Gradient gradientHSV { get { return ColorE.Gradient(colorHSV, colorHSV); } }
+        public static Gradient gradientHSV => ColorE.Gradient(colorHSV, colorHSV);
 
         /// <summary>
         /// Returns a color with a random hue and a given <paramref name="saturation"/> and <paramref name="value"/>
@@ -314,22 +299,22 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random alphanumeric 8-character string
         /// </summary>
-        public static string string8 { get { return PTUtils.Alphanumerics.GetRandom(8); } }
+        public static string string8 => PTUtils.Alphanumerics.GetRandom(8);
 
         /// <summary>
         /// Returns a random alphanumeric 16-character string
         /// </summary>
-        public static string string16 { get { return PTUtils.Alphanumerics.GetRandom(16); } }
+        public static string string16 => PTUtils.Alphanumerics.GetRandom(16);
 
         /// <summary>
         /// Returns a random lowercase letter
         /// </summary>
-        public static char lowercaseLetter { get { return PTUtils.LowercaseLetters.GetRandom(); } }
+        public static char lowercaseLetter => PTUtils.LowercaseLetters.GetRandom();
 
         /// <summary>
         /// Returns a random uppercase letter
         /// </summary>
-        public static char uppercaseLetter { get { return PTUtils.UppercaseLetters.GetRandom(); } }
+        public static char uppercaseLetter => PTUtils.UppercaseLetters.GetRandom();
 
         #endregion Strings
 

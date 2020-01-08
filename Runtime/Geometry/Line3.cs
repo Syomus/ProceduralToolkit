@@ -12,9 +12,9 @@ namespace ProceduralToolkit
         public Vector3 origin;
         public Vector3 direction;
 
-        public static Line3 xAxis { get { return new Line3(Vector3.zero, Vector3.right); } }
-        public static Line3 yAxis { get { return new Line3(Vector3.zero, Vector3.up); } }
-        public static Line3 zAxis { get { return new Line3(Vector3.zero, Vector3.forward); } }
+        public static Line3 xAxis => new Line3(Vector3.zero, Vector3.right);
+        public static Line3 yAxis => new Line3(Vector3.zero, Vector3.up);
+        public static Line3 zAxis => new Line3(Vector3.zero, Vector3.forward);
 
         public Line3(Ray ray)
         {

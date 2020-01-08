@@ -13,23 +13,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// If true, will remove empty (zero area) polygons.
         /// </summary>
-        public bool removeEmptyPolygons { get { return tess.NoEmptyPolygons; } set { tess.NoEmptyPolygons = value; } }
+        public bool removeEmptyPolygons
+        {
+            get => tess.NoEmptyPolygons;
+            set => tess.NoEmptyPolygons = value;
+        }
         /// <summary>
         /// Vertices of the tessellated mesh.
         /// </summary>
-        public ContourVertex[] vertices { get { return tess.Vertices; } }
+        public ContourVertex[] vertices => tess.Vertices;
         /// <summary>
         /// Number of vertices in the tessellated mesh.
         /// </summary>
-        public int vertexCount { get { return tess.VertexCount; } }
+        public int vertexCount => tess.VertexCount;
         /// <summary>
         /// Indices of the tessellated mesh. See <see cref="ElementType"/> for details on data layout.
         /// </summary>
-        public int[] indices { get { return tess.Elements; } }
+        public int[] indices => tess.Elements;
         /// <summary>
         /// Number of elements in the tessellated mesh.
         /// </summary>
-        public int indexCount { get { return tess.ElementCount; } }
+        public int indexCount => tess.ElementCount;
 
         private readonly Tess tess = new Tess {NoEmptyPolygons = true};
 

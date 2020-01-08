@@ -433,7 +433,7 @@ namespace ProceduralToolkit.Skeleton
 
             public override string ToString()
             {
-                return String.Format("{0} Count: {1}", position, chains.Count);
+                return string.Format("{0} Count: {1}", position, chains.Count);
             }
         }
     }

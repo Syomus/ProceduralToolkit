@@ -9,8 +9,8 @@ namespace ProceduralToolkit.Skeleton
     /// </summary>
     public class Plan : IEnumerable<Plan.Vertex>
     {
-        public int Count { get { return vertices.Count; } }
-        public Vertex First { get { return vertices[0]; } }
+        public int Count => vertices.Count;
+        public Vertex First => vertices[0];
 
         private readonly List<Vertex> vertices = new List<Vertex>();
 
@@ -134,7 +134,7 @@ namespace ProceduralToolkit.Skeleton
             public int previousPolygonIndex;
             public int nextPolygonIndex;
 
-            public bool reflect { get { return angle >= 180; } }
+            public bool reflect => angle >= 180;
 
             public Vertex(Vector2 position)
             {

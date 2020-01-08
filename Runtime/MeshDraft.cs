@@ -25,10 +25,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Shortcut for vertices.Count
         /// </summary>
-        public int vertexCount
-        {
-            get { return vertices.Count; }
-        }
+        public int vertexCount => vertices.Count;
 
         /// <summary>
         /// Creates an empty MeshDraft

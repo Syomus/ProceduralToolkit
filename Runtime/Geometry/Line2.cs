@@ -12,8 +12,8 @@ namespace ProceduralToolkit
         public Vector2 origin;
         public Vector2 direction;
 
-        public static Line2 xAxis { get { return new Line2(Vector2.zero, Vector2.right); } }
-        public static Line2 yAxis { get { return new Line2(Vector2.zero, Vector2.up); } }
+        public static Line2 xAxis => new Line2(Vector2.zero, Vector2.right);
+        public static Line2 yAxis => new Line2(Vector2.zero, Vector2.up);
 
         public Line2(Ray2D ray)
         {

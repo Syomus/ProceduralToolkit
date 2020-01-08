@@ -13,12 +13,20 @@ namespace ProceduralToolkit
         /// Maximum distance in multiples of delta that vertices can be offset from their original positions before squaring is applied.
         /// Only relevant when JoinType = jtMiter.
         /// </summary>
-        public double arcTolerance { get { return clipperOffset.ArcTolerance; } set { clipperOffset.ArcTolerance = value; } }
+        public double arcTolerance
+        {
+            get => clipperOffset.ArcTolerance;
+            set => clipperOffset.ArcTolerance = value;
+        }
         /// <summary>
         /// Maximum acceptable imprecision when arcs are approximated in an offsetting operation.
         /// Only relevant when JoinType = jtRound and/or EndType = etRound.
         /// </summary>
-        public double miterLimit { get { return clipperOffset.MiterLimit; } set { clipperOffset.MiterLimit = value; } }
+        public double miterLimit
+        {
+            get => clipperOffset.MiterLimit;
+            set => clipperOffset.MiterLimit = value;
+        }
 
         private readonly ClipperOffset clipperOffset;
 

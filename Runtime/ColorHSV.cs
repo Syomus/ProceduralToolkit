@@ -33,7 +33,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the opposite color on the color wheel
         /// </summary>
-        public ColorHSV complementary { get { return WithOffsetH(180); } }
+        public ColorHSV complementary => WithOffsetH(180);
 
         /// <summary>
         /// Access the h, s, v, a components using [0], [1], [2], [3] respectively
