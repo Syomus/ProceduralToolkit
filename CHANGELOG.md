@@ -17,6 +17,7 @@ This release adds Unity Package Manager support and [FastNoise](https://github.c
   * Added perimeter and area.
 * Circle3: Added perimeter and area.
 * Sphere: Added area and volume.
+* Draw, DebugE, GizmosE, GLE: Added Segment2 and Segment3.
 
 ### Changes
 * Folder structure and some of the namespaces were changed in accordance with the package manager guidelines.
@@ -27,6 +28,7 @@ This release adds Unity Package Manager support and [FastNoise](https://github.c
 * LowPolyTerrain: Renamed classes and simplified a bit.
 * SDF: Include instructions are now installation type dependent.
 * RandomE: Renamed PointOnSegment and PointOnCircle generators.
+* Draw: Renamed DrawWireRay to DrawRay.
 
 ### Fixes
 * Geometry: Fixed PointsInCircle3* returning incorrect type.

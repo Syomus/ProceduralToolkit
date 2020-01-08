@@ -15,6 +15,22 @@ namespace ProceduralToolkit
             drawLine = Gizmos.DrawLine;
         }
 
+        /// <summary>
+        /// Draws a segment
+        /// </summary>
+        public static void DrawSegment2(Segment2 segment)
+        {
+            Draw.Segment2(drawLine, segment);
+        }
+
+        /// <summary>
+        /// Draws a segment
+        /// </summary>
+        public static void DrawSegment3(Segment3 segment)
+        {
+            Draw.Segment3(drawLine, segment);
+        }
+
         #region DrawWireQuad
 
         /// <summary>

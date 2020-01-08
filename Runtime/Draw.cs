@@ -39,12 +39,12 @@ namespace ProceduralToolkit
             }
         }
 
-        #region WireRay
+        #region Ray
 
         /// <summary>
         /// Draws a ray starting at ray.origin to ray.origin + ray.direction
         /// </summary>
-        public static void WireRay(Action<Vector3, Vector3> drawLine, Ray ray)
+        public static void Ray(Action<Vector3, Vector3> drawLine, Ray ray)
         {
             drawLine(ray.origin, ray.origin + ray.direction);
         }
@@ -52,12 +52,52 @@ namespace ProceduralToolkit
         /// <summary>
         /// Draws a ray starting at ray.origin to ray.origin + ray.direction
         /// </summary>
-        public static void WireRay(DebugDrawLine drawLine, Ray ray, Color color, float duration, bool depthTest)
+        public static void Ray(DebugDrawLine drawLine, Ray ray, Color color, float duration, bool depthTest)
         {
             drawLine(ray.origin, ray.origin + ray.direction, color, duration, depthTest);
         }
 
-        #endregion WireRay
+        #endregion Ray
+
+        #region Segment2
+
+        /// <summary>
+        /// Draws a segment
+        /// </summary>
+        public static void Segment2(Action<Vector3, Vector3> drawLine, Segment2 segment)
+        {
+            drawLine((Vector3) segment.a, (Vector3) segment.b);
+        }
+
+        /// <summary>
+        /// Draws a segment
+        /// </summary>
+        public static void Segment2(DebugDrawLine drawLine, Segment2 segment, Color color, float duration, bool depthTest)
+        {
+            drawLine((Vector3) segment.a, (Vector3) segment.b, color, duration, depthTest);
+        }
+
+        #endregion Segment2
+
+        #region Segment3
+
+        /// <summary>
+        /// Draws a segment
+        /// </summary>
+        public static void Segment3(Action<Vector3, Vector3> drawLine, Segment3 segment)
+        {
+            drawLine(segment.a, segment.b);
+        }
+
+        /// <summary>
+        /// Draws a segment
+        /// </summary>
+        public static void Segment3(DebugDrawLine drawLine, Segment3 segment, Color color, float duration, bool depthTest)
+        {
+            drawLine(segment.a, segment.b, color, duration, depthTest);
+        }
+
+        #endregion Segment3
 
         #region WireQuad
 

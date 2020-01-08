@@ -8,6 +8,7 @@ namespace ProceduralToolkit
     public static class DebugE
     {
         private static readonly Draw.DebugDrawLine drawLine;
+        private static readonly Color white = Color.white;
 
         static DebugE()
         {
@@ -21,7 +22,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawRay(Ray ray)
         {
-            DrawRay(ray, Color.white);
+            DrawRay(ray, white);
         }
 
         /// <summary>
@@ -29,10 +30,50 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawRay(Ray ray, Color color, float duration = 0, bool depthTest = true)
         {
-            Draw.WireRay(drawLine, ray, color, duration, depthTest);
+            Draw.Ray(drawLine, ray, color, duration, depthTest);
         }
 
         #endregion DrawRay
+
+        #region DrawSegment2
+
+        /// <summary>
+        /// Draws a segment
+        /// </summary>
+        public static void DrawSegment2(Segment2 segment)
+        {
+            DrawSegment2(segment, white);
+        }
+
+        /// <summary>
+        /// Draws a segment
+        /// </summary>
+        public static void DrawSegment2(Segment2 segment, Color color, float duration = 0, bool depthTest = true)
+        {
+            Draw.Segment2(drawLine, segment, color, duration, depthTest);
+        }
+
+        #endregion DrawSegment2
+
+        #region DrawSegment3
+
+        /// <summary>
+        /// Draws a segment
+        /// </summary>
+        public static void DrawSegment3(Segment3 segment)
+        {
+            DrawSegment3(segment, white);
+        }
+
+        /// <summary>
+        /// Draws a segment
+        /// </summary>
+        public static void DrawSegment3(Segment3 segment, Color color, float duration = 0, bool depthTest = true)
+        {
+            Draw.Segment3(drawLine, segment, color, duration, depthTest);
+        }
+
+        #endregion DrawSegment3
 
         #region DrawWireQuad
 
@@ -41,7 +82,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireQuadXY(Vector3 position, Quaternion rotation, Vector2 scale)
         {
-            DrawWireQuadXY(position, rotation, scale, Color.white);
+            DrawWireQuadXY(position, rotation, scale, white);
         }
 
         /// <summary>
@@ -58,7 +99,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireQuadXZ(Vector3 position, Quaternion rotation, Vector2 scale)
         {
-            DrawWireQuadXZ(position, rotation, scale, Color.white);
+            DrawWireQuadXZ(position, rotation, scale, white);
         }
 
         /// <summary>
@@ -75,7 +116,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireQuadYZ(Vector3 position, Quaternion rotation, Vector2 scale)
         {
-            DrawWireQuadYZ(position, rotation, scale, Color.white);
+            DrawWireQuadYZ(position, rotation, scale, white);
         }
 
         /// <summary>
@@ -96,7 +137,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCube(Vector3 position, Quaternion rotation, Vector3 scale)
         {
-            DrawWireCube(position, rotation, scale, Color.white);
+            DrawWireCube(position, rotation, scale, white);
         }
 
         /// <summary>
@@ -116,7 +157,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleXY(Vector3 position, float radius)
         {
-            DrawWireCircleXY(position, radius, Color.white);
+            DrawWireCircleXY(position, radius, white);
         }
 
         /// <summary>
@@ -132,7 +173,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleXY(Vector3 position, Quaternion rotation, float radius)
         {
-            DrawWireCircleXY(position, rotation, radius, Color.white);
+            DrawWireCircleXY(position, rotation, radius, white);
         }
 
         /// <summary>
@@ -149,7 +190,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleXZ(Vector3 position, float radius)
         {
-            DrawWireCircleXZ(position, radius, Color.white);
+            DrawWireCircleXZ(position, radius, white);
         }
 
         /// <summary>
@@ -165,7 +206,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleXZ(Vector3 position, Quaternion rotation, float radius)
         {
-            DrawWireCircleXZ(position, rotation, radius, Color.white);
+            DrawWireCircleXZ(position, rotation, radius, white);
         }
 
         /// <summary>
@@ -182,7 +223,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleYZ(Vector3 position, float radius)
         {
-            DrawWireCircleYZ(position, radius, Color.white);
+            DrawWireCircleYZ(position, radius, white);
         }
 
         /// <summary>
@@ -198,7 +239,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleYZ(Vector3 position, Quaternion rotation, float radius)
         {
-            DrawWireCircleYZ(position, rotation, radius, Color.white);
+            DrawWireCircleYZ(position, rotation, radius, white);
         }
 
         /// <summary>
@@ -210,7 +251,7 @@ namespace ProceduralToolkit
             Draw.WireCircleYZ(drawLine, position, rotation, radius, color, duration, depthTest);
         }
 
-        #endregion DrawWireCicle
+        #endregion DrawWireCircle
 
         #region DrawWireArc
 
@@ -219,7 +260,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcXY(Vector3 position, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcXY(position, radius, fromAngle, toAngle, Color.white);
+            DrawWireArcXY(position, radius, fromAngle, toAngle, white);
         }
 
         /// <summary>
@@ -236,7 +277,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcXY(Vector3 position, Quaternion rotation, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcXY(position, rotation, radius, fromAngle, toAngle, Color.white);
+            DrawWireArcXY(position, rotation, radius, fromAngle, toAngle, white);
         }
 
         /// <summary>
@@ -253,7 +294,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcXZ(Vector3 position, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcXZ(position, radius, fromAngle, toAngle, Color.white);
+            DrawWireArcXZ(position, radius, fromAngle, toAngle, white);
         }
 
         /// <summary>
@@ -270,7 +311,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcXZ(Vector3 position, Quaternion rotation, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcXZ(position, rotation, radius, fromAngle, toAngle, Color.white);
+            DrawWireArcXZ(position, rotation, radius, fromAngle, toAngle, white);
         }
 
         /// <summary>
@@ -287,7 +328,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcYZ(Vector3 position, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcYZ(position, radius, fromAngle, toAngle, Color.white);
+            DrawWireArcYZ(position, radius, fromAngle, toAngle, white);
         }
 
         /// <summary>
@@ -304,7 +345,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcYZ(Vector3 position, Quaternion rotation, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcYZ(position, rotation, radius, fromAngle, toAngle, Color.white);
+            DrawWireArcYZ(position, rotation, radius, fromAngle, toAngle, white);
         }
 
         /// <summary>
@@ -325,7 +366,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireSphere(Vector3 position, Quaternion rotation, float radius)
         {
-            DrawWireSphere(position, rotation, radius, Color.white);
+            DrawWireSphere(position, rotation, radius, white);
         }
 
         /// <summary>
@@ -345,7 +386,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireHemisphere(Vector3 position, Quaternion rotation, float radius)
         {
-            DrawWireHemisphere(position, rotation, radius, Color.white);
+            DrawWireHemisphere(position, rotation, radius, white);
         }
 
         /// <summary>
@@ -366,7 +407,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCone(Vector3 position, Quaternion rotation, float apexRadius, float angle, float length)
         {
-            DrawWireCone(position, rotation, apexRadius, angle, length, Color.white);
+            DrawWireCone(position, rotation, apexRadius, angle, length, white);
         }
 
         /// <summary>
