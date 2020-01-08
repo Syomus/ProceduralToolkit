@@ -890,7 +890,10 @@ namespace ProceduralToolkit
             }
             else
             {
-                mesh.indexFormat = IndexFormat.UInt16;
+                if (autoIndexFormat)
+                {
+                    mesh.indexFormat = IndexFormat.UInt16;
+                }
             }
             mesh.name = name;
             mesh.SetVertices(vertices);
