@@ -1,13 +1,15 @@
 {
 "companyName": "Syomus",
 "productName": "Procedural Toolkit",
+"productVersion": "1.0",
 "dataUrl": "SDF.data.unityweb",
-"asmCodeUrl": "SDF.asm.code.unityweb",
-"asmMemoryUrl": "SDF.asm.memory.unityweb",
-"asmFrameworkUrl": "SDF.asm.framework.unityweb",
-"TOTAL_MEMORY": 268435456,
-"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"wasmCodeUrl": "SDF.wasm.code.unityweb",
+"wasmFrameworkUrl": "SDF.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
 "webglContextAttributes": {"preserveDrawingBuffer": false},
 "splashScreenStyle": "Dark",
-"backgroundColor": "#231F20"
+"backgroundColor": "#231F20",
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.2.0f1"
 }
