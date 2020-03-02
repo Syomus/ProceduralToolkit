@@ -1,4 +1,4 @@
-# Procedural Toolkit 0.2.3-preview
+# Procedural Toolkit 0.2.3
 
 Procedural Toolkit is a procedural generation library for the Unity game engine.
 

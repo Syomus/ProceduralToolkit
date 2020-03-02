@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.2.3] - 2020-03-02
 This release adds Unity Package Manager support and [FastNoise](https://github.com/Auburns/FastNoise_CSharp) library integration.
 ### Added
 * Integrated [FastNoise](https://github.com/Auburns/FastNoise_CSharp) library, see Noise example on its usage.
