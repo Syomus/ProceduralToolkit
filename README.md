@@ -1,4 +1,5 @@
 # Procedural Toolkit 0.2.3
+[![openupm](https://img.shields.io/npm/v/com.syomus.proceduraltoolkit?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.syomus.proceduraltoolkit/)
 
 Procedural Toolkit is a procedural generation library for the Unity game engine.
 
@@ -16,8 +17,15 @@ Requires **Unity 2019.2** or later. Tested on Windows, WebGL, Android and iOS.
 
 There are several ways to install Procedural Toolkit:
 
-### Package Manager
-The best way is to install this library as a [Git package](https://docs.unity3d.com/Manual/upm-git.html) using the Package Manager.
+### Install via OpenUPM
+The package is available on the [openupm registry](https://openupm.com). It's recommended to install it via [openupm-cli](https://github.com/openupm/openupm-cli).
+
+```
+openupm add com.syomus.proceduraltoolkit
+```
+
+### Install via Git URL
+The alternative way is to install this library as a [Git package](https://docs.unity3d.com/Manual/upm-git.html) using the Package Manager.
 First, make sure that you to have Git installed and available in your system's PATH.
 After that you need to add the following line to your project's `manifest.json`:
 ```
