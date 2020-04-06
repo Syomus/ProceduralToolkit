@@ -21,6 +21,11 @@ namespace ProceduralToolkit.Samples.Buildings
 
         private void Awake()
         {
+            Generate();
+        }
+
+        public void Generate()
+        {
             var generator = new BuildingGenerator();
             generator.SetFacadePlanner(facadePlanner);
             generator.SetFacadeConstructor(facadeConstructor);
