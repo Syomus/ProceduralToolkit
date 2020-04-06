@@ -20,7 +20,8 @@ namespace ProceduralToolkit.Samples.Buildings
             EditorGUILayout.Space();
             if (GUILayout.Button("Generate building"))
             {
-                generator.Generate();
+                var transform = generator.Generate();
+                Undo.RegisterCreatedObjectUndo(transform.gameObject, "Generate building");
             }
         }
     }

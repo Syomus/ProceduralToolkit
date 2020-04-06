@@ -24,14 +24,14 @@ namespace ProceduralToolkit.Samples.Buildings
             Generate();
         }
 
-        public void Generate()
+        public Transform Generate()
         {
             var generator = new BuildingGenerator();
             generator.SetFacadePlanner(facadePlanner);
             generator.SetFacadeConstructor(facadeConstructor);
             generator.SetRoofPlanner(roofPlanner);
             generator.SetRoofConstructor(roofConstructor);
-            generator.Generate(foundationPolygon.vertices, config, transform);
+            return generator.Generate(foundationPolygon.vertices, config);
         }
     }
 }
