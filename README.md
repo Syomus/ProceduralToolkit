@@ -19,16 +19,22 @@ There are several ways to install Procedural Toolkit:
 ### Package Manager
 The best way is to install this library as a [Git package](https://docs.unity3d.com/Manual/upm-git.html) using the Package Manager.
 First, make sure that you to have Git installed and available in your system's PATH.
-After that you need to add the following line to your project's `manifest.json`:
+
+For Unity 2019.3 and later you can add the package using the link below, notice the upm branch at the end of the line:
 ```
-"com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git",
+https://github.com/Syomus/ProceduralToolkit.git#upm
 ```
 
-It should look like this, notice the comma at the end of the line:
+For Unity 2019.2 you will need to add the following line to your project's `manifest.json`:
+```
+"com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git#upm",
+```
+
+It should look like this:
 ```
 {
   "dependencies": {
-    "com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git",
+    "com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git#upm",
     "com.unity.package-manager-ui": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
