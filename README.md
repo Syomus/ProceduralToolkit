@@ -73,7 +73,7 @@ First, please search the [open issues](https://github.com/Syomus/ProceduralToolk
 and [closed issues](https://github.com/Syomus/ProceduralToolkit/issues?q=is%3Aclosed)
 to see if your issue hasn't already been reported. If it does exist, add a
 :thumbsup: to the issue to indicate this is also an issue for you, and add a
-comment to the existing issue if there is extra information you can contribute.
+comment if there is extra information you can contribute.
 
 If you can't find a matching issue, open a [new issue](https://github.com/Syomus/ProceduralToolkit/issues/new/choose),
 choose the right template and provide us with enough information to investigate further. 
@@ -190,7 +190,7 @@ Or like this:
 ### Tests/
 Tests for the library
 
-## Examples
+## Samples
 
 ### [Buildings](https://syomus.com/ProceduralToolkit/Buildings)
 ![](https://syomus.com/ProceduralToolkit/screenshot-buildings.png)
@@ -254,7 +254,8 @@ A generic maze generator, draws the maze generation process on a texture.
 
 ### [Noise](https://syomus.com/ProceduralToolkit/Noise)
 ![](https://syomus.com/ProceduralToolkit/screenshot-noise.png)
-An example demonstrating various noise types.
+
+An example demonstrating various noise types from the [FastNoise](https://github.com/Auburns/FastNoise_CSharp) library.
 
 ### [Breakout](https://syomus.com/ProceduralToolkit/Breakout)
 ![](https://syomus.com/ProceduralToolkit/screenshot-breakout.png)
@@ -291,7 +292,7 @@ An example showing the usage of Tesselator.
 ### StraightSkeleton
 An StraightSkeletonGenerator example showing how you can generate a straight skeleton from a polygon and use the result.
 
-### Samples/Common
+### Common
 UI prefabs and the skybox material used in examples.
 * SkyBoxGenerator: Skybox generator, assuming that scene uses gradient skybox shader, animates transitions to new parameters every few seconds.
 * ButtonControl, SliderControl, TextControl, ToggleControl: UI controls for generators.
