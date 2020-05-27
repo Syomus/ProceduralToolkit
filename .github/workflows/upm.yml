@@ -5,21 +5,19 @@ on:
     branches: [ master ]
 
 jobs:
-  upm:
-    name: Create UPM branch
+  job:
+    name: Create branch
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: Create UPM branch
+    - name: Create branch
       run: |
         git branch -d upm &> /dev/null || echo upm branch not found
         git checkout -b upm
-        if [[ -d "Samples" ]]; then
-          git mv Samples Samples~
-          rm -f Samples.meta
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'github.actions@github.com'
-          git commit -am "Renamed Samples to Samples~"
-        fi
+        git mv Samples Samples~
+        rm -f Samples.meta
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'github.actions@github.com'
+        git commit -am "Renamed Samples to Samples~"
         git push -f -u origin upm
