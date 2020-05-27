@@ -252,6 +252,10 @@ A generic maze generator, draws the maze generation process on a texture.
 * MazeGeneratorConfigurator: Configurator for MazeGenerator with UI controls.
 * Maze: Maze graph representation.
 
+### [Noise](https://syomus.com/ProceduralToolkit/Noise)
+![](https://syomus.com/ProceduralToolkit/screenshot-noise.png)
+An example demonstrating various noise types.
+
 ### [Breakout](https://syomus.com/ProceduralToolkit/Breakout)
 ![](https://syomus.com/ProceduralToolkit/screenshot-breakout.png)
 
@@ -287,10 +291,7 @@ An example showing the usage of Tesselator.
 ### StraightSkeleton
 An StraightSkeletonGenerator example showing how you can generate a straight skeleton from a polygon and use the result.
 
-### Noise
-An example demonstrating various noise types.
-
-### Samples~/Common
+### Samples/Common
 UI prefabs and the skybox material used in examples.
 * SkyBoxGenerator: Skybox generator, assuming that scene uses gradient skybox shader, animates transitions to new parameters every few seconds.
 * ButtonControl, SliderControl, TextControl, ToggleControl: UI controls for generators.
