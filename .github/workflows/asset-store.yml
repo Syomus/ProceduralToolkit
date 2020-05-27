@@ -1,0 +1,27 @@
+name: Asset Store
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  upm:
+    name: Create Asset Store branch
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create Asset Store branch
+      run: |
+        git branch -d asset-store &> /dev/null || echo asset-store branch not found
+        git checkout -b asset-store
+        rm -rf Tests
+        rm -f Tests.meta
+        rm -f package.json
+        rm -f package.json.meta
+        sed -i 's|//#include "Assets|#include "Assets|g' ./Samples/SDF/*
+        sed -i 's|#include "Packages|//#include "Packages|g' ./Samples/SDF/*
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'github.actions@github.com'
+        git commit -am "Removed tests and the package manifest, fixed shader includes"
+        git push -f -u origin asset-store
