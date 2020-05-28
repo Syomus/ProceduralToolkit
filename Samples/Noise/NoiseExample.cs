@@ -55,19 +55,19 @@ namespace ProceduralToolkit.Samples
         {
             noise.SetNoiseType(currentNoiseType);
 
+            GeneratePalette();
+
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
                     float value = noise.GetNoise01(x, y);
-                    pixels[y*width + x] = new Color(value, value, value);
+                    pixels[y*width + x] = GetMainColorHSV().WithSV(value, value).ToColor();
                 }
             }
 
             texture.SetPixels(pixels);
             texture.Apply();
-
-            GeneratePalette();
         }
 
         private void InstantiateToggle(FastNoise.NoiseType noiseType)
