@@ -26,6 +26,38 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Two-dimensional indexer getter
+        /// </summary>
+        public static T GetXY<T>(this IList<T> list, Vector2Int position, int width)
+        {
+            return list[position.y*width + position.x];
+        }
+
+        /// <summary>
+        /// Two-dimensional indexer getter
+        /// </summary>
+        public static T GetXY<T>(this IList<T> list, int x, int y, int width)
+        {
+            return list[y*width + x];
+        }
+
+        /// <summary>
+        /// Two-dimensional indexer setter, ignores IList.IsReadOnly
+        /// </summary>
+        public static void SetXY<T>(this IList<T> list, Vector2Int position, int width, T value)
+        {
+            list[position.y*width + position.x] = value;
+        }
+
+        /// <summary>
+        /// Two-dimensional indexer setter, ignores IList.IsReadOnly
+        /// </summary>
+        public static void SetXY<T>(this IList<T> list, int x, int y, int width, T value)
+        {
+            list[y*width + x] = value;
+        }
+
+        /// <summary>
         /// Looped indexer getter, allows out of bounds indices
         /// </summary>
         public static T GetLooped<T>(this IList<T> list, int index)
