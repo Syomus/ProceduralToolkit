@@ -495,6 +495,8 @@ namespace ProceduralToolkit
             return Random.value < percent;
         }
 
+        #region Range
+
         /// <summary>
         /// Returns a random vector between <paramref name="min"/> [inclusive] and <paramref name="max"/> [inclusive]
         /// </summary>
@@ -517,6 +519,22 @@ namespace ProceduralToolkit
         public static Vector4 Range(Vector4 min, Vector4 max)
         {
             return new Vector4(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z), Random.Range(min.w, max.w));
+        }
+
+        /// <summary>
+        /// Returns a random vector between <paramref name="min"/> [inclusive] and <paramref name="max"/> [exclusive]
+        /// </summary>
+        public static Vector2Int Range(Vector2Int min, Vector2Int max)
+        {
+            return new Vector2Int(Random.Range(min.x, max.x), Random.Range(min.y, max.y));
+        }
+
+        /// <summary>
+        /// Returns a random vector between <paramref name="min"/> [inclusive] and <paramref name="max"/> [exclusive]
+        /// </summary>
+        public static Vector3Int Range(Vector3Int min, Vector3Int max)
+        {
+            return new Vector3Int(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
         }
 
         /// <summary>
@@ -559,5 +577,7 @@ namespace ProceduralToolkit
             return new Vector4(Range(min.x, max.x, variants), Range(min.y, max.y, variants), Range(min.z, max.z, variants),
                 Range(min.w, max.w, variants));
         }
+
+        #endregion Range
     }
 }
