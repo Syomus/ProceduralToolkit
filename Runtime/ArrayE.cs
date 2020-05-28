@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -42,6 +43,22 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Two-dimensional indexer getter
+        /// </summary>
+        public static T GetXY<T>(this NativeArray<T> list, Vector2Int position, int width) where T : struct
+        {
+            return list[position.y*width + position.x];
+        }
+
+        /// <summary>
+        /// Two-dimensional indexer getter
+        /// </summary>
+        public static T GetXY<T>(this NativeArray<T> list, int x, int y, int width) where T : struct
+        {
+            return list[y*width + x];
+        }
+
+        /// <summary>
         /// Two-dimensional indexer setter, ignores IList.IsReadOnly
         /// </summary>
         public static void SetXY<T>(this IList<T> list, Vector2Int position, int width, T value)
@@ -53,6 +70,22 @@ namespace ProceduralToolkit
         /// Two-dimensional indexer setter, ignores IList.IsReadOnly
         /// </summary>
         public static void SetXY<T>(this IList<T> list, int x, int y, int width, T value)
+        {
+            list[y*width + x] = value;
+        }
+
+        /// <summary>
+        /// Two-dimensional indexer setter
+        /// </summary>
+        public static void SetXY<T>(this NativeArray<T> list, Vector2Int position, int width, T value) where T : struct
+        {
+            list[position.y*width + position.x] = value;
+        }
+
+        /// <summary>
+        /// Two-dimensional indexer setter
+        /// </summary>
+        public static void SetXY<T>(this NativeArray<T> list, int x, int y, int width, T value) where T : struct
         {
             list[y*width + x] = value;
         }
