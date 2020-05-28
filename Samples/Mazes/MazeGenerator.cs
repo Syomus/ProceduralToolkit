@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -20,14 +20,11 @@ namespace ProceduralToolkit.Samples
         [Serializable]
         public class Config
         {
-            public int width = 100;
-            public int height = 100;
+            public int width = 32;
+            public int height = 32;
             public Algorithm algorithm = Algorithm.RandomTraversal;
-            public Action<Maze.Edge> drawEdge;
         }
 
-        private readonly Maze maze;
-        private readonly List<Maze.Edge> edges;
         private readonly Config config;
 
         public MazeGenerator(Config config)
@@ -36,66 +33,55 @@ namespace ProceduralToolkit.Samples
             Assert.IsTrue(config.height > 0);
 
             this.config = config;
-            maze = new Maze(config.width, config.height);
-
-            var originPosition = new Vector2Int(Random.Range(0, config.width), Random.Range(0, config.height));
-            edges = maze.GetPossibleConnections(new Maze.Vertex(originPosition, Directions.None, 0));
         }
 
-        public bool Generate(int steps = 0)
+        public Maze Generate()
         {
-            bool changed = false;
-            for (int i = 0; edges.Count > 0 && (steps == 0 || i < steps); i++)
+            var maze = new Maze(config.width, config.height);
+
+            var position = new Vector2Int(Random.Range(0, config.width), Random.Range(0, config.height));
+            List<Maze.Connection> connections = maze.GetPossibleConnections(position);
+
+            while (connections.Count > 0)
             {
                 switch (config.algorithm)
                 {
                     case Algorithm.RandomTraversal:
-                        RandomTraversal();
+                        RandomTraversal(maze, connections);
                         break;
                     case Algorithm.RandomDepthFirstTraversal:
-                        RandomDepthFirstTraversal();
+                        RandomDepthFirstTraversal(maze, connections);
                         break;
                     default:
-                        RandomTraversal();
+                        RandomTraversal(maze, connections);
                         break;
                 }
-                changed = true;
             }
-            return changed;
+            return maze;
         }
 
-        private void RandomTraversal()
+        private void RandomTraversal(Maze maze, List<Maze.Connection> connections)
         {
-            Maze.Edge edge = edges.PopRandom();
+            Maze.Connection connection = connections.PopRandom();
 
-            if (maze.IsUnconnected(edge.exit.position))
+            if (maze.IsUnconnected(connection.b))
             {
-                maze.AddEdge(edge);
-                edges.AddRange(maze.GetPossibleConnections(edge.exit));
-
-                if (config.drawEdge != null)
-                {
-                    config.drawEdge(edge);
-                }
+                maze.AddConnection(connection);
+                connections.AddRange(maze.GetPossibleConnections(connection.b));
             }
         }
 
-        private void RandomDepthFirstTraversal()
+        private void RandomDepthFirstTraversal(Maze maze, List<Maze.Connection> connections)
         {
-            Maze.Edge edge = edges[edges.Count - 1];
-            edges.RemoveAt(edges.Count - 1);
+            Maze.Connection connection = connections[connections.Count - 1];
+            connections.RemoveAt(connections.Count - 1);
 
-            if (maze.IsUnconnected(edge.exit.position))
+            if (maze.IsUnconnected(connection.b))
             {
-                maze.AddEdge(edge);
-                List<Maze.Edge> newEdges = maze.GetPossibleConnections(edge.exit);
-                newEdges.Shuffle();
-                edges.AddRange(newEdges);
-
-                if (config.drawEdge != null)
-                {
-                    config.drawEdge(edge);
-                }
+                maze.AddConnection(connection);
+                List<Maze.Connection> newConnections = maze.GetPossibleConnections(connection.b);
+                newConnections.Shuffle();
+                connections.AddRange(newConnections);
             }
         }
 
@@ -109,23 +95,26 @@ namespace ProceduralToolkit.Samples
             return wallSize + mazeHeight*(roomSize + wallSize);
         }
 
-        public static void EdgeToRect(Maze.Edge edge, int wallSize, int roomSize,
-            out Vector2Int position, out int width, out int height)
+        public static RectInt ConnectionToRect(Vector2Int a, Vector2Int b, int wallSize, int roomSize)
         {
-            position = new Vector2Int(
-                x: wallSize + Mathf.Min(edge.origin.position.x, edge.exit.position.x)*(roomSize + wallSize),
-                y: wallSize + Mathf.Min(edge.origin.position.y, edge.exit.position.y)*(roomSize + wallSize));
-
-            if ((edge.exit.position - edge.origin.position).y == 0)
+            var rect = new RectInt
             {
-                width = roomSize*2 + wallSize;
-                height = roomSize;
+                min = new Vector2Int(
+                    x: wallSize + Mathf.Min(a.x, b.x)*(roomSize + wallSize),
+                    y: wallSize + Mathf.Min(a.y, b.y)*(roomSize + wallSize))
+            };
+
+            if ((b - a).y == 0)
+            {
+                rect.width = roomSize*2 + wallSize;
+                rect.height = roomSize;
             }
             else
             {
-                width = roomSize;
-                height = roomSize*2 + wallSize;
+                rect.width = roomSize;
+                rect.height = roomSize*2 + wallSize;
             }
+            return rect;
         }
     }
 }

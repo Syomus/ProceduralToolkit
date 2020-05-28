@@ -10,69 +10,61 @@ namespace ProceduralToolkit.Samples
     {
         public readonly int width;
         public readonly int height;
-        private readonly Directions[,] vertices;
+
+        private readonly Directions[] vertices;
 
         public Directions this[Vector2Int position]
         {
-            get { return vertices[position.x, position.y]; }
-            set { vertices[position.x, position.y] = value; }
+            get => vertices.GetXY(position, width);
+            set => vertices.SetXY(position, width, value);
         }
 
         public Directions this[int x, int y]
         {
-            get { return vertices[x, y]; }
-            set { vertices[x, y] = value; }
+            get => vertices.GetXY(x, y, width);
+            set => vertices.SetXY(x, y, width, value);
         }
 
         public Maze(int width, int height)
         {
             this.width = width;
             this.height = height;
-            vertices = new Directions[width, height];
+            vertices = new Directions[width*height];
         }
 
-        public List<Edge> GetPossibleConnections(Vertex origin)
+        public List<Connection> GetPossibleConnections(Vector2Int position)
         {
-            var edges = new List<Edge>();
-            if (!origin.connections.HasFlag(Directions.Left))
-            {
-                var position = origin.position + Vector2Int.left;
-                if (IsInBounds(position) && IsUnconnected(position))
-                {
-                    edges.Add(new Edge(origin, new Vertex(position, Directions.Right, origin.depth + 1)));
-                }
-            }
-            if (!origin.connections.HasFlag(Directions.Right))
-            {
-                var position = origin.position + Vector2Int.right;
-                if (IsInBounds(position) && IsUnconnected(position))
-                {
-                    edges.Add(new Edge(origin, new Vertex(position, Directions.Left, origin.depth + 1)));
-                }
-            }
-            if (!origin.connections.HasFlag(Directions.Down))
-            {
-                var position = origin.position + Vector2Int.down;
-                if (IsInBounds(position) && IsUnconnected(position))
-                {
-                    edges.Add(new Edge(origin, new Vertex(position, Directions.Up, origin.depth + 1)));
-                }
-            }
-            if (!origin.connections.HasFlag(Directions.Up))
-            {
-                var position = origin.position + Vector2Int.up;
-                if (IsInBounds(position) && IsUnconnected(position))
-                {
-                    edges.Add(new Edge(origin, new Vertex(position, Directions.Down, origin.depth + 1)));
-                }
-            }
-            return edges;
+            var connections = new List<Connection>();
+            TestDirection(position, Vector2Int.left, Directions.Left, connections);
+            TestDirection(position, Vector2Int.right, Directions.Right, connections);
+            TestDirection(position, Vector2Int.down, Directions.Down, connections);
+            TestDirection(position, Vector2Int.up, Directions.Up, connections);
+            return connections;
         }
 
-        public void AddEdge(Edge edge)
+        public void AddConnection(Connection connection)
         {
-            this[edge.origin.position] |= edge.origin.connections;
-            this[edge.exit.position] = edge.exit.connections;
+            Vector2Int delta = connection.b - connection.a;
+            if (delta == Vector2Int.left)
+            {
+                this[connection.a] = this[connection.a].AddFlag(Directions.Left);
+                this[connection.b] = Directions.Right;
+            }
+            else if (delta == Vector2Int.right)
+            {
+                this[connection.a] = this[connection.a].AddFlag(Directions.Right);
+                this[connection.b] = Directions.Left;
+            }
+            else if (delta == Vector2Int.down)
+            {
+                this[connection.a] = this[connection.a].AddFlag(Directions.Down);
+                this[connection.b] = Directions.Up;
+            }
+            else if (delta == Vector2Int.up)
+            {
+                this[connection.a] = this[connection.a].AddFlag(Directions.Up);
+                this[connection.b] = Directions.Down;
+            }
         }
 
         public bool IsUnconnected(Vector2Int position)
@@ -86,35 +78,30 @@ namespace ProceduralToolkit.Samples
                    position.y >= 0 && position.y < height;
         }
 
-        /// <summary>
-        /// Maze graph vertex
-        /// </summary>
-        public struct Vertex
+        private void TestDirection(Vector2Int a, Vector2Int offset, Directions direction, List<Connection> connections)
         {
-            public readonly Vector2Int position;
-            public readonly Directions connections;
-            public readonly int depth;
-
-            public Vertex(Vector2Int position, Directions connections, int depth)
+            if (!this[a].HasFlag(direction))
             {
-                this.position = position;
-                this.connections = connections;
-                this.depth = depth;
+                var b = a + offset;
+                if (IsInBounds(b) && IsUnconnected(b))
+                {
+                    connections.Add(new Connection(a, b));
+                }
             }
         }
 
         /// <summary>
-        /// Maze graph edge
+        /// Maze graph connection
         /// </summary>
-        public struct Edge
+        public struct Connection
         {
-            public readonly Vertex origin;
-            public readonly Vertex exit;
+            public readonly Vector2Int a;
+            public readonly Vector2Int b;
 
-            public Edge(Vertex origin, Vertex exit)
+            public Connection(Vector2Int a, Vector2Int b)
             {
-                this.origin = origin;
-                this.exit = exit;
+                this.a = a;
+                this.b = b;
             }
         }
     }

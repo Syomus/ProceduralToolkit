@@ -153,10 +153,9 @@ MonoBehaviour:
   algorithmsGroup: {fileID: 1304763797}
   mazeImage: {fileID: 1094236749}
   config:
-    width: 100
-    height: 100
+    width: 32
+    height: 32
     algorithm: 0
-  useGradient: 1
 --- !u!4 &268727350
 Transform:
   m_ObjectHideFlags: 0

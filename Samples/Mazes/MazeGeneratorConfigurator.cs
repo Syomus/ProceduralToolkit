@@ -1,4 +1,3 @@
-using System.Collections;
 using ProceduralToolkit.Samples.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,24 +14,17 @@ namespace ProceduralToolkit.Samples
         public RawImage mazeImage;
         [Space]
         public MazeGenerator.Config config = new MazeGenerator.Config();
-        public bool useGradient = true;
 
         private const int roomSize = 2;
         private const int wallSize = 1;
-        private const float gradientSaturation = 0.7f;
-        private const float gradientSaturationOffset = 0.1f;
-        private const float gradientValue = 0.7f;
-        private const float gradientValueOffset = 0.1f;
-        private const float gradientLength = 30;
+        private const float saturation = 0.8f;
+        private const float value = 0.8f;
 
         private Texture2D texture;
         private MazeGenerator mazeGenerator;
-        private ColorHSV mainColor;
 
         private void Awake()
         {
-            config.drawEdge = DrawEdge;
-
             int textureWidth = MazeGenerator.GetMapWidth(config.width, wallSize, roomSize);
             int textureHeight = MazeGenerator.GetMapHeight(config.height, wallSize, roomSize);
             texture = PTUtils.CreateTexture(textureWidth, textureHeight, Color.black);
@@ -44,12 +36,6 @@ namespace ProceduralToolkit.Samples
 
             InstantiateToggle(MazeGenerator.Algorithm.RandomTraversal, "Random traversal");
             InstantiateToggle(MazeGenerator.Algorithm.RandomDepthFirstTraversal, "Random depth-first traversal");
-
-            InstantiateControl<ToggleControl>(leftPanel).Initialize("Use gradient", useGradient, value =>
-            {
-                useGradient = value;
-                Generate();
-            });
 
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate new maze", Generate);
 
@@ -64,52 +50,36 @@ namespace ProceduralToolkit.Samples
 
         private void Generate()
         {
-            StopAllCoroutines();
-
-            texture.Clear(Color.black);
-            texture.Apply();
-
             mazeGenerator = new MazeGenerator(config);
+            var maze = mazeGenerator.Generate();
 
             GeneratePalette();
-            mainColor = GetMainColorHSV();
+            var color = GetMainColorHSV().WithSV(saturation, value).ToColor();
 
-            StartCoroutine(GenerateCoroutine());
+            texture.Clear(Color.black);
+            for (int x = 0; x < config.width; x++)
+            {
+                for (int y = 0; y < config.height; y++)
+                {
+                    var position = new Vector2Int(x, y);
+                    Directions vertex = maze[position];
+                    if (vertex.HasFlag(Directions.Right))
+                    {
+                        DrawConnection(position, new Vector2Int(x + 1, y), color);
+                    }
+                    if (vertex.HasFlag(Directions.Up))
+                    {
+                        DrawConnection(position, new Vector2Int(x, y + 1), color);
+                    }
+                }
+            }
+            texture.Apply();
         }
 
-        private IEnumerator GenerateCoroutine()
+        private void DrawConnection(Vector2Int a, Vector2Int b, Color color)
         {
-            while (mazeGenerator.Generate(steps: 200))
-            {
-                texture.Apply();
-                yield return null;
-            }
-        }
-
-        private void DrawEdge(Maze.Edge edge)
-        {
-            MazeGenerator.EdgeToRect(edge, wallSize, roomSize, out Vector2Int position, out int width, out int height);
-
-            Color color;
-            if (useGradient)
-            {
-                float gradient01 = Mathf.Repeat(edge.origin.depth/gradientLength, 1);
-                float gradient010 = Mathf.Abs((gradient01 - 0.5f)*2);
-
-                color = GetColor(gradient010);
-            }
-            else
-            {
-                color = GetColor(0.75f);
-            }
-            texture.DrawRect(position.x, position.y, width, height, color);
-        }
-
-        private Color GetColor(float gradientPosition)
-        {
-            float saturation = gradientPosition*gradientSaturation + gradientSaturationOffset;
-            float value = gradientPosition*gradientValue + gradientValueOffset;
-            return mainColor.WithSV(saturation, value).ToColor();
+            var rect = MazeGenerator.ConnectionToRect(a, b, wallSize, roomSize);
+            texture.DrawRect(rect, color);
         }
 
         private void InstantiateToggle(MazeGenerator.Algorithm algorithm, string header)
