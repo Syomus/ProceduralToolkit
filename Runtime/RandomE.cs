@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
-using Random = UnityEngine.Random;
+using URandom = UnityEngine.Random;
+using MRandom = Unity.Mathematics.Random;
 
 namespace ProceduralToolkit
 {
@@ -14,7 +15,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random 2D rotation
         /// </summary>
-        public static float rotation2 => Random.Range(0, 360f);
+        public static float rotation2 => URandom.Range(0, 360f);
 
         /// <summary>
         /// Returns a random rotation around X axis
@@ -41,17 +42,17 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random point inside a circle with radius 1
         /// </summary>
-        public static Vector3 insideUnitCircle3XY => Geometry.PointOnCircle3XY(Random.value, rotation2);
+        public static Vector3 insideUnitCircle3XY => Geometry.PointOnCircle3XY(URandom.value, rotation2);
 
         /// <summary>
         /// Returns a random point inside a circle with radius 1
         /// </summary>
-        public static Vector3 insideUnitCircle3XZ => Geometry.PointOnCircle3XZ(Random.value, rotation2);
+        public static Vector3 insideUnitCircle3XZ => Geometry.PointOnCircle3XZ(URandom.value, rotation2);
 
         /// <summary>
         /// Returns a random point inside a circle with radius 1
         /// </summary>
-        public static Vector3 insideUnitCircle3YZ => Geometry.PointOnCircle3YZ(Random.value, rotation2);
+        public static Vector3 insideUnitCircle3YZ => Geometry.PointOnCircle3YZ(URandom.value, rotation2);
 
         /// <summary>
         /// Returns a random point on a circle with radius 1
@@ -96,7 +97,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector2 PointOnSegment2(Vector2 segmentA, Vector2 segmentB)
         {
-            return Geometry.PointOnSegment2(segmentA, segmentB, Random.value);
+            return Geometry.PointOnSegment2(segmentA, segmentB, URandom.value);
         }
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 PointOnSegment3(Vector3 segmentA, Vector3 segmentB)
         {
-            return Geometry.PointOnSegment3(segmentA, segmentB, Random.value);
+            return Geometry.PointOnSegment3(segmentA, segmentB, URandom.value);
         }
 
         /// <summary>
@@ -144,7 +145,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector2 PointInCircle2(Vector2 center, float radius)
         {
-            return center + Random.insideUnitCircle*radius;
+            return center + URandom.insideUnitCircle*radius;
         }
 
         /// <summary>
@@ -160,7 +161,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 PointOnSphere(Vector3 center, float radius)
         {
-            return center + Random.onUnitSphere*radius;
+            return center + URandom.onUnitSphere*radius;
         }
 
         /// <summary>
@@ -176,7 +177,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 PointInSphere(Vector3 center, float radius)
         {
-            return center + Random.insideUnitSphere*radius;
+            return center + URandom.insideUnitSphere*radius;
         }
 
         /// <summary>
@@ -193,7 +194,7 @@ namespace ProceduralToolkit
         public static Vector2 PointOnRect(Rect rect)
         {
             float perimeter = 2*rect.width + 2*rect.height;
-            float value = Random.value*perimeter;
+            float value = URandom.value*perimeter;
             if (value < rect.width)
             {
                 return rect.min + new Vector2(value, 0);
@@ -226,12 +227,12 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random color between black [inclusive] and white [inclusive]
         /// </summary>
-        public static Color color => new Color(Random.value, Random.value, Random.value);
+        public static Color color => new Color(URandom.value, URandom.value, URandom.value);
 
         /// <summary>
         /// Returns a color with a random hue and a maximum saturation and value in HSV model
         /// </summary>
-        public static ColorHSV colorHSV => new ColorHSV(Random.value, 1, 1);
+        public static ColorHSV colorHSV => new ColorHSV(URandom.value, 1, 1);
 
         /// <summary>
         /// Returns a gradient between two random colors
@@ -248,7 +249,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static ColorHSV ColorHue(float saturation, float value, float alpha = 1)
         {
-            return new ColorHSV(Random.value, saturation, value, alpha);
+            return new ColorHSV(URandom.value, saturation, value, alpha);
         }
 
         /// <summary>
@@ -256,7 +257,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static ColorHSV ColorSaturation(float hue, float value, float alpha = 1)
         {
-            return new ColorHSV(hue, Random.value, value, alpha);
+            return new ColorHSV(hue, URandom.value, value, alpha);
         }
 
         /// <summary>
@@ -264,7 +265,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static ColorHSV ColorValue(float hue, float saturation, float alpha = 1)
         {
-            return new ColorHSV(hue, saturation, Random.value, alpha);
+            return new ColorHSV(hue, saturation, URandom.value, alpha);
         }
 
         /// <summary>
@@ -331,7 +332,7 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentException("Empty list");
             }
-            return list[Random.Range(0, list.Count)];
+            return list[URandom.Range(0, list.Count)];
         }
 
         /// <summary>
@@ -339,7 +340,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static T GetRandom<T>(T item1, T item2, params T[] items)
         {
-            int index = Random.Range(0, items.Length + 2);
+            int index = URandom.Range(0, items.Length + 2);
             if (index == 0)
             {
                 return item1;
@@ -406,7 +407,7 @@ namespace ProceduralToolkit
                 cumulative[i] += cumulative[i - 1];
             }
 
-            float random = Random.Range(0, cumulative[cumulative.Count - 1]);
+            float random = URandom.Range(0, cumulative[cumulative.Count - 1]);
             int index = cumulative.FindIndex(a => a >= random);
             if (index == -1)
             {
@@ -424,7 +425,7 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentException("Empty string");
             }
-            return chars[Random.Range(0, chars.Length)];
+            return chars[URandom.Range(0, chars.Length)];
         }
 
         /// <summary>
@@ -439,7 +440,7 @@ namespace ProceduralToolkit
             var randomString = new StringBuilder(length);
             for (int i = 0; i < length; i++)
             {
-                randomString.Append(chars[Random.Range(0, chars.Length)]);
+                randomString.Append(chars[URandom.Range(0, chars.Length)]);
             }
             return randomString.ToString();
         }
@@ -457,8 +458,27 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentException("Empty list");
             }
-            var index = Random.Range(0, list.Count);
-            var item = list[index];
+            int index = URandom.Range(0, list.Count);
+            T item = list[index];
+            list.RemoveAt(index);
+            return item;
+        }
+
+        /// <summary>
+        /// Returns a random element and removes it from the list
+        /// </summary>
+        public static T PopRandom<T>(this List<T> list, ref MRandom random)
+        {
+            if (list == null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+            if (list.Count == 0)
+            {
+                throw new ArgumentException("Empty list");
+            }
+            int index = random.NextInt(0, list.Count);
+            T item = list[index];
             list.RemoveAt(index);
             return item;
         }
@@ -477,7 +497,28 @@ namespace ProceduralToolkit
             }
             for (int i = 0; i < list.Count; i++)
             {
-                int j = Random.Range(i, list.Count);
+                int j = URandom.Range(i, list.Count);
+                T tmp = list[j];
+                list[j] = list[i];
+                list[i] = tmp;
+            }
+        }
+
+        /// <summary>
+        /// Fisher–Yates shuffle
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Fisher–Yates_shuffle
+        /// </remarks>
+        public static void Shuffle<T>(this IList<T> list, ref MRandom random)
+        {
+            if (list == null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+            for (int i = 0; i < list.Count; i++)
+            {
+                int j = random.NextInt(i, list.Count);
                 T tmp = list[j];
                 list[j] = list[i];
                 list[i] = tmp;
@@ -492,7 +533,7 @@ namespace ProceduralToolkit
         {
             if (percent == 0) return false;
             if (percent == 1) return true;
-            return Random.value < percent;
+            return URandom.value < percent;
         }
 
         #region Range
@@ -502,7 +543,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector2 Range(Vector2 min, Vector2 max)
         {
-            return new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y));
+            return new Vector2(URandom.Range(min.x, max.x), URandom.Range(min.y, max.y));
         }
 
         /// <summary>
@@ -510,7 +551,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 Range(Vector3 min, Vector3 max)
         {
-            return new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
+            return new Vector3(URandom.Range(min.x, max.x), URandom.Range(min.y, max.y), URandom.Range(min.z, max.z));
         }
 
         /// <summary>
@@ -518,7 +559,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector4 Range(Vector4 min, Vector4 max)
         {
-            return new Vector4(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z), Random.Range(min.w, max.w));
+            return new Vector4(URandom.Range(min.x, max.x), URandom.Range(min.y, max.y), URandom.Range(min.z, max.z), URandom.Range(min.w, max.w));
         }
 
         /// <summary>
@@ -526,7 +567,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector2Int Range(Vector2Int min, Vector2Int max)
         {
-            return new Vector2Int(Random.Range(min.x, max.x), Random.Range(min.y, max.y));
+            return new Vector2Int(URandom.Range(min.x, max.x), URandom.Range(min.y, max.y));
         }
 
         /// <summary>
@@ -534,7 +575,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3Int Range(Vector3Int min, Vector3Int max)
         {
-            return new Vector3Int(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
+            return new Vector3Int(URandom.Range(min.x, max.x), URandom.Range(min.y, max.y), URandom.Range(min.z, max.z));
         }
 
         /// <summary>
@@ -547,7 +588,7 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentException("Variants must be greater than one");
             }
-            return Mathf.Lerp(min, max, Random.Range(0, variants)/(variants - 1f));
+            return Mathf.Lerp(min, max, URandom.Range(0, variants)/(variants - 1f));
         }
 
         /// <summary>
