@@ -23,18 +23,15 @@ namespace ProceduralToolkit.Samples
             algorithm = MazeJob.Algorithm.RandomTraversal,
         };
 
-        private const int roomSize = 2;
-        private const int wallSize = 1;
         private const float saturation = 0.8f;
         private const float value = 0.8f;
 
         private Texture2D texture;
-        private MazeJob mazeJob;
 
         private void Awake()
         {
-            int textureWidth = GetTextureWidth(config.width, wallSize, roomSize);
-            int textureHeight = GetTextureHeight(config.height, wallSize, roomSize);
+            int textureWidth = MazeUtility.GetTextureWidth(config.width);
+            int textureHeight = MazeUtility.GetTextureHeight(config.height);
             texture = PTUtils.CreateTexture(textureWidth, textureHeight, Color.black);
             mazeImage.texture = texture;
 
@@ -60,7 +57,7 @@ namespace ProceduralToolkit.Samples
         {
             var random = new MRandom((uint) URandom.Range(0, int.MaxValue));
 
-            mazeJob = new MazeJob(config, ref random);
+            var mazeJob = new MazeJob(config, ref random);
             var handle = mazeJob.Schedule();
             handle.Complete();
 
@@ -76,23 +73,17 @@ namespace ProceduralToolkit.Samples
                     Directions vertex = mazeJob.maze[position];
                     if (vertex.HasFlag(Directions.Right))
                     {
-                        DrawConnection(position, new Vector2Int(x + 1, y), color);
+                        MazeUtility.DrawConnection(position, new Vector2Int(x + 1, y), texture, color);
                     }
                     if (vertex.HasFlag(Directions.Up))
                     {
-                        DrawConnection(position, new Vector2Int(x, y + 1), color);
+                        MazeUtility.DrawConnection(position, new Vector2Int(x, y + 1), texture, color);
                     }
                 }
             }
             texture.Apply();
 
             mazeJob.maze.vertices.Dispose();
-        }
-
-        private void DrawConnection(Vector2Int a, Vector2Int b, Color color)
-        {
-            var rect = ConnectionToRect(a, b, wallSize, roomSize);
-            texture.DrawRect(rect, color);
         }
 
         private void InstantiateToggle(MazeJob.Algorithm algorithm, string header)
@@ -110,38 +101,6 @@ namespace ProceduralToolkit.Samples
                     }
                 },
                 toggleGroup: algorithmsGroup);
-        }
-
-        private static int GetTextureWidth(int mazeWidth, int wallSize, int roomSize)
-        {
-            return wallSize + mazeWidth*(roomSize + wallSize);
-        }
-
-        private static int GetTextureHeight(int mazeHeight, int wallSize, int roomSize)
-        {
-            return wallSize + mazeHeight*(roomSize + wallSize);
-        }
-
-        private static RectInt ConnectionToRect(Vector2Int a, Vector2Int b, int wallSize, int roomSize)
-        {
-            var rect = new RectInt
-            {
-                min = new Vector2Int(
-                    x: wallSize + Mathf.Min(a.x, b.x)*(roomSize + wallSize),
-                    y: wallSize + Mathf.Min(a.y, b.y)*(roomSize + wallSize))
-            };
-
-            if ((b - a).y == 0)
-            {
-                rect.width = roomSize*2 + wallSize;
-                rect.height = roomSize;
-            }
-            else
-            {
-                rect.width = roomSize;
-                rect.height = roomSize*2 + wallSize;
-            }
-            return rect;
         }
     }
 }
