@@ -1,6 +1,9 @@
 using ProceduralToolkit.Samples.UI;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Jobs;
+using URandom = UnityEngine.Random;
+using MRandom = Unity.Mathematics.Random;
 
 namespace ProceduralToolkit.Samples
 {
@@ -13,7 +16,12 @@ namespace ProceduralToolkit.Samples
         public ToggleGroup algorithmsGroup;
         public RawImage mazeImage;
         [Space]
-        public MazeGenerator.Config config = new MazeGenerator.Config();
+        public MazeJob.Config config = new MazeJob.Config
+        {
+            width = 32,
+            height = 32,
+            algorithm = MazeJob.Algorithm.RandomTraversal,
+        };
 
         private const int roomSize = 2;
         private const int wallSize = 1;
@@ -21,12 +29,12 @@ namespace ProceduralToolkit.Samples
         private const float value = 0.8f;
 
         private Texture2D texture;
-        private MazeGenerator mazeGenerator;
+        private MazeJob mazeJob;
 
         private void Awake()
         {
-            int textureWidth = MazeGenerator.GetMapWidth(config.width, wallSize, roomSize);
-            int textureHeight = MazeGenerator.GetMapHeight(config.height, wallSize, roomSize);
+            int textureWidth = GetTextureWidth(config.width, wallSize, roomSize);
+            int textureHeight = GetTextureHeight(config.height, wallSize, roomSize);
             texture = PTUtils.CreateTexture(textureWidth, textureHeight, Color.black);
             mazeImage.texture = texture;
 
@@ -34,8 +42,8 @@ namespace ProceduralToolkit.Samples
             header.Initialize("Generator algorithm");
             header.transform.SetAsFirstSibling();
 
-            InstantiateToggle(MazeGenerator.Algorithm.RandomTraversal, "Random traversal");
-            InstantiateToggle(MazeGenerator.Algorithm.RandomDepthFirstTraversal, "Random depth-first traversal");
+            InstantiateToggle(MazeJob.Algorithm.RandomTraversal, "Random traversal");
+            InstantiateToggle(MazeJob.Algorithm.RandomDepthFirstTraversal, "Random depth-first traversal");
 
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate new maze", Generate);
 
@@ -50,8 +58,11 @@ namespace ProceduralToolkit.Samples
 
         private void Generate()
         {
-            mazeGenerator = new MazeGenerator(config);
-            var maze = mazeGenerator.Generate();
+            var random = new MRandom((uint) URandom.Range(0, int.MaxValue));
+
+            mazeJob = new MazeJob(config, ref random);
+            var handle = mazeJob.Schedule();
+            handle.Complete();
 
             GeneratePalette();
             var color = GetMainColorHSV().WithSV(saturation, value).ToColor();
@@ -62,7 +73,7 @@ namespace ProceduralToolkit.Samples
                 for (int y = 0; y < config.height; y++)
                 {
                     var position = new Vector2Int(x, y);
-                    Directions vertex = maze[position];
+                    Directions vertex = mazeJob.maze[position];
                     if (vertex.HasFlag(Directions.Right))
                     {
                         DrawConnection(position, new Vector2Int(x + 1, y), color);
@@ -74,15 +85,17 @@ namespace ProceduralToolkit.Samples
                 }
             }
             texture.Apply();
+
+            mazeJob.maze.vertices.Dispose();
         }
 
         private void DrawConnection(Vector2Int a, Vector2Int b, Color color)
         {
-            var rect = MazeGenerator.ConnectionToRect(a, b, wallSize, roomSize);
+            var rect = ConnectionToRect(a, b, wallSize, roomSize);
             texture.DrawRect(rect, color);
         }
 
-        private void InstantiateToggle(MazeGenerator.Algorithm algorithm, string header)
+        private void InstantiateToggle(MazeJob.Algorithm algorithm, string header)
         {
             var toggle = InstantiateControl<ToggleControl>(algorithmsGroup.transform);
             toggle.Initialize(
@@ -97,6 +110,38 @@ namespace ProceduralToolkit.Samples
                     }
                 },
                 toggleGroup: algorithmsGroup);
+        }
+
+        private static int GetTextureWidth(int mazeWidth, int wallSize, int roomSize)
+        {
+            return wallSize + mazeWidth*(roomSize + wallSize);
+        }
+
+        private static int GetTextureHeight(int mazeHeight, int wallSize, int roomSize)
+        {
+            return wallSize + mazeHeight*(roomSize + wallSize);
+        }
+
+        private static RectInt ConnectionToRect(Vector2Int a, Vector2Int b, int wallSize, int roomSize)
+        {
+            var rect = new RectInt
+            {
+                min = new Vector2Int(
+                    x: wallSize + Mathf.Min(a.x, b.x)*(roomSize + wallSize),
+                    y: wallSize + Mathf.Min(a.y, b.y)*(roomSize + wallSize))
+            };
+
+            if ((b - a).y == 0)
+            {
+                rect.width = roomSize*2 + wallSize;
+                rect.height = roomSize;
+            }
+            else
+            {
+                rect.width = roomSize;
+                rect.height = roomSize*2 + wallSize;
+            }
+            return rect;
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 namespace ProceduralToolkit.Samples
@@ -6,12 +7,11 @@ namespace ProceduralToolkit.Samples
     /// <summary>
     /// Maze graph representation
     /// </summary>
-    public class Maze
+    public struct Maze
     {
         public readonly int width;
         public readonly int height;
-
-        private readonly Directions[] vertices;
+        public NativeArray<Directions> vertices;
 
         public Directions this[Vector2Int position]
         {
@@ -29,7 +29,7 @@ namespace ProceduralToolkit.Samples
         {
             this.width = width;
             this.height = height;
-            vertices = new Directions[width*height];
+            vertices = new NativeArray<Directions>(width*height, Allocator.Persistent);
         }
 
         public List<Connection> GetPossibleConnections(Vector2Int position)
@@ -72,12 +72,6 @@ namespace ProceduralToolkit.Samples
             return this[position] == Directions.None;
         }
 
-        public bool IsInBounds(Vector2Int position)
-        {
-            return position.x >= 0 && position.x < width &&
-                   position.y >= 0 && position.y < height;
-        }
-
         private void TestDirection(Vector2Int a, Vector2Int offset, Directions direction, List<Connection> connections)
         {
             if (!this[a].HasFlag(direction))
@@ -88,6 +82,12 @@ namespace ProceduralToolkit.Samples
                     connections.Add(new Connection(a, b));
                 }
             }
+        }
+
+        private bool IsInBounds(Vector2Int position)
+        {
+            return position.x >= 0 && position.x < width &&
+                   position.y >= 0 && position.y < height;
         }
 
         /// <summary>
