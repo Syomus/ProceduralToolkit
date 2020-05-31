@@ -32,14 +32,12 @@ namespace ProceduralToolkit.Samples
             vertices = new NativeArray<Directions>(width*height, Allocator.Persistent);
         }
 
-        public List<Connection> GetPossibleConnections(Vector2Int position)
+        public void GetPossibleConnections(Vector2Int position, List<Connection> connections)
         {
-            var connections = new List<Connection>();
             TestDirection(position, Vector2Int.left, Directions.Left, connections);
             TestDirection(position, Vector2Int.right, Directions.Right, connections);
             TestDirection(position, Vector2Int.down, Directions.Down, connections);
             TestDirection(position, Vector2Int.up, Directions.Up, connections);
-            return connections;
         }
 
         public void AddConnection(Connection connection)

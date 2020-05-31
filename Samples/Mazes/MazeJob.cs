@@ -30,47 +30,54 @@ namespace ProceduralToolkit.Samples
         public void Execute()
         {
             var position = new Vector2Int(random.NextInt(0, config.width), random.NextInt(0, config.height));
-            List<Maze.Connection> connections = maze.GetPossibleConnections(position);
+            var connections = new List<Maze.Connection>();
+            maze.GetPossibleConnections(position, connections);
 
+            if (config.algorithm == Algorithm.RandomTraversal)
+            {
+                RandomTraversal(connections);
+            }
+            else if (config.algorithm == Algorithm.RandomDepthFirstTraversal)
+            {
+                RandomDepthFirstTraversal(connections);
+            }
+            else
+            {
+                RandomTraversal(connections);
+            }
+        }
+
+        private void RandomTraversal(List<Maze.Connection> connections)
+        {
             while (connections.Count > 0)
             {
-                switch (config.algorithm)
+                Maze.Connection connection = connections.PopRandom(ref random);
+
+                if (maze.IsUnconnected(connection.b))
                 {
-                    case Algorithm.RandomTraversal:
-                        RandomTraversal(maze, connections, ref random);
-                        break;
-                    case Algorithm.RandomDepthFirstTraversal:
-                        RandomDepthFirstTraversal(maze, connections, ref random);
-                        break;
-                    default:
-                        RandomTraversal(maze, connections, ref random);
-                        break;
+                    maze.AddConnection(connection);
+                    maze.GetPossibleConnections(connection.b, connections);
                 }
             }
         }
 
-        private static void RandomTraversal(Maze maze, List<Maze.Connection> connections, ref MRandom random)
+        private void RandomDepthFirstTraversal(List<Maze.Connection> connections)
         {
-            Maze.Connection connection = connections.PopRandom(ref random);
+            var possibleConnections = new List<Maze.Connection>();
 
-            if (maze.IsUnconnected(connection.b))
+            while (connections.Count > 0)
             {
-                maze.AddConnection(connection);
-                connections.AddRange(maze.GetPossibleConnections(connection.b));
-            }
-        }
+                Maze.Connection connection = connections[connections.Count - 1];
+                connections.RemoveAt(connections.Count - 1);
 
-        private static void RandomDepthFirstTraversal(Maze maze, List<Maze.Connection> connections, ref MRandom random)
-        {
-            Maze.Connection connection = connections[connections.Count - 1];
-            connections.RemoveAt(connections.Count - 1);
-
-            if (maze.IsUnconnected(connection.b))
-            {
-                maze.AddConnection(connection);
-                List<Maze.Connection> newConnections = maze.GetPossibleConnections(connection.b);
-                newConnections.Shuffle(ref random);
-                connections.AddRange(newConnections);
+                if (maze.IsUnconnected(connection.b))
+                {
+                    maze.AddConnection(connection);
+                    possibleConnections.Clear();
+                    maze.GetPossibleConnections(connection.b, possibleConnections);
+                    possibleConnections.Shuffle(ref random);
+                    connections.AddRange(possibleConnections);
+                }
             }
         }
 
