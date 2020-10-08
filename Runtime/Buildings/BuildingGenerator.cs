@@ -32,6 +32,14 @@ namespace ProceduralToolkit.Buildings
             this.roofConstructor = roofConstructor;
         }
 
+        /// <summary>
+        /// Generates a new building from the input polygon and config.
+        /// Foundation polygon vertices should be in clockwise order.
+        /// Returns Transform of the generated building.
+        /// </summary>
+        /// <param name="foundationPolygon">Vertices of the foundation polygon in clockwise order.</param>
+        /// <param name="config">Generator config.</param>
+        /// <param name="parent">Parent transform of the generated building. Will be created if null.</param>
         public Transform Generate(List<Vector2> foundationPolygon, Config config, Transform parent = null)
         {
             Assert.IsTrue(config.floors > 0);
