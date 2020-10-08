@@ -696,6 +696,34 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Calculates the signed area of the input polygon.
+        /// </summary>
+        /// <param name="polygon">Vertices of the polygon.</param>
+        public static float GetSignedArea(IList<Vector2> polygon)
+        {
+            if (polygon.Count < 3) return 0;
+            float a = 0;
+            for (int i = 0; i < polygon.Count; i++)
+            {
+                a += VectorE.PerpDot(polygon.GetLooped(i - 1), polygon[i]);
+            }
+            return a/2;
+        }
+
+        /// <summary>
+        /// Calculates the orientation of the vertices of the input polygon.
+        /// </summary>
+        /// <param name="polygon">Vertices of the polygon.</param>
+        public static Orientation GetOrientation(IList<Vector2> polygon)
+        {
+            if (polygon.Count < 3) return Orientation.NonOrientable;
+            float signedArea = GetSignedArea(polygon);
+            if (signedArea < -Epsilon) return Orientation.Clockwise;
+            if (signedArea > Epsilon) return Orientation.CounterClockwise;
+            return Orientation.NonOrientable;
+        }
+
+        /// <summary>
         /// Calculates a bounding rect for a set of vertices.
         /// </summary>
         public static Rect GetRect(IList<Vector2> vertices)

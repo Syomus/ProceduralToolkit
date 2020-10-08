@@ -277,5 +277,89 @@ namespace ProceduralToolkit.Tests
                 AreEqual(newVertices[i], reference[i]);
             }
         }
+
+        [Test]
+        public void GetSignedArea_EmptyPolygon()
+        {
+            AreEqual(Geometry.GetSignedArea(new List<Vector2>()), 0);
+        }
+
+        [Test]
+        public void GetSignedArea_ClockwiseRectangle()
+        {
+            AreEqual(Geometry.GetSignedArea(new Vector2[]
+            {
+                new Vector2(-1, -1),
+                new Vector2(-1, 1),
+                new Vector2(1, 1),
+                new Vector2(1, -1),
+            }), -4);
+        }
+
+        [Test]
+        public void GetSignedArea_CounterClockwiseRectangle()
+        {
+            AreEqual(Geometry.GetSignedArea(new Vector2[]
+            {
+                new Vector2(-1, -1),
+                new Vector2(1, -1),
+                new Vector2(1, 1),
+                new Vector2(-1, 1),
+            }), 4);
+        }
+
+        [Test]
+        public void GetSignedArea_DegeneratePoint()
+        {
+            AreEqual(Geometry.GetSignedArea(new Vector2[]
+            {
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+            }), 0);
+        }
+
+        [Test]
+        public void GetOrientation_EmptyPolygon()
+        {
+            Assert.AreEqual(Orientation.NonOrientable, Geometry.GetOrientation(new List<Vector2>()));
+        }
+
+        [Test]
+        public void GetOrientation_ClockwiseRectangle()
+        {
+            Assert.AreEqual(Orientation.Clockwise, Geometry.GetOrientation(new Vector2[]
+            {
+                new Vector2(-1, -1),
+                new Vector2(-1, 1),
+                new Vector2(1, 1),
+                new Vector2(1, -1),
+            }));
+        }
+
+        [Test]
+        public void GetOrientation_CounterClockwiseRectangle()
+        {
+            Assert.AreEqual(Orientation.CounterClockwise, Geometry.GetOrientation(new Vector2[]
+            {
+                new Vector2(-1, -1),
+                new Vector2(1, -1),
+                new Vector2(1, 1),
+                new Vector2(-1, 1),
+            }));
+        }
+
+        [Test]
+        public void GetOrientation_DegeneratePoint()
+        {
+            Assert.AreEqual(Orientation.NonOrientable, Geometry.GetOrientation(new Vector2[]
+            {
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+                Vector2.zero,
+            }));
+        }
     }
 }
