@@ -696,6 +696,15 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
+        /// Calculates the area of the input polygon.
+        /// </summary>
+        /// <param name="polygon">Vertices of the polygon.</param>
+        public static float GetArea(IList<Vector2> polygon)
+        {
+            return Mathf.Abs(GetSignedArea(polygon));
+        }
+
+        /// <summary>
         /// Calculates the signed area of the input polygon.
         /// </summary>
         /// <param name="polygon">Vertices of the polygon.</param>
@@ -721,6 +730,21 @@ namespace ProceduralToolkit
             if (signedArea < -Epsilon) return Orientation.Clockwise;
             if (signedArea > Epsilon) return Orientation.CounterClockwise;
             return Orientation.NonOrientable;
+        }
+
+        /// <summary>
+        /// Calculates the perimeter of the input polygon.
+        /// </summary>
+        /// <param name="polygon">Vertices of the polygon.</param>
+        public static float GetPerimeter(IList<Vector2> polygon)
+        {
+            if (polygon.Count < 2) return 0;
+            float perimeter = 0;
+            for (var i = 0; i < polygon.Count; i++)
+            {
+                perimeter += Vector2.Distance(polygon.GetLooped(i - 1), polygon[i]);
+            }
+            return perimeter;
         }
 
         /// <summary>
