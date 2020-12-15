@@ -323,17 +323,27 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random element
         /// </summary>
-        public static T GetRandom<T>(this IList<T> list)
+        private static T GetRandomInternal<T>(this IEnumerable<T> list)
         {
             if (list == null)
             {
                 throw new ArgumentNullException(nameof(list));
             }
-            if (list.Count == 0)
+            if (list.Count() == 0)
             {
                 throw new ArgumentException("Empty list");
             }
-            return list[URandom.Range(0, list.Count)];
+            return list.ElementAt(URandom.Range(0, list.Count()));
+        }
+
+        public static T GetRandom<T>(this IList<T> list)
+        {
+            return GetRandomInternal(list);
+        }
+
+        public static T GetReadOnlyRandom<T>(this IReadOnlyList<T> list)
+        {
+            return GetRandomInternal(list);
         }
 
         /// <summary>
@@ -370,12 +380,12 @@ namespace ProceduralToolkit
             return dictionary[new List<TKey>(keys).GetRandom()];
         }
 
-        public static T GetRandom<T>(this IReadOnlyList<T> list, IReadOnlyList<float> weights)
+        public static T GetReadOnlyRandom<T>(this IReadOnlyList<T> list, IReadOnlyList<float> weights)
         {
             return GetRandomInternal(list, weights);
         }
 
-        public static T GetRandom<T>(this IReadOnlyList<T> list, IList<float> weights)
+        public static T GetReadOnlyRandom<T>(this IReadOnlyList<T> list, IList<float> weights)
         {
             return GetRandomInternal(list, weights);
         }
