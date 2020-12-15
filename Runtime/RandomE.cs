@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using URandom = UnityEngine.Random;
 using MRandom = Unity.Mathematics.Random;
+using System.Linq;
 
 namespace ProceduralToolkit
 {
@@ -145,7 +146,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector2 PointInCircle2(Vector2 center, float radius)
         {
-            return center + URandom.insideUnitCircle*radius;
+            return center + URandom.insideUnitCircle * radius;
         }
 
         /// <summary>
@@ -161,7 +162,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 PointOnSphere(Vector3 center, float radius)
         {
-            return center + URandom.onUnitSphere*radius;
+            return center + URandom.onUnitSphere * radius;
         }
 
         /// <summary>
@@ -177,7 +178,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector3 PointInSphere(Vector3 center, float radius)
         {
-            return center + URandom.insideUnitSphere*radius;
+            return center + URandom.insideUnitSphere * radius;
         }
 
         /// <summary>
@@ -193,8 +194,8 @@ namespace ProceduralToolkit
         /// </summary>
         public static Vector2 PointOnRect(Rect rect)
         {
-            float perimeter = 2*rect.width + 2*rect.height;
-            float value = URandom.value*perimeter;
+            float perimeter = 2 * rect.width + 2 * rect.height;
+            float value = URandom.value * perimeter;
             if (value < rect.width)
             {
                 return rect.min + new Vector2(value, 0);
@@ -369,17 +370,32 @@ namespace ProceduralToolkit
             return dictionary[new List<TKey>(keys).GetRandom()];
         }
 
+        public static T GetRandom<T>(this IReadOnlyList<T> list, IReadOnlyList<float> weights)
+        {
+            return GetRandomInternal(list, weights);
+        }
+
+        public static T GetRandom<T>(this IReadOnlyList<T> list, IList<float> weights)
+        {
+            return GetRandomInternal(list, weights);
+        }
+
+        public static T GetRandom<T>(this IList<T> list, IList<float> weights)
+        {
+            return GetRandomInternal(list, weights);
+        }
+
         /// <summary>
         /// Returns a random element with the chances of rolling based on <paramref name="weights"/>
         /// </summary>
         /// <param name="weights">Positive floats representing chances</param>
-        public static T GetRandom<T>(this IList<T> list, IList<float> weights)
+        private static T GetRandomInternal<T>(this IEnumerable<T> list, IEnumerable<float> weights)
         {
             if (list == null)
             {
                 throw new ArgumentNullException(nameof(list));
             }
-            if (list.Count == 0)
+            if (list.Count() == 0)
             {
                 throw new ArgumentException("Empty list");
             }
@@ -387,18 +403,18 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentNullException(nameof(weights));
             }
-            if (weights.Count == 0)
+            if (weights.Count() == 0)
             {
                 throw new ArgumentException("Empty weights");
             }
-            if (list.Count != weights.Count)
+            if (list.Count() != weights.Count())
             {
                 throw new ArgumentException("Array sizes must be equal");
             }
 
-            if (list.Count == 1)
+            if (list.Count() == 1)
             {
-                return list[0];
+                return list.FirstOrDefault();
             }
 
             var cumulative = new List<float>(weights);
@@ -413,7 +429,7 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentException("Weights must be positive");
             }
-            return list[index];
+            return list.ElementAt(index);
         }
 
         /// <summary>
@@ -588,7 +604,7 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentException("Variants must be greater than one");
             }
-            return Mathf.Lerp(min, max, URandom.Range(0, variants)/(variants - 1f));
+            return Mathf.Lerp(min, max, URandom.Range(0, variants) / (variants - 1f));
         }
 
         /// <summary>
