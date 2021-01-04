@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace ProceduralToolkit.Tests
+namespace ProceduralToolkit.Tests.ArrayETest
 {
     public class ArrayETest
     {
