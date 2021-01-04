@@ -340,6 +340,10 @@ namespace ProceduralToolkit
         /// </summary>
         public static T GetRandom<T>(T item1, T item2, params T[] items)
         {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
             int index = URandom.Range(0, items.Length + 2);
             if (index == 0)
             {
