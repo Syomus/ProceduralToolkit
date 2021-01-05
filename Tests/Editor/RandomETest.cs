@@ -218,5 +218,41 @@ namespace ProceduralToolkit.Tests.RandomETest
                 }
             }
         }
+
+        public class PopRandom_IList
+        {
+            private readonly List<int> nullList = null;
+            private readonly List<int> emptyList = new List<int>();
+            private MRandom random = new MRandom(1337);
+
+            [Test]
+            public void NullListThrowsException()
+            {
+                Assert.Catch<ArgumentNullException>(() => nullList.PopRandom());
+                Assert.Catch<ArgumentNullException>(() => nullList.PopRandom(ref random));
+            }
+
+            [Test]
+            public void EmptyListThrowsException()
+            {
+                Assert.Catch<ArgumentException>(() => emptyList.PopRandom());
+                Assert.Catch<ArgumentException>(() => emptyList.PopRandom(ref random));
+            }
+
+            [Test]
+            public void ListDoesNotContainReturnedItem()
+            {
+                var list = new List<int> {0, 1, 2, 3};
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Assert.False(list.Contains(list.PopRandom()));
+                }
+                list = new List<int> {0, 1, 2, 3};
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Assert.False(list.Contains(list.PopRandom(ref random)));
+                }
+            }
+        }
     }
 }
