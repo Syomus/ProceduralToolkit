@@ -40,6 +40,73 @@ namespace ProceduralToolkit.Tests.RandomETest
             }
         }
 
+        public class GetRandom_IListWeighted
+        {
+            private readonly int[] nullArray = null;
+            private readonly int[] emptyArray = new int[0];
+            private readonly int[] array = new int[] {0, 1, 2, 3};
+            private readonly List<int> nullList = null;
+            private readonly List<int> emptyList = new List<int>();
+            private readonly List<int> list = new List<int> {0, 1, 2, 3};
+            private readonly float[] nullWeights = null;
+            private readonly float[] emptyWeights = new float[0];
+            private readonly float[] weights1 = new float[] {1};
+            private readonly float[] weights1111 = new float[] {1, 1, 1, 1};
+            private readonly float[] negativeWeights = new float[] {-100, 1, 1, 1};
+
+            [Test]
+            public void NullListThrowsException()
+            {
+                Assert.Catch<ArgumentNullException>(() => nullArray.GetRandom(weights1111));
+                Assert.Catch<ArgumentNullException>(() => nullList.GetRandom(weights1111));
+            }
+
+            [Test]
+            public void EmptyListThrowsException()
+            {
+                Assert.Catch<ArgumentException>(() => emptyArray.GetRandom(weights1111));
+                Assert.Catch<ArgumentException>(() => emptyList.GetRandom(weights1111));
+            }
+
+            [Test]
+            public void NullWeightsThrowsException()
+            {
+                Assert.Catch<ArgumentNullException>(() => array.GetRandom(nullWeights));
+                Assert.Catch<ArgumentNullException>(() => list.GetRandom(nullWeights));
+            }
+
+            [Test]
+            public void EmptyWeightsThrowsException()
+            {
+                Assert.Catch<ArgumentException>(() => array.GetRandom(emptyWeights));
+                Assert.Catch<ArgumentException>(() => list.GetRandom(emptyWeights));
+            }
+
+            [Test]
+            public void DifferentSizeThrowsException()
+            {
+                Assert.Catch<ArgumentException>(() => array.GetRandom(weights1));
+                Assert.Catch<ArgumentException>(() => list.GetRandom(weights1));
+            }
+
+            [Test]
+            public void NegativeWeightsThrowsException()
+            {
+                Assert.Catch<ArgumentException>(() => array.GetRandom(negativeWeights));
+                Assert.Catch<ArgumentException>(() => list.GetRandom(negativeWeights));
+            }
+
+            [Test]
+            public void ListContainsReturnedItem()
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    Assert.Contains(array.GetRandom(weights1111), array);
+                    Assert.Contains(list.GetRandom(weights1111), list);
+                }
+            }
+        }
+
         public class GetRandom_Params
         {
             private readonly int[] nullArray = null;
@@ -87,6 +154,40 @@ namespace ProceduralToolkit.Tests.RandomETest
                 for (int i = 0; i < 100; i++)
                 {
                     Assert.Contains(RandomE.GetRandom(0, 1, emptyArray), array01);
+                }
+            }
+        }
+
+        public class GetRandom_Dictionary
+        {
+            private readonly Dictionary<int, int> nullDictionary = null;
+            private readonly Dictionary<int, int> emptyDictionary = new Dictionary<int, int>();
+            private readonly Dictionary<int, int> dictionary = new Dictionary<int, int>
+            {
+                {1, 10},
+                {2, 20},
+                {3, 30},
+                {4, 40},
+            };
+
+            [Test]
+            public void NullDictionaryThrowsException()
+            {
+                Assert.Catch<ArgumentNullException>(() => nullDictionary.GetRandom());
+            }
+
+            [Test]
+            public void EmptyDictionaryThrowsException()
+            {
+                Assert.Catch<ArgumentException>(() => emptyDictionary.GetRandom());
+            }
+
+            [Test]
+            public void DictionaryContainsReturnedItem()
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    Assert.True(dictionary.ContainsValue(dictionary.GetRandom()));
                 }
             }
         }
