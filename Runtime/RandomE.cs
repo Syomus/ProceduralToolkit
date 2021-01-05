@@ -376,7 +376,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random element with the chances of rolling based on <paramref name="weights"/>
         /// </summary>
-        /// <param name="weights">Positive floats representing chances</param>
+        /// <param name="weights">Positive floats representing weights. Negative values may lead to unpredictable behaviour.</param>
         public static T GetRandom<T>(this IList<T> list, IList<float> weights)
         {
             if (list == null)
@@ -433,7 +433,7 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Returns a random string consisting of characters from that string
+        /// Returns a string consisting of random characters from that string
         /// </summary>
         public static string GetRandom(this string chars, int length)
         {
