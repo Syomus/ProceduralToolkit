@@ -338,6 +338,22 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random element
         /// </summary>
+        public static T GetRandom<T>(this IList<T> list, ref MRandom random)
+        {
+            if (list == null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+            if (list.Count == 0)
+            {
+                throw new ArgumentException("Empty list");
+            }
+            return list[random.NextInt(0, list.Count)];
+        }
+
+        /// <summary>
+        /// Returns a random element
+        /// </summary>
         public static T GetRandom<T>(T item1, T item2, params T[] items)
         {
             if (items == null)
@@ -354,23 +370,6 @@ namespace ProceduralToolkit
                 return item2;
             }
             return items[index - 2];
-        }
-
-        /// <summary>
-        /// Returns a random value from the dictionary
-        /// </summary>
-        public static TValue GetRandom<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
-        {
-            if (dictionary == null)
-            {
-                throw new ArgumentNullException(nameof(dictionary));
-            }
-            var keys = dictionary.Keys;
-            if (keys.Count == 0)
-            {
-                throw new ArgumentException("Empty dictionary");
-            }
-            return dictionary[new List<TKey>(keys).GetRandom()];
         }
 
         /// <summary>
@@ -411,13 +410,94 @@ namespace ProceduralToolkit
                 cumulative[i] += cumulative[i - 1];
             }
 
-            float random = URandom.Range(0, cumulative[cumulative.Count - 1]);
-            int index = cumulative.FindIndex(a => a >= random);
+            float randomValue = URandom.Range(0, cumulative[cumulative.Count - 1]);
+            int index = cumulative.FindIndex(a => a >= randomValue);
             if (index == -1)
             {
                 throw new ArgumentException("Weights must be positive");
             }
             return list[index];
+        }
+
+        /// <summary>
+        /// Returns a random element with the chances of rolling based on <paramref name="weights"/>
+        /// </summary>
+        /// <param name="weights">Positive floats representing weights. Negative values may lead to unpredictable behaviour.</param>
+        public static T GetRandom<T>(this IList<T> list, IList<float> weights, ref MRandom random)
+        {
+            if (list == null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+            if (list.Count == 0)
+            {
+                throw new ArgumentException("Empty list");
+            }
+            if (weights == null)
+            {
+                throw new ArgumentNullException(nameof(weights));
+            }
+            if (weights.Count == 0)
+            {
+                throw new ArgumentException("Empty weights");
+            }
+            if (list.Count != weights.Count)
+            {
+                throw new ArgumentException("Array sizes must be equal");
+            }
+
+            if (list.Count == 1)
+            {
+                return list[0];
+            }
+
+            var cumulative = new List<float>(weights);
+            for (int i = 1; i < cumulative.Count; i++)
+            {
+                cumulative[i] += cumulative[i - 1];
+            }
+
+            float randomValue = random.NextFloat(0, cumulative[cumulative.Count - 1]);
+            int index = cumulative.FindIndex(a => a >= randomValue);
+            if (index == -1)
+            {
+                throw new ArgumentException("Weights must be positive");
+            }
+            return list[index];
+        }
+
+        /// <summary>
+        /// Returns a random value from the dictionary
+        /// </summary>
+        public static TValue GetRandom<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
+        {
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
+            var keys = dictionary.Keys;
+            if (keys.Count == 0)
+            {
+                throw new ArgumentException("Empty dictionary");
+            }
+            return dictionary[new List<TKey>(keys).GetRandom()];
+        }
+
+        /// <summary>
+        /// Returns a random value from the dictionary
+        /// </summary>
+        public static TValue GetRandom<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, ref MRandom random)
+        {
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
+            var keys = dictionary.Keys;
+            if (keys.Count == 0)
+            {
+                throw new ArgumentException("Empty dictionary");
+            }
+            return dictionary[new List<TKey>(keys).GetRandom(ref random)];
         }
 
         /// <summary>
