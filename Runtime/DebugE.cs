@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -7,13 +8,25 @@ namespace ProceduralToolkit
     /// </summary>
     public static class DebugE
     {
-        private static readonly Draw.DebugDrawLine drawLine;
-        private static readonly Color white = Color.white;
+        #region DrawLine
 
-        static DebugE()
+        /// <summary>
+        /// Draws a line between specified from and to points
+        /// </summary>
+        public static void DrawLine(Vector3 from, Vector3 to)
         {
-            drawLine = Debug.DrawLine;
+            Debug.DrawLine(from, to, Color.white);
         }
+
+        /// <summary>
+        /// Draws a line between specified from and to points
+        /// </summary>
+        public static void DrawLine(Vector3 from, Vector3 to, Color color, float duration = 0, bool depthTest = true)
+        {
+            Debug.DrawLine(from, to, color, duration, depthTest);
+        }
+
+        #endregion DrawLine
 
         #region DrawRay
 
@@ -22,7 +35,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawRay(Ray ray)
         {
-            DrawRay(ray, white);
+            DrawLine(ray.origin, ray.origin + ray.direction, Color.white);
         }
 
         /// <summary>
@@ -30,7 +43,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawRay(Ray ray, Color color, float duration = 0, bool depthTest = true)
         {
-            Draw.Ray(drawLine, ray, color, duration, depthTest);
+            DrawLine(ray.origin, ray.origin + ray.direction, color, duration, depthTest);
         }
 
         #endregion DrawRay
@@ -42,7 +55,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawSegment2(Segment2 segment)
         {
-            DrawSegment2(segment, white);
+            DrawLine((Vector3) segment.a, (Vector3) segment.b, Color.white);
         }
 
         /// <summary>
@@ -50,7 +63,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawSegment2(Segment2 segment, Color color, float duration = 0, bool depthTest = true)
         {
-            Draw.Segment2(drawLine, segment, color, duration, depthTest);
+            DrawLine((Vector3) segment.a, (Vector3) segment.b, color, duration, depthTest);
         }
 
         #endregion DrawSegment2
@@ -62,7 +75,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawSegment3(Segment3 segment)
         {
-            DrawSegment3(segment, white);
+            DrawLine(segment.a, segment.b, Color.white);
         }
 
         /// <summary>
@@ -70,7 +83,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawSegment3(Segment3 segment, Color color, float duration = 0, bool depthTest = true)
         {
-            Draw.Segment3(drawLine, segment, color, duration, depthTest);
+            DrawLine(segment.a, segment.b, color, duration, depthTest);
         }
 
         #endregion DrawSegment3
@@ -82,7 +95,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireQuadXY(Vector3 position, Quaternion rotation, Vector2 scale)
         {
-            DrawWireQuadXY(position, rotation, scale, white);
+            DrawWireQuad(position, rotation, scale, Vector3.right, Vector3.up, Color.white);
         }
 
         /// <summary>
@@ -91,7 +104,7 @@ namespace ProceduralToolkit
         public static void DrawWireQuadXY(Vector3 position, Quaternion rotation, Vector2 scale, Color color, float duration = 0,
             bool depthTest = true)
         {
-            Draw.WireQuadXY(drawLine, position, rotation, scale, color, duration, depthTest);
+            DrawWireQuad(position, rotation, scale, Vector3.right, Vector3.up, color, duration, depthTest);
         }
 
         /// <summary>
@@ -99,7 +112,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireQuadXZ(Vector3 position, Quaternion rotation, Vector2 scale)
         {
-            DrawWireQuadXZ(position, rotation, scale, white);
+            DrawWireQuad(position, rotation, scale, Vector3.right, Vector3.forward, Color.white);
         }
 
         /// <summary>
@@ -108,7 +121,7 @@ namespace ProceduralToolkit
         public static void DrawWireQuadXZ(Vector3 position, Quaternion rotation, Vector2 scale, Color color, float duration = 0,
             bool depthTest = true)
         {
-            Draw.WireQuadXZ(drawLine, position, rotation, scale, color, duration, depthTest);
+            DrawWireQuad(position, rotation, scale, Vector3.right, Vector3.forward, color, duration, depthTest);
         }
 
         /// <summary>
@@ -116,7 +129,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireQuadYZ(Vector3 position, Quaternion rotation, Vector2 scale)
         {
-            DrawWireQuadYZ(position, rotation, scale, white);
+            DrawWireQuad(position, rotation, scale, Vector3.up, Vector3.forward, Color.white);
         }
 
         /// <summary>
@@ -125,7 +138,44 @@ namespace ProceduralToolkit
         public static void DrawWireQuadYZ(Vector3 position, Quaternion rotation, Vector2 scale, Color color, float duration = 0,
             bool depthTest = true)
         {
-            Draw.WireQuadYZ(drawLine, position, rotation, scale, color, duration, depthTest);
+            DrawWireQuad(position, rotation, scale, Vector3.up, Vector3.forward, color, duration, depthTest);
+        }
+
+        /// <summary>
+        /// Draws a wireframe quad with position, rotation and scale
+        /// </summary>
+        public static void DrawWireQuad(Vector3 position, Quaternion rotation, Vector2 scale, Vector3 planeRight, Vector3 planeForward)
+        {
+            Vector3 right = rotation*planeRight*scale.x;
+            Vector3 forward = rotation*planeForward*scale.y;
+            Vector3 forwardRight = position + right*0.5f + forward*0.5f;
+            Vector3 backRight = forwardRight - forward;
+            Vector3 backLeft = backRight - right;
+            Vector3 forwardLeft = forwardRight - right;
+
+            DrawLine(forwardRight, backRight, Color.white);
+            DrawLine(backRight, backLeft, Color.white);
+            DrawLine(backLeft, forwardLeft, Color.white);
+            DrawLine(forwardLeft, forwardRight, Color.white);
+        }
+
+        /// <summary>
+        /// Draws a wireframe quad with position, rotation and scale
+        /// </summary>
+        public static void DrawWireQuad(Vector3 position, Quaternion rotation, Vector2 scale, Vector3 planeRight, Vector3 planeForward, Color color,
+            float duration = 0, bool depthTest = true)
+        {
+            Vector3 right = rotation*planeRight*scale.x;
+            Vector3 forward = rotation*planeForward*scale.y;
+            Vector3 forwardRight = position + right*0.5f + forward*0.5f;
+            Vector3 backRight = forwardRight - forward;
+            Vector3 backLeft = backRight - right;
+            Vector3 forwardLeft = forwardRight - right;
+
+            DrawLine(forwardRight, backRight, color, duration, depthTest);
+            DrawLine(backRight, backLeft, color, duration, depthTest);
+            DrawLine(backLeft, forwardLeft, color, duration, depthTest);
+            DrawLine(forwardLeft, forwardRight, color, duration, depthTest);
         }
 
         #endregion DrawWireQuad
@@ -137,7 +187,34 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCube(Vector3 position, Quaternion rotation, Vector3 scale)
         {
-            DrawWireCube(position, rotation, scale, white);
+            Vector3 right = rotation*Vector3.right*scale.x;
+            Vector3 up = rotation*Vector3.up*scale.y;
+            Vector3 forward = rotation*Vector3.forward*scale.z;
+
+            Vector3 a1 = position + right*0.5f + up*0.5f + forward*0.5f;
+            Vector3 b1 = a1 - up;
+            Vector3 c1 = b1 - right;
+            Vector3 d1 = a1 - right;
+
+            Vector3 a2 = a1 - forward;
+            Vector3 b2 = b1 - forward;
+            Vector3 c2 = c1 - forward;
+            Vector3 d2 = d1 - forward;
+
+            DrawLine(a1, b1, Color.white);
+            DrawLine(b1, c1, Color.white);
+            DrawLine(c1, d1, Color.white);
+            DrawLine(d1, a1, Color.white);
+
+            DrawLine(a2, b2, Color.white);
+            DrawLine(b2, c2, Color.white);
+            DrawLine(c2, d2, Color.white);
+            DrawLine(d2, a2, Color.white);
+
+            DrawLine(a1, a2, Color.white);
+            DrawLine(b1, b2, Color.white);
+            DrawLine(c1, c2, Color.white);
+            DrawLine(d1, d2, Color.white);
         }
 
         /// <summary>
@@ -145,7 +222,34 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCube(Vector3 position, Quaternion rotation, Vector3 scale, Color color, float duration = 0, bool depthTest = true)
         {
-            Draw.WireCube(drawLine, position, rotation, scale, color, duration, depthTest);
+            Vector3 right = rotation*Vector3.right*scale.x;
+            Vector3 up = rotation*Vector3.up*scale.y;
+            Vector3 forward = rotation*Vector3.forward*scale.z;
+
+            Vector3 a1 = position + right*0.5f + up*0.5f + forward*0.5f;
+            Vector3 b1 = a1 - up;
+            Vector3 c1 = b1 - right;
+            Vector3 d1 = a1 - right;
+
+            Vector3 a2 = a1 - forward;
+            Vector3 b2 = b1 - forward;
+            Vector3 c2 = c1 - forward;
+            Vector3 d2 = d1 - forward;
+
+            DrawLine(a1, b1, color, duration, depthTest);
+            DrawLine(b1, c1, color, duration, depthTest);
+            DrawLine(c1, d1, color, duration, depthTest);
+            DrawLine(d1, a1, color, duration, depthTest);
+
+            DrawLine(a2, b2, color, duration, depthTest);
+            DrawLine(b2, c2, color, duration, depthTest);
+            DrawLine(c2, d2, color, duration, depthTest);
+            DrawLine(d2, a2, color, duration, depthTest);
+
+            DrawLine(a1, a2, color, duration, depthTest);
+            DrawLine(b1, b2, color, duration, depthTest);
+            DrawLine(c1, c2, color, duration, depthTest);
+            DrawLine(d1, d2, color, duration, depthTest);
         }
 
         #endregion DrawWireCube
@@ -157,7 +261,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleXY(Vector3 position, float radius)
         {
-            DrawWireCircleXY(position, radius, white);
+            DrawWireCircle(Draw.pointOnCircleXY, position, radius, Color.white);
         }
 
         /// <summary>
@@ -165,7 +269,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleXY(Vector3 position, float radius, Color color, float duration = 0, bool depthTest = true)
         {
-            Draw.WireCircleXY(drawLine, position, radius, color, duration, depthTest);
+            DrawWireCircle(Draw.pointOnCircleXY, position, radius, color, duration, depthTest);
         }
 
         /// <summary>
@@ -173,7 +277,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleXY(Vector3 position, Quaternion rotation, float radius)
         {
-            DrawWireCircleXY(position, rotation, radius, white);
+            DrawWireCircle(Draw.pointOnCircleXY, position, rotation, radius, Color.white);
         }
 
         /// <summary>
@@ -182,7 +286,7 @@ namespace ProceduralToolkit
         public static void DrawWireCircleXY(Vector3 position, Quaternion rotation, float radius, Color color, float duration = 0,
             bool depthTest = true)
         {
-            Draw.WireCircleXY(drawLine, position, rotation, radius, color, duration, depthTest);
+            DrawWireCircle(Draw.pointOnCircleXY, position, rotation, radius, color, duration, depthTest);
         }
 
         /// <summary>
@@ -190,7 +294,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleXZ(Vector3 position, float radius)
         {
-            DrawWireCircleXZ(position, radius, white);
+            DrawWireCircle(Draw.pointOnCircleXZ, position, radius, Color.white);
         }
 
         /// <summary>
@@ -198,7 +302,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleXZ(Vector3 position, float radius, Color color, float duration = 0, bool depthTest = true)
         {
-            Draw.WireCircleXZ(drawLine, position, radius, color, duration, depthTest);
+            DrawWireCircle(Draw.pointOnCircleXZ, position, radius, color, duration, depthTest);
         }
 
         /// <summary>
@@ -206,7 +310,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleXZ(Vector3 position, Quaternion rotation, float radius)
         {
-            DrawWireCircleXZ(position, rotation, radius, white);
+            DrawWireCircle(Draw.pointOnCircleXZ, position, rotation, radius, Color.white);
         }
 
         /// <summary>
@@ -215,7 +319,7 @@ namespace ProceduralToolkit
         public static void DrawWireCircleXZ(Vector3 position, Quaternion rotation, float radius, Color color, float duration = 0,
             bool depthTest = true)
         {
-            Draw.WireCircleXZ(drawLine, position, rotation, radius, color, duration, depthTest);
+            DrawWireCircle(Draw.pointOnCircleXZ, position, rotation, radius, color, duration, depthTest);
         }
 
         /// <summary>
@@ -223,7 +327,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleYZ(Vector3 position, float radius)
         {
-            DrawWireCircleYZ(position, radius, white);
+            DrawWireCircle(Draw.pointOnCircleYZ, position, radius, Color.white);
         }
 
         /// <summary>
@@ -231,7 +335,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleYZ(Vector3 position, float radius, Color color, float duration = 0, bool depthTest = true)
         {
-            Draw.WireCircleYZ(drawLine, position, radius, color, duration, depthTest);
+            DrawWireCircle(Draw.pointOnCircleYZ, position, radius, color, duration, depthTest);
         }
 
         /// <summary>
@@ -239,7 +343,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCircleYZ(Vector3 position, Quaternion rotation, float radius)
         {
-            DrawWireCircleYZ(position, rotation, radius, white);
+            DrawWireCircle(Draw.pointOnCircleYZ, position, rotation, radius, Color.white);
         }
 
         /// <summary>
@@ -248,10 +352,48 @@ namespace ProceduralToolkit
         public static void DrawWireCircleYZ(Vector3 position, Quaternion rotation, float radius, Color color, float duration = 0,
             bool depthTest = true)
         {
-            Draw.WireCircleYZ(drawLine, position, rotation, radius, color, duration, depthTest);
+            DrawWireCircle(Draw.pointOnCircleYZ, position, rotation, radius, color, duration, depthTest);
         }
 
         #endregion DrawWireCircle
+
+        #region DrawWireCircle Universal
+
+        /// <summary>
+        /// Draws a wireframe circle with position and radius
+        /// </summary>
+        public static void DrawWireCircle(Func<float, float, Vector3> pointOnCircle, Vector3 position, float radius)
+        {
+            DrawWireArc(pointOnCircle, position, radius, 0, Draw.circleSegments, Draw.circleSegmentAngle, Color.white);
+        }
+
+        /// <summary>
+        /// Draws a wireframe circle with position and radius
+        /// </summary>
+        public static void DrawWireCircle(Func<float, float, Vector3> pointOnCircle, Vector3 position, float radius, Color color, float duration = 0,
+            bool depthTest = true)
+        {
+            DrawWireArc(pointOnCircle, position, radius, 0, Draw.circleSegments, Draw.circleSegmentAngle, color, duration, depthTest);
+        }
+
+        /// <summary>
+        /// Draws a wireframe circle with position, rotation and radius
+        /// </summary>
+        public static void DrawWireCircle(Func<float, float, Vector3> pointOnCircle, Vector3 position, Quaternion rotation, float radius)
+        {
+            DrawWireArc(pointOnCircle, position, rotation, radius, 0, Draw.circleSegments, Draw.circleSegmentAngle, Color.white);
+        }
+
+        /// <summary>
+        /// Draws a wireframe circle with position, rotation and radius
+        /// </summary>
+        public static void DrawWireCircle(Func<float, float, Vector3> pointOnCircle, Vector3 position, Quaternion rotation, float radius, Color color,
+            float duration = 0, bool depthTest = true)
+        {
+            DrawWireArc(pointOnCircle, position, rotation, radius, 0, Draw.circleSegments, Draw.circleSegmentAngle, color, duration, depthTest);
+        }
+
+        #endregion DrawWireCircle Universal
 
         #region DrawWireArc
 
@@ -260,7 +402,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcXY(Vector3 position, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcXY(position, radius, fromAngle, toAngle, white);
+            DrawWireArc(Draw.pointOnCircleXY, position, radius, fromAngle, toAngle, Color.white);
         }
 
         /// <summary>
@@ -269,7 +411,7 @@ namespace ProceduralToolkit
         public static void DrawWireArcXY(Vector3 position, float radius, float fromAngle, float toAngle, Color color, float duration = 0,
             bool depthTest = true)
         {
-            Draw.WireArcXY(drawLine, position, radius, fromAngle, toAngle, color, duration, depthTest);
+            DrawWireArc(Draw.pointOnCircleXY, position, radius, fromAngle, toAngle, color, duration, depthTest);
         }
 
         /// <summary>
@@ -277,7 +419,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcXY(Vector3 position, Quaternion rotation, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcXY(position, rotation, radius, fromAngle, toAngle, white);
+            DrawWireArc(Draw.pointOnCircleXY, position, rotation, radius, fromAngle, toAngle, Color.white);
         }
 
         /// <summary>
@@ -286,7 +428,7 @@ namespace ProceduralToolkit
         public static void DrawWireArcXY(Vector3 position, Quaternion rotation, float radius, float fromAngle, float toAngle, Color color,
             float duration = 0, bool depthTest = true)
         {
-            Draw.WireArcXY(drawLine, position, rotation, radius, fromAngle, toAngle, color, duration, depthTest);
+            DrawWireArc(Draw.pointOnCircleXY, position, rotation, radius, fromAngle, toAngle, color, duration, depthTest);
         }
 
         /// <summary>
@@ -294,7 +436,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcXZ(Vector3 position, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcXZ(position, radius, fromAngle, toAngle, white);
+            DrawWireArc(Draw.pointOnCircleXZ, position, radius, fromAngle, toAngle, Color.white);
         }
 
         /// <summary>
@@ -303,7 +445,7 @@ namespace ProceduralToolkit
         public static void DrawWireArcXZ(Vector3 position, float radius, float fromAngle, float toAngle, Color color, float duration = 0,
             bool depthTest = true)
         {
-            Draw.WireArcXZ(drawLine, position, radius, fromAngle, toAngle, color, duration, depthTest);
+            DrawWireArc(Draw.pointOnCircleXZ, position, radius, fromAngle, toAngle, color, duration, depthTest);
         }
 
         /// <summary>
@@ -311,7 +453,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcXZ(Vector3 position, Quaternion rotation, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcXZ(position, rotation, radius, fromAngle, toAngle, white);
+            DrawWireArc(Draw.pointOnCircleXZ, position, rotation, radius, fromAngle, toAngle, Color.white);
         }
 
         /// <summary>
@@ -320,7 +462,7 @@ namespace ProceduralToolkit
         public static void DrawWireArcXZ(Vector3 position, Quaternion rotation, float radius, float fromAngle, float toAngle, Color color,
             float duration = 0, bool depthTest = true)
         {
-            Draw.WireArcXZ(drawLine, position, rotation, radius, fromAngle, toAngle, color, duration, depthTest);
+            DrawWireArc(Draw.pointOnCircleXZ, position, rotation, radius, fromAngle, toAngle, color, duration, depthTest);
         }
 
         /// <summary>
@@ -328,7 +470,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcYZ(Vector3 position, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcYZ(position, radius, fromAngle, toAngle, white);
+            DrawWireArc(Draw.pointOnCircleYZ, position, radius, fromAngle, toAngle, Color.white);
         }
 
         /// <summary>
@@ -337,7 +479,7 @@ namespace ProceduralToolkit
         public static void DrawWireArcYZ(Vector3 position, float radius, float fromAngle, float toAngle, Color color, float duration = 0,
             bool depthTest = true)
         {
-            Draw.WireArcYZ(drawLine, position, radius, fromAngle, toAngle, color, duration, depthTest);
+            DrawWireArc(Draw.pointOnCircleYZ, position, radius, fromAngle, toAngle, color, duration, depthTest);
         }
 
         /// <summary>
@@ -345,7 +487,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireArcYZ(Vector3 position, Quaternion rotation, float radius, float fromAngle, float toAngle)
         {
-            DrawWireArcYZ(position, rotation, radius, fromAngle, toAngle, white);
+            DrawWireArc(Draw.pointOnCircleYZ, position, rotation, radius, fromAngle, toAngle, Color.white);
         }
 
         /// <summary>
@@ -354,10 +496,117 @@ namespace ProceduralToolkit
         public static void DrawWireArcYZ(Vector3 position, Quaternion rotation, float radius, float fromAngle, float toAngle, Color color,
             float duration = 0, bool depthTest = true)
         {
-            Draw.WireArcYZ(drawLine, position, rotation, radius, fromAngle, toAngle, color, duration, depthTest);
+            DrawWireArc(Draw.pointOnCircleYZ, position, rotation, radius, fromAngle, toAngle, color, duration, depthTest);
         }
 
         #endregion DrawWireArc
+
+        #region DrawWireArc Universal
+
+        /// <summary>
+        /// Draws a wireframe circular arc with position and radius
+        /// </summary>
+        public static void DrawWireArc(Func<float, float, Vector3> pointOnCircle, Vector3 position, float radius, float fromAngle, float toAngle)
+        {
+            Draw.GetSegmentsAndSegmentAngle(fromAngle, toAngle, out int segments, out float segmentAngle);
+            DrawWireArc(pointOnCircle, position, radius, fromAngle, segments, segmentAngle, Color.white);
+        }
+
+        /// <summary>
+        /// Draws a wireframe circular arc with position and radius
+        /// </summary>
+        public static void DrawWireArc(Func<float, float, Vector3> pointOnCircle, Vector3 position, float radius, float fromAngle, float toAngle,
+            Color color, float duration = 0, bool depthTest = true)
+        {
+            Draw.GetSegmentsAndSegmentAngle(fromAngle, toAngle, out int segments, out float segmentAngle);
+            DrawWireArc(pointOnCircle, position, radius, fromAngle, segments, segmentAngle, color, duration, depthTest);
+        }
+
+        /// <summary>
+        /// Draws a wireframe circular arc with position, rotation and radius
+        /// </summary>
+        public static void DrawWireArc(Func<float, float, Vector3> pointOnCircle, Vector3 position, Quaternion rotation, float radius,
+            float fromAngle, float toAngle)
+        {
+            Draw.GetSegmentsAndSegmentAngle(fromAngle, toAngle, out int segments, out float segmentAngle);
+            DrawWireArc(pointOnCircle, position, rotation, radius, fromAngle, segments, segmentAngle, Color.white);
+        }
+
+        /// <summary>
+        /// Draws a wireframe circular arc with position, rotation and radius
+        /// </summary>
+        public static void DrawWireArc(Func<float, float, Vector3> pointOnCircle, Vector3 position, Quaternion rotation, float radius,
+            float fromAngle, float toAngle, Color color, float duration = 0, bool depthTest = true)
+        {
+            Draw.GetSegmentsAndSegmentAngle(fromAngle, toAngle, out int segments, out float segmentAngle);
+            DrawWireArc(pointOnCircle, position, rotation, radius, fromAngle, segments, segmentAngle, color, duration, depthTest);
+        }
+
+        /// <summary>
+        /// Draws a wireframe circular arc with position and radius
+        /// </summary>
+        public static void DrawWireArc(Func<float, float, Vector3> pointOnCircle, Vector3 position, float radius, float fromAngle, int segments,
+            float segmentAngle)
+        {
+            float currentAngle = fromAngle;
+            for (var i = 0; i < segments; i++)
+            {
+                Vector3 a = position + pointOnCircle(radius, currentAngle);
+                currentAngle += segmentAngle;
+                Vector3 b = position + pointOnCircle(radius, currentAngle);
+                DrawLine(a, b, Color.white);
+            }
+        }
+
+        /// <summary>
+        /// Draws a wireframe circular arc with position and radius
+        /// </summary>
+        public static void DrawWireArc(Func<float, float, Vector3> pointOnCircle, Vector3 position, float radius, float fromAngle, int segments,
+            float segmentAngle, Color color, float duration = 0, bool depthTest = true)
+        {
+            float currentAngle = fromAngle;
+            for (var i = 0; i < segments; i++)
+            {
+                Vector3 a = position + pointOnCircle(radius, currentAngle);
+                currentAngle += segmentAngle;
+                Vector3 b = position + pointOnCircle(radius, currentAngle);
+                DrawLine(a, b, color, duration, depthTest);
+            }
+        }
+
+        /// <summary>
+        /// Draws a wireframe circular arc with position, rotation and radius
+        /// </summary>
+        public static void DrawWireArc(Func<float, float, Vector3> pointOnCircle, Vector3 position, Quaternion rotation, float radius,
+            float fromAngle, int segments, float segmentAngle)
+        {
+            float currentAngle = fromAngle;
+            for (var i = 0; i < segments; i++)
+            {
+                Vector3 a = position + rotation*pointOnCircle(radius, currentAngle);
+                currentAngle += segmentAngle;
+                Vector3 b = position + rotation*pointOnCircle(radius, currentAngle);
+                DrawLine(a, b, Color.white);
+            }
+        }
+
+        /// <summary>
+        /// Draws a wireframe circular arc with position, rotation and radius
+        /// </summary>
+        public static void DrawWireArc(Func<float, float, Vector3> pointOnCircle, Vector3 position, Quaternion rotation, float radius,
+            float fromAngle, int segments, float segmentAngle, Color color, float duration = 0, bool depthTest = true)
+        {
+            float currentAngle = fromAngle;
+            for (var i = 0; i < segments; i++)
+            {
+                Vector3 a = position + rotation*pointOnCircle(radius, currentAngle);
+                currentAngle += segmentAngle;
+                Vector3 b = position + rotation*pointOnCircle(radius, currentAngle);
+                DrawLine(a, b, color, duration, depthTest);
+            }
+        }
+
+        #endregion DrawWireArc Universal
 
         #region DrawWireSphere
 
@@ -366,7 +615,9 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireSphere(Vector3 position, Quaternion rotation, float radius)
         {
-            DrawWireSphere(position, rotation, radius, white);
+            DrawWireCircleXY(position, rotation, radius, Color.white);
+            DrawWireCircleXZ(position, rotation, radius, Color.white);
+            DrawWireCircleYZ(position, rotation, radius, Color.white);
         }
 
         /// <summary>
@@ -374,7 +625,9 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireSphere(Vector3 position, Quaternion rotation, float radius, Color color, float duration = 0, bool depthTest = true)
         {
-            Draw.WireSphere(drawLine, position, rotation, radius, color, duration, depthTest);
+            DrawWireCircleXY(position, rotation, radius, color, duration, depthTest);
+            DrawWireCircleXZ(position, rotation, radius, color, duration, depthTest);
+            DrawWireCircleYZ(position, rotation, radius, color, duration, depthTest);
         }
 
         #endregion DrawWireSphere
@@ -386,7 +639,9 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireHemisphere(Vector3 position, Quaternion rotation, float radius)
         {
-            DrawWireHemisphere(position, rotation, radius, white);
+            DrawWireArcXY(position, rotation, radius, -90, 90, Color.white);
+            DrawWireCircleXZ(position, rotation, radius, Color.white);
+            DrawWireArcYZ(position, rotation, radius, 0, 180, Color.white);
         }
 
         /// <summary>
@@ -395,7 +650,9 @@ namespace ProceduralToolkit
         public static void DrawWireHemisphere(Vector3 position, Quaternion rotation, float radius, Color color, float duration = 0,
             bool depthTest = true)
         {
-            Draw.WireHemisphere(drawLine, position, rotation, radius, color, duration, depthTest);
+            DrawWireArcXY(position, rotation, radius, -90, 90, color, duration, depthTest);
+            DrawWireCircleXZ(position, rotation, radius, color, duration, depthTest);
+            DrawWireArcYZ(position, rotation, radius, 0, 180, color, duration, depthTest);
         }
 
         #endregion DrawWireHemisphere
@@ -407,7 +664,36 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawWireCone(Vector3 position, Quaternion rotation, float apexRadius, float angle, float length)
         {
-            DrawWireCone(position, rotation, apexRadius, angle, length, white);
+            Vector3 baseCenter = position + rotation*Vector3.up*length;
+            float baseRadius = Mathf.Tan(angle*Mathf.Deg2Rad)*length + apexRadius;
+            DrawWireCircleXZ(baseCenter, rotation, baseRadius, Color.white);
+
+            Vector3 a2 = baseCenter + rotation*Geometry.PointOnCircle3XZ(baseRadius, 0);
+            Vector3 b2 = baseCenter + rotation*Geometry.PointOnCircle3XZ(baseRadius, 90);
+            Vector3 c2 = baseCenter + rotation*Geometry.PointOnCircle3XZ(baseRadius, 180);
+            Vector3 d2 = baseCenter + rotation*Geometry.PointOnCircle3XZ(baseRadius, 270);
+
+            if (apexRadius == 0)
+            {
+                DrawLine(position, a2, Color.white);
+                DrawLine(position, b2, Color.white);
+                DrawLine(position, c2, Color.white);
+                DrawLine(position, d2, Color.white);
+            }
+            else
+            {
+                DrawWireCircleXZ(position, rotation, apexRadius, Color.white);
+
+                Vector3 a1 = position + rotation*Geometry.PointOnCircle3XZ(apexRadius, 0);
+                Vector3 b1 = position + rotation*Geometry.PointOnCircle3XZ(apexRadius, 90);
+                Vector3 c1 = position + rotation*Geometry.PointOnCircle3XZ(apexRadius, 180);
+                Vector3 d1 = position + rotation*Geometry.PointOnCircle3XZ(apexRadius, 270);
+
+                DrawLine(a1, a2, Color.white);
+                DrawLine(b1, b2, Color.white);
+                DrawLine(c1, c2, Color.white);
+                DrawLine(d1, d2, Color.white);
+            }
         }
 
         /// <summary>
@@ -416,7 +702,36 @@ namespace ProceduralToolkit
         public static void DrawWireCone(Vector3 position, Quaternion rotation, float apexRadius, float angle, float length, Color color,
             float duration = 0, bool depthTest = true)
         {
-            Draw.WireCone(drawLine, position, rotation, apexRadius, angle, length, color, duration, depthTest);
+            Vector3 baseCenter = position + rotation*Vector3.up*length;
+            float baseRadius = Mathf.Tan(angle*Mathf.Deg2Rad)*length + apexRadius;
+            DrawWireCircleXZ(baseCenter, rotation, baseRadius, color, duration, depthTest);
+
+            Vector3 a2 = baseCenter + rotation*Geometry.PointOnCircle3XZ(baseRadius, 0);
+            Vector3 b2 = baseCenter + rotation*Geometry.PointOnCircle3XZ(baseRadius, 90);
+            Vector3 c2 = baseCenter + rotation*Geometry.PointOnCircle3XZ(baseRadius, 180);
+            Vector3 d2 = baseCenter + rotation*Geometry.PointOnCircle3XZ(baseRadius, 270);
+
+            if (apexRadius == 0)
+            {
+                DrawLine(position, a2, color, duration, depthTest);
+                DrawLine(position, b2, color, duration, depthTest);
+                DrawLine(position, c2, color, duration, depthTest);
+                DrawLine(position, d2, color, duration, depthTest);
+            }
+            else
+            {
+                DrawWireCircleXZ(position, rotation, apexRadius, color, duration, depthTest);
+
+                Vector3 a1 = position + rotation*Geometry.PointOnCircle3XZ(apexRadius, 0);
+                Vector3 b1 = position + rotation*Geometry.PointOnCircle3XZ(apexRadius, 90);
+                Vector3 c1 = position + rotation*Geometry.PointOnCircle3XZ(apexRadius, 180);
+                Vector3 d1 = position + rotation*Geometry.PointOnCircle3XZ(apexRadius, 270);
+
+                DrawLine(a1, a2, color, duration, depthTest);
+                DrawLine(b1, b2, color, duration, depthTest);
+                DrawLine(c1, c2, color, duration, depthTest);
+                DrawLine(d1, d2, color, duration, depthTest);
+            }
         }
 
         #endregion DrawWireCone
