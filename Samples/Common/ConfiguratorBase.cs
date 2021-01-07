@@ -55,7 +55,7 @@ namespace ProceduralToolkit.Samples
             }
             else
             {
-                draft.ToMesh(ref mesh);
+                draft.ToMesh(mesh);
             }
             meshFilter.sharedMesh = mesh;
         }
@@ -68,7 +68,7 @@ namespace ProceduralToolkit.Samples
             }
             else
             {
-                compoundDraft.ToMeshWithSubMeshes(ref mesh);
+                compoundDraft.ToMeshWithSubMeshes(mesh);
             }
             meshFilter.sharedMesh = mesh;
         }

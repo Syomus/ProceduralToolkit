@@ -242,7 +242,7 @@ namespace ProceduralToolkit
         public Mesh ToMeshWithSubMeshes(bool calculateBounds = true, bool autoIndexFormat = true)
         {
             var mesh = new Mesh();
-            FillMesh(ref mesh, calculateBounds, autoIndexFormat);
+            FillMesh(mesh, calculateBounds, autoIndexFormat);
             return mesh;
         }
 
@@ -252,17 +252,17 @@ namespace ProceduralToolkit
         /// <param name="mesh"> Resulting mesh. Cleared before use. </param>
         /// <param name="calculateBounds"> Calculate the bounding box of the Mesh after setting the triangles. </param>
         /// <param name="autoIndexFormat"> Use 16 bit or 32 bit index buffers based on vertex count. </param>
-        public void ToMeshWithSubMeshes(ref Mesh mesh, bool calculateBounds = true, bool autoIndexFormat = true)
+        public void ToMeshWithSubMeshes(Mesh mesh, bool calculateBounds = true, bool autoIndexFormat = true)
         {
             if (mesh == null)
             {
                 throw new ArgumentNullException(nameof(mesh));
             }
             mesh.Clear(false);
-            FillMesh(ref mesh, calculateBounds, autoIndexFormat);
+            FillMesh(mesh, calculateBounds, autoIndexFormat);
         }
 
-        private void FillMesh(ref Mesh mesh, bool calculateBounds, bool autoIndexFormat)
+        private void FillMesh(Mesh mesh, bool calculateBounds, bool autoIndexFormat)
         {
             int vCount = vertexCount;
             if (vCount > 65535)

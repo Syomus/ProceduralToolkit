@@ -126,7 +126,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Converts the tessellated mesh to MeshDraft.
         /// </summary>
-        public void ToMeshDraft(ref MeshDraft draft)
+        public void ToMeshDraft(MeshDraft draft)
         {
             draft.vertices.Clear();
             draft.triangles.Clear();
@@ -149,9 +149,9 @@ namespace ProceduralToolkit
         /// <summary>
         /// Converts the tessellated mesh to Mesh.
         /// </summary>
-        public void ToMesh(ref Mesh mesh)
+        public void ToMesh(Mesh mesh)
         {
-            ToMeshDraft().ToMesh(ref mesh);
+            ToMeshDraft().ToMesh(mesh);
         }
     }
 }
