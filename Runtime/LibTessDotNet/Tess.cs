@@ -704,7 +704,7 @@ namespace ProceduralToolkit.LibTessDotNet
             }
         }
 
-        private Real SignedArea(IList<ContourVertex> vertices)
+        private Real SignedArea(IReadOnlyList<ContourVertex> vertices)
         {
             Real area = 0.0f;
 
@@ -745,12 +745,12 @@ namespace ProceduralToolkit.LibTessDotNet
         /// <see cref="ContourOrientation.Clockwise"/> and <see cref="ContourOrientation.CounterClockwise"/> 
         /// force the vertices to have a specified orientation.
         /// </param>
-        public void AddContour(IList<ContourVertex> vertices, ContourOrientation forceOrientation = ContourOrientation.Original)
+        public void AddContour(IReadOnlyList<ContourVertex> vertices, ContourOrientation forceOrientation = ContourOrientation.Original)
         {
             AddContourInternal(vertices, forceOrientation);
         }
 
-        private void AddContourInternal(IList<ContourVertex> vertices, ContourOrientation forceOrientation)
+        private void AddContourInternal(IReadOnlyList<ContourVertex> vertices, ContourOrientation forceOrientation)
         {
             if (_mesh == null)
             {

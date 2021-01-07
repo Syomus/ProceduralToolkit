@@ -16,7 +16,7 @@ namespace ProceduralToolkit.Skeleton
         private readonly List<Plan> newPlans = new List<Plan>();
         private StraightSkeleton skeleton;
 
-        public StraightSkeleton Generate(IList<Vector2> polygon)
+        public StraightSkeleton Generate(IReadOnlyList<Vector2> polygon)
         {
             activePlans.Clear();
             newPlans.Clear();

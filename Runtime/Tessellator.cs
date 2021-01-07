@@ -47,7 +47,7 @@ namespace ProceduralToolkit
         /// <see cref="ContourOrientation.Clockwise"/> and <see cref="ContourOrientation.CounterClockwise"/> 
         /// force the vertices to have a specified orientation.
         /// </param>
-        public void AddContour(IList<Vector2> vertices, ContourOrientation forceOrientation = ContourOrientation.Original)
+        public void AddContour(IReadOnlyList<Vector2> vertices, ContourOrientation forceOrientation = ContourOrientation.Original)
         {
             var contour = new ContourVertex[vertices.Count];
             for (int i = 0; i < vertices.Count; i++)
@@ -68,7 +68,7 @@ namespace ProceduralToolkit
         /// <see cref="ContourOrientation.Clockwise"/> and <see cref="ContourOrientation.CounterClockwise"/> 
         /// force the vertices to have a specified orientation.
         /// </param>
-        public void AddContour(IList<Vector3> vertices, ContourOrientation forceOrientation = ContourOrientation.Original)
+        public void AddContour(IReadOnlyList<Vector3> vertices, ContourOrientation forceOrientation = ContourOrientation.Original)
         {
             var contour = new ContourVertex[vertices.Count];
             for (int i = 0; i < vertices.Count; i++)
@@ -89,7 +89,7 @@ namespace ProceduralToolkit
         /// <see cref="ContourOrientation.Clockwise"/> and <see cref="ContourOrientation.CounterClockwise"/> 
         /// force the vertices to have a specified orientation.
         /// </param>
-        public void AddContour(IList<ContourVertex> vertices, ContourOrientation forceOrientation = ContourOrientation.Original)
+        public void AddContour(IReadOnlyList<ContourVertex> vertices, ContourOrientation forceOrientation = ContourOrientation.Original)
         {
             tess.AddContour(vertices, forceOrientation);
         }

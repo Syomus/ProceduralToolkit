@@ -295,7 +295,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, bool reverseTriangles = false)
+        public MeshDraft AddTriangleFan(IReadOnlyList<Vector3> fan, bool reverseTriangles = false)
         {
             Vector3 normal = Vector3.Cross(fan[1] - fan[0], fan[fan.Count - 1] - fan[0]).normalized;
             return AddTriangleFan(fan, normal, reverseTriangles);
@@ -307,7 +307,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, Vector3 normal, bool reverseTriangles = false)
+        public MeshDraft AddTriangleFan(IReadOnlyList<Vector3> fan, Vector3 normal, bool reverseTriangles = false)
         {
             AddTriangleFanVertices(fan, reverseTriangles);
             for (int i = 0; i < fan.Count; i++)
@@ -323,7 +323,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, IList<Vector3> normals, bool reverseTriangles = false)
+        public MeshDraft AddTriangleFan(IReadOnlyList<Vector3> fan, IReadOnlyList<Vector3> normals, bool reverseTriangles = false)
         {
             AddTriangleFanVertices(fan, reverseTriangles);
             this.normals.AddRange(normals);
@@ -336,7 +336,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, IList<Vector2> uv, bool reverseTriangles = false)
+        public MeshDraft AddTriangleFan(IReadOnlyList<Vector3> fan, IReadOnlyList<Vector2> uv, bool reverseTriangles = false)
         {
             this.uv.AddRange(uv);
             return AddTriangleFan(fan, reverseTriangles);
@@ -348,7 +348,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, Vector3 normal, IList<Vector2> uv, bool reverseTriangles = false)
+        public MeshDraft AddTriangleFan(IReadOnlyList<Vector3> fan, Vector3 normal, IReadOnlyList<Vector2> uv, bool reverseTriangles = false)
         {
             this.uv.AddRange(uv);
             return AddTriangleFan(fan, normal, reverseTriangles);
@@ -360,13 +360,14 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_fan
         /// </remarks>
-        public MeshDraft AddTriangleFan(IList<Vector3> fan, IList<Vector3> normals, IList<Vector2> uv, bool reverseTriangles = false)
+        public MeshDraft AddTriangleFan(IReadOnlyList<Vector3> fan, IReadOnlyList<Vector3> normals, IReadOnlyList<Vector2> uv,
+            bool reverseTriangles = false)
         {
             this.uv.AddRange(uv);
             return AddTriangleFan(fan, normals, reverseTriangles);
         }
 
-        private void AddTriangleFanVertices(IList<Vector3> fan, bool reverseTriangles)
+        private void AddTriangleFanVertices(IReadOnlyList<Vector3> fan, bool reverseTriangles)
         {
             int count = vertices.Count;
             if (reverseTriangles)
@@ -400,7 +401,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public MeshDraft AddTriangleStrip(IList<Vector3> strip)
+        public MeshDraft AddTriangleStrip(IReadOnlyList<Vector3> strip)
         {
             Vector3 normal = Vector3.Cross(strip[1] - strip[0], strip[2] - strip[0]).normalized;
             return AddTriangleStrip(strip, normal);
@@ -412,7 +413,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public MeshDraft AddTriangleStrip(IList<Vector3> strip, Vector3 normal)
+        public MeshDraft AddTriangleStrip(IReadOnlyList<Vector3> strip, Vector3 normal)
         {
             for (int i = 0, j = 1, k = 2;
                 i < strip.Count - 2;
@@ -436,7 +437,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public MeshDraft AddTriangleStrip(IList<Vector3> strip, IList<Vector3> normals)
+        public MeshDraft AddTriangleStrip(IReadOnlyList<Vector3> strip, IReadOnlyList<Vector3> normals)
         {
             for (int i = 0, j = 1, k = 2;
                 i < strip.Count - 2;
@@ -457,7 +458,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public MeshDraft AddTriangleStrip(IList<Vector3> strip, IList<Vector2> uv)
+        public MeshDraft AddTriangleStrip(IReadOnlyList<Vector3> strip, IReadOnlyList<Vector2> uv)
         {
             this.uv.AddRange(uv);
             return AddTriangleStrip(strip);
@@ -469,7 +470,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public MeshDraft AddTriangleStrip(IList<Vector3> strip, Vector3 normal, IList<Vector2> uv)
+        public MeshDraft AddTriangleStrip(IReadOnlyList<Vector3> strip, Vector3 normal, IReadOnlyList<Vector2> uv)
         {
             this.uv.AddRange(uv);
             return AddTriangleStrip(strip, normal);
@@ -481,7 +482,7 @@ namespace ProceduralToolkit
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Triangle_strip
         /// </remarks>
-        public MeshDraft AddTriangleStrip(IList<Vector3> strip, IList<Vector3> normals, IList<Vector2> uv)
+        public MeshDraft AddTriangleStrip(IReadOnlyList<Vector3> strip, IReadOnlyList<Vector3> normals, IReadOnlyList<Vector2> uv)
         {
             this.uv.AddRange(uv);
             return AddTriangleStrip(strip, normals);
@@ -494,7 +495,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Adds a baseless pyramid to the draft
         /// </summary>
-        public MeshDraft AddBaselessPyramid(Vector3 apex, IList<Vector3> ring, bool generateUV, bool reverseTriangles = false)
+        public MeshDraft AddBaselessPyramid(Vector3 apex, IReadOnlyList<Vector3> ring, bool generateUV, bool reverseTriangles = false)
         {
             if (generateUV)
             {
@@ -547,7 +548,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Adds a band made from triangles to the draft
         /// </summary>
-        public MeshDraft AddFlatTriangleBand(IList<Vector3> lowerRing, IList<Vector3> upperRing, bool generateUV)
+        public MeshDraft AddFlatTriangleBand(IReadOnlyList<Vector3> lowerRing, IReadOnlyList<Vector3> upperRing, bool generateUV)
         {
             if (lowerRing.Count != upperRing.Count)
             {
@@ -608,7 +609,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Adds a band made from quads to the draft
         /// </summary>
-        public MeshDraft AddFlatQuadBand(IList<Vector3> lowerRing, IList<Vector3> upperRing, bool generateUV)
+        public MeshDraft AddFlatQuadBand(IReadOnlyList<Vector3> lowerRing, IReadOnlyList<Vector3> upperRing, bool generateUV)
         {
             if (lowerRing.Count != upperRing.Count)
             {

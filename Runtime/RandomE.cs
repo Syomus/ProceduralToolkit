@@ -322,7 +322,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random element
         /// </summary>
-        public static T GetRandom<T>(this IList<T> list)
+        public static T GetRandom<T>(this IReadOnlyList<T> list)
         {
             if (list == null)
             {
@@ -338,7 +338,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random element
         /// </summary>
-        public static T GetRandom<T>(this IList<T> list, ref MRandom random)
+        public static T GetRandom<T>(this IReadOnlyList<T> list, ref MRandom random)
         {
             if (list == null)
             {
@@ -376,7 +376,7 @@ namespace ProceduralToolkit
         /// Returns a random element with the chances of rolling based on <paramref name="weights"/>
         /// </summary>
         /// <param name="weights">Positive floats representing weights. Negative values may lead to unpredictable behaviour.</param>
-        public static T GetRandom<T>(this IList<T> list, IList<float> weights)
+        public static T GetRandom<T>(this IReadOnlyList<T> list, IReadOnlyList<float> weights)
         {
             if (list == null)
             {
@@ -423,7 +423,7 @@ namespace ProceduralToolkit
         /// Returns a random element with the chances of rolling based on <paramref name="weights"/>
         /// </summary>
         /// <param name="weights">Positive floats representing weights. Negative values may lead to unpredictable behaviour.</param>
-        public static T GetRandom<T>(this IList<T> list, IList<float> weights, ref MRandom random)
+        public static T GetRandom<T>(this IReadOnlyList<T> list, IReadOnlyList<float> weights, ref MRandom random)
         {
             if (list == null)
             {

@@ -54,7 +54,7 @@ namespace ProceduralToolkit
         /// <param name="polyType"> Type of the path (Subject or Clip). </param>
         /// <param name="closed"> Controls whether the path is closed. Clipping paths must always be closed. </param>
         /// <returns> False if the path is invalid for clipping, true otherwise. </returns>
-        public bool AddPath(IList<Vector2> path, PolyType polyType, bool closed = true)
+        public bool AddPath(IReadOnlyList<Vector2> path, PolyType polyType, bool closed = true)
         {
             return clipper.AddPath(ClipperUtility.ToIntPath(path), polyType, closed);
         }

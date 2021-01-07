@@ -11,7 +11,7 @@ namespace ProceduralToolkit
     {
         public const float ClipperScale = 100000;
 
-        public static List<IntPoint> ToIntPath(IList<Vector2> path)
+        public static List<IntPoint> ToIntPath(IReadOnlyList<Vector2> path)
         {
             var intPath = new List<IntPoint>(path.Count);
             foreach (var vertex in path)

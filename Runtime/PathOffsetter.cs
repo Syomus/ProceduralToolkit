@@ -52,7 +52,7 @@ namespace ProceduralToolkit
         /// <param name="path"> Vertices of the path. </param>
         /// <param name="joinType"> See http://www.angusj.com/delphi/clipper/documentation/Docs/Units/ClipperLib/Types/JoinType.htm </param>
         /// <param name="endType"> See http://www.angusj.com/delphi/clipper/documentation/Docs/Units/ClipperLib/Types/EndType.htm </param>
-        public void AddPath(IList<Vector2> path, JoinType joinType = JoinType.jtMiter, EndType endType = EndType.etClosedPolygon)
+        public void AddPath(IReadOnlyList<Vector2> path, JoinType joinType = JoinType.jtMiter, EndType endType = EndType.etClosedPolygon)
         {
             clipperOffset.AddPath(ClipperUtility.ToIntPath(path), joinType, endType);
         }

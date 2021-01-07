@@ -617,7 +617,7 @@ namespace ProceduralToolkit
         /// </summary>
         /// <param name="polygon">Vertices of the polygon in clockwise order.</param>
         /// <param name="distance">Offset distance. Positive values offset outside, negative inside.</param>
-        public static List<Vector2> OffsetPolygon(IList<Vector2> polygon, float distance)
+        public static List<Vector2> OffsetPolygon(IReadOnlyList<Vector2> polygon, float distance)
         {
             var newPolygon = new List<Vector2>(polygon.Count);
             for (int i = 0; i < polygon.Count; i++)
@@ -699,7 +699,7 @@ namespace ProceduralToolkit
         /// Calculates the area of the input polygon.
         /// </summary>
         /// <param name="polygon">Vertices of the polygon.</param>
-        public static float GetArea(IList<Vector2> polygon)
+        public static float GetArea(IReadOnlyList<Vector2> polygon)
         {
             return Mathf.Abs(GetSignedArea(polygon));
         }
@@ -708,7 +708,7 @@ namespace ProceduralToolkit
         /// Calculates the signed area of the input polygon.
         /// </summary>
         /// <param name="polygon">Vertices of the polygon.</param>
-        public static float GetSignedArea(IList<Vector2> polygon)
+        public static float GetSignedArea(IReadOnlyList<Vector2> polygon)
         {
             if (polygon.Count < 3) return 0;
             float a = 0;
@@ -723,7 +723,7 @@ namespace ProceduralToolkit
         /// Calculates the orientation of the vertices of the input polygon.
         /// </summary>
         /// <param name="polygon">Vertices of the polygon.</param>
-        public static Orientation GetOrientation(IList<Vector2> polygon)
+        public static Orientation GetOrientation(IReadOnlyList<Vector2> polygon)
         {
             if (polygon.Count < 3) return Orientation.NonOrientable;
             float signedArea = GetSignedArea(polygon);
@@ -736,7 +736,7 @@ namespace ProceduralToolkit
         /// Calculates the perimeter of the input polygon.
         /// </summary>
         /// <param name="polygon">Vertices of the polygon.</param>
-        public static float GetPerimeter(IList<Vector2> polygon)
+        public static float GetPerimeter(IReadOnlyList<Vector2> polygon)
         {
             if (polygon.Count < 2) return 0;
             float perimeter = 0;
@@ -750,7 +750,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Calculates a bounding rect for a set of vertices.
         /// </summary>
-        public static Rect GetRect(IList<Vector2> vertices)
+        public static Rect GetRect(IReadOnlyList<Vector2> vertices)
         {
             Vector2 min = vertices[0];
             Vector2 max = vertices[0];

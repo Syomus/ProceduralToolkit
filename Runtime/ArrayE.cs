@@ -29,7 +29,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Two-dimensional indexer getter
         /// </summary>
-        public static T GetXY<T>(this IList<T> list, Vector2Int position, int width)
+        public static T GetXY<T>(this IReadOnlyList<T> list, Vector2Int position, int width)
         {
             return list[position.y*width + position.x];
         }
@@ -37,7 +37,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Two-dimensional indexer getter
         /// </summary>
-        public static T GetXY<T>(this IList<T> list, int x, int y, int width)
+        public static T GetXY<T>(this IReadOnlyList<T> list, int x, int y, int width)
         {
             return list[y*width + x];
         }
@@ -93,7 +93,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Looped indexer getter, allows out of bounds indices
         /// </summary>
-        public static T GetLooped<T>(this IList<T> list, int index)
+        public static T GetLooped<T>(this IReadOnlyList<T> list, int index)
         {
             while (index < 0)
             {
