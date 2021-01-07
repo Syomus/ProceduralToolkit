@@ -8,6 +8,8 @@ namespace ProceduralToolkit
     /// </summary>
     public static partial class Draw
     {
+        #region RasterLine
+
         /// <summary>
         /// Draws a line and calls <paramref name="draw"/> on every pixel
         /// </summary>
@@ -55,6 +57,10 @@ namespace ProceduralToolkit
                 }
             }
         }
+
+        #endregion RasterLine
+
+        #region RasterAALine
 
         /// <summary>
         /// Draws an anti-aliased line and calls <paramref name="draw"/> on every pixel
@@ -117,6 +123,10 @@ namespace ProceduralToolkit
             }
         }
 
+        #endregion RasterAALine
+
+        #region RasterCircle
+
         /// <summary>
         /// Draws a circle and calls <paramref name="draw"/> on every pixel
         /// </summary>
@@ -170,6 +180,10 @@ namespace ProceduralToolkit
                 }
             }
         }
+
+        #endregion RasterCircle
+
+        #region RasterFilledCircle
 
         /// <summary>
         /// Draws a filled circle and calls <paramref name="draw"/> on every pixel
@@ -242,5 +256,78 @@ namespace ProceduralToolkit
                 draw(x, y);
             }
         }
+
+        #endregion RasterFilledCircle
+
+        #region RasterRect
+
+        /// <summary>
+        /// Draws a filled rectangle and calls <paramref name="draw"/> on every pixel
+        /// </summary>
+        public static void RasterRect(RectInt rect, Action<int, int> draw)
+        {
+            RasterRect(rect.x, rect.y, rect.width, rect.height, draw);
+        }
+
+        /// <summary>
+        /// Draws a filled rectangle and calls <paramref name="draw"/> on every pixel
+        /// </summary>
+        public static void RasterRect(int x0, int y0, int width, int height, Action<int, int> draw)
+        {
+            for (int y = y0; y < y0 + height; y++)
+            {
+                for (int x = x0; x < x0 + width; x++)
+                {
+                    draw(x, y);
+                }
+            }
+        }
+
+        #endregion RasterRect
+
+        #region RasterGradient
+
+        /// <summary>
+        /// Draws a gradient rectangle and calls <paramref name="draw"/> on every pixel
+        /// </summary>
+        private static void RasterGradient(RectInt rect, Directions direction, Action<int, int, float> draw)
+        {
+            RasterGradient(rect.x, rect.y, rect.width, rect.height, direction, draw);
+        }
+
+        /// <summary>
+        /// Draws a gradient rectangle and calls <paramref name="draw"/> on every pixel
+        /// </summary>
+        private static void RasterGradient(int x0, int y0, int width, int height, Directions direction, Action<int, int, float> draw)
+        {
+            Func<int, int, float> getGradient;
+            switch (direction)
+            {
+                case Directions.Left:
+                    getGradient = (x, y) => 1 - (float) (x - x0)/(float) width;
+                    break;
+                case Directions.Right:
+                    getGradient = (x, y) => (float) (x - x0)/(float) width;
+                    break;
+                case Directions.Down:
+                    getGradient = (x, y) => 1 - (float) (y - y0)/(float) height;
+                    break;
+                case Directions.Up:
+                    getGradient = (x, y) => (float) (y - y0)/(float) height;
+                    break;
+                default:
+                    throw new ArgumentException("Not supported direction: " + direction, nameof(direction));
+            }
+
+            for (int y = y0; y < y0 + height; y++)
+            {
+                for (int x = x0; x < x0 + width; x++)
+                {
+                    draw(x, y, getGradient(x, y));
+                }
+            }
+        }
+
+        #endregion RasterGradient
     }
 }
