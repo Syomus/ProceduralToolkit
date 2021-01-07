@@ -203,15 +203,15 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentNullException(nameof(texture));
             }
-            var colors = new Color[blockWidth*blockHeight];
+            var pixels = new Color[blockWidth*blockHeight];
             for (int _y = 0; _y < blockHeight; _y++)
             {
                 for (int _x = 0; _x < blockWidth; _x++)
                 {
-                    colors[_x + _y*blockWidth] = color;
+                    pixels[_x + _y*blockWidth] = color;
                 }
             }
-            texture.SetPixels(x, y, blockWidth, blockHeight, colors);
+            texture.SetPixels(x, y, blockWidth, blockHeight, pixels);
         }
 
         /// <summary>
@@ -270,34 +270,10 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentNullException(nameof(texture));
             }
-            Func<int, int, Color> getColor;
-            switch (direction)
-            {
-                case Directions.Left:
-                    getColor = (_x, _y) => gradient.Evaluate(1 - (float) _x/(float) blockWidth);
-                    break;
-                case Directions.Right:
-                    getColor = (_x, _y) => gradient.Evaluate((float) _x/(float) blockWidth);
-                    break;
-                case Directions.Down:
-                    getColor = (_x, _y) => gradient.Evaluate(1 - (float) _y/(float) blockHeight);
-                    break;
-                case Directions.Up:
-                    getColor = (_x, _y) => gradient.Evaluate((float) _y/(float) blockHeight);
-                    break;
-                default:
-                    throw new ArgumentException("Not supported direction: " + direction, nameof(direction));
-            }
 
-            var colors = new Color[blockWidth*blockHeight];
-            for (int _y = 0; _y < blockHeight; _y++)
-            {
-                for (int _x = 0; _x < blockWidth; _x++)
-                {
-                    colors[_x + _y*blockWidth] = getColor(_x, _y);
-                }
-            }
-            texture.SetPixels(x, y, blockWidth, blockHeight, colors);
+            var pixels = new Color[blockWidth*blockHeight];
+            Gradient(pixels, blockWidth, 0, 0, blockWidth, blockHeight, gradient, direction);
+            texture.SetPixels(x, y, blockWidth, blockHeight, pixels);
         }
 
         /// <summary>
@@ -326,20 +302,26 @@ namespace ProceduralToolkit
             {
                 throw new ArgumentNullException(nameof(pixels));
             }
+            Gradient(pixels, textureWidth, x, y, blockWidth, blockHeight, gradient, direction);
+        }
+
+        private static void Gradient(Color[] pixels, int textureWidth, int x, int y, int blockWidth, int blockHeight, Gradient gradient,
+            Directions direction)
+        {
             Func<int, int, Color> getColor;
             switch (direction)
             {
                 case Directions.Left:
-                    getColor = (_x, _y) => gradient.Evaluate(1 - (float) _x/(float) blockWidth);
+                    getColor = (_x, _y) => gradient.Evaluate(1 - (float) (_x - x)/(float) blockWidth);
                     break;
                 case Directions.Right:
-                    getColor = (_x, _y) => gradient.Evaluate((float) _x/(float) blockWidth);
+                    getColor = (_x, _y) => gradient.Evaluate((float) (_x - x)/(float) blockWidth);
                     break;
                 case Directions.Down:
-                    getColor = (_x, _y) => gradient.Evaluate(1 - (float) _y/(float) blockHeight);
+                    getColor = (_x, _y) => gradient.Evaluate(1 - (float) (_y - y)/(float) blockHeight);
                     break;
                 case Directions.Up:
-                    getColor = (_x, _y) => gradient.Evaluate((float) _y/(float) blockHeight);
+                    getColor = (_x, _y) => gradient.Evaluate((float) (_y - y)/(float) blockHeight);
                     break;
                 default:
                     throw new ArgumentException("Not supported direction: " + direction, nameof(direction));
