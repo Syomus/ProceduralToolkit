@@ -1,4 +1,4 @@
-# Procedural Toolkit 0.2.3
+# Procedural Toolkit 0.2.4-preview
 
 Procedural Toolkit is a procedural generation library for the Unity game engine.
 
@@ -12,7 +12,7 @@ Procedural Toolkit is a procedural generation library for the Unity game engine.
 [Support email](mailto:proceduraltoolkit@syomus.com)
 
 ## Installation instructions
-Requires **Unity 2019.2** or later. Tested on Windows, WebGL, Android and iOS.
+Requires **Unity 2019.3** or later. Tested on Windows, WebGL, Android and iOS.
 
 There are several ways to install Procedural Toolkit:
 
@@ -20,27 +20,9 @@ There are several ways to install Procedural Toolkit:
 The best way is to install this library as a [Git package](https://docs.unity3d.com/Manual/upm-git.html) using the Package Manager.
 First, make sure that you to have Git installed and available in your system's PATH.
 
-For Unity 2019.3 and later you can add the package using the link below, notice the upm branch at the end of the line:
+Then you can add the package using the link below, notice the upm branch at the end of the line:
 ```
 https://github.com/Syomus/ProceduralToolkit.git#upm
-```
-
-For Unity 2019.2 you will need to add the following line to your project's `manifest.json`:
-```
-"com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git#upm",
-```
-
-It should look like this:
-```
-{
-  "dependencies": {
-    "com.syomus.proceduraltoolkit": "https://github.com/Syomus/ProceduralToolkit.git#upm",
-    "com.unity.package-manager-ui": "1.0.0",
-    "com.unity.modules.ai": "1.0.0",
-    "com.unity.modules.animation": "1.0.0",
-    ...
-  }
-}
 ```
 
 If you don't want to use Git, you can download this library as an archive and install it as a [local package](https://docs.unity3d.com/Manual/upm-ui-local.html).
