@@ -233,7 +233,7 @@ namespace ProceduralToolkit
         public static void FloodVisit8<T>(this T[,] array, Vector2Int start, Action<int, int> visit,
             IEqualityComparer<T> comparer = null)
         {
-            FloodVisit4(array, start.x, start.y, visit, comparer);
+            FloodVisit8(array, start.x, start.y, visit, comparer);
         }
 
         /// <summary>
