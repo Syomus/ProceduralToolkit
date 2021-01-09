@@ -10,13 +10,22 @@ namespace ProceduralToolkit.CellularAutomata
     public class CellularAutomaton
     {
         [Serializable]
-        public class Config
+        public struct Config
         {
-            public int width = 128;
-            public int height = 128;
-            public Ruleset ruleset = Ruleset.life;
-            public float startNoise = 0.25f;
-            public bool aliveBorders = false;
+            public int width;
+            public int height;
+            public Ruleset ruleset;
+            public float startNoise;
+            public bool aliveBorders;
+
+            public static Config life = new Config
+            {
+                width = 128,
+                height = 128,
+                ruleset = Ruleset.life,
+                startNoise = 0.25f,
+                aliveBorders = false,
+            };
         }
 
         private bool[,] _cells;

@@ -16,7 +16,7 @@ namespace ProceduralToolkit.Samples
         public ToggleGroup toggleGroup;
         public RawImage image;
         [Space]
-        public CellularAutomaton.Config config = new CellularAutomaton.Config();
+        public CellularAutomaton.Config config = CellularAutomaton.Config.life;
 
         private enum RulesetName
         {
@@ -117,11 +117,11 @@ namespace ProceduralToolkit.Samples
                 {
                     if (automaton.cells[x, y])
                     {
-                        pixels[y*config.width + x] = aliveColor;
+                        pixels.SetXY(x, y, config.width, aliveColor);
                     }
                     else
                     {
-                        pixels[y*config.width + x] = deadColor;
+                        pixels.SetXY(x, y, config.width, deadColor);
                     }
                 }
             }
