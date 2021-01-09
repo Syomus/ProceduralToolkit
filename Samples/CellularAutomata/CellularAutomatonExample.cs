@@ -92,6 +92,11 @@ namespace ProceduralToolkit.Samples
             UpdateSkybox();
         }
 
+        private void OnDestroy()
+        {
+            automaton.Dispose();
+        }
+
         private void SelectRuleset(RulesetName rulesetName)
         {
             config.ruleset = nameToRuleset[rulesetName];
@@ -101,6 +106,10 @@ namespace ProceduralToolkit.Samples
 
         private void Generate()
         {
+            if (automaton != null)
+            {
+                automaton.Dispose();
+            }
             automaton = new CellularAutomaton(config);
 
             GeneratePalette();

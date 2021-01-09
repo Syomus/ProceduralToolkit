@@ -15,6 +15,11 @@ namespace ProceduralToolkit.MarchingSquares
             this.data = new NativeArray2D<bool>(data, Allocator.Persistent);
         }
 
+        public BoolData(NativeArray2D<bool> data)
+        {
+            this.data = data;
+        }
+
         public void Dispose()
         {
             data.Dispose();
