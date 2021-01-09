@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
@@ -7,29 +8,32 @@ namespace ProceduralToolkit.Samples
     /// <summary>
     /// Maze graph representation
     /// </summary>
-    public struct Maze
+    public struct Maze : IDisposable
     {
-        public readonly int width;
-        public readonly int height;
-        public NativeArray<Directions> vertices;
+        public int width => vertices.LengthX;
+        public int height => vertices.LengthY;
+        private NativeArray2D<Directions> vertices;
 
         public Directions this[Vector2Int position]
         {
-            get => vertices.GetXY(position, width);
-            set => vertices.SetXY(position, width, value);
+            get => vertices[position];
+            set => vertices[position] = value;
         }
 
         public Directions this[int x, int y]
         {
-            get => vertices.GetXY(x, y, width);
-            set => vertices.SetXY(x, y, width, value);
+            get => vertices[x, y];
+            set => vertices[x, y] = value;
         }
 
         public Maze(int width, int height)
         {
-            this.width = width;
-            this.height = height;
-            vertices = new NativeArray<Directions>(width*height, Allocator.Persistent);
+            vertices = new NativeArray2D<Directions>(width, height, Allocator.Persistent);
+        }
+
+        public void Dispose()
+        {
+            vertices.Dispose();
         }
 
         public void GetPossibleConnections(Vector2Int position, List<Connection> connections)
@@ -75,17 +79,11 @@ namespace ProceduralToolkit.Samples
             if (!this[a].HasFlag(direction))
             {
                 var b = a + offset;
-                if (IsInBounds(b) && IsUnconnected(b))
+                if (vertices.IsInBounds(b) && IsUnconnected(b))
                 {
                     connections.Add(new Connection(a, b));
                 }
             }
-        }
-
-        private bool IsInBounds(Vector2Int position)
-        {
-            return position.x >= 0 && position.x < width &&
-                   position.y >= 0 && position.y < height;
         }
 
         /// <summary>

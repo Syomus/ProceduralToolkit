@@ -1,8 +1,9 @@
+using System;
 using Unity.Collections;
 
 namespace ProceduralToolkit.MarchingSquares
 {
-    public struct Contours
+    public struct Contours : IDisposable
     {
         /// <summary>
         /// 2━3
@@ -29,25 +30,21 @@ namespace ProceduralToolkit.MarchingSquares
         /// 
         /// ⬛ 1111 - 15 
         /// </summary>
-        private NativeArray<byte> squares;
-        public readonly int squaresLengthX;
-        public readonly int squaresLengthY;
+        private NativeArray2D<byte> squares;
+        public int squaresLengthX => squares.LengthX;
+        public int squaresLengthY => squares.LengthY;
 
         public readonly bool useInterpolation;
-        private NativeArray<float> sides;
-        private readonly int sidesLengthX;
+        private NativeArray2D<float> sides;
 
         public Contours(int dataLengthX, int dataLengthY, bool useInterpolation)
         {
-            squaresLengthX = dataLengthX - 1;
-            squaresLengthY = dataLengthY - 1;
-            squares = new NativeArray<byte>(squaresLengthX*squaresLengthY, Allocator.Persistent);
+            squares = new NativeArray2D<byte>(dataLengthX - 1, dataLengthY - 1, Allocator.Persistent);
 
-            sidesLengthX = dataLengthX*2;
             this.useInterpolation = useInterpolation;
             if (useInterpolation)
             {
-                sides = new NativeArray<float>(sidesLengthX*dataLengthY, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
+                sides = new NativeArray2D<float>(dataLengthX*2, dataLengthY, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
                 for (int i = 0; i < sides.Length; i++)
                 {
                     sides[i] = float.NaN;
@@ -55,7 +52,7 @@ namespace ProceduralToolkit.MarchingSquares
             }
             else
             {
-                sides = new NativeArray<float>(0, Allocator.Persistent);
+                sides = new NativeArray2D<float>(0, 0, Allocator.Persistent);
             }
         }
 
@@ -67,32 +64,32 @@ namespace ProceduralToolkit.MarchingSquares
 
         public byte GetSquare(int x, int y)
         {
-            return squares.GetXY(x, y, squaresLengthX);
+            return squares[x, y];
         }
 
         public void SetSquare(int x, int y, byte square)
         {
-            squares.SetXY(x, y, squaresLengthX, square);
+            squares[x, y] = square;
         }
 
         public float GetLeftSide(int x, int y)
         {
-            return sides.GetXY(2*x, y, sidesLengthX);
+            return sides[2*x, y];
         }
 
         public float GetBottomSide(int x, int y)
         {
-            return sides.GetXY(2*x + 1, y, sidesLengthX);
+            return sides[2*x + 1, y];
         }
 
         public float GetRightSide(int x, int y)
         {
-            return sides.GetXY(2*x + 2, y, sidesLengthX);
+            return sides[2*x + 2, y];
         }
 
         public float GetTopSide(int x, int y)
         {
-            return sides.GetXY(2*x + 1, y + 1, sidesLengthX);
+            return sides[2*x + 1, y + 1];
         }
 
         public bool HasValueLeftSide(int x, int y)
@@ -117,22 +114,22 @@ namespace ProceduralToolkit.MarchingSquares
 
         public void SetLeftSide(int x, int y, float value)
         {
-            sides.SetXY(2*x, y, sidesLengthX, value);
+            sides[2*x, y] = value;
         }
 
         public void SetRightSide(int x, int y, float value)
         {
-            sides.SetXY(2*x + 2, y, sidesLengthX, value);
+            sides[2*x + 2, y] = value;
         }
 
         public void SetBottomSide(int x, int y, float value)
         {
-            sides.SetXY(2*x + 1, y, sidesLengthX, value);
+            sides[2*x + 1, y] = value;
         }
 
         public void SetTopSide(int x, int y, float value)
         {
-            sides.SetXY(2*x + 1, y + 1, sidesLengthX, value);
+            sides[2*x + 1, y + 1] = value;
         }
     }
 }

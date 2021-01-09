@@ -65,9 +65,9 @@ namespace ProceduralToolkit.Samples
             var color = GetMainColorHSV().WithSV(saturation, value).ToColor();
 
             texture.Clear(Color.black);
-            for (int x = 0; x < config.width; x++)
+            for (int x = 0; x < mazeJob.maze.width; x++)
             {
-                for (int y = 0; y < config.height; y++)
+                for (int y = 0; y < mazeJob.maze.height; y++)
                 {
                     var position = new Vector2Int(x, y);
                     Directions vertex = mazeJob.maze[position];
@@ -83,7 +83,7 @@ namespace ProceduralToolkit.Samples
             }
             texture.Apply();
 
-            mazeJob.maze.vertices.Dispose();
+            mazeJob.maze.Dispose();
         }
 
         private void InstantiateToggle(MazeJob.Algorithm algorithm, string header)

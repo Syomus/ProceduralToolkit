@@ -18,13 +18,12 @@ namespace ProceduralToolkit.MarchingSquares
 
         public void Execute()
         {
-            var binaryIndex = new NativeArray<bool>(data.dataLengthX*data.dataLengthY, Allocator.Temp,
-                NativeArrayOptions.UninitializedMemory);
+            var binaryIndex = new NativeArray2D<bool>(data.dataLengthX, data.dataLengthY, Allocator.Temp, NativeArrayOptions.UninitializedMemory);
             for (int y = 0; y < data.dataLengthY; y++)
             {
                 for (int x = 0; x < data.dataLengthX; x++)
                 {
-                    binaryIndex.SetXY(x, y, data.dataLengthX, data.TestValue(x, y));
+                    binaryIndex[x, y] = data.TestValue(x, y);
                 }
             }
 
@@ -33,19 +32,19 @@ namespace ProceduralToolkit.MarchingSquares
                 for (int x = 0; x < contours.squaresLengthX; x++)
                 {
                     byte square = 0;
-                    if (binaryIndex.GetXY(x, y, data.dataLengthX))
+                    if (binaryIndex[x, y])
                     {
                         square |= 1;
                     }
-                    if (binaryIndex.GetXY(x, y + 1, data.dataLengthX))
+                    if (binaryIndex[x, y + 1])
                     {
                         square |= 2;
                     }
-                    if (binaryIndex.GetXY(x + 1, y + 1, data.dataLengthX))
+                    if (binaryIndex[x + 1, y + 1])
                     {
                         square |= 4;
                     }
-                    if (binaryIndex.GetXY(x + 1, y, data.dataLengthX))
+                    if (binaryIndex[x + 1, y])
                     {
                         square |= 8;
                     }

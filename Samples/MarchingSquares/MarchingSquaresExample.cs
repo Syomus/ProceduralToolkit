@@ -67,12 +67,13 @@ namespace ProceduralToolkit.Samples
 
         private void UpdateTexture()
         {
+            var color = GetMainColorHSV();
             for (int y = 0; y < textureSize; y++)
             {
                 for (int x = 0; x < textureSize; x++)
                 {
                     float value = noise.GetNoise01(x + noiseOffset, y + noiseOffset);
-                    pixels[x + y*textureSize] = new Color(value, value, value);
+                    pixels[x + y*textureSize] = color.WithV(value).ToColor();
                 }
             }
             texture.SetPixels(pixels);

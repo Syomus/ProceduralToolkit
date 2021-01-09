@@ -5,18 +5,16 @@ namespace ProceduralToolkit.MarchingSquares
 {
     public struct ColorData : IMarchingSquaresData
     {
-        public int dataLengthX { get; }
-        public int dataLengthY { get; }
+        public int dataLengthX => data.LengthX;
+        public int dataLengthY => data.LengthY;
         public bool useInterpolation { get; }
 
-        private NativeArray<Color> data;
+        private NativeArray2D<Color> data;
         private readonly float threshold;
 
         public ColorData(Color[] data, int dataLengthX, float threshold, bool useInterpolation)
         {
-            this.data = new NativeArray<Color>(data, Allocator.Persistent);
-            this.dataLengthX = dataLengthX;
-            dataLengthY = data.Length/dataLengthX;
+            this.data = new NativeArray2D<Color>(data, dataLengthX, data.Length/dataLengthX, Allocator.Persistent);
             this.threshold = threshold;
             this.useInterpolation = useInterpolation;
         }
@@ -24,11 +22,6 @@ namespace ProceduralToolkit.MarchingSquares
         public void Dispose()
         {
             data.Dispose();
-        }
-
-        private Color GetValue(int x, int y)
-        {
-            return data.GetXY(x, y, dataLengthX);
         }
 
         private bool TestValue(Color value)
@@ -43,17 +36,17 @@ namespace ProceduralToolkit.MarchingSquares
 
         public bool TestValue(int x, int y)
         {
-            return TestValue(GetValue(x, y));
+            return TestValue(data[x, y]);
         }
 
         public bool TestAverage(int x, int y)
         {
-            return TestAverage(GetValue(x, y), GetValue(x, y + 1), GetValue(x + 1, y + 1), GetValue(x + 1, y));
+            return TestAverage(data[x, y], data[x, y + 1], data[x + 1, y + 1], data[x + 1, y]);
         }
 
         public float InverseLerp(int xa, int ya, int xb, int yb)
         {
-            return Mathf.InverseLerp(GetValue(xa, ya).grayscale, GetValue(xb, yb).grayscale, threshold);
+            return Mathf.InverseLerp(data[xa, ya].grayscale, data[xb, yb].grayscale, threshold);
         }
     }
 }
