@@ -1,4 +1,5 @@
 using System.Text;
+using ProceduralToolkit.CellularAutomata;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace ProceduralToolkit.Editor
     /// <summary>
     /// PropertyDrawer for CellularAutomaton.Ruleset
     /// </summary>
-    [CustomPropertyDrawer(typeof(CellularAutomaton.Ruleset))]
+    [CustomPropertyDrawer(typeof(Ruleset))]
     public class RulesetDrawer : PropertyDrawer
     {
         private const float labelWidth = 13;
@@ -49,36 +50,36 @@ namespace ProceduralToolkit.Editor
             new GUIContent("Coagulations"),
             new GUIContent("Assimilation"),
         };
-        private readonly CellularAutomaton.Ruleset[] rulesets = new CellularAutomaton.Ruleset[]
+        private readonly Ruleset[] rulesets = new Ruleset[]
         {
-            CellularAutomaton.Ruleset.life,
-            CellularAutomaton.Ruleset.highlife,
-            CellularAutomaton.Ruleset.lifeWithoutDeath,
-            CellularAutomaton.Ruleset.thirtyFour,
-            CellularAutomaton.Ruleset.inverseLife,
-            CellularAutomaton.Ruleset.pseudoLife,
-            CellularAutomaton.Ruleset.longLife,
-            CellularAutomaton.Ruleset.dotLife,
-            CellularAutomaton.Ruleset.dryLife,
-            CellularAutomaton.Ruleset.seeds,
-            CellularAutomaton.Ruleset.serviettes,
-            CellularAutomaton.Ruleset.gnarl,
-            CellularAutomaton.Ruleset.liveFreeOrDie,
-            CellularAutomaton.Ruleset.dayAndNight,
-            CellularAutomaton.Ruleset.replicator,
-            CellularAutomaton.Ruleset.twoXTwo,
-            CellularAutomaton.Ruleset.move,
-            CellularAutomaton.Ruleset.maze,
-            CellularAutomaton.Ruleset.mazectric,
-            CellularAutomaton.Ruleset.amoeba,
-            CellularAutomaton.Ruleset.diamoeba,
-            CellularAutomaton.Ruleset.coral,
-            CellularAutomaton.Ruleset.anneal,
-            CellularAutomaton.Ruleset.majority,
-            CellularAutomaton.Ruleset.walledCities,
-            CellularAutomaton.Ruleset.stains,
-            CellularAutomaton.Ruleset.coagulations,
-            CellularAutomaton.Ruleset.assimilation,
+            Ruleset.life,
+            Ruleset.highlife,
+            Ruleset.lifeWithoutDeath,
+            Ruleset.thirtyFour,
+            Ruleset.inverseLife,
+            Ruleset.pseudoLife,
+            Ruleset.longLife,
+            Ruleset.dotLife,
+            Ruleset.dryLife,
+            Ruleset.seeds,
+            Ruleset.serviettes,
+            Ruleset.gnarl,
+            Ruleset.liveFreeOrDie,
+            Ruleset.dayAndNight,
+            Ruleset.replicator,
+            Ruleset.twoXTwo,
+            Ruleset.move,
+            Ruleset.maze,
+            Ruleset.mazectric,
+            Ruleset.amoeba,
+            Ruleset.diamoeba,
+            Ruleset.coral,
+            Ruleset.anneal,
+            Ruleset.majority,
+            Ruleset.walledCities,
+            Ruleset.stains,
+            Ruleset.coagulations,
+            Ruleset.assimilation,
         };
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -149,7 +150,7 @@ namespace ProceduralToolkit.Editor
             EditorGUIUtility.labelWidth = oldLabelWidth;
             EditorGUI.indentLevel = oldIndentLevel;
 
-            var ruleList = CellularAutomaton.Ruleset.ConvertRuleStringToList(ruleString);
+            var ruleList = Ruleset.ConvertRuleStringToList(ruleString);
             rule.ClearArray();
             for (int i = 0; i < ruleList.Count; i++)
             {

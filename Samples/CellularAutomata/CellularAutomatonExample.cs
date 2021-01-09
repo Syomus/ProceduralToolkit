@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ProceduralToolkit.CellularAutomata;
 using ProceduralToolkit.Samples.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ namespace ProceduralToolkit.Samples
     /// A demonstration of CellularAutomaton from the main library, draws the automaton simulation on a texture.
     /// Note that some of the rulesets need noise value different from the default setting.
     /// </summary>
-    public class CellularAutomatonConfigurator : ConfiguratorBase
+    public class CellularAutomatonExample : ConfiguratorBase
     {
         public RectTransform leftPanel;
         public ToggleGroup toggleGroup;
@@ -35,15 +36,15 @@ namespace ProceduralToolkit.Samples
         private Color aliveColor;
         private TextControl header;
 
-        private Dictionary<RulesetName, CellularAutomaton.Ruleset> nameToRuleset = new Dictionary<RulesetName, CellularAutomaton.Ruleset>
+        private Dictionary<RulesetName, Ruleset> nameToRuleset = new Dictionary<RulesetName, Ruleset>
         {
-            {RulesetName.Life, CellularAutomaton.Ruleset.life},
-            {RulesetName.Mazectric, CellularAutomaton.Ruleset.mazectric},
-            {RulesetName.Coral, CellularAutomaton.Ruleset.coral},
-            {RulesetName.WalledCities, CellularAutomaton.Ruleset.walledCities},
-            {RulesetName.Coagulations, CellularAutomaton.Ruleset.coagulations},
-            {RulesetName.Anneal, CellularAutomaton.Ruleset.anneal},
-            {RulesetName.Majority, CellularAutomaton.Ruleset.majority},
+            {RulesetName.Life, Ruleset.life},
+            {RulesetName.Mazectric, Ruleset.mazectric},
+            {RulesetName.Coral, Ruleset.coral},
+            {RulesetName.WalledCities, Ruleset.walledCities},
+            {RulesetName.Coagulations, Ruleset.coagulations},
+            {RulesetName.Anneal, Ruleset.anneal},
+            {RulesetName.Majority, Ruleset.majority},
         };
 
         private void Awake()

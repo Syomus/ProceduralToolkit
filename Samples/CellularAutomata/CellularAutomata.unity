@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 643499691}
   - component: {fileID: 643499690}
   m_Layer: 0
-  m_Name: CellularAutomatonConfigurator
+  m_Name: CellularAutomatonExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
