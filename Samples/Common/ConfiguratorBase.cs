@@ -88,9 +88,19 @@ namespace ProceduralToolkit.Samples
             return targetPalette.mainColor;
         }
 
+        protected Color GetMainColor()
+        {
+            return targetPalette.mainColor.ToColor();
+        }
+
         protected ColorHSV GetSecondaryColorHSV()
         {
             return targetPalette.secondaryColor;
+        }
+
+        protected Color GetSecondaryColor()
+        {
+            return targetPalette.secondaryColor.ToColor();
         }
 
         protected void SetupSkyboxAndPalette()

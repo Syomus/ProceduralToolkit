@@ -90,7 +90,7 @@ namespace ProceduralToolkit.Samples.Buildings
             if (randomizeConfig)
             {
                 GeneratePalette();
-                config.palette.wallColor = GetMainColorHSV().ToColor();
+                config.palette.wallColor = GetMainColor();
             }
 
             if (generator == null)

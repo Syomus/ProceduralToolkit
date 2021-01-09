@@ -109,7 +109,7 @@ namespace ProceduralToolkit.Samples
             {
                 GeneratePalette();
 
-                config.color = GetMainColorHSV().ToColor();
+                config.color = GetMainColor();
             }
 
             var chairDraft = ChairGenerator.Chair(config);

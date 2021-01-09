@@ -105,7 +105,7 @@ namespace ProceduralToolkit.Samples
             GeneratePalette();
 
             deadColor = GetMainColorHSV().WithSV(0.3f, 0.2f).ToColor();
-            aliveColor = GetMainColorHSV().ToColor();
+            aliveColor = GetMainColor();
         }
 
         private void DrawCells()
