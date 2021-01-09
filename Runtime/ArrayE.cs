@@ -123,11 +123,11 @@ namespace ProceduralToolkit
         }
 
         /// <summary>
-        /// Checks if <paramref name="vector"/> is within array bounds
+        /// Checks if <paramref name="position"/> is within array bounds
         /// </summary>
-        public static bool IsInBounds<T>(this T[,] array, Vector2Int vector)
+        public static bool IsInBounds<T>(this T[,] array, Vector2Int position)
         {
-            return IsInBounds(array, vector.x, vector.y);
+            return IsInBounds(array, position.x, position.y);
         }
 
         /// <summary>
