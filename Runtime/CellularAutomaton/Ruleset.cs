@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ProceduralToolkit.CellularAutomata
+namespace ProceduralToolkit.CellularAutomaton
 {
     /// <summary>
     /// Cellular automaton ruleset representation

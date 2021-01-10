@@ -1,38 +1,19 @@
-using System;
 using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine.Assertions;
 
-namespace ProceduralToolkit.CellularAutomata
+namespace ProceduralToolkit.CellularAutomaton
 {
     /// <summary>
     /// Generic cellular automaton for two-state rulesets
     /// </summary>
-    public struct CellularAutomaton
+    public struct CellularAutomatonJob : IJob
     {
-        [Serializable]
-        public struct Config
-        {
-            public int width;
-            public int height;
-            public Ruleset ruleset;
-            public float startNoise;
-            public bool aliveBorders;
-
-            public static Config life = new Config
-            {
-                width = 128,
-                height = 128,
-                ruleset = Ruleset.life,
-                startNoise = 0.25f,
-                aliveBorders = false,
-            };
-        }
-
         public Cells cells;
         public Config config;
         public int simulationSteps;
 
-        public CellularAutomaton(Cells cells, Config config, int simulationSteps = 1)
+        public CellularAutomatonJob(Cells cells, Config config, int simulationSteps = 1)
         {
             Assert.IsTrue(config.width > 0);
             Assert.IsTrue(config.height > 0);
@@ -42,7 +23,7 @@ namespace ProceduralToolkit.CellularAutomata
             this.simulationSteps = simulationSteps;
         }
 
-        public CellularAutomaton(Config config, int simulationSteps = 1)
+        public CellularAutomatonJob(Config config, int simulationSteps = 1)
         {
             Assert.IsTrue(config.width > 0);
             Assert.IsTrue(config.height > 0);

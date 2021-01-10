@@ -2,14 +2,14 @@ using System;
 using Unity.Collections;
 using Random = UnityEngine.Random;
 
-namespace ProceduralToolkit.CellularAutomata
+namespace ProceduralToolkit.CellularAutomaton
 {
     public struct Cells : IDisposable
     {
         public NativeArray2D<bool> cells;
         public NativeArray2D<bool> copy;
 
-        public Cells(CellularAutomaton.Config config)
+        public Cells(Config config)
         {
             cells = new NativeArray2D<bool>(config.width, config.height, Allocator.Persistent);
             copy = new NativeArray2D<bool>(config.width, config.height, Allocator.Persistent);

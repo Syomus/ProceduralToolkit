@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using ProceduralToolkit.CellularAutomata;
+using ProceduralToolkit.CellularAutomaton;
 using ProceduralToolkit.Samples.UI;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +17,11 @@ namespace ProceduralToolkit.Samples
         public ToggleGroup toggleGroup;
         public RawImage image;
         [Space]
-        public CellularAutomaton.Config config = CellularAutomaton.Config.life;
+        public Config config = Config.life;
 
         private Color[] pixels;
         private Texture2D texture;
-        private CellularAutomaton automaton;
+        private Cells cells;
         private Color deadColor;
         private Color aliveColor;
 
@@ -45,6 +46,8 @@ namespace ProceduralToolkit.Samples
             pixels = new Color[config.width*config.height];
             texture = PTUtils.CreateTexture(config.width, config.height, Color.clear);
             image.texture = texture;
+
+            cells = new Cells(config);
 
             #region Controls
 
@@ -84,16 +87,19 @@ namespace ProceduralToolkit.Samples
 
         private void Update()
         {
+            var automaton = new CellularAutomatonJob(cells, config);
+            //var handle = automaton.Schedule();
+            //handle.Complete();
             automaton.Execute();
+            cells = automaton.cells;
 
             for (int x = 0; x < config.width; x++)
             {
                 for (int y = 0; y < config.height; y++)
                 {
-                    pixels.SetXY(x, y, config.width, automaton.cells.cells[x, y] ? aliveColor : deadColor);
+                    pixels.SetXY(x, y, config.width, cells.cells[x, y] ? aliveColor : deadColor);
                 }
             }
-
             texture.SetPixels(pixels);
             texture.Apply();
 
@@ -102,13 +108,12 @@ namespace ProceduralToolkit.Samples
 
         private void OnDestroy()
         {
-            automaton.cells.Dispose();
+            cells.Dispose();
         }
 
         private void Generate()
         {
-            automaton.cells.Dispose();
-            automaton = new CellularAutomaton(config);
+            cells.FillWithNoise(config.startNoise);
 
             GeneratePalette();
 

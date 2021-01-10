@@ -1,5 +1,5 @@
 using System.Text;
-using ProceduralToolkit.CellularAutomata;
+using ProceduralToolkit.CellularAutomaton;
 using UnityEditor;
 using UnityEngine;
 
