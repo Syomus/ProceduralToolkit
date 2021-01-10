@@ -90,7 +90,7 @@ namespace ProceduralToolkit.Samples
             {
                 for (int y = 0; y < config.height; y++)
                 {
-                    pixels.SetXY(x, y, config.width, automaton.cells[x, y] ? aliveColor : deadColor);
+                    pixels.SetXY(x, y, config.width, automaton.cells.cells[x, y] ? aliveColor : deadColor);
                 }
             }
 
@@ -102,12 +102,12 @@ namespace ProceduralToolkit.Samples
 
         private void OnDestroy()
         {
-            automaton.Dispose();
+            automaton.cells.Dispose();
         }
 
         private void Generate()
         {
-            automaton.Dispose();
+            automaton.cells.Dispose();
             automaton = new CellularAutomaton(config);
 
             GeneratePalette();

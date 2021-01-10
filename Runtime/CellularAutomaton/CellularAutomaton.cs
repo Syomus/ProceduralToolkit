@@ -1,14 +1,13 @@
 using System;
 using Unity.Collections;
 using UnityEngine.Assertions;
-using Random = UnityEngine.Random;
 
 namespace ProceduralToolkit.CellularAutomata
 {
     /// <summary>
     /// Generic cellular automaton for two-state rulesets
     /// </summary>
-    public struct CellularAutomaton : IDisposable
+    public struct CellularAutomaton
     {
         [Serializable]
         public struct Config
@@ -29,72 +28,50 @@ namespace ProceduralToolkit.CellularAutomata
             };
         }
 
-        public NativeArray2D<bool> cells;
-        public NativeArray2D<bool> copy;
+        public Cells cells;
         public Config config;
         public int simulationSteps;
+
+        public CellularAutomaton(Cells cells, Config config, int simulationSteps = 1)
+        {
+            Assert.IsTrue(config.width > 0);
+            Assert.IsTrue(config.height > 0);
+
+            this.cells = cells;
+            this.config = config;
+            this.simulationSteps = simulationSteps;
+        }
 
         public CellularAutomaton(Config config, int simulationSteps = 1)
         {
             Assert.IsTrue(config.width > 0);
             Assert.IsTrue(config.height > 0);
 
+            cells = new Cells(config);
             this.config = config;
             this.simulationSteps = simulationSteps;
-            cells = new NativeArray2D<bool>(config.width, config.height, Allocator.Persistent);
-            copy = new NativeArray2D<bool>(config.width, config.height, Allocator.Persistent);
-
-            FillWithNoise();
-        }
-
-        public void Dispose()
-        {
-            if (cells.IsCreated)
-            {
-                cells.Dispose();
-            }
-            if (copy.IsCreated)
-            {
-                copy.Dispose();
-            }
         }
 
         public void Execute()
         {
             for (int i = 0; i < simulationSteps; i++)
             {
-                PTUtils.Swap(ref cells, ref copy);
+                PTUtils.Swap(ref cells.cells, ref cells.copy);
                 for (int x = 0; x < config.width; x++)
                 {
                     for (int y = 0; y < config.height; y++)
                     {
                         int aliveCells = CountAliveNeighbourCells(x, y);
 
-                        if (copy[x, y])
+                        if (cells.copy[x, y])
                         {
-                            cells[x, y] = config.ruleset.CanSurvive(aliveCells);
+                            cells.cells[x, y] = config.ruleset.CanSurvive(aliveCells);
                         }
                         else
                         {
-                            cells[x, y] = config.ruleset.CanSpawn(aliveCells);
+                            cells.cells[x, y] = config.ruleset.CanSpawn(aliveCells);
                         }
                     }
-                }
-            }
-        }
-
-        public void FillWithNoise()
-        {
-            FillWithNoise(config.startNoise);
-        }
-
-        public void FillWithNoise(float noise)
-        {
-            for (int x = 0; x < config.width; x++)
-            {
-                for (int y = 0; y < config.height; y++)
-                {
-                    cells[x, y] = copy[x, y] = Random.value < noise;
                 }
             }
         }
@@ -103,13 +80,13 @@ namespace ProceduralToolkit.CellularAutomata
         {
             if (config.aliveBorders)
             {
-                var visitor = new Visitor8Unbounded<CounterUnbounded>(new CounterUnbounded {array = copy});
+                var visitor = new Visitor8Unbounded<CounterUnbounded>(new CounterUnbounded {array = cells.copy});
                 visitor.Visit8Unbounded(x, y);
                 return visitor.action.count;
             }
             else
             {
-                var visitor = new Visitor8<Counter>(copy.LengthX, copy.LengthY, new Counter {array = copy});
+                var visitor = new Visitor8<Counter>(cells.copy.LengthX, cells.copy.LengthY, new Counter {array = cells.copy});
                 visitor.Visit8(x, y);
                 return visitor.action.count;
             }
