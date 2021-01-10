@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace ProceduralToolkit.CellularAutomaton
 {
@@ -42,87 +42,115 @@ namespace ProceduralToolkit.CellularAutomaton
 
         #endregion Common rulesets
 
-        public byte[] birthRule;
-        public byte[] survivalRule;
+        /// <summary>
+        /// Rule integer
+        /// 
+        /// Life: B3/S23
+        /// S8 S7 S6 S5 S4 S3 S2 S1 S0  B8 B7 B6 B5 B4 B3 B2 B1 B0
+        ///  0  0  0  0  0  1  1  0  0   0  0  0  0  0  1  0  0  0 - 000001100 000001000
+        /// 
+        /// B0 = 2 ^ 0 = 1
+        /// B1 = 2 ^ 1 = 2
+        /// B2 = 2 ^ 2 = 4
+        /// B3 = 2 ^ 3 = 8
+        /// B4 = 2 ^ 4 = 16
+        /// B5 = 2 ^ 5 = 32
+        /// B6 = 2 ^ 6 = 64
+        /// B7 = 2 ^ 7 = 128
+        /// B8 = 2 ^ 8 = 256
+        /// 
+        /// S0 = 2 ^ 9 = 512
+        /// S1 = 2 ^ 10 = 1024
+        /// S2 = 2 ^ 11 = 2048
+        /// S3 = 2 ^ 12 = 4096
+        /// S4 = 2 ^ 13 = 8192
+        /// S5 = 2 ^ 14 = 16384
+        /// S6 = 2 ^ 15 = 32768
+        /// S7 = 2 ^ 16 = 65536
+        /// S8 = 2 ^ 17 = 131072
+        /// </summary>
+        public int rule;
 
-        public Ruleset(byte[] birthRule, byte[] survivalRule)
-        {
-            this.birthRule = new byte[birthRule.Length];
-            for (int i = 0; i < birthRule.Length; i++)
-            {
-                this.birthRule[i] = birthRule[i];
-            }
-            this.survivalRule = new byte[survivalRule.Length];
-            for (int i = 0; i < survivalRule.Length; i++)
-            {
-                this.survivalRule[i] = survivalRule[i];
-            }
-        }
+        private const int survivalOffset = 9;
 
-        public Ruleset(List<byte> birthRule, List<byte> survivalRule)
+        /// <param name="birthRuleString">Birth rule numbers, for example: "3"</param>
+        /// <param name="survivalRuleString">Survival rule numbers, for example: "23"</param>
+        public Ruleset(string birthRuleString = null, string survivalRuleString = null)
         {
-            this.birthRule = birthRule.ToArray();
-            this.survivalRule = survivalRule.ToArray();
-        }
-
-        public Ruleset(string birthRule = null, string survivalRule = null)
-        {
-            this.birthRule = ConvertRuleStringToList(birthRule).ToArray();
-            this.survivalRule = ConvertRuleStringToList(survivalRule).ToArray();
+            rule = ConvertRuleString(birthRuleString, survivalRuleString);
         }
 
         public bool CanSpawn(int aliveCells)
         {
-            foreach (byte number in birthRule)
-            {
-                if (number == aliveCells) return true;
-            }
-            return false;
+            int pow = 1 << aliveCells;
+            return (rule & pow) == pow;
         }
 
         public bool CanSurvive(int aliveCells)
         {
-            foreach (byte number in survivalRule)
-            {
-                if (number == aliveCells) return true;
-            }
-            return false;
+            int pow = 1 << (aliveCells + survivalOffset);
+            return (rule & pow) == pow;
         }
 
-        public static List<byte> ConvertRuleStringToList(string rule)
+        public static int ConvertRuleString(string birthRuleString, string survivalRuleString)
         {
-            var list = new List<byte>();
-            if (!string.IsNullOrEmpty(rule))
+            int rule = 0;
+            if (!string.IsNullOrEmpty(birthRuleString))
             {
-                foreach (char c in rule)
+                foreach (char c in birthRuleString)
                 {
-                    if (char.IsDigit(c))
-                    {
-                        byte digit = (byte) char.GetNumericValue(c);
-                        if (!list.Contains(digit))
-                        {
-                            list.Add(digit);
-                        }
-                    }
+                    if (!char.IsDigit(c)) continue;
+
+                    byte digit = (byte) char.GetNumericValue(c);
+                    int pow = 1 << digit;
+                    rule |= pow;
                 }
-                list.Sort();
             }
-            return list;
+            if (!string.IsNullOrEmpty(survivalRuleString))
+            {
+                foreach (char c in survivalRuleString)
+                {
+                    if (!char.IsDigit(c)) continue;
+
+                    byte digit = (byte) char.GetNumericValue(c);
+                    int pow = 1 << (digit + survivalOffset);
+                    rule |= pow;
+                }
+            }
+            return rule;
         }
 
         public override string ToString()
         {
+            return $"B{GetBirthRuleString(rule)}/S{GetSurvivalRuleString(rule)}";
+        }
+
+        public static string GetBirthRuleString(int rule)
+        {
             string b = "";
-            foreach (var digit in birthRule)
+            var bitArray = new BitArray(new[] {rule});
+            for (int i = 0; i < survivalOffset; i++)
             {
-                b += digit;
+                if (bitArray[i])
+                {
+                    b += i;
+                }
             }
+            return b;
+        }
+
+        public static string GetSurvivalRuleString(int rule)
+        {
             string s = "";
-            foreach (var digit in survivalRule)
+            var bitArray = new BitArray(new[] {rule});
+            for (int i = survivalOffset; i < bitArray.Length; i++)
             {
-                s += digit;
+                if (bitArray[i])
+                {
+                    s += i - survivalOffset;
+                }
             }
-            return string.Format("B{0}/S{1}", b, s);
+            return s;
         }
     }
 }

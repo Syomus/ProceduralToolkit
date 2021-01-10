@@ -223,8 +223,7 @@ MonoBehaviour:
     width: 128
     height: 128
     ruleset:
-      birthRule: 03
-      survivalRule: 0203
+      rule: 6152
     startNoise: 0.25
     aliveBorders: 0
 --- !u!4 &643499691

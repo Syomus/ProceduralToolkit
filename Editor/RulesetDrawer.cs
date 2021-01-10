@@ -1,4 +1,3 @@
-using System.Text;
 using ProceduralToolkit.CellularAutomaton;
 using UnityEditor;
 using UnityEngine;
@@ -15,8 +14,7 @@ namespace ProceduralToolkit.Editor
         private const float labelSpacing = 1;
         private const float dropdownWidth = 13;
         private const float dropdownSpacing = 2;
-        private const string birthRuleName = "birthRule";
-        private const string survivalRuleName = "survivalRule";
+        private const string ruleName = "rule";
 
         private readonly GUIStyle dropdownStyle = (GUIStyle) "StaticDropdown";
         private readonly GUIContent[] options = new GUIContent[]
@@ -86,78 +84,57 @@ namespace ProceduralToolkit.Editor
         {
             EditorGUI.BeginProperty(position, label, property);
 
-            var birthRule = property.FindPropertyRelative(birthRuleName);
-            var survivalRule = property.FindPropertyRelative(survivalRuleName);
+            var ruleProperty = property.FindPropertyRelative(ruleName);
 
             position = EditorGUI.PrefixLabel(position, label);
 
-            float ruleWidth = (position.width - dropdownWidth)/2;
-            Rect ruleRect = new Rect(position.x - labelSpacing, position.y, ruleWidth, position.height);
-            DrawRule(birthRule, ruleRect, "B");
+            position = DrawRule(ruleProperty, position);
 
-            ruleRect.x += ruleWidth + labelSpacing;
-            DrawRule(survivalRule, ruleRect, "S");
-
-            int oldIndentLevel = EditorGUI.indentLevel;
-            EditorGUI.indentLevel = 0;
-            {
-                Rect dropdownRect = new Rect(ruleRect.xMax + dropdownSpacing, position.y, dropdownWidth, position.height);
-                int selected = EditorGUI.Popup(dropdownRect, -1, options, dropdownStyle);
-                if (selected >= 0)
-                {
-                    SelectRuleset(birthRule, survivalRule, selected);
-                }
-            }
-            EditorGUI.indentLevel = oldIndentLevel;
+            DrawDropdown(ruleProperty, position);
 
             EditorGUI.EndProperty();
         }
 
-        private void SelectRuleset(SerializedProperty birthRule, SerializedProperty survivalRule, int selected)
+        private Rect DrawRule(SerializedProperty ruleProperty, Rect position)
         {
-            var ruleset = rulesets[selected];
+            string birthRuleString = Ruleset.GetBirthRuleString(ruleProperty.intValue);
+            string survivalRuleString = Ruleset.GetSurvivalRuleString(ruleProperty.intValue);
 
-            birthRule.ClearArray();
-            for (int i = 0; i < ruleset.birthRule.Length; i++)
-            {
-                birthRule.InsertArrayElementAtIndex(i);
-                var element = birthRule.GetArrayElementAtIndex(i);
-                element.intValue = ruleset.birthRule[i];
-            }
-
-            survivalRule.ClearArray();
-            for (int i = 0; i < ruleset.survivalRule.Length; i++)
-            {
-                survivalRule.InsertArrayElementAtIndex(i);
-                var element = survivalRule.GetArrayElementAtIndex(i);
-                element.intValue = ruleset.survivalRule[i];
-            }
-        }
-
-        private void DrawRule(SerializedProperty rule, Rect position, string label)
-        {
-            var stringBuilder = new StringBuilder();
-            for (int i = 0; i < rule.arraySize; i++)
-            {
-                stringBuilder.Append(rule.GetArrayElementAtIndex(i).intValue);
-            }
+            float ruleWidth = (position.width - dropdownWidth)/2;
+            var ruleRect = new Rect(position.x - labelSpacing, position.y, ruleWidth, position.height);
 
             float oldLabelWidth = EditorGUIUtility.labelWidth;
             int oldIndentLevel = EditorGUI.indentLevel;
             EditorGUIUtility.labelWidth = labelWidth;
             EditorGUI.indentLevel = 0;
-            string ruleString = EditorGUI.TextField(position, label, stringBuilder.ToString());
+            {
+                birthRuleString = EditorGUI.TextField(ruleRect, "B", birthRuleString);
+
+                ruleRect.x += ruleWidth + labelSpacing;
+
+                survivalRuleString = EditorGUI.TextField(ruleRect, "S", survivalRuleString);
+            }
             EditorGUIUtility.labelWidth = oldLabelWidth;
             EditorGUI.indentLevel = oldIndentLevel;
 
-            var ruleList = Ruleset.ConvertRuleStringToList(ruleString);
-            rule.ClearArray();
-            for (int i = 0; i < ruleList.Count; i++)
+            ruleProperty.intValue = Ruleset.ConvertRuleString(birthRuleString, survivalRuleString);
+
+            return ruleRect;
+        }
+
+        private void DrawDropdown(SerializedProperty ruleProperty, Rect position)
+        {
+            int oldIndentLevel = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
             {
-                rule.InsertArrayElementAtIndex(i);
-                var element = rule.GetArrayElementAtIndex(i);
-                element.intValue = ruleList[i];
+                Rect dropdownRect = new Rect(position.xMax + dropdownSpacing, position.y, dropdownWidth, position.height);
+                int selected = EditorGUI.Popup(dropdownRect, -1, options, dropdownStyle);
+                if (selected >= 0)
+                {
+                    ruleProperty.intValue = rulesets[selected].rule;
+                }
             }
+            EditorGUI.indentLevel = oldIndentLevel;
         }
     }
 }
