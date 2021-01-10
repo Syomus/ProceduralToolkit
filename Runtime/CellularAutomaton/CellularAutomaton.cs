@@ -30,16 +30,17 @@ namespace ProceduralToolkit.CellularAutomata
         }
 
         public NativeArray2D<bool> cells;
+        public NativeArray2D<bool> copy;
+        public Config config;
+        public int simulationSteps;
 
-        private Config config;
-        private NativeArray2D<bool> copy;
-
-        public CellularAutomaton(Config config)
+        public CellularAutomaton(Config config, int simulationSteps = 1)
         {
             Assert.IsTrue(config.width > 0);
             Assert.IsTrue(config.height > 0);
 
             this.config = config;
+            this.simulationSteps = simulationSteps;
             cells = new NativeArray2D<bool>(config.width, config.height, Allocator.Persistent);
             copy = new NativeArray2D<bool>(config.width, config.height, Allocator.Persistent);
 
@@ -58,43 +59,24 @@ namespace ProceduralToolkit.CellularAutomata
             }
         }
 
-        public void Simulate(int generations)
+        public void Execute()
         {
-            for (int i = 0; i < generations; i++)
+            for (int i = 0; i < simulationSteps; i++)
             {
-                Simulate();
-            }
-        }
-
-        public void Simulate()
-        {
-            PTUtils.Swap(ref cells, ref copy);
-            for (int x = 0; x < config.width; x++)
-            {
-                for (int y = 0; y < config.height; y++)
+                PTUtils.Swap(ref cells, ref copy);
+                for (int x = 0; x < config.width; x++)
                 {
-                    int aliveCells = CountAliveNeighbourCells(x, y);
+                    for (int y = 0; y < config.height; y++)
+                    {
+                        int aliveCells = CountAliveNeighbourCells(x, y);
 
-                    if (!copy[x, y])
-                    {
-                        if (config.ruleset.CanSpawn(aliveCells))
+                        if (copy[x, y])
                         {
-                            cells[x, y] = true;
+                            cells[x, y] = config.ruleset.CanSurvive(aliveCells);
                         }
                         else
                         {
-                            cells[x, y] = false;
-                        }
-                    }
-                    else
-                    {
-                        if (!config.ruleset.CanSurvive(aliveCells))
-                        {
-                            cells[x, y] = false;
-                        }
-                        else
-                        {
-                            cells[x, y] = true;
+                            cells[x, y] = config.ruleset.CanSpawn(aliveCells);
                         }
                     }
                 }

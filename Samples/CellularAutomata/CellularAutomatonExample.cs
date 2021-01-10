@@ -23,8 +23,10 @@ namespace ProceduralToolkit.Samples
         private CellularAutomaton automaton;
         private Color deadColor;
         private Color aliveColor;
-        private TextControl header;
 
+        #region Controls
+
+        private TextControl header;
         private Dictionary<RulesetName, Ruleset> nameToRuleset = new Dictionary<RulesetName, Ruleset>
         {
             {RulesetName.Life, Ruleset.life},
@@ -36,11 +38,15 @@ namespace ProceduralToolkit.Samples
             {RulesetName.Majority, Ruleset.majority},
         };
 
+        #endregion Controls
+
         private void Awake()
         {
             pixels = new Color[config.width*config.height];
             texture = PTUtils.CreateTexture(config.width, config.height, Color.clear);
             image.texture = texture;
+
+            #region Controls
 
             header = InstantiateControl<TextControl>(leftPanel);
             header.transform.SetAsFirstSibling();
@@ -70,13 +76,15 @@ namespace ProceduralToolkit.Samples
 
             InstantiateControl<ButtonControl>(leftPanel).Initialize("Generate", Generate);
 
+            #endregion Controls
+
             Generate();
             SetupSkyboxAndPalette();
         }
 
         private void Update()
         {
-            automaton.Simulate();
+            automaton.Execute();
 
             for (int x = 0; x < config.width; x++)
             {
@@ -107,6 +115,8 @@ namespace ProceduralToolkit.Samples
             deadColor = GetMainColorHSV().WithSV(0.3f, 0.2f).ToColor();
             aliveColor = GetMainColor();
         }
+
+        #region Controls
 
         private void SelectRuleset(RulesetName rulesetName)
         {
@@ -141,5 +151,7 @@ namespace ProceduralToolkit.Samples
             Anneal,
             Majority,
         }
+
+        #endregion Controls
     }
 }
