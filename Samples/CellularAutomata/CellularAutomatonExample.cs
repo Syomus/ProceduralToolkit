@@ -87,17 +87,16 @@ namespace ProceduralToolkit.Samples
 
         private void Update()
         {
-            var automaton = new CellularAutomatonJob(cells, config);
-            //var handle = automaton.Schedule();
-            //handle.Complete();
-            automaton.Execute();
-            cells = automaton.cells;
+            var job = new CellularAutomatonJob(cells, config);
+            var handle = job.Schedule();
+            handle.Complete();
+            cells = job.cells;
 
             for (int x = 0; x < config.width; x++)
             {
                 for (int y = 0; y < config.height; y++)
                 {
-                    pixels.SetXY(x, y, config.width, cells.cells[x, y] ? aliveColor : deadColor);
+                    pixels.SetXY(x, y, config.width, cells[x, y] ? aliveColor : deadColor);
                 }
             }
             texture.SetPixels(pixels);

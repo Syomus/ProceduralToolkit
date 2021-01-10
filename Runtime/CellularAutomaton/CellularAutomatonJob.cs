@@ -37,20 +37,20 @@ namespace ProceduralToolkit.CellularAutomaton
         {
             for (int i = 0; i < simulationSteps; i++)
             {
-                PTUtils.Swap(ref cells.cells, ref cells.copy);
+                cells.Swap();
                 for (int x = 0; x < config.width; x++)
                 {
                     for (int y = 0; y < config.height; y++)
                     {
                         int aliveCells = CountAliveNeighbourCells(x, y);
 
-                        if (cells.copy[x, y])
+                        if (cells.GetPrevious(x, y))
                         {
-                            cells.cells[x, y] = config.ruleset.CanSurvive(aliveCells);
+                            cells[x, y] = config.ruleset.CanSurvive(aliveCells);
                         }
                         else
                         {
-                            cells.cells[x, y] = config.ruleset.CanSpawn(aliveCells);
+                            cells[x, y] = config.ruleset.CanSpawn(aliveCells);
                         }
                     }
                 }
@@ -61,13 +61,13 @@ namespace ProceduralToolkit.CellularAutomaton
         {
             if (config.aliveBorders)
             {
-                var visitor = new Visitor8Unbounded<CounterUnbounded>(new CounterUnbounded {array = cells.copy});
+                var visitor = new Visitor8Unbounded<CounterUnbounded>(new CounterUnbounded {array = cells.GetPrevious()});
                 visitor.Visit8Unbounded(x, y);
                 return visitor.action.count;
             }
             else
             {
-                var visitor = new Visitor8<Counter>(cells.copy.LengthX, cells.copy.LengthY, new Counter {array = cells.copy});
+                var visitor = new Visitor8<Counter>(config.width, config.height, new Counter {array = cells.GetPrevious()});
                 visitor.Visit8(x, y);
                 return visitor.action.count;
             }
