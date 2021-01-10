@@ -18,17 +18,6 @@ namespace ProceduralToolkit.Samples
         [Space]
         public CellularAutomaton.Config config = CellularAutomaton.Config.life;
 
-        private enum RulesetName
-        {
-            Life,
-            Mazectric,
-            Coral,
-            WalledCities,
-            Coagulations,
-            Anneal,
-            Majority,
-        }
-
         private Color[] pixels;
         private Texture2D texture;
         private CellularAutomaton automaton;
@@ -88,7 +77,18 @@ namespace ProceduralToolkit.Samples
         private void Update()
         {
             automaton.Simulate();
-            DrawCells();
+
+            for (int x = 0; x < config.width; x++)
+            {
+                for (int y = 0; y < config.height; y++)
+                {
+                    pixels.SetXY(x, y, config.width, automaton.cells[x, y] ? aliveColor : deadColor);
+                }
+            }
+
+            texture.SetPixels(pixels);
+            texture.Apply();
+
             UpdateSkybox();
         }
 
@@ -97,19 +97,9 @@ namespace ProceduralToolkit.Samples
             automaton.Dispose();
         }
 
-        private void SelectRuleset(RulesetName rulesetName)
-        {
-            config.ruleset = nameToRuleset[rulesetName];
-
-            header.Initialize("Rulestring: " + config.ruleset);
-        }
-
         private void Generate()
         {
-            if (automaton != null)
-            {
-                automaton.Dispose();
-            }
+            automaton.Dispose();
             automaton = new CellularAutomaton(config);
 
             GeneratePalette();
@@ -118,25 +108,10 @@ namespace ProceduralToolkit.Samples
             aliveColor = GetMainColor();
         }
 
-        private void DrawCells()
+        private void SelectRuleset(RulesetName rulesetName)
         {
-            for (int x = 0; x < config.width; x++)
-            {
-                for (int y = 0; y < config.height; y++)
-                {
-                    if (automaton.cells[x, y])
-                    {
-                        pixels.SetXY(x, y, config.width, aliveColor);
-                    }
-                    else
-                    {
-                        pixels.SetXY(x, y, config.width, deadColor);
-                    }
-                }
-            }
-
-            texture.SetPixels(pixels);
-            texture.Apply();
+            config.ruleset = nameToRuleset[rulesetName];
+            header.Initialize("Rulestring: " + config.ruleset);
         }
 
         private void InstantiateToggle(RulesetName rulesetName, RulesetName selectedRulesetName)
@@ -154,6 +129,17 @@ namespace ProceduralToolkit.Samples
                     }
                 },
                 toggleGroup: toggleGroup);
+        }
+
+        private enum RulesetName
+        {
+            Life,
+            Mazectric,
+            Coral,
+            WalledCities,
+            Coagulations,
+            Anneal,
+            Majority,
         }
     }
 }

@@ -89,6 +89,8 @@ namespace ProceduralToolkit
             return x >= 0 && x < LengthX && y >= 0 && y < LengthY;
         }
 
+        public bool IsCreated => array.IsCreated;
+
         public void Dispose() => array.Dispose();
         public void Dispose(JobHandle inputDeps) => array.Dispose(inputDeps);
         public IEnumerator<T> GetEnumerator() => array.GetEnumerator();

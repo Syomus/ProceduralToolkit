@@ -8,7 +8,7 @@ namespace ProceduralToolkit.CellularAutomata
     /// <summary>
     /// Generic cellular automaton for two-state rulesets
     /// </summary>
-    public class CellularAutomaton : IDisposable
+    public struct CellularAutomaton : IDisposable
     {
         [Serializable]
         public struct Config
@@ -33,7 +33,6 @@ namespace ProceduralToolkit.CellularAutomata
 
         private Config config;
         private NativeArray2D<bool> copy;
-        private int aliveNeighbours;
 
         public CellularAutomaton(Config config)
         {
@@ -43,15 +42,20 @@ namespace ProceduralToolkit.CellularAutomata
             this.config = config;
             cells = new NativeArray2D<bool>(config.width, config.height, Allocator.Persistent);
             copy = new NativeArray2D<bool>(config.width, config.height, Allocator.Persistent);
-            aliveNeighbours = 0;
 
             FillWithNoise();
         }
 
         public void Dispose()
         {
-            cells.Dispose();
-            copy.Dispose();
+            if (cells.IsCreated)
+            {
+                cells.Dispose();
+            }
+            if (copy.IsCreated)
+            {
+                copy.Dispose();
+            }
         }
 
         public void Simulate(int generations)
@@ -113,42 +117,58 @@ namespace ProceduralToolkit.CellularAutomata
             }
         }
 
-        private void VisitAliveBorders(int neighbourX, int neighbourY)
-        {
-            if (neighbourX >= 0 && neighbourX < config.width &&
-                neighbourY >= 0 && neighbourY < config.height)
-            {
-                if (copy[neighbourX, neighbourY])
-                {
-                    aliveNeighbours++;
-                }
-            }
-            else
-            {
-                aliveNeighbours++;
-            }
-        }
-
-        private void VisitDeadBorders(int neighbourX, int neighbourY)
-        {
-            if (copy[neighbourX, neighbourY])
-            {
-                aliveNeighbours++;
-            }
-        }
-
         private int CountAliveNeighbourCells(int x, int y)
         {
-            aliveNeighbours = 0;
             if (config.aliveBorders)
             {
-                copy.Visit8Unbounded(x, y, VisitAliveBorders);
+                var visitor = new Visitor8Unbounded<CounterUnbounded>(new CounterUnbounded {array = copy});
+                visitor.Visit8Unbounded(x, y);
+                return visitor.action.count;
             }
             else
             {
-                copy.Visit8(x, y, VisitDeadBorders);
+                var visitor = new Visitor8<Counter>(copy.LengthX, copy.LengthY, new Counter {array = copy});
+                visitor.Visit8(x, y);
+                return visitor.action.count;
             }
-            return aliveNeighbours;
+        }
+
+        private struct Counter : IVisitAction
+        {
+            [ReadOnly]
+            public NativeArray2D<bool> array;
+            public int count;
+
+            public void Visit(int x, int y)
+            {
+                if (array[x, y])
+                {
+                    count++;
+                }
+            }
+        }
+
+        private struct CounterUnbounded : IVisitAction
+        {
+            [ReadOnly]
+            public NativeArray2D<bool> array;
+            public int count;
+
+            public void Visit(int x, int y)
+            {
+                if (x >= 0 && x < array.LengthX &&
+                    y >= 0 && y < array.LengthY)
+                {
+                    if (array[x, y])
+                    {
+                        count++;
+                    }
+                }
+                else
+                {
+                    count++;
+                }
+            }
         }
     }
 }
