@@ -620,13 +620,10 @@ namespace ProceduralToolkit
                 throw new ArgumentException("Array sizes must be greater than 2");
             }
 
-            Vector2 uv00 = new Vector2(0, 0);
-            Vector2 uv10 = new Vector2(1, 0);
-            Vector2 uv01 = new Vector2(0, 1);
-            Vector2 uv11 = new Vector2(1, 1);
-
             Vector3 lower0, upper0, lower1, upper1;
-            for (int i = 0; i < lowerRing.Count - 1; i++)
+            int ringCount = lowerRing.Count;
+            float uvXStep = 1f / ringCount;
+            for (int i = 0; i < ringCount - 1; i++)
             {
                 lower0 = lowerRing[i];
                 lower1 = lowerRing[i + 1];
@@ -634,6 +631,12 @@ namespace ProceduralToolkit
                 upper1 = upperRing[i + 1];
                 if (generateUV)
                 {
+                    var uvX0 = i * uvXStep;
+                    var uxX1 = (i + 1) * uvXStep;
+                    Vector2 uv00 = new Vector2(uvX0, 0);
+                    Vector2 uv10 = new Vector2(uxX1, 0);
+                    Vector2 uv01 = new Vector2(uvX0, 1);
+                    Vector2 uv11 = new Vector2(uxX1, 1);
                     AddQuad(lower1, upper1, upper0, lower0, true, uv00, uv01, uv11, uv10);
                 }
                 else
@@ -642,12 +645,18 @@ namespace ProceduralToolkit
                 }
             }
 
-            lower0 = lowerRing[lowerRing.Count - 1];
+            lower0 = lowerRing[ringCount - 1];
             lower1 = lowerRing[0];
-            upper0 = upperRing[upperRing.Count - 1];
+            upper0 = upperRing[ringCount - 1];
             upper1 = upperRing[0];
             if (generateUV)
             {
+                var uvX0 = (ringCount - 1) * uvXStep;
+                var uxX1 = 1;
+                Vector2 uv00 = new Vector2(uvX0, 0);
+                Vector2 uv10 = new Vector2(uxX1, 0);
+                Vector2 uv01 = new Vector2(uvX0, 1);
+                Vector2 uv11 = new Vector2(uxX1, 1);
                 AddQuad(lower1, upper1, upper0, lower0, true, uv00, uv01, uv11, uv10);
             }
             else
@@ -914,3 +923,4 @@ namespace ProceduralToolkit
         }
     }
 }
+
