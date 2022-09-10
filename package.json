@@ -3,7 +3,7 @@
   "version": "0.2.4-preview",
   "displayName": "Procedural Toolkit",
   "description": "Procedural generation library for Unity",
-  "unity": "2019.3",
+  "unity": "2022.1",
   "author": {
     "name": "Syomus",
     "email": "proceduraltoolkit@syomus.com",
@@ -18,6 +18,6 @@
   ],
   "dependencies": {
     "com.unity.ugui": "1.0.0",
-    "com.unity.mathematics": "1.1.0"
+    "com.unity.mathematics": "1.2.6"
   }
 }
