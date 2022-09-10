@@ -17,10 +17,10 @@ Shader "Procedural Toolkit/Examples/Easing"
             #pragma vertex vert
             #pragma fragment frag
 
-            //#include "Assets/ProceduralToolkit/Shaders/SDF.cginc"
-            //#include "Assets/ProceduralToolkit/Shaders/Easing.cginc"
-            #include "Packages/com.syomus.proceduraltoolkit/Shaders/SDF.cginc"
-            #include "Packages/com.syomus.proceduraltoolkit/Shaders/Easing.cginc"
+            #include "Assets/ProceduralToolkit/Shaders/SDF.cginc"
+            #include "Assets/ProceduralToolkit/Shaders/Easing.cginc"
+            //#include "Packages/com.syomus.proceduraltoolkit/Shaders/SDF.cginc"
+            //#include "Packages/com.syomus.proceduraltoolkit/Shaders/Easing.cginc"
 
             struct appdata
             {

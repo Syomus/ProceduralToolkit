@@ -16,8 +16,8 @@ Shader "Procedural Toolkit/Examples/DistanceOperations"
             #pragma fragment frag
             #pragma multi_compile __ _DEBUG_ON
 
-            //#include "Assets/ProceduralToolkit/Shaders/SDF.cginc"
-            #include "Packages/com.syomus.proceduraltoolkit/Shaders/SDF.cginc"
+            #include "Assets/ProceduralToolkit/Shaders/SDF.cginc"
+            //#include "Packages/com.syomus.proceduraltoolkit/Shaders/SDF.cginc"
 
             struct appdata
             {

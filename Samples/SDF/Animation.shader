@@ -19,14 +19,14 @@ Shader "Procedural Toolkit/Examples/Animation"
             #pragma vertex vert
             #pragma fragment frag
 
-            //#include "Assets/ProceduralToolkit/Shaders/Common.cginc"
-            //#include "Assets/ProceduralToolkit/Shaders/SDF.cginc"
-            //#include "Assets/ProceduralToolkit/Shaders/Easing.cginc"
-            //#include "Assets/ProceduralToolkit/Shaders/Transitions.cginc"
-            #include "Packages/com.syomus.proceduraltoolkit/Shaders/Common.cginc"
-            #include "Packages/com.syomus.proceduraltoolkit/Shaders/SDF.cginc"
-            #include "Packages/com.syomus.proceduraltoolkit/Shaders/Easing.cginc"
-            #include "Packages/com.syomus.proceduraltoolkit/Shaders/Transitions.cginc"
+            #include "Assets/ProceduralToolkit/Shaders/Common.cginc"
+            #include "Assets/ProceduralToolkit/Shaders/SDF.cginc"
+            #include "Assets/ProceduralToolkit/Shaders/Easing.cginc"
+            #include "Assets/ProceduralToolkit/Shaders/Transitions.cginc"
+            //#include "Packages/com.syomus.proceduraltoolkit/Shaders/Common.cginc"
+            //#include "Packages/com.syomus.proceduraltoolkit/Shaders/SDF.cginc"
+            //#include "Packages/com.syomus.proceduraltoolkit/Shaders/Easing.cginc"
+            //#include "Packages/com.syomus.proceduraltoolkit/Shaders/Transitions.cginc"
 
             struct appdata
             {
