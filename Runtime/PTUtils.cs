@@ -62,18 +62,17 @@ namespace ProceduralToolkit
         /// Knapsack problem solver for items with equal value
         /// </summary>
         /// <typeparam name="T">Item identificator</typeparam>
-        /// <param name="set">
-        /// Set of items where key <typeparamref name="T"/> is item identificator and value is item weight</param>
+        /// <param name="set">Set of items where key <typeparamref name="T"/> is item identificator and value is item weight</param>
         /// <param name="capacity">Maximum weight</param>
         /// <param name="knapsack">Pre-filled knapsack</param>
+        /// <param name="overloadKnapsack">Set to true if you want to fill the remaining free space with the smallest item</param>
         /// <returns>
         /// Filled knapsack where values are number of items of type key.
-        /// Tends to overload knapsack: fills remainder with one smallest item.</returns>
         /// <remarks>
         /// https://en.wikipedia.org/wiki/Knapsack_problem
         /// </remarks>
         public static Dictionary<T, int> Knapsack<T>(Dictionary<T, float> set, float capacity,
-            Dictionary<T, int> knapsack = null)
+            Dictionary<T, int> knapsack = null, bool overloadKnapsack = false)
         {
             var keys = new List<T>(set.Keys);
             // Sort keys by their weights in descending order
@@ -87,16 +86,19 @@ namespace ProceduralToolkit
                     knapsack[key] = 0;
                 }
             }
-            return Knapsack(set, keys, capacity, knapsack, 0);
+            return Knapsack(set, keys, capacity, knapsack, 0, overloadKnapsack);
         }
 
         private static Dictionary<T, int> Knapsack<T>(Dictionary<T, float> set, List<T> keys, float remainder,
-            Dictionary<T, int> knapsack, int startIndex)
+            Dictionary<T, int> knapsack, int startIndex, bool overloadKnapsack)
         {
             T smallestKey = keys[keys.Count - 1];
             if (remainder < set[smallestKey])
             {
-                knapsack[smallestKey] = 1;
+                if (overloadKnapsack)
+                {
+                    knapsack[smallestKey] = 1;
+                }
                 return knapsack;
             }
             // Cycle through items and try to put them in knapsack
@@ -110,26 +112,50 @@ namespace ProceduralToolkit
             }
             if (remainder > 0)
             {
+                if (overloadKnapsack)
+                {
+                    knapsack[smallestKey] += 1;
+                    remainder -= set[smallestKey];
+                }
+
+                // Fix for https://github.com/Syomus/ProceduralToolkit/issues/72
+                var repackedCopy = new Dictionary<T, int>(knapsack);
+
                 // Throw out largest item and try again
                 for (var i = 0; i < keys.Count; i++)
                 {
                     T key = keys[i];
-                    if (knapsack[key] != 0)
+                    if (repackedCopy[key] != 0)
                     {
                         // Already tried every combination, return as is
                         if (key.Equals(smallestKey))
                         {
-                            return knapsack;
+                            return repackedCopy;
                         }
-                        knapsack[key]--;
+                        repackedCopy[key]--;
                         remainder += set[key];
                         startIndex = i + 1;
                         break;
                     }
                 }
-                knapsack = Knapsack(set, keys, remainder, knapsack, startIndex);
+
+                repackedCopy = Knapsack(set, keys, remainder, repackedCopy, startIndex, overloadKnapsack);
+                if (TotalWeight(set, repackedCopy) > TotalWeight(set, knapsack))
+                {
+                    knapsack = repackedCopy;
+                }
             }
             return knapsack;
+        }
+
+        private static float TotalWeight<T>(Dictionary<T, float> set, Dictionary<T, int> knapsack)
+        {
+            float weight = 0;
+            foreach(var item in knapsack)
+            {
+                weight += set[item.Key] * item.Value;
+            }
+            return weight;
         }
 
         public static string ToString(this Vector3 vector, string format, IFormatProvider formatProvider)
