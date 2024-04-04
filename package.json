@@ -3,7 +3,7 @@
   "version": "0.2.4-preview",
   "displayName": "Procedural Toolkit",
   "description": "Procedural generation library for Unity",
-  "unity": "2022.1",
+  "unity": "2022.3",
   "author": {
     "name": "Syomus",
     "email": "proceduraltoolkit@syomus.com",

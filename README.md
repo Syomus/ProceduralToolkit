@@ -12,7 +12,7 @@ Procedural Toolkit is a procedural generation library for the Unity game engine.
 [Support email](mailto:proceduraltoolkit@syomus.com)
 
 ## Installation instructions
-Requires **Unity 2022.1** or later. Tested on Windows, WebGL, Android and iOS.
+Requires **Unity 2022.3 LTS** or later. Tested on Windows, WebGL, Android and iOS.
 
 There are several ways to install Procedural Toolkit:
 
