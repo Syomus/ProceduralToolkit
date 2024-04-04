@@ -20,8 +20,8 @@ Shader "Procedural Toolkit/Examples/Star Polygon"
             #pragma multi_compile __ _CHEAP_ON
             #pragma multi_compile __ _DEBUG_ON
 
-            //#include "Assets/ProceduralToolkit/Shaders/SDF.cginc"
-            #include "Packages/com.syomus.proceduraltoolkit/Shaders/SDF.cginc"
+            #include "Assets/ProceduralToolkit/Shaders/SDF.cginc"
+            //#include "Packages/com.syomus.proceduraltoolkit/Shaders/SDF.cginc"
 
             struct appdata
             {
