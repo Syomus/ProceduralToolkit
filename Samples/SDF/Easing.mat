@@ -105,3 +105,4 @@ Material:
     - _PlusColor: {r: 1, g: 0.753, b: 0.753, a: 1}
     - _Vector: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

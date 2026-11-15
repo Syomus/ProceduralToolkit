@@ -1,11 +1,11 @@
 {
     "name": "ProceduralToolkit.Samples",
+    "rootNamespace": "",
     "references": [
         "GUID:561cd3090aa423b4584912885a62ef6f",
         "GUID:7e6803b5127cb5a45a5400e9fcdfa294",
         "GUID:1a45dfb1ec3294540ab1e99aa964d155",
-        "GUID:13ff5b25c53f2e54e8c2110962313afe",
-        "GUID:d8b63aba1907145bea998dd612889d6b"
+        "GUID:13ff5b25c53f2e54e8c2110962313afe"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -14,5 +14,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

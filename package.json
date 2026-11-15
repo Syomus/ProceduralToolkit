@@ -3,11 +3,11 @@
   "version": "0.2.4-preview",
   "displayName": "Procedural Toolkit",
   "description": "Procedural generation library for Unity",
-  "unity": "2022.3",
+  "unity": "6000.6",
   "author": {
     "name": "Syomus",
-    "email": "proceduraltoolkit@syomus.com",
-    "url": "https://github.com/Syomus/ProceduralToolkit"
+    "url": "https://github.com/Syomus/ProceduralToolkit",
+    "email": "proceduraltoolkit@syomus.com"
   },
   "samples": [
     {
@@ -17,7 +17,9 @@
     }
   ],
   "dependencies": {
-    "com.unity.ugui": "1.0.0",
-    "com.unity.mathematics": "1.2.6"
-  }
+    "com.unity.ugui": "1.0.0"
+  },
+  "documentationUrl": "https://github.com/Syomus/ProceduralToolkit/blob/master/README.md",
+  "licensesUrl": "https://github.com/Syomus/ProceduralToolkit/blob/master/LICENSE.md",
+  "changelogUrl": "https://github.com/Syomus/ProceduralToolkit/blob/master/CHANGELOG.md"
 }
