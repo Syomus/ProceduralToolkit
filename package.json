@@ -4,6 +4,7 @@
   "displayName": "Procedural Toolkit",
   "description": "Procedural generation library for Unity",
   "unity": "6000.6",
+  "unityRelease": "0f1",
   "author": {
     "name": "Syomus",
     "url": "https://github.com/Syomus/ProceduralToolkit",
@@ -17,7 +18,9 @@
     }
   ],
   "dependencies": {
-    "com.unity.ugui": "1.0.0"
+    "com.unity.ugui": "1.0.0",
+    "com.unity.test-framework": "1.8.0",
+    "com.unity.ext.nunit": "2.1.0"
   },
   "documentationUrl": "https://github.com/Syomus/ProceduralToolkit/blob/master/README.md",
   "licensesUrl": "https://github.com/Syomus/ProceduralToolkit/blob/master/LICENSE.md",
