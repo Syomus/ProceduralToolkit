@@ -2,6 +2,9 @@ using System;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// A struct for visiting with an associated Action
+    /// </summary>
     public struct VisitAction : IVisitAction
     {
         public Action<int, int> action;

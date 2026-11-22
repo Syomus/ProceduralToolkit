@@ -6,7 +6,7 @@ using UnityEngine;
 namespace ProceduralToolkit
 {
     /// <summary>
-    /// Visits all connected elements with the same value as the start element
+    /// Visits all connected cells with the same value as the start cell
     /// </summary>
     /// <remarks>
     /// https://en.wikipedia.org/wiki/Flood_fill

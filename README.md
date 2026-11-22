@@ -71,7 +71,7 @@ If you just want to show your appreciation, you can send a donation through [Pay
 ## Toolkit structure
 ### Runtime/
 * [ArrayE](/Runtime/ArrayE.cs): Various Array and List extensions, such as looped getters/setters and flood fills.
-* [CellularAutomaton](/Runtime/CellularAutomaton.cs): Generic cellular automaton for two-state rulesets. 
+* [CellularAutomaton](/Runtime/CellularAutomaton) folder: Generic cellular automaton for two-state rulesets. 
 Common rulesets can be found in CellularAutomaton.Ruleset.
 * [ClipperUtility](/Runtime/ClipperUtility.cs): Utility class for conversion of Clipper data from and to Unity format.
 * [ColorE](/Runtime/ColorE.cs): Color extensions, HTML colors, Gradient constructors.
@@ -86,6 +86,7 @@ Common rulesets can be found in CellularAutomaton.Ruleset.
 * [MeshDraft](/Runtime/MeshDraft.cs): Helper class for mesh generation.
 * [MeshDraftPrimitives](/Runtime/MeshDraftPrimitives.cs): Constructors for MeshDraft primitives.
 * [MeshE](/Runtime/MeshE.cs): Mesh extensions.
+* [NativeArray2D](/Runtime/NativeArray2D.cs): A wrapper around NativeArray with a two-dimensional API.
 * [PathClipper](/Runtime/PathClipper.cs) and [PathOffsetter](/Runtime/PathOffsetter.cs): [Clipper](http://www.angusj.com/delphi/clipper.php) library wrappers.
 * [PTUtils](/Runtime/PTUtils.cs): Various useful methods and constants.
 * [RandomE](/Runtime/RandomE.cs): Class for generating random data. Contains extensions for arrays and other collections.
@@ -123,8 +124,9 @@ Collection of closest point(s) algorithms.
 Collection of distance calculation algorithms.
 * [Intersect2D](/Runtime/Geometry/Intersect2D.cs), [Intersect3D](/Runtime/Geometry/Intersect3D.cs): 
 Collection of intersection algorithms.
-* [IntersectionType](/Runtime/Geometry/IntersectionType.cs): Enum used in intersection algorithms.
+* [IntersectionType](/Runtime/Geometry/IntersectionType.cs): Intersection types returned by intersection algorithms.
 * [Intersections](/Runtime/Geometry/Intersections) folder: Structures containing information about intersections.
+* [Orientation](/Runtime/Geometry/Orientation.cs): Polygon winding order, can be calculated by Geometry.GetOrientation.
 
 ### Runtime/Geometry/StraightSkeleton/
 Classes used in [straight skeleton](https://en.wikipedia.org/wiki/Straight_skeleton) generation.
@@ -134,6 +136,24 @@ The generation algorithm is loosely based on the work of Tom Kelly (2014)
 [Unwritten procedural modeling with the straight skeleton](http://www.twak.co.uk/2014/02/unwritten-procedural-modeling-with.html).
 * [StraightSkeleton](/Runtime/Geometry/StraightSkeleton/StraightSkeleton.cs): A straight skeleton representation.
 * [Plan](/Runtime/Geometry/StraightSkeleton/Plan.cs): Representation of the active plan during generation process.
+
+### Runtime/MarchingSquares/
+Job-based [marching squares](https://en.wikipedia.org/wiki/Marching_squares) implementation.
+* [MarchingSquaresJob](/Runtime/MarchingSquares/MarchingSquaresJob.cs): Computes Contours from the input data.
+* [IMarchingSquaresData](/Runtime/MarchingSquares/IMarchingSquaresData.cs): An interface for working with grids.
+* [BoolData](/Runtime/MarchingSquares/BoolData.cs): A structure representing a bool grid.
+* [ColorData](/Runtime/MarchingSquares/ColorData.cs): A structure representing a color grid.
+* [Contours](/Runtime/MarchingSquares/Contours.cs): Contours produced by marching squares.
+* [MarchingSquaresTriangulator](/Runtime/MarchingSquares/MarchingSquaresTriangulator.cs): Converts Contours into a MeshDraft.
+
+### Runtime/Visitors/
+Structs for visiting neighbouring cells in a grid.
+* [IVisitAction](/Runtime/Visitors/IVisitAction.cs): A visiting interface. 
+* [VisitAction](/Runtime/Visitors/VisitAction.cs): A struct for visiting with an associated Action.
+* [Visitor4](/Runtime/Visitors/Visitor4.cs), [Visitor8](/Runtime/Visitors/Visitor8.cs), [Visitor4Unbounded](/Runtime/Visitors/Visitor4Unbounded.cs), [Visitor8Unbounded](/Runtime/Visitors/Visitor8Unbounded.cs): 
+Visit the [Von Neumann](https://en.wikipedia.org/wiki/Von_Neumann_neighborhood) or [Moore](https://en.wikipedia.org/wiki/Moore_neighborhood) neighbourhood of a cell within the grid bounds.
+* [FloodVisitor4](/Runtime/Visitors/FloodVisitor4.cs), [FloodVisitor8](/Runtime/Visitors/FloodVisitor8.cs): 
+[Flood fill](https://en.wikipedia.org/wiki/Flood_fill) visitors, visit all connected cells with the same value as the start cell.
 
 ### Runtime/ClipperLib/
 The [Clipper](http://www.angusj.com/delphi/clipper.php) library. 
@@ -164,10 +184,10 @@ Or like this:
 * [VertexColor](/Shaders/VertexColor) folder: Textureless shaders for use with color information from the vertices.
 
 ### Editor/
-* [ColorHSVDrawer](/Runtime/Editor/ColorHSVDrawer.cs): PropertyDrawer for ColorHSV.
-* [MeshFilterExtension](/Runtime/Editor/MeshFilterExtension.cs): Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
-* [ProceduralToolkitMenu](/Runtime/Editor/ProceduralToolkitMenu.cs): Submenu with constructors for primitives at `GameObject > Procedural Toolkit`.
-* [RulesetDrawer](/Runtime/Editor/RulesetDrawer.cs): PropertyDrawer for CellularAutomaton.Ruleset.
+* [ColorHSVDrawer](/Editor/ColorHSVDrawer.cs): PropertyDrawer for ColorHSV.
+* [MeshFilterExtension](/Editor/MeshFilterExtension.cs): Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
+* [ProceduralToolkitMenu](/Editor/ProceduralToolkitMenu.cs): Submenu with constructors for primitives at `GameObject > Procedural Toolkit`.
+* [RulesetDrawer](/Editor/RulesetDrawer.cs): PropertyDrawer for CellularAutomaton.Ruleset.
 
 ### Tests/
 Tests for the library

@@ -2,6 +2,9 @@ using System;
 
 namespace ProceduralToolkit.MarchingSquares
 {
+    /// <summary>
+    /// An interface for working with grids
+    /// </summary>
     public interface IMarchingSquaresData : IDisposable
     {
         int dataLengthX { get; }

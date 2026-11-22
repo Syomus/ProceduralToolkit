@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit
 {
+    /// <summary>
+    /// A wrapper around NativeArray with a two-dimensional API
+    /// </summary>
     public struct NativeArray2D<T> : IDisposable, IEnumerable<T>, IEquatable<NativeArray2D<T>>
         where T : struct
     {

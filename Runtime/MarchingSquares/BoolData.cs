@@ -2,6 +2,9 @@ using Unity.Collections;
 
 namespace ProceduralToolkit.MarchingSquares
 {
+    /// <summary>
+    /// A structure representing a bool grid
+    /// </summary>
     public struct BoolData : IMarchingSquaresData
     {
         public int dataLengthX => data.LengthX;

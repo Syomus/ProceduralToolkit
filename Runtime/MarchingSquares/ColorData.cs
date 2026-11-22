@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProceduralToolkit.MarchingSquares
 {
+    /// <summary>
+    /// A structure representing a color grid
+    /// </summary>
     public struct ColorData : IMarchingSquaresData
     {
         public int dataLengthX => data.LengthX;

@@ -3,32 +3,35 @@ using Unity.Collections;
 
 namespace ProceduralToolkit.MarchingSquares
 {
+    /// <summary>
+    /// Contours produced by marching squares
+    /// </summary>
     public struct Contours : IDisposable
     {
         /// <summary>
         /// 2━3
         /// ┃ ┃
         /// 1━4
-        /// 
+        ///
         /// ▖ 0001 - 1
         /// ▘ 0010 - 2
         /// ▝ 0100 - 4
         /// ▗ 1000 - 8
-        /// 
+        ///
         /// ▌ 0011 - 3
         /// ▀ 0110 - 6
         /// ▐ 1100 - 12
         /// ▄ 1001 - 9
-        /// 
+        ///
         /// ▞ 0101 - 5  | 10101 - 21 filled center
         /// ▚ 1010 - 10 | 11010 - 26 filled center
-        /// 
+        ///
         /// ▛ 0111 - 7
         /// ▜ 1110 - 14
         /// ▟ 1101 - 13
         /// ▙ 1011 - 11
-        /// 
-        /// ⬛ 1111 - 15 
+        ///
+        /// ⬛ 1111 - 15
         /// </summary>
         private NativeArray2D<byte> squares;
         public int squaresLengthX => squares.LengthX;

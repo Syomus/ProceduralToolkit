@@ -3,6 +3,9 @@ using Unity.Jobs;
 
 namespace ProceduralToolkit.MarchingSquares
 {
+    /// <summary>
+    /// Computes Contours from the input data
+    /// </summary>
     public struct MarchingSquaresJob<T> : IJob
         where T : struct, IMarchingSquaresData
     {

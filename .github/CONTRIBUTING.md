@@ -27,7 +27,7 @@ If you see something you like, please comment on the issue to let the developmen
 
 ### Testing
 Tests are always appreciated. If you see a feature that doesn't have sufficient test coverage 
-(especially if it is [Geometry](/Scripts/Geometry)-related), we would be very grateful if you wrote some tests for it! 
+(especially if it is [Geometry](/Runtime/Geometry)-related), we would be very grateful if you wrote some tests for it! 
 Tests are written using the [Unity Test Runner](https://docs.unity3d.com/Manual/PlaymodeTestFramework.html).
 
 ### Optimization
