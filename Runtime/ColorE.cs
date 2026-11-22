@@ -8,7 +8,9 @@ namespace ProceduralToolkit
     /// </summary>
     public static class ColorE
     {
-        #region HTML colors from http://www.w3.org/TR/REC-html40/types.html#h-6.5
+        // HTML colors from http://www.w3.org/TR/REC-html40/types.html#h-6.5
+
+        #region Colors
 
         public static Color32 black32 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new(0, 0, 0, 255); }
         public static Color32 silver32 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new(192, 192, 192, 255); }

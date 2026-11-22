@@ -1,19 +1,18 @@
 using ProceduralToolkit.Buildings;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ProceduralToolkit.Samples.Buildings
 {
     public class BuildingGeneratorReuse : MonoBehaviour
     {
-        [SerializeField, FormerlySerializedAs("facadePlanningStrategy")]
-        private FacadePlanner facadePlanner = null;
-        [SerializeField, FormerlySerializedAs("facadeConstructionStrategy")]
-        private FacadeConstructor facadeConstructor = null;
-        [SerializeField, FormerlySerializedAs("roofPlanningStrategy")]
-        private RoofPlanner roofPlanner = null;
-        [SerializeField, FormerlySerializedAs("roofConstructionStrategy")]
-        private RoofConstructor roofConstructor = null;
+        [SerializeField]
+        private FacadePlanner facadePlanner;
+        [SerializeField]
+        private FacadeConstructor facadeConstructor;
+        [SerializeField]
+        private RoofPlanner roofPlanner;
+        [SerializeField]
+        private RoofConstructor roofConstructor;
         [SerializeField]
         private int xCount = 10;
         [SerializeField]
@@ -21,9 +20,9 @@ namespace ProceduralToolkit.Samples.Buildings
         [SerializeField]
         private float cellSize = 15;
         [SerializeField]
-        private PolygonAsset foundationPolygon = null;
+        private PolygonAsset foundationPolygon;
         [SerializeField]
-        private BuildingGenerator.Config config = new BuildingGenerator.Config();
+        private BuildingGenerator.Config config = new();
 
         private void Awake()
         {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Unity.Jobs;
 using MRandom = Unity.Mathematics.Random;
 
 namespace ProceduralToolkit.Samples

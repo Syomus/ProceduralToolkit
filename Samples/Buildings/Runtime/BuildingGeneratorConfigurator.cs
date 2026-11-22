@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using ProceduralToolkit.Buildings;
 using ProceduralToolkit.Samples.UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ProceduralToolkit.Samples.Buildings
 {
@@ -14,21 +13,17 @@ namespace ProceduralToolkit.Samples.Buildings
         public GameObject building;
         public MeshFilter platformMeshFilter;
         public RectTransform leftPanel;
-        public bool constantSeed = false;
-        [FormerlySerializedAs("facadePlanningStrategy")]
+        public bool constantSeed;
         public FacadePlanner facadePlanner;
-        [FormerlySerializedAs("facadeConstructionStrategy")]
         public FacadeConstructor facadeConstructor;
-        [FormerlySerializedAs("roofPlanningStrategy")]
         public RoofPlanner roofPlanner;
-        [FormerlySerializedAs("roofConstructionStrategy")]
         public RoofConstructor roofConstructor;
-        public List<PolygonAsset> foundationPolygons = new List<PolygonAsset>();
-        public BuildingGenerator.Config config = new BuildingGenerator.Config();
+        public List<PolygonAsset> foundationPolygons = new();
+        public BuildingGenerator.Config config = new();
 
         private const int minFloorCount = 1;
         private const int maxFloorCount = 15;
-        private static readonly RoofType[] roofTypes = new RoofType[]
+        private static readonly RoofType[] roofTypes =
         {
             RoofType.Flat,
             RoofType.Hipped,
@@ -40,7 +35,7 @@ namespace ProceduralToolkit.Samples.Buildings
 
         private BuildingGenerator generator;
         private Mesh platformMesh;
-        private int currentPolygon = 0;
+        private int currentPolygon;
         private int currentRoofType = 1;
 
         private void Awake()

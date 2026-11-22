@@ -1,5 +1,5 @@
-using UnityEngine;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace ProceduralToolkit.Tests.Geometry2D
 {
@@ -442,7 +442,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void True_IntersectPoint(Ray2D ray, Circle2 circle, Vector2 expected)
         {
             string message = string.Format(format, ray.ToString("F8"), circle);
-            Assert.True(Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out IntersectionRayCircle intersection), message);
+            bool result = Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out IntersectionRayCircle intersection);
+            Assert.True(result, message);
             Assert.AreEqual(IntersectionType.Point, intersection.type, message);
             AreEqual(intersection.pointA, expected, message);
         }
@@ -450,7 +451,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void True_IntersectTwoPoints(Ray2D ray, Circle2 circle, Vector2 expectedA, Vector2 expectedB)
         {
             string message = string.Format(format, ray.ToString("F8"), circle);
-            Assert.True(Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out IntersectionRayCircle intersection), message);
+            bool result = Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out IntersectionRayCircle intersection);
+            Assert.True(result, message);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, message);
             AreEqual(intersection.pointA, expectedA, message);
             AreEqual(intersection.pointB, expectedB, message);
@@ -459,7 +461,8 @@ namespace ProceduralToolkit.Tests.Geometry2D
         private void False_Intersect(Ray2D ray, Circle2 circle)
         {
             string message = string.Format(format, ray.ToString("F8"), circle);
-            Assert.False(Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out IntersectionRayCircle intersection), message);
+            bool result = Intersect.RayCircle(ray.origin, ray.direction, circle.center, circle.radius, out IntersectionRayCircle intersection);
+            Assert.False(result, message);
         }
 
         #endregion Intersect

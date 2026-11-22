@@ -41,19 +41,19 @@ namespace ProceduralToolkit.Samples
 
         private Config config;
 
-        private Transform bricksContainer;
-        private Sprite whiteSprite;
-        private PhysicsMaterial2D bouncyMaterial;
+        private readonly Transform bricksContainer;
+        private readonly Sprite whiteSprite;
+        private readonly PhysicsMaterial2D bouncyMaterial;
         private GameObject borders;
         private GameObject paddle;
         private Transform paddleTransform;
         private GameObject ball;
         private Transform ballTransform;
         private Rigidbody2D ballRigidbody;
-        private List<Brick> activeBricks = new List<Brick>();
-        private Queue<Brick> pool = new Queue<Brick>();
+        private readonly List<Brick> activeBricks = new();
+        private readonly Queue<Brick> pool = new();
 
-        private Dictionary<BrickSize, float> sizeValues = new Dictionary<BrickSize, float>
+        private readonly Dictionary<BrickSize, float> sizeValues = new()
         {
             {BrickSize.Narrow, 0.5f},
             {BrickSize.Wide, 1f},

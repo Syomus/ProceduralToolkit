@@ -8,13 +8,13 @@ namespace ProceduralToolkit.Samples.Buildings
     public class ProceduralFacadeConstructor : FacadeConstructor
     {
         [SerializeField]
-        private RendererProperties rendererProperties = null;
+        private RendererProperties rendererProperties;
         [SerializeField]
-        private Material glassMaterial = null;
+        private Material glassMaterial;
         [SerializeField]
-        private Material roofMaterial = null;
+        private Material roofMaterial;
         [SerializeField]
-        private Material wallMaterial = null;
+        private Material wallMaterial;
 
         public override void Construct(List<Vector2> foundationPolygon, List<ILayout> layouts, Transform parentTransform)
         {

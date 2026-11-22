@@ -26,7 +26,7 @@ namespace ProceduralToolkit
             }
         }
 
-        private readonly List<MeshDraft> meshDrafts = new List<MeshDraft>();
+        private readonly List<MeshDraft> meshDrafts = new();
 
         public IEnumerator<MeshDraft> GetEnumerator()
         {

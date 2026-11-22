@@ -1,5 +1,5 @@
-using UnityEngine;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace ProceduralToolkit.Tests.Geometry3D
 {
@@ -289,14 +289,16 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void True_IntersectPoint(Ray ray, Sphere sphere, Vector3 expected)
         {
-            Assert.True(Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out IntersectionRaySphere intersection), format, ray, sphere);
+            bool result = Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out IntersectionRaySphere intersection);
+            Assert.True(result, format, ray, sphere);
             Assert.AreEqual(IntersectionType.Point, intersection.type, format, ray, sphere);
             AreEqual(intersection.pointA, expected);
         }
 
         private void True_IntersectTwoPoints(Ray ray, Sphere sphere, Vector3 expectedA, Vector3 expectedB)
         {
-            Assert.True(Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out IntersectionRaySphere intersection), format, ray, sphere);
+            bool result = Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out IntersectionRaySphere intersection);
+            Assert.True(result, format, ray, sphere);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, format, ray, sphere);
             AreEqual(intersection.pointA, expectedA);
             AreEqual(intersection.pointB, expectedB);
@@ -304,7 +306,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void False_Intersect(Ray ray, Sphere sphere)
         {
-            Assert.False(Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out IntersectionRaySphere intersection), format, ray, sphere);
+            bool result = Intersect.RaySphere(ray.origin, ray.direction, sphere.center, sphere.radius, out IntersectionRaySphere intersection);
+            Assert.False(result, format, ray, sphere);
         }
 
         #endregion Intersect

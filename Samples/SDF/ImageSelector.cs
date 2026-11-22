@@ -9,7 +9,7 @@ namespace ProceduralToolkit.Samples
     {
         public Transform leftPanel;
         public ToggleGroup toggleGroup;
-        public List<Image> images = new List<Image>();
+        public List<Image> images = new();
 
         private void Awake()
         {

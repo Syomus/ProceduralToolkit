@@ -10,7 +10,7 @@ namespace ProceduralToolkit.Buildings
         public float width { get; set; }
         public float height { get; set; }
 
-        private readonly List<ILayoutElement> elements = new List<ILayoutElement>();
+        private readonly List<ILayoutElement> elements = new();
 
         public IEnumerator<ILayoutElement> GetEnumerator()
         {

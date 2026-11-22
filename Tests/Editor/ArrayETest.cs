@@ -7,7 +7,7 @@ namespace ProceduralToolkit.Tests.ArrayETest
     {
         public class GetLooped_Array
         {
-            private readonly int[] array = new[] {0, 1, 2, 3};
+            private readonly int[] array = {0, 1, 2, 3};
 
             [Test]
             public void ZeroEqualsZero()
@@ -36,7 +36,7 @@ namespace ProceduralToolkit.Tests.ArrayETest
 
         public class GetLooped_List
         {
-            private readonly List<int> list = new List<int> {0, 1, 2, 3};
+            private readonly List<int> list = new() {0, 1, 2, 3};
 
             [Test]
             public void ZeroEqualsZero()
@@ -65,7 +65,7 @@ namespace ProceduralToolkit.Tests.ArrayETest
 
         public class SetLooped_Array
         {
-            private readonly int[] array = new[] {0, 0, 0, 0};
+            private readonly int[] array = {0, 0, 0, 0};
 
             [Test]
             public void ZeroSetsZero()
@@ -98,7 +98,7 @@ namespace ProceduralToolkit.Tests.ArrayETest
 
         public class SetLooped_List
         {
-            private readonly List<int> list = new List<int> {0, 0, 0, 0};
+            private readonly List<int> list = new() {0, 0, 0, 0};
 
             [Test]
             public void ZeroSetsZero()

@@ -11,11 +11,11 @@ namespace ProceduralToolkit.Tests.RandomETest
         {
             private readonly int[] nullArray = null;
             private readonly int[] emptyArray = new int[0];
-            private readonly int[] array = new int[] {0, 1, 2, 3};
+            private readonly int[] array = {0, 1, 2, 3};
             private readonly List<int> nullList = null;
-            private readonly List<int> emptyList = new List<int>();
-            private readonly List<int> list = new List<int> {0, 1, 2, 3};
-            private MRandom random = new MRandom(1337);
+            private readonly List<int> emptyList = new();
+            private readonly List<int> list = new() {0, 1, 2, 3};
+            private MRandom random = new(1337);
 
             [Test]
             public void NullListThrowsException()
@@ -52,16 +52,16 @@ namespace ProceduralToolkit.Tests.RandomETest
         {
             private readonly int[] nullArray = null;
             private readonly int[] emptyArray = new int[0];
-            private readonly int[] array = new int[] {0, 1, 2, 3};
+            private readonly int[] array = {0, 1, 2, 3};
             private readonly List<int> nullList = null;
-            private readonly List<int> emptyList = new List<int>();
-            private readonly List<int> list = new List<int> {0, 1, 2, 3};
+            private readonly List<int> emptyList = new();
+            private readonly List<int> list = new() {0, 1, 2, 3};
             private readonly float[] nullWeights = null;
             private readonly float[] emptyWeights = new float[0];
-            private readonly float[] weights1 = new float[] {1};
-            private readonly float[] weights1111 = new float[] {1, 1, 1, 1};
-            private readonly float[] negativeWeights = new float[] {-100, 1, 1, 1};
-            private MRandom random = new MRandom(1337);
+            private readonly float[] weights1 = {1};
+            private readonly float[] weights1111 = {1, 1, 1, 1};
+            private readonly float[] negativeWeights = {-100, 1, 1, 1};
+            private MRandom random = new(1337);
 
             [Test]
             public void NullListThrowsException()
@@ -134,9 +134,9 @@ namespace ProceduralToolkit.Tests.RandomETest
         {
             private readonly int[] nullArray = null;
             private readonly int[] emptyArray = new int[0];
-            private readonly int[] array0123 = new int[] {0, 1, 2, 3};
-            private readonly int[] array01 = new int[] {0, 1};
-            private readonly int[] array23 = new int[] {2, 3};
+            private readonly int[] array0123 = {0, 1, 2, 3};
+            private readonly int[] array01 = {0, 1};
+            private readonly int[] array23 = {2, 3};
 
             [Test]
             public void NoParams()
@@ -184,15 +184,15 @@ namespace ProceduralToolkit.Tests.RandomETest
         public class GetRandom_Dictionary
         {
             private readonly Dictionary<int, int> nullDictionary = null;
-            private readonly Dictionary<int, int> emptyDictionary = new Dictionary<int, int>();
-            private readonly Dictionary<int, int> dictionary = new Dictionary<int, int>
+            private readonly Dictionary<int, int> emptyDictionary = new();
+            private readonly Dictionary<int, int> dictionary = new()
             {
                 {1, 10},
                 {2, 20},
                 {3, 30},
                 {4, 40},
             };
-            private MRandom random = new MRandom(1337);
+            private MRandom random = new(1337);
 
             [Test]
             public void NullDictionaryThrowsException()
@@ -222,8 +222,8 @@ namespace ProceduralToolkit.Tests.RandomETest
         public class PopRandom_IList
         {
             private readonly List<int> nullList = null;
-            private readonly List<int> emptyList = new List<int>();
-            private MRandom random = new MRandom(1337);
+            private readonly List<int> emptyList = new();
+            private MRandom random = new(1337);
 
             [Test]
             public void NullListThrowsException()

@@ -1,6 +1,6 @@
-using ProceduralToolkit.FastNoiseLib;
 using System;
 using System.Collections.Generic;
+using ProceduralToolkit.FastNoiseLib;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -151,9 +151,9 @@ namespace ProceduralToolkit
         private static float TotalWeight<T>(Dictionary<T, float> set, Dictionary<T, int> knapsack)
         {
             float weight = 0;
-            foreach(var item in knapsack)
+            foreach (var item in knapsack)
             {
-                weight += set[item.Key] * item.Value;
+                weight += set[item.Key]*item.Value;
             }
             return weight;
         }
@@ -193,7 +193,7 @@ namespace ProceduralToolkit
         {
             var texture = new Texture2D(width, height, TextureFormat.ARGB32, false, true)
             {
-                filterMode = FilterMode.Point
+                filterMode = FilterMode.Point,
             };
             texture.Clear(clearColor);
             texture.Apply();

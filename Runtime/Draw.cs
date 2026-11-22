@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -56,6 +57,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Draws a segment
         /// </summary>
+        [SuppressMessage("ReSharper", "RedundantCast")]
         public static void Segment2(Segment2 segment, Action<Vector3, Vector3> drawLine)
         {
             Line((Vector3) segment.a, (Vector3) segment.b, drawLine);

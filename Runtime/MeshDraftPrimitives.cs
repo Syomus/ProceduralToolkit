@@ -79,10 +79,10 @@ namespace ProceduralToolkit
             var draft = new MeshDraft {name = "Hexahedron"};
             if (generateUV)
             {
-                Vector2 uv0 = new Vector2(0, 0);
-                Vector2 uv1 = new Vector2(0, 1);
-                Vector2 uv2 = new Vector2(1, 1);
-                Vector2 uv3 = new Vector2(1, 0);
+                Vector2 uv0 = new(0, 0);
+                Vector2 uv1 = new(0, 1);
+                Vector2 uv2 = new(1, 1);
+                Vector2 uv3 = new(1, 0);
                 draft.AddQuad(v100, v101, v001, v000, Vector3.left, uv0, uv1, uv2, uv3)
                     .AddQuad(v010, v011, v111, v110, Vector3.right, uv0, uv1, uv2, uv3)
                     .AddQuad(v010, v110, v100, v000, Vector3.down, uv0, uv1, uv2, uv3)
@@ -224,7 +224,7 @@ namespace ProceduralToolkit
                 name = "Plane",
                 vertices = new List<Vector3>(vertexCount),
                 triangles = new List<int>(xSegments*zSegments*6),
-                normals = new List<Vector3>(vertexCount)
+                normals = new List<Vector3>(vertexCount),
             };
 
             for (int z = 0; z <= zSegments; z++)
@@ -658,10 +658,10 @@ namespace ProceduralToolkit
 
             if (generateUV)
             {
-                Vector2 uv0 = new Vector2(0, 0);
-                Vector2 uv1 = new Vector2(0, 1);
-                Vector2 uv2 = new Vector2(1, 1);
-                Vector2 uv3 = new Vector2(1, 0);
+                Vector2 uv0 = new(0, 0);
+                Vector2 uv1 = new(0, 1);
+                Vector2 uv2 = new(1, 1);
+                Vector2 uv3 = new(1, 0);
 
                 if (parts.HasFlag(Directions.Left)) draft.AddQuad(v100, v101, v001, v000, true, uv0, uv1, uv2, uv3);
                 if (parts.HasFlag(Directions.Right)) draft.AddQuad(v010, v011, v111, v110, true, uv0, uv1, uv2, uv3);
@@ -717,7 +717,7 @@ namespace ProceduralToolkit
                 {
                     // Top cap vertex
                     Vector3 normal = Geometry.PointOnSphere(1, s*horizontalAngle, 90 - r*verticalAngle);
-                    Vector3 vertex = new Vector3(
+                    Vector3 vertex = new(
                         x: radius*normal.x,
                         y: radius*normal.y + cylinderHeight/2,
                         z: radius*normal.z);
@@ -810,7 +810,7 @@ namespace ProceduralToolkit
                 name = "Capsule",
                 vertices = new List<Vector3>(vertices),
                 triangles = new List<int>(triangles),
-                normals = new List<Vector3>(normals)
+                normals = new List<Vector3>(normals),
             };
         }
     }

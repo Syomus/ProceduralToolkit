@@ -1,5 +1,5 @@
-using UnityEngine;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace ProceduralToolkit.Tests.Geometry3D
 {
@@ -58,8 +58,7 @@ namespace ProceduralToolkit.Tests.Geometry3D
                     {
                         for (int horizontalAngle = 0; horizontalAngle < 360; horizontalAngle += 15)
                         {
-                            sphereB.center = sphereA.center + Geometry.PointOnSphere(sphereA.radius + sphereB.radius,
-                                                 horizontalAngle, verticalAngle);
+                            sphereB.center = sphereA.center + Geometry.PointOnSphere(sphereA.radius + sphereB.radius, horizontalAngle, verticalAngle);
                             AreEqual_Distance(sphereA, sphereB);
                         }
                     }
@@ -85,8 +84,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
                     {
                         for (int horizontalAngle = 0; horizontalAngle < 360; horizontalAngle += 15)
                         {
-                            sphereB.center = sphereA.center + Geometry.PointOnSphere(sphereA.radius + sphereB.radius + distance,
-                                                 horizontalAngle, verticalAngle);
+                            sphereB.center = sphereA.center +
+                                             Geometry.PointOnSphere(sphereA.radius + sphereB.radius + distance, horizontalAngle, verticalAngle);
                             AreEqual_Distance(sphereA, sphereB, distance);
                         }
                     }
@@ -153,8 +152,7 @@ namespace ProceduralToolkit.Tests.Geometry3D
                     {
                         for (int horizontalAngle = 0; horizontalAngle < 360; horizontalAngle += 15)
                         {
-                            sphereB.center = sphereA.center + Geometry.PointOnSphere(sphereA.radius + sphereB.radius,
-                                                 horizontalAngle, verticalAngle);
+                            sphereB.center = sphereA.center + Geometry.PointOnSphere(sphereA.radius + sphereB.radius, horizontalAngle, verticalAngle);
                             Vector3 expected = sphereA.GetPoint(horizontalAngle, verticalAngle);
                             AreEqual_ClosestPoints(sphereA, sphereB, expected, expected);
                         }
@@ -181,8 +179,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
                     {
                         for (int horizontalAngle = 0; horizontalAngle < 360; horizontalAngle += 15)
                         {
-                            sphereB.center = sphereA.center + Geometry.PointOnSphere(sphereA.radius + sphereB.radius + distance,
-                                                 horizontalAngle, verticalAngle);
+                            sphereB.center = sphereA.center +
+                                             Geometry.PointOnSphere(sphereA.radius + sphereB.radius + distance, horizontalAngle, verticalAngle);
                             Vector3 expectedA = sphereA.GetPoint(horizontalAngle, verticalAngle);
                             Vector3 expectedB = sphereB.GetPoint(horizontalAngle - 180, -verticalAngle);
                             AreEqual_ClosestPoints(sphereA, sphereB, expectedA, expectedB);
@@ -350,8 +348,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
                     {
                         for (int horizontalAngle = 0; horizontalAngle < 360; horizontalAngle += 15)
                         {
-                            sphereB.center = sphereA.center + Geometry.PointOnSphere(sphereA.radius + sphereB.radius + distance,
-                                                 horizontalAngle, verticalAngle);
+                            sphereB.center = sphereA.center +
+                                             Geometry.PointOnSphere(sphereA.radius + sphereB.radius + distance, horizontalAngle, verticalAngle);
                             False_Intersect(sphereA, sphereB);
                         }
                     }

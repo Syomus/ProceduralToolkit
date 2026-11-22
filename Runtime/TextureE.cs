@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -15,7 +16,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawLine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
-            DrawLine(texture, v0.x, v0.y, v1.x, v1.y, color);
+            texture.DrawLine(v0.x, v0.y, v1.x, v1.y, color);
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawLine(this Color[] pixels, int textureWidth, Vector2Int v0, Vector2Int v1, Color color)
         {
-            DrawLine(pixels, textureWidth, v0.x, v0.y, v1.x, v1.y, color);
+            pixels.DrawLine(textureWidth, v0.x, v0.y, v1.x, v1.y, color);
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawAALine(this Texture2D texture, Vector2Int v0, Vector2Int v1, Color color)
         {
-            DrawAALine(texture, v0.x, v0.y, v1.x, v1.y, color);
+            texture.DrawAALine(v0.x, v0.y, v1.x, v1.y, color);
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawAALine(this Color[] pixels, int textureWidth, Vector2Int v0, Vector2Int v1, Color color)
         {
-            DrawAALine(pixels, textureWidth, v0.x, v0.y, v1.x, v1.y, color);
+            pixels.DrawAALine(textureWidth, v0.x, v0.y, v1.x, v1.y, color);
         }
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
-            DrawCircle(texture, center.x, center.y, radius, color);
+            texture.DrawCircle(center.x, center.y, radius, color);
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawCircle(this Color[] pixels, int textureWidth, Vector2Int center, int radius, Color color)
         {
-            DrawCircle(pixels, textureWidth, center.x, center.y, radius, color);
+            pixels.DrawCircle(textureWidth, center.x, center.y, radius, color);
         }
 
         /// <summary>
@@ -147,7 +148,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawFilledCircle(this Texture2D texture, Vector2Int center, int radius, Color color)
         {
-            DrawFilledCircle(texture, center.x, center.y, radius, color);
+            texture.DrawFilledCircle(center.x, center.y, radius, color);
         }
 
         /// <summary>
@@ -167,7 +168,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawFilledCircle(this Color[] pixels, int textureWidth, Vector2Int center, int radius, Color color)
         {
-            DrawFilledCircle(pixels, textureWidth, center.x, center.y, radius, color);
+            pixels.DrawFilledCircle(textureWidth, center.x, center.y, radius, color);
         }
 
         /// <summary>
@@ -191,7 +192,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawRect(this Texture2D texture, RectInt rect, Color color)
         {
-            DrawRect(texture, rect.x, rect.y, rect.width, rect.height, color);
+            texture.DrawRect(rect.x, rect.y, rect.width, rect.height, color);
         }
 
         /// <summary>
@@ -219,7 +220,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawRect(this Color[] pixels, int textureWidth, RectInt rect, Color color)
         {
-            DrawRect(pixels, textureWidth, rect.x, rect.y, rect.width, rect.height, color);
+            pixels.DrawRect(textureWidth, rect.x, rect.y, rect.width, rect.height, color);
         }
 
         /// <summary>
@@ -249,7 +250,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawGradient(this Texture2D texture, Gradient gradient, Directions direction)
         {
-            DrawGradient(texture, 0, 0, texture.width, texture.height, gradient, direction);
+            texture.DrawGradient(0, 0, texture.width, texture.height, gradient, direction);
         }
 
         /// <summary>
@@ -257,7 +258,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawGradient(this Texture2D texture, RectInt rect, Gradient gradient, Directions direction)
         {
-            DrawGradient(texture, rect.x, rect.y, rect.width, rect.height, gradient, direction);
+            texture.DrawGradient(rect.x, rect.y, rect.width, rect.height, gradient, direction);
         }
 
         /// <summary>
@@ -281,7 +282,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawGradient(this Color[] pixels, int textureWidth, int textureHeight, Gradient gradient, Directions direction)
         {
-            DrawGradient(pixels, textureWidth, 0, 0, textureWidth, textureHeight, gradient, direction);
+            pixels.DrawGradient(textureWidth, 0, 0, textureWidth, textureHeight, gradient, direction);
         }
 
         /// <summary>
@@ -289,7 +290,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void DrawGradient(this Color[] pixels, int textureWidth, RectInt rect, Gradient gradient, Directions direction)
         {
-            DrawGradient(pixels, textureWidth, rect.x, rect.y, rect.width, rect.height, gradient, direction);
+            pixels.DrawGradient(textureWidth, rect.x, rect.y, rect.width, rect.height, gradient, direction);
         }
 
         /// <summary>
@@ -305,6 +306,7 @@ namespace ProceduralToolkit
             Gradient(pixels, textureWidth, x, y, blockWidth, blockHeight, gradient, direction);
         }
 
+        [SuppressMessage("ReSharper", "RedundantCast")]
         private static void Gradient(Color[] pixels, int textureWidth, int x, int y, int blockWidth, int blockHeight, Gradient gradient,
             Directions direction)
         {
@@ -345,7 +347,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Clear(this Texture2D texture)
         {
-            Clear(texture, Color.white);
+            texture.Clear(Color.white);
         }
 
         /// <summary>
@@ -370,7 +372,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static void Clear(this Color[] pixels)
         {
-            Clear(pixels, Color.white);
+            pixels.Clear(Color.white);
         }
 
         /// <summary>

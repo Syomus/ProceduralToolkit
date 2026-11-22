@@ -1,5 +1,5 @@
-using ProceduralToolkit.LibTessDotNet;
 using System.Collections.Generic;
+using ProceduralToolkit.LibTessDotNet;
 using UnityEngine;
 using Mesh = UnityEngine.Mesh;
 
@@ -35,7 +35,7 @@ namespace ProceduralToolkit
         /// </summary>
         public int indexCount => tess.ElementCount;
 
-        private readonly Tess tess = new Tess {NoEmptyPolygons = true};
+        private readonly Tess tess = new() {NoEmptyPolygons = true};
 
         /// <summary>
         /// Adds a closed contour to be tessellated.
@@ -103,7 +103,7 @@ namespace ProceduralToolkit
         /// <param name="combineCallback"> Interpolator used to determine the data payload of generated vertices. </param>
         /// <param name="normal"> Normal of the input contours. If set to zero, the normal will be calculated during tessellation. </param>
         public void Tessellate(WindingRule windingRule = WindingRule.EvenOdd, ElementType elementType = ElementType.Polygons, int polySize = 3,
-            CombineCallback combineCallback = null, Vector3 normal = new Vector3())
+            CombineCallback combineCallback = null, Vector3 normal = new())
         {
             tess.Tessellate(windingRule, elementType, polySize, combineCallback, new Vec3(normal.x, normal.y, normal.z));
         }

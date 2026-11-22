@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -12,8 +14,8 @@ namespace ProceduralToolkit
         public Vector2 origin;
         public Vector2 direction;
 
-        public static Line2 xAxis => new Line2(Vector2.zero, Vector2.right);
-        public static Line2 yAxis => new Line2(Vector2.zero, Vector2.up);
+        public static Line2 xAxis { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new(Vector2.zero, Vector2.right); }
+        public static Line2 yAxis { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new(Vector2.zero, Vector2.up); }
 
         public Line2(Ray2D ray)
         {
@@ -64,11 +66,13 @@ namespace ProceduralToolkit
             return new Ray2D(line.origin, line.direction);
         }
 
+        [SuppressMessage("ReSharper", "RedundantCast")]
         public static explicit operator Ray(Line2 line)
         {
             return new Ray((Vector3) line.origin, (Vector3) line.direction);
         }
 
+        [SuppressMessage("ReSharper", "RedundantCast")]
         public static explicit operator Line3(Line2 line)
         {
             return new Line3((Vector3) line.origin, (Vector3) line.direction);

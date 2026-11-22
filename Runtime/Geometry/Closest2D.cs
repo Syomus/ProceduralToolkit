@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -111,8 +112,8 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the segment
         /// </summary>
-        /// <param name="projectedX">Normalized position of the projected point on the segment. 
-        /// Value of zero means that the projected point coincides with segment.a. 
+        /// <param name="projectedX">Normalized position of the projected point on the segment.
+        /// Value of zero means that the projected point coincides with segment.a.
         /// Value of one means that the projected point coincides with segment.b.</param>
         public static Vector2 PointSegment(Vector2 point, Segment2 segment, out float projectedX)
         {
@@ -130,8 +131,8 @@ namespace ProceduralToolkit
         /// <summary>
         /// Projects the point onto the segment
         /// </summary>
-        /// <param name="projectedX">Normalized position of the projected point on the segment. 
-        /// Value of zero means that the projected point coincides with <paramref name="segmentA"/>. 
+        /// <param name="projectedX">Normalized position of the projected point on the segment.
+        /// Value of zero means that the projected point coincides with <paramref name="segmentA"/>.
         /// Value of one means that the projected point coincides with <paramref name="segmentB"/>.</param>
         public static Vector2 PointSegment(Vector2 point, Vector2 segmentA, Vector2 segmentB, out float projectedX)
         {
@@ -317,7 +318,7 @@ namespace ProceduralToolkit
             {
                 // Parallel
                 bool codirected = Vector2.Dot(lineDirection, segmentDirection) > 0;
-                // Normalized direction gives more stable results 
+                // Normalized direction gives more stable results
                 float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
                 if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
@@ -420,6 +421,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the rays
         /// </summary>
+        [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
         public static void RayRay(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
             out Vector2 pointA, out Vector2 pointB)
         {
@@ -576,6 +578,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the ray and the segment
         /// </summary>
+        [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
         public static void RaySegment(Vector2 rayOrigin, Vector2 rayDirection, Vector2 segmentA, Vector2 segmentB,
             out Vector2 rayPoint, out Vector2 segmentPoint)
         {
@@ -583,7 +586,7 @@ namespace ProceduralToolkit
             Vector2 segmentAToOrigin = rayOrigin - segmentA;
             float denominator = VectorE.PerpDot(rayDirection, segmentDirection);
             float perpDotA = VectorE.PerpDot(rayDirection, segmentAToOrigin);
-            // Normalized direction gives more stable results 
+            // Normalized direction gives more stable results
             float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
 
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
@@ -835,6 +838,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Finds closest points on the segments
         /// </summary>
+        [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
         public static void SegmentSegment(Vector2 segment1A, Vector2 segment1B, Vector2 segment2A, Vector2 segment2B,
             out Vector2 segment1Point, out Vector2 segment2Point)
         {

@@ -9,39 +9,39 @@ namespace ProceduralToolkit.Tests.PTUtilsTest
         {
             private readonly Dictionary<int, float> set = new()
             {
-                { 1, 1 },
-                { 2, 2 },
-                { 4, 4 },
+                {1, 1},
+                {2, 2},
+                {4, 4},
             };
             private readonly Dictionary<int, int> knapsack0 = new()
             {
-                { 4, 0 },
-                { 2, 0 },
-                { 1, 0 },
+                {4, 0},
+                {2, 0},
+                {1, 0},
             };
             private readonly Dictionary<int, int> knapsack1 = new()
             {
-                { 4, 0 },
-                { 2, 0 },
-                { 1, 1 },
+                {4, 0},
+                {2, 0},
+                {1, 1},
             };
             private readonly Dictionary<int, int> knapsack2 = new()
             {
-                { 4, 0 },
-                { 2, 1 },
-                { 1, 0 },
+                {4, 0},
+                {2, 1},
+                {1, 0},
             };
             private readonly Dictionary<int, int> knapsack3 = new()
             {
-                { 4, 0 },
-                { 2, 1 },
-                { 1, 1 },
+                {4, 0},
+                {2, 1},
+                {1, 1},
             };
             private readonly Dictionary<int, int> knapsack10 = new()
             {
-                { 4, 2 },
-                { 2, 1 },
-                { 1, 0 },
+                {4, 2},
+                {2, 1},
+                {1, 0},
             };
 
             [Test]
@@ -115,51 +115,51 @@ namespace ProceduralToolkit.Tests.PTUtilsTest
         {
             private readonly Dictionary<int, float> set = new()
             {
-                { 1, 1 },
-                { 2, 2 },
-                { 4, 4 },
+                {1, 1},
+                {2, 2},
+                {4, 4},
             };
             private readonly Dictionary<int, int> knapsack0 = new()
             {
-                { 4, 0 },
-                { 2, 0 },
-                { 1, 1 },
+                {4, 0},
+                {2, 0},
+                {1, 1},
             };
             private readonly Dictionary<int, int> knapsack1_5 = new()
             {
-                { 4, 0 },
-                { 2, 0 },
-                { 1, 2 },
+                {4, 0},
+                {2, 0},
+                {1, 2},
             };
             private readonly Dictionary<int, int> knapsack2 = new()
             {
-                { 4, 0 },
-                { 2, 1 },
-                { 1, 0 },
+                {4, 0},
+                {2, 1},
+                {1, 0},
             };
             private readonly Dictionary<int, int> knapsack3 = new()
             {
-                { 4, 0 },
-                { 2, 1 },
-                { 1, 1 },
+                {4, 0},
+                {2, 1},
+                {1, 1},
             };
             private readonly Dictionary<int, int> knapsack3_5 = new()
             {
-                { 4, 0 },
-                { 2, 1 },
-                { 1, 2 },
+                {4, 0},
+                {2, 1},
+                {1, 2},
             };
             private readonly Dictionary<int, int> knapsack10 = new()
             {
-                { 4, 2 },
-                { 2, 1 },
-                { 1, 0 },
+                {4, 2},
+                {2, 1},
+                {1, 0},
             };
             private readonly Dictionary<int, int> knapsack10_5 = new()
             {
-                { 4, 2 },
-                { 2, 1 },
-                { 1, 1 },
+                {4, 2},
+                {2, 1},
+                {1, 1},
             };
 
             [Test]

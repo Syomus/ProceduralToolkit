@@ -11,8 +11,8 @@ namespace ProceduralToolkit.Samples
         public MeshFilter chairMeshFilter;
         public MeshFilter platformMeshFilter;
         public RectTransform leftPanel;
-        public bool constantSeed = false;
-        public ChairGenerator.Config config = new ChairGenerator.Config();
+        public bool constantSeed;
+        public ChairGenerator.Config config = new();
 
         private const float minLegWidth = 0.05f;
         private const float maxLegWidth = 0.12f;

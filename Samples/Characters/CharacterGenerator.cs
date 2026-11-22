@@ -13,14 +13,14 @@ namespace ProceduralToolkit.Samples
     {
         public Character character;
         public TextAsset namesJson;
-        public List<Sprite> hairSprites = new List<Sprite>();
-        public List<Sprite> bodySprites = new List<Sprite>();
-        public List<Sprite> headSprites = new List<Sprite>();
-        public List<Sprite> chestSprites = new List<Sprite>();
-        public List<Sprite> legsSprites = new List<Sprite>();
-        public List<Sprite> feetSprites = new List<Sprite>();
-        public List<Sprite> weaponSprites = new List<Sprite>();
-        public List<Sprite> shieldSprites = new List<Sprite>();
+        public List<Sprite> hairSprites = new();
+        public List<Sprite> bodySprites = new();
+        public List<Sprite> headSprites = new();
+        public List<Sprite> chestSprites = new();
+        public List<Sprite> legsSprites = new();
+        public List<Sprite> feetSprites = new();
+        public List<Sprite> weaponSprites = new();
+        public List<Sprite> shieldSprites = new();
 
         private NameGenerator nameGenerator;
 

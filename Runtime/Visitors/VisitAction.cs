@@ -16,7 +16,14 @@ namespace ProceduralToolkit
             action(x, y);
         }
 
-        public static implicit operator VisitAction(Action<int, int> action) => new VisitAction(action);
-        public static implicit operator Action<int, int>(VisitAction action) => action.action;
+        public static implicit operator VisitAction(Action<int, int> action)
+        {
+            return new VisitAction(action);
+        }
+
+        public static implicit operator Action<int, int>(VisitAction action)
+        {
+            return action.action;
+        }
     }
 }

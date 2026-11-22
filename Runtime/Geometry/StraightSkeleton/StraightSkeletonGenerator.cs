@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +11,8 @@ namespace ProceduralToolkit.Skeleton
     /// </summary>
     public class StraightSkeletonGenerator
     {
-        private readonly List<Plan> activePlans = new List<Plan>();
-        private readonly List<Plan> newPlans = new List<Plan>();
+        private readonly List<Plan> activePlans = new();
+        private readonly List<Plan> newPlans = new();
         private StraightSkeleton skeleton;
 
         public StraightSkeleton Generate(IReadOnlyList<Vector2> polygon)
@@ -176,7 +175,7 @@ namespace ProceduralToolkit.Skeleton
             var newVertex = new Plan.Vertex(position)
             {
                 previousPolygonIndex = segmentA.nextPolygonIndex,
-                nextPolygonIndex = segmentB.previousPolygonIndex
+                nextPolygonIndex = segmentB.previousPolygonIndex,
             };
             plan.Insert(newVertex, segmentA, segmentB);
             CalculateBisector(newVertex);
@@ -276,7 +275,7 @@ namespace ProceduralToolkit.Skeleton
                     var newVertex = new Plan.Vertex(intersectionEvent.position)
                     {
                         previousPolygonIndex = vertex.previousPolygonIndex,
-                        nextPolygonIndex = previousChain[0].nextPolygonIndex
+                        nextPolygonIndex = previousChain[0].nextPolygonIndex,
                     };
                     plan.Insert(newVertex, vertex.previous, previousChain[0].next);
                     CalculateBisector(newVertex);
@@ -424,7 +423,7 @@ namespace ProceduralToolkit.Skeleton
         private class IntersectionEvent
         {
             public readonly Vector2 position;
-            public readonly List<List<Plan.Vertex>> chains = new List<List<Plan.Vertex>>();
+            public readonly List<List<Plan.Vertex>> chains = new();
 
             public IntersectionEvent(Vector2 position)
             {

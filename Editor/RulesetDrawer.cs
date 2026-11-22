@@ -16,39 +16,39 @@ namespace ProceduralToolkit.Editor
         private const float dropdownSpacing = 2;
         private const string ruleName = "rule";
 
-        private readonly GUIStyle dropdownStyle = (GUIStyle) "StaticDropdown";
-        private readonly GUIContent[] options = new GUIContent[]
+        private readonly GUIStyle dropdownStyle = "StaticDropdown";
+        private readonly GUIContent[] options =
         {
-            new GUIContent("Life"),
-            new GUIContent("Highlife"),
-            new GUIContent("LifeWithoutDeath"),
-            new GUIContent("ThirtyFour"),
-            new GUIContent("InverseLife"),
-            new GUIContent("PseudoLife"),
-            new GUIContent("LongLife"),
-            new GUIContent("DotLife"),
-            new GUIContent("DryLife"),
-            new GUIContent("Seeds"),
-            new GUIContent("Serviettes"),
-            new GUIContent("Gnarl"),
-            new GUIContent("LiveFreeOrDie"),
-            new GUIContent("DayAndNight"),
-            new GUIContent("Replicator"),
-            new GUIContent("TwoXTwo"),
-            new GUIContent("Move"),
-            new GUIContent("Maze"),
-            new GUIContent("Mazectric"),
-            new GUIContent("Amoeba"),
-            new GUIContent("Diamoeba"),
-            new GUIContent("Coral"),
-            new GUIContent("Anneal"),
-            new GUIContent("Majority"),
-            new GUIContent("WalledCities"),
-            new GUIContent("Stains"),
-            new GUIContent("Coagulations"),
-            new GUIContent("Assimilation"),
+            new("Life"),
+            new("Highlife"),
+            new("LifeWithoutDeath"),
+            new("ThirtyFour"),
+            new("InverseLife"),
+            new("PseudoLife"),
+            new("LongLife"),
+            new("DotLife"),
+            new("DryLife"),
+            new("Seeds"),
+            new("Serviettes"),
+            new("Gnarl"),
+            new("LiveFreeOrDie"),
+            new("DayAndNight"),
+            new("Replicator"),
+            new("TwoXTwo"),
+            new("Move"),
+            new("Maze"),
+            new("Mazectric"),
+            new("Amoeba"),
+            new("Diamoeba"),
+            new("Coral"),
+            new("Anneal"),
+            new("Majority"),
+            new("WalledCities"),
+            new("Stains"),
+            new("Coagulations"),
+            new("Assimilation"),
         };
-        private readonly Ruleset[] rulesets = new Ruleset[]
+        private readonly Ruleset[] rulesets =
         {
             Ruleset.life,
             Ruleset.highlife,
@@ -127,7 +127,7 @@ namespace ProceduralToolkit.Editor
             int oldIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
             {
-                Rect dropdownRect = new Rect(position.xMax + dropdownSpacing, position.y, dropdownWidth, position.height);
+                Rect dropdownRect = new(position.xMax + dropdownSpacing, position.y, dropdownWidth, position.height);
                 int selected = EditorGUI.Popup(dropdownRect, -1, options, dropdownStyle);
                 if (selected >= 0)
                 {

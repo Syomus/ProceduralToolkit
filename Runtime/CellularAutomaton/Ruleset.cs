@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace ProceduralToolkit.CellularAutomaton
 {
@@ -11,34 +12,34 @@ namespace ProceduralToolkit.CellularAutomaton
     {
         #region Common rulesets
 
-        public static Ruleset life => new Ruleset("3", "23");
-        public static Ruleset highlife => new Ruleset("36", "23");
-        public static Ruleset lifeWithoutDeath => new Ruleset("3", "012345678");
-        public static Ruleset thirtyFour => new Ruleset("34", "34");
-        public static Ruleset inverseLife => new Ruleset("0123478", "34678");
-        public static Ruleset pseudoLife => new Ruleset("357", "238");
-        public static Ruleset longLife => new Ruleset("345", "5");
-        public static Ruleset dotLife => new Ruleset("3", "023");
-        public static Ruleset dryLife => new Ruleset("37", "23");
-        public static Ruleset seeds => new Ruleset("2");
-        public static Ruleset serviettes => new Ruleset("234");
-        public static Ruleset gnarl => new Ruleset("1", "1");
-        public static Ruleset liveFreeOrDie => new Ruleset("2", "0");
-        public static Ruleset dayAndNight => new Ruleset("3678", "34678");
-        public static Ruleset replicator => new Ruleset("1357", "1357");
-        public static Ruleset twoXTwo => new Ruleset("36", "125");
-        public static Ruleset move => new Ruleset("368", "245");
-        public static Ruleset maze => new Ruleset("3", "12345");
-        public static Ruleset mazectric => new Ruleset("3", "1234");
-        public static Ruleset amoeba => new Ruleset("357", "1358");
-        public static Ruleset diamoeba => new Ruleset("35678", "5678");
-        public static Ruleset coral => new Ruleset("3", "45678");
-        public static Ruleset anneal => new Ruleset("4678", "35678");
-        public static Ruleset majority => new Ruleset("5678", "45678");
-        public static Ruleset walledCities => new Ruleset("45678", "2345");
-        public static Ruleset stains => new Ruleset("3678", "235678");
-        public static Ruleset coagulations => new Ruleset("378", "235678");
-        public static Ruleset assimilation => new Ruleset("345", "4567");
+        public static Ruleset life { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("3", "23"); }
+        public static Ruleset highlife { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("36", "23"); }
+        public static Ruleset lifeWithoutDeath { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("3", "012345678"); }
+        public static Ruleset thirtyFour { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("34", "34"); }
+        public static Ruleset inverseLife { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("0123478", "34678"); }
+        public static Ruleset pseudoLife { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("357", "238"); }
+        public static Ruleset longLife { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("345", "5"); }
+        public static Ruleset dotLife { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("3", "023"); }
+        public static Ruleset dryLife { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("37", "23"); }
+        public static Ruleset seeds { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("2"); }
+        public static Ruleset serviettes { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("234"); }
+        public static Ruleset gnarl { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("1", "1"); }
+        public static Ruleset liveFreeOrDie { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("2", "0"); }
+        public static Ruleset dayAndNight { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("3678", "34678"); }
+        public static Ruleset replicator { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("1357", "1357"); }
+        public static Ruleset twoXTwo { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("36", "125"); }
+        public static Ruleset move { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("368", "245"); }
+        public static Ruleset maze { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("3", "12345"); }
+        public static Ruleset mazectric { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("3", "1234"); }
+        public static Ruleset amoeba { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("357", "1358"); }
+        public static Ruleset diamoeba { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("35678", "5678"); }
+        public static Ruleset coral { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("3", "45678"); }
+        public static Ruleset anneal { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("4678", "35678"); }
+        public static Ruleset majority { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("5678", "45678"); }
+        public static Ruleset walledCities { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("45678", "2345"); }
+        public static Ruleset stains { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("3678", "235678"); }
+        public static Ruleset coagulations { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("378", "235678"); }
+        public static Ruleset assimilation { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new("345", "4567"); }
 
         #endregion Common rulesets
 

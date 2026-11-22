@@ -8,7 +8,7 @@ namespace ProceduralToolkit.Samples
         public LineRenderer lineRenderer;
         public MeshFilter meshFilter;
 
-        private List<Vector3> vertices = new List<Vector3>
+        private readonly List<Vector3> vertices = new()
         {
             new Vector3(0, 3),
             new Vector3(1, 0),

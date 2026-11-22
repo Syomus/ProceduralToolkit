@@ -12,7 +12,7 @@ namespace ProceduralToolkit.Skeleton
         public int Count => vertices.Count;
         public Vertex First => vertices[0];
 
-        private readonly List<Vertex> vertices = new List<Vertex>();
+        private readonly List<Vertex> vertices = new();
 
         private Plan()
         {

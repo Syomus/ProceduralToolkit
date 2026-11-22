@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -22,9 +24,9 @@ namespace ProceduralToolkit
         /// </summary>
         public float area => Mathf.PI*radius*radius;
 
-        public static Circle3 unitXY => new Circle3(Vector3.zero, Vector3.back, 1);
-        public static Circle3 unitXZ => new Circle3(Vector3.zero, Vector3.up, 1);
-        public static Circle3 unitYZ => new Circle3(Vector3.zero, Vector3.left, 1);
+        public static Circle3 unitXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new(Vector3.zero, Vector3.back, 1); }
+        public static Circle3 unitXZ { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new(Vector3.zero, Vector3.up, 1); }
+        public static Circle3 unitYZ { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new(Vector3.zero, Vector3.left, 1); }
 
         public Circle3(float radius) : this(Vector3.zero, Vector3.back, radius)
         {
@@ -69,6 +71,7 @@ namespace ProceduralToolkit
             return new Sphere(circle.center, circle.radius);
         }
 
+        [SuppressMessage("ReSharper", "RedundantCast")]
         public static explicit operator Circle2(Circle3 circle)
         {
             return new Circle2((Vector2) circle.center, circle.radius);

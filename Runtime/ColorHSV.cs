@@ -314,7 +314,7 @@ namespace ProceduralToolkit
             {
                 this,
                 WithOffsetH(-triadicAngle),
-                WithOffsetH(triadicAngle)
+                WithOffsetH(triadicAngle),
             };
             if (withComplementary)
             {
@@ -335,7 +335,7 @@ namespace ProceduralToolkit
                 this,
                 WithOffsetH(tetradicAngle),
                 complementary,
-                complementary.WithOffsetH(tetradicAngle)
+                complementary.WithOffsetH(tetradicAngle),
             };
             return palette;
         }

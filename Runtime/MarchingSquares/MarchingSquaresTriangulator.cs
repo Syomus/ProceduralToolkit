@@ -461,7 +461,7 @@ namespace ProceduralToolkit.MarchingSquares
                     bottomLeft + Vector2.right*contours.GetTopSide(x, y)*squareSize + Vector2.up*squareSize,
                     bottomLeft + Vector2.right*squareSize + Vector2.up*squareSize,
                     bottomLeft + Vector2.right*squareSize + Vector2.up*contours.GetRightSide(x, y)*squareSize,
-                    bottomLeft + Vector2.right*contours.GetTopSide(x, y)*squareSize
+                    bottomLeft + Vector2.right*contours.GetTopSide(x, y)*squareSize,
                 }, normal);
             }
             else
@@ -473,7 +473,7 @@ namespace ProceduralToolkit.MarchingSquares
                     bottomLeft + Vector2.right*(1 - cornerWeight)*squareSize + Vector2.up*squareSize,
                     bottomLeft + Vector2.right*squareSize + Vector2.up*squareSize,
                     bottomLeft + Vector2.right*squareSize + Vector2.up*(1 - cornerWeight)*squareSize,
-                    bottomLeft + Vector2.right*cornerWeight*squareSize
+                    bottomLeft + Vector2.right*cornerWeight*squareSize,
                 }, normal);
             }
         }

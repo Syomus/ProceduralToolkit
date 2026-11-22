@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 using ProceduralToolkit.ClipperLib;
+using UnityEngine;
 
 namespace ProceduralToolkit.Samples
 {

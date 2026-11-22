@@ -13,12 +13,10 @@ namespace ProceduralToolkit.Samples.Buildings
         private const float atticHeight = 1;
         private const float bufferWidth = 2;
 
-        private Dictionary<PanelType, List<Func<ILayoutElement>>> constructors =
-            new Dictionary<PanelType, List<Func<ILayoutElement>>>();
-        private Dictionary<PanelType, Func<ILayoutElement>> commonConstructors =
-            new Dictionary<PanelType, Func<ILayoutElement>>();
+        private readonly Dictionary<PanelType, List<Func<ILayoutElement>>> constructors = new();
+        private readonly Dictionary<PanelType, Func<ILayoutElement>> commonConstructors = new();
 
-        private Dictionary<PanelSize, float> sizeValues = new Dictionary<PanelSize, float>
+        private readonly Dictionary<PanelSize, float> sizeValues = new()
         {
             {PanelSize.Narrow, 2.5f},
             {PanelSize.Wide, 3},
@@ -55,40 +53,40 @@ namespace ProceduralToolkit.Samples.Buildings
         {
             constructors[PanelType.Wall] = new List<Func<ILayoutElement>>
             {
-                () => new ProceduralWall(palette.wallColor)
+                () => new ProceduralWall(palette.wallColor),
             };
             constructors[PanelType.Window] = new List<Func<ILayoutElement>>
             {
-                () => new ProceduralWindow(palette.wallColor, palette.frameColor, palette.glassColor)
+                () => new ProceduralWindow(palette.wallColor, palette.frameColor, palette.glassColor),
             };
             constructors[PanelType.Balcony] = new List<Func<ILayoutElement>>
             {
                 () => new ProceduralBalcony(palette.wallColor, palette.frameColor, palette.glassColor),
-                () => new ProceduralBalconyGlazed(palette.wallColor, palette.frameColor, palette.glassColor, palette.roofColor)
+                () => new ProceduralBalconyGlazed(palette.wallColor, palette.frameColor, palette.glassColor, palette.roofColor),
             };
             constructors[PanelType.Entrance] = new List<Func<ILayoutElement>>
             {
                 () => new ProceduralEntrance(palette.wallColor, palette.doorColor),
-                () => new ProceduralEntranceRoofed(palette.wallColor, palette.doorColor, palette.roofColor)
+                () => new ProceduralEntranceRoofed(palette.wallColor, palette.doorColor, palette.roofColor),
             };
             constructors[PanelType.EntranceWindow] = new List<Func<ILayoutElement>>
             {
                 () => new ProceduralEntranceWindow(palette.wallColor, palette.frameColor, palette.glassColor),
-                () => new ProceduralWindow(palette.wallColor, palette.frameColor, palette.glassColor)
+                () => new ProceduralWindow(palette.wallColor, palette.frameColor, palette.glassColor),
             };
             constructors[PanelType.EntranceWallLast] = new List<Func<ILayoutElement>>
             {
-                () => new ProceduralWall(palette.wallColor)
+                () => new ProceduralWall(palette.wallColor),
             };
             constructors[PanelType.Socle] = new List<Func<ILayoutElement>>
             {
                 () => new ProceduralSocle(palette.socleColor),
-                () => new ProceduralSocleWindowed(palette.socleColor, palette.socleWindowColor)
+                () => new ProceduralSocleWindowed(palette.socleColor, palette.socleWindowColor),
             };
             constructors[PanelType.Attic] = new List<Func<ILayoutElement>>
             {
                 () => new ProceduralAtticVented(palette.wallColor, palette.socleWindowColor),
-                () => new ProceduralWall(palette.wallColor)
+                () => new ProceduralWall(palette.wallColor),
             };
         }
 
@@ -104,7 +102,7 @@ namespace ProceduralToolkit.Samples.Buildings
                 {
                     CreateBufferWallVertical(remainder/2, floors, hasAttic),
                     vertical,
-                    CreateBufferWallVertical(remainder/2, floors, hasAttic)
+                    CreateBufferWallVertical(remainder/2, floors, hasAttic),
                 };
             }
             return vertical;
@@ -159,7 +157,7 @@ namespace ProceduralToolkit.Samples.Buildings
             var vertical = new VerticalLayout
             {
                 Construct(constructors[PanelType.Socle], width, socleHeight),
-                CreateVertical(width, floorHeight, floors, commonConstructors[PanelType.Wall])
+                CreateVertical(width, floorHeight, floors, commonConstructors[PanelType.Wall]),
             };
             if (hasAttic)
             {

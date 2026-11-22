@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -443,7 +444,7 @@ namespace ProceduralToolkit
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
-                // Normalized direction gives more stable results 
+                // Normalized direction gives more stable results
                 float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
                 if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
@@ -573,6 +574,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the rays
         /// </summary>
+        [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
         public static bool RayRay(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB,
             out IntersectionRayRay2 intersection)
         {
@@ -673,7 +675,7 @@ namespace ProceduralToolkit
             Vector2 segmentDirection = segmentB - segmentA;
             float denominator = VectorE.PerpDot(rayDirection, segmentDirection);
             float perpDotA = VectorE.PerpDot(rayDirection, segmentAToOrigin);
-            // Normalized direction gives more stable results 
+            // Normalized direction gives more stable results
             float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
 
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
@@ -869,6 +871,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Computes an intersection of the segments
         /// </summary>
+        [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
         public static bool SegmentSegment(Vector2 segment1A, Vector2 segment1B, Vector2 segment2A, Vector2 segment2B,
             out IntersectionSegmentSegment2 intersection)
         {

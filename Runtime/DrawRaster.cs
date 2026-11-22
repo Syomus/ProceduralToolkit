@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -44,7 +45,7 @@ namespace ProceduralToolkit
             int dx = x1 - x0;
             int dy = Math.Abs(y1 - y0);
             int error = dx/2;
-            int ystep = (y0 < y1) ? 1 : -1;
+            int ystep = y0 < y1 ? 1 : -1;
             int y = y0;
             for (int x = x0; x <= x1; x++)
             {
@@ -298,6 +299,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Draws a gradient rectangle and calls <paramref name="draw"/> on every pixel
         /// </summary>
+        [SuppressMessage("ReSharper", "RedundantCast")]
         private static void RasterGradient(int x0, int y0, int width, int height, Directions direction, Action<int, int, float> draw)
         {
             Func<int, int, float> getGradient;

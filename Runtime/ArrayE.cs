@@ -127,7 +127,7 @@ namespace ProceduralToolkit
         /// </summary>
         public static bool IsInBounds<T>(this T[,] array, Vector2Int position)
         {
-            return IsInBounds(array, position.x, position.y);
+            return array.IsInBounds(position.x, position.y);
         }
 
         /// <summary>

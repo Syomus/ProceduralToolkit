@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -122,6 +123,7 @@ namespace ProceduralToolkit
             return new Ray2D(segment.a, (segment.b - segment.a).normalized);
         }
 
+        [SuppressMessage("ReSharper", "RedundantCast")]
         public static explicit operator Segment3(Segment2 segment)
         {
             return new Segment3((Vector3) segment.a, (Vector3) segment.b);

@@ -15,7 +15,7 @@ namespace ProceduralToolkit.Samples
         [Serializable]
         public class Config
         {
-            public Vector3 terrainSize = new Vector3(32, 5, 32);
+            public Vector3 terrainSize = new(32, 5, 32);
             public float cellSize = 0.5f;
             public float noiseFrequency = 4;
             public Gradient gradient = ColorE.Gradient(Color.black, Color.white);
@@ -41,7 +41,7 @@ namespace ProceduralToolkit.Samples
                 vertices = new List<Vector3>(vertexCount),
                 triangles = new List<int>(vertexCount),
                 normals = new List<Vector3>(vertexCount),
-                colors = new List<Color>(vertexCount)
+                colors = new List<Color>(vertexCount),
             };
 
             for (int i = 0; i < vertexCount; i++)

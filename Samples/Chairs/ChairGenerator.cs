@@ -19,7 +19,7 @@ namespace ProceduralToolkit.Samples
             public float seatHeight = 0.05f;
             public float backHeight = 0.8f;
             public bool hasStretchers = true;
-            public bool hasArmrests = false;
+            public bool hasArmrests;
             public Color color = Color.white;
         }
 
@@ -29,7 +29,7 @@ namespace ProceduralToolkit.Samples
         {
             Stretchers.XStretchers,
             Stretchers.HStretchers,
-            Stretchers.BoxStretchers
+            Stretchers.BoxStretchers,
         };
 
         private delegate MeshDraft BackConstructor(Vector3 center, float width, float length, float height);
@@ -38,7 +38,7 @@ namespace ProceduralToolkit.Samples
         {
             Backs.Back0,
             Backs.Back1,
-            Backs.RodBack
+            Backs.RodBack,
         };
 
         private delegate MeshDraft ArmrestsConstructor(float seatWidth, float seatDepth, Vector3 backCenter,
@@ -47,7 +47,7 @@ namespace ProceduralToolkit.Samples
         private static readonly ArmrestsConstructor[] armrestsConstructors =
         {
             Armrests.Armrests0,
-            Armrests.Armrests1
+            Armrests.Armrests1,
         };
 
         public static MeshDraft Chair(Config config)
@@ -65,12 +65,12 @@ namespace ProceduralToolkit.Samples
             var chair = new MeshDraft {name = "Chair"};
 
             // Generate legs
-            var legCenters = new Vector3[]
+            var legCenters = new[]
             {
                 -right - forward,
                 right - forward,
                 right + forward,
-                -right + forward
+                -right + forward,
             };
             chair.Add(Leg0(legCenters[0], config.legWidth, config.legHeight));
             chair.Add(Leg0(legCenters[1], config.legWidth, config.legHeight));

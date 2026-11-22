@@ -8,7 +8,7 @@ namespace ProceduralToolkit.Skeleton
     /// </summary>
     public class StraightSkeleton
     {
-        public List<List<Vector2>> polygons = new List<List<Vector2>>();
+        public List<List<Vector2>> polygons = new();
 
         public StraightSkeleton()
         {

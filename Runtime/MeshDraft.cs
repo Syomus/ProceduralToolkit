@@ -12,15 +12,15 @@ namespace ProceduralToolkit
     public partial class MeshDraft
     {
         public string name = "";
-        public List<Vector3> vertices = new List<Vector3>();
-        public List<int> triangles = new List<int>();
-        public List<Vector3> normals = new List<Vector3>();
-        public List<Vector4> tangents = new List<Vector4>();
-        public List<Vector2> uv = new List<Vector2>();
-        public List<Vector2> uv2 = new List<Vector2>();
-        public List<Vector2> uv3 = new List<Vector2>();
-        public List<Vector2> uv4 = new List<Vector2>();
-        public List<Color> colors = new List<Color>();
+        public List<Vector3> vertices = new();
+        public List<int> triangles = new();
+        public List<Vector3> normals = new();
+        public List<Vector4> tangents = new();
+        public List<Vector2> uv = new();
+        public List<Vector2> uv2 = new();
+        public List<Vector2> uv3 = new();
+        public List<Vector2> uv4 = new();
+        public List<Color> colors = new();
 
         /// <summary>
         /// Shortcut for vertices.Count
@@ -416,8 +416,8 @@ namespace ProceduralToolkit
         public MeshDraft AddTriangleStrip(IReadOnlyList<Vector3> strip, Vector3 normal)
         {
             for (int i = 0, j = 1, k = 2;
-                i < strip.Count - 2;
-                i++, j += i%2*2, k += (i + 1)%2*2)
+                 i < strip.Count - 2;
+                 i++, j += i%2*2, k += (i + 1)%2*2)
             {
                 triangles.Add(i + vertices.Count);
                 triangles.Add(j + vertices.Count);
@@ -440,8 +440,8 @@ namespace ProceduralToolkit
         public MeshDraft AddTriangleStrip(IReadOnlyList<Vector3> strip, IReadOnlyList<Vector3> normals)
         {
             for (int i = 0, j = 1, k = 2;
-                i < strip.Count - 2;
-                i++, j += i%2*2, k += (i + 1)%2*2)
+                 i < strip.Count - 2;
+                 i++, j += i%2*2, k += (i + 1)%2*2)
             {
                 triangles.Add(i + vertices.Count);
                 triangles.Add(j + vertices.Count);
@@ -559,12 +559,12 @@ namespace ProceduralToolkit
                 throw new ArgumentException("Array sizes must be greater than 2");
             }
 
-            Vector2 uv00 = new Vector2(0, 0);
-            Vector2 uvBottomCenter = new Vector2(0.5f, 0);
-            Vector2 uv10 = new Vector2(1, 0);
-            Vector2 uv01 = new Vector2(0, 1);
-            Vector2 uvTopCenter = new Vector2(0.5f, 1);
-            Vector2 uv11 = new Vector2(1, 1);
+            Vector2 uv00 = new(0, 0);
+            Vector2 uvBottomCenter = new(0.5f, 0);
+            Vector2 uv10 = new(1, 0);
+            Vector2 uv01 = new(0, 1);
+            Vector2 uvTopCenter = new(0.5f, 1);
+            Vector2 uv11 = new(1, 1);
 
             Vector3 lower0, upper0, lower1, upper1;
             for (int i = 0; i < lowerRing.Count - 1; i++)
@@ -622,7 +622,7 @@ namespace ProceduralToolkit
 
             Vector3 lower0, upper0, lower1, upper1;
             int ringCount = lowerRing.Count;
-            float uvXStep = 1f / ringCount;
+            float uvXStep = 1f/ringCount;
             for (int i = 0; i < ringCount - 1; i++)
             {
                 lower0 = lowerRing[i];
@@ -631,12 +631,12 @@ namespace ProceduralToolkit
                 upper1 = upperRing[i + 1];
                 if (generateUV)
                 {
-                    var uvX0 = i * uvXStep;
-                    var uxX1 = (i + 1) * uvXStep;
-                    Vector2 uv00 = new Vector2(uvX0, 0);
-                    Vector2 uv10 = new Vector2(uxX1, 0);
-                    Vector2 uv01 = new Vector2(uvX0, 1);
-                    Vector2 uv11 = new Vector2(uxX1, 1);
+                    var uvX0 = i*uvXStep;
+                    var uxX1 = (i + 1)*uvXStep;
+                    Vector2 uv00 = new(uvX0, 0);
+                    Vector2 uv10 = new(uxX1, 0);
+                    Vector2 uv01 = new(uvX0, 1);
+                    Vector2 uv11 = new(uxX1, 1);
                     AddQuad(lower1, upper1, upper0, lower0, true, uv00, uv01, uv11, uv10);
                 }
                 else
@@ -651,12 +651,12 @@ namespace ProceduralToolkit
             upper1 = upperRing[0];
             if (generateUV)
             {
-                var uvX0 = (ringCount - 1) * uvXStep;
+                var uvX0 = (ringCount - 1)*uvXStep;
                 var uxX1 = 1;
-                Vector2 uv00 = new Vector2(uvX0, 0);
-                Vector2 uv10 = new Vector2(uxX1, 0);
-                Vector2 uv01 = new Vector2(uvX0, 1);
-                Vector2 uv11 = new Vector2(uxX1, 1);
+                Vector2 uv00 = new(uvX0, 0);
+                Vector2 uv10 = new(uxX1, 0);
+                Vector2 uv01 = new(uvX0, 1);
+                Vector2 uv11 = new(uxX1, 1);
                 AddQuad(lower1, upper1, upper0, lower0, true, uv00, uv01, uv11, uv10);
             }
             else
@@ -923,4 +923,3 @@ namespace ProceduralToolkit
         }
     }
 }
-

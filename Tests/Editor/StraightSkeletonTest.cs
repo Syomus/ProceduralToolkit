@@ -9,38 +9,38 @@ namespace ProceduralToolkit.Tests
     {
         #region Square
 
-        private List<Vector2> square = new List<Vector2>
+        private readonly List<Vector2> square = new()
         {
             new Vector2(-1, -1),
             new Vector2(-1, 1),
             new Vector2(1, 1),
             new Vector2(1, -1),
         };
-        private List<List<Vector2>> squareSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> squareSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1, -1),
-                new Vector2(-1, 1),
-                new Vector2(0, 0),
+                new(-1, -1),
+                new(-1, 1),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 1),
-                new Vector2(1, 1),
-                new Vector2(0, 0),
+                new(-1, 1),
+                new(1, 1),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(1, 1),
-                new Vector2(1, -1),
-                new Vector2(0, 0),
+                new(1, 1),
+                new(1, -1),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(1, -1),
-                new Vector2(-1, -1),
-                new Vector2(0, 0),
+                new(1, -1),
+                new(-1, -1),
+                new(0, 0),
             },
         };
 
@@ -54,40 +54,40 @@ namespace ProceduralToolkit.Tests
 
         #region Rectangle
 
-        private List<Vector2> rectangle = new List<Vector2>
+        private readonly List<Vector2> rectangle = new()
         {
             new Vector2(-2, -1),
             new Vector2(-2, 1),
             new Vector2(2, 1),
             new Vector2(2, -1),
         };
-        private List<List<Vector2>> rectangleSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> rectangleSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-2, -1),
-                new Vector2(-2, 1),
-                new Vector2(-1, 0),
+                new(-2, -1),
+                new(-2, 1),
+                new(-1, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-2, 1),
-                new Vector2(2, 1),
-                new Vector2(1, 0),
-                new Vector2(-1, 0),
+                new(-2, 1),
+                new(2, 1),
+                new(1, 0),
+                new(-1, 0),
             },
             new List<Vector2>
             {
-                new Vector2(2, 1),
-                new Vector2(2, -1),
-                new Vector2(1, 0),
+                new(2, 1),
+                new(2, -1),
+                new(1, 0),
             },
             new List<Vector2>
             {
-                new Vector2(2, -1),
-                new Vector2(-2, -1),
-                new Vector2(-1, 0),
-                new Vector2(1, 0),
+                new(2, -1),
+                new(-2, -1),
+                new(-1, 0),
+                new(1, 0),
             },
         };
 
@@ -101,7 +101,7 @@ namespace ProceduralToolkit.Tests
 
         #region ShapeL
 
-        private List<Vector2> shapeL = new List<Vector2>
+        private readonly List<Vector2> shapeL = new()
         {
             new Vector2(-1, -1),
             new Vector2(-1, 1),
@@ -110,49 +110,49 @@ namespace ProceduralToolkit.Tests
             new Vector2(1, 0.5f),
             new Vector2(1, -1),
         };
-        private List<List<Vector2>> shapeLSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> shapeLSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1, -1),
-                new Vector2(-1, 1),
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(-0.5f, 0),
-                new Vector2(-0.25f, -0.25f),
+                new(-1, -1),
+                new(-1, 1),
+                new(-0.5f, 0.5f),
+                new(-0.5f, 0),
+                new(-0.25f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 1),
-                new Vector2(0, 1),
-                new Vector2(-0.5f, 0.5f),
+                new(-1, 1),
+                new(0, 1),
+                new(-0.5f, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(0, 1),
-                new Vector2(0, 0.5f),
-                new Vector2(-0.5f, 0),
-                new Vector2(-0.5f, 0.5f),
+                new(0, 1),
+                new(0, 0.5f),
+                new(-0.5f, 0),
+                new(-0.5f, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(0, 0.5f),
-                new Vector2(1, 0.5f),
-                new Vector2(0.25f, -0.25f),
-                new Vector2(-0.25f, -0.25f),
-                new Vector2(-0.5f, 0),
+                new(0, 0.5f),
+                new(1, 0.5f),
+                new(0.25f, -0.25f),
+                new(-0.25f, -0.25f),
+                new(-0.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(1, 0.5f),
-                new Vector2(1, -1),
-                new Vector2(0.25f, -0.25f),
+                new(1, 0.5f),
+                new(1, -1),
+                new(0.25f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -1),
-                new Vector2(-1, -1),
-                new Vector2(-0.25f, -0.25f),
-                new Vector2(0.25f, -0.25f),
+                new(1, -1),
+                new(-1, -1),
+                new(-0.25f, -0.25f),
+                new(0.25f, -0.25f),
             },
         };
 
@@ -166,7 +166,7 @@ namespace ProceduralToolkit.Tests
 
         #region ShapeP
 
-        private List<Vector2> shapeP = new List<Vector2>
+        private readonly List<Vector2> shapeP = new()
         {
             new Vector2(-1, -1),
             new Vector2(-1, 0.5f),
@@ -175,49 +175,49 @@ namespace ProceduralToolkit.Tests
             new Vector2(1, 1),
             new Vector2(1, -1),
         };
-        private List<List<Vector2>> shapePSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> shapePSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1, -1),
-                new Vector2(-1, 0.5f),
-                new Vector2(-0.25f, -0.25f),
+                new(-1, -1),
+                new(-1, 0.5f),
+                new(-0.25f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 0.5f),
-                new Vector2(0, 0.5f),
-                new Vector2(0.5f, 0),
-                new Vector2(0.25f, -0.25f),
-                new Vector2(-0.25f, -0.25f),
+                new(-1, 0.5f),
+                new(0, 0.5f),
+                new(0.5f, 0),
+                new(0.25f, -0.25f),
+                new(-0.25f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(0, 0.5f),
-                new Vector2(0, 1),
-                new Vector2(0.5f, 0.5f),
-                new Vector2(0.5f, 0),
+                new(0, 0.5f),
+                new(0, 1),
+                new(0.5f, 0.5f),
+                new(0.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(0, 1),
-                new Vector2(1, 1),
-                new Vector2(0.5f, 0.5f),
+                new(0, 1),
+                new(1, 1),
+                new(0.5f, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(1, 1),
-                new Vector2(1, -1),
-                new Vector2(0.25f, -0.25f),
-                new Vector2(0.5f, 0),
-                new Vector2(0.5f, 0.5f),
+                new(1, 1),
+                new(1, -1),
+                new(0.25f, -0.25f),
+                new(0.5f, 0),
+                new(0.5f, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -1),
-                new Vector2(-1, -1),
-                new Vector2(-0.25f, -0.25f),
-                new Vector2(0.25f, -0.25f),
+                new(1, -1),
+                new(-1, -1),
+                new(-0.25f, -0.25f),
+                new(0.25f, -0.25f),
             },
         };
 
@@ -231,7 +231,7 @@ namespace ProceduralToolkit.Tests
 
         #region ShapeBigT
 
-        private List<Vector2> shapeBigT = new List<Vector2>
+        private readonly List<Vector2> shapeBigT = new()
         {
             new Vector2(-1, -1),
             new Vector2(-1, 0.5f),
@@ -242,63 +242,63 @@ namespace ProceduralToolkit.Tests
             new Vector2(1, 0.5f),
             new Vector2(1, -1),
         };
-        private List<List<Vector2>> shapeBigTSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> shapeBigTSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1, -1),
-                new Vector2(-1, 0.5f),
-                new Vector2(-0.25f, -0.25f),
+                new(-1, -1),
+                new(-1, 0.5f),
+                new(-0.25f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 0.5f),
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(0, 0),
-                new Vector2(0, -0.25f),
-                new Vector2(-0.25f, -0.25f),
+                new(-1, 0.5f),
+                new(-0.5f, 0.5f),
+                new(0, 0),
+                new(0, -0.25f),
+                new(-0.25f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(-0.5f, 1),
-                new Vector2(0, 0.5f),
-                new Vector2(0, 0),
+                new(-0.5f, 0.5f),
+                new(-0.5f, 1),
+                new(0, 0.5f),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 1),
-                new Vector2(0.5f, 1),
-                new Vector2(0, 0.5f),
+                new(-0.5f, 1),
+                new(0.5f, 1),
+                new(0, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 1),
-                new Vector2(0.5f, 0.5f),
-                new Vector2(0, 0),
-                new Vector2(0, 0.5f),
+                new(0.5f, 1),
+                new(0.5f, 0.5f),
+                new(0, 0),
+                new(0, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 0.5f),
-                new Vector2(1, 0.5f),
-                new Vector2(0.25f, -0.25f),
-                new Vector2(0, -0.25f),
-                new Vector2(0, 0),
+                new(0.5f, 0.5f),
+                new(1, 0.5f),
+                new(0.25f, -0.25f),
+                new(0, -0.25f),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(1, 0.5f),
-                new Vector2(1, -1),
-                new Vector2(0.25f, -0.25f),
+                new(1, 0.5f),
+                new(1, -1),
+                new(0.25f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -1),
-                new Vector2(-1, -1),
-                new Vector2(-0.25f, -0.25f),
-                new Vector2(0, -0.25f),
-                new Vector2(0.25f, -0.25f),
+                new(1, -1),
+                new(-1, -1),
+                new(-0.25f, -0.25f),
+                new(0, -0.25f),
+                new(0.25f, -0.25f),
             },
         };
 
@@ -312,7 +312,7 @@ namespace ProceduralToolkit.Tests
 
         #region ShapeSmallT
 
-        private List<Vector2> shapeSmallT = new List<Vector2>
+        private readonly List<Vector2> shapeSmallT = new()
         {
             new Vector2(-1, -0.5f),
             new Vector2(-1, 0.5f),
@@ -323,61 +323,61 @@ namespace ProceduralToolkit.Tests
             new Vector2(1, 0.5f),
             new Vector2(1, -0.5f),
         };
-        private List<List<Vector2>> shapeSmallTSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> shapeSmallTSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1, -0.5f),
-                new Vector2(-1, 0.5f),
-                new Vector2(-0.5f, 0),
+                new(-1, -0.5f),
+                new(-1, 0.5f),
+                new(-0.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 0.5f),
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(0, 0),
-                new Vector2(-0.5f, 0),
+                new(-1, 0.5f),
+                new(-0.5f, 0.5f),
+                new(0, 0),
+                new(-0.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(-0.5f, 1),
-                new Vector2(0, 0.5f),
-                new Vector2(0, 0),
+                new(-0.5f, 0.5f),
+                new(-0.5f, 1),
+                new(0, 0.5f),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 1),
-                new Vector2(0.5f, 1),
-                new Vector2(0, 0.5f),
+                new(-0.5f, 1),
+                new(0.5f, 1),
+                new(0, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 1),
-                new Vector2(0.5f, 0.5f),
-                new Vector2(0, 0),
-                new Vector2(0, 0.5f),
+                new(0.5f, 1),
+                new(0.5f, 0.5f),
+                new(0, 0),
+                new(0, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 0.5f),
-                new Vector2(1, 0.5f),
-                new Vector2(0.5f, 0),
-                new Vector2(0, 0),
+                new(0.5f, 0.5f),
+                new(1, 0.5f),
+                new(0.5f, 0),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(1, 0.5f),
-                new Vector2(1, -0.5f),
-                new Vector2(0.5f, 0),
+                new(1, 0.5f),
+                new(1, -0.5f),
+                new(0.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(1, -0.5f),
-                new Vector2(-1, -0.5f),
-                new Vector2(-0.5f, 0),
-                new Vector2(0, 0),
-                new Vector2(0.5f, 0),
+                new(1, -0.5f),
+                new(-1, -0.5f),
+                new(-0.5f, 0),
+                new(0, 0),
+                new(0.5f, 0),
             },
         };
 
@@ -391,7 +391,7 @@ namespace ProceduralToolkit.Tests
 
         #region Cross
 
-        private List<Vector2> cross = new List<Vector2>
+        private readonly List<Vector2> cross = new()
         {
             new Vector2(-1, -0.5f),
             new Vector2(-1, 0.5f),
@@ -406,87 +406,87 @@ namespace ProceduralToolkit.Tests
             new Vector2(-0.5f, -1),
             new Vector2(-0.5f, -0.5f),
         };
-        private List<List<Vector2>> crossSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> crossSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1, -0.5f),
-                new Vector2(-1, 0.5f),
-                new Vector2(-0.5f, 0),
+                new(-1, -0.5f),
+                new(-1, 0.5f),
+                new(-0.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 0.5f),
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(0, 0),
-                new Vector2(-0.5f, 0),
+                new(-1, 0.5f),
+                new(-0.5f, 0.5f),
+                new(0, 0),
+                new(-0.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(-0.5f, 1),
-                new Vector2(0, 0.5f),
-                new Vector2(0, 0),
+                new(-0.5f, 0.5f),
+                new(-0.5f, 1),
+                new(0, 0.5f),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 1),
-                new Vector2(0.5f, 1),
-                new Vector2(0, 0.5f),
+                new(-0.5f, 1),
+                new(0.5f, 1),
+                new(0, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 1),
-                new Vector2(0.5f, 0.5f),
-                new Vector2(0, 0),
-                new Vector2(0, 0.5f),
+                new(0.5f, 1),
+                new(0.5f, 0.5f),
+                new(0, 0),
+                new(0, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 0.5f),
-                new Vector2(1, 0.5f),
-                new Vector2(0.5f, 0),
-                new Vector2(0, 0),
+                new(0.5f, 0.5f),
+                new(1, 0.5f),
+                new(0.5f, 0),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(1, 0.5f),
-                new Vector2(1, -0.5f),
-                new Vector2(0.5f, 0),
+                new(1, 0.5f),
+                new(1, -0.5f),
+                new(0.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(1, -0.5f),
-                new Vector2(0.5f, -0.5f),
-                new Vector2(0, 0),
-                new Vector2(0.5f, 0),
+                new(1, -0.5f),
+                new(0.5f, -0.5f),
+                new(0, 0),
+                new(0.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, -0.5f),
-                new Vector2(0.5f, -1),
-                new Vector2(0, -0.5f),
-                new Vector2(0, 0),
+                new(0.5f, -0.5f),
+                new(0.5f, -1),
+                new(0, -0.5f),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, -1),
-                new Vector2(-0.5f, -1),
-                new Vector2(0, -0.5f),
+                new(0.5f, -1),
+                new(-0.5f, -1),
+                new(0, -0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, -1),
-                new Vector2(-0.5f, -0.5f),
-                new Vector2(0, 0),
-                new Vector2(0, -0.5f),
+                new(-0.5f, -1),
+                new(-0.5f, -0.5f),
+                new(0, 0),
+                new(0, -0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, -0.5f),
-                new Vector2(-1, -0.5f),
-                new Vector2(-0.5f, 0),
-                new Vector2(0, 0),
+                new(-0.5f, -0.5f),
+                new(-1, -0.5f),
+                new(-0.5f, 0),
+                new(0, 0),
             },
         };
 
@@ -500,7 +500,7 @@ namespace ProceduralToolkit.Tests
 
         #region ShapeBigH
 
-        private List<Vector2> shapeBigH = new List<Vector2>
+        private readonly List<Vector2> shapeBigH = new()
         {
             new Vector2(-0.5f, -0.5f),
             new Vector2(-0.5f, -1),
@@ -515,97 +515,97 @@ namespace ProceduralToolkit.Tests
             new Vector2(0.5f, -1),
             new Vector2(0.5f, -0.5f),
         };
-        private List<List<Vector2>> shapeBigHSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> shapeBigHSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-0.5f, -0.5f),
-                new Vector2(-0.5f, -1),
-                new Vector2(-0.75f, -0.75f),
-                new Vector2(-0.75f, -0.25f),
+                new(-0.5f, -0.5f),
+                new(-0.5f, -1),
+                new(-0.75f, -0.75f),
+                new(-0.75f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, -1),
-                new Vector2(-1, -1),
-                new Vector2(-0.75f, -0.75f),
+                new(-0.5f, -1),
+                new(-1, -1),
+                new(-0.75f, -0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, -1),
-                new Vector2(-1, 1),
-                new Vector2(-0.75f, 0.75f),
-                new Vector2(-0.75f, 0.25f),
-                new Vector2(-0.5f, 0),
-                new Vector2(-0.75f, -0.25f),
-                new Vector2(-0.75f, -0.75f),
+                new(-1, -1),
+                new(-1, 1),
+                new(-0.75f, 0.75f),
+                new(-0.75f, 0.25f),
+                new(-0.5f, 0),
+                new(-0.75f, -0.25f),
+                new(-0.75f, -0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 1),
-                new Vector2(-0.5f, 1),
-                new Vector2(-0.75f, 0.75f),
+                new(-1, 1),
+                new(-0.5f, 1),
+                new(-0.75f, 0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 1),
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(-0.75f, 0.25f),
-                new Vector2(-0.75f, 0.75f),
+                new(-0.5f, 1),
+                new(-0.5f, 0.5f),
+                new(-0.75f, 0.25f),
+                new(-0.75f, 0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(0.5f, 0.5f),
-                new Vector2(0.75f, 0.25f),
-                new Vector2(0.5f, 0),
-                new Vector2(-0.5f, 0),
-                new Vector2(-0.75f, 0.25f),
+                new(-0.5f, 0.5f),
+                new(0.5f, 0.5f),
+                new(0.75f, 0.25f),
+                new(0.5f, 0),
+                new(-0.5f, 0),
+                new(-0.75f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 0.5f),
-                new Vector2(0.5f, 1),
-                new Vector2(0.75f, 0.75f),
-                new Vector2(0.75f, 0.25f),
+                new(0.5f, 0.5f),
+                new(0.5f, 1),
+                new(0.75f, 0.75f),
+                new(0.75f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 1),
-                new Vector2(1, 1),
-                new Vector2(0.75f, 0.75f),
+                new(0.5f, 1),
+                new(1, 1),
+                new(0.75f, 0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(1, 1),
-                new Vector2(1, -1),
-                new Vector2(0.75f, -0.75f),
-                new Vector2(0.75f, -0.25f),
-                new Vector2(0.5f, 0),
-                new Vector2(0.75f, 0.25f),
-                new Vector2(0.75f, 0.75f),
+                new(1, 1),
+                new(1, -1),
+                new(0.75f, -0.75f),
+                new(0.75f, -0.25f),
+                new(0.5f, 0),
+                new(0.75f, 0.25f),
+                new(0.75f, 0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -1),
-                new Vector2(0.5f, -1),
-                new Vector2(0.75f, -0.75f),
+                new(1, -1),
+                new(0.5f, -1),
+                new(0.75f, -0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, -1),
-                new Vector2(0.5f, -0.5f),
-                new Vector2(0.75f, -0.25f),
-                new Vector2(0.75f, -0.75f),
+                new(0.5f, -1),
+                new(0.5f, -0.5f),
+                new(0.75f, -0.25f),
+                new(0.75f, -0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, -0.5f),
-                new Vector2(-0.5f, -0.5f),
-                new Vector2(-0.75f, -0.25f),
-                new Vector2(-0.5f, 0),
-                new Vector2(0.5f, 0),
-                new Vector2(0.75f, -0.25f),
+                new(0.5f, -0.5f),
+                new(-0.5f, -0.5f),
+                new(-0.75f, -0.25f),
+                new(-0.5f, 0),
+                new(0.5f, 0),
+                new(0.75f, -0.25f),
             },
         };
 
@@ -619,7 +619,7 @@ namespace ProceduralToolkit.Tests
 
         #region ShapeSmallH
 
-        private List<Vector2> shapeSmallH = new List<Vector2>
+        private readonly List<Vector2> shapeSmallH = new()
         {
             new Vector2(-0.5f, 0),
             new Vector2(-0.5f, -0.5f),
@@ -634,89 +634,89 @@ namespace ProceduralToolkit.Tests
             new Vector2(0.5f, -0.5f),
             new Vector2(0.5f, 0),
         };
-        private List<List<Vector2>> shapeSmallHSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> shapeSmallHSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-0.5f, 0),
-                new Vector2(-0.5f, -0.5f),
-                new Vector2(-0.75f, -0.25f),
-                new Vector2(-0.75f, 0.25f),
+                new(-0.5f, 0),
+                new(-0.5f, -0.5f),
+                new(-0.75f, -0.25f),
+                new(-0.75f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, -0.5f),
-                new Vector2(-1, -0.5f),
-                new Vector2(-0.75f, -0.25f),
+                new(-0.5f, -0.5f),
+                new(-1, -0.5f),
+                new(-0.75f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, -0.5f),
-                new Vector2(-1, 1),
-                new Vector2(-0.75f, 0.75f),
-                new Vector2(-0.75f, 0.25f),
-                new Vector2(-0.75f, -0.25f),
+                new(-1, -0.5f),
+                new(-1, 1),
+                new(-0.75f, 0.75f),
+                new(-0.75f, 0.25f),
+                new(-0.75f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 1),
-                new Vector2(-0.5f, 1),
-                new Vector2(-0.75f, 0.75f),
+                new(-1, 1),
+                new(-0.5f, 1),
+                new(-0.75f, 0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 1),
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(-0.75f, 0.25f),
-                new Vector2(-0.75f, 0.75f),
+                new(-0.5f, 1),
+                new(-0.5f, 0.5f),
+                new(-0.75f, 0.25f),
+                new(-0.75f, 0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(0.5f, 0.5f),
-                new Vector2(0.75f, 0.25f),
-                new Vector2(-0.75f, 0.25f),
+                new(-0.5f, 0.5f),
+                new(0.5f, 0.5f),
+                new(0.75f, 0.25f),
+                new(-0.75f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 0.5f),
-                new Vector2(0.5f, 1),
-                new Vector2(0.75f, 0.75f),
-                new Vector2(0.75f, 0.25f),
+                new(0.5f, 0.5f),
+                new(0.5f, 1),
+                new(0.75f, 0.75f),
+                new(0.75f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 1),
-                new Vector2(1, 1),
-                new Vector2(0.75f, 0.75f),
+                new(0.5f, 1),
+                new(1, 1),
+                new(0.75f, 0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(1, 1),
-                new Vector2(1, -0.5f),
-                new Vector2(0.75f, -0.25f),
-                new Vector2(0.75f, 0.25f),
-                new Vector2(0.75f, 0.75f),
+                new(1, 1),
+                new(1, -0.5f),
+                new(0.75f, -0.25f),
+                new(0.75f, 0.25f),
+                new(0.75f, 0.75f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -0.5f),
-                new Vector2(0.5f, -0.5f),
-                new Vector2(0.75f, -0.25f),
+                new(1, -0.5f),
+                new(0.5f, -0.5f),
+                new(0.75f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, -0.5f),
-                new Vector2(0.5f, 0),
-                new Vector2(0.75f, 0.25f),
-                new Vector2(0.75f, -0.25f),
+                new(0.5f, -0.5f),
+                new(0.5f, 0),
+                new(0.75f, 0.25f),
+                new(0.75f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, 0),
-                new Vector2(-0.5f, 0),
-                new Vector2(-0.75f, 0.25f),
-                new Vector2(0.75f, 0.25f),
+                new(0.5f, 0),
+                new(-0.5f, 0),
+                new(-0.75f, 0.25f),
+                new(0.75f, 0.25f),
             },
         };
 
@@ -730,7 +730,7 @@ namespace ProceduralToolkit.Tests
 
         #region ShapeSmall8
 
-        private List<Vector2> shapeSmall8 = new List<Vector2>
+        private readonly List<Vector2> shapeSmall8 = new()
         {
             new Vector2(-1, -1),
             new Vector2(-1, 0.5f),
@@ -741,59 +741,59 @@ namespace ProceduralToolkit.Tests
             new Vector2(0.5f, -0.5f),
             new Vector2(0.5f, -1),
         };
-        private List<List<Vector2>> shapeSmall8Skeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> shapeSmall8Skeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1, -1),
-                new Vector2(-1, 0.5f),
-                new Vector2(-0.25f, -0.25f),
+                new(-1, -1),
+                new(-1, 0.5f),
+                new(-0.25f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 0.5f),
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(0, 0),
-                new Vector2(-0.25f, -0.25f),
+                new(-1, 0.5f),
+                new(-0.5f, 0.5f),
+                new(0, 0),
+                new(-0.25f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 0.5f),
-                new Vector2(-0.5f, 1),
-                new Vector2(0.25f, 0.25f),
-                new Vector2(0, 0),
+                new(-0.5f, 0.5f),
+                new(-0.5f, 1),
+                new(0.25f, 0.25f),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-0.5f, 1),
-                new Vector2(1, 1),
-                new Vector2(0.25f, 0.25f),
+                new(-0.5f, 1),
+                new(1, 1),
+                new(0.25f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(1, 1),
-                new Vector2(1, -0.5f),
-                new Vector2(0.25f, 0.25f),
+                new(1, 1),
+                new(1, -0.5f),
+                new(0.25f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -0.5f),
-                new Vector2(0.5f, -0.5f),
-                new Vector2(0, 0),
-                new Vector2(0.25f, 0.25f),
+                new(1, -0.5f),
+                new(0.5f, -0.5f),
+                new(0, 0),
+                new(0.25f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, -0.5f),
-                new Vector2(0.5f, -1),
-                new Vector2(-0.25f, -0.25f),
-                new Vector2(0, 0),
+                new(0.5f, -0.5f),
+                new(0.5f, -1),
+                new(-0.25f, -0.25f),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(0.5f, -1),
-                new Vector2(-1, -1),
-                new Vector2(-0.25f, -0.25f),
+                new(0.5f, -1),
+                new(-1, -1),
+                new(-0.25f, -0.25f),
             },
         };
 
@@ -807,7 +807,7 @@ namespace ProceduralToolkit.Tests
 
         #region ShapeBig8
 
-        private List<Vector2> shapeBig8 = new List<Vector2>
+        private readonly List<Vector2> shapeBig8 = new()
         {
             new Vector2(-1.5f, -1),
             new Vector2(-1.5f, 0.5f),
@@ -818,63 +818,63 @@ namespace ProceduralToolkit.Tests
             new Vector2(1, -0.5f),
             new Vector2(1, -1),
         };
-        private List<List<Vector2>> shapeBig8Skeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> shapeBig8Skeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1.5f, -1),
-                new Vector2(-1.5f, 0.5f),
-                new Vector2(-0.75f, -0.25f),
+                new(-1.5f, -1),
+                new(-1.5f, 0.5f),
+                new(-0.75f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-1.5f, 0.5f),
-                new Vector2(-1, 0.5f),
-                new Vector2(-0.25f, -0.25f),
-                new Vector2(-0.75f, -0.25f),
+                new(-1.5f, 0.5f),
+                new(-1, 0.5f),
+                new(-0.25f, -0.25f),
+                new(-0.75f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 0.5f),
-                new Vector2(-1, 1),
-                new Vector2(0, 0),
-                new Vector2(-0.25f, -0.25f),
+                new(-1, 0.5f),
+                new(-1, 1),
+                new(0, 0),
+                new(-0.25f, -0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 1),
-                new Vector2(1.5f, 1),
-                new Vector2(0.75f, 0.25f),
-                new Vector2(0.25f, 0.25f),
-                new Vector2(0, 0),
+                new(-1, 1),
+                new(1.5f, 1),
+                new(0.75f, 0.25f),
+                new(0.25f, 0.25f),
+                new(0, 0),
             },
             new List<Vector2>
             {
-                new Vector2(1.5f, 1),
-                new Vector2(1.5f, -0.5f),
-                new Vector2(0.75f, 0.25f),
+                new(1.5f, 1),
+                new(1.5f, -0.5f),
+                new(0.75f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(1.5f, -0.5f),
-                new Vector2(1, -0.5f),
-                new Vector2(0.25f, 0.25f),
-                new Vector2(0.75f, 0.25f),
+                new(1.5f, -0.5f),
+                new(1, -0.5f),
+                new(0.25f, 0.25f),
+                new(0.75f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -0.5f),
-                new Vector2(1, -1),
-                new Vector2(0, 0),
-                new Vector2(0.25f, 0.25f),
+                new(1, -0.5f),
+                new(1, -1),
+                new(0, 0),
+                new(0.25f, 0.25f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -1),
-                new Vector2(-1.5f, -1),
-                new Vector2(-0.75f, -0.25f),
-                new Vector2(-0.25f, -0.25f),
-                new Vector2(0, 0),
+                new(1, -1),
+                new(-1.5f, -1),
+                new(-0.75f, -0.25f),
+                new(-0.25f, -0.25f),
+                new(0, 0),
             },
         };
 
@@ -888,7 +888,7 @@ namespace ProceduralToolkit.Tests
 
         #region Stairs
 
-        private List<Vector2> stairs = new List<Vector2>
+        private readonly List<Vector2> stairs = new()
         {
             new Vector2(-2, -1.5f),
             new Vector2(-2, 1.5f),
@@ -899,65 +899,65 @@ namespace ProceduralToolkit.Tests
             new Vector2(2, -0.5f),
             new Vector2(2, -1.5f),
         };
-        private List<List<Vector2>> stairsSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> stairsSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-2, -1.5f),
-                new Vector2(-2, 1.5f),
-                new Vector2(-1.5f, 1),
-                new Vector2(-1.5f, 0),
-                new Vector2(-1, -0.5f),
+                new(-2, -1.5f),
+                new(-2, 1.5f),
+                new(-1.5f, 1),
+                new(-1.5f, 0),
+                new(-1, -0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(-2, 1.5f),
-                new Vector2(-1, 1.5f),
-                new Vector2(-1.5f, 1),
+                new(-2, 1.5f),
+                new(-1, 1.5f),
+                new(-1.5f, 1),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 1.5f),
-                new Vector2(-1, 0.5f),
-                new Vector2(-1.5f, 0),
-                new Vector2(-1.5f, 1),
+                new(-1, 1.5f),
+                new(-1, 0.5f),
+                new(-1.5f, 0),
+                new(-1.5f, 1),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 0.5f),
-                new Vector2(1, 0.5f),
-                new Vector2(0, -0.5f),
-                new Vector2(-1, -0.5f),
-                new Vector2(-1.5f, 0),
+                new(-1, 0.5f),
+                new(1, 0.5f),
+                new(0, -0.5f),
+                new(-1, -0.5f),
+                new(-1.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(1, 0.5f),
-                new Vector2(1, -0.5f),
-                new Vector2(0.5f, -1),
-                new Vector2(0, -0.5f),
+                new(1, 0.5f),
+                new(1, -0.5f),
+                new(0.5f, -1),
+                new(0, -0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -0.5f),
-                new Vector2(2, -0.5f),
-                new Vector2(1.5f, -1),
-                new Vector2(0.5f, -1),
+                new(1, -0.5f),
+                new(2, -0.5f),
+                new(1.5f, -1),
+                new(0.5f, -1),
             },
             new List<Vector2>
             {
-                new Vector2(2, -0.5f),
-                new Vector2(2, -1.5f),
-                new Vector2(1.5f, -1),
+                new(2, -0.5f),
+                new(2, -1.5f),
+                new(1.5f, -1),
             },
             new List<Vector2>
             {
-                new Vector2(2, -1.5f),
-                new Vector2(-2, -1.5f),
-                new Vector2(-1, -0.5f),
-                new Vector2(0, -0.5f),
-                new Vector2(0.5f, -1),
-                new Vector2(1.5f, -1),
+                new(2, -1.5f),
+                new(-2, -1.5f),
+                new(-1, -0.5f),
+                new(0, -0.5f),
+                new(0.5f, -1),
+                new(1.5f, -1),
             },
         };
 
@@ -971,7 +971,7 @@ namespace ProceduralToolkit.Tests
 
         #region Bracket
 
-        private List<Vector2> bracket = new List<Vector2>
+        private readonly List<Vector2> bracket = new()
         {
             new Vector2(-3, -1.5f),
             new Vector2(-3, 1.5f),
@@ -982,63 +982,63 @@ namespace ProceduralToolkit.Tests
             new Vector2(-2, -0.5f),
             new Vector2(-2, -1.5f),
         };
-        private List<List<Vector2>> bracketSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> bracketSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-3, -1.5f),
-                new Vector2(-3, 1.5f),
-                new Vector2(-2, 0.5f),
-                new Vector2(-2.5f, 0),
-                new Vector2(-2.5f, -1),
+                new(-3, -1.5f),
+                new(-3, 1.5f),
+                new(-2, 0.5f),
+                new(-2.5f, 0),
+                new(-2.5f, -1),
             },
             new List<Vector2>
             {
-                new Vector2(-3, 1.5f),
-                new Vector2(3, 1.5f),
-                new Vector2(1.5f, 0),
-                new Vector2(1, 0.5f),
-                new Vector2(-2, 0.5f),
+                new(-3, 1.5f),
+                new(3, 1.5f),
+                new(1.5f, 0),
+                new(1, 0.5f),
+                new(-2, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(3, 1.5f),
-                new Vector2(3, -1.5f),
-                new Vector2(1.5f, 0),
+                new(3, 1.5f),
+                new(3, -1.5f),
+                new(1.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(3, -1.5f),
-                new Vector2(0, -1.5f),
-                new Vector2(1.5f, 0),
+                new(3, -1.5f),
+                new(0, -1.5f),
+                new(1.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(0, -1.5f),
-                new Vector2(0, -0.5f),
-                new Vector2(1, 0.5f),
-                new Vector2(1.5f, 0),
+                new(0, -1.5f),
+                new(0, -0.5f),
+                new(1, 0.5f),
+                new(1.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(0, -0.5f),
-                new Vector2(-2, -0.5f),
-                new Vector2(-2.5f, 0),
-                new Vector2(-2, 0.5f),
-                new Vector2(1, 0.5f),
+                new(0, -0.5f),
+                new(-2, -0.5f),
+                new(-2.5f, 0),
+                new(-2, 0.5f),
+                new(1, 0.5f),
             },
             new List<Vector2>
             {
-                new Vector2(-2, -0.5f),
-                new Vector2(-2, -1.5f),
-                new Vector2(-2.5f, -1),
-                new Vector2(-2.5f, 0),
+                new(-2, -0.5f),
+                new(-2, -1.5f),
+                new(-2.5f, -1),
+                new(-2.5f, 0),
             },
             new List<Vector2>
             {
-                new Vector2(-2, -1.5f),
-                new Vector2(-3, -1.5f),
-                new Vector2(-2.5f, -1),
+                new(-2, -1.5f),
+                new(-3, -1.5f),
+                new(-2.5f, -1),
             },
         };
 
@@ -1052,7 +1052,7 @@ namespace ProceduralToolkit.Tests
 
         #region Bowtie
 
-        private List<Vector2> bowtie = new List<Vector2>
+        private readonly List<Vector2> bowtie = new()
         {
             new Vector2(-1, -1),
             new Vector2(-1, 1),
@@ -1060,41 +1060,41 @@ namespace ProceduralToolkit.Tests
             new Vector2(1, 1),
             new Vector2(1, -1),
         };
-        private List<List<Vector2>> bowtieSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> bowtieSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1, -1),
-                new Vector2(-1, 1),
-                new Vector2(-0.414213598f, -0.414213598f),
+                new(-1, -1),
+                new(-1, 1),
+                new(-0.414213598f, -0.414213598f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 1),
-                new Vector2(0, 0),
-                new Vector2(0, -0.585786402f),
-                new Vector2(-0.414213687f, -0.414213359f),
+                new(-1, 1),
+                new(0, 0),
+                new(0, -0.585786402f),
+                new(-0.414213687f, -0.414213359f),
             },
             new List<Vector2>
             {
-                new Vector2(0, 0),
-                new Vector2(1, 1),
-                new Vector2(0.414213568f, -0.414213449f),
-                new Vector2(0, -0.585786402f),
+                new(0, 0),
+                new(1, 1),
+                new(0.414213568f, -0.414213449f),
+                new(0, -0.585786402f),
             },
             new List<Vector2>
             {
-                new Vector2(1, 1),
-                new Vector2(1, -1),
-                new Vector2(0.414213568f, -0.414213449f),
+                new(1, 1),
+                new(1, -1),
+                new(0.414213568f, -0.414213449f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -1),
-                new Vector2(-1, -1),
-                new Vector2(-0.414213598f, -0.414213598f),
-                new Vector2(0, -0.585786402f),
-                new Vector2(0.414213568f, -0.414213568f),
+                new(1, -1),
+                new(-1, -1),
+                new(-0.414213598f, -0.414213598f),
+                new(0, -0.585786402f),
+                new(0.414213568f, -0.414213568f),
             },
         };
 
@@ -1108,7 +1108,7 @@ namespace ProceduralToolkit.Tests
 
         #region BowtieCollinear
 
-        private List<Vector2> bowtieCollinear = new List<Vector2>
+        private readonly List<Vector2> bowtieCollinear = new()
         {
             new Vector2(-1, -1),
             new Vector2(-1, 1),
@@ -1117,47 +1117,47 @@ namespace ProceduralToolkit.Tests
             new Vector2(1, -1),
             new Vector2(0, -1),
         };
-        private List<List<Vector2>> bowtieCollinearSkeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> bowtieCollinearSkeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1, -1),
-                new Vector2(-1, 1),
-                new Vector2(-0.414213598f, -0.414213598f),
+                new(-1, -1),
+                new(-1, 1),
+                new(-0.414213598f, -0.414213598f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, 1),
-                new Vector2(0, 0),
-                new Vector2(0, -0.585786283f),
-                new Vector2(-0.414213717f, -0.414213359f),
+                new(-1, 1),
+                new(0, 0),
+                new(0, -0.585786283f),
+                new(-0.414213717f, -0.414213359f),
             },
             new List<Vector2>
             {
-                new Vector2(0, 0),
-                new Vector2(1, 1),
-                new Vector2(0.414213538f, -0.414213419f),
-                new Vector2(0, -0.585786283f),
+                new(0, 0),
+                new(1, 1),
+                new(0.414213538f, -0.414213419f),
+                new(0, -0.585786283f),
             },
             new List<Vector2>
             {
-                new Vector2(1, 1),
-                new Vector2(1, -1),
-                new Vector2(0.414213538f, -0.414213419f),
+                new(1, 1),
+                new(1, -1),
+                new(0.414213538f, -0.414213419f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -1),
-                new Vector2(0, -1),
-                new Vector2(0, -0.585786462f),
-                new Vector2(0.414213598f, -0.414213598f),
+                new(1, -1),
+                new(0, -1),
+                new(0, -0.585786462f),
+                new(0.414213598f, -0.414213598f),
             },
             new List<Vector2>
             {
-                new Vector2(0, -1),
-                new Vector2(-1, -1),
-                new Vector2(-0.414213598f, -0.414213598f),
-                new Vector2(0, -0.585786462f),
+                new(0, -1),
+                new(-1, -1),
+                new(-0.414213598f, -0.414213598f),
+                new(0, -0.585786462f),
             },
         };
 
@@ -1171,7 +1171,7 @@ namespace ProceduralToolkit.Tests
 
         #region ReflexEdgeEvent1
 
-        private List<Vector2> reflexEdgeEvent1 = new List<Vector2>
+        private readonly List<Vector2> reflexEdgeEvent1 = new()
         {
             new Vector2(-2, -2),
             new Vector2(-2, 2),
@@ -1179,41 +1179,41 @@ namespace ProceduralToolkit.Tests
             new Vector2(2, -1),
             new Vector2(1, -1),
         };
-        private List<List<Vector2>> reflexEdgeEvent1Skeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> reflexEdgeEvent1Skeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-2, -2),
-                new Vector2(-2, 2),
-                new Vector2(-0.324555397f, 0.324555397f),
+                new(-2, -2),
+                new(-2, 2),
+                new(-0.324555397f, 0.324555397f),
             },
             new List<Vector2>
             {
-                new Vector2(-2, 2),
-                new Vector2(2, 2),
-                new Vector2(0.450296491f, 0.450296491f),
-                new Vector2(-0.324555397f, 0.324555397f),
+                new(-2, 2),
+                new(2, 2),
+                new(0.450296491f, 0.450296491f),
+                new(-0.324555397f, 0.324555397f),
             },
             new List<Vector2>
             {
-                new Vector2(2, 2),
-                new Vector2(2, -1),
-                new Vector2(0.80628705f, 0.19371295f),
-                new Vector2(0.450296491f, 0.450296491f),
+                new(2, 2),
+                new(2, -1),
+                new(0.80628705f, 0.19371295f),
+                new(0.450296491f, 0.450296491f),
             },
             new List<Vector2>
             {
-                new Vector2(2, -1),
-                new Vector2(1, -1),
-                new Vector2(0.80628705f, 0.19371295f),
+                new(2, -1),
+                new(1, -1),
+                new(0.80628705f, 0.19371295f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -1),
-                new Vector2(-2, -2),
-                new Vector2(-0.324555397f, 0.324555397f),
-                new Vector2(0.450296521f, 0.450296432f),
-                new Vector2(0.80628705f, 0.193712831f),
+                new(1, -1),
+                new(-2, -2),
+                new(-0.324555397f, 0.324555397f),
+                new(0.450296521f, 0.450296432f),
+                new(0.80628705f, 0.193712831f),
             },
         };
 
@@ -1227,7 +1227,7 @@ namespace ProceduralToolkit.Tests
 
         #region ReflexEdgeEvent2
 
-        private List<Vector2> reflexEdgeEvent2 = new List<Vector2>
+        private readonly List<Vector2> reflexEdgeEvent2 = new()
         {
             new Vector2(-2, -2),
             new Vector2(-2, 2),
@@ -1236,49 +1236,49 @@ namespace ProceduralToolkit.Tests
             new Vector2(1, -1),
             new Vector2(-1, -2),
         };
-        private List<List<Vector2>> reflexEdgeEvent2Skeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> reflexEdgeEvent2Skeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-2, -2),
-                new Vector2(-2, 2),
-                new Vector2(-0.281152904f, 0.281152904f),
-                new Vector2(-1.19098306f, -1.19098306f),
+                new(-2, -2),
+                new(-2, 2),
+                new(-0.281152904f, 0.281152904f),
+                new(-1.19098306f, -1.19098306f),
             },
             new List<Vector2>
             {
-                new Vector2(-2, 2),
-                new Vector2(2, 2),
-                new Vector2(0.454915047f, 0.454915047f),
-                new Vector2(-0.281152904f, 0.281152904f),
+                new(-2, 2),
+                new(2, 2),
+                new(0.454915047f, 0.454915047f),
+                new(-0.281152904f, 0.281152904f),
             },
             new List<Vector2>
             {
-                new Vector2(2, 2),
-                new Vector2(2, -1),
-                new Vector2(0.690982878f, 0.309017122f),
-                new Vector2(0.454915047f, 0.454915047f),
+                new(2, 2),
+                new(2, -1),
+                new(0.690982878f, 0.309017122f),
+                new(0.454915047f, 0.454915047f),
             },
             new List<Vector2>
             {
-                new Vector2(2, -1),
-                new Vector2(1, -1),
-                new Vector2(0.690982878f, 0.309017122f),
+                new(2, -1),
+                new(1, -1),
+                new(0.690982878f, 0.309017122f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -1),
-                new Vector2(-1, -2),
-                new Vector2(-1.19098294f, -1.19098306f),
-                new Vector2(-0.281152844f, 0.281152964f),
-                new Vector2(0.454915047f, 0.454915047f),
-                new Vector2(0.690982878f, 0.309017122f),
+                new(1, -1),
+                new(-1, -2),
+                new(-1.19098294f, -1.19098306f),
+                new(-0.281152844f, 0.281152964f),
+                new(0.454915047f, 0.454915047f),
+                new(0.690982878f, 0.309017122f),
             },
             new List<Vector2>
             {
-                new Vector2(-1, -2),
-                new Vector2(-2, -2),
-                new Vector2(-1.19098294f, -1.19098306f),
+                new(-1, -2),
+                new(-2, -2),
+                new(-1.19098294f, -1.19098306f),
             },
         };
 
@@ -1292,7 +1292,7 @@ namespace ProceduralToolkit.Tests
 
         #region Degenerate1
 
-        private List<Vector2> degenerate1 = new List<Vector2>
+        private readonly List<Vector2> degenerate1 = new()
         {
             new Vector2(-2, -2),
             new Vector2(-2, 2),
@@ -1300,42 +1300,42 @@ namespace ProceduralToolkit.Tests
             new Vector2(3, -1),
             new Vector2(1, -0.99f),
         };
-        private List<List<Vector2>> degenerate1Skeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> degenerate1Skeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-2, -2),
-                new Vector2(-2, 2),
-                new Vector2(-0.32763195f, 0.32763195f),
+                new(-2, -2),
+                new(-2, 2),
+                new(-0.32763195f, 0.32763195f),
             },
             new List<Vector2>
             {
-                new Vector2(-2, 2),
-                new Vector2(2, 2),
-                new Vector2(0.92290628f, 0.505612254f),
-                new Vector2(0.758832574f, 0.505612254f),
-                new Vector2(-0.32763195f, 0.32763195f),
+                new(-2, 2),
+                new(2, 2),
+                new(0.92290628f, 0.505612254f),
+                new(0.758832574f, 0.505612254f),
+                new(-0.32763195f, 0.32763195f),
             },
             new List<Vector2>
             {
-                new Vector2(2, 2),
-                new Vector2(3, -1),
-                new Vector2(0.923180342f, 0.504790425f),
-                new Vector2(0.92290628f, 0.505612254f),
+                new(2, 2),
+                new(3, -1),
+                new(0.923180342f, 0.504790425f),
+                new(0.92290628f, 0.505612254f),
             },
             new List<Vector2>
             {
-                new Vector2(3, -1),
-                new Vector2(1, -0.99f),
-                new Vector2(0.758832574f, 0.505612254f),
-                new Vector2(0.923180342f, 0.504790425f),
+                new(3, -1),
+                new(1, -0.99f),
+                new(0.758832574f, 0.505612254f),
+                new(0.923180342f, 0.504790425f),
             },
             new List<Vector2>
             {
-                new Vector2(1, -0.99f),
-                new Vector2(-2, -2),
-                new Vector2(-0.32763195f, 0.32763195f),
-                new Vector2(0.758832574f, 0.505612254f),
+                new(1, -0.99f),
+                new(-2, -2),
+                new(-0.32763195f, 0.32763195f),
+                new(0.758832574f, 0.505612254f),
             },
         };
 
@@ -1349,7 +1349,7 @@ namespace ProceduralToolkit.Tests
 
         #region Degenerate2
 
-        private List<Vector2> degenerate2 = new List<Vector2>
+        private readonly List<Vector2> degenerate2 = new()
         {
             new Vector2(-1, -1),
             new Vector2(-1.5f, 1),
@@ -1358,43 +1358,43 @@ namespace ProceduralToolkit.Tests
             new Vector2(1.5f, -1),
             new Vector2(0.3f, -0.4f),
         };
-        private List<List<Vector2>> degenerate2Skeleton = new List<List<Vector2>>
+        private readonly List<List<Vector2>> degenerate2Skeleton = new()
         {
             new List<Vector2>
             {
-                new Vector2(-1, -1),
-                new Vector2(-1.5f, 1),
-                new Vector2(-0.438860446f, 0.171487257f),
+                new(-1, -1),
+                new(-1.5f, 1),
+                new(-0.438860446f, 0.171487257f),
             },
             new List<Vector2>
             {
-                new Vector2(-1.5f, 1),
-                new Vector2(0.4f, 1),
-                new Vector2(-0.438860536f, 0.171487346f),
+                new(-1.5f, 1),
+                new(0.4f, 1),
+                new(-0.438860536f, 0.171487346f),
             },
             new List<Vector2>
             {
-                new Vector2(0.4f, 1),
-                new Vector2(2, 0.3f),
-                new Vector2(1.13577867f, -0.0609190166f),
+                new(0.4f, 1),
+                new(2, 0.3f),
+                new(1.13577867f, -0.0609190166f),
             },
             new List<Vector2>
             {
-                new Vector2(2, 0.3f),
-                new Vector2(1.5f, -1),
-                new Vector2(1.13577867f, -0.0609190166f),
+                new(2, 0.3f),
+                new(1.5f, -1),
+                new(1.13577867f, -0.0609190166f),
             },
             new List<Vector2>
             {
-                new Vector2(1.5f, -1),
-                new Vector2(0.3f, -0.4f),
-                new Vector2(1.13577878f, -0.0609191209f),
+                new(1.5f, -1),
+                new(0.3f, -0.4f),
+                new(1.13577878f, -0.0609191209f),
             },
             new List<Vector2>
             {
-                new Vector2(0.3f, -0.4f),
-                new Vector2(-1, -1),
-                new Vector2(-0.438860446f, 0.171487257f),
+                new(0.3f, -0.4f),
+                new(-1, -1),
+                new(-0.438860446f, 0.171487257f),
             },
         };
 
@@ -1419,7 +1419,7 @@ namespace ProceduralToolkit.Tests
                     {
                         polygon[i],
                         polygon.GetLooped(i + 1),
-                        new Vector2(),
+                        new(),
                     });
                 }
                 TestEquality(polygon, polygonSkeleton);
@@ -1439,7 +1439,7 @@ namespace ProceduralToolkit.Tests
                     {
                         polygon[i],
                         polygon.GetLooped(i + 1),
-                        new Vector2(),
+                        new(),
                     });
                 }
                 TestEquality(polygon, polygonSkeleton);

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 namespace ProceduralToolkit
@@ -216,7 +217,7 @@ namespace ProceduralToolkit
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
             {
                 // Parallel
-                // Normalized direction gives more stable results 
+                // Normalized direction gives more stable results
                 float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
                 if (Mathf.Abs(perpDotA) > Geometry.Epsilon || Mathf.Abs(perpDotB) > Geometry.Epsilon)
                 {
@@ -288,6 +289,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the distance between the closest points on the rays
         /// </summary>
+        [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
         public static float RayRay(Vector2 originA, Vector2 directionA, Vector2 originB, Vector2 directionB)
         {
             Vector2 originBToA = originA - originB;
@@ -401,13 +403,14 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the distance between the closest points on the ray and the segment
         /// </summary>
+        [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
         public static float RaySegment(Vector2 rayOrigin, Vector2 rayDirection, Vector2 segmentA, Vector2 segmentB)
         {
             Vector2 segmentAToOrigin = rayOrigin - segmentA;
             Vector2 segmentDirection = segmentB - segmentA;
             float denominator = VectorE.PerpDot(rayDirection, segmentDirection);
             float perpDotA = VectorE.PerpDot(rayDirection, segmentAToOrigin);
-            // Normalized direction gives more stable results 
+            // Normalized direction gives more stable results
             float perpDotB = VectorE.PerpDot(segmentDirection.normalized, segmentAToOrigin);
 
             if (Mathf.Abs(denominator) < Geometry.Epsilon)
@@ -620,6 +623,7 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns the distance between the closest points on the segments
         /// </summary>
+        [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
         public static float SegmentSegment(Vector2 segment1A, Vector2 segment1B, Vector2 segment2A, Vector2 segment2B)
         {
             Vector2 from2ATo1A = segment1A - segment2A;

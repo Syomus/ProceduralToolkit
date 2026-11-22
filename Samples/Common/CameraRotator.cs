@@ -15,7 +15,7 @@ namespace ProceduralToolkit.Samples
         [Header("Position")]
         public float distanceMin = 10;
         public float distanceMax = 30;
-        public float yOffset = 0;
+        public float yOffset;
         public float scrollSensitivity = 1000;
         public float scrollSmoothing = 10;
         [Header("Rotation")]

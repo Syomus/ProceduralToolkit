@@ -95,7 +95,7 @@ namespace ProceduralToolkit.Samples.Buildings
                     window3,
                 },
                 normals = new List<Vector3>(8) {normal, normal, normal, normal, normal, normal, normal, normal},
-                triangles = new List<int>(24) {0, 1, 4, 4, 1, 5, 1, 2, 5, 5, 2, 6, 2, 3, 6, 6, 3, 7, 3, 0, 7, 7, 0, 4,}
+                triangles = new List<int>(24) {0, 1, 4, 4, 1, 5, 1, 2, 5, 5, 2, 6, 2, 3, 6, 6, 3, 7, 3, 0, 7, 7, 0, 4},
             };
         }
 
@@ -151,7 +151,8 @@ namespace ProceduralToolkit.Samples.Buildings
 
         private static CompoundMeshDraft Windowpane(Vector3 min, Vector3 max, Color frameColor, Color glassColor)
         {
-            var frame = WindowpaneFrame(min, max, frameColor, out Vector3 frameDepth, out Vector3 windowMin, out Vector3 windowWidth, out Vector3 windowHeight);
+            var frame = WindowpaneFrame(min, max, frameColor, out Vector3 frameDepth, out Vector3 windowMin, out Vector3 windowWidth,
+                out Vector3 windowHeight);
             var glass = WindowpaneGlass(frameDepth, windowMin, windowWidth, windowHeight, glassColor);
             return new CompoundMeshDraft().Add(frame).Add(glass);
         }
@@ -162,7 +163,8 @@ namespace ProceduralToolkit.Samples.Buildings
             Vector3 size = max - min;
             Vector3 widthVector = size.ToVector3XZ();
             Vector3 heightVector = size.ToVector3Y();
-            var frame = WindowpaneFrameRods(min, widthVector, heightVector, out Vector3 frameWidth, out Vector3 frameHeight, out frameDepth, out Vector3 startPosition);
+            var frame = WindowpaneFrameRods(min, widthVector, heightVector, out Vector3 frameWidth, out Vector3 frameHeight, out frameDepth,
+                out Vector3 startPosition);
 
             windowMin = min + frameWidth + frameHeight;
             windowWidth = widthVector - frameWidth*2;
@@ -322,7 +324,7 @@ namespace ProceduralToolkit.Samples.Buildings
                 borderOrigin - balconyDepth + widthVector,
                 borderInnerOrigin - innerDepth + innerWidth,
                 borderOrigin + widthVector,
-                borderInnerOrigin + innerWidth
+                borderInnerOrigin + innerWidth,
             });
         }
 
@@ -342,7 +344,7 @@ namespace ProceduralToolkit.Samples.Buildings
                     origin + widthVector,
                     outerFrame[2],
                     origin + widthVector,
-                    outerFrame[1]
+                    outerFrame[1],
                 });
 
             var innerFrame = new List<Vector3>();
@@ -374,7 +376,7 @@ namespace ProceduralToolkit.Samples.Buildings
             var roof = BalconyGlazedRoof(origin, widthVector, heightVector, balconyDepth, roofColor);
             compoundDraft.Add(roof);
 
-            Vector3 glassHeight = new Vector3(0, height - BalconyHeight, 0);
+            Vector3 glassHeight = new(0, height - BalconyHeight, 0);
             Vector3 glass0 = origin + balconyHeight;
             Vector3 glass1 = glass0 - balconyDepth;
             Vector3 glass2 = glass1 + widthVector;
@@ -433,7 +435,7 @@ namespace ProceduralToolkit.Samples.Buildings
                 innerOrigin + innerDepth + innerWidth,
                 origin + depth + width,
                 innerOrigin + innerWidth,
-                origin + width
+                origin + width,
             });
         }
 
@@ -524,7 +526,7 @@ namespace ProceduralToolkit.Samples.Buildings
 
     public class ProceduralWall : ProceduralFacadeElement
     {
-        private Color wallColor;
+        private readonly Color wallColor;
 
         public ProceduralWall(Color wallColor)
         {
@@ -539,9 +541,9 @@ namespace ProceduralToolkit.Samples.Buildings
 
     public class ProceduralWindow : ProceduralFacadeElement
     {
-        private Color wallColor;
-        private Color frameColor;
-        private Color glassColor;
+        private readonly Color wallColor;
+        private readonly Color frameColor;
+        private readonly Color glassColor;
 
         public ProceduralWindow(Color wallColor, Color frameColor, Color glassColor)
         {
@@ -559,9 +561,9 @@ namespace ProceduralToolkit.Samples.Buildings
 
     public class ProceduralBalcony : ProceduralFacadeElement
     {
-        private Color wallColor;
-        private Color frameColor;
-        private Color glassColor;
+        private readonly Color wallColor;
+        private readonly Color frameColor;
+        private readonly Color glassColor;
 
         public ProceduralBalcony(Color wallColor, Color frameColor, Color glassColor)
         {
@@ -578,10 +580,10 @@ namespace ProceduralToolkit.Samples.Buildings
 
     public class ProceduralBalconyGlazed : ProceduralFacadeElement
     {
-        private Color wallColor;
-        private Color frameColor;
-        private Color glassColor;
-        private Color roofColor;
+        private readonly Color wallColor;
+        private readonly Color frameColor;
+        private readonly Color glassColor;
+        private readonly Color roofColor;
 
         public ProceduralBalconyGlazed(Color wallColor, Color frameColor, Color glassColor, Color roofColor)
         {
@@ -599,8 +601,8 @@ namespace ProceduralToolkit.Samples.Buildings
 
     public class ProceduralEntrance : ProceduralFacadeElement
     {
-        private Color wallColor;
-        private Color doorColor;
+        private readonly Color wallColor;
+        private readonly Color doorColor;
 
         public ProceduralEntrance(Color wallColor, Color doorColor)
         {
@@ -618,9 +620,9 @@ namespace ProceduralToolkit.Samples.Buildings
 
     public class ProceduralEntranceRoofed : ProceduralFacadeElement
     {
-        private Color wallColor;
-        private Color doorColor;
-        private Color roofColor;
+        private readonly Color wallColor;
+        private readonly Color doorColor;
+        private readonly Color roofColor;
 
         public ProceduralEntranceRoofed(Color wallColor, Color doorColor, Color roofColor)
         {
@@ -639,9 +641,9 @@ namespace ProceduralToolkit.Samples.Buildings
 
     public class ProceduralEntranceWindow : ProceduralFacadeElement
     {
-        private Color wallColor;
-        private Color frameColor;
-        private Color glassColor;
+        private readonly Color wallColor;
+        private readonly Color frameColor;
+        private readonly Color glassColor;
 
         public ProceduralEntranceWindow(Color wallColor, Color frameColor, Color glassColor)
         {
@@ -665,8 +667,8 @@ namespace ProceduralToolkit.Samples.Buildings
 
     public class ProceduralSocleWindowed : ProceduralFacadeElement
     {
-        private Color wallColor;
-        private Color glassColor;
+        private readonly Color wallColor;
+        private readonly Color glassColor;
 
         public ProceduralSocleWindowed(Color wallColor, Color glassColor)
         {
@@ -682,8 +684,8 @@ namespace ProceduralToolkit.Samples.Buildings
 
     public class ProceduralAtticVented : ProceduralFacadeElement
     {
-        private Color wallColor;
-        private Color holeColor;
+        private readonly Color wallColor;
+        private readonly Color holeColor;
 
         public ProceduralAtticVented(Color wallColor, Color holeColor)
         {

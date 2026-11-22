@@ -1,5 +1,5 @@
-using UnityEngine;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace ProceduralToolkit.Tests.Geometry3D
 {
@@ -303,14 +303,16 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void True_IntersectPoint(Segment3 segment, Sphere sphere, Vector3 expected)
         {
-            Assert.True(Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out IntersectionSegmentSphere intersection), format, segment, sphere);
+            bool result = Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out IntersectionSegmentSphere intersection);
+            Assert.True(result, format, segment, sphere);
             Assert.AreEqual(IntersectionType.Point, intersection.type, format, segment, sphere);
             AreEqual(intersection.pointA, expected);
         }
 
         private void True_IntersectTwoPoints(Segment3 segment, Sphere sphere, Vector3 expectedA, Vector3 expectedB)
         {
-            Assert.True(Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out IntersectionSegmentSphere intersection), format, segment, sphere);
+            bool result = Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out IntersectionSegmentSphere intersection);
+            Assert.True(result, format, segment, sphere);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, format, segment, sphere);
             AreEqual(intersection.pointA, expectedA);
             AreEqual(intersection.pointB, expectedB);
@@ -318,7 +320,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void False_Intersect(Segment3 segment, Sphere sphere)
         {
-            Assert.False(Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out IntersectionSegmentSphere intersection), format, segment, sphere);
+            bool result = Intersect.SegmentSphere(segment.a, segment.b, sphere.center, sphere.radius, out IntersectionSegmentSphere intersection);
+            Assert.False(result, format, segment, sphere);
         }
 
         #endregion Intersect

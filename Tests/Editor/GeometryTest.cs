@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace ProceduralToolkit.Tests
 {
@@ -47,14 +47,14 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void OffsetPolygon_SquarePositive()
         {
-            var verticesArray = new Vector2[]
+            var verticesArray = new[]
             {
                 new Vector2(-1, -1),
                 new Vector2(-1, 1),
                 new Vector2(1, 1),
                 new Vector2(1, -1),
             };
-            var reference = new Vector2[]
+            var reference = new[]
             {
                 new Vector2(-2, -2),
                 new Vector2(-2, 2),
@@ -67,14 +67,14 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void OffsetPolygon_SquareNegative()
         {
-            var verticesArray = new Vector2[]
+            var verticesArray = new[]
             {
                 new Vector2(-2, -2),
                 new Vector2(-2, 2),
                 new Vector2(2, 2),
                 new Vector2(2, -2),
             };
-            var reference = new Vector2[]
+            var reference = new[]
             {
                 new Vector2(-1, -1),
                 new Vector2(-1, 1),
@@ -87,7 +87,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void OffsetPolygon_PlusPositive()
         {
-            var verticesArray = new Vector2[]
+            var verticesArray = new[]
             {
                 new Vector2(-1, -1),
                 new Vector2(-2, -1),
@@ -102,7 +102,7 @@ namespace ProceduralToolkit.Tests
                 new Vector2(1, -2),
                 new Vector2(-1, -2),
             };
-            var reference = new Vector2[]
+            var reference = new[]
             {
                 new Vector2(-2, -2),
                 new Vector2(-3, -2),
@@ -123,7 +123,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void OffsetPolygon_PlusNegative()
         {
-            var verticesArray = new Vector2[]
+            var verticesArray = new[]
             {
                 new Vector2(-2, -2),
                 new Vector2(-3, -2),
@@ -138,7 +138,7 @@ namespace ProceduralToolkit.Tests
                 new Vector2(2, -3),
                 new Vector2(-2, -3),
             };
-            var reference = new Vector2[]
+            var reference = new[]
             {
                 new Vector2(-1, -1),
                 new Vector2(-2, -1),
@@ -159,7 +159,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void OffsetPolygon_PentagonPositive()
         {
-            var verticesArray = new Vector2[]
+            var verticesArray = new[]
             {
                 new Vector2(+0.00000f, +1.23607f),
                 new Vector2(+1.17557f, +0.38197f),
@@ -167,7 +167,7 @@ namespace ProceduralToolkit.Tests
                 new Vector2(-0.72654f, -1.00000f),
                 new Vector2(-1.17557f, +0.38197f),
             };
-            var reference = new Vector2[]
+            var reference = new[]
             {
                 new Vector2(+0.00000f, +2.47214f),
                 new Vector2(+2.35115f, +0.76393f),
@@ -181,7 +181,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void OffsetPolygon_PentagonNegative()
         {
-            var verticesArray = new Vector2[]
+            var verticesArray = new[]
             {
                 new Vector2(+0.00000f, +2.47214f),
                 new Vector2(+2.35115f, +0.76393f),
@@ -189,7 +189,7 @@ namespace ProceduralToolkit.Tests
                 new Vector2(-1.45309f, -2.00000f),
                 new Vector2(-2.35115f, +0.76393f),
             };
-            var reference = new Vector2[]
+            var reference = new[]
             {
                 new Vector2(+0.00000f, +1.23607f),
                 new Vector2(+1.17557f, +0.38197f),
@@ -203,7 +203,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void OffsetPolygon_PentagramPositive()
         {
-            var verticesArray = new Vector2[]
+            var verticesArray = new[]
             {
                 new Vector2(+0.00000f, +2.00000f),
                 new Vector2(+0.58779f, +0.80902f),
@@ -216,7 +216,7 @@ namespace ProceduralToolkit.Tests
                 new Vector2(-1.90211f, +0.61803f),
                 new Vector2(-0.58779f, +0.80902f),
             };
-            var reference = new Vector2[]
+            var reference = new[]
             {
                 new Vector2(+0.00000f, +4.25953f),
                 new Vector2(+1.25185f, +1.72303f),
@@ -235,7 +235,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void OffsetPolygon_PentagramNegative()
         {
-            var verticesArray = new Vector2[]
+            var verticesArray = new[]
             {
                 new Vector2(+0.00000f, +4.25953f),
                 new Vector2(+1.25185f, +1.72303f),
@@ -248,7 +248,7 @@ namespace ProceduralToolkit.Tests
                 new Vector2(-4.05105f, +1.31627f),
                 new Vector2(-1.25185f, +1.72303f),
             };
-            var reference = new Vector2[]
+            var reference = new[]
             {
                 new Vector2(+0.00000f, +2.00000f),
                 new Vector2(+0.58779f, +0.80902f),
@@ -287,7 +287,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void GetSignedArea_ClockwiseRectangle()
         {
-            AreEqual(Geometry.GetSignedArea(new Vector2[]
+            AreEqual(Geometry.GetSignedArea(new[]
             {
                 new Vector2(-1, -1),
                 new Vector2(-1, 1),
@@ -299,7 +299,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void GetSignedArea_CounterClockwiseRectangle()
         {
-            AreEqual(Geometry.GetSignedArea(new Vector2[]
+            AreEqual(Geometry.GetSignedArea(new[]
             {
                 new Vector2(-1, -1),
                 new Vector2(1, -1),
@@ -311,7 +311,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void GetSignedArea_DegeneratePoint()
         {
-            AreEqual(Geometry.GetSignedArea(new Vector2[]
+            AreEqual(Geometry.GetSignedArea(new[]
             {
                 Vector2.zero,
                 Vector2.zero,
@@ -329,7 +329,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void GetOrientation_ClockwiseRectangle()
         {
-            Assert.AreEqual(Orientation.Clockwise, Geometry.GetOrientation(new Vector2[]
+            Assert.AreEqual(Orientation.Clockwise, Geometry.GetOrientation(new[]
             {
                 new Vector2(-1, -1),
                 new Vector2(-1, 1),
@@ -341,7 +341,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void GetOrientation_CounterClockwiseRectangle()
         {
-            Assert.AreEqual(Orientation.CounterClockwise, Geometry.GetOrientation(new Vector2[]
+            Assert.AreEqual(Orientation.CounterClockwise, Geometry.GetOrientation(new[]
             {
                 new Vector2(-1, -1),
                 new Vector2(1, -1),
@@ -353,7 +353,7 @@ namespace ProceduralToolkit.Tests
         [Test]
         public void GetOrientation_DegeneratePoint()
         {
-            Assert.AreEqual(Orientation.NonOrientable, Geometry.GetOrientation(new Vector2[]
+            Assert.AreEqual(Orientation.NonOrientable, Geometry.GetOrientation(new[]
             {
                 Vector2.zero,
                 Vector2.zero,

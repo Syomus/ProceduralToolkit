@@ -1,7 +1,7 @@
 using System;
-using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 using URandom = UnityEngine.Random;
 using MRandom = Unity.Mathematics.Random;
 
@@ -227,12 +227,12 @@ namespace ProceduralToolkit
         /// <summary>
         /// Returns a random color between black [inclusive] and white [inclusive]
         /// </summary>
-        public static Color color => new Color(URandom.value, URandom.value, URandom.value);
+        public static Color color => new(URandom.value, URandom.value, URandom.value);
 
         /// <summary>
         /// Returns a color with a random hue and a maximum saturation and value in HSV model
         /// </summary>
-        public static ColorHSV colorHSV => new ColorHSV(URandom.value, 1, 1);
+        public static ColorHSV colorHSV => new(URandom.value, 1, 1);
 
         /// <summary>
         /// Returns a gradient between two random colors

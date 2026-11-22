@@ -28,7 +28,7 @@ namespace ProceduralToolkit.Samples
             {
                 min = new Vector2Int(
                     x: wallSize + Mathf.Min(a.x, b.x)*(roomSize + wallSize),
-                    y: wallSize + Mathf.Min(a.y, b.y)*(roomSize + wallSize))
+                    y: wallSize + Mathf.Min(a.y, b.y)*(roomSize + wallSize)),
             };
 
             if ((b - a).y == 0)

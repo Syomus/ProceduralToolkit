@@ -28,7 +28,7 @@ namespace ProceduralToolkit.Samples
         #region Controls
 
         private TextControl header;
-        private Dictionary<RulesetName, Ruleset> nameToRuleset = new Dictionary<RulesetName, Ruleset>
+        private readonly Dictionary<RulesetName, Ruleset> nameToRuleset = new()
         {
             {RulesetName.Life, Ruleset.life},
             {RulesetName.Mazectric, Ruleset.mazectric},

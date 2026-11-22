@@ -5,7 +5,7 @@ namespace ProceduralToolkit.Samples
     public class CharacterGeneratorConfigurator : MonoBehaviour
     {
         public CharacterGenerator generator;
-        public bool constantSeed = false;
+        public bool constantSeed;
 
         private void Start()
         {

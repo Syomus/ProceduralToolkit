@@ -10,7 +10,7 @@ namespace ProceduralToolkit.Samples
     {
         public RectTransform leftPanel;
         [Space]
-        public Breakout.Config config = new Breakout.Config();
+        public Breakout.Config config = new();
 
         private Breakout breakout;
 

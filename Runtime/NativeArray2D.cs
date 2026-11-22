@@ -91,10 +91,25 @@ namespace ProceduralToolkit
 
         public bool IsCreated => array.IsCreated;
 
-        public void Dispose() => array.Dispose();
-        public void Dispose(JobHandle inputDeps) => array.Dispose(inputDeps);
-        public IEnumerator<T> GetEnumerator() => array.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => array.GetEnumerator();
+        public void Dispose()
+        {
+            array.Dispose();
+        }
+
+        public void Dispose(JobHandle inputDeps)
+        {
+            array.Dispose(inputDeps);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return array.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return array.GetEnumerator();
+        }
 
         public bool Equals(NativeArray2D<T> other)
         {
@@ -106,6 +121,9 @@ namespace ProceduralToolkit
             return obj != null && obj is NativeArray2D<T> other && Equals(other);
         }
 
-        public override int GetHashCode() => array.GetHashCode();
+        public override int GetHashCode()
+        {
+            return array.GetHashCode();
+        }
     }
 }

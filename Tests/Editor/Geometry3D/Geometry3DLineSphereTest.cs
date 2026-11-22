@@ -1,5 +1,5 @@
-using UnityEngine;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace ProceduralToolkit.Tests.Geometry3D
 {
@@ -281,14 +281,16 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void True_Intersect(Line3 line, Sphere sphere, Vector3 expected)
         {
-            Assert.True(Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out IntersectionLineSphere intersection), format, line, sphere);
+            bool result = Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out IntersectionLineSphere intersection);
+            Assert.True(result, format, line, sphere);
             Assert.AreEqual(IntersectionType.Point, intersection.type, format, line, sphere);
             AreEqual(intersection.pointA, expected);
         }
 
         private void True_Intersect(Line3 line, Sphere sphere, Vector3 expectedA, Vector3 expectedB)
         {
-            Assert.True(Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out IntersectionLineSphere intersection), format, line, sphere);
+            bool result = Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out IntersectionLineSphere intersection);
+            Assert.True(result, format, line, sphere);
             Assert.AreEqual(IntersectionType.TwoPoints, intersection.type, format, line, sphere);
             AreEqual(intersection.pointA, expectedA);
             AreEqual(intersection.pointB, expectedB);
@@ -296,7 +298,8 @@ namespace ProceduralToolkit.Tests.Geometry3D
 
         private void False_Intersect(Line3 line, Sphere sphere)
         {
-            Assert.False(Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out IntersectionLineSphere intersection), format, line, sphere);
+            bool result = Intersect.LineSphere(line.origin, line.direction, sphere.center, sphere.radius, out IntersectionLineSphere intersection);
+            Assert.False(result, format, line, sphere);
         }
 
         #endregion Intersect

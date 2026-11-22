@@ -1,7 +1,7 @@
 using ProceduralToolkit.Samples.UI;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Jobs;
 using URandom = UnityEngine.Random;
 using MRandom = Unity.Mathematics.Random;
 
@@ -16,7 +16,7 @@ namespace ProceduralToolkit.Samples
         public ToggleGroup algorithmsGroup;
         public RawImage mazeImage;
         [Space]
-        public MazeJob.Config config = new MazeJob.Config
+        public MazeJob.Config config = new()
         {
             width = 32,
             height = 32,

@@ -18,7 +18,7 @@ namespace ProceduralToolkit
         XAxis = Left | Right,
         YAxis = Down | Up,
         ZAxis = Back | Forward,
-        All = Left | Right | Down | Up | Back | Forward
+        All = Left | Right | Down | Up | Back | Forward,
     }
 
     public static class DirectionsExtensions

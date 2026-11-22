@@ -5,8 +5,8 @@ namespace ProceduralToolkit.Samples
 {
     public class ConfiguratorBase : MonoBehaviour
     {
-        private Palette currentPalette = new Palette();
-        private Palette targetPalette = new Palette();
+        private readonly Palette currentPalette = new();
+        private readonly Palette targetPalette = new();
 
         protected static T InstantiateControl<T>(Transform parent) where T : Component
         {

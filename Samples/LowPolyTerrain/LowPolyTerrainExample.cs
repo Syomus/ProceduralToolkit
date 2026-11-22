@@ -11,8 +11,8 @@ namespace ProceduralToolkit.Samples
         public MeshFilter terrainMeshFilter;
         public MeshCollider terrainMeshCollider;
         public RectTransform leftPanel;
-        public bool constantSeed = false;
-        public LowPolyTerrainGenerator.Config config = new LowPolyTerrainGenerator.Config();
+        public bool constantSeed;
+        public LowPolyTerrainGenerator.Config config = new();
 
         private const int minYSize = 1;
         private const int maxYSize = 10;

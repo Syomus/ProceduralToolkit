@@ -206,7 +206,7 @@ namespace ProceduralToolkit
         }
 
         [Flags]
-        public enum InitOptions : int
+        public enum InitOptions
         {
             ReverseSolution = 1,
             StrictlySimple = 2,
