@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace ProceduralToolkit.CellularAutomaton
 {
@@ -11,13 +12,17 @@ namespace ProceduralToolkit.CellularAutomaton
         public float startNoise;
         public bool aliveBorders;
 
-        public static Config life = new Config
+        public static Config life
         {
-            width = 128,
-            height = 128,
-            ruleset = Ruleset.life,
-            startNoise = 0.25f,
-            aliveBorders = false,
-        };
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new()
+            {
+                width = 128,
+                height = 128,
+                ruleset = Ruleset.life,
+                startNoise = 0.25f,
+                aliveBorders = false,
+            };
+        }
     }
 }
