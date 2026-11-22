@@ -1,9 +1,33 @@
-# See http://editorconfig.org/ for docs on this file
-
 root = true
+# See http://editorconfig.org/ for docs on this file
 
 [*]
 indent_style = space
+
+# Microsoft .NET properties
+csharp_new_line_before_members_in_object_initializers = false
+csharp_preserve_single_line_blocks = true
+csharp_space_after_cast = true
+csharp_style_var_for_built_in_types = false:suggestion
+
+# ReSharper properties
+resharper_accessor_owner_body = expression_body
+resharper_braces_for_for = required
+resharper_braces_for_foreach = required
+resharper_braces_for_ifelse = required_for_multiline_statement
+resharper_braces_for_while = required
+resharper_csharp_keep_existing_enum_arrangement = false
+resharper_for_other_types = use_var_when_evident
+resharper_for_simple_types = use_explicit_type
+resharper_instance_members_qualify_declared_in = base_class
+resharper_keep_existing_embedded_block_arrangement = false
+resharper_max_attribute_length_for_same_line = 70
+resharper_parentheses_redundancy_style = remove_if_not_clarifies_precedence
+resharper_place_accessor_attribute_on_same_line = if_owner_is_single_line
+resharper_place_expr_accessor_on_single_line = true
+resharper_place_simple_embedded_statement_on_same_line = true
+resharper_space_before_trailing_comment = true
+resharper_wrap_object_and_collection_initializer_style = wrap_if_long
 
 [*.{cs,shader,cginc}]
 indent_size = 4
