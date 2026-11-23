@@ -185,7 +185,10 @@ Or like this:
 
 ### Editor/
 * [ColorHSVDrawer](/Editor/ColorHSVDrawer.cs): PropertyDrawer for ColorHSV.
-* [MeshFilterExtension](/Editor/MeshFilterExtension.cs): Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
+* [MeshFilterExtension](/Editor/MeshFilterExtension.cs):
+Mesh saving utility available at `MeshFilter context menu > Save Mesh`.
+Saves a copy of the mesh as an asset and links the MeshFilter to it. The source mesh is never modified.
+Overwriting an existing mesh asset updates it in place, keeping references to it intact.
 * [ProceduralToolkitMenu](/Editor/ProceduralToolkitMenu.cs): Submenu with constructors for primitives at `GameObject > Procedural Toolkit`.
 * [RulesetDrawer](/Editor/RulesetDrawer.cs): PropertyDrawer for CellularAutomaton.Ruleset.
 
